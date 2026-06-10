@@ -32,8 +32,16 @@ export function riskClass(level) {
 }
 
 export function ingredientCard(ingredient, options = {}) {
-  const category = typeof options === 'string' ? options : (options.category || 'cosmetics');
-  const href = typeof options === 'string' ? '' : options.href;
+  let category = 'cosmetics';
+  let href = '';
+
+  if (typeof options === 'string') {
+    category = options;
+  } else if (options && typeof options === 'object') {
+    category = options.category || 'cosmetics';
+    href = options.href || '';
+  }
+
   const finalHref = href || `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
   return html`
     <article class="ingredient-card">

@@ -17,12 +17,22 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
     .filter((item) => item.allergens.length);
   const safeInput = escapeHtml(input);
 
+  // Validate SAMPLES structure to avoid data corruption or runtime crashes
+  const safeSamples = SAMPLES && typeof SAMPLES === 'object' ? SAMPLES : {};
+
+  // Formulate active user allergen file status feedback
+  const activeAllergenNames = formatAllergenNames(userAllergens);
+  const allergenStatusHtml = activeAllergenNames
+    ? html`<p class="allergen-status" style="margin: 6px 0 0 0; font-size: 13px; color: var(--text-muted);">您当前关注的过敏原档案：<strong style="color: var(--high);">${escapeHtml(activeAllergenNames)}</strong></p>`
+    : html`<p class="allergen-status" style="margin: 6px 0 0 0; font-size: 13px; color: var(--text-muted);">您尚未设置关注的过敏原。您可以到 <a href="#/settings" style="color: var(--primary); font-weight: bold; text-decoration: underline;" data-route>用户设置页</a> 配置个人过敏原档案，系统在分析时会自动高亮警告。</p>`;
+
   return html`
     <section class="section">
-      <div class="section__head">
+      <div class="section__head" style="margin-bottom: 12px;">
         <div>
           <p class="eyebrow">${currentCategory.label} / 文本识别版</p>
           <h1>成分表分析</h1>
+          ${allergenStatusHtml}
         </div>
       </div>
       <form class="analyze-form" data-analyze-form>
@@ -40,15 +50,15 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
             <select id="sample-select" style="min-height: 44px;">
               ${category === 'food' ? html`
                 <option value="0">选择食品配料表示例...</option>
-                <option value="food-1">示例1：无糖可乐（含有柠檬酸、阿斯巴甜）</option>
-                <option value="food-2">示例2：夹心饼干（含有大豆、牛奶、麸质过敏原）</option>
-                <option value="food-3">示例3：果汁饮料（含有黄原胶、山梨酸钾）</option>
-                <option value="food-4">示例4：蒜蓉辣椒酱（含有焦亚硫酸钠过敏原）</option>
-                <option value="food-5">示例5：果味果冻（含有柠檬酸钠、三氯蔗糖）</option>
+                ${safeSamples['food-1'] ? html`<option value="food-1">示例1：无糖可乐（含有柠檬酸、阿斯巴甜）</option>` : ''}
+                ${safeSamples['food-2'] ? html`<option value="food-2">示例2：夹心饼干（含有大豆、牛奶、麸质过敏原）</option>` : ''}
+                ${safeSamples['food-3'] ? html`<option value="food-3">示例3：果汁饮料（含有黄原胶、山梨酸钾）</option>` : ''}
+                ${safeSamples['food-4'] ? html`<option value="food-4">示例4：蒜蓉辣椒酱（含有焦亚硫酸钠过敏原）</option>` : ''}
+                ${safeSamples['food-5'] ? html`<option value="food-5">示例5：果味果冻（含有柠檬酸钠、三氯蔗糖）</option>` : ''}
               ` : html`
                 <option value="0">选择化妆品成分表示例...</option>
-                <option value="cosmetic-1">示例1：保湿抗衰面霜（含有烟酰胺、水杨酸）</option>
-                <option value="cosmetic-2">示例2：温和无刺激洁面乳（含有椰油酰甘氨酸钠）</option>
+                ${safeSamples['cosmetic-1'] ? html`<option value="cosmetic-1">示例1：保湿抗衰面霜（含有烟酰胺、水杨酸）</option>` : ''}
+                ${safeSamples['cosmetic-2'] ? html`<option value="cosmetic-2">示例2：温和无刺激洁面乳（含有椰油酰甘氨酸钠）</option>` : ''}
               `}
             </select>
           </div>
