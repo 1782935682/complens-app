@@ -6,7 +6,7 @@ export const standardAllergens = [
   { id: 'fish', nameCn: '鱼类', nameEn: 'Fish', aliases: ['fish'] },
   { id: 'peanuts', nameCn: '花生', nameEn: 'Peanuts', aliases: ['peanut'] },
   { id: 'soybeans', nameCn: '大豆', nameEn: 'Soybeans', aliases: ['soy', 'soya'] },
-  { id: 'milk', nameCn: '乳及乳制品', nameEn: 'Milk', aliases: ['牛奶', '乳糖', 'milk', 'lactose'] },
+  { id: 'milk', nameCn: '乳及乳制品', nameEn: 'Milk', aliases: ['牛奶', '奶粉', '乳粉', '乳糖', 'milk', 'lactose'] },
   { id: 'tree-nuts', nameCn: '坚果', nameEn: 'Tree nuts', aliases: ['杏仁', '榛子', '核桃', '腰果', 'almond', 'walnut'] },
   { id: 'celery', nameCn: '芹菜', nameEn: 'Celery', aliases: ['celery'] },
   { id: 'mustard', nameCn: '芥末', nameEn: 'Mustard', aliases: ['mustard'] },

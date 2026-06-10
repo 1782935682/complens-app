@@ -1,34 +1,40 @@
 import { escapeHtml, html, ingredientCard, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
-import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
+import { formatAllergenNames, getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText } from '../services/ingredientService.js';
 import { getUserAllergens } from '../store/userStore.js';
-import { SAMPLES } from '../utils/text.js';
+import { SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
 
 export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
-  const result = analyzeIngredientText(input, category);
+  const categoryId = currentCategory.id;
+  const result = analyzeIngredientText(input, categoryId);
   const userAllergens = getUserAllergens();
-  const allergenHits = result.ingredients
+  const ingredientAllergenHits = result.ingredients
     .map((ingredient) => ({
       ingredient,
       allergens: getMatchingUserAllergens(ingredient, userAllergens)
     }))
     .filter((item) => item.allergens.length);
+  const textAllergenHits = result.unknownItems
+    .map((item) => ({
+      item,
+      allergens: getMatchingTextAllergens(item, userAllergens)
+    }))
+    .filter((item) => item.allergens.length);
+  const allergenHitCount = ingredientAllergenHits.length + textAllergenHits.length;
   const safeInput = escapeHtml(input);
-
-  // Validate SAMPLES structure to avoid data corruption or runtime crashes
   const safeSamples = SAMPLES && typeof SAMPLES === 'object' ? SAMPLES : {};
+  const sampleOptions = SAMPLE_OPTIONS.filter((sample) => sample.category === categoryId && typeof safeSamples[sample.id] === 'string');
 
-  // Formulate active user allergen file status feedback
   const activeAllergenNames = formatAllergenNames(userAllergens);
   const allergenStatusHtml = activeAllergenNames
-    ? html`<p class="allergen-status" style="margin: 6px 0 0 0; font-size: 13px; color: var(--text-muted);">您当前关注的过敏原档案：<strong style="color: var(--high);">${escapeHtml(activeAllergenNames)}</strong></p>`
-    : html`<p class="allergen-status" style="margin: 6px 0 0 0; font-size: 13px; color: var(--text-muted);">您尚未设置关注的过敏原。您可以到 <a href="#/settings" style="color: var(--primary); font-weight: bold; text-decoration: underline;" data-route>用户设置页</a> 配置个人过敏原档案，系统在分析时会自动高亮警告。</p>`;
+    ? html`<p class="allergen-status">您当前关注的过敏原档案：<strong class="allergen-status__names">${escapeHtml(activeAllergenNames)}</strong></p>`
+    : html`<p class="allergen-status">您尚未设置关注的过敏原。您可以到 <a href="#/settings" class="inline-link" data-route>用户设置页</a> 配置个人过敏原档案，系统在分析时会自动高亮警告。</p>`;
 
   return html`
     <section class="section">
-      <div class="section__head" style="margin-bottom: 12px;">
+      <div class="section__head analyze-head">
         <div>
           <p class="eyebrow">${currentCategory.label} / 文本识别版</p>
           <h1>成分表分析</h1>
@@ -43,23 +49,13 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
           <input id="ingredient-image" name="image" type="file" accept="image/*" data-image-input />
           <p class="helper-text" data-image-feedback>当前版本已预留图片识别入口，未接入 OCR 时可使用文本输入。</p>
         </div>
-        <div class="form-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <div class="form-actions analyze-actions">
           <button type="submit">开始分析</button>
-          <div style="display: inline-flex; align-items: center; gap: 8px;">
-            <label for="sample-select" style="margin: 0; font-size: 14px; font-weight: normal; color: var(--text-muted);">示例模板：</label>
-            <select id="sample-select" style="min-height: 44px;">
-              ${category === 'food' ? html`
-                <option value="0">选择食品配料表示例...</option>
-                ${safeSamples['food-1'] ? html`<option value="food-1">示例1：无糖可乐（含有柠檬酸、阿斯巴甜）</option>` : ''}
-                ${safeSamples['food-2'] ? html`<option value="food-2">示例2：夹心饼干（含有大豆、牛奶、麸质过敏原）</option>` : ''}
-                ${safeSamples['food-3'] ? html`<option value="food-3">示例3：果汁饮料（含有黄原胶、山梨酸钾）</option>` : ''}
-                ${safeSamples['food-4'] ? html`<option value="food-4">示例4：蒜蓉辣椒酱（含有焦亚硫酸钠过敏原）</option>` : ''}
-                ${safeSamples['food-5'] ? html`<option value="food-5">示例5：果味果冻（含有柠檬酸钠、三氯蔗糖）</option>` : ''}
-              ` : html`
-                <option value="0">选择化妆品成分表示例...</option>
-                ${safeSamples['cosmetic-1'] ? html`<option value="cosmetic-1">示例1：保湿抗衰面霜（含有烟酰胺、水杨酸）</option>` : ''}
-                ${safeSamples['cosmetic-2'] ? html`<option value="cosmetic-2">示例2：温和无刺激洁面乳（含有椰油酰甘氨酸钠）</option>` : ''}
-              `}
+          <div class="sample-picker">
+            <label for="sample-select" class="sample-picker__label">示例模板：</label>
+            <select id="sample-select" aria-label="示例模板">
+              <option value="0">${categoryId === 'food' ? '选择食品配料表示例...' : '选择化妆品成分表示例...'}</option>
+              ${sampleOptions.map((sample) => html`<option value="${escapeHtml(sample.id)}">${escapeHtml(sample.label)}</option>`).join('')}
             </select>
           </div>
         </div>
@@ -73,13 +69,14 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
       </div>
     </section>
 
-    ${allergenHits.length ? html`
+    ${allergenHitCount ? html`
       <section class="section">
-        <div class="allergen-alert" style="border: 2px solid var(--high); background: #fff5f4; border-radius: 8px; padding: 20px;">
-          <h2 style="color: var(--high); margin: 0 0 10px 0; font-size: 1.25rem;">⚠️ 发现过敏原成分</h2>
-          <p style="margin-bottom: 15px; color: var(--text); font-weight: normal;">配料中含有 ${allergenHits.length} 项您关注的过敏原，请谨慎食用：</p>
+        <div class="allergen-alert allergen-alert--cards">
+          <h2>发现过敏原成分</h2>
+          <p>配料中含有 ${allergenHitCount} 项您关注的过敏原，请谨慎食用：</p>
           <div class="card-grid">
-            ${allergenHits.map((item) => allergenCard(item.ingredient, item.allergens, category)).join('')}
+            ${ingredientAllergenHits.map((item) => allergenCard(item.ingredient, item.allergens, categoryId)).join('')}
+            ${textAllergenHits.map((item) => textAllergenCard(item.item, item.allergens)).join('')}
           </div>
         </div>
       </section>
@@ -90,7 +87,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <div class="section__head">
           <h2>重点关注成分</h2>
         </div>
-        <div class="card-grid">${result.highlights.map((item) => ingredientCard(item, category)).join('')}</div>
+        <div class="card-grid">${result.highlights.map((item) => ingredientCard(item, categoryId)).join('')}</div>
       </section>
     ` : ''}
 
@@ -100,7 +97,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
           <h2>已匹配成分</h2>
           <span class="count">${result.matchedCount} 项</span>
         </div>
-        <div class="card-grid">${result.ingredients.map((item) => ingredientCard(item, category)).join('')}</div>
+        <div class="card-grid">${result.ingredients.map((item) => ingredientCard(item, categoryId)).join('')}</div>
       </section>
     ` : ''}
 
@@ -125,7 +122,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
 function allergenCard(ingredient, allergens, category) {
   const href = `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
   return html`
-    <article class="ingredient-card" style="border: 1px solid #f1b8b2; background: #fffefe; box-shadow: var(--shadow);">
+    <article class="ingredient-card ingredient-card--allergen">
       <a href="${href}" class="ingredient-card__main" data-route>
         <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
         <span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergens))}</span>
@@ -140,3 +137,17 @@ function allergenCard(ingredient, allergens, category) {
   `;
 }
 
+function textAllergenCard(item, allergens) {
+  return html`
+    <article class="ingredient-card ingredient-card--allergen">
+      <div class="ingredient-card__main">
+        <span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergens))}</span>
+        <h3>${escapeHtml(item)}</h3>
+        <p>该标签原文与您关注的过敏原关键词匹配，请结合产品标签确认来源。</p>
+        <div class="meta-row">
+          <span>标签原文</span>
+        </div>
+      </div>
+    </article>
+  `;
+}

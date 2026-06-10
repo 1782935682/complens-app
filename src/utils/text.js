@@ -15,6 +15,16 @@ export const SAMPLES = {
   'cosmetic-2': '水，椰油酰甘氨酸钠，甘油，透明质酸钠，柠檬酸，苯氧乙醇'
 };
 
+export const SAMPLE_OPTIONS = [
+  { id: 'food-1', category: 'food', label: '示例1：无糖可乐（含有柠檬酸、阿斯巴甜）' },
+  { id: 'food-2', category: 'food', label: '示例2：夹心饼干（含有大豆、牛奶、麸质过敏原）' },
+  { id: 'food-3', category: 'food', label: '示例3：果汁饮料（含有黄原胶、山梨酸钾）' },
+  { id: 'food-4', category: 'food', label: '示例4：蒜蓉辣椒酱（含有焦亚硫酸钠过敏原）' },
+  { id: 'food-5', category: 'food', label: '示例5：果味果冻（含有柠檬酸钠、三氯蔗糖）' },
+  { id: 'cosmetic-1', category: 'cosmetics', label: '示例1：保湿抗衰面霜（含有烟酰胺、水杨酸）' },
+  { id: 'cosmetic-2', category: 'cosmetics', label: '示例2：温和无刺激洁面乳（含有椰油酰甘氨酸钠）' }
+];
+
 export function splitIngredientInput(value) {
   return String(value || '')
     .split(/[,，、;；\n\r]+/)

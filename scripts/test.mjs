@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
-import { getMatchingUserAllergens } from '../src/services/allergenService.js';
+import { getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
+import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
@@ -92,6 +93,19 @@ assert.match(settingsHtml, /value="milk" checked/);
 assert.match(settingsHtml, /value="soybeans" checked/);
 assert.match(settingsHtml, /value="peanuts"/);
 
+const analyzeHtmlWithAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
+assert.match(analyzeHtmlWithAllergens, /您当前关注的过敏原档案：/);
+assert.match(analyzeHtmlWithAllergens, /乳及乳制品、大豆/);
+assert.match(analyzeHtmlWithAllergens, /发现过敏原成分/);
+assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
+assert.match(analyzeHtmlWithAllergens, /全脂奶粉/);
+assert.match(analyzeHtmlWithAllergens, /过敏原：乳及乳制品/);
+assert.doesNotMatch(analyzeHtmlWithAllergens, /您尚未设置关注的过敏原/);
+setUserAllergens([]);
+const analyzeHtmlWithoutAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
+assert.match(analyzeHtmlWithoutAllergens, /您尚未设置关注的过敏原/);
+assert.doesNotMatch(analyzeHtmlWithoutAllergens, /发现过敏原成分/);
+
 const invalidFoodAdditive = {
   id: 'bad-food-additive',
   kind: 'food-additive',
@@ -121,6 +135,8 @@ assert.deepEqual(
   ['milk']
 );
 assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
+assert.deepEqual(getMatchingTextAllergens('小麦粉', ['cereals-gluten']).map((allergen) => allergen.id), ['cereals-gluten']);
+assert.deepEqual(getMatchingTextAllergens('全脂奶粉', ['milk']).map((allergen) => allergen.id), ['milk']);
 
 const foodDetailHtml = renderFoodAdditiveDetails({
   eNumber: 'E330',
@@ -161,20 +177,17 @@ assert.match(sparseFoodDetailHtml, /暂无来源标题/);
 assert.match(sparseFoodDetailHtml, /暂无标准编号/);
 assert.doesNotMatch(sparseFoodDetailHtml, /undefined|null/);
 
-// SAMPLES validations and text analysis tests
+// SAMPLES validation and text analysis tests
 assert.equal(Object.keys(SAMPLES).length >= 7, true);
 assert.equal(typeof SAMPLES['food-2'], 'string');
 
-// Test Biscuit sample matches lecithins (卵磷脂) and sodium-metabisulfite (焦亚硫酸钠)
 const biscuitAnalysis = analyzeIngredientText(SAMPLES['food-2'], 'food');
 assert.equal(biscuitAnalysis.matchedCount, 2);
-assert.deepEqual(biscuitAnalysis.ingredients.map(item => item.id).sort(), ['lecithins', 'sodium-metabisulfite'].sort());
+assert.deepEqual(biscuitAnalysis.ingredients.map((item) => item.id).sort(), ['lecithins', 'sodium-metabisulfite'].sort());
 
-// Test Chili Sauce sample matches sodium-benzoate (苯甲酸钠) and sodium-metabisulfite (焦亚硫酸钠)
 const chiliAnalysis = analyzeIngredientText(SAMPLES['food-4'], 'food');
-assert.equal(chiliAnalysis.matchedCount, 4); // 柠檬酸钠, 黄原胶, 苯甲酸钠, 焦亚硫酸钠
-// Let's verify how many matched. Yes, let's assert that the major additives 'sodium-benzoate' and 'sodium-metabisulfite' are in the results list!
-assert.equal(chiliAnalysis.ingredients.some(item => item.id === 'sodium-benzoate'), true);
-assert.equal(chiliAnalysis.ingredients.some(item => item.id === 'sodium-metabisulfite'), true);
+assert.equal(chiliAnalysis.matchedCount, 4);
+assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-benzoate'), true);
+assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-metabisulfite'), true);
 
 console.log('Tests passed: ingredient search and text analysis behave as expected.');
