@@ -48,6 +48,7 @@
  *   foodCategories: string[],
  *   allergenTypes: AllergenType[],
  *   cautionGroups: ConsumerGroup[],
+ *   sourceNote: string,
  *   sourceReferences: SourceReference[],
  *   reviewStatus: DataReviewStatus,
  *   dataVersion: string,

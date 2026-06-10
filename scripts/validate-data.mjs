@@ -24,6 +24,7 @@ export function validateFoodAdditives(items = foodAdditives) {
     requireString(item, 'description', label, errors);
     requireString(item, 'category', label, errors);
     requireString(item, 'gbCode', label, errors);
+    requireString(item, 'sourceNote', label, errors);
     requireString(item, 'dataVersion', label, errors);
     requireIsoDate(item, 'updatedAt', label, errors);
     requireArray(item, 'aliases', label, errors);

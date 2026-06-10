@@ -14,7 +14,7 @@ function getStorage() {
 export function readJson(key, fallback) {
   const storage = getStorage();
   try {
-    const raw = storage ? storage.getItem(key) : memoryStore.get(key);
+    const raw = storage ? storage.getItem(key) ?? memoryStore.get(key) : memoryStore.get(key);
     return raw ? JSON.parse(raw) : fallback;
   } catch {
     return fallback;
@@ -24,9 +24,13 @@ export function readJson(key, fallback) {
 export function writeJson(key, value) {
   const serialized = JSON.stringify(value);
   const storage = getStorage();
-  if (storage) {
-    storage.setItem(key, serialized);
-    return;
+  try {
+    if (storage) {
+      storage.setItem(key, serialized);
+      return;
+    }
+  } catch {
+    // Fall back to in-memory storage when localStorage is unavailable or full.
   }
   memoryStore.set(key, serialized);
 }
