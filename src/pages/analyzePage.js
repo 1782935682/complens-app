@@ -1,5 +1,5 @@
 import { escapeHtml, html, ingredientCard, riskClass, riskLabel } from '../components/render.js';
-import { categoryPath, getProductCategory } from '../data/categories.js';
+import { categoryPath, getProductCategory, isProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText } from '../services/ingredientService.js';
 import { getUserAllergens } from '../store/userStore.js';
@@ -10,8 +10,8 @@ import { SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
  * @param {import('../types/ingredient.js').DataCategory} category Active product category.
  */
 export function renderAnalyzePage(input = '', category = 'cosmetics') {
-  const currentCategory = getProductCategory(category);
-  const categoryId = currentCategory.id || 'food';
+  const categoryId = isProductCategory(category) ? category : 'food';
+  const currentCategory = getProductCategory(categoryId);
   const result = analyzeIngredientText(input, categoryId);
   const resultIngredients = result.ingredients
     .filter(hasDisplayId)
@@ -130,7 +130,8 @@ function withDisplayDefaults(ingredient, category) {
   return {
     ...ingredient,
     id: ingredient.id,
-    nameCn: ingredient.nameCn || (isFood ? '待确认食品添加剂' : '待确认成分'),
+    dataCategory: category,
+    nameCn: ingredient.nameCn || '暂无数据',
     category: ingredient.category || '未分类',
     description: ingredient.description || '暂无说明',
     riskLevel: ingredient.riskLevel || 'unknown',
@@ -177,10 +178,10 @@ function textAllergenCard(item, allergens) {
     <article class="ingredient-card ingredient-card--allergen">
       <div class="ingredient-card__main">
         <span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergens))}</span>
-        <h3>${escapeHtml(item)}</h3>
+        <h3>普通原料/标签文本：${escapeHtml(item)}</h3>
         <p>该标签原文不是食品添加剂数据库匹配项，但与您关注的过敏原关键词匹配，请结合产品标签确认来源。</p>
         <div class="meta-row">
-          <span>标签原文（非添加剂匹配）</span>
+          <span>普通食品原料或标签文本（非添加剂匹配）</span>
         </div>
       </div>
     </article>

@@ -102,7 +102,7 @@ assert.match(analyzeHtmlWithAllergens, /发现过敏原成分/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
 assert.match(analyzeHtmlWithAllergens, /全脂奶粉/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：乳及乳制品/);
-assert.match(analyzeHtmlWithAllergens, /标签原文（非添加剂匹配）/);
+assert.match(analyzeHtmlWithAllergens, /普通食品原料或标签文本（非添加剂匹配）/);
 assert.match(analyzeHtmlWithAllergens, /不作为医疗、健康或诊断建议/);
 assert.doesNotMatch(analyzeHtmlWithAllergens, /遵医嘱/);
 assert.match(analyzeHtmlWithAllergens, /href="#\/food\/ingredient\/lecithins"/);

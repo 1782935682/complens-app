@@ -1,5 +1,4 @@
 import { categoryPath } from './data/categories.js';
-import { escapeHtml } from './components/render.js';
 import { renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
@@ -70,7 +69,7 @@ function bindPageEvents(route) {
         return;
       }
       if (textarea) {
-        textarea.value = escapeHtml(SAMPLES[val]);
+        textarea.value = SAMPLES[val];
         textarea.focus();
       }
     });
