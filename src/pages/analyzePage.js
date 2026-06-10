@@ -101,7 +101,10 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <div class="section__head">
           <h2>重点关注成分</h2>
         </div>
-        <div class="card-grid">${resultHighlights.map((item) => ingredientCard(item, { category: categoryId })).join('')}</div>
+        <div class="card-grid">${resultHighlights.map((item) => ingredientCard(item, {
+          category: categoryId,
+          href: `#${categoryPath(categoryId, `/ingredient/${item.id}`)}`
+        })).join('')}</div>
       </section>
     ` : ''}
 
@@ -111,7 +114,10 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
           <h2>已匹配成分</h2>
           <span class="count">${result.matchedCount} 项</span>
         </div>
-        <div class="card-grid">${resultIngredients.map((item) => ingredientCard(item, { category: categoryId })).join('')}</div>
+        <div class="card-grid">${resultIngredients.map((item) => ingredientCard(item, {
+          category: categoryId,
+          href: `#${categoryPath(categoryId, `/ingredient/${item.id}`)}`
+        })).join('')}</div>
       </section>
     ` : ''}
 
@@ -189,6 +195,8 @@ function allergenCard(ingredient, allergens, category) {
 
 function textAllergenCard(item, allergens) {
   const safeItem = String(item || '');
+  if (!safeItem) return '';
+
   const allergenNames = formatAllergenNames(allergens);
   return html`
     <article class="ingredient-card ingredient-card--allergen">

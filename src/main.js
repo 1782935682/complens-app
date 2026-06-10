@@ -55,12 +55,12 @@ function bindPageEvents(route) {
 
   const sampleSelect = document.querySelector('#sample-select');
   if (sampleSelect) {
-    const sampleIdsForCategory = new Set(
-      SAMPLE_OPTIONS
-        .filter((sample) => sample.category === route.category)
-        .map((sample) => sample.id)
-    );
     sampleSelect.addEventListener('change', () => {
+      const sampleIdsForCategory = new Set(
+        SAMPLE_OPTIONS
+          .filter((sample) => sample.category === route.category)
+          .map((sample) => sample.id)
+      );
       const val = sampleSelect.value;
       const textarea = document.querySelector('#ingredient-text');
       if (val === '0') return;

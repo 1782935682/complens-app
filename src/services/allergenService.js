@@ -22,6 +22,7 @@ export function getMatchingTextAllergens(value, userAllergens = []) {
 
   const normalizedValue = normalizeText(value);
   if (!normalizedValue) return [];
+  if (normalizedValue.length === 0) return [];
 
   const userSet = new Set(userAllergens);
   if (!userSet.size) return [];
@@ -41,7 +42,9 @@ export function formatAllergenNames(allergens = []) {
       if (allergen == null) return '';
       if (typeof allergen === 'string') {
         if (!allergen.trim()) return '';
-        return allergenById.get(allergen)?.nameCn || '未知过敏原';
+        const matched = allergenById.get(allergen);
+        if (!matched) console.warn(`Unknown allergen id: ${allergen}`);
+        return matched?.nameCn || '未知过敏原';
       }
       return allergen?.nameCn || '未知过敏原';
     })
