@@ -62,6 +62,7 @@ export function resolveRoute(hash) {
   }
 
   if (route.path === '/search') {
+    const sort = params.get('sort') || '';
     return {
       view: 'search',
       category: route.category,
@@ -70,7 +71,8 @@ export function resolveRoute(hash) {
       filters: {
         risk: params.get('risk') || '',
         ingredientCategory: params.get('ingredientCategory') || ''
-      }
+      },
+      ...(sort ? { sort } : {})
     };
   }
 
@@ -118,7 +120,7 @@ export function resolveRoute(hash) {
 
 export function renderRoute(route) {
   if (route.view === 'detail') return renderDetailPage(route.id, route.category);
-  if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page);
+  if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);

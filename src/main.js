@@ -56,6 +56,7 @@ function bindPageEvents(route) {
       const query = String(formData.get('q') || '').trim();
       const risk = String(formData.get('risk') || '').trim();
       const ingredientCategory = String(formData.get('ingredientCategory') || '').trim();
+      const sort = String(formData.get('sort') || '').trim();
       if (!query && !risk && !ingredientCategory) return;
 
       const params = new URLSearchParams();
@@ -65,6 +66,7 @@ function bindPageEvents(route) {
       }
       if (risk) params.set('risk', risk);
       if (ingredientCategory) params.set('ingredientCategory', ingredientCategory);
+      if (sort && sort !== 'relevance') params.set('sort', sort);
       navigate(`#${categoryPath(route.category, '/search')}?${params.toString()}`);
     });
     bindSearchSuggestions(form, route);

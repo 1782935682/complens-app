@@ -37,6 +37,27 @@ export function getSearchFilterOptions(category = 'cosmetics') {
   return { riskLevels, categories };
 }
 
+export function getIngredientCategorySummaries(category = 'cosmetics') {
+  const summaries = new Map();
+
+  for (const ingredient of getDatasetByCategory(category).items) {
+    const name = ingredient.category;
+    if (!name) continue;
+    const summary = summaries.get(name) || {
+      name,
+      count: 0,
+      riskCounts: { high: 0, medium: 0, low: 0, unknown: 0 }
+    };
+    summary.count += 1;
+    const riskKey = ingredient.riskLevel || 'unknown';
+    summary.riskCounts[riskKey] = (summary.riskCounts[riskKey] || 0) + 1;
+    summaries.set(name, summary);
+  }
+
+  return [...summaries.values()]
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
 export function searchIngredients(query, category = 'cosmetics', filters = {}) {
   const keyword = normalizeText(query);
   const activeFilters = normalizeSearchFilters(filters);
@@ -75,6 +96,26 @@ export function getSearchSuggestions(query, category = 'cosmetics', limit = 6) {
     .sort((a, b) => b.match.score - a.match.score || a.ingredient.nameCn.localeCompare(b.ingredient.nameCn, 'zh-Hans-CN'))
     .slice(0, maxItems)
     .map(({ ingredient, match }) => toSearchSuggestion(ingredient, match));
+}
+
+export function getRelatedIngredients(id, category = 'cosmetics', limit = 4) {
+  const ingredient = getIngredientById(id, category);
+  if (!ingredient) return [];
+
+  const maxItems = Math.max(1, Number(limit) || 4);
+  return getDatasetByCategory(category).items
+    .filter((candidate) => candidate.id !== ingredient.id)
+    .map((candidate) => ({
+      ingredient: candidate,
+      relation: getRelatedScore(ingredient, candidate)
+    }))
+    .filter((item) => item.relation.score > 0)
+    .sort((a, b) => b.relation.score - a.relation.score || a.ingredient.nameCn.localeCompare(b.ingredient.nameCn, 'zh-Hans-CN'))
+    .slice(0, maxItems)
+    .map(({ ingredient: relatedIngredient, relation }) => ({
+      ...toSearchResult(relatedIngredient),
+      relationReasons: relation.reasons
+    }));
 }
 
 export function analyzeIngredientText(input, category = 'cosmetics') {
@@ -203,6 +244,76 @@ function getFieldMatchScore(value, keyword, weight) {
   if (value === keyword) return weight + 20;
   if (value.startsWith(keyword)) return weight;
   return value.includes(keyword) ? weight - 20 : 0;
+}
+
+function getRelatedScore(source, candidate) {
+  const reasons = [];
+  let score = 0;
+
+  if (source.category && source.category === candidate.category) {
+    score += 50;
+    reasons.push(`同属${source.category}`);
+  }
+
+  const sharedFunctions = getSharedValues(source.functions, candidate.functions);
+  if (sharedFunctions.length) {
+    score += 18 * Math.min(sharedFunctions.length, 3);
+    reasons.push(formatRelationReason('共同功能', sharedFunctions));
+  }
+
+  const sharedFoodCategories = getSharedValues(source.foodCategories, candidate.foodCategories);
+  if (sharedFoodCategories.length) {
+    score += 8 * Math.min(sharedFoodCategories.length, 3);
+    reasons.push(formatRelationReason('适用食品', sharedFoodCategories));
+  }
+
+  const sharedAllergens = getSharedValues(source.allergenTypes, candidate.allergenTypes);
+  if (sharedAllergens.length) {
+    score += 20;
+    reasons.push('过敏原标注相近');
+  }
+
+  const sharedCautionGroups = getSharedValues(source.cautionGroups, candidate.cautionGroups);
+  if (sharedCautionGroups.length) {
+    score += 10;
+    reasons.push('关注人群相近');
+  }
+
+  const sharedCautions = getSharedValues(source.cautionFor, candidate.cautionFor);
+  if (sharedCautions.length) {
+    score += 6 * Math.min(sharedCautions.length, 3);
+    reasons.push(formatRelationReason('共同提醒', sharedCautions));
+  }
+
+  if (score > 0 && source.riskLevel && source.riskLevel === candidate.riskLevel) {
+    score += 4;
+    reasons.push(`同为${relationRiskLabel(source.riskLevel)}级别`);
+  }
+
+  return {
+    score,
+    reasons: uniqueBy(reasons.filter(Boolean), normalizeText).slice(0, 3)
+  };
+}
+
+function getSharedValues(sourceValues, candidateValues) {
+  const sourceList = Array.isArray(sourceValues) ? sourceValues.filter(Boolean) : [];
+  const candidateKeys = new Set((Array.isArray(candidateValues) ? candidateValues : []).map(normalizeText));
+  return uniqueBy(sourceList.filter((value) => candidateKeys.has(normalizeText(value))), normalizeText);
+}
+
+function formatRelationReason(label, values) {
+  return `${label}：${values.slice(0, 2).join('、')}`;
+}
+
+function relationRiskLabel(level) {
+  const labels = {
+    low: '低关注',
+    medium: '需关注',
+    high: '高关注',
+    unknown: '未知'
+  };
+  return labels[level] || labels.unknown;
 }
 
 function getDatasetByCategory(category) {

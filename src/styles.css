@@ -230,7 +230,7 @@ label {
 
 .filter-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(180px, 1fr)) auto;
+  grid-template-columns: repeat(3, minmax(160px, 1fr)) auto;
   gap: 12px;
   align-items: end;
   margin-top: 14px;
@@ -445,6 +445,31 @@ button.secondary:hover {
   padding: 0 18px 18px;
 }
 
+.related-card .ingredient-card__main {
+  min-height: 244px;
+}
+
+.related-reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.related-reasons span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border: 1px solid rgba(17, 106, 91, 0.18);
+  border-radius: 999px;
+  padding: 3px 9px;
+  color: var(--primary-strong);
+  background: #eef7f3;
+  font-size: 12px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
 .ingredient-card:hover,
 .result-item:hover,
 .action-tile:hover {
@@ -560,6 +585,17 @@ button.secondary:hover {
   gap: 8px;
 }
 
+.category-chip {
+  gap: 6px;
+}
+
+.category-chip small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .history-list {
   display: flex;
   flex-wrap: wrap;
@@ -601,6 +637,40 @@ button.secondary:hover {
   flex-wrap: wrap;
   gap: 8px;
   margin: -4px 0 14px;
+}
+
+.risk-facets,
+.category-facets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -2px 0 14px;
+}
+
+.risk-facet,
+.category-facet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 10px;
+  background: var(--surface);
+}
+
+.risk-facet strong,
+.category-facet strong {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.risk-facet:hover,
+.risk-facet.is-active,
+.category-facet:hover,
+.category-facet.is-active {
+  border-color: rgba(17, 106, 91, 0.45);
+  background: #eef7f3;
 }
 
 .page-summary {

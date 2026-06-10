@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
-import { analyzeIngredientText, getIngredientById, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
+import { analyzeIngredientText, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
@@ -40,6 +40,14 @@ assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&page=2'), {
   query: '剂',
   page: 2,
   filters: { risk: '', ingredientCategory: '' }
+});
+assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&sort=risk&page=2'), {
+  view: 'search',
+  category: 'food',
+  query: '剂',
+  page: 2,
+  filters: { risk: '', ingredientCategory: '' },
+  sort: 'risk'
 });
 assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&page=-4'), {
   view: 'search',
@@ -147,6 +155,26 @@ assert.deepEqual(
 assert.deepEqual(getSearchFilterOptions('food').categories.includes('防腐剂'), true);
 assert.deepEqual(getSearchFilterOptions('food').riskLevels.includes('medium'), true);
 assert.equal(getIngredientById('sulfur-dioxide', 'food').allergenTypes[0], 'sulphites');
+const foodCategorySummaries = getIngredientCategorySummaries('food');
+assert.equal(foodCategorySummaries.find((item) => item.name === '酸度调节剂').count, 2);
+assert.equal(foodCategorySummaries.find((item) => item.name === '防腐剂').riskCounts.medium, 2);
+assert.equal(foodCategorySummaries.every((item) => item.count > 0), true);
+
+const relatedCitricAcid = getRelatedIngredients('citric-acid', 'food');
+assert.equal(relatedCitricAcid[0].id, 'sodium-citrate');
+assert.equal(relatedCitricAcid.every((item) => item.id !== 'citric-acid'), true);
+assert.equal(relatedCitricAcid[0].relationReasons.some((reason) => reason === '同属酸度调节剂'), true);
+assert.deepEqual(getRelatedIngredients('not-found', 'food'), []);
+const relatedSalicylicAcid = getRelatedIngredients('salicylic-acid', 'cosmetics', 2);
+assert.equal(relatedSalicylicAcid.length, 2);
+assert.equal(relatedSalicylicAcid.some((item) => item.id === 'retinol'), true);
+const detailHtmlWithRelatedIngredients = renderRoute(resolveRoute('#/food/ingredient/citric-acid'));
+assert.match(detailHtmlWithRelatedIngredients, /data-related-ingredients/);
+assert.match(detailHtmlWithRelatedIngredients, /相关成分/);
+assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/ingredient\/sodium-citrate"/);
+assert.match(detailHtmlWithRelatedIngredients, /同属酸度调节剂/);
+assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
+assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/search\?q=%E9%85%B8%E5%91%B3%E5%89%82"/);
 
 const filteredSearchHtml = renderSearchPage('', 'food', { risk: 'medium', ingredientCategory: '防腐剂' });
 assert.match(filteredSearchHtml, /筛选结果/);
@@ -155,6 +183,9 @@ assert.match(filteredSearchHtml, /value="防腐剂" selected/);
 assert.match(filteredSearchHtml, /关注等级：需关注/);
 assert.match(filteredSearchHtml, /成分分类：防腐剂/);
 assert.match(filteredSearchHtml, /href="#\/food\/search"/);
+const homeHtmlWithCategoryFilters = renderHomePage('food');
+assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
+assert.match(homeHtmlWithCategoryFilters, /酸度调节剂[\s\S]*2 项/);
 const searchHtmlWithSuggestions = renderSearchPage('E330', 'food');
 assert.match(searchHtmlWithSuggestions, /data-search-suggestions/);
 assert.match(searchHtmlWithSuggestions, /suggestion-item/);
@@ -163,6 +194,20 @@ assert.match(searchHtmlWithSuggestions, /E-number：E330/);
 const firstPageSearchHtml = renderSearchPage('剂', 'food');
 assert.match(firstPageSearchHtml, /显示第 1-6 项，共 12 项/);
 assert.match(firstPageSearchHtml, /href="#\/food\/search\?q=%E5%89%82&page=2"/);
+const riskSortedSearchHtml = renderSearchPage('剂', 'food', {}, 1, 'risk');
+assert.match(riskSortedSearchHtml, /value="risk" selected/);
+assert.match(riskSortedSearchHtml, /排序：关注等级优先/);
+assert.match(riskSortedSearchHtml, /risk-facets/);
+assert.match(riskSortedSearchHtml, /category-facets/);
+assert.match(riskSortedSearchHtml, /href="#\/food\/search\?q=%E5%89%82&risk=medium&sort=risk"/);
+assert.match(riskSortedSearchHtml, /href="#\/food\/search\?q=%E5%89%82&ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82&sort=risk"/);
+assert.match(riskSortedSearchHtml, /href="#\/food\/search\?q=%E5%89%82&sort=risk&page=2"/);
+const riskSortedSweetenerHtml = renderSearchPage('', 'food', { ingredientCategory: '甜味剂' }, 1, 'risk');
+assert.equal(riskSortedSweetenerHtml.indexOf('阿斯巴甜') < riskSortedSweetenerHtml.indexOf('三氯蔗糖'), true);
+assert.match(riskSortedSweetenerHtml, /href="#\/food\/search\?ingredientCategory=%E7%94%9C%E5%91%B3%E5%89%82&sort=risk"/);
+assert.match(riskSortedSweetenerHtml, /href="#\/food\/search\?risk=medium&ingredientCategory=%E7%94%9C%E5%91%B3%E5%89%82&sort=risk"/);
+const mediumNameSortedHtml = renderSearchPage('', 'food', { risk: 'medium' }, 1, 'name');
+assert.match(mediumNameSortedHtml, /href="#\/food\/search\?risk=medium&ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82&sort=name"/);
 const pagedSearchHtml = renderSearchPage('剂', 'food', {}, 2);
 assert.match(pagedSearchHtml, /显示第 7-12 项，共 12 项/);
 assert.match(pagedSearchHtml, /aria-current="page">2</);

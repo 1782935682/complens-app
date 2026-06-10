@@ -1,6 +1,6 @@
 import { categoryPath, getProductCategory, productCategories } from '../data/categories.js';
 import { escapeHtml, ingredientCard, html } from '../components/render.js';
-import { getAllIngredients, getPopularIngredients } from '../services/ingredientService.js';
+import { getIngredientCategorySummaries, getPopularIngredients } from '../services/ingredientService.js';
 import { getAnalysisReports, getFavoriteIngredients, getHistory } from '../store/userStore.js';
 
 export function renderHomePage(category = 'food') {
@@ -9,7 +9,7 @@ export function renderHomePage(category = 'food') {
   const history = getHistory();
   const favorites = getFavoriteIngredients(category);
   const reports = getAnalysisReports(category);
-  const ingredientCategories = [...new Set(getAllIngredients(category).map((item) => item.category).filter(Boolean))];
+  const ingredientCategories = getIngredientCategorySummaries(category);
 
   return html`
     ${renderCategoryTabs(category)}
@@ -68,10 +68,21 @@ export function renderHomePage(category = 'food') {
           <h2>常见分类</h2>
         </div>
         ${ingredientCategories.length
-          ? `<div class="chip-list">${ingredientCategories.map((item) => `<a class="chip" href="#${categoryPath(category, '/search')}?q=${encodeURIComponent(item)}" data-route>${item}</a>`).join('')}</div>`
+          ? `<div class="chip-list">${ingredientCategories.map((item) => renderCategoryChip(item, category)).join('')}</div>`
           : '<p class="empty">当前类别还没有分类数据。</p>'}
       </div>
     </section>
+  `;
+}
+
+function renderCategoryChip(item, category) {
+  const safeName = escapeHtml(item.name);
+  const href = `#${categoryPath(category, '/search')}?ingredientCategory=${encodeURIComponent(item.name)}`;
+  return html`
+    <a class="chip category-chip" href="${href}" data-route>
+      <span>${safeName}</span>
+      <small>${item.count} 项</small>
+    </a>
   `;
 }
 
