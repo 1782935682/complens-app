@@ -19,6 +19,7 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          model: claude-sonnet-4-6
           direct_prompt: |
             你是 CompCheck（成分小查）项目的资深代码审查员。请审查这个 PR 并以中文输出审查结果。
 
