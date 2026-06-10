@@ -66,6 +66,11 @@
  * @property {string=} category
  * @property {AllergenType[]=} allergenTypes
  *
+ * @typedef {SearchResult & {
+ *   matchedText?: string,
+ *   matchLabel?: string
+ * }} SearchSuggestion
+ *
  * @typedef {Object} AnalysisResult
  * @property {Ingredient[]} ingredients
  * @property {number} matchedCount

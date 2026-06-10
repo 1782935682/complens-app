@@ -53,6 +53,30 @@ export function searchIngredients(query, category = 'cosmetics', filters = {}) {
     .map(({ ingredient }) => toSearchResult(ingredient));
 }
 
+export function getSearchSuggestions(query, category = 'cosmetics', limit = 6) {
+  const maxItems = Math.max(1, Number(limit) || 6);
+  const keyword = normalizeText(query);
+
+  if (!keyword) {
+    return getPopularIngredients(category)
+      .slice(0, maxItems)
+      .map((ingredient) => toSearchSuggestion(ingredient, {
+        matchedText: ingredient.eNumber || ingredient.gbCode || ingredient.category || '',
+        matchLabel: '热门'
+      }));
+  }
+
+  return getDatasetByCategory(category).items
+    .map((ingredient) => ({
+      ingredient,
+      match: getSuggestionMatch(ingredient, keyword)
+    }))
+    .filter((item) => item.match.score > 0)
+    .sort((a, b) => b.match.score - a.match.score || a.ingredient.nameCn.localeCompare(b.ingredient.nameCn, 'zh-Hans-CN'))
+    .slice(0, maxItems)
+    .map(({ ingredient, match }) => toSearchSuggestion(ingredient, match));
+}
+
 export function analyzeIngredientText(input, category = 'cosmetics') {
   const rawItems = splitIngredientInput(input);
   const matched = [];
@@ -142,6 +166,45 @@ function getSearchableNames(ingredient) {
   ].filter(Boolean);
 }
 
+function getSuggestionMatch(ingredient, keyword) {
+  const fields = [
+    { label: '中文名', value: ingredient.nameCn, weight: 100 },
+    { label: '英文名', value: ingredient.nameEn, weight: 96 },
+    { label: 'GB/INS', value: ingredient.gbCode, weight: 94 },
+    { label: 'E-number', value: ingredient.eNumber, weight: 94 },
+    ...(ingredient.aliases || []).map((value) => ({ label: '别名', value, weight: 90 })),
+    { label: '分类', value: ingredient.category, weight: 60 },
+    ...(ingredient.functions || []).map((value) => ({ label: '功能', value, weight: 52 }))
+  ].filter((field) => field.value);
+
+  let best = { score: 0, matchedText: '', matchLabel: '' };
+  for (const field of fields) {
+    const normalized = normalizeText(field.value);
+    const score = getFieldMatchScore(normalized, keyword, field.weight);
+    if (score > best.score) {
+      best = {
+        score,
+        matchedText: field.value,
+        matchLabel: field.label
+      };
+    }
+  }
+
+  if (best.score) return best;
+
+  const haystack = normalizeText([ingredient.description, ingredient.riskSummary].join(' '));
+  if (haystack.includes(keyword)) {
+    return { score: 20, matchedText: '成分说明', matchLabel: '说明' };
+  }
+  return best;
+}
+
+function getFieldMatchScore(value, keyword, weight) {
+  if (value === keyword) return weight + 20;
+  if (value.startsWith(keyword)) return weight;
+  return value.includes(keyword) ? weight - 20 : 0;
+}
+
 function getDatasetByCategory(category) {
   if (category === 'food') {
     return {
@@ -166,6 +229,14 @@ function toSearchResult(ingredient) {
     gbCode: ingredient.gbCode,
     eNumber: ingredient.eNumber,
     allergenTypes: ingredient.allergenTypes || []
+  };
+}
+
+function toSearchSuggestion(ingredient, match) {
+  return {
+    ...toSearchResult(ingredient),
+    matchedText: match.matchedText,
+    matchLabel: match.matchLabel
   };
 }
 
