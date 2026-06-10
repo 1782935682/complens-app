@@ -1,13 +1,14 @@
 import { categoryPath, getProductCategory, productCategories } from '../data/categories.js';
 import { escapeHtml, ingredientCard, html } from '../components/render.js';
 import { getAllIngredients, getPopularIngredients } from '../services/ingredientService.js';
-import { getFavoriteIngredients, getHistory } from '../store/userStore.js';
+import { getAnalysisReports, getFavoriteIngredients, getHistory } from '../store/userStore.js';
 
 export function renderHomePage(category = 'food') {
   const currentCategory = getProductCategory(category);
   const popular = getPopularIngredients(category);
   const history = getHistory();
   const favorites = getFavoriteIngredients(category);
+  const reports = getAnalysisReports(category);
   const ingredientCategories = [...new Set(getAllIngredients(category).map((item) => item.category).filter(Boolean))];
 
   return html`
@@ -31,6 +32,10 @@ export function renderHomePage(category = 'food') {
       <a class="action-tile" href="#${categoryPath(category, '/analyze')}" data-route>
         <strong>成分表识别</strong>
         <span>粘贴文本并匹配本地库</span>
+      </a>
+      <a class="action-tile" href="#${categoryPath(category, '/reports')}" data-route>
+        <strong>分析报告</strong>
+        <span>${reports.length ? `${reports.length} 份本地报告` : '保存和复查分析结果'}</span>
       </a>
       <a class="action-tile" href="#${categoryPath(category, '/favorites')}" data-route>
         <strong>收藏夹</strong>
