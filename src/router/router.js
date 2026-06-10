@@ -26,6 +26,14 @@ const NAV_ITEMS = [
   { key: 'settings', view: 'settings', path: '/settings' }
 ];
 
+const MOBILE_NAV_ITEMS = [
+  { key: 'home', view: 'home', path: '/' },
+  { key: 'analyze', view: 'analyze', path: '/analyze' },
+  { key: 'search', view: 'search', path: '/search' },
+  { key: 'favorites', view: 'favorites', path: '/favorites' },
+  { key: 'settings', view: 'settings', path: '/settings' }
+];
+
 export function resolveRoute(hash) {
   const raw = hash || '#/';
   const [path = '/', queryString = ''] = raw.replace(/^#/, '').split('?');
@@ -110,6 +118,15 @@ export function getRouteTitle(route) {
 export function getNavigationLinks(route) {
   const category = route?.category || defaultCategory;
   return NAV_ITEMS.map((item) => ({
+    key: item.key,
+    href: `#${categoryPath(category, item.path)}`,
+    active: route?.view === item.view
+  }));
+}
+
+export function getMobileNavigationLinks(route) {
+  const category = route?.category || defaultCategory;
+  return MOBILE_NAV_ITEMS.map((item) => ({
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view

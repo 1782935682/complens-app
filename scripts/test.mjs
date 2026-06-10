@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, getSearchFilterOptions, searchIngredients } from '../src/services/ingredientService.js';
@@ -10,7 +11,7 @@ import { renderHomePage } from '../src/pages/homePage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { ingredientCard } from '../src/components/render.js';
-import { getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
+import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { addHistory, getFavoriteIngredients, getFavoriteItems, getHistory, getUserAllergens, removeHistory, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
@@ -59,6 +60,29 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: false }
 ]);
+assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
+  { key: 'home', href: '#/food', active: true },
+  { key: 'analyze', href: '#/food/analyze', active: false },
+  { key: 'search', href: '#/food/search', active: false },
+  { key: 'favorites', href: '#/food/favorites', active: false },
+  { key: 'settings', href: '#/food/settings', active: false }
+]);
+assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/cosmetics/settings')), [
+  { key: 'home', href: '#/cosmetics', active: false },
+  { key: 'analyze', href: '#/cosmetics/analyze', active: false },
+  { key: 'search', href: '#/cosmetics/search', active: false },
+  { key: 'favorites', href: '#/cosmetics/favorites', active: false },
+  { key: 'settings', href: '#/cosmetics/settings', active: true }
+]);
+const indexHtml = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
+assert.match(indexHtml, /rel="manifest" href="\.\/manifest\.webmanifest"/);
+assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
+assert.match(indexHtml, /data-mobile-nav-key="home"/);
+assert.match(indexHtml, /data-mobile-nav-key="analyze"/);
+const appManifest = JSON.parse(await readFile(new URL('../src/manifest.webmanifest', import.meta.url), 'utf8'));
+assert.equal(appManifest.display, 'standalone');
+assert.equal(appManifest.start_url, './#/food');
+assert.equal(appManifest.icons[0].src, './app-icon.svg');
 const notFoundHtml = renderRoute(resolveRoute('#/food/not-a-real-page'));
 assert.match(notFoundHtml, /页面不存在/);
 assert.match(notFoundHtml, /没有找到这个页面/);

@@ -1,0 +1,28 @@
+{
+  "name": "CompCheck 成分小查",
+  "short_name": "CompCheck",
+  "description": "成分查询、成分表分析和过敏原提醒应用。",
+  "start_url": "./#/food",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f4",
+  "theme_color": "#116a5b",
+  "icons": [
+    {
+      "src": "./app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "搜索成分",
+      "url": "./#/food/search"
+    },
+    {
+      "name": "扫描分析",
+      "url": "./#/food/analyze"
+    }
+  ]
+}

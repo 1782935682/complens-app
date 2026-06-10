@@ -1,5 +1,5 @@
 import { categoryPath } from './data/categories.js';
-import { getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
+import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, removeHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
@@ -26,9 +26,14 @@ function updateShellNavigation(route) {
   const brandLink = document.querySelector('[data-brand-link]');
   if (brandLink) brandLink.setAttribute('href', `#${categoryPath(route.category)}`);
 
-  const navState = new Map(getNavigationLinks(route).map((item) => [item.key, item]));
-  document.querySelectorAll('[data-nav-key]').forEach((link) => {
-    const item = navState.get(link.dataset.navKey);
+  updateNavigationGroup('[data-nav-key]', 'navKey', getNavigationLinks(route));
+  updateNavigationGroup('[data-mobile-nav-key]', 'mobileNavKey', getMobileNavigationLinks(route));
+}
+
+function updateNavigationGroup(selector, datasetKey, items) {
+  const navState = new Map(items.map((item) => [item.key, item]));
+  document.querySelectorAll(selector).forEach((link) => {
+    const item = navState.get(link.dataset[datasetKey]);
     if (!item) return;
     link.setAttribute('href', item.href);
     link.classList.toggle('is-active', item.active);
