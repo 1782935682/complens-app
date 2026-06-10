@@ -19,6 +19,10 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const resultHighlights = result.highlights
     .filter(hasDisplayId)
     .map((ingredient) => withDisplayDefaults(ingredient, categoryId));
+  const missingIdItems = result.ingredients
+    .filter((ingredient) => !hasDisplayId(ingredient))
+    .map((ingredient) => ingredient.nameCn || ingredient.nameEn || '暂无数据');
+  const unknownItems = [...result.unknownItems, ...missingIdItems];
   const userAllergens = getUserAllergens();
   const ingredientAllergenHits = resultIngredients
     .map((ingredient) => ({
@@ -26,7 +30,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
       allergens: getMatchingUserAllergens(ingredient, userAllergens)
     }))
     .filter((item) => item.allergens.length);
-  const textAllergenHits = result.unknownItems
+  const textAllergenHits = unknownItems
     .map((item) => ({
       item,
       allergens: getMatchingTextAllergens(item, userAllergens)
@@ -34,7 +38,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
     .filter((item) => item.allergens.length);
   const allergenHitCount = ingredientAllergenHits.length + textAllergenHits.length;
   const safeInput = escapeHtml(input);
-  const safeSamples = SAMPLES && typeof SAMPLES === 'object' ? SAMPLES : {};
+  const safeSamples = hasValidSampleMap() ? SAMPLES : {};
   const sampleOptions = SAMPLE_OPTIONS.filter((sample) => sample.category === categoryId && typeof safeSamples[sample.id] === 'string');
 
   const activeAllergenNames = formatAllergenNames(userAllergens);
@@ -111,13 +115,13 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
       </section>
     ` : ''}
 
-    ${result.unknownItems.length ? html`
+    ${unknownItems.length ? html`
       <section class="section">
         <div class="section__head">
           <h2>暂未收录</h2>
         </div>
         <p class="helper-text">以下条目可能包含普通食品原料或当前数据库尚未覆盖的添加剂；过敏原关键词会单独提示。</p>
-        <div class="chip-list">${result.unknownItems.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join('')}</div>
+        <div class="chip-list">${unknownItems.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join('')}</div>
       </section>
     ` : ''}
 
@@ -142,6 +146,11 @@ function withDisplayDefaults(ingredient, category) {
 
 function hasDisplayId(ingredient) {
   return typeof ingredient?.id === 'string' && ingredient.id.trim();
+}
+
+function hasValidSampleMap() {
+  if (!SAMPLES || typeof SAMPLES !== 'object') return false;
+  return SAMPLE_OPTIONS.every((sample) => typeof SAMPLES[sample.id] === 'string' && SAMPLES[sample.id].trim());
 }
 
 function renderDisclaimer() {

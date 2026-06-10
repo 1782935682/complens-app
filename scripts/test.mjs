@@ -161,6 +161,7 @@ assert.deepEqual(getMatchingTextAllergens('小麦粉', ['cereals-gluten']).map((
 assert.deepEqual(getMatchingTextAllergens('全脂奶粉', ['milk']).map((allergen) => allergen.id), ['milk']);
 assert.deepEqual(getMatchingTextAllergens('大豆蛋白', ['soybeans']).map((allergen) => allergen.id), ['soybeans']);
 assert.equal(normalizeText('ＡＢＣ １２３'), 'abc 123');
+assert.equal(normalizeText('牛奶，鸡蛋。'), '牛奶 鸡蛋');
 
 const foodDetailHtml = renderFoodAdditiveDetails({
   eNumber: 'E330',
@@ -216,6 +217,9 @@ const chiliAnalysis = analyzeIngredientText(SAMPLES['food-4'], 'food');
 assert.equal(chiliAnalysis.matchedCount, 4);
 assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-benzoate'), true);
 assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-metabisulfite'), true);
+assert.equal(chiliAnalysis.unknownItems.includes('辣椒'), true);
+assert.equal(chiliAnalysis.unknownItems.includes('大蒜'), true);
+assert.equal(chiliAnalysis.unknownItems.includes('食盐'), true);
 
 const juiceAnalysis = analyzeIngredientText(SAMPLES['food-3'], 'food');
 assert.equal(juiceAnalysis.ingredients.some((item) => item.id === 'potassium-sorbate'), true);

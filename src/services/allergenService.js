@@ -39,6 +39,7 @@ export function formatAllergenNames(allergens = []) {
   return allergens
     .map((allergen) => {
       if (typeof allergen === 'string') {
+        if (!allergen.trim()) return '';
         return allergenById.get(allergen)?.nameCn || '未知过敏原';
       }
       return allergen?.nameCn || '未知过敏原';

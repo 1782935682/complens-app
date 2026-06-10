@@ -3,7 +3,9 @@ export function normalizeText(value) {
     .normalize('NFKC')
     .trim()
     .toLowerCase()
-    .replace(/\s+/g, ' ');
+    .replace(/[，。、；：！？,.;:!?]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 // Food samples intentionally mix additive records with ordinary label ingredients.
