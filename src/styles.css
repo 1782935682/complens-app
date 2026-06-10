@@ -577,6 +577,64 @@ button.secondary:hover {
   border-left: 4px solid var(--primary);
 }
 
+.settings-panel {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.allergen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.allergen-option {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  min-height: 78px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fbfcfb;
+  cursor: pointer;
+}
+
+.allergen-option:has(input:checked) {
+  border-color: rgba(17, 106, 91, 0.48);
+  background: #eef7f3;
+}
+
+.allergen-option input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--primary);
+}
+
+.allergen-option span {
+  display: grid;
+  gap: 2px;
+}
+
+.allergen-option small,
+.save-status {
+  color: var(--muted);
+}
+
+.save-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+}
+
 .empty {
   margin: 0;
   padding: 14px 0;

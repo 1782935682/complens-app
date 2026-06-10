@@ -5,6 +5,7 @@ import { analyzeIngredientText, getIngredientById, searchIngredients } from '../
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
+import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
@@ -16,6 +17,8 @@ assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
 assert.deepEqual(resolveRoute('#/food/search?q=E330'), { view: 'search', category: 'food', query: 'E330' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
 assert.deepEqual(resolveRoute('#/search?q=BHA'), { view: 'search', category: 'cosmetics', query: 'BHA' });
+assert.deepEqual(resolveRoute('#/settings'), { view: 'settings', category: 'cosmetics' });
+assert.deepEqual(resolveRoute('#/food/settings'), { view: 'settings', category: 'food' });
 assert.equal(categoryPath('food', '/search'), '/food/search');
 
 const cnResults = searchIngredients('烟酰胺');
@@ -81,6 +84,12 @@ assert.deepEqual(getFavoriteItems(), [
 
 assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
 assert.deepEqual(getUserAllergens(), ['milk', 'soybeans']);
+const settingsHtml = renderSettingsPage();
+assert.match(settingsHtml, /过敏原档案/);
+assert.match(settingsHtml, /2 项已关注/);
+assert.match(settingsHtml, /value="milk" checked/);
+assert.match(settingsHtml, /value="soybeans" checked/);
+assert.match(settingsHtml, /value="peanuts"/);
 
 const invalidFoodAdditive = {
   id: 'bad-food-additive',

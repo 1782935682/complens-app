@@ -1,7 +1,7 @@
 import { categoryPath } from './data/categories.js';
 import { renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
-import { addHistory, clearHistory, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
 
 const app = document.querySelector('#app');
 
@@ -74,6 +74,39 @@ function bindPageEvents(route) {
       }
     });
   }
+
+  const allergenForm = document.querySelector('[data-allergen-form]');
+  if (allergenForm) {
+    allergenForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(allergenForm);
+      const selected = setUserAllergens(formData.getAll('allergens'));
+      updateAllergenSettingsFeedback(selected.length, '设置已保存');
+    });
+
+    allergenForm.addEventListener('change', () => {
+      const formData = new FormData(allergenForm);
+      updateAllergenSettingsFeedback(formData.getAll('allergens').length, '');
+    });
+  }
+
+  const clearAllergensButton = document.querySelector('[data-clear-allergens]');
+  if (clearAllergensButton && allergenForm) {
+    clearAllergensButton.addEventListener('click', () => {
+      allergenForm.querySelectorAll('input[name="allergens"]').forEach((input) => {
+        input.checked = false;
+      });
+      setUserAllergens([]);
+      updateAllergenSettingsFeedback(0, '已清空');
+    });
+  }
+}
+
+function updateAllergenSettingsFeedback(count, message) {
+  const countNode = document.querySelector('[data-allergen-count]');
+  if (countNode) countNode.textContent = `${count} 项已关注`;
+  const statusNode = document.querySelector('[data-allergen-status]');
+  if (statusNode) statusNode.textContent = message;
 }
 
 window.addEventListener('hashchange', render);
