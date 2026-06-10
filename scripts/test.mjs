@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
+import { standardAllergenTypes } from '../src/data/allergens.js';
 import { splitIngredientInput } from '../src/utils/text.js';
+import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
 
@@ -28,5 +30,8 @@ const ocrResult = await extractIngredientsFromImage({ name: 'ingredient-list.png
 assert.equal(ocrResult.enabled, false);
 assert.equal(ocrResult.text, '');
 assert.match(ocrResult.message, /图片识别接口已预留/);
+
+assert.equal(standardAllergenTypes.length, 14);
+assert.deepEqual(validateFoodAdditives(), []);
 
 console.log('Tests passed: ingredient search and text analysis behave as expected.');
