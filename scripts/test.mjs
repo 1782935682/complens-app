@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
-import { analyzeIngredientText, getDatasetAuditSummary, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
+import { analyzeIngredientText, getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
+import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
@@ -61,6 +62,7 @@ assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&page=-4'), {
 assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
+assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
@@ -79,6 +81,7 @@ assert.deepEqual(resolveRoute('#/food/not-a-real-page'), { view: 'not-found', ca
 assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/scan')), '扫描识别 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/data')), '数据来源 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
@@ -86,6 +89,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
   { key: 'scan', href: '#/food/scan', active: false },
   { key: 'analyze', href: '#/food/analyze', active: false },
+  { key: 'data', href: '#/food/data', active: false },
   { key: 'reports', href: '#/food/reports', active: false },
   { key: 'favorites', href: '#/food/favorites', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
@@ -94,6 +98,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
   { key: 'search', href: '#/cosmetics/search', active: false },
   { key: 'scan', href: '#/cosmetics/scan', active: false },
   { key: 'analyze', href: '#/cosmetics/analyze', active: true },
+  { key: 'data', href: '#/cosmetics/data', active: false },
   { key: 'reports', href: '#/cosmetics/reports', active: false },
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: false }
@@ -102,6 +107,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), 
   { key: 'search', href: '#/food/search', active: false },
   { key: 'scan', href: '#/food/scan', active: false },
   { key: 'analyze', href: '#/food/analyze', active: false },
+  { key: 'data', href: '#/food/data', active: false },
   { key: 'reports', href: '#/food/reports', active: true },
   { key: 'favorites', href: '#/food/favorites', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
@@ -126,6 +132,7 @@ assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
 assert.match(indexHtml, /data-mobile-nav-key="home"/);
 assert.match(indexHtml, /data-mobile-nav-key="scan"/);
 assert.match(indexHtml, /data-nav-key="scan"/);
+assert.match(indexHtml, /data-nav-key="data"/);
 assert.match(indexHtml, /data-nav-key="reports"/);
 const appManifest = JSON.parse(await readFile(new URL('../src/manifest.webmanifest', import.meta.url), 'utf8'));
 assert.equal(appManifest.display, 'standalone');
@@ -139,6 +146,7 @@ assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v1'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
+assert.match(serviceWorkerJs, /\.\/pages\/dataPage\.js/);
 assert.match(serviceWorkerJs, /\.\/utils\/imageFile\.js/);
 assert.match(serviceWorkerJs, /request\.mode === 'navigate'/);
 assert.match(serviceWorkerJs, /caches\.match\('\.\/index\.html'\)/);
@@ -247,6 +255,13 @@ assert.equal(foodAuditSummary.reviewedOrVerifiedCount, 0);
 assert.equal(foodAuditSummary.withUsageLimitsCount, 0);
 assert.equal(foodAuditSummary.missingUsageLimitsCount, 50);
 assert.equal(foodAuditSummary.mvpMinimumReached, true);
+const foodSourceSummaries = getDatasetSourceSummaries('food');
+assert.equal(foodSourceSummaries.length, 4);
+assert.equal(foodSourceSummaries[0].recordCount, 50);
+assert.equal(foodSourceSummaries.some((item) => item.standard === 'GB 2760'), true);
+assert.equal(foodSourceSummaries.some((item) => item.standard === 'FAO/WHO JECFA'), true);
+const foodVersionSummaries = getDatasetVersionSummaries('food');
+assert.deepEqual(foodVersionSummaries, [{ version: 'food-additives-seed-v4', count: 50, latestUpdatedAt: '2026-06-10' }]);
 const foodCategorySummaries = getIngredientCategorySummaries('food');
 assert.equal(foodCategorySummaries.find((item) => item.name === '酸度调节剂').count, 9);
 assert.equal(foodCategorySummaries.find((item) => item.name === '防腐剂').count, 7);
@@ -289,11 +304,24 @@ assert.match(filteredSearchHtml, /成分分类：防腐剂/);
 assert.match(filteredSearchHtml, /href="#\/food\/search"/);
 const homeHtmlWithCategoryFilters = renderHomePage('food');
 assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
+assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/data"/);
+assert.match(homeHtmlWithCategoryFilters, /查看来源与审核/);
 assert.match(homeHtmlWithCategoryFilters, /酸度调节剂[\s\S]*9 项/);
 assert.match(homeHtmlWithCategoryFilters, /data-dataset-audit/);
 assert.match(homeHtmlWithCategoryFilters, /50 条[\s\S]*草稿数据/);
 assert.match(homeHtmlWithCategoryFilters, /0 条[\s\S]*已复核\/验证/);
 assert.match(homeHtmlWithCategoryFilters, /0%[\s\S]*限量覆盖/);
+const dataPageHtml = renderRoute(resolveRoute('#/food/data'));
+assert.match(dataPageHtml, /数据来源与审核状态/);
+assert.match(dataPageHtml, /data-dataset-detail/);
+assert.match(dataPageHtml, /50 条[\s\S]*当前记录/);
+assert.match(dataPageHtml, /4 个来源/);
+assert.match(dataPageHtml, /食品安全国家标准 食品添加剂使用标准/);
+assert.match(dataPageHtml, /GB 2760/);
+assert.match(dataPageHtml, /food-additives-seed-v4/);
+assert.match(dataPageHtml, /缺逐食品类别限量/);
+assert.match(dataPageHtml, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
+assert.match(renderDataPage('cosmetics'), /当前类别含 8 条原型数据/);
 const searchHtmlWithSuggestions = renderSearchPage('E330', 'food');
 assert.match(searchHtmlWithSuggestions, /data-search-suggestions/);
 assert.match(searchHtmlWithSuggestions, /suggestion-item/);

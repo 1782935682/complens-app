@@ -1,5 +1,6 @@
 import { renderAnalyzePage } from '../pages/analyzePage.js';
 import { categoryPath, defaultCategory, getProductCategory, isProductCategory, legacyCategory } from '../data/categories.js';
+import { renderDataPage } from '../pages/dataPage.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
@@ -13,6 +14,7 @@ import { getIngredientById } from '../services/ingredientService.js';
 const APP_TITLE = 'CompCheck 成分小查';
 const VIEW_TITLES = {
   analyze: '成分表分析',
+  data: '数据来源',
   detail: '成分详情',
   favorites: '收藏夹',
   home: '',
@@ -28,6 +30,7 @@ const NAV_ITEMS = [
   { key: 'search', view: 'search', path: '/search' },
   { key: 'scan', view: 'scan', path: '/scan' },
   { key: 'analyze', view: 'analyze', path: '/analyze' },
+  { key: 'data', view: 'data', path: '/data' },
   { key: 'reports', view: 'reports', path: '/reports' },
   { key: 'favorites', view: 'favorites', path: '/favorites' },
   { key: 'settings', view: 'settings', path: '/settings' }
@@ -95,6 +98,13 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/data') {
+    return {
+      view: 'data',
+      category: route.category
+    };
+  }
+
   if (route.path === '/reports') {
     return {
       view: 'reports',
@@ -133,6 +143,7 @@ export function renderRoute(route) {
   if (route.view === 'detail') return renderDetailPage(route.id, route.category);
   if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort);
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
+  if (route.view === 'data') return renderDataPage(route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);

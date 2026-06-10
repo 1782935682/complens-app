@@ -406,6 +406,33 @@ button.secondary:disabled:hover {
   font-size: 14px;
 }
 
+.review-status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.review-status-item {
+  display: grid;
+  gap: 2px;
+  min-height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fbfcfb;
+}
+
+.review-status-item strong {
+  font-size: 22px;
+}
+
+.review-status-item span,
+.source-card p,
+.source-card__footer,
+.data-checklist {
+  color: var(--muted);
+}
+
 .two-column {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -915,6 +942,58 @@ button.secondary:disabled:hover {
   font-weight: 800;
 }
 
+.source-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.source-card {
+  display: grid;
+  gap: 12px;
+  min-height: 168px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--surface);
+}
+
+.source-card h3,
+.source-card p {
+  margin: 0;
+}
+
+.source-card__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.source-card__footer a {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.data-list.compact > div {
+  display: grid;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fbfcfb;
+}
+
+.data-checklist {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+}
+
 .scan-head {
   padding-top: 16px;
 }
@@ -1345,6 +1424,7 @@ button.secondary:disabled:hover {
   .info-grid,
   .food-detail-grid,
   .audit-grid,
+  .review-status-grid,
   .scan-form,
   .scan-state-grid,
   .report-card,
