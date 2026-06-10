@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
+import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
+import { extractIngredientsFromImage } from '../src/services/ocrService.js';
+import { splitIngredientInput } from '../src/utils/text.js';
+
+assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
+
+const cnResults = searchIngredients('烟酰胺');
+assert.equal(cnResults[0].id, 'niacinamide');
+
+const enResults = searchIngredients('BHA');
+assert.equal(enResults[0].id, 'salicylic-acid');
+
+assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
+
+const analysis = analyzeIngredientText('水，烟酰胺，透明质酸钠，水杨酸，香精，未知成分');
+assert.equal(analysis.matchedCount, 4);
+assert.deepEqual(analysis.highlights.map((item) => item.id), ['salicylic-acid', 'fragrance']);
+assert.deepEqual(analysis.unknownItems, ['水', '未知成分']);
+assert.match(analysis.summary, /已匹配 4 项成分/);
+
+const aiResult = await analyzeIngredientsByAI('烟酰胺');
+assert.equal(aiResult.enabled, false);
+assert.match(aiResult.message, /服务端代理/);
+
+const ocrResult = await extractIngredientsFromImage({ name: 'ingredient-list.png' });
+assert.equal(ocrResult.enabled, false);
+assert.equal(ocrResult.text, '');
+assert.match(ocrResult.message, /图片识别接口已预留/);
+
+console.log('Tests passed: ingredient search and text analysis behave as expected.');
