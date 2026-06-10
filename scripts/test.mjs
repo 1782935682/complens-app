@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
-import { getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
+import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
@@ -156,6 +156,7 @@ assert.deepEqual(
 );
 assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
 assert.deepEqual(getAllergensByIds(null), []);
+assert.equal(formatAllergenNames([null, undefined, '', 'milk']), '乳及乳制品');
 assert.deepEqual(getMatchingTextAllergens(null, ['milk']), []);
 assert.deepEqual(getMatchingTextAllergens('小麦粉', ['cereals-gluten']).map((allergen) => allergen.id), ['cereals-gluten']);
 assert.deepEqual(getMatchingTextAllergens('全脂奶粉', ['milk']).map((allergen) => allergen.id), ['milk']);

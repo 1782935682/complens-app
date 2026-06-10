@@ -38,6 +38,7 @@ export function getMatchingTextAllergens(value, userAllergens = []) {
 export function formatAllergenNames(allergens = []) {
   return allergens
     .map((allergen) => {
+      if (allergen == null) return '';
       if (typeof allergen === 'string') {
         if (!allergen.trim()) return '';
         return allergenById.get(allergen)?.nameCn || '未知过敏原';

@@ -133,7 +133,7 @@ function withDisplayDefaults(ingredient, category) {
   const isFood = category === 'food';
   return {
     ...ingredient,
-    id: ingredient.id || '',
+    id: ingredient.id,
     dataCategory: category,
     nameCn: ingredient.nameCn || '暂无数据',
     category: ingredient.category || '未分类',
@@ -145,7 +145,7 @@ function withDisplayDefaults(ingredient, category) {
 }
 
 function hasDisplayId(ingredient) {
-  return typeof ingredient?.id === 'string' && ingredient.id.trim();
+  return typeof ingredient?.id === 'string' && Boolean(ingredient.id.trim());
 }
 
 function hasValidSampleMap() {
@@ -171,9 +171,9 @@ function allergenCard(ingredient, allergens, category) {
   const content = html`
     <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
     ${allergenNames ? html`<span class="allergen-badge">过敏原：${escapeHtml(allergenNames)}</span>` : ''}
-    <h3>${escapeHtml(ingredient.nameCn)}</h3>
+    <h3>${escapeHtml(ingredient.nameCn || '')}</h3>
     <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
-    <p>${escapeHtml(ingredient.description)}</p>
+    <p>${escapeHtml(ingredient.description || '')}</p>
     <div class="meta-row">
       <span>${escapeHtml(ingredient.category || '未分类')}</span>
     </div>
@@ -188,12 +188,13 @@ function allergenCard(ingredient, allergens, category) {
 }
 
 function textAllergenCard(item, allergens) {
+  const safeItem = String(item || '');
   const allergenNames = formatAllergenNames(allergens);
   return html`
     <article class="ingredient-card ingredient-card--allergen">
       <div class="ingredient-card__main">
         ${allergenNames ? html`<span class="allergen-badge">过敏原：${escapeHtml(allergenNames)}</span>` : ''}
-        <h3>普通原料/标签文本：${escapeHtml(item)}</h3>
+        <h3>普通原料/标签文本：${escapeHtml(safeItem)}</h3>
         <p>该标签原文不是食品添加剂数据库匹配项，但与您关注的过敏原关键词匹配，请结合产品标签确认来源。</p>
         <div class="meta-row">
           <span>普通食品原料或标签文本（非添加剂匹配）</span>
