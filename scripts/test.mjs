@@ -142,7 +142,7 @@ assert.equal(appManifest.shortcuts[1].url, './#/food/scan');
 const mainJs = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
 assert.match(mainJs, /navigator\.serviceWorker\.register\('\.\/sw\.js'\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v1'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v2'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
