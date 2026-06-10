@@ -2,12 +2,10 @@
 """通用 AI PR 代码审查脚本，支持 DeepSeek / 阿里云百炼等 OpenAI 兼容接口。"""
 import json
 import os
-import subprocess
 import sys
 import urllib.request
 
 DIFF_PATH = '/tmp/pr.diff'
-REVIEW_PATH = '/tmp/review.md'
 MAX_DIFF_CHARS = 100000
 
 PROMPT_TEMPLATE = """你是 CompCheck（成分小查）项目的代码审查员。
@@ -104,12 +102,28 @@ def call_api(diff, api_key, api_base, model, provider):
 
 
 def post_comment(review, pr_number, repo):
-    with open(REVIEW_PATH, 'w') as f:
-        f.write(review)
-    subprocess.run(
-        ['gh', 'pr', 'comment', pr_number, '--repo', repo, '--body-file', REVIEW_PATH],
-        check=True,
+    token = os.environ.get('GH_TOKEN') or os.environ.get('GITHUB_TOKEN')
+    if not token:
+        raise RuntimeError('GH_TOKEN 未配置，无法发布审查评论')
+    if not pr_number or not repo:
+        raise RuntimeError('PR_NUMBER 或 REPO 未配置，无法发布审查评论')
+
+    payload = json.dumps({'body': review}).encode('utf-8')
+    req = urllib.request.Request(
+        f'https://api.github.com/repos/{repo}/issues/{pr_number}/comments',
+        data=payload,
+        headers={
+            'Authorization': f'Bearer {token}',
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'User-Agent': 'compcheck-ai-review',
+        },
+        method='POST',
     )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        if resp.status != 201:
+            raise RuntimeError(f'GitHub 评论接口返回 HTTP {resp.status}')
 
 
 def main():
