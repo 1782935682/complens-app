@@ -38,19 +38,23 @@ export function riskClass(level) {
 export function ingredientCard(ingredient, options = {}) {
   const category = options.category || ingredient.dataCategory || 'food';
   const href = Object.hasOwn(options, 'href') ? options.href : null;
+  const canLink = Boolean(ingredient.id);
 
-  const finalHref = href ?? `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
+  const finalHref = href ?? (canLink ? `#${categoryPath(category, `/ingredient/${ingredient.id}`)}` : '');
+  const content = html`
+    <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
+    <h3>${escapeHtml(ingredient.nameCn)}</h3>
+    <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
+    <p>${escapeHtml(ingredient.description)}</p>
+    <div class="meta-row">
+      <span>${escapeHtml(ingredient.category || '未分类')}</span>
+    </div>
+  `;
   return html`
     <article class="ingredient-card">
-      <a href="${finalHref}" class="ingredient-card__main" data-route>
-        <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
-        <h3>${escapeHtml(ingredient.nameCn)}</h3>
-        <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
-        <p>${escapeHtml(ingredient.description)}</p>
-        <div class="meta-row">
-          <span>${escapeHtml(ingredient.category || '未分类')}</span>
-        </div>
-      </a>
+      ${canLink || href !== null
+        ? html`<a href="${finalHref}" class="ingredient-card__main" data-route>${content}</a>`
+        : html`<div class="ingredient-card__main">${content}</div>`}
     </article>
   `;
 }

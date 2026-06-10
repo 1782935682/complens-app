@@ -116,12 +116,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
       </section>
     ` : ''}
 
-    <section class="section">
-      <div class="disclaimer-box">
-        <h4>免责声明</h4>
-        <p>本系统分析结果基于公开学术资料及国家标准（如 GB 2760 等），旨在提供成分科普，不作为医疗、健康或诊断建议。部分成分风险因人而异，特殊人群（如孕妇、婴幼儿、过敏体质者）需遵医嘱或结合自身实际耐受情况综合判断。</p>
-      </div>
-    </section>
+    ${renderDisclaimer()}
   `;
 }
 
@@ -129,7 +124,7 @@ function withDisplayDefaults(ingredient, category) {
   const isFood = category === 'food';
   return {
     ...ingredient,
-    id: ingredient.id || `unknown-${category}-ingredient`,
+    id: ingredient.id,
     nameCn: ingredient.nameCn || (isFood ? '待确认食品添加剂' : '待确认成分'),
     category: ingredient.category || '未分类',
     description: ingredient.description || '暂无说明',
@@ -137,6 +132,17 @@ function withDisplayDefaults(ingredient, category) {
     gbStatus: isFood ? ingredient.gbStatus || 'unknown' : ingredient.gbStatus,
     sourceNote: isFood ? ingredient.sourceNote || '暂无来源说明' : ingredient.sourceNote
   };
+}
+
+function renderDisclaimer() {
+  return html`
+    <section class="section">
+      <div class="disclaimer-box">
+        <h4>免责声明</h4>
+        <p>本系统分析结果基于公开学术资料及国家标准（如 GB 2760 等），旨在提供成分科普，不作为医疗、健康或诊断建议。部分成分风险因人而异，特殊人群（如孕妇、婴幼儿、过敏体质者）需遵医嘱或结合自身实际耐受情况综合判断。</p>
+      </div>
+    </section>
+  `;
 }
 
 function allergenCard(ingredient, allergens, category) {
