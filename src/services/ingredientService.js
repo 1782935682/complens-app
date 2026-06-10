@@ -84,7 +84,6 @@ function getSearchScore(ingredient, keyword) {
     ingredient.riskSummary,
     ingredient.gbCode,
     ingredient.eNumber,
-    ingredient.adi,
     ...(ingredient.functions || [])
   ].join(' '));
   return haystack.includes(keyword) ? 20 : 0;

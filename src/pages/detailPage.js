@@ -12,7 +12,7 @@ const GB_STATUS_LABELS = {
 };
 
 const REVIEW_STATUS_LABELS = {
-  draft: '草稿',
+  draft: '草稿（未审核）',
   reviewed: '已复核',
   verified: '已验证'
 };
@@ -155,8 +155,19 @@ function renderSourceReferences(sourceReferences) {
 
 function renderSourceTitle(source) {
   const title = valueOrFallback(source.title, '暂无来源标题');
-  if (!source.url) return escapeHtml(title);
-  return `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(title)}</a>`;
+  const safeUrl = getSafeHttpUrl(source.url);
+  if (!safeUrl) return escapeHtml(title);
+  return `<a href="${escapeHtml(safeUrl)}" target="_blank" rel="noreferrer">${escapeHtml(title)}</a>`;
+}
+
+function getSafeHttpUrl(value) {
+  if (typeof value !== 'string' || !value.trim()) return '';
+  try {
+    const url = new URL(value);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+  } catch {
+    return '';
+  }
 }
 
 function gbStatusLabel(status) {

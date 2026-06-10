@@ -25,6 +25,7 @@ const enResults = searchIngredients('BHA');
 assert.equal(enResults[0].id, 'salicylic-acid');
 assert.equal(searchIngredients('E330', 'food')[0].id, 'citric-acid');
 assert.equal(searchIngredients('INS 211', 'food')[0].id, 'sodium-benzoate');
+assert.deepEqual(searchIngredients('40 mg', 'food'), []);
 assert.equal(getIngredientById('sulfur-dioxide', 'food').allergenTypes[0], 'sulphites');
 
 assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
@@ -116,14 +117,21 @@ const foodDetailHtml = renderFoodAdditiveDetails({
   gbCode: 'INS 330',
   gbStatus: 'permitted',
   adi: 'not specified',
+  reviewStatus: 'draft',
   foodCategories: ['饮料'],
   usageLimits: [{ foodCategory: '饮料', limit: '按生产需要适量使用', note: '测试说明' }],
-  sourceReferences: [{ title: 'GB 2760', standard: 'GB 2760-2024', region: 'CN' }]
+  sourceReferences: [
+    { title: 'GB 2760', standard: 'GB 2760-2024', region: 'CN', url: 'https://example.com/gb2760' },
+    { title: '不安全来源', standard: '测试', region: 'CN', url: 'javascript:alert(1)' }
+  ]
 });
 assert.match(foodDetailHtml, /E330/);
 assert.match(foodDetailHtml, /INS 330/);
 assert.match(foodDetailHtml, /允许使用/);
+assert.match(foodDetailHtml, /草稿（未审核）/);
 assert.match(foodDetailHtml, /GB 2760-2024/);
+assert.match(foodDetailHtml, /href="https:\/\/example.com\/gb2760"/);
+assert.doesNotMatch(foodDetailHtml, /href="javascript:alert/);
 
 assert.equal(renderFoodAdditiveDetails(null), '');
 const sparseFoodDetailHtml = renderFoodAdditiveDetails({

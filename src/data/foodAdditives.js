@@ -1,5 +1,5 @@
 const retrievedAt = '2026-06-10';
-const dataVersion = 'seed-2026-06-10';
+const dataVersion = 'food-additives-seed-v1';
 
 const gb2760Source = {
   title: '食品安全国家标准 食品添加剂使用标准',
@@ -33,18 +33,6 @@ const euSource = {
   retrievedAt
 };
 
-const generalGbUsageLimit = {
-  foodCategory: 'GB 2760 允许使用的食品类别',
-  limit: '按生产需要适量使用或按对应食品类别限量使用',
-  note: '种子数据仅用于产品原型验证；正式数据需逐条核对 GB 2760 附录 A。'
-};
-
-const restrictedGbUsageLimit = {
-  foodCategory: 'GB 2760 指定食品类别',
-  limit: '按对应食品类别最大使用量执行',
-  note: '不同食品类别限量不同，正式展示前需逐条录入具体限量。'
-};
-
 /**
  * Seed data for the food-additive MVP. Records are intentionally marked as draft
  * until the full GB 2760 category-level limits are audited and imported.
@@ -75,7 +63,7 @@ export const foodAdditives = [
     gbStatus: 'permitted',
     eNumber: 'E330',
     adi: 'ADI not specified / not limited（JECFA 口径，需结合原文复核）',
-    usageLimits: [generalGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['饮料', '糖果', '果酱', '调味料'],
     allergenTypes: [],
     cautionGroups: []
@@ -103,7 +91,7 @@ export const foodAdditives = [
     gbStatus: 'permitted',
     eNumber: 'E331',
     adi: 'ADI not specified / not limited（JECFA 口径，需结合原文复核）',
-    usageLimits: [generalGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['乳制品', '饮料', '果冻', '调味料'],
     allergenTypes: [],
     cautionGroups: ['renal']
@@ -131,7 +119,7 @@ export const foodAdditives = [
     gbStatus: 'restricted',
     eNumber: 'E202',
     adi: '0-25 mg/kg bw（以山梨酸计，需结合 JECFA 原文复核）',
-    usageLimits: [restrictedGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['饮料', '酱腌菜', '糕点', '调味料'],
     allergenTypes: [],
     cautionGroups: ['sensitive']
@@ -159,7 +147,7 @@ export const foodAdditives = [
     gbStatus: 'restricted',
     eNumber: 'E211',
     adi: '0-5 mg/kg bw（以苯甲酸计，需结合 JECFA 原文复核）',
-    usageLimits: [restrictedGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['饮料', '果蔬制品', '调味料', '酱腌菜'],
     allergenTypes: [],
     cautionGroups: ['child', 'sensitive']
@@ -187,7 +175,7 @@ export const foodAdditives = [
     gbStatus: 'permitted',
     eNumber: 'E300',
     adi: 'ADI not specified / not limited（JECFA 口径，需结合原文复核）',
-    usageLimits: [generalGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['果蔬制品', '饮料', '肉制品', '面制品'],
     allergenTypes: [],
     cautionGroups: ['renal']
@@ -215,7 +203,7 @@ export const foodAdditives = [
     gbStatus: 'permitted',
     eNumber: 'E415',
     adi: 'ADI not specified / not limited（JECFA 口径，需结合原文复核）',
-    usageLimits: [generalGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['饮料', '酱料', '冷冻饮品', '烘焙食品'],
     allergenTypes: [],
     cautionGroups: ['sensitive']
@@ -243,7 +231,7 @@ export const foodAdditives = [
     gbStatus: 'permitted',
     eNumber: 'E440',
     adi: 'ADI not specified / not limited（JECFA 口径，需结合原文复核）',
-    usageLimits: [generalGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['果酱', '果冻', '乳制品', '饮料'],
     allergenTypes: [],
     cautionGroups: ['sensitive']
@@ -271,7 +259,7 @@ export const foodAdditives = [
     gbStatus: 'permitted',
     eNumber: 'E322',
     adi: 'ADI not specified / not limited（JECFA 口径，需结合原文复核）',
-    usageLimits: [generalGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['巧克力', '烘焙食品', '乳制品', '调味料'],
     allergenTypes: ['soybeans', 'eggs'],
     cautionGroups: ['sensitive']
@@ -299,7 +287,7 @@ export const foodAdditives = [
     gbStatus: 'restricted',
     eNumber: 'E220',
     adi: '0-0.7 mg/kg bw（以二氧化硫计，需结合 JECFA 原文复核）',
-    usageLimits: [restrictedGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['干果', '果酒', '糖渍果蔬', '加工食品'],
     allergenTypes: ['sulphites'],
     cautionGroups: ['sensitive']
@@ -327,7 +315,7 @@ export const foodAdditives = [
     gbStatus: 'restricted',
     eNumber: 'E223',
     adi: '0-0.7 mg/kg bw（以二氧化硫计，需结合 JECFA 原文复核）',
-    usageLimits: [restrictedGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['果蔬制品', '淀粉制品', '糖渍食品', '加工食品'],
     allergenTypes: ['sulphites'],
     cautionGroups: ['sensitive']
@@ -355,7 +343,7 @@ export const foodAdditives = [
     gbStatus: 'restricted',
     eNumber: 'E951',
     adi: '0-40 mg/kg bw（JECFA/EU 常用口径，需结合原文复核）',
-    usageLimits: [restrictedGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['无糖饮料', '糖果', '口香糖', '乳制品'],
     allergenTypes: [],
     cautionGroups: ['child', 'pregnant', 'sensitive']
@@ -383,7 +371,7 @@ export const foodAdditives = [
     gbStatus: 'restricted',
     eNumber: 'E955',
     adi: '0-15 mg/kg bw（JECFA/EU 常用口径，需结合原文复核）',
-    usageLimits: [restrictedGbUsageLimit],
+    usageLimits: [],
     foodCategories: ['无糖饮料', '乳制品', '糖果', '烘焙食品'],
     allergenTypes: [],
     cautionGroups: ['sensitive']
