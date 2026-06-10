@@ -4,6 +4,7 @@ import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
+import { renderSettingsPage } from '../pages/settingsPage.js';
 
 export function resolveRoute(hash) {
   const raw = hash || '#/';
@@ -42,6 +43,13 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/settings') {
+    return {
+      view: 'settings',
+      category: route.hasCategoryPrefix ? route.category : defaultCategory
+    };
+  }
+
   return {
     view: 'home',
     category: route.category
@@ -53,6 +61,7 @@ export function renderRoute(route) {
   if (route.view === 'search') return renderSearchPage(route.query, route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);
+  if (route.view === 'settings') return renderSettingsPage();
   return renderHomePage(route.category);
 }
 
@@ -63,11 +72,13 @@ function resolveCategoryPath(path) {
     const rest = `/${segments.slice(1).join('/')}`;
     return {
       category: first,
-      path: rest === '/' ? '/' : rest
+      path: rest === '/' ? '/' : rest,
+      hasCategoryPrefix: true
     };
   }
   return {
     category: path === '/' ? defaultCategory : legacyCategory,
-    path
+    path,
+    hasCategoryPrefix: false
   };
 }
