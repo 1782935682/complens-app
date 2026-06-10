@@ -83,7 +83,7 @@ function renderDatasetAuditSummary(summary) {
     <section class="section data-status" aria-label="数据状态" data-dataset-audit>
       <div class="section__head">
         <h2>数据状态</h2>
-        <span class="category">${summary.mvpMinimumReached ? '达到草稿下限' : '草稿扩充中'}</span>
+        <a class="filter-clear" href="#${categoryPath(summary.category, '/data')}" data-route>查看来源与审核</a>
       </div>
       <div class="audit-grid">
         ${renderAuditMetric(`${summary.totalCount} 条`, '草稿数据')}

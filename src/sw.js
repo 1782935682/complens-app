@@ -14,6 +14,7 @@ const APP_SHELL_ASSETS = [
   './data/foodAdditives.js',
   './data/ingredients.js',
   './pages/analyzePage.js',
+  './pages/dataPage.js',
   './pages/detailPage.js',
   './pages/favoritesPage.js',
   './pages/homePage.js',

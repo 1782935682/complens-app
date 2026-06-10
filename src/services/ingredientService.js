@@ -104,6 +104,50 @@ export function getDatasetAuditSummary(category = 'cosmetics') {
   };
 }
 
+export function getDatasetSourceSummaries(category = 'cosmetics') {
+  const sourceMap = new Map();
+
+  for (const ingredient of getDatasetByCategory(category).items) {
+    for (const source of ingredient.sourceReferences || []) {
+      const key = [source.standard, source.title, source.url].filter(Boolean).join('|');
+      const summary = sourceMap.get(key) || {
+        title: source.title || '未命名来源',
+        standard: source.standard || '',
+        region: source.region || '',
+        url: source.url || '',
+        retrievedAt: source.retrievedAt || '',
+        recordCount: 0
+      };
+      summary.recordCount += 1;
+      sourceMap.set(key, summary);
+    }
+  }
+
+  return [...sourceMap.values()]
+    .sort((a, b) => b.recordCount - a.recordCount || a.title.localeCompare(b.title, 'zh-Hans-CN'));
+}
+
+export function getDatasetVersionSummaries(category = 'cosmetics') {
+  const versionMap = new Map();
+
+  for (const ingredient of getDatasetByCategory(category).items) {
+    const version = ingredient.dataVersion || '未标记版本';
+    const summary = versionMap.get(version) || {
+      version,
+      count: 0,
+      latestUpdatedAt: ''
+    };
+    summary.count += 1;
+    if (ingredient.updatedAt && (!summary.latestUpdatedAt || ingredient.updatedAt > summary.latestUpdatedAt)) {
+      summary.latestUpdatedAt = ingredient.updatedAt;
+    }
+    versionMap.set(version, summary);
+  }
+
+  return [...versionMap.values()]
+    .sort((a, b) => b.count - a.count || a.version.localeCompare(b.version, 'zh-Hans-CN'));
+}
+
 export function searchIngredients(query, category = 'cosmetics', filters = {}) {
   const keyword = normalizeText(query);
   const activeFilters = normalizeSearchFilters(filters);
