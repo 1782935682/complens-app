@@ -1,7 +1,8 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { getProductCategory } from '../data/categories.js';
+import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { getIngredientById } from '../services/ingredientService.js';
-import { isFavorite } from '../store/userStore.js';
+import { getUserAllergens, isFavorite } from '../store/userStore.js';
 
 export function renderDetailPage(id, category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
@@ -15,7 +16,8 @@ export function renderDetailPage(id, category = 'cosmetics') {
     `;
   }
 
-  const favorite = isFavorite(ingredient.id);
+  const favorite = isFavorite(ingredient.id, category);
+  const allergenMatches = getMatchingUserAllergens(ingredient, getUserAllergens());
   return html`
     <section class="detail">
       <div class="detail__header">
@@ -29,6 +31,11 @@ export function renderDetailPage(id, category = 'cosmetics') {
           ${favorite ? '已收藏' : '收藏'}
         </button>
       </div>
+      ${allergenMatches.length ? html`
+        <div class="allergen-alert">
+          此成分含您关注的过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}
+        </div>
+      ` : ''}
       <p class="lead">${escapeHtml(ingredient.description)}</p>
       <div class="info-grid">
         ${renderInfoBlock('别名', ingredient.aliases)}

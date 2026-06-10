@@ -1,5 +1,6 @@
 /**
  * @typedef {'low' | 'medium' | 'high' | 'unknown'} RiskLevel
+ * @typedef {'food' | 'cosmetics'} DataCategory
  * @typedef {'cosmetic' | 'food-additive'} IngredientKind
  * @typedef {'permitted' | 'restricted' | 'prohibited' | 'unknown'} GBStatus
  * @typedef {'draft' | 'reviewed' | 'verified'} DataReviewStatus
@@ -40,6 +41,7 @@
  *
  * @typedef {Ingredient & {
  *   kind: 'food-additive',
+ *   dataCategory: 'food',
  *   gbCode: string,
  *   gbStatus: GBStatus,
  *   eNumber?: string,
@@ -62,6 +64,7 @@
  * @property {string} description
  * @property {RiskLevel} riskLevel
  * @property {string=} category
+ * @property {AllergenType[]=} allergenTypes
  *
  * @typedef {Object} AnalysisResult
  * @property {Ingredient[]} ingredients

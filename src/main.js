@@ -39,7 +39,7 @@ function bindPageEvents(route) {
 
   document.querySelectorAll('[data-favorite-id]').forEach((button) => {
     button.addEventListener('click', () => {
-      toggleFavorite(button.dataset.favoriteId);
+      toggleFavorite(button.dataset.favoriteId, route.category);
       render();
     });
   });

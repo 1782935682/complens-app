@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
+import { getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
+import { getFavoriteIngredients, getFavoriteItems, getUserAllergens, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { splitIngredientInput } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -58,6 +60,19 @@ writeJson('compcheck:test-quota-fallback', ['ok']);
 assert.deepEqual(readJson('compcheck:test-quota-fallback', []), ['ok']);
 globalThis.window = originalWindow;
 
+writeJson('compcheck:favorites', ['niacinamide']);
+assert.deepEqual(getFavoriteItems(), [{ id: 'niacinamide', category: 'cosmetics' }]);
+assert.equal(getFavoriteIngredients('cosmetics')[0].id, 'niacinamide');
+assert.deepEqual(getFavoriteIngredients('food'), []);
+toggleFavorite('citric-acid', 'food');
+assert.deepEqual(getFavoriteItems(), [
+  { id: 'citric-acid', category: 'food' },
+  { id: 'niacinamide', category: 'cosmetics' }
+]);
+
+assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
+assert.deepEqual(getUserAllergens(), ['milk', 'soybeans']);
+
 const invalidFoodAdditive = {
   id: 'bad-food-additive',
   kind: 'food-additive',
@@ -81,5 +96,11 @@ const invalidFoodAdditive = {
   updatedAt: '2026-06-10'
 };
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceNote is required/);
+assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /dataCategory must be "food"/);
+assert.deepEqual(
+  getMatchingUserAllergens({ allergenTypes: ['milk', 'soybeans'] }, ['milk']).map((allergen) => allergen.id),
+  ['milk']
+);
+assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
 
 console.log('Tests passed: ingredient search and text analysis behave as expected.');

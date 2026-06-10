@@ -1,6 +1,8 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
+import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { searchIngredients } from '../services/ingredientService.js';
+import { getUserAllergens } from '../store/userStore.js';
 
 export function renderSearchPage(query, category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
@@ -30,19 +32,24 @@ export function renderSearchPage(query, category = 'cosmetics') {
 }
 
 function renderResults(results, category) {
+  const userAllergens = getUserAllergens();
   return html`
     <div class="result-list">
-      ${results.map((result) => html`
+      ${results.map((result) => {
+        const allergenMatches = getMatchingUserAllergens(result, userAllergens);
+        return html`
         <a class="result-item" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
           <div>
             <span class="${riskClass(result.riskLevel)}">${riskLabel(result.riskLevel)}</span>
+            ${allergenMatches.length ? `<span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}</span>` : ''}
             <h3>${escapeHtml(result.nameCn)}</h3>
             <p class="latin">${escapeHtml(result.nameEn || '')}</p>
             <p>${escapeHtml(result.description)}</p>
           </div>
           <span class="category">${escapeHtml(result.category || '未分类')}</span>
         </a>
-      `).join('')}
+      `;
+      }).join('')}
     </div>
   `;
 }

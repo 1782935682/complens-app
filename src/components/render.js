@@ -1,3 +1,5 @@
+// This helper intentionally performs interpolation only. Escape any user-controlled
+// or external text with escapeHtml before passing it into a template value.
 export function html(strings, ...values) {
   return strings.reduce((result, current, index) => {
     return result + current + (values[index] ?? '');

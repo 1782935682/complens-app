@@ -7,7 +7,7 @@ export function renderHomePage(category = 'food') {
   const currentCategory = getProductCategory(category);
   const popular = getPopularIngredients(category);
   const history = getHistory();
-  const favorites = getFavoriteIngredients();
+  const favorites = getFavoriteIngredients(category);
   const ingredientCategories = [...new Set(getAllIngredients(category).map((item) => item.category).filter(Boolean))];
 
   return html`

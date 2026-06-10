@@ -14,6 +14,9 @@ export const productCategories = [
 ];
 
 export const defaultCategory = 'food';
+
+// Legacy unprefixed routes existed before food became the main category.
+// Keep them mapped to cosmetics so old shared links like #/search?q=BHA continue to work.
 export const legacyCategory = 'cosmetics';
 
 export function isProductCategory(value) {

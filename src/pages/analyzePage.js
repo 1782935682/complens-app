@@ -1,10 +1,19 @@
 import { escapeHtml, html, ingredientCard } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
+import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText } from '../services/ingredientService.js';
+import { getUserAllergens } from '../store/userStore.js';
 
 export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
   const result = analyzeIngredientText(input, category);
+  const userAllergens = getUserAllergens();
+  const allergenHits = result.ingredients
+    .map((ingredient) => ({
+      ingredient,
+      allergens: getMatchingUserAllergens(ingredient, userAllergens)
+    }))
+    .filter((item) => item.allergens.length);
   const safeInput = escapeHtml(input);
 
   return html`
@@ -36,6 +45,14 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <p>${escapeHtml(result.summary)}</p>
       </div>
     </section>
+
+    ${allergenHits.length ? html`
+      <section class="section">
+        <div class="allergen-alert">
+          发现 ${allergenHits.length} 项含您关注的过敏原：${allergenHits.map((item) => `${escapeHtml(item.ingredient.nameCn)}（${escapeHtml(formatAllergenNames(item.allergens))}）`).join('、')}
+        </div>
+      </section>
+    ` : ''}
 
     ${result.highlights.length ? html`
       <section class="section">

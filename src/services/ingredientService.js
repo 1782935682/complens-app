@@ -119,7 +119,8 @@ function toSearchResult(ingredient) {
     nameEn: ingredient.nameEn,
     description: ingredient.description,
     riskLevel: ingredient.riskLevel,
-    category: ingredient.category
+    category: ingredient.category,
+    allergenTypes: ingredient.allergenTypes || []
   };
 }
 

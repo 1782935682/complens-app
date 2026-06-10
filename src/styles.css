@@ -379,6 +379,29 @@ button.secondary:hover {
   background: #eef1f3;
 }
 
+.allergen-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-left: 8px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--high);
+  background: #fee8e5;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.allergen-alert {
+  margin-top: 16px;
+  border: 1px solid #f1b8b2;
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--high);
+  background: #fff1ef;
+  font-weight: 800;
+}
+
 .chip-list {
   display: flex;
   flex-wrap: wrap;
