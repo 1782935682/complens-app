@@ -92,6 +92,15 @@ select {
   padding: 24px clamp(16px, 4vw, 48px) 40px;
 }
 
+.app-shell:focus {
+  outline: none;
+}
+
+.app-shell:focus-visible {
+  outline: 3px solid rgba(17, 106, 91, 0.28);
+  outline-offset: 4px;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
@@ -214,6 +223,16 @@ button,
 button:hover,
 .button-link:hover {
   background: var(--primary-strong);
+}
+
+.secondary-link {
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: white;
+}
+
+.secondary-link:hover {
+  background: #edf2ef;
 }
 
 button.secondary {
@@ -737,6 +756,15 @@ button.secondary:hover {
 .empty.small {
   padding: 0;
   font-size: 14px;
+}
+
+.not-found {
+  min-height: 48vh;
+  padding-top: clamp(28px, 7vw, 84px);
+}
+
+.not-found .form-actions {
+  margin-top: 24px;
 }
 
 .meta-row {

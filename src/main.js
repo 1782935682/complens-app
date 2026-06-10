@@ -1,5 +1,5 @@
 import { categoryPath } from './data/categories.js';
-import { renderRoute, resolveRoute } from './router/router.js';
+import { getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
@@ -12,9 +12,13 @@ function navigate(hash) {
 
 function render() {
   const route = resolveRoute(window.location.hash);
+  document.title = getRouteTitle(route);
   app.innerHTML = renderRoute(route);
   bindPageEvents(route);
   window.scrollTo({ top: 0, behavior: 'auto' });
+  if (typeof app.focus === 'function') {
+    app.focus({ preventScroll: true });
+  }
 }
 
 function bindPageEvents(route) {
