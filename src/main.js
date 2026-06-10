@@ -8,6 +8,14 @@ import { addHistory, clearAnalysisReports, clearHistory, clearScanDraft, deleteA
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
+const PREVIEWABLE_IMAGE_TYPES = new Set([
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+  'image/gif',
+  'image/bmp',
+  'image/avif'
+]);
 
 function navigate(hash) {
   window.location.hash = hash;
@@ -402,26 +410,31 @@ function updateScanPreview(preview, file) {
     return;
   }
 
-  if (!String(file.type || '').startsWith('image/')) {
+  if (!isPreviewableImage(file)) {
     const placeholder = document.createElement('span');
-    placeholder.textContent = file.name ? `已选择：${file.name}` : '已选择文件';
+    placeholder.textContent = '已选择文件，当前仅预览 PNG、JPEG、WebP、GIF、BMP 或 AVIF 图片。';
     preview.append(placeholder);
     return;
   }
 
   const image = document.createElement('img');
-  image.alt = file.name ? `已选择图片：${file.name}` : '已选择图片预览';
+  image.alt = '已选择图片预览';
   if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
     const objectUrl = URL.createObjectURL(file);
-    image.onload = () => URL.revokeObjectURL(objectUrl);
+    image.addEventListener('load', () => URL.revokeObjectURL(objectUrl), { once: true });
+    image.addEventListener('error', () => URL.revokeObjectURL(objectUrl), { once: true });
     image.src = objectUrl;
     preview.append(image);
     return;
   }
 
   const placeholder = document.createElement('span');
-  placeholder.textContent = file.name ? `已选择：${file.name}` : '图片已选择';
+  placeholder.textContent = '图片已选择。';
   preview.append(placeholder);
+}
+
+function isPreviewableImage(file) {
+  return PREVIEWABLE_IMAGE_TYPES.has(String(file?.type || '').toLowerCase());
 }
 
 window.addEventListener('hashchange', render);

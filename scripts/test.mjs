@@ -142,6 +142,7 @@ const scanHtml = renderRoute(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E
 assert.match(scanHtml, /扫描成分表/);
 assert.match(scanHtml, /data-scan-form/);
 assert.match(scanHtml, /data-scan-image-input/);
+assert.match(scanHtml, /accept="image\/png,image\/jpeg,image\/webp,image\/gif,image\/bmp,image\/avif"/);
 assert.match(scanHtml, /capture="environment"/);
 assert.match(scanHtml, /data-scan-preview/);
 assert.match(scanHtml, /data-scan-draft-status/);
