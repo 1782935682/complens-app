@@ -68,7 +68,7 @@ export function analyzeIngredientText(input, category = 'cosmetics') {
 }
 
 function getSearchScore(ingredient, keyword) {
-  const names = [ingredient.nameCn, ingredient.nameEn, ...(ingredient.aliases || [])].filter(Boolean);
+  const names = getSearchableNames(ingredient);
   const exact = names.some((name) => normalizeText(name) === keyword);
   if (exact) return 100;
 
@@ -82,6 +82,9 @@ function getSearchScore(ingredient, keyword) {
     ingredient.category,
     ingredient.description,
     ingredient.riskSummary,
+    ingredient.gbCode,
+    ingredient.eNumber,
+    ingredient.adi,
     ...(ingredient.functions || [])
   ].join(' '));
   return haystack.includes(keyword) ? 20 : 0;
@@ -90,13 +93,23 @@ function getSearchScore(ingredient, keyword) {
 function findIngredientByLooseName(value, category) {
   const keyword = normalizeText(value).replace(/[().]/g, '');
   return getDatasetByCategory(category).items.find((ingredient) => {
-    const names = [ingredient.nameCn, ingredient.nameEn, ...(ingredient.aliases || [])].filter(Boolean);
+    const names = getSearchableNames(ingredient);
     return names.some((name) => {
       const normalized = normalizeText(name).replace(/[().]/g, '');
       const canUsePartialMatch = keyword.length >= 2 && normalized.length >= 2;
       return normalized === keyword || (canUsePartialMatch && (normalized.includes(keyword) || keyword.includes(normalized)));
     });
   }) || null;
+}
+
+function getSearchableNames(ingredient) {
+  return [
+    ingredient.nameCn,
+    ingredient.nameEn,
+    ingredient.gbCode,
+    ingredient.eNumber,
+    ...(ingredient.aliases || [])
+  ].filter(Boolean);
 }
 
 function getDatasetByCategory(category) {
@@ -120,6 +133,8 @@ function toSearchResult(ingredient) {
     description: ingredient.description,
     riskLevel: ingredient.riskLevel,
     category: ingredient.category,
+    gbCode: ingredient.gbCode,
+    eNumber: ingredient.eNumber,
     allergenTypes: ingredient.allergenTypes || []
   };
 }
