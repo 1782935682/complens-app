@@ -12,6 +12,8 @@ const app = document.querySelector('#app');
 let scanPreviewObjectUrl = '';
 let scanPreviewRotation = 0;
 
+registerServiceWorker();
+
 function navigate(hash) {
   window.location.hash = hash;
 }
@@ -488,6 +490,22 @@ function updateScanImageActionState({ canRotate, canClear }) {
   if (rotateButton) rotateButton.disabled = !canRotate;
   const clearButton = document.querySelector('[data-clear-scan-image]');
   if (clearButton) clearButton.disabled = !canClear;
+}
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+
+  const register = () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {
+      // Offline support is a progressive enhancement; the app must still run without it.
+    });
+  };
+
+  if (document.readyState === 'complete') {
+    register();
+  } else {
+    window.addEventListener('load', register, { once: true });
+  }
 }
 
 window.addEventListener('hashchange', render);
