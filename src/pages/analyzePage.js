@@ -5,12 +5,18 @@ import { analyzeIngredientText } from '../services/ingredientService.js';
 import { getUserAllergens } from '../store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
 
+/**
+ * @param {string} input Raw ingredient-list text from the route query or form.
+ * @param {import('../types/ingredient.js').DataCategory} category Active product category.
+ */
 export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
   const categoryId = currentCategory.id;
   const result = analyzeIngredientText(input, categoryId);
+  const resultIngredients = result.ingredients.map((ingredient) => withDisplayDefaults(ingredient, categoryId));
+  const resultHighlights = result.highlights.map((ingredient) => withDisplayDefaults(ingredient, categoryId));
   const userAllergens = getUserAllergens();
-  const ingredientAllergenHits = result.ingredients
+  const ingredientAllergenHits = resultIngredients
     .map((ingredient) => ({
       ingredient,
       allergens: getMatchingUserAllergens(ingredient, userAllergens)
@@ -87,17 +93,17 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <div class="section__head">
           <h2>重点关注成分</h2>
         </div>
-        <div class="card-grid">${result.highlights.map((item) => ingredientCard(item, { category: categoryId })).join('')}</div>
+        <div class="card-grid">${resultHighlights.map((item) => ingredientCard(item, { category: categoryId })).join('')}</div>
       </section>
     ` : ''}
 
-    ${result.ingredients.length ? html`
+    ${resultIngredients.length ? html`
       <section class="section">
         <div class="section__head">
           <h2>已匹配成分</h2>
           <span class="count">${result.matchedCount} 项</span>
         </div>
-        <div class="card-grid">${result.ingredients.map((item) => ingredientCard(item, { category: categoryId })).join('')}</div>
+        <div class="card-grid">${resultIngredients.map((item) => ingredientCard(item, { category: categoryId })).join('')}</div>
       </section>
     ` : ''}
 
@@ -117,6 +123,20 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
       </div>
     </section>
   `;
+}
+
+function withDisplayDefaults(ingredient, category) {
+  if (category !== 'food') return ingredient;
+  return {
+    ...ingredient,
+    id: ingredient.id || 'unknown-food-additive',
+    nameCn: ingredient.nameCn || '待确认食品添加剂',
+    category: ingredient.category || '未分类',
+    description: ingredient.description || '暂无说明',
+    riskLevel: ingredient.riskLevel || 'unknown',
+    gbStatus: ingredient.gbStatus || 'unknown',
+    sourceNote: ingredient.sourceNote || '暂无来源说明'
+  };
 }
 
 function allergenCard(ingredient, allergens, category) {

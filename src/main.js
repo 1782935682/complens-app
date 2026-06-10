@@ -5,7 +5,6 @@ import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './st
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
-const sampleIds = new Set(SAMPLE_OPTIONS.map((sample) => sample.id));
 
 function navigate(hash) {
   window.location.hash = hash;
@@ -56,9 +55,14 @@ function bindPageEvents(route) {
 
   const sampleSelect = document.querySelector('#sample-select');
   if (sampleSelect) {
+    const sampleIdsForCategory = new Set(
+      SAMPLE_OPTIONS
+        .filter((sample) => sample.category === route.category)
+        .map((sample) => sample.id)
+    );
     sampleSelect.addEventListener('change', () => {
       const val = sampleSelect.value;
-      if (val === '0' || !sampleIds.has(val)) return;
+      if (val === '0' || !sampleIdsForCategory.has(val)) return;
       const textarea = document.querySelector('#ingredient-text');
       if (textarea) {
         textarea.value = SAMPLES[val];

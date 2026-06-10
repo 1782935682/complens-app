@@ -113,6 +113,12 @@ setUserAllergens(originalUserAllergens);
 
 const foodCardHtml = ingredientCard(getIngredientById('citric-acid', 'food'));
 assert.match(foodCardHtml, /href="#\/food\/ingredient\/citric-acid"/);
+const emptyHrefCardHtml = ingredientCard(getIngredientById('citric-acid', 'food'), { href: '' });
+assert.match(emptyHrefCardHtml, /href=""/);
+
+const unsafeAnalyzeHtml = renderAnalyzePage('<img src=x onerror=alert(1)>', 'food');
+assert.doesNotMatch(unsafeAnalyzeHtml, /<img src=x onerror=alert\(1\)>/);
+assert.match(unsafeAnalyzeHtml, /&lt;img src=x onerror=alert\(1\)&gt;/);
 
 const invalidFoodAdditive = {
   id: 'bad-food-additive',
@@ -145,6 +151,7 @@ assert.deepEqual(
 assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
 assert.deepEqual(getMatchingTextAllergens('小麦粉', ['cereals-gluten']).map((allergen) => allergen.id), ['cereals-gluten']);
 assert.deepEqual(getMatchingTextAllergens('全脂奶粉', ['milk']).map((allergen) => allergen.id), ['milk']);
+assert.deepEqual(getMatchingTextAllergens('大豆蛋白', ['soybeans']).map((allergen) => allergen.id), ['soybeans']);
 
 const foodDetailHtml = renderFoodAdditiveDetails({
   eNumber: 'E330',

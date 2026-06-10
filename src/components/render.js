@@ -37,9 +37,9 @@ export function riskClass(level) {
  */
 export function ingredientCard(ingredient, options = {}) {
   const category = options.category || ingredient.dataCategory || 'food';
-  const href = options.href || '';
+  const href = Object.hasOwn(options, 'href') ? options.href : null;
 
-  const finalHref = href || `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
+  const finalHref = href ?? `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
   return html`
     <article class="ingredient-card">
       <a href="${finalHref}" class="ingredient-card__main" data-route>
