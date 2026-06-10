@@ -13,8 +13,12 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
   const categoryId = currentCategory.id || 'food';
   const result = analyzeIngredientText(input, categoryId);
-  const resultIngredients = result.ingredients.map((ingredient) => withDisplayDefaults(ingredient, categoryId));
-  const resultHighlights = result.highlights.map((ingredient) => withDisplayDefaults(ingredient, categoryId));
+  const resultIngredients = result.ingredients
+    .filter(hasDisplayId)
+    .map((ingredient) => withDisplayDefaults(ingredient, categoryId));
+  const resultHighlights = result.highlights
+    .filter(hasDisplayId)
+    .map((ingredient) => withDisplayDefaults(ingredient, categoryId));
   const userAllergens = getUserAllergens();
   const ingredientAllergenHits = resultIngredients
     .map((ingredient) => ({
@@ -112,6 +116,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <div class="section__head">
           <h2>暂未收录</h2>
         </div>
+        <p class="helper-text">以下条目可能包含普通食品原料或当前数据库尚未覆盖的添加剂；过敏原关键词会单独提示。</p>
         <div class="chip-list">${result.unknownItems.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join('')}</div>
       </section>
     ` : ''}
@@ -134,12 +139,16 @@ function withDisplayDefaults(ingredient, category) {
   };
 }
 
+function hasDisplayId(ingredient) {
+  return typeof ingredient?.id === 'string' && ingredient.id.trim();
+}
+
 function renderDisclaimer() {
   return html`
     <section class="section">
       <div class="disclaimer-box">
         <h4>免责声明</h4>
-        <p>本系统分析结果基于公开学术资料及国家标准（如 GB 2760 等），旨在提供成分科普，不作为医疗、健康或诊断建议。部分成分风险因人而异，特殊人群（如孕妇、婴幼儿、过敏体质者）需遵医嘱或结合自身实际耐受情况综合判断。</p>
+        <p>本系统分析结果基于公开学术资料及国家标准（如 GB 2760 等），旨在提供成分科普，不作为医疗、健康或诊断建议。部分成分风险因人而异，特殊人群（如孕妇、婴幼儿、过敏体质者）建议咨询专业医师或营养师，并结合自身实际耐受情况综合判断。</p>
       </div>
     </section>
   `;
@@ -169,9 +178,9 @@ function textAllergenCard(item, allergens) {
       <div class="ingredient-card__main">
         <span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergens))}</span>
         <h3>${escapeHtml(item)}</h3>
-        <p>该标签原文与您关注的过敏原关键词匹配，请结合产品标签确认来源。</p>
+        <p>该标签原文不是食品添加剂数据库匹配项，但与您关注的过敏原关键词匹配，请结合产品标签确认来源。</p>
         <div class="meta-row">
-          <span>标签原文</span>
+          <span>标签原文（非添加剂匹配）</span>
         </div>
       </div>
     </article>

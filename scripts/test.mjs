@@ -102,6 +102,9 @@ assert.match(analyzeHtmlWithAllergens, /发现过敏原成分/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
 assert.match(analyzeHtmlWithAllergens, /全脂奶粉/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：乳及乳制品/);
+assert.match(analyzeHtmlWithAllergens, /标签原文（非添加剂匹配）/);
+assert.match(analyzeHtmlWithAllergens, /不作为医疗、健康或诊断建议/);
+assert.doesNotMatch(analyzeHtmlWithAllergens, /遵医嘱/);
 assert.match(analyzeHtmlWithAllergens, /href="#\/food\/ingredient\/lecithins"/);
 assert.match(analyzeHtmlWithAllergens, /href="#\/food\/ingredient\/sodium-metabisulfite"/);
 assert.doesNotMatch(analyzeHtmlWithAllergens, /您尚未设置关注的过敏原/);
@@ -153,6 +156,7 @@ assert.deepEqual(
 );
 assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
 assert.deepEqual(getAllergensByIds(null), []);
+assert.deepEqual(getMatchingTextAllergens(null, ['milk']), []);
 assert.deepEqual(getMatchingTextAllergens('小麦粉', ['cereals-gluten']).map((allergen) => allergen.id), ['cereals-gluten']);
 assert.deepEqual(getMatchingTextAllergens('全脂奶粉', ['milk']).map((allergen) => allergen.id), ['milk']);
 assert.deepEqual(getMatchingTextAllergens('大豆蛋白', ['soybeans']).map((allergen) => allergen.id), ['soybeans']);

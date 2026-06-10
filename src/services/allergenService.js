@@ -18,6 +18,8 @@ export function getAllergensByIds(allergenIds = []) {
 }
 
 export function getMatchingTextAllergens(value, userAllergens = []) {
+  if (value == null) return [];
+
   const normalizedValue = normalizeText(value);
   if (!normalizedValue) return [];
 

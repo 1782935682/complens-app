@@ -1,4 +1,5 @@
 import { categoryPath } from './data/categories.js';
+import { escapeHtml } from './components/render.js';
 import { renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
@@ -62,10 +63,14 @@ function bindPageEvents(route) {
     );
     sampleSelect.addEventListener('change', () => {
       const val = sampleSelect.value;
-      if (val === '0' || !sampleIdsForCategory.has(val)) return;
       const textarea = document.querySelector('#ingredient-text');
+      if (val === '0') return;
+      if (!sampleIdsForCategory.has(val)) {
+        if (textarea) textarea.value = '';
+        return;
+      }
       if (textarea) {
-        textarea.value = SAMPLES[val];
+        textarea.value = escapeHtml(SAMPLES[val]);
         textarea.focus();
       }
     });
