@@ -64,12 +64,23 @@
  * @property {string} description
  * @property {RiskLevel} riskLevel
  * @property {string=} category
+ * @property {string=} gbCode
+ * @property {string=} eNumber
  * @property {AllergenType[]=} allergenTypes
  *
  * @typedef {SearchResult & {
  *   matchedText?: string,
  *   matchLabel?: string
  * }} SearchSuggestion
+ *
+ * @typedef {SearchResult & {
+ *   relationReasons: string[]
+ * }} RelatedIngredientResult
+ *
+ * @typedef {Object} IngredientCategorySummary
+ * @property {string} name
+ * @property {number} count
+ * @property {Record<RiskLevel, number>} riskCounts
  *
  * @typedef {Object} AnalysisResult
  * @property {Ingredient[]} ingredients

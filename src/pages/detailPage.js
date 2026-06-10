@@ -1,7 +1,7 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
-import { getProductCategory } from '../data/categories.js';
+import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
-import { getIngredientById } from '../services/ingredientService.js';
+import { getIngredientById, getRelatedIngredients } from '../services/ingredientService.js';
 import { getUserAllergens, isFavorite } from '../store/userStore.js';
 
 const GB_STATUS_LABELS = {
@@ -31,6 +31,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
 
   const favorite = isFavorite(ingredient.id, category);
   const allergenMatches = getMatchingUserAllergens(ingredient, getUserAllergens());
+  const relatedIngredients = getRelatedIngredients(ingredient.id, category, 4);
   return html`
     <section class="detail">
       <div class="detail__header">
@@ -52,7 +53,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
       <p class="lead">${escapeHtml(ingredient.description)}</p>
       <div class="info-grid">
         ${renderInfoBlock('别名', ingredient.aliases)}
-        ${renderInfoBlock('功能分类', [ingredient.category, ...(ingredient.functions || [])].filter(Boolean))}
+        ${renderFunctionInfoBlock(ingredient, category)}
         ${renderInfoBlock('适合关注', ingredient.suitableFor)}
         ${renderInfoBlock('使用提醒', ingredient.cautionFor)}
       </div>
@@ -65,6 +66,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
         <h2>参考说明</h2>
         <p>${escapeHtml(ingredient.sourceNote || '本页内容仅用于日常成分理解，不提供医疗诊断。')}</p>
       </section>
+      ${renderRelatedIngredients(relatedIngredients, category)}
     </section>
   `;
 }
@@ -98,6 +100,28 @@ function renderInfoBlock(title, values = []) {
       <h2>${title}</h2>
       ${items.length
         ? `<div class="chip-list">${items.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join('')}</div>`
+        : html`<p class="empty small">暂无信息</p>`}
+    </div>
+  `;
+}
+
+function renderFunctionInfoBlock(ingredient, category) {
+  const items = [
+    ingredient.category ? {
+      label: ingredient.category,
+      href: `#${categoryPath(category, '/search')}?ingredientCategory=${encodeURIComponent(ingredient.category)}`
+    } : null,
+    ...(ingredient.functions || []).filter(Boolean).map((item) => ({
+      label: item,
+      href: `#${categoryPath(category, '/search')}?q=${encodeURIComponent(item)}`
+    }))
+  ].filter(Boolean);
+
+  return html`
+    <div class="info-block">
+      <h2>功能分类</h2>
+      ${items.length
+        ? `<div class="chip-list">${items.map((item) => `<a class="chip" href="${escapeHtml(item.href)}" data-route>${escapeHtml(item.label)}</a>`).join('')}</div>`
         : html`<p class="empty small">暂无信息</p>`}
     </div>
   `;
@@ -158,6 +182,49 @@ function renderSourceTitle(source) {
   const safeUrl = getSafeHttpUrl(source.url);
   if (!safeUrl) return escapeHtml(title);
   return `<a href="${escapeHtml(safeUrl)}" target="_blank" rel="noreferrer">${escapeHtml(title)}</a>`;
+}
+
+function renderRelatedIngredients(items, category) {
+  if (!items.length) return '';
+
+  return html`
+    <section class="section related-section" aria-labelledby="related-ingredients-title" data-related-ingredients>
+      <div class="section__head">
+        <h2 id="related-ingredients-title">相关成分</h2>
+      </div>
+      <div class="card-grid related-grid">
+        ${items.map((item) => renderRelatedIngredientCard(item, category)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderRelatedIngredientCard(ingredient, category) {
+  const href = `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
+  return html`
+    <article class="ingredient-card related-card">
+      <a href="${escapeHtml(href)}" class="ingredient-card__main compact" data-route>
+        <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
+        <h3>${escapeHtml(ingredient.nameCn)}</h3>
+        <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
+        <p>${escapeHtml(ingredient.description)}</p>
+        <div class="meta-row">
+          <span>${escapeHtml(ingredient.category || '未分类')}</span>
+        </div>
+        ${renderRelationReasons(ingredient.relationReasons || [])}
+      </a>
+    </article>
+  `;
+}
+
+function renderRelationReasons(reasons) {
+  const items = Array.isArray(reasons) ? reasons.filter(Boolean) : [];
+  if (!items.length) return '';
+  return html`
+    <div class="related-reasons">
+      ${items.map((reason) => `<span>${escapeHtml(reason)}</span>`).join('')}
+    </div>
+  `;
 }
 
 function getSafeHttpUrl(value) {

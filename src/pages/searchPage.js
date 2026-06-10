@@ -5,12 +5,21 @@ import { getSearchFilterOptions, getSearchSuggestions, searchIngredients } from 
 import { getUserAllergens } from '../store/userStore.js';
 
 const SEARCH_PAGE_SIZE = 6;
+const DEFAULT_SEARCH_SORT = 'relevance';
+const SEARCH_SORT_OPTIONS = [
+  { value: DEFAULT_SEARCH_SORT, label: '默认排序' },
+  { value: 'risk', label: '关注等级优先' },
+  { value: 'name', label: '中文名排序' }
+];
 
-export function renderSearchPage(query, category = 'cosmetics', filters = {}, page = 1) {
+export function renderSearchPage(query, category = 'cosmetics', filters = {}, page = 1, sort = DEFAULT_SEARCH_SORT) {
   const currentCategory = getProductCategory(category);
   const filterOptions = getSearchFilterOptions(category);
   const activeFilters = getValidFilters(filters, filterOptions);
-  const results = searchIngredients(query, category, activeFilters);
+  const activeSort = getValidSort(sort);
+  const results = sortSearchResults(searchIngredients(query, category, activeFilters), activeSort);
+  const riskFacets = getRiskFacets(query, category, activeFilters, filterOptions.riskLevels);
+  const categoryFacets = getCategoryFacets(query, category, activeFilters);
   const totalPages = Math.max(1, Math.ceil(results.length / SEARCH_PAGE_SIZE));
   const currentPage = clampPage(page, totalPages);
   const pagedResults = results.slice((currentPage - 1) * SEARCH_PAGE_SIZE, currentPage * SEARCH_PAGE_SIZE);
@@ -29,7 +38,7 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
         <div id="search-page-suggestions" class="search-suggestions" data-search-suggestions aria-live="polite">
           ${query ? renderSuggestionLinks(suggestions, category) : ''}
         </div>
-        ${renderFilterControls(category, query, activeFilters, filterOptions)}
+        ${renderFilterControls(category, query, activeFilters, filterOptions, activeSort)}
       </form>
     </section>
 
@@ -39,10 +48,12 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
         <span class="category">${currentCategory.label}</span>
         <span class="count">${results.length} 项</span>
       </div>
-      ${renderActiveFilterSummary(activeFilters)}
+      ${renderActiveFilterSummary(activeFilters, activeSort)}
+      ${renderRiskFacets(riskFacets, category, query, activeFilters, activeSort)}
+      ${renderCategoryFacets(categoryFacets, category, query, activeFilters, activeSort)}
       ${results.length ? renderPageSummary(results.length, currentPage, pagedResults.length) : ''}
       ${results.length ? renderResults(pagedResults, category) : renderEmpty(safeQuery, activeFilterCount)}
-      ${results.length ? renderPagination(category, query, activeFilters, currentPage, totalPages) : ''}
+      ${results.length ? renderPagination(category, query, activeFilters, activeSort, currentPage, totalPages) : ''}
     </section>
   `;
 }
@@ -60,7 +71,7 @@ function renderSuggestionLinks(suggestions, category) {
   `;
 }
 
-function renderFilterControls(category, query, activeFilters, options) {
+function renderFilterControls(category, query, activeFilters, options, activeSort) {
   return html`
     <div class="filter-row">
       <label class="filter-field" for="risk-filter">
@@ -81,6 +92,14 @@ function renderFilterControls(category, query, activeFilters, options) {
           `).join('')}
         </select>
       </label>
+      <label class="filter-field" for="sort-filter">
+        <span>排序</span>
+        <select id="sort-filter" name="sort">
+          ${SEARCH_SORT_OPTIONS.map((item) => html`
+            <option value="${escapeHtml(item.value)}" ${activeSort === item.value ? 'selected' : ''}>${escapeHtml(item.label)}</option>
+          `).join('')}
+        </select>
+      </label>
       ${hasActiveFilters(activeFilters) ? html`
         <a class="filter-clear" href="${buildSearchHref(category, query)}" data-route>清除筛选</a>
       ` : ''}
@@ -95,15 +114,64 @@ function renderResultTitle(safeQuery, activeFilterCount) {
   return '搜索结果';
 }
 
-function renderActiveFilterSummary(activeFilters) {
+function renderActiveFilterSummary(activeFilters, activeSort) {
   const chips = [];
   if (activeFilters.risk) chips.push(`关注等级：${riskLabel(activeFilters.risk)}`);
   if (activeFilters.ingredientCategory) chips.push(`成分分类：${activeFilters.ingredientCategory}`);
+  if (activeSort !== DEFAULT_SEARCH_SORT) chips.push(`排序：${sortLabel(activeSort)}`);
   if (!chips.length) return '';
 
   return html`
     <div class="filter-summary" aria-label="当前筛选条件">
       ${chips.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join('')}
+    </div>
+  `;
+}
+
+function renderRiskFacets(facets, category, query, activeFilters, activeSort) {
+  if (!facets.length) return '';
+
+  const totalCount = facets.reduce((total, item) => total + item.count, 0);
+  const baseFilters = { ...activeFilters, risk: '' };
+  return html`
+    <div class="risk-facets" aria-label="按关注等级筛选">
+      <a class="risk-facet ${activeFilters.risk ? '' : 'is-active'}" href="${buildSearchHref(category, query, baseFilters, 1, activeSort)}" data-route>
+        <span>全部</span>
+        <strong>${totalCount}</strong>
+      </a>
+      ${facets.map((item) => {
+        const filters = { ...activeFilters, risk: item.level };
+        return html`
+          <a class="risk-facet ${activeFilters.risk === item.level ? 'is-active' : ''}" href="${buildSearchHref(category, query, filters, 1, activeSort)}" data-route>
+            <span class="${riskClass(item.level)}">${riskLabel(item.level)}</span>
+            <strong>${item.count}</strong>
+          </a>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderCategoryFacets(facets, category, query, activeFilters, activeSort) {
+  if (!facets.length) return '';
+
+  const totalCount = facets.reduce((total, item) => total + item.count, 0);
+  const baseFilters = { ...activeFilters, ingredientCategory: '' };
+  return html`
+    <div class="category-facets" aria-label="按成分分类筛选">
+      <a class="category-facet ${activeFilters.ingredientCategory ? '' : 'is-active'}" href="${buildSearchHref(category, query, baseFilters, 1, activeSort)}" data-route>
+        <span>全部分类</span>
+        <strong>${totalCount}</strong>
+      </a>
+      ${facets.map((item) => {
+        const filters = { ...activeFilters, ingredientCategory: item.name };
+        return html`
+          <a class="category-facet ${activeFilters.ingredientCategory === item.name ? 'is-active' : ''}" href="${buildSearchHref(category, query, filters, 1, activeSort)}" data-route>
+            <span>${escapeHtml(item.name)}</span>
+            <strong>${item.count}</strong>
+          </a>
+        `;
+      }).join('')}
     </div>
   `;
 }
@@ -137,20 +205,20 @@ function renderResults(results, category) {
   `;
 }
 
-function renderPagination(category, query, activeFilters, currentPage, totalPages) {
+function renderPagination(category, query, activeFilters, activeSort, currentPage, totalPages) {
   if (totalPages <= 1) return '';
 
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
   return html`
     <nav class="pagination" aria-label="搜索结果分页">
       ${currentPage > 1
-        ? html`<a class="pagination__link" href="${buildSearchHref(category, query, activeFilters, currentPage - 1)}" data-route>上一页</a>`
+        ? html`<a class="pagination__link" href="${buildSearchHref(category, query, activeFilters, currentPage - 1, activeSort)}" data-route>上一页</a>`
         : html`<span class="pagination__link is-disabled">上一页</span>`}
       ${pageNumbers.map((pageNumber) => pageNumber === currentPage
         ? html`<span class="pagination__page is-active" aria-current="page">${pageNumber}</span>`
-        : html`<a class="pagination__page" href="${buildSearchHref(category, query, activeFilters, pageNumber)}" data-route>${pageNumber}</a>`).join('')}
+        : html`<a class="pagination__page" href="${buildSearchHref(category, query, activeFilters, pageNumber, activeSort)}" data-route>${pageNumber}</a>`).join('')}
       ${currentPage < totalPages
-        ? html`<a class="pagination__link" href="${buildSearchHref(category, query, activeFilters, currentPage + 1)}" data-route>下一页</a>`
+        ? html`<a class="pagination__link" href="${buildSearchHref(category, query, activeFilters, currentPage + 1, activeSort)}" data-route>下一页</a>`
         : html`<span class="pagination__link is-disabled">下一页</span>`}
     </nav>
   `;
@@ -172,14 +240,76 @@ function hasActiveFilters(filters) {
   return Boolean(filters.risk || filters.ingredientCategory);
 }
 
-function buildSearchHref(category, query, filters = {}, page = 1) {
+function buildSearchHref(category, query, filters = {}, page = 1, sort = DEFAULT_SEARCH_SORT) {
   const params = new URLSearchParams();
   if (query) params.set('q', query);
   if (filters.risk) params.set('risk', filters.risk);
   if (filters.ingredientCategory) params.set('ingredientCategory', filters.ingredientCategory);
+  if (sort && sort !== DEFAULT_SEARCH_SORT) params.set('sort', sort);
   if (page > 1) params.set('page', String(page));
   const queryString = params.toString();
   return `#${categoryPath(category, '/search')}${queryString ? `?${queryString}` : ''}`;
+}
+
+function getValidSort(sort) {
+  return SEARCH_SORT_OPTIONS.some((item) => item.value === sort) ? sort : DEFAULT_SEARCH_SORT;
+}
+
+function getRiskFacets(query, category, activeFilters, riskLevels) {
+  const baseFilters = { ...activeFilters, risk: '' };
+  const items = searchIngredients(query, category, baseFilters);
+  if (!items.length) return [];
+
+  const counts = new Map();
+  for (const item of items) {
+    const risk = item.riskLevel || 'unknown';
+    counts.set(risk, (counts.get(risk) || 0) + 1);
+  }
+
+  return riskLevels
+    .map((level) => ({ level, count: counts.get(level) || 0 }))
+    .filter((item) => item.count > 0);
+}
+
+function getCategoryFacets(query, category, activeFilters) {
+  const baseFilters = { ...activeFilters, ingredientCategory: '' };
+  const items = searchIngredients(query, category, baseFilters);
+  if (!items.length) return [];
+
+  const counts = new Map();
+  for (const item of items) {
+    const name = item.category || '未分类';
+    counts.set(name, (counts.get(name) || 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+function sortSearchResults(results, sort) {
+  const items = [...results];
+  if (sort === 'risk') {
+    return items.sort((a, b) => riskSortValue(b.riskLevel) - riskSortValue(a.riskLevel) || a.nameCn.localeCompare(b.nameCn, 'zh-Hans-CN'));
+  }
+  if (sort === 'name') {
+    return items.sort((a, b) => a.nameCn.localeCompare(b.nameCn, 'zh-Hans-CN'));
+  }
+  return items;
+}
+
+function riskSortValue(level) {
+  const values = {
+    high: 3,
+    medium: 2,
+    unknown: 1,
+    low: 0
+  };
+  return values[level] ?? values.unknown;
+}
+
+function sortLabel(sort) {
+  return SEARCH_SORT_OPTIONS.find((item) => item.value === sort)?.label || SEARCH_SORT_OPTIONS[0].label;
 }
 
 function clampPage(page, totalPages) {
