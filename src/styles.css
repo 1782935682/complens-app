@@ -285,6 +285,17 @@ button.secondary:hover {
   padding: 18px;
 }
 
+.ingredient-card__main.compact {
+  min-height: 176px;
+  padding-bottom: 10px;
+}
+
+.ingredient-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 18px 18px;
+}
+
 .ingredient-card:hover,
 .result-item:hover,
 .action-tile:hover {

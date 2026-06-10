@@ -8,8 +8,18 @@ export function normalizeText(value) {
 export function splitIngredientInput(value) {
   return String(value || '')
     .split(/[,，、;；\n\r]+/)
-    .map((item) => item.trim())
+    .map((item) => stripBracketNotes(item).trim())
     .filter(Boolean);
+}
+
+function stripBracketNotes(value) {
+  let result = String(value || '');
+  let previous;
+  do {
+    previous = result;
+    result = result.replace(/\s*[\(（][^()（）]*[\)）]\s*/g, '');
+  } while (result !== previous);
+  return result;
 }
 
 export function uniqueBy(items, getKey) {
