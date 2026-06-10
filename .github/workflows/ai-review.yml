@@ -1,0 +1,32 @@
+name: AI Review (DeepSeek)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: Codium-ai/pr-agent@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI.KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          OPENAI.API_BASE: https://api.deepseek.com/v1
+          CONFIG.AI_PROVIDER: openai
+          CONFIG.MODEL: deepseek-chat
+          CONFIG.FALLBACK_MODELS: '["deepseek-chat"]'
+          CONFIG.LANGUAGE: zh
+          github_action_config.auto_review: "true"
+          github_action_config.auto_describe: "false"
+          github_action_config.auto_improve: "false"
+          pr_reviewer.num_code_suggestions: "3"
+          pr_reviewer.inline_code_comments: "true"
+          pr_reviewer.require_all_thresholds_to_pass: "false"
