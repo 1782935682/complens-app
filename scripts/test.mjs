@@ -223,4 +223,7 @@ assert.equal(juiceAnalysis.ingredients.some((item) => item.id === 'potassium-sor
 const jellyAnalysis = analyzeIngredientText(SAMPLES['food-5'], 'food');
 assert.equal(jellyAnalysis.unknownItems.includes('魔芋粉'), true);
 
+const colaAnalysis = analyzeIngredientText(SAMPLES['food-1'], 'food');
+assert.equal(colaAnalysis.ingredients.some((item) => item.id === 'aspartame'), true);
+
 console.log('Tests passed: ingredient search and text analysis behave as expected.');

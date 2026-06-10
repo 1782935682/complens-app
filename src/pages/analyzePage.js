@@ -129,7 +129,7 @@ function withDisplayDefaults(ingredient, category) {
   const isFood = category === 'food';
   return {
     ...ingredient,
-    id: ingredient.id,
+    id: ingredient.id || '',
     dataCategory: category,
     nameCn: ingredient.nameCn || '暂无数据',
     category: ingredient.category || '未分类',
@@ -156,20 +156,24 @@ function renderDisclaimer() {
 }
 
 function allergenCard(ingredient, allergens, category) {
-  const href = `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
+  const canLink = hasDisplayId(ingredient);
+  const href = canLink ? `#${categoryPath(category, `/ingredient/${ingredient.id}`)}` : '';
   const allergenNames = formatAllergenNames(allergens);
+  const content = html`
+    <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
+    ${allergenNames ? html`<span class="allergen-badge">过敏原：${escapeHtml(allergenNames)}</span>` : ''}
+    <h3>${escapeHtml(ingredient.nameCn)}</h3>
+    <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
+    <p>${escapeHtml(ingredient.description)}</p>
+    <div class="meta-row">
+      <span>${escapeHtml(ingredient.category || '未分类')}</span>
+    </div>
+  `;
   return html`
     <article class="ingredient-card ingredient-card--allergen">
-      <a href="${href}" class="ingredient-card__main" data-route>
-        <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
-        ${allergenNames ? html`<span class="allergen-badge">过敏原：${escapeHtml(allergenNames)}</span>` : ''}
-        <h3>${escapeHtml(ingredient.nameCn)}</h3>
-        <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
-        <p>${escapeHtml(ingredient.description)}</p>
-        <div class="meta-row">
-          <span>${escapeHtml(ingredient.category || '未分类')}</span>
-        </div>
-      </a>
+      ${canLink
+        ? html`<a href="${href}" class="ingredient-card__main" data-route>${content}</a>`
+        : html`<div class="ingredient-card__main">${content}</div>`}
     </article>
   `;
 }
