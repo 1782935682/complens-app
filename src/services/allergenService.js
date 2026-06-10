@@ -12,7 +12,7 @@ export function getMatchingUserAllergens(ingredient, userAllergens = []) {
 }
 
 export function getAllergensByIds(allergenIds = []) {
-  return allergenIds
+  return (Array.isArray(allergenIds) ? allergenIds : [])
     .map((allergenId) => allergenById.get(allergenId))
     .filter(Boolean);
 }

@@ -11,7 +11,7 @@ import { SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
  */
 export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
-  const categoryId = currentCategory.id;
+  const categoryId = currentCategory.id || 'food';
   const result = analyzeIngredientText(input, categoryId);
   const resultIngredients = result.ingredients.map((ingredient) => withDisplayDefaults(ingredient, categoryId));
   const resultHighlights = result.highlights.map((ingredient) => withDisplayDefaults(ingredient, categoryId));
@@ -126,16 +126,16 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
 }
 
 function withDisplayDefaults(ingredient, category) {
-  if (category !== 'food') return ingredient;
+  const isFood = category === 'food';
   return {
     ...ingredient,
-    id: ingredient.id || 'unknown-food-additive',
-    nameCn: ingredient.nameCn || '待确认食品添加剂',
+    id: ingredient.id || `unknown-${category}-ingredient`,
+    nameCn: ingredient.nameCn || (isFood ? '待确认食品添加剂' : '待确认成分'),
     category: ingredient.category || '未分类',
     description: ingredient.description || '暂无说明',
     riskLevel: ingredient.riskLevel || 'unknown',
-    gbStatus: ingredient.gbStatus || 'unknown',
-    sourceNote: ingredient.sourceNote || '暂无来源说明'
+    gbStatus: isFood ? ingredient.gbStatus || 'unknown' : ingredient.gbStatus,
+    sourceNote: isFood ? ingredient.sourceNote || '暂无来源说明' : ingredient.sourceNote
   };
 }
 

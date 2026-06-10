@@ -5,6 +5,9 @@ export function normalizeText(value) {
     .replace(/\s+/g, ' ');
 }
 
+// Food samples intentionally mix additive records with ordinary label ingredients.
+// Ordinary ingredients such as wheat flour or milk powder are handled by text
+// allergen matching rather than the food-additive database.
 export const SAMPLES = {
   'food-1': '水，果糖糖浆，二氧化碳，焦糖色，磷酸，咖啡因，柠檬酸，阿斯巴甜',
   'food-2': '小麦粉，白砂糖，精炼植物油，起酥油，全脂奶粉，卵磷脂，碳酸氢钠，焦亚硫酸钠',

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
-import { getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
+import { getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
@@ -149,6 +149,7 @@ assert.deepEqual(
   ['milk']
 );
 assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
+assert.deepEqual(getAllergensByIds(null), []);
 assert.deepEqual(getMatchingTextAllergens('小麦粉', ['cereals-gluten']).map((allergen) => allergen.id), ['cereals-gluten']);
 assert.deepEqual(getMatchingTextAllergens('全脂奶粉', ['milk']).map((allergen) => allergen.id), ['milk']);
 assert.deepEqual(getMatchingTextAllergens('大豆蛋白', ['soybeans']).map((allergen) => allergen.id), ['soybeans']);
@@ -200,6 +201,7 @@ const biscuitAnalysis = analyzeIngredientText(SAMPLES['food-2'], 'food');
 assert.equal(biscuitAnalysis.matchedCount, 2);
 assert.equal(biscuitAnalysis.matchedCount, biscuitAnalysis.ingredients.length);
 assert.deepEqual(biscuitAnalysis.ingredients.map((item) => item.id).sort(), ['lecithins', 'sodium-metabisulfite'].sort());
+assert.equal(biscuitAnalysis.unknownItems.includes('全脂奶粉'), true);
 
 const chiliAnalysis = analyzeIngredientText(SAMPLES['food-4'], 'food');
 assert.equal(chiliAnalysis.matchedCount, 4);
