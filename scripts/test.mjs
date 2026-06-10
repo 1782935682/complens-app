@@ -1,16 +1,18 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
-import { getMatchingUserAllergens } from '../src/services/allergenService.js';
+import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
+import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
+import { ingredientCard } from '../src/components/render.js';
 import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { getFavoriteIngredients, getFavoriteItems, getUserAllergens, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
-import { splitIngredientInput } from '../src/utils/text.js';
+import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
@@ -83,6 +85,7 @@ assert.deepEqual(getFavoriteItems(), [
   { id: 'niacinamide', category: 'cosmetics' }
 ]);
 
+const originalUserAllergens = getUserAllergens();
 assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
 assert.deepEqual(getUserAllergens(), ['milk', 'soybeans']);
 const settingsHtml = renderSettingsPage();
@@ -91,6 +94,37 @@ assert.match(settingsHtml, /2 项已关注/);
 assert.match(settingsHtml, /value="milk" checked/);
 assert.match(settingsHtml, /value="soybeans" checked/);
 assert.match(settingsHtml, /value="peanuts"/);
+
+const analyzeHtmlWithAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
+assert.match(analyzeHtmlWithAllergens, /您当前关注的过敏原档案：/);
+assert.match(analyzeHtmlWithAllergens, /乳及乳制品、大豆/);
+assert.match(analyzeHtmlWithAllergens, /发现过敏原成分/);
+assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
+assert.match(analyzeHtmlWithAllergens, /全脂奶粉/);
+assert.match(analyzeHtmlWithAllergens, /过敏原：乳及乳制品/);
+assert.match(analyzeHtmlWithAllergens, /普通食品原料或标签文本（非添加剂匹配）/);
+assert.match(analyzeHtmlWithAllergens, /不作为医疗、健康或诊断建议/);
+assert.doesNotMatch(analyzeHtmlWithAllergens, /遵医嘱/);
+assert.match(analyzeHtmlWithAllergens, /href="#\/food\/ingredient\/lecithins"/);
+assert.match(analyzeHtmlWithAllergens, /href="#\/food\/ingredient\/sodium-metabisulfite"/);
+assert.doesNotMatch(analyzeHtmlWithAllergens, /您尚未设置关注的过敏原/);
+setUserAllergens([]);
+const analyzeHtmlWithoutAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
+assert.match(analyzeHtmlWithoutAllergens, /您尚未设置关注的过敏原/);
+assert.doesNotMatch(analyzeHtmlWithoutAllergens, /发现过敏原成分/);
+setUserAllergens(originalUserAllergens);
+
+const foodCardHtml = ingredientCard(getIngredientById('citric-acid', 'food'));
+assert.match(foodCardHtml, /href="#\/food\/ingredient\/citric-acid"/);
+const emptyHrefCardHtml = ingredientCard(getIngredientById('citric-acid', 'food'), { href: '' });
+assert.match(emptyHrefCardHtml, /href=""/);
+const noIdCardHtml = ingredientCard({ nameCn: '待确认', description: '暂无说明', riskLevel: 'unknown', category: '未分类' });
+assert.doesNotMatch(noIdCardHtml, /href="#\/food\/ingredient\/undefined"/);
+assert.match(noIdCardHtml, /<div class="ingredient-card__main">/);
+
+const unsafeAnalyzeHtml = renderAnalyzePage('<img src=x onerror=alert(1)>', 'food');
+assert.doesNotMatch(unsafeAnalyzeHtml, /<img src=x onerror=alert\(1\)>/);
+assert.match(unsafeAnalyzeHtml, /&lt;img src=x onerror=alert\(1\)&gt;/);
 
 const invalidFoodAdditive = {
   id: 'bad-food-additive',
@@ -121,6 +155,14 @@ assert.deepEqual(
   ['milk']
 );
 assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
+assert.deepEqual(getAllergensByIds(null), []);
+assert.equal(formatAllergenNames([null, undefined, '', 'milk']), '乳及乳制品');
+assert.deepEqual(getMatchingTextAllergens(null, ['milk']), []);
+assert.deepEqual(getMatchingTextAllergens('小麦粉', ['cereals-gluten']).map((allergen) => allergen.id), ['cereals-gluten']);
+assert.deepEqual(getMatchingTextAllergens('全脂奶粉', ['milk']).map((allergen) => allergen.id), ['milk']);
+assert.deepEqual(getMatchingTextAllergens('大豆蛋白', ['soybeans']).map((allergen) => allergen.id), ['soybeans']);
+assert.equal(normalizeText('ＡＢＣ １２３'), 'abc 123');
+assert.equal(normalizeText('牛奶，鸡蛋。'), '牛奶 鸡蛋');
 
 const foodDetailHtml = renderFoodAdditiveDetails({
   eNumber: 'E330',
@@ -160,5 +202,33 @@ assert.match(sparseFoodDetailHtml, /暂无限量信息/);
 assert.match(sparseFoodDetailHtml, /暂无来源标题/);
 assert.match(sparseFoodDetailHtml, /暂无标准编号/);
 assert.doesNotMatch(sparseFoodDetailHtml, /undefined|null/);
+
+// SAMPLES validation and text analysis tests
+assert.equal(Object.keys(SAMPLES).length >= 7, true);
+assert.equal(typeof SAMPLES['food-2'], 'string');
+
+const biscuitAnalysis = analyzeIngredientText(SAMPLES['food-2'], 'food');
+assert.equal(biscuitAnalysis.matchedCount >= 2, true);
+assert.equal(biscuitAnalysis.matchedCount, biscuitAnalysis.ingredients.length);
+assert.equal(biscuitAnalysis.ingredients.some((item) => item.id === 'lecithins'), true);
+assert.equal(biscuitAnalysis.ingredients.some((item) => item.id === 'sodium-metabisulfite'), true);
+assert.equal(biscuitAnalysis.unknownItems.includes('全脂奶粉'), true);
+
+const chiliAnalysis = analyzeIngredientText(SAMPLES['food-4'], 'food');
+assert.equal(chiliAnalysis.matchedCount, 4);
+assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-benzoate'), true);
+assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-metabisulfite'), true);
+assert.equal(chiliAnalysis.unknownItems.includes('辣椒'), true);
+assert.equal(chiliAnalysis.unknownItems.includes('大蒜'), true);
+assert.equal(chiliAnalysis.unknownItems.includes('食盐'), true);
+
+const juiceAnalysis = analyzeIngredientText(SAMPLES['food-3'], 'food');
+assert.equal(juiceAnalysis.ingredients.some((item) => item.id === 'potassium-sorbate'), true);
+
+const jellyAnalysis = analyzeIngredientText(SAMPLES['food-5'], 'food');
+assert.equal(jellyAnalysis.unknownItems.includes('魔芋粉'), true);
+
+const colaAnalysis = analyzeIngredientText(SAMPLES['food-1'], 'food');
+assert.equal(colaAnalysis.ingredients.some((item) => item.id === 'aspartame'), true);
 
 console.log('Tests passed: ingredient search and text analysis behave as expected.');

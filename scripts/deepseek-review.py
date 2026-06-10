@@ -8,7 +8,7 @@ import urllib.request
 
 DIFF_PATH = '/tmp/pr.diff'
 REVIEW_PATH = '/tmp/review.md'
-MAX_DIFF_CHARS = 30000
+MAX_DIFF_CHARS = 100000
 
 PROMPT_SYSTEM = """你是 CompCheck（成分小查）项目的代码审查员。
 请对 PR 变更进行详细审查，输出中文报告，严格按照要求的格式。"""
@@ -30,6 +30,14 @@ PROMPT_TEMPLATE = """请审查以下 PR 变更。
 5. **多类别路由** — resolveRoute() 返回值是否包含 category 字段；路由是否遵循 /food/... 和 /cosmetics/... 前缀
 6. **安全性** — HTML 输出是否经过转义（防 XSS）；有无敏感信息硬编码
 7. **代码质量** — 函数职责是否单一；是否存在重复逻辑；命名是否清晰
+
+## 严重问题报告限制（必须遵守）
+
+- 只把 diff 中可以直接证明的确定性错误列入「❌ 必须修复」。
+- 禁止把"可能"、"无法确认"、"未来扩展时"、"diff 未展示"、"数据库可能没有"这类推测列为必须修复。
+- 禁止因为上下文未出现在 diff 片段中，就假设函数不存在、导入未使用、字段未定义或数据未收录。
+- 若代码已有 guard，或测试、lint、构建、数据校验已覆盖该路径，不得列为阻断项。
+- 样例里普通食品原料进入 unknownItems 是允许行为；只要 UI 明确说明其不是食品添加剂匹配项，不得列为严重问题。
 
 ## 输出格式（严格按此结构输出，不要省略任何一节）
 
@@ -67,7 +75,7 @@ def get_diff():
         print("diff 为空，跳过审查")
         sys.exit(0)
     if len(diff) > MAX_DIFF_CHARS:
-        diff = diff[:MAX_DIFF_CHARS] + '\n\n[... diff 过长，仅展示前 30000 字符 ...]'
+        diff = diff[:MAX_DIFF_CHARS] + f'\n\n[... diff 过长，仅展示前 {MAX_DIFF_CHARS} 字符 ...]'
     return diff
 
 
@@ -79,7 +87,7 @@ def call_deepseek(diff, api_key):
             {'role': 'system', 'content': PROMPT_SYSTEM},
             {'role': 'user', 'content': prompt},
         ],
-        'max_tokens': 3000,
+        'max_tokens': 5000,
         'temperature': 0.3,
     }).encode('utf-8')
 

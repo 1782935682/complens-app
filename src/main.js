@@ -2,6 +2,7 @@ import { categoryPath } from './data/categories.js';
 import { renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
 
@@ -52,12 +53,26 @@ function bindPageEvents(route) {
     });
   }
 
-  const sampleButton = document.querySelector('[data-fill-sample]');
-  if (sampleButton) {
-    sampleButton.addEventListener('click', () => {
+  const sampleSelect = document.querySelector('#sample-select');
+  if (sampleSelect) {
+    sampleSelect.addEventListener('change', () => {
+      const sampleIdsForCategory = new Set(
+        SAMPLE_OPTIONS
+          .filter((sample) => sample.category === route.category)
+          .map((sample) => sample.id)
+      );
+      const val = sampleSelect.value;
       const textarea = document.querySelector('#ingredient-text');
-      textarea.value = '水，烟酰胺，透明质酸钠，水杨酸，香精，苯氧乙醇';
-      textarea.focus();
+      if (val === '0') return;
+      if (!sampleIdsForCategory.has(val)) {
+        sampleSelect.value = '0';
+        if (textarea) textarea.value = '';
+        return;
+      }
+      if (textarea) {
+        textarea.value = SAMPLES[val];
+        textarea.focus();
+      }
     });
   }
 

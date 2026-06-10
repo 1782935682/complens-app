@@ -33,7 +33,8 @@ a {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -167,7 +168,8 @@ label {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -182,9 +184,15 @@ textarea {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(17, 106, 91, 0.14);
+}
+
+select {
+  min-height: 44px;
+  cursor: pointer;
 }
 
 button,
@@ -228,6 +236,13 @@ button.secondary:hover {
 .text-button:hover {
   background: transparent;
   color: var(--primary-strong);
+}
+
+.inline-link {
+  color: var(--primary);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .quick-actions,
@@ -402,6 +417,30 @@ button.secondary:hover {
   font-weight: 800;
 }
 
+.allergen-alert--cards {
+  border-width: 2px;
+  padding: 20px;
+  color: var(--text);
+  background: #fff5f4;
+  font-weight: 400;
+}
+
+.allergen-alert--cards h2 {
+  margin: 0 0 10px;
+  color: var(--high);
+  font-size: 20px;
+}
+
+.allergen-alert--cards p {
+  margin: 0 0 15px;
+}
+
+.ingredient-card--allergen {
+  border-color: #f1b8b2;
+  background: #fffefe;
+  box-shadow: var(--shadow);
+}
+
 .chip-list {
   display: flex;
   flex-wrap: wrap;
@@ -551,6 +590,10 @@ button.secondary:hover {
   box-shadow: none;
 }
 
+.analyze-head {
+  margin-bottom: 12px;
+}
+
 .upload-field {
   display: grid;
   gap: 8px;
@@ -572,9 +615,60 @@ button.secondary:hover {
   flex-wrap: wrap;
 }
 
+.analyze-actions {
+  align-items: center;
+  gap: 12px;
+}
+
+.sample-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sample-picker__label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
 .summary-box {
   box-shadow: none;
   border-left: 4px solid var(--primary);
+}
+
+.allergen-status {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.allergen-status__names {
+  color: var(--high);
+}
+
+.disclaimer-box {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--unknown);
+  border-radius: 8px;
+  background: #f9faf8;
+}
+
+.disclaimer-box h4 {
+  margin: 0 0 8px;
+  color: #43514d;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.disclaimer-box p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .settings-panel {
@@ -685,6 +779,12 @@ button.secondary:hover {
   .result-item,
   .detail__header {
     flex-direction: column;
+  }
+
+  .sample-picker {
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
   }
 
   button,
