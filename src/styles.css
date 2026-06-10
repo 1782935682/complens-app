@@ -450,6 +450,58 @@ button.secondary:hover {
   font-size: 17px;
 }
 
+.food-detail {
+  margin-bottom: 14px;
+}
+
+.food-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.field-row {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fbfcfb;
+}
+
+.field-row span,
+.data-list span,
+.data-list small {
+  color: var(--muted);
+}
+
+.food-detail-section {
+  margin-top: 14px;
+}
+
+.food-detail-section h3 {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.data-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.data-list li {
+  display: grid;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fbfcfb;
+}
+
 .note.muted {
   background: #f9faf8;
 }
@@ -523,7 +575,8 @@ button.secondary:hover {
   .quick-actions,
   .two-column,
   .category-tabs,
-  .info-grid {
+  .info-grid,
+  .food-detail-grid {
     grid-template-columns: 1fr;
   }
 

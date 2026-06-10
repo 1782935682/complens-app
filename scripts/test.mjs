@@ -4,6 +4,7 @@ import { getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
+import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
@@ -102,5 +103,37 @@ assert.deepEqual(
   ['milk']
 );
 assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
+
+const foodDetailHtml = renderFoodAdditiveDetails({
+  eNumber: 'E330',
+  gbCode: 'INS 330',
+  gbStatus: 'permitted',
+  adi: 'not specified',
+  foodCategories: ['饮料'],
+  usageLimits: [{ foodCategory: '饮料', limit: '按生产需要适量使用', note: '测试说明' }],
+  sourceReferences: [{ title: 'GB 2760', standard: 'GB 2760-2024', region: 'CN' }]
+});
+assert.match(foodDetailHtml, /E330/);
+assert.match(foodDetailHtml, /INS 330/);
+assert.match(foodDetailHtml, /允许使用/);
+assert.match(foodDetailHtml, /GB 2760-2024/);
+
+assert.equal(renderFoodAdditiveDetails(null), '');
+const sparseFoodDetailHtml = renderFoodAdditiveDetails({
+  eNumber: null,
+  gbCode: undefined,
+  gbStatus: undefined,
+  adi: 0,
+  foodCategories: null,
+  usageLimits: [{ foodCategory: null, limit: undefined, note: null }, null],
+  sourceReferences: [{ title: undefined, standard: null, region: null }, null]
+});
+assert.match(sparseFoodDetailHtml, /待确认/);
+assert.match(sparseFoodDetailHtml, />0</);
+assert.match(sparseFoodDetailHtml, /暂无食品类别/);
+assert.match(sparseFoodDetailHtml, /暂无限量信息/);
+assert.match(sparseFoodDetailHtml, /暂无来源标题/);
+assert.match(sparseFoodDetailHtml, /暂无标准编号/);
+assert.doesNotMatch(sparseFoodDetailHtml, /undefined|null/);
 
 console.log('Tests passed: ingredient search and text analysis behave as expected.');
