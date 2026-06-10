@@ -1,6 +1,7 @@
 import { escapeHtml, html } from '../components/render.js';
 import { categoryPath, getProductCategory, isProductCategory } from '../data/categories.js';
 import { getScanDraft } from '../store/userStore.js';
+import { formatBytes, SCAN_IMAGE_MAX_BYTES } from '../utils/imageFile.js';
 
 /**
  * @param {string} input Draft ingredient text from the route query.
@@ -36,7 +37,11 @@ export function renderScanPage(input = '', category = 'food') {
           <div class="scan-preview" data-scan-preview aria-live="polite">
             <span>未选择图片</span>
           </div>
-          <p class="helper-text" data-scan-feedback>当前 OCR 服务尚未接入。选择图片后可以保留预览，并在下方手动录入或校正成分表。</p>
+          <div class="scan-image-actions" aria-label="图片预览操作">
+            <button class="secondary" type="button" data-rotate-scan-image disabled>旋转预览</button>
+            <button class="secondary" type="button" data-clear-scan-image disabled>移除图片</button>
+          </div>
+          <p class="helper-text" data-scan-feedback>当前 OCR 服务尚未接入。支持 PNG、JPEG、WebP、GIF、BMP、AVIF，单张不超过 ${formatBytes(SCAN_IMAGE_MAX_BYTES)}。</p>
         </div>
 
         <div class="scan-editor">
@@ -56,7 +61,7 @@ export function renderScanPage(input = '', category = 'food') {
 
     <section class="section">
       <div class="scan-state-grid" aria-label="扫描状态">
-        ${scanStateItem('图片', '支持拍照或相册选择，保留当前图片预览。')}
+        ${scanStateItem('图片', `支持拍照或相册选择，单张不超过 ${formatBytes(SCAN_IMAGE_MAX_BYTES)}。`)}
         ${scanStateItem('校正', '识别结果先进入可编辑文本区，避免直接误判。')}
         ${scanStateItem('分析', '确认文本后进入本地分析、过敏原提示和报告保存。')}
       </div>

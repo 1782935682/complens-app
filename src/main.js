@@ -5,17 +5,12 @@ import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { addHistory, clearAnalysisReports, clearHistory, clearScanDraft, deleteAnalysisReport, getAnalysisReportById, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
-const PREVIEWABLE_IMAGE_TYPES = new Set([
-  'image/png',
-  'image/jpeg',
-  'image/webp',
-  'image/gif',
-  'image/bmp',
-  'image/avif'
-]);
+let scanPreviewObjectUrl = '';
+let scanPreviewRotation = 0;
 
 function navigate(hash) {
   window.location.hash = hash;
@@ -23,6 +18,8 @@ function navigate(hash) {
 
 function render() {
   const route = resolveRoute(window.location.hash);
+  revokeScanPreviewObjectUrl();
+  scanPreviewRotation = 0;
   document.title = getRouteTitle(route);
   updateShellNavigation(route);
   app.innerHTML = renderRoute(route);
@@ -226,7 +223,14 @@ function bindPageEvents(route) {
       const preview = document.querySelector('[data-scan-preview]');
       const textInput = document.querySelector('#scan-text');
       const file = scanImageInput.files?.[0];
-      updateScanPreview(preview, file);
+      scanPreviewRotation = 0;
+      const validation = validateScanImageFile(file);
+      updateScanPreview(preview, file, validation);
+      updateScanImageActionState({ canRotate: validation.ok, canClear: Boolean(file) });
+      if (!validation.ok) {
+        if (feedback) feedback.textContent = validation.message;
+        return;
+      }
       try {
         if (feedback) feedback.textContent = '正在检查图片识别能力...';
         const result = await extractIngredientsFromImage(file);
@@ -237,6 +241,39 @@ function bindPageEvents(route) {
       } catch {
         if (feedback) feedback.textContent = '识别失败，请换一张更清晰的图片或直接录入成分表文本。';
       }
+    });
+  }
+
+  const rotateScanImageButton = document.querySelector('[data-rotate-scan-image]');
+  if (rotateScanImageButton) {
+    rotateScanImageButton.addEventListener('click', () => {
+      const image = document.querySelector('[data-scan-preview] img');
+      if (!image) {
+        const selectedFile = document.querySelector('[data-scan-image-input]')?.files?.[0];
+        updateScanImageActionState({ canRotate: false, canClear: Boolean(selectedFile) });
+        updateScanFeedback('请先选择一张可预览图片。');
+        return;
+      }
+
+      scanPreviewRotation = (scanPreviewRotation + 90) % 360;
+      applyScanPreviewRotation(image);
+      updateScanFeedback(scanPreviewRotation ? `已旋转预览 ${scanPreviewRotation} 度。` : '图片预览已回到原始方向。');
+    });
+  }
+
+  const clearScanImageButton = document.querySelector('[data-clear-scan-image]');
+  if (clearScanImageButton) {
+    clearScanImageButton.addEventListener('click', () => {
+      const imageInput = document.querySelector('[data-scan-image-input]');
+      const preview = document.querySelector('[data-scan-preview]');
+      if (imageInput) {
+        imageInput.value = '';
+        imageInput.focus();
+      }
+      scanPreviewRotation = 0;
+      updateScanPreview(preview, null);
+      updateScanImageActionState({ canRotate: false, canClear: false });
+      updateScanFeedback('图片已移除，可重新选择。');
     });
   }
 
@@ -399,20 +436,14 @@ function updateScanDraftStatus(message) {
   if (statusNode) statusNode.textContent = message;
 }
 
-function updateScanPreview(preview, file) {
+function updateScanPreview(preview, file, validation = validateScanImageFile(file)) {
   if (!preview) return;
+  revokeScanPreviewObjectUrl();
   preview.replaceChildren();
 
-  if (!file) {
+  if (!file || !validation.ok) {
     const placeholder = document.createElement('span');
-    placeholder.textContent = '未选择图片';
-    preview.append(placeholder);
-    return;
-  }
-
-  if (!isPreviewableImage(file)) {
-    const placeholder = document.createElement('span');
-    placeholder.textContent = '已选择文件，当前仅预览 PNG、JPEG、WebP、GIF、BMP 或 AVIF 图片。';
+    placeholder.textContent = validation.message || '未选择图片';
     preview.append(placeholder);
     return;
   }
@@ -421,9 +452,15 @@ function updateScanPreview(preview, file) {
   image.alt = '已选择图片预览';
   if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
     const objectUrl = URL.createObjectURL(file);
-    image.addEventListener('load', () => URL.revokeObjectURL(objectUrl), { once: true });
-    image.addEventListener('error', () => URL.revokeObjectURL(objectUrl), { once: true });
+    const releaseObjectUrl = () => {
+      URL.revokeObjectURL(objectUrl);
+      if (scanPreviewObjectUrl === objectUrl) scanPreviewObjectUrl = '';
+    };
+    image.addEventListener('load', releaseObjectUrl, { once: true });
+    image.addEventListener('error', releaseObjectUrl, { once: true });
     image.src = objectUrl;
+    scanPreviewObjectUrl = objectUrl;
+    applyScanPreviewRotation(image);
     preview.append(image);
     return;
   }
@@ -433,8 +470,24 @@ function updateScanPreview(preview, file) {
   preview.append(placeholder);
 }
 
-function isPreviewableImage(file) {
-  return PREVIEWABLE_IMAGE_TYPES.has(String(file?.type || '').toLowerCase());
+function applyScanPreviewRotation(image) {
+  if (!image) return;
+  const rotation = scanPreviewRotation % 360;
+  image.dataset.rotation = String(rotation);
+  image.style.transform = rotation ? `rotate(${rotation}deg)` : '';
+}
+
+function revokeScanPreviewObjectUrl() {
+  if (!scanPreviewObjectUrl || typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
+  URL.revokeObjectURL(scanPreviewObjectUrl);
+  scanPreviewObjectUrl = '';
+}
+
+function updateScanImageActionState({ canRotate, canClear }) {
+  const rotateButton = document.querySelector('[data-rotate-scan-image]');
+  if (rotateButton) rotateButton.disabled = !canRotate;
+  const clearButton = document.querySelector('[data-clear-scan-image]');
+  if (clearButton) clearButton.disabled = !canClear;
 }
 
 window.addEventListener('hashchange', render);
