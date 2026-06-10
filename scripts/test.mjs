@@ -9,7 +9,7 @@ import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { ingredientCard } from '../src/components/render.js';
-import { getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
+import { getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { getFavoriteIngredients, getFavoriteItems, getUserAllergens, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
@@ -45,6 +45,18 @@ assert.deepEqual(resolveRoute('#/food/not-a-real-page'), { view: 'not-found', ca
 assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
+assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
+  { key: 'search', href: '#/food/search', active: true },
+  { key: 'analyze', href: '#/food/analyze', active: false },
+  { key: 'favorites', href: '#/food/favorites', active: false },
+  { key: 'settings', href: '#/food/settings', active: false }
+]);
+assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
+  { key: 'search', href: '#/cosmetics/search', active: false },
+  { key: 'analyze', href: '#/cosmetics/analyze', active: true },
+  { key: 'favorites', href: '#/cosmetics/favorites', active: false },
+  { key: 'settings', href: '#/cosmetics/settings', active: false }
+]);
 const notFoundHtml = renderRoute(resolveRoute('#/food/not-a-real-page'));
 assert.match(notFoundHtml, /页面不存在/);
 assert.match(notFoundHtml, /没有找到这个页面/);
