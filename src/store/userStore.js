@@ -101,7 +101,10 @@ export function saveAnalysisReport(input, category = DEFAULT_CATEGORY) {
   const report = createAnalysisReport(input, category);
   if (!report) return null;
   const current = getAnalysisReports().filter((item) => item.id !== report.id);
-  const next = [report, ...current].slice(0, MAX_ANALYSIS_REPORTS);
+  const sameCategory = [report, ...current.filter((item) => item.category === report.category)]
+    .slice(0, MAX_ANALYSIS_REPORTS);
+  const otherCategories = current.filter((item) => item.category !== report.category);
+  const next = [...sameCategory, ...otherCategories].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   writeJson(ANALYSIS_REPORTS_KEY, next);
   return report;
 }

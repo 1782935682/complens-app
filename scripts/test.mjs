@@ -256,6 +256,17 @@ clearAnalysisReports('food');
 assert.equal(getAnalysisReports('food').length, 0);
 assert.equal(getAnalysisReports('cosmetics').length, 1);
 writeJson('compcheck:analysis-reports', []);
+for (let index = 0; index < 20; index += 1) {
+  saveAnalysisReport(`${SAMPLES['food-1']}，批次${index}`, 'food');
+}
+assert.equal(getAnalysisReports('food').length, 20);
+saveAnalysisReport(SAMPLES['cosmetic-1'], 'cosmetics');
+assert.equal(getAnalysisReports('food').length, 20);
+assert.equal(getAnalysisReports('cosmetics').length, 1);
+saveAnalysisReport(`${SAMPLES['food-3']}，额外食品报告`, 'food');
+assert.equal(getAnalysisReports('food').length, 20);
+assert.equal(getAnalysisReports('cosmetics').length, 1);
+writeJson('compcheck:analysis-reports', []);
 setUserAllergens(originalUserAllergens);
 
 const foodCardHtml = ingredientCard(getIngredientById('citric-acid', 'food'));
