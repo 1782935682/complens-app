@@ -835,6 +835,21 @@ button.secondary:hover {
   font-size: 16px;
 }
 
+.report-export {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.report-export__preview {
+  min-height: 260px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre;
+}
+
 .sample-picker {
   display: inline-flex;
   align-items: center;

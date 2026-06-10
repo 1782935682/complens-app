@@ -1,7 +1,8 @@
 import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
-import { addHistory, clearAnalysisReports, clearHistory, deleteAnalysisReport, removeHistory, saveAnalysisReport, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
+import { addHistory, clearAnalysisReports, clearHistory, deleteAnalysisReport, getAnalysisReportById, removeHistory, saveAnalysisReport, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
@@ -117,6 +118,41 @@ function bindPageEvents(route) {
     });
   }
 
+  document.querySelectorAll('[data-copy-report]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const report = getAnalysisReportById(button.dataset.copyReport);
+      if (!report) {
+        updateExportStatus('报告不存在，无法复制。');
+        return;
+      }
+      try {
+        await copyText(getReportMarkdownText(report));
+        updateExportStatus('已复制 Markdown');
+      } catch {
+        updateExportStatus('复制失败，请手动选择文本。');
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-download-report]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const report = getAnalysisReportById(button.dataset.reportId);
+      if (!report) {
+        updateExportStatus('报告不存在，无法下载。');
+        return;
+      }
+      const format = button.dataset.downloadReport;
+      const isJson = format === 'json';
+      const content = isJson
+        ? `${JSON.stringify(buildReportExportPayload(report), null, 2)}\n`
+        : `${getReportMarkdownText(report)}\n`;
+      const fileName = buildReportFileName(report, isJson ? 'json' : 'md');
+      const mimeType = isJson ? 'application/json' : 'text/markdown';
+      downloadTextFile(fileName, content, mimeType);
+      updateExportStatus(`已生成 ${isJson ? 'JSON' : 'Markdown'} 文件`);
+    });
+  });
+
   document.querySelectorAll('[data-delete-history]').forEach((button) => {
     button.addEventListener('click', () => {
       removeHistory(button.dataset.deleteHistory);
@@ -192,6 +228,45 @@ function updateAllergenSettingsFeedback(count, message) {
   const countNode = document.querySelector('[data-allergen-count]');
   if (countNode) countNode.textContent = `${count} 项已关注`;
   const statusNode = document.querySelector('[data-allergen-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function getReportMarkdownText(report) {
+  const textarea = document.querySelector('[data-report-markdown]');
+  return textarea?.value || buildReportMarkdown(report);
+}
+
+async function copyText(text) {
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  document.body.append(textarea);
+  textarea.select();
+  const copied = document.execCommand?.('copy');
+  textarea.remove();
+  if (!copied) throw new Error('Copy failed');
+}
+
+function downloadTextFile(fileName, content, mimeType) {
+  const blob = new Blob([content], { type: `${mimeType};charset=utf-8` });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function updateExportStatus(message) {
+  const statusNode = document.querySelector('[data-export-status]');
   if (statusNode) statusNode.textContent = message;
 }
 

@@ -2,6 +2,7 @@ import { escapeHtml, html, ingredientCard, riskClass, riskLabel } from '../compo
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getAllergensByIds } from '../services/allergenService.js';
 import { getIngredientById } from '../services/ingredientService.js';
+import { buildReportFileName, buildReportMarkdown } from '../services/reportExportService.js';
 import { getAnalysisReportById, getAnalysisReports } from '../store/userStore.js';
 
 export function renderReportsPage(category = 'food') {
@@ -48,6 +49,7 @@ export function renderReportDetailPage(id, category = 'food') {
   const highlightIngredients = resolveIngredients(report.highlightIngredientIds, report.category);
   const missingIds = report.matchedIngredientIds.filter((idValue) => !getIngredientById(idValue, report.category));
   const allergenHitCount = report.ingredientAllergenHits.length + report.textAllergenHits.length;
+  const markdown = buildReportMarkdown(report);
 
   return html`
     <section class="section">
@@ -68,6 +70,24 @@ export function renderReportDetailPage(id, category = 'food') {
       <div class="form-actions report-toolbar">
         <a class="button-link" href="#${categoryPath(report.category, '/analyze')}?text=${encodeURIComponent(report.input)}" data-route>重新分析</a>
         <a class="button-link secondary-link" href="#${categoryPath(report.category, '/reports')}" data-route>返回报告列表</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="report-export">
+        <div class="section__head">
+          <div>
+            <h2>导出报告</h2>
+            <p class="helper-text">导出内容包含保存时的报告快照、匹配成分、过敏原命中和原始成分表。</p>
+          </div>
+        </div>
+        <textarea class="report-export__preview" readonly rows="10" data-report-markdown>${escapeHtml(markdown)}</textarea>
+        <div class="form-actions report-toolbar">
+          <button type="button" class="secondary" data-copy-report="${escapeHtml(report.id)}">复制 Markdown</button>
+          <button type="button" class="secondary" data-download-report="markdown" data-report-id="${escapeHtml(report.id)}" data-file-name="${escapeHtml(buildReportFileName(report, 'md'))}">下载 Markdown</button>
+          <button type="button" class="secondary" data-download-report="json" data-report-id="${escapeHtml(report.id)}" data-file-name="${escapeHtml(buildReportFileName(report, 'json'))}">下载 JSON</button>
+          <span class="save-status" data-export-status aria-live="polite"></span>
+        </div>
       </div>
     </section>
 
