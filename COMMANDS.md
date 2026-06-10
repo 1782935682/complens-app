@@ -9,14 +9,9 @@
 
 ## 环境变量
 
-参考 `.env.example`：
+参考 `.env.example`。本项目不使用 Vite，环境变量不加 `VITE_` 前缀。
 
-```env
-VITE_API_BASE_URL=
-VITE_APP_NAME=成分小查
-```
-
-当前前端版本不会读取真实密钥，也不在前端暴露 AI/OCR 服务密钥。
+当前前端版本不读取任何环境变量。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。
 
 ## 安装依赖
 
