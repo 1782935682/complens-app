@@ -6,13 +6,14 @@ import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
+import { renderHomePage } from '../src/pages/homePage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { ingredientCard } from '../src/components/render.js';
 import { getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
-import { getFavoriteIngredients, getFavoriteItems, getUserAllergens, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
+import { addHistory, getFavoriteIngredients, getFavoriteItems, getHistory, getUserAllergens, removeHistory, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -44,6 +45,7 @@ assert.deepEqual(resolveRoute('#/not-a-real-page'), { view: 'not-found', categor
 assert.deepEqual(resolveRoute('#/food/not-a-real-page'), { view: 'not-found', category: 'food', path: '/food/not-a-real-page' });
 assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
@@ -143,6 +145,17 @@ assert.deepEqual(getFavoriteItems(), [
   { id: 'citric-acid', category: 'food' },
   { id: 'niacinamide', category: 'cosmetics' }
 ]);
+
+writeJson('compcheck:history', []);
+addHistory('烟酰胺');
+addHistory('BHA');
+assert.deepEqual(getHistory(), ['BHA', '烟酰胺']);
+assert.deepEqual(removeHistory('BHA'), ['烟酰胺']);
+assert.deepEqual(getHistory(), ['烟酰胺']);
+const homeHtmlWithHistory = renderHomePage('cosmetics');
+assert.match(homeHtmlWithHistory, /data-delete-history="烟酰胺"/);
+assert.match(homeHtmlWithHistory, /aria-label="删除查询记录：烟酰胺"/);
+assert.doesNotMatch(homeHtmlWithHistory, /data-delete-history="BHA"/);
 
 const originalUserAllergens = getUserAllergens();
 assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);

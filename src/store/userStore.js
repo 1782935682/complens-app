@@ -59,6 +59,14 @@ export function clearHistory() {
   writeJson(HISTORY_KEY, []);
 }
 
+export function removeHistory(query) {
+  const normalized = String(query || '').trim();
+  if (!normalized) return getHistory();
+  const next = getHistory().filter((item) => item !== normalized);
+  writeJson(HISTORY_KEY, next);
+  return next;
+}
+
 export function getUserAllergens() {
   return readJson(ALLERGENS_KEY, []);
 }
