@@ -1,5 +1,5 @@
 import { renderAnalyzePage } from '../pages/analyzePage.js';
-import { defaultCategory, getProductCategory, isProductCategory, legacyCategory } from '../data/categories.js';
+import { categoryPath, defaultCategory, getProductCategory, isProductCategory, legacyCategory } from '../data/categories.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
@@ -17,6 +17,13 @@ const VIEW_TITLES = {
   settings: '过敏原档案',
   'not-found': '页面不存在'
 };
+
+const NAV_ITEMS = [
+  { key: 'search', view: 'search', path: '/search' },
+  { key: 'analyze', view: 'analyze', path: '/analyze' },
+  { key: 'favorites', view: 'favorites', path: '/favorites' },
+  { key: 'settings', view: 'settings', path: '/settings' }
+];
 
 export function resolveRoute(hash) {
   const raw = hash || '#/';
@@ -96,6 +103,15 @@ export function getRouteTitle(route) {
   if (route.view === 'settings') return `${VIEW_TITLES.settings} - ${APP_TITLE}`;
   const title = VIEW_TITLES[route.view] || VIEW_TITLES['not-found'];
   return `${title} - ${categoryLabel} - ${APP_TITLE}`;
+}
+
+export function getNavigationLinks(route) {
+  const category = route?.category || defaultCategory;
+  return NAV_ITEMS.map((item) => ({
+    key: item.key,
+    href: `#${categoryPath(category, item.path)}`,
+    active: route?.view === item.view
+  }));
 }
 
 function resolveCategoryPath(path) {

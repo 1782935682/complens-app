@@ -1,5 +1,5 @@
 import { categoryPath } from './data/categories.js';
-import { getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
+import { getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
@@ -13,12 +13,31 @@ function navigate(hash) {
 function render() {
   const route = resolveRoute(window.location.hash);
   document.title = getRouteTitle(route);
+  updateShellNavigation(route);
   app.innerHTML = renderRoute(route);
   bindPageEvents(route);
   window.scrollTo({ top: 0, behavior: 'auto' });
   if (typeof app.focus === 'function') {
     app.focus({ preventScroll: true });
   }
+}
+
+function updateShellNavigation(route) {
+  const brandLink = document.querySelector('[data-brand-link]');
+  if (brandLink) brandLink.setAttribute('href', `#${categoryPath(route.category)}`);
+
+  const navState = new Map(getNavigationLinks(route).map((item) => [item.key, item]));
+  document.querySelectorAll('[data-nav-key]').forEach((link) => {
+    const item = navState.get(link.dataset.navKey);
+    if (!item) return;
+    link.setAttribute('href', item.href);
+    link.classList.toggle('is-active', item.active);
+    if (item.active) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
 }
 
 function bindPageEvents(route) {
