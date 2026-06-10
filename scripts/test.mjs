@@ -217,4 +217,10 @@ assert.equal(chiliAnalysis.matchedCount, 4);
 assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-benzoate'), true);
 assert.equal(chiliAnalysis.ingredients.some((item) => item.id === 'sodium-metabisulfite'), true);
 
+const juiceAnalysis = analyzeIngredientText(SAMPLES['food-3'], 'food');
+assert.equal(juiceAnalysis.ingredients.some((item) => item.id === 'potassium-sorbate'), true);
+
+const jellyAnalysis = analyzeIngredientText(SAMPLES['food-5'], 'food');
+assert.equal(jellyAnalysis.unknownItems.includes('魔芋粉'), true);
+
 console.log('Tests passed: ingredient search and text analysis behave as expected.');

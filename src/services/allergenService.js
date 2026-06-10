@@ -39,9 +39,9 @@ export function formatAllergenNames(allergens = []) {
   return allergens
     .map((allergen) => {
       if (typeof allergen === 'string') {
-        return allergenById.get(allergen)?.nameCn || '';
+        return allergenById.get(allergen)?.nameCn || '未知过敏原';
       }
-      return allergen?.nameCn || '';
+      return allergen?.nameCn || '未知过敏原';
     })
     .filter(Boolean)
     .join('、');

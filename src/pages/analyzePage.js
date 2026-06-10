@@ -157,11 +157,12 @@ function renderDisclaimer() {
 
 function allergenCard(ingredient, allergens, category) {
   const href = `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
+  const allergenNames = formatAllergenNames(allergens);
   return html`
     <article class="ingredient-card ingredient-card--allergen">
       <a href="${href}" class="ingredient-card__main" data-route>
         <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
-        <span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergens))}</span>
+        ${allergenNames ? html`<span class="allergen-badge">过敏原：${escapeHtml(allergenNames)}</span>` : ''}
         <h3>${escapeHtml(ingredient.nameCn)}</h3>
         <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
         <p>${escapeHtml(ingredient.description)}</p>
@@ -174,10 +175,11 @@ function allergenCard(ingredient, allergens, category) {
 }
 
 function textAllergenCard(item, allergens) {
+  const allergenNames = formatAllergenNames(allergens);
   return html`
     <article class="ingredient-card ingredient-card--allergen">
       <div class="ingredient-card__main">
-        <span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergens))}</span>
+        ${allergenNames ? html`<span class="allergen-badge">过敏原：${escapeHtml(allergenNames)}</span>` : ''}
         <h3>普通原料/标签文本：${escapeHtml(item)}</h3>
         <p>该标签原文不是食品添加剂数据库匹配项，但与您关注的过敏原关键词匹配，请结合产品标签确认来源。</p>
         <div class="meta-row">
