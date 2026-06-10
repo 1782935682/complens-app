@@ -17,8 +17,9 @@ assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
 assert.deepEqual(resolveRoute('#/food/search?q=E330'), { view: 'search', category: 'food', query: 'E330' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
 assert.deepEqual(resolveRoute('#/search?q=BHA'), { view: 'search', category: 'cosmetics', query: 'BHA' });
-assert.deepEqual(resolveRoute('#/settings'), { view: 'settings', category: 'cosmetics' });
+assert.deepEqual(resolveRoute('#/settings'), { view: 'settings', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/settings'), { view: 'settings', category: 'food' });
+assert.deepEqual(resolveRoute('#/cosmetics/settings'), { view: 'settings', category: 'cosmetics' });
 assert.equal(categoryPath('food', '/search'), '/food/search');
 
 const cnResults = searchIngredients('烟酰胺');

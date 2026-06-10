@@ -46,7 +46,7 @@ export function resolveRoute(hash) {
   if (route.path === '/settings') {
     return {
       view: 'settings',
-      category: route.category
+      category: route.hasCategoryPrefix ? route.category : defaultCategory
     };
   }
 
@@ -72,11 +72,13 @@ function resolveCategoryPath(path) {
     const rest = `/${segments.slice(1).join('/')}`;
     return {
       category: first,
-      path: rest === '/' ? '/' : rest
+      path: rest === '/' ? '/' : rest,
+      hasCategoryPrefix: true
     };
   }
   return {
     category: path === '/' ? defaultCategory : legacyCategory,
-    path
+    path,
+    hasCategoryPrefix: false
   };
 }
