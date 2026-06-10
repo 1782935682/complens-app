@@ -342,6 +342,15 @@ button.secondary:disabled:hover {
   background: white;
 }
 
+button.danger-button {
+  border-color: #f1b8b2;
+  color: var(--high);
+}
+
+button.danger-button:hover {
+  background: #fff1ef;
+}
+
 .text-button {
   min-height: auto;
   padding: 0;
@@ -660,6 +669,30 @@ button.secondary:disabled:hover {
 
 .allergen-alert--cards p {
   margin: 0 0 15px;
+}
+
+.local-data-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.local-data-metric {
+  display: grid;
+  gap: 2px;
+  min-height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fbfcfb;
+}
+
+.local-data-metric strong {
+  font-size: 22px;
+}
+
+.local-data-metric span {
+  color: var(--muted);
 }
 
 .ingredient-card--allergen {
@@ -1425,6 +1458,7 @@ button.secondary:disabled:hover {
   .food-detail-grid,
   .audit-grid,
   .review-status-grid,
+  .local-data-grid,
   .scan-form,
   .scan-state-grid,
   .report-card,

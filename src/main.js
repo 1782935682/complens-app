@@ -4,7 +4,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { addHistory, clearAnalysisReports, clearHistory, clearScanDraft, deleteAnalysisReport, getAnalysisReportById, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
@@ -318,12 +318,52 @@ function bindPageEvents(route) {
       updateAllergenSettingsFeedback(0, '已清空');
     });
   }
+
+  const exportLocalDataButton = document.querySelector('[data-export-local-data]');
+  if (exportLocalDataButton) {
+    exportLocalDataButton.addEventListener('click', () => {
+      const snapshot = getLocalDataSnapshot();
+      downloadTextFile('compcheck-local-data.json', `${JSON.stringify(snapshot, null, 2)}\n`, 'application/json');
+      updateLocalDataSummary('已导出 JSON 文件。');
+    });
+  }
+
+  const clearLocalDataButton = document.querySelector('[data-clear-local-data]');
+  if (clearLocalDataButton) {
+    clearLocalDataButton.addEventListener('click', () => {
+      const confirmed = typeof window.confirm === 'function'
+        ? window.confirm('清空本机收藏、历史、过敏原、报告和扫描草稿？')
+        : true;
+      if (!confirmed) return;
+
+      clearLocalUserData();
+      if (allergenForm) {
+        allergenForm.querySelectorAll('input[name="allergens"]').forEach((input) => {
+          input.checked = false;
+        });
+      }
+      updateAllergenSettingsFeedback(0, '已清空');
+      updateLocalDataSummary('本机数据已清空。');
+    });
+  }
 }
 
 function updateAllergenSettingsFeedback(count, message) {
   const countNode = document.querySelector('[data-allergen-count]');
   if (countNode) countNode.textContent = `${count} 项已关注`;
   const statusNode = document.querySelector('[data-allergen-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateLocalDataSummary(message) {
+  const summary = getLocalDataSummary();
+  const summaryNode = document.querySelector('[data-local-data-summary]');
+  if (summaryNode) summaryNode.textContent = `${summary.totalItems} 项本机数据`;
+  Object.entries(summary).forEach(([key, value]) => {
+    const countNode = document.querySelector(`[data-local-data-count="${key}"]`);
+    if (countNode) countNode.textContent = String(value);
+  });
+  const statusNode = document.querySelector('[data-local-data-status]');
   if (statusNode) statusNode.textContent = message;
 }
 
