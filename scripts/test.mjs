@@ -7,6 +7,7 @@ import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
+import { ingredientCard } from '../src/components/render.js';
 import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
@@ -84,6 +85,7 @@ assert.deepEqual(getFavoriteItems(), [
   { id: 'niacinamide', category: 'cosmetics' }
 ]);
 
+const originalUserAllergens = getUserAllergens();
 assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
 assert.deepEqual(getUserAllergens(), ['milk', 'soybeans']);
 const settingsHtml = renderSettingsPage();
@@ -100,11 +102,17 @@ assert.match(analyzeHtmlWithAllergens, /发现过敏原成分/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
 assert.match(analyzeHtmlWithAllergens, /全脂奶粉/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：乳及乳制品/);
+assert.match(analyzeHtmlWithAllergens, /href="#\/food\/ingredient\/lecithins"/);
+assert.match(analyzeHtmlWithAllergens, /href="#\/food\/ingredient\/sodium-metabisulfite"/);
 assert.doesNotMatch(analyzeHtmlWithAllergens, /您尚未设置关注的过敏原/);
 setUserAllergens([]);
 const analyzeHtmlWithoutAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
 assert.match(analyzeHtmlWithoutAllergens, /您尚未设置关注的过敏原/);
 assert.doesNotMatch(analyzeHtmlWithoutAllergens, /发现过敏原成分/);
+setUserAllergens(originalUserAllergens);
+
+const foodCardHtml = ingredientCard(getIngredientById('citric-acid', 'food'));
+assert.match(foodCardHtml, /href="#\/food\/ingredient\/citric-acid"/);
 
 const invalidFoodAdditive = {
   id: 'bad-food-additive',

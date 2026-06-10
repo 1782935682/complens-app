@@ -31,16 +31,13 @@ export function riskClass(level) {
   return `risk risk-${level || 'unknown'}`;
 }
 
+/**
+ * @param {import('../types/ingredient.js').Ingredient} ingredient
+ * @param {{ category?: import('../types/ingredient.js').DataCategory, href?: string }} options
+ */
 export function ingredientCard(ingredient, options = {}) {
-  let category = 'cosmetics';
-  let href = '';
-
-  if (typeof options === 'string') {
-    category = options;
-  } else if (options && typeof options === 'object') {
-    category = options.category || 'cosmetics';
-    href = options.href || '';
-  }
+  const category = options.category || ingredient.dataCategory || 'food';
+  const href = options.href || '';
 
   const finalHref = href || `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
   return html`

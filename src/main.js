@@ -2,9 +2,10 @@ import { categoryPath } from './data/categories.js';
 import { renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
-import { SAMPLES } from './utils/text.js';
+import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
+const sampleIds = new Set(SAMPLE_OPTIONS.map((sample) => sample.id));
 
 function navigate(hash) {
   window.location.hash = hash;
@@ -57,10 +58,10 @@ function bindPageEvents(route) {
   if (sampleSelect) {
     sampleSelect.addEventListener('change', () => {
       const val = sampleSelect.value;
-      if (val === '0') return;
+      if (val === '0' || !sampleIds.has(val)) return;
       const textarea = document.querySelector('#ingredient-text');
       if (textarea) {
-        textarea.value = SAMPLES[val] || '';
+        textarea.value = SAMPLES[val];
         textarea.focus();
       }
     });
