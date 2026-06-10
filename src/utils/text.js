@@ -31,10 +31,13 @@ export const SAMPLE_OPTIONS = [
   { id: 'cosmetic-2', category: 'cosmetics', label: '示例2：温和无刺激洁面乳（含有椰油酰甘氨酸钠）' }
 ];
 
+const protectedDelimiter = '\uE000';
+
 export function splitIngredientInput(value) {
   return String(value || '')
+    .replace(/单\s*[,，、]\s*双/g, `单${protectedDelimiter}双`)
     .split(/[,，、;；\n\r]+/)
-    .map((item) => stripBracketNotes(item).trim())
+    .map((item) => stripBracketNotes(item).replaceAll(protectedDelimiter, '，').trim())
     .filter(Boolean);
 }
 

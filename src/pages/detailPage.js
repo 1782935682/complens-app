@@ -86,10 +86,23 @@ export function renderFoodAdditiveDetails(ingredient) {
         ${renderField('ADI', ingredient.adi)}
         ${renderField('数据状态', reviewStatusLabel(ingredient.reviewStatus))}
       </div>
+      ${renderFoodAuditNotice(ingredient)}
       ${renderInfoBlock('适用食品类别', ingredient.foodCategories || [])}
       ${renderUsageLimits(ingredient.usageLimits || [])}
       ${renderSourceReferences(ingredient.sourceReferences || [])}
     </section>
+  `;
+}
+
+function renderFoodAuditNotice(ingredient) {
+  const isDraft = !ingredient.reviewStatus || ingredient.reviewStatus === 'draft';
+  const hasUsageLimits = Array.isArray(ingredient.usageLimits) && ingredient.usageLimits.length > 0;
+  if (!isDraft && hasUsageLimits) return '';
+
+  return html`
+    <div class="data-warning" data-food-audit-note>
+      草稿数据：逐食品类别限量、ADI 原文和来源条款仍需审核。
+    </div>
   `;
 }
 

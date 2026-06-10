@@ -1,7 +1,7 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
-import { getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
+import { getDatasetAuditSummary, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
 import { getUserAllergens } from '../store/userStore.js';
 
 const SEARCH_PAGE_SIZE = 6;
@@ -26,6 +26,7 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
   const safeQuery = escapeHtml(query || '');
   const activeFilterCount = [activeFilters.risk, activeFilters.ingredientCategory].filter(Boolean).length;
   const suggestions = getSearchSuggestions(query, category, 5);
+  const auditSummary = getDatasetAuditSummary(category);
 
   return html`
     <section class="section">
@@ -49,12 +50,22 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
         <span class="count">${results.length} 项</span>
       </div>
       ${renderActiveFilterSummary(activeFilters, activeSort)}
+      ${renderDatasetAuditNotice(category, auditSummary)}
       ${renderRiskFacets(riskFacets, category, query, activeFilters, activeSort)}
       ${renderCategoryFacets(categoryFacets, category, query, activeFilters, activeSort)}
       ${results.length ? renderPageSummary(results.length, currentPage, pagedResults.length) : ''}
       ${results.length ? renderResults(pagedResults, category) : renderEmpty(safeQuery, activeFilterCount)}
       ${results.length ? renderPagination(category, query, activeFilters, activeSort, currentPage, totalPages) : ''}
     </section>
+  `;
+}
+
+function renderDatasetAuditNotice(category, summary) {
+  if (category !== 'food') return '';
+  return html`
+    <p class="data-disclaimer" data-dataset-audit-note>
+      当前食品添加剂库含 ${summary.totalCount} 条草稿数据，${summary.reviewedOrVerifiedCount} 条已复核/验证；使用限量和 ADI 原文仍在审核中。
+    </p>
   `;
 }
 
