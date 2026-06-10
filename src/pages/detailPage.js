@@ -11,6 +11,12 @@ const GB_STATUS_LABELS = {
   unknown: '待确认'
 };
 
+const REVIEW_STATUS_LABELS = {
+  draft: '草稿',
+  reviewed: '已复核',
+  verified: '已验证'
+};
+
 export function renderDetailPage(id, category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
   const ingredient = getIngredientById(id, category);
@@ -76,6 +82,7 @@ export function renderFoodAdditiveDetails(ingredient) {
         ${renderField('GB / INS 编号', ingredient.gbCode)}
         ${renderField('GB 2760 状态', gbStatusLabel(ingredient.gbStatus))}
         ${renderField('ADI', ingredient.adi)}
+        ${renderField('数据状态', reviewStatusLabel(ingredient.reviewStatus))}
       </div>
       ${renderInfoBlock('适用食品类别', ingredient.foodCategories || [])}
       ${renderUsageLimits(ingredient.usageLimits || [])}
@@ -136,7 +143,7 @@ function renderSourceReferences(sourceReferences) {
       ${sources.length
         ? `<ul class="data-list">${sources.map((source) => html`
           <li>
-            <strong>${escapeHtml(valueOrFallback(source.title, '暂无来源标题'))}</strong>
+            <strong>${renderSourceTitle(source)}</strong>
             <span>${escapeHtml(valueOrFallback(source.standard, '暂无标准编号'))}</span>
             ${source.region ? `<small>${escapeHtml(source.region)}</small>` : ''}
           </li>
@@ -146,6 +153,16 @@ function renderSourceReferences(sourceReferences) {
   `;
 }
 
+function renderSourceTitle(source) {
+  const title = valueOrFallback(source.title, '暂无来源标题');
+  if (!source.url) return escapeHtml(title);
+  return `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(title)}</a>`;
+}
+
 function gbStatusLabel(status) {
   return GB_STATUS_LABELS[status] || GB_STATUS_LABELS.unknown;
+}
+
+function reviewStatusLabel(status) {
+  return REVIEW_STATUS_LABELS[status] || REVIEW_STATUS_LABELS.draft;
 }

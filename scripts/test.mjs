@@ -23,7 +23,9 @@ assert.equal(cnResults[0].id, 'niacinamide');
 
 const enResults = searchIngredients('BHA');
 assert.equal(enResults[0].id, 'salicylic-acid');
-assert.deepEqual(searchIngredients('E330', 'food'), []);
+assert.equal(searchIngredients('E330', 'food')[0].id, 'citric-acid');
+assert.equal(searchIngredients('INS 211', 'food')[0].id, 'sodium-benzoate');
+assert.equal(getIngredientById('sulfur-dioxide', 'food').allergenTypes[0], 'sulphites');
 
 assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
 assert.deepEqual(splitIngredientInput('苯氧乙醇(防腐剂)，香精（香料）'), ['苯氧乙醇', '香精']);
@@ -33,6 +35,11 @@ assert.equal(analysis.matchedCount, 4);
 assert.deepEqual(analysis.highlights.map((item) => item.id), ['salicylic-acid', 'fragrance']);
 assert.deepEqual(analysis.unknownItems, ['水', '未知成分']);
 assert.match(analysis.summary, /已匹配 4 项成分/);
+
+const foodAnalysis = analyzeIngredientText('柠檬酸，山梨酸钾，焦亚硫酸钠，未知添加剂', 'food');
+assert.equal(foodAnalysis.matchedCount, 3);
+assert.deepEqual(foodAnalysis.highlights.map((item) => item.id), ['potassium-sorbate', 'sodium-metabisulfite']);
+assert.deepEqual(foodAnalysis.unknownItems, ['未知添加剂']);
 
 const aiResult = await analyzeIngredientsByAI('烟酰胺');
 assert.equal(aiResult.enabled, false);

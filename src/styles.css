@@ -506,6 +506,45 @@ button.secondary:hover {
   background: #f9faf8;
 }
 
+.limit-list,
+.source-list {
+  display: grid;
+  gap: 10px;
+}
+
+.limit-item {
+  display: grid;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.limit-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.limit-item span,
+.limit-item p,
+.source-list span {
+  color: var(--muted);
+}
+
+.limit-item p,
+.source-list p {
+  margin: 0;
+}
+
+.source-list p {
+  display: grid;
+  gap: 2px;
+}
+
+.source-list a {
+  color: var(--primary);
+  font-weight: 800;
+}
+
 .analyze-form {
   display: grid;
   gap: 10px;
