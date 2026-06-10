@@ -260,6 +260,7 @@ assert.doesNotMatch(pagedSearchHtml, /<h3>阿斯巴甜<\/h3>/);
 
 assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
 assert.deepEqual(splitIngredientInput('苯氧乙醇(防腐剂)，香精（香料）'), ['苯氧乙醇', '香精']);
+assert.deepEqual(splitIngredientInput('单，双甘油脂肪酸酯，甘油'), ['单，双甘油脂肪酸酯', '甘油']);
 
 const analysis = analyzeIngredientText('水，烟酰胺，透明质酸钠，水杨酸，香精，未知成分');
 assert.equal(analysis.matchedCount, 4);
@@ -286,6 +287,10 @@ const lowerRiskFoodAnalysis = analyzeIngredientText('苹果酸，二氧化硅，
 assert.equal(lowerRiskFoodAnalysis.matchedCount, 3);
 assert.match(lowerRiskFoodAnalysis.summary, /摄入量、食品类别和产品标签/);
 assert.doesNotMatch(lowerRiskFoodAnalysis.summary, /肤质/);
+const emulsifierCommaAnalysis = analyzeIngredientText('单，双甘油脂肪酸酯', 'food');
+assert.equal(emulsifierCommaAnalysis.matchedCount, 1);
+assert.deepEqual(emulsifierCommaAnalysis.ingredients.map((item) => item.id), ['mono-and-diglycerides-fatty-acids']);
+assert.deepEqual(emulsifierCommaAnalysis.unknownItems, []);
 
 const aiResult = await analyzeIngredientsByAI('烟酰胺');
 assert.equal(aiResult.enabled, false);

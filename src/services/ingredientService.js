@@ -233,14 +233,31 @@ function matchesSearchFilters(ingredient, filters) {
 
 function findIngredientByLooseName(value, category) {
   const keyword = normalizeText(value).replace(/[().]/g, '');
-  return getDatasetByCategory(category).items.find((ingredient) => {
-    const names = getSearchableNames(ingredient);
-    return names.some((name) => {
+  const compactKeyword = keyword.replace(/\s+/g, '');
+  let best = { ingredient: null, score: 0 };
+
+  for (const ingredient of getDatasetByCategory(category).items) {
+    for (const name of getSearchableNames(ingredient)) {
       const normalized = normalizeText(name).replace(/[().]/g, '');
-      const canUsePartialMatch = keyword.length >= 2 && normalized.length >= 2;
-      return normalized === keyword || (canUsePartialMatch && (normalized.includes(keyword) || keyword.includes(normalized)));
-    });
-  }) || null;
+      const compactName = normalized.replace(/\s+/g, '');
+      const score = getLooseNameMatchScore(keyword, compactKeyword, normalized, compactName);
+      if (score > best.score) {
+        best = { ingredient, score };
+      }
+    }
+  }
+
+  return best.ingredient;
+}
+
+function getLooseNameMatchScore(keyword, compactKeyword, normalizedName, compactName) {
+  if (!keyword || !normalizedName) return 0;
+  if (normalizedName === keyword || compactName === compactKeyword) return 100 + Math.min(compactName.length, 20);
+  if (compactKeyword.length < 2) return 0;
+  if (compactName.startsWith(compactKeyword)) return 70 + Math.min(compactKeyword.length, 20);
+  if (compactName.includes(compactKeyword)) return 50 + Math.min(compactKeyword.length, 20);
+  if (compactName.length >= 4 && compactKeyword.includes(compactName)) return 40 + Math.min(compactName.length, 20);
+  return 0;
 }
 
 function getSearchableNames(ingredient) {
