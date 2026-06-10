@@ -843,11 +843,18 @@ button.secondary:hover {
   }
 
   .search-row,
-  .filter-row,
   .result-item,
   .detail__header {
-    display: flex;
     flex-direction: column;
+  }
+
+  .filter-row {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .filter-clear {
+    justify-content: flex-start;
   }
 
   .sample-picker {
