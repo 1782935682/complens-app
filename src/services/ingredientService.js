@@ -1,4 +1,5 @@
 import { ingredients, popularIngredientIds } from '../data/ingredients.js';
+import { foodAdditives, popularFoodAdditiveIds } from '../data/foodAdditives.js';
 import { normalizeText, splitIngredientInput, uniqueBy } from '../utils/text.js';
 
 const riskOrder = {
@@ -8,25 +9,27 @@ const riskOrder = {
   low: 0
 };
 
-export function getAllIngredients() {
-  return ingredients;
+export function getAllIngredients(category = 'cosmetics') {
+  return getDatasetByCategory(category).items;
 }
 
-export function getPopularIngredients() {
-  return popularIngredientIds
-    .map((id) => getIngredientById(id))
+export function getPopularIngredients(category = 'cosmetics') {
+  const dataset = getDatasetByCategory(category);
+  return dataset.popularIds
+    .map((id) => getIngredientById(id, category))
     .filter(Boolean);
 }
 
-export function getIngredientById(id) {
-  return ingredients.find((ingredient) => ingredient.id === id) || null;
+export function getIngredientById(id, category = 'cosmetics') {
+  const dataset = getDatasetByCategory(category);
+  return dataset.items.find((ingredient) => ingredient.id === id) || null;
 }
 
-export function searchIngredients(query) {
+export function searchIngredients(query, category = 'cosmetics') {
   const keyword = normalizeText(query);
   if (!keyword) return [];
 
-  return ingredients
+  return getDatasetByCategory(category).items
     .map((ingredient) => ({
       ingredient,
       score: getSearchScore(ingredient, keyword)
@@ -36,13 +39,13 @@ export function searchIngredients(query) {
     .map(({ ingredient }) => toSearchResult(ingredient));
 }
 
-export function analyzeIngredientText(input) {
+export function analyzeIngredientText(input, category = 'cosmetics') {
   const rawItems = splitIngredientInput(input);
   const matched = [];
   const unknownItems = [];
 
   for (const item of rawItems) {
-    const match = findIngredientByLooseName(item);
+    const match = findIngredientByLooseName(item, category);
     if (match) {
       matched.push(match);
     } else {
@@ -84,9 +87,9 @@ function getSearchScore(ingredient, keyword) {
   return haystack.includes(keyword) ? 20 : 0;
 }
 
-function findIngredientByLooseName(value) {
+function findIngredientByLooseName(value, category) {
   const keyword = normalizeText(value).replace(/[().]/g, '');
-  return ingredients.find((ingredient) => {
+  return getDatasetByCategory(category).items.find((ingredient) => {
     const names = [ingredient.nameCn, ingredient.nameEn, ...(ingredient.aliases || [])].filter(Boolean);
     return names.some((name) => {
       const normalized = normalizeText(name).replace(/[().]/g, '');
@@ -94,6 +97,19 @@ function findIngredientByLooseName(value) {
       return normalized === keyword || (canUsePartialMatch && (normalized.includes(keyword) || keyword.includes(normalized)));
     });
   }) || null;
+}
+
+function getDatasetByCategory(category) {
+  if (category === 'food') {
+    return {
+      items: foodAdditives,
+      popularIds: popularFoodAdditiveIds
+    };
+  }
+  return {
+    items: ingredients,
+    popularIds: popularIngredientIds
+  };
 }
 
 function toSearchResult(ingredient) {

@@ -1,13 +1,15 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
+import { getProductCategory } from '../data/categories.js';
 import { getFavoriteIngredients } from '../store/userStore.js';
 
-export function renderFavoritesPage() {
+export function renderFavoritesPage(category = 'cosmetics') {
+  const currentCategory = getProductCategory(category);
   const favorites = getFavoriteIngredients();
   return html`
     <section class="section">
       <div class="section__head">
         <div>
-          <p class="eyebrow">本地保存</p>
+          <p class="eyebrow">${currentCategory.label} / 本地保存</p>
           <h1>收藏夹</h1>
         </div>
         <span class="count">${favorites.length} 项</span>

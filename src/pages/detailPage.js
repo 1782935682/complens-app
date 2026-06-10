@@ -1,9 +1,11 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
+import { getProductCategory } from '../data/categories.js';
 import { getIngredientById } from '../services/ingredientService.js';
 import { isFavorite } from '../store/userStore.js';
 
-export function renderDetailPage(id) {
-  const ingredient = getIngredientById(id);
+export function renderDetailPage(id, category = 'cosmetics') {
+  const currentCategory = getProductCategory(category);
+  const ingredient = getIngredientById(id, category);
   if (!ingredient) {
     return html`
       <section class="section">
@@ -18,6 +20,7 @@ export function renderDetailPage(id) {
     <section class="detail">
       <div class="detail__header">
         <div>
+          <p class="eyebrow">${currentCategory.label}</p>
           <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
           <h1>${escapeHtml(ingredient.nameCn)}</h1>
           <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>

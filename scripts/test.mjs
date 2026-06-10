@@ -1,19 +1,26 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
+import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
+import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { splitIngredientInput } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
+assert.deepEqual(resolveRoute('#/food/search?q=E330'), { view: 'search', category: 'food', query: 'E330' });
+assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
+assert.deepEqual(resolveRoute('#/search?q=BHA'), { view: 'search', category: 'cosmetics', query: 'BHA' });
+assert.equal(categoryPath('food', '/search'), '/food/search');
 
 const cnResults = searchIngredients('烟酰胺');
 assert.equal(cnResults[0].id, 'niacinamide');
 
 const enResults = searchIngredients('BHA');
 assert.equal(enResults[0].id, 'salicylic-acid');
+assert.deepEqual(searchIngredients('E330', 'food'), []);
 
 assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
 assert.deepEqual(splitIngredientInput('苯氧乙醇(防腐剂)，香精（香料）'), ['苯氧乙醇', '香精']);

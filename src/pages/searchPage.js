@@ -1,8 +1,10 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
+import { categoryPath, getProductCategory } from '../data/categories.js';
 import { searchIngredients } from '../services/ingredientService.js';
 
-export function renderSearchPage(query) {
-  const results = searchIngredients(query);
+export function renderSearchPage(query, category = 'cosmetics') {
+  const currentCategory = getProductCategory(category);
+  const results = searchIngredients(query, category);
   const safeQuery = escapeHtml(query || '');
 
   return html`
@@ -19,18 +21,19 @@ export function renderSearchPage(query) {
     <section class="section">
       <div class="section__head">
         <h2>${safeQuery ? `“${safeQuery}” 的搜索结果` : '搜索结果'}</h2>
+        <span class="category">${currentCategory.label}</span>
         <span class="count">${results.length} 项</span>
       </div>
-      ${results.length ? renderResults(results) : renderEmpty(safeQuery)}
+      ${results.length ? renderResults(results, category) : renderEmpty(safeQuery)}
     </section>
   `;
 }
 
-function renderResults(results) {
+function renderResults(results, category) {
   return html`
     <div class="result-list">
       ${results.map((result) => html`
-        <a class="result-item" href="#/ingredient/${result.id}" data-route>
+        <a class="result-item" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
           <div>
             <span class="${riskClass(result.riskLevel)}">${riskLabel(result.riskLevel)}</span>
             <h3>${escapeHtml(result.nameCn)}</h3>

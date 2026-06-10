@@ -1,4 +1,5 @@
 import { renderAnalyzePage } from '../pages/analyzePage.js';
+import { defaultCategory, isProductCategory, legacyCategory } from '../data/categories.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
@@ -8,39 +9,65 @@ export function resolveRoute(hash) {
   const raw = hash || '#/';
   const [path, queryString = ''] = raw.replace(/^#/, '').split('?');
   const params = new URLSearchParams(queryString);
+  const route = resolveCategoryPath(path);
 
-  if (path.startsWith('/ingredient/')) {
+  if (route.path.startsWith('/ingredient/')) {
     return {
       view: 'detail',
-      id: decodeURIComponent(path.replace('/ingredient/', ''))
+      category: route.category,
+      id: decodeURIComponent(route.path.replace('/ingredient/', ''))
     };
   }
 
-  if (path === '/search') {
+  if (route.path === '/search') {
     return {
       view: 'search',
+      category: route.category,
       query: params.get('q') || ''
     };
   }
 
-  if (path === '/analyze') {
+  if (route.path === '/analyze') {
     return {
       view: 'analyze',
+      category: route.category,
       input: params.get('text') || ''
     };
   }
 
-  if (path === '/favorites') {
-    return { view: 'favorites' };
+  if (route.path === '/favorites') {
+    return {
+      view: 'favorites',
+      category: route.category
+    };
   }
 
-  return { view: 'home' };
+  return {
+    view: 'home',
+    category: route.category
+  };
 }
 
 export function renderRoute(route) {
-  if (route.view === 'detail') return renderDetailPage(route.id);
-  if (route.view === 'search') return renderSearchPage(route.query);
-  if (route.view === 'analyze') return renderAnalyzePage(route.input);
-  if (route.view === 'favorites') return renderFavoritesPage();
-  return renderHomePage();
+  if (route.view === 'detail') return renderDetailPage(route.id, route.category);
+  if (route.view === 'search') return renderSearchPage(route.query, route.category);
+  if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
+  if (route.view === 'favorites') return renderFavoritesPage(route.category);
+  return renderHomePage(route.category);
+}
+
+function resolveCategoryPath(path) {
+  const segments = path.split('/').filter(Boolean);
+  const first = segments[0];
+  if (isProductCategory(first)) {
+    const rest = `/${segments.slice(1).join('/')}`;
+    return {
+      category: first,
+      path: rest === '/' ? '/' : rest
+    };
+  }
+  return {
+    category: path === '/' ? defaultCategory : legacyCategory,
+    path
+  };
 }
