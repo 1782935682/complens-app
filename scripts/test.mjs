@@ -198,6 +198,7 @@ assert.equal(typeof SAMPLES['food-2'], 'string');
 
 const biscuitAnalysis = analyzeIngredientText(SAMPLES['food-2'], 'food');
 assert.equal(biscuitAnalysis.matchedCount, 2);
+assert.equal(biscuitAnalysis.matchedCount, biscuitAnalysis.ingredients.length);
 assert.deepEqual(biscuitAnalysis.ingredients.map((item) => item.id).sort(), ['lecithins', 'sodium-metabisulfite'].sort());
 
 const chiliAnalysis = analyzeIngredientText(SAMPLES['food-4'], 'food');

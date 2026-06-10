@@ -8,7 +8,7 @@ import urllib.request
 
 DIFF_PATH = '/tmp/pr.diff'
 REVIEW_PATH = '/tmp/review.md'
-MAX_DIFF_CHARS = 30000
+MAX_DIFF_CHARS = 100000
 
 PROMPT_SYSTEM = """你是 CompCheck（成分小查）项目的代码审查员。
 请对 PR 变更进行详细审查，输出中文报告，严格按照要求的格式。"""
@@ -67,7 +67,7 @@ def get_diff():
         print("diff 为空，跳过审查")
         sys.exit(0)
     if len(diff) > MAX_DIFF_CHARS:
-        diff = diff[:MAX_DIFF_CHARS] + '\n\n[... diff 过长，仅展示前 30000 字符 ...]'
+        diff = diff[:MAX_DIFF_CHARS] + f'\n\n[... diff 过长，仅展示前 {MAX_DIFF_CHARS} 字符 ...]'
     return diff
 
 
@@ -79,7 +79,7 @@ def call_deepseek(diff, api_key):
             {'role': 'system', 'content': PROMPT_SYSTEM},
             {'role': 'user', 'content': prompt},
         ],
-        'max_tokens': 3000,
+        'max_tokens': 5000,
         'temperature': 0.3,
     }).encode('utf-8')
 
