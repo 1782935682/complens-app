@@ -15,6 +15,7 @@ import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { ingredientCard } from '../src/components/render.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
+import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { addHistory, clearAnalysisReports, clearScanDraft, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getScanDraft, getUserAllergens, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
@@ -145,7 +146,12 @@ assert.match(scanHtml, /data-scan-image-input/);
 assert.match(scanHtml, /accept="image\/png,image\/jpeg,image\/webp,image\/gif,image\/bmp,image\/avif"/);
 assert.match(scanHtml, /capture="environment"/);
 assert.match(scanHtml, /data-scan-preview/);
+assert.match(scanHtml, /data-rotate-scan-image/);
+assert.match(scanHtml, /data-clear-scan-image/);
+assert.match(scanHtml, /旋转预览/);
+assert.match(scanHtml, /移除图片/);
 assert.match(scanHtml, /data-scan-draft-status/);
+assert.match(scanHtml, /单张不超过 8 MB/);
 assert.match(scanHtml, /柠檬酸/);
 assert.match(scanHtml, /已从链接带入待分析文本/);
 assert.match(scanHtml, /href="#\/food\/analyze"/);
@@ -158,6 +164,30 @@ assert.match(renderScanPage('', 'food'), /已恢复本机保存的扫描草稿/)
 assert.match(renderScanPage('', 'food'), /柠檬酸，山梨酸钾/);
 assert.deepEqual(clearScanDraft('food'), {});
 assert.equal(getScanDraft('food'), '');
+assert.equal(SCAN_IMAGE_MAX_BYTES, 8 * 1024 * 1024);
+assert.equal(formatBytes(0), '0 B');
+assert.equal(formatBytes(1024), '1 KB');
+assert.equal(formatBytes(SCAN_IMAGE_MAX_BYTES), '8 MB');
+assert.deepEqual(validateScanImageFile(null), {
+  ok: false,
+  reason: 'empty',
+  message: '请先选择一张清晰的产品成分表图片。'
+});
+assert.deepEqual(validateScanImageFile({ type: 'image/svg+xml', size: 100 }), {
+  ok: false,
+  reason: 'type',
+  message: '当前仅支持 PNG、JPEG、WebP、GIF、BMP 或 AVIF 图片。'
+});
+assert.deepEqual(validateScanImageFile({ type: 'image/png', size: SCAN_IMAGE_MAX_BYTES + 1 }), {
+  ok: false,
+  reason: 'size',
+  message: '图片超过 8 MB，请压缩后再上传。'
+});
+assert.deepEqual(validateScanImageFile({ type: 'image/jpeg', size: 2048 }), {
+  ok: true,
+  reason: '',
+  message: '已选择图片，大小 2 KB。'
+});
 
 const cnResults = searchIngredients('烟酰胺');
 assert.equal(cnResults[0].id, 'niacinamide');
