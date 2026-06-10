@@ -45,7 +45,11 @@ export function resolveRoute(hash) {
     return {
       view: 'search',
       category: route.category,
-      query: params.get('q') || ''
+      query: params.get('q') || '',
+      filters: {
+        risk: params.get('risk') || '',
+        ingredientCategory: params.get('ingredientCategory') || ''
+      }
     };
   }
 
@@ -76,7 +80,7 @@ export function resolveRoute(hash) {
 
 export function renderRoute(route) {
   if (route.view === 'detail') return renderDetailPage(route.id, route.category);
-  if (route.view === 'search') return renderSearchPage(route.query, route.category);
+  if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);
   if (route.view === 'settings') return renderSettingsPage();
@@ -88,6 +92,7 @@ export function getRouteTitle(route) {
   const categoryLabel = categoryLabelFor(route.category);
   if (route.view === 'home') return `${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && route.query) return `${route.query} 搜索结果 - ${categoryLabel} - ${APP_TITLE}`;
+  if (route.view === 'search' && hasActiveSearchFilters(route.filters)) return `筛选结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'settings') return `${VIEW_TITLES.settings} - ${APP_TITLE}`;
   const title = VIEW_TITLES[route.view] || VIEW_TITLES['not-found'];
   return `${title} - ${categoryLabel} - ${APP_TITLE}`;
@@ -130,4 +135,8 @@ function decodePathValue(value) {
 
 function categoryLabelFor(category) {
   return getProductCategory(category).label;
+}
+
+function hasActiveSearchFilters(filters = {}) {
+  return Boolean(filters.risk || filters.ingredientCategory);
 }

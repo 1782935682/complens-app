@@ -1,13 +1,16 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
-import { searchIngredients } from '../services/ingredientService.js';
+import { getSearchFilterOptions, searchIngredients } from '../services/ingredientService.js';
 import { getUserAllergens } from '../store/userStore.js';
 
-export function renderSearchPage(query, category = 'cosmetics') {
+export function renderSearchPage(query, category = 'cosmetics', filters = {}) {
   const currentCategory = getProductCategory(category);
-  const results = searchIngredients(query, category);
+  const filterOptions = getSearchFilterOptions(category);
+  const activeFilters = getValidFilters(filters, filterOptions);
+  const results = searchIngredients(query, category, activeFilters);
   const safeQuery = escapeHtml(query || '');
+  const activeFilterCount = [activeFilters.risk, activeFilters.ingredientCategory].filter(Boolean).length;
 
   return html`
     <section class="section">
@@ -17,17 +20,67 @@ export function renderSearchPage(query, category = 'cosmetics') {
           <input id="search-page-input" name="q" type="search" value="${safeQuery}" placeholder="中文名、英文名、别名或分类" autocomplete="off" />
           <button type="submit">搜索</button>
         </div>
+        ${renderFilterControls(category, query, activeFilters, filterOptions)}
       </form>
     </section>
 
     <section class="section">
       <div class="section__head">
-        <h2>${safeQuery ? `“${safeQuery}” 的搜索结果` : '搜索结果'}</h2>
+        <h2>${renderResultTitle(safeQuery, activeFilterCount)}</h2>
         <span class="category">${currentCategory.label}</span>
         <span class="count">${results.length} 项</span>
       </div>
-      ${results.length ? renderResults(results, category) : renderEmpty(safeQuery)}
+      ${renderActiveFilterSummary(activeFilters)}
+      ${results.length ? renderResults(results, category) : renderEmpty(safeQuery, activeFilterCount)}
     </section>
+  `;
+}
+
+function renderFilterControls(category, query, activeFilters, options) {
+  return html`
+    <div class="filter-row">
+      <label class="filter-field" for="risk-filter">
+        <span>关注等级</span>
+        <select id="risk-filter" name="risk">
+          <option value="">全部等级</option>
+          ${options.riskLevels.map((level) => html`
+            <option value="${escapeHtml(level)}" ${activeFilters.risk === level ? 'selected' : ''}>${riskLabel(level)}</option>
+          `).join('')}
+        </select>
+      </label>
+      <label class="filter-field" for="ingredient-category-filter">
+        <span>成分分类</span>
+        <select id="ingredient-category-filter" name="ingredientCategory">
+          <option value="">全部分类</option>
+          ${options.categories.map((item) => html`
+            <option value="${escapeHtml(item)}" ${activeFilters.ingredientCategory === item ? 'selected' : ''}>${escapeHtml(item)}</option>
+          `).join('')}
+        </select>
+      </label>
+      ${hasActiveFilters(activeFilters) ? html`
+        <a class="filter-clear" href="${buildSearchHref(category, query)}" data-route>清除筛选</a>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderResultTitle(safeQuery, activeFilterCount) {
+  if (safeQuery && activeFilterCount) return `“${safeQuery}” 的筛选结果`;
+  if (safeQuery) return `“${safeQuery}” 的搜索结果`;
+  if (activeFilterCount) return '筛选结果';
+  return '搜索结果';
+}
+
+function renderActiveFilterSummary(activeFilters) {
+  const chips = [];
+  if (activeFilters.risk) chips.push(`关注等级：${riskLabel(activeFilters.risk)}`);
+  if (activeFilters.ingredientCategory) chips.push(`成分分类：${activeFilters.ingredientCategory}`);
+  if (!chips.length) return '';
+
+  return html`
+    <div class="filter-summary" aria-label="当前筛选条件">
+      ${chips.map((item) => `<span class="chip">${escapeHtml(item)}</span>`).join('')}
+    </div>
   `;
 }
 
@@ -54,7 +107,25 @@ function renderResults(results, category) {
   `;
 }
 
-function renderEmpty(query) {
+function renderEmpty(query, activeFilterCount) {
+  if (activeFilterCount) return '<p class="empty">没有符合当前筛选条件的成分。可以放宽筛选条件或换一个关键词。</p>';
   if (!query) return '<p class="empty">输入成分名称、英文名、别名或分类后开始搜索。</p>';
   return '<p class="empty">暂未找到相关成分。可以尝试英文名、别名，或到成分表识别页粘贴完整文本。</p>';
+}
+
+function getValidFilters(filters, options) {
+  const risk = options.riskLevels.includes(filters?.risk) ? filters.risk : '';
+  const ingredientCategory = options.categories.includes(filters?.ingredientCategory) ? filters.ingredientCategory : '';
+  return { risk, ingredientCategory };
+}
+
+function hasActiveFilters(filters) {
+  return Boolean(filters.risk || filters.ingredientCategory);
+}
+
+function buildSearchHref(category, query) {
+  const params = new URLSearchParams();
+  if (query) params.set('q', query);
+  const queryString = params.toString();
+  return `#${categoryPath(category, '/search')}${queryString ? `?${queryString}` : ''}`;
 }

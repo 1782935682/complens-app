@@ -9,6 +9,8 @@ const riskOrder = {
   low: 0
 };
 
+const riskFilterOrder = ['high', 'medium', 'low', 'unknown'];
+
 export function getAllIngredients(category = 'cosmetics') {
   return getDatasetByCategory(category).items;
 }
@@ -25,16 +27,28 @@ export function getIngredientById(id, category = 'cosmetics') {
   return dataset.items.find((ingredient) => ingredient.id === id) || null;
 }
 
-export function searchIngredients(query, category = 'cosmetics') {
+export function getSearchFilterOptions(category = 'cosmetics') {
+  const items = getDatasetByCategory(category).items;
+  const riskLevels = [...new Set(items.map((ingredient) => ingredient.riskLevel).filter(Boolean))]
+    .sort((a, b) => riskFilterOrder.indexOf(a) - riskFilterOrder.indexOf(b));
+  const categories = [...new Set(items.map((ingredient) => ingredient.category).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+
+  return { riskLevels, categories };
+}
+
+export function searchIngredients(query, category = 'cosmetics', filters = {}) {
   const keyword = normalizeText(query);
-  if (!keyword) return [];
+  const activeFilters = normalizeSearchFilters(filters);
+  if (!keyword && !hasActiveSearchFilters(activeFilters)) return [];
 
   return getDatasetByCategory(category).items
     .map((ingredient) => ({
       ingredient,
-      score: getSearchScore(ingredient, keyword)
+      score: keyword ? getSearchScore(ingredient, keyword) : 1
     }))
     .filter((item) => item.score > 0)
+    .filter((item) => matchesSearchFilters(item.ingredient, activeFilters))
     .sort((a, b) => b.score - a.score || a.ingredient.nameCn.localeCompare(b.ingredient.nameCn, 'zh-Hans-CN'))
     .map(({ ingredient }) => toSearchResult(ingredient));
 }
@@ -87,6 +101,23 @@ function getSearchScore(ingredient, keyword) {
     ...(ingredient.functions || [])
   ].join(' '));
   return haystack.includes(keyword) ? 20 : 0;
+}
+
+function normalizeSearchFilters(filters) {
+  return {
+    risk: typeof filters.risk === 'string' ? filters.risk.trim() : '',
+    ingredientCategory: typeof filters.ingredientCategory === 'string' ? filters.ingredientCategory.trim() : ''
+  };
+}
+
+function hasActiveSearchFilters(filters) {
+  return Boolean(filters.risk || filters.ingredientCategory);
+}
+
+function matchesSearchFilters(ingredient, filters) {
+  if (filters.risk && ingredient.riskLevel !== filters.risk) return false;
+  if (filters.ingredientCategory && ingredient.category !== filters.ingredientCategory) return false;
+  return true;
 }
 
 function findIngredientByLooseName(value, category) {

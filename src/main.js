@@ -27,9 +27,18 @@ function bindPageEvents(route) {
       event.preventDefault();
       const formData = new FormData(form);
       const query = String(formData.get('q') || '').trim();
-      if (!query) return;
-      addHistory(query);
-      navigate(`#${categoryPath(route.category, '/search')}?q=${encodeURIComponent(query)}`);
+      const risk = String(formData.get('risk') || '').trim();
+      const ingredientCategory = String(formData.get('ingredientCategory') || '').trim();
+      if (!query && !risk && !ingredientCategory) return;
+
+      const params = new URLSearchParams();
+      if (query) {
+        params.set('q', query);
+        addHistory(query);
+      }
+      if (risk) params.set('risk', risk);
+      if (ingredientCategory) params.set('ingredientCategory', ingredientCategory);
+      navigate(`#${categoryPath(route.category, '/search')}?${params.toString()}`);
     });
   });
 

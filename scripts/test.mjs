@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
-import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
+import { analyzeIngredientText, getIngredientById, getSearchFilterOptions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
+import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { ingredientCard } from '../src/components/render.js';
 import { getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
@@ -16,16 +17,33 @@ import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.
 import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
-assert.deepEqual(resolveRoute('#/food/search?q=E330'), { view: 'search', category: 'food', query: 'E330' });
+assert.deepEqual(resolveRoute('#/food/search?q=E330'), {
+  view: 'search',
+  category: 'food',
+  query: 'E330',
+  filters: { risk: '', ingredientCategory: '' }
+});
+assert.deepEqual(resolveRoute('#/food/search?risk=medium&ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82'), {
+  view: 'search',
+  category: 'food',
+  query: '',
+  filters: { risk: 'medium', ingredientCategory: '防腐剂' }
+});
 assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
-assert.deepEqual(resolveRoute('#/search?q=BHA'), { view: 'search', category: 'cosmetics', query: 'BHA' });
+assert.deepEqual(resolveRoute('#/search?q=BHA'), {
+  view: 'search',
+  category: 'cosmetics',
+  query: 'BHA',
+  filters: { risk: '', ingredientCategory: '' }
+});
 assert.deepEqual(resolveRoute('#/settings'), { view: 'settings', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/settings'), { view: 'settings', category: 'food' });
 assert.deepEqual(resolveRoute('#/cosmetics/settings'), { view: 'settings', category: 'cosmetics' });
 assert.deepEqual(resolveRoute('#/not-a-real-page'), { view: 'not-found', category: 'food', path: '/not-a-real-page' });
 assert.deepEqual(resolveRoute('#/food/not-a-real-page'), { view: 'not-found', category: 'food', path: '/food/not-a-real-page' });
 assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索结果 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 const notFoundHtml = renderRoute(resolveRoute('#/food/not-a-real-page'));
 assert.match(notFoundHtml, /页面不存在/);
@@ -42,7 +60,26 @@ assert.equal(enResults[0].id, 'salicylic-acid');
 assert.equal(searchIngredients('E330', 'food')[0].id, 'citric-acid');
 assert.equal(searchIngredients('INS 211', 'food')[0].id, 'sodium-benzoate');
 assert.deepEqual(searchIngredients('40 mg', 'food'), []);
+assert.deepEqual(searchIngredients('', 'food'), []);
+assert.deepEqual(
+  searchIngredients('', 'food', { risk: 'medium', ingredientCategory: '防腐剂' }).map((item) => item.id).sort(),
+  ['potassium-sorbate', 'sodium-benzoate'].sort()
+);
+assert.deepEqual(
+  searchIngredients('防腐剂', 'food', { ingredientCategory: '防腐剂' }).map((item) => item.id).sort(),
+  ['potassium-sorbate', 'sodium-benzoate'].sort()
+);
+assert.deepEqual(getSearchFilterOptions('food').categories.includes('防腐剂'), true);
+assert.deepEqual(getSearchFilterOptions('food').riskLevels.includes('medium'), true);
 assert.equal(getIngredientById('sulfur-dioxide', 'food').allergenTypes[0], 'sulphites');
+
+const filteredSearchHtml = renderSearchPage('', 'food', { risk: 'medium', ingredientCategory: '防腐剂' });
+assert.match(filteredSearchHtml, /筛选结果/);
+assert.match(filteredSearchHtml, /value="medium" selected/);
+assert.match(filteredSearchHtml, /value="防腐剂" selected/);
+assert.match(filteredSearchHtml, /关注等级：需关注/);
+assert.match(filteredSearchHtml, /成分分类：防腐剂/);
+assert.match(filteredSearchHtml, /href="#\/food\/search"/);
 
 assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
 assert.deepEqual(splitIngredientInput('苯氧乙醇(防腐剂)，香精（香料）'), ['苯氧乙醇', '香精']);
