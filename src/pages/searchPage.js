@@ -1,7 +1,7 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
-import { getSearchFilterOptions, searchIngredients } from '../services/ingredientService.js';
+import { getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
 import { getUserAllergens } from '../store/userStore.js';
 
 export function renderSearchPage(query, category = 'cosmetics', filters = {}) {
@@ -11,14 +11,18 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}) {
   const results = searchIngredients(query, category, activeFilters);
   const safeQuery = escapeHtml(query || '');
   const activeFilterCount = [activeFilters.risk, activeFilters.ingredientCategory].filter(Boolean).length;
+  const suggestions = getSearchSuggestions(query, category, 5);
 
   return html`
     <section class="section">
-      <form class="search-panel compact" data-search-form>
+      <form class="search-panel compact" data-search-form data-suggestion-category="${escapeHtml(category)}">
         <label for="search-page-input">搜索成分</label>
         <div class="search-row">
-          <input id="search-page-input" name="q" type="search" value="${safeQuery}" placeholder="中文名、英文名、别名或分类" autocomplete="off" />
+          <input id="search-page-input" name="q" type="search" value="${safeQuery}" placeholder="中文名、英文名、别名或分类" autocomplete="off" aria-describedby="search-page-suggestions" />
           <button type="submit">搜索</button>
+        </div>
+        <div id="search-page-suggestions" class="search-suggestions" data-search-suggestions aria-live="polite">
+          ${query ? renderSuggestionLinks(suggestions, category) : ''}
         </div>
         ${renderFilterControls(category, query, activeFilters, filterOptions)}
       </form>
@@ -33,6 +37,19 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}) {
       ${renderActiveFilterSummary(activeFilters)}
       ${results.length ? renderResults(results, category) : renderEmpty(safeQuery, activeFilterCount)}
     </section>
+  `;
+}
+
+function renderSuggestionLinks(suggestions, category) {
+  if (!suggestions.length) return '';
+  return html`
+    ${suggestions.map((item) => html`
+      <a class="suggestion-item" href="#${categoryPath(category, `/ingredient/${item.id}`)}" data-route>
+        <span class="${riskClass(item.riskLevel)}">${riskLabel(item.riskLevel)}</span>
+        <strong>${escapeHtml(item.nameCn)}</strong>
+        <small>${escapeHtml([item.nameEn, item.matchedText ? `${item.matchLabel}：${item.matchedText}` : item.category].filter(Boolean).join(' / '))}</small>
+      </a>
+    `).join('')}
   `;
 }
 

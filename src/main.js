@@ -1,6 +1,8 @@
+import { riskClass, riskLabel } from './components/render.js';
 import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
+import { getSearchSuggestions } from './services/ingredientService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { addHistory, clearAnalysisReports, clearHistory, deleteAnalysisReport, getAnalysisReportById, removeHistory, saveAnalysisReport, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
@@ -65,6 +67,7 @@ function bindPageEvents(route) {
       if (ingredientCategory) params.set('ingredientCategory', ingredientCategory);
       navigate(`#${categoryPath(route.category, '/search')}?${params.toString()}`);
     });
+    bindSearchSuggestions(form, route);
   });
 
   document.querySelectorAll('[data-analyze-form]').forEach((form) => {
@@ -229,6 +232,68 @@ function updateAllergenSettingsFeedback(count, message) {
   if (countNode) countNode.textContent = `${count} 项已关注`;
   const statusNode = document.querySelector('[data-allergen-status]');
   if (statusNode) statusNode.textContent = message;
+}
+
+function bindSearchSuggestions(form, route) {
+  const input = form.querySelector('input[name="q"]');
+  const container = form.querySelector('[data-search-suggestions]');
+  if (!input || !container) return;
+
+  const category = form.dataset.suggestionCategory || route.category;
+  const renderSuggestions = () => {
+    renderSearchSuggestions(container, input.value, category);
+  };
+
+  input.addEventListener('input', renderSuggestions);
+  input.addEventListener('focus', renderSuggestions);
+  container.addEventListener('mousedown', (event) => {
+    const link = event.target.closest('[data-suggestion-query]');
+    if (link?.dataset.suggestionQuery) addHistory(link.dataset.suggestionQuery);
+  });
+
+  if (input.value.trim()) renderSuggestions();
+}
+
+function renderSearchSuggestions(container, query, category) {
+  const hasQuery = Boolean(String(query || '').trim());
+  const suggestions = getSearchSuggestions(query, category, hasQuery ? 5 : 4);
+  container.replaceChildren();
+  container.classList.toggle('is-visible', suggestions.length > 0);
+  if (!suggestions.length) return;
+
+  const label = document.createElement('span');
+  label.className = 'suggestion-label';
+  label.textContent = hasQuery ? '建议' : '热门';
+  container.append(label);
+
+  for (const suggestion of suggestions) {
+    container.append(createSuggestionLink(suggestion, category));
+  }
+}
+
+function createSuggestionLink(suggestion, category) {
+  const link = document.createElement('a');
+  link.className = 'suggestion-item';
+  link.href = `#${categoryPath(category, `/ingredient/${suggestion.id}`)}`;
+  link.dataset.route = '';
+  link.dataset.suggestionQuery = suggestion.nameCn;
+
+  const risk = document.createElement('span');
+  risk.className = riskClass(suggestion.riskLevel);
+  risk.textContent = riskLabel(suggestion.riskLevel);
+  link.append(risk);
+
+  const name = document.createElement('strong');
+  name.textContent = suggestion.nameCn;
+  link.append(name);
+
+  const meta = document.createElement('small');
+  meta.textContent = [suggestion.nameEn, suggestion.matchedText ? `${suggestion.matchLabel}：${suggestion.matchedText}` : suggestion.category]
+    .filter(Boolean)
+    .join(' / ');
+  link.append(meta);
+
+  return link;
 }
 
 function getReportMarkdownText(report) {
