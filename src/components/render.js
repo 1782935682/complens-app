@@ -1,3 +1,5 @@
+import { categoryPath } from '../data/categories.js';
+
 // This helper intentionally performs interpolation only. Escape any user-controlled
 // or external text with escapeHtml before passing it into a template value.
 export function html(strings, ...values) {
@@ -30,10 +32,12 @@ export function riskClass(level) {
 }
 
 export function ingredientCard(ingredient, options = {}) {
-  const href = options.href || `#/ingredient/${ingredient.id}`;
+  const category = typeof options === 'string' ? options : (options.category || 'cosmetics');
+  const href = typeof options === 'string' ? '' : options.href;
+  const finalHref = href || `#${categoryPath(category, `/ingredient/${ingredient.id}`)}`;
   return html`
     <article class="ingredient-card">
-      <a href="${href}" class="ingredient-card__main" data-route>
+      <a href="${finalHref}" class="ingredient-card__main" data-route>
         <span class="${riskClass(ingredient.riskLevel)}">${riskLabel(ingredient.riskLevel)}</span>
         <h3>${escapeHtml(ingredient.nameCn)}</h3>
         <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>

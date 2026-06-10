@@ -43,7 +43,7 @@ export function renderHomePage(category = 'food') {
         <h2>热门成分</h2>
       </div>
       ${popular.length
-        ? `<div class="card-grid">${popular.map((item) => ingredientCard(item, { href: `#${categoryPath(category, `/ingredient/${item.id}`)}` })).join('')}</div>`
+        ? `<div class="card-grid">${popular.map((item) => ingredientCard(item, category)).join('')}</div>`
         : '<p class="empty">当前类别还没有可展示的热门成分。</p>'}
     </section>
 

@@ -80,7 +80,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <div class="section__head">
           <h2>重点关注成分</h2>
         </div>
-        <div class="card-grid">${result.highlights.map((item) => ingredientCard(item, { href: `#${categoryPath(category, `/ingredient/${item.id}`)}` })).join('')}</div>
+        <div class="card-grid">${result.highlights.map((item) => ingredientCard(item, category)).join('')}</div>
       </section>
     ` : ''}
 
@@ -90,7 +90,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
           <h2>已匹配成分</h2>
           <span class="count">${result.matchedCount} 项</span>
         </div>
-        <div class="card-grid">${result.ingredients.map((item) => ingredientCard(item, { href: `#${categoryPath(category, `/ingredient/${item.id}`)}` })).join('')}</div>
+        <div class="card-grid">${result.ingredients.map((item) => ingredientCard(item, category)).join('')}</div>
       </section>
     ` : ''}
 
