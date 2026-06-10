@@ -24,13 +24,29 @@ assert.deepEqual(resolveRoute('#/food/search?q=E330'), {
   view: 'search',
   category: 'food',
   query: 'E330',
+  page: 1,
   filters: { risk: '', ingredientCategory: '' }
 });
 assert.deepEqual(resolveRoute('#/food/search?risk=medium&ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82'), {
   view: 'search',
   category: 'food',
   query: '',
+  page: 1,
   filters: { risk: 'medium', ingredientCategory: '防腐剂' }
+});
+assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&page=2'), {
+  view: 'search',
+  category: 'food',
+  query: '剂',
+  page: 2,
+  filters: { risk: '', ingredientCategory: '' }
+});
+assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&page=-4'), {
+  view: 'search',
+  category: 'food',
+  query: '剂',
+  page: 1,
+  filters: { risk: '', ingredientCategory: '' }
 });
 assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food' });
@@ -40,6 +56,7 @@ assert.deepEqual(resolveRoute('#/search?q=BHA'), {
   view: 'search',
   category: 'cosmetics',
   query: 'BHA',
+  page: 1,
   filters: { risk: '', ingredientCategory: '' }
 });
 assert.deepEqual(resolveRoute('#/settings'), { view: 'settings', category: 'food' });
@@ -143,6 +160,14 @@ assert.match(searchHtmlWithSuggestions, /data-search-suggestions/);
 assert.match(searchHtmlWithSuggestions, /suggestion-item/);
 assert.match(searchHtmlWithSuggestions, /柠檬酸/);
 assert.match(searchHtmlWithSuggestions, /E-number：E330/);
+const firstPageSearchHtml = renderSearchPage('剂', 'food');
+assert.match(firstPageSearchHtml, /显示第 1-6 项，共 12 项/);
+assert.match(firstPageSearchHtml, /href="#\/food\/search\?q=%E5%89%82&page=2"/);
+const pagedSearchHtml = renderSearchPage('剂', 'food', {}, 2);
+assert.match(pagedSearchHtml, /显示第 7-12 项，共 12 项/);
+assert.match(pagedSearchHtml, /aria-current="page">2</);
+assert.match(pagedSearchHtml, /href="#\/food\/search\?q=%E5%89%82"/);
+assert.doesNotMatch(pagedSearchHtml, /<h3>阿斯巴甜<\/h3>/);
 
 assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
 assert.deepEqual(splitIngredientInput('苯氧乙醇(防腐剂)，香精（香料）'), ['苯氧乙醇', '香精']);

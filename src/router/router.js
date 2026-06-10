@@ -66,6 +66,7 @@ export function resolveRoute(hash) {
       view: 'search',
       category: route.category,
       query: params.get('q') || '',
+      page: parsePageParam(params.get('page')),
       filters: {
         risk: params.get('risk') || '',
         ingredientCategory: params.get('ingredientCategory') || ''
@@ -117,7 +118,7 @@ export function resolveRoute(hash) {
 
 export function renderRoute(route) {
   if (route.view === 'detail') return renderDetailPage(route.id, route.category);
-  if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters);
+  if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
@@ -190,6 +191,11 @@ function decodePathValue(value) {
   } catch {
     return '';
   }
+}
+
+function parsePageParam(value) {
+  const page = Number.parseInt(value || '1', 10);
+  return Number.isFinite(page) && page > 0 ? page : 1;
 }
 
 function categoryLabelFor(category) {

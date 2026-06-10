@@ -4,11 +4,16 @@ import { formatAllergenNames, getMatchingUserAllergens } from '../services/aller
 import { getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
 import { getUserAllergens } from '../store/userStore.js';
 
-export function renderSearchPage(query, category = 'cosmetics', filters = {}) {
+const SEARCH_PAGE_SIZE = 6;
+
+export function renderSearchPage(query, category = 'cosmetics', filters = {}, page = 1) {
   const currentCategory = getProductCategory(category);
   const filterOptions = getSearchFilterOptions(category);
   const activeFilters = getValidFilters(filters, filterOptions);
   const results = searchIngredients(query, category, activeFilters);
+  const totalPages = Math.max(1, Math.ceil(results.length / SEARCH_PAGE_SIZE));
+  const currentPage = clampPage(page, totalPages);
+  const pagedResults = results.slice((currentPage - 1) * SEARCH_PAGE_SIZE, currentPage * SEARCH_PAGE_SIZE);
   const safeQuery = escapeHtml(query || '');
   const activeFilterCount = [activeFilters.risk, activeFilters.ingredientCategory].filter(Boolean).length;
   const suggestions = getSearchSuggestions(query, category, 5);
@@ -35,7 +40,9 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}) {
         <span class="count">${results.length} 项</span>
       </div>
       ${renderActiveFilterSummary(activeFilters)}
-      ${results.length ? renderResults(results, category) : renderEmpty(safeQuery, activeFilterCount)}
+      ${results.length ? renderPageSummary(results.length, currentPage, pagedResults.length) : ''}
+      ${results.length ? renderResults(pagedResults, category) : renderEmpty(safeQuery, activeFilterCount)}
+      ${results.length ? renderPagination(category, query, activeFilters, currentPage, totalPages) : ''}
     </section>
   `;
 }
@@ -101,6 +108,12 @@ function renderActiveFilterSummary(activeFilters) {
   `;
 }
 
+function renderPageSummary(totalCount, currentPage, pageCount) {
+  const start = (currentPage - 1) * SEARCH_PAGE_SIZE + 1;
+  const end = start + pageCount - 1;
+  return html`<p class="page-summary">显示第 ${start}-${end} 项，共 ${totalCount} 项</p>`;
+}
+
 function renderResults(results, category) {
   const userAllergens = getUserAllergens();
   return html`
@@ -124,6 +137,25 @@ function renderResults(results, category) {
   `;
 }
 
+function renderPagination(category, query, activeFilters, currentPage, totalPages) {
+  if (totalPages <= 1) return '';
+
+  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+  return html`
+    <nav class="pagination" aria-label="搜索结果分页">
+      ${currentPage > 1
+        ? html`<a class="pagination__link" href="${buildSearchHref(category, query, activeFilters, currentPage - 1)}" data-route>上一页</a>`
+        : html`<span class="pagination__link is-disabled">上一页</span>`}
+      ${pageNumbers.map((pageNumber) => pageNumber === currentPage
+        ? html`<span class="pagination__page is-active" aria-current="page">${pageNumber}</span>`
+        : html`<a class="pagination__page" href="${buildSearchHref(category, query, activeFilters, pageNumber)}" data-route>${pageNumber}</a>`).join('')}
+      ${currentPage < totalPages
+        ? html`<a class="pagination__link" href="${buildSearchHref(category, query, activeFilters, currentPage + 1)}" data-route>下一页</a>`
+        : html`<span class="pagination__link is-disabled">下一页</span>`}
+    </nav>
+  `;
+}
+
 function renderEmpty(query, activeFilterCount) {
   if (activeFilterCount) return '<p class="empty">没有符合当前筛选条件的成分。可以放宽筛选条件或换一个关键词。</p>';
   if (!query) return '<p class="empty">输入成分名称、英文名、别名或分类后开始搜索。</p>';
@@ -140,9 +172,18 @@ function hasActiveFilters(filters) {
   return Boolean(filters.risk || filters.ingredientCategory);
 }
 
-function buildSearchHref(category, query) {
+function buildSearchHref(category, query, filters = {}, page = 1) {
   const params = new URLSearchParams();
   if (query) params.set('q', query);
+  if (filters.risk) params.set('risk', filters.risk);
+  if (filters.ingredientCategory) params.set('ingredientCategory', filters.ingredientCategory);
+  if (page > 1) params.set('page', String(page));
   const queryString = params.toString();
   return `#${categoryPath(category, '/search')}${queryString ? `?${queryString}` : ''}`;
+}
+
+function clampPage(page, totalPages) {
+  const normalizedPage = Number.parseInt(page || 1, 10);
+  if (!Number.isFinite(normalizedPage) || normalizedPage < 1) return 1;
+  return Math.min(normalizedPage, totalPages);
 }

@@ -603,6 +603,49 @@ button.secondary:hover {
   margin: -4px 0 14px;
 }
 
+.page-summary {
+  margin: -2px 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.pagination__link,
+.pagination__page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: var(--text);
+  background: var(--surface);
+  font-weight: 800;
+}
+
+.pagination__link:hover,
+.pagination__page:hover,
+.pagination__page.is-active {
+  border-color: rgba(17, 106, 91, 0.45);
+  color: var(--primary);
+  background: #eef7f3;
+}
+
+.pagination__link.is-disabled {
+  color: var(--muted);
+  background: #f4f6f5;
+  cursor: not-allowed;
+}
+
 .detail {
   padding-top: 26px;
 }
