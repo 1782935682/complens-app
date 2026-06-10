@@ -41,6 +41,10 @@ export function validateFoodAdditives(items = foodAdditives) {
       errors.push(`${label}.kind must be "food-additive"`);
     }
 
+    if (item?.dataCategory !== 'food') {
+      errors.push(`${label}.dataCategory must be "food"`);
+    }
+
     if (typeof item?.id === 'string') {
       if (ids.has(item.id)) errors.push(`Duplicate food additive id "${item.id}"`);
       ids.add(item.id);

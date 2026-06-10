@@ -237,6 +237,32 @@ button.secondary:hover {
   gap: 16px;
 }
 
+.category-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.category-tabs a {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.category-tabs a.is-active {
+  border-color: rgba(17, 106, 91, 0.5);
+  box-shadow: 0 0 0 3px rgba(17, 106, 91, 0.12);
+}
+
+.category-tabs span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .action-tile,
 .ingredient-card,
 .result-item {
@@ -351,6 +377,29 @@ button.secondary:hover {
 .risk-unknown {
   color: var(--unknown);
   background: #eef1f3;
+}
+
+.allergen-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-left: 8px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--high);
+  background: #fee8e5;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.allergen-alert {
+  margin-top: 16px;
+  border: 1px solid #f1b8b2;
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--high);
+  background: #fff1ef;
+  font-weight: 800;
 }
 
 .chip-list {
@@ -473,6 +522,7 @@ button.secondary:hover {
   .hero,
   .quick-actions,
   .two-column,
+  .category-tabs,
   .info-grid {
     grid-template-columns: 1fr;
   }

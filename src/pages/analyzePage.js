@@ -1,15 +1,26 @@
 import { escapeHtml, html, ingredientCard } from '../components/render.js';
+import { categoryPath, getProductCategory } from '../data/categories.js';
+import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText } from '../services/ingredientService.js';
+import { getUserAllergens } from '../store/userStore.js';
 
-export function renderAnalyzePage(input = '') {
-  const result = analyzeIngredientText(input);
+export function renderAnalyzePage(input = '', category = 'cosmetics') {
+  const currentCategory = getProductCategory(category);
+  const result = analyzeIngredientText(input, category);
+  const userAllergens = getUserAllergens();
+  const allergenHits = result.ingredients
+    .map((ingredient) => ({
+      ingredient,
+      allergens: getMatchingUserAllergens(ingredient, userAllergens)
+    }))
+    .filter((item) => item.allergens.length);
   const safeInput = escapeHtml(input);
 
   return html`
     <section class="section">
       <div class="section__head">
         <div>
-          <p class="eyebrow">文本识别版</p>
+          <p class="eyebrow">${currentCategory.label} / 文本识别版</p>
           <h1>成分表分析</h1>
         </div>
       </div>
@@ -35,12 +46,20 @@ export function renderAnalyzePage(input = '') {
       </div>
     </section>
 
+    ${allergenHits.length ? html`
+      <section class="section">
+        <div class="allergen-alert">
+          发现 ${allergenHits.length} 项含您关注的过敏原：${allergenHits.map((item) => `${escapeHtml(item.ingredient.nameCn)}（${escapeHtml(formatAllergenNames(item.allergens))}）`).join('、')}
+        </div>
+      </section>
+    ` : ''}
+
     ${result.highlights.length ? html`
       <section class="section">
         <div class="section__head">
           <h2>重点关注成分</h2>
         </div>
-        <div class="card-grid">${result.highlights.map((item) => ingredientCard(item)).join('')}</div>
+        <div class="card-grid">${result.highlights.map((item) => ingredientCard(item, { href: `#${categoryPath(category, `/ingredient/${item.id}`)}` })).join('')}</div>
       </section>
     ` : ''}
 
@@ -50,7 +69,7 @@ export function renderAnalyzePage(input = '') {
           <h2>已匹配成分</h2>
           <span class="count">${result.matchedCount} 项</span>
         </div>
-        <div class="card-grid">${result.ingredients.map((item) => ingredientCard(item)).join('')}</div>
+        <div class="card-grid">${result.ingredients.map((item) => ingredientCard(item, { href: `#${categoryPath(category, `/ingredient/${item.id}`)}` })).join('')}</div>
       </section>
     ` : ''}
 

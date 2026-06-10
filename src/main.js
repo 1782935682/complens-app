@@ -1,3 +1,4 @@
+import { categoryPath } from './data/categories.js';
 import { renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { addHistory, clearHistory, toggleFavorite } from './store/userStore.js';
@@ -11,11 +12,11 @@ function navigate(hash) {
 function render() {
   const route = resolveRoute(window.location.hash);
   app.innerHTML = renderRoute(route);
-  bindPageEvents();
+  bindPageEvents(route);
   window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
-function bindPageEvents() {
+function bindPageEvents(route) {
   document.querySelectorAll('[data-search-form]').forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -23,7 +24,7 @@ function bindPageEvents() {
       const query = String(formData.get('q') || '').trim();
       if (!query) return;
       addHistory(query);
-      navigate(`#/search?q=${encodeURIComponent(query)}`);
+      navigate(`#${categoryPath(route.category, '/search')}?q=${encodeURIComponent(query)}`);
     });
   });
 
@@ -32,13 +33,13 @@ function bindPageEvents() {
       event.preventDefault();
       const formData = new FormData(form);
       const input = String(formData.get('ingredients') || '').trim();
-      navigate(`#/analyze?text=${encodeURIComponent(input)}`);
+      navigate(`#${categoryPath(route.category, '/analyze')}?text=${encodeURIComponent(input)}`);
     });
   });
 
   document.querySelectorAll('[data-favorite-id]').forEach((button) => {
     button.addEventListener('click', () => {
-      toggleFavorite(button.dataset.favoriteId);
+      toggleFavorite(button.dataset.favoriteId, route.category);
       render();
     });
   });

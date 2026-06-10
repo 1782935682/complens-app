@@ -1,19 +1,28 @@
 import assert from 'node:assert/strict';
 import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
+import { getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getIngredientById, searchIngredients } from '../src/services/ingredientService.js';
+import { categoryPath } from '../src/data/categories.js';
 import { extractIngredientsFromImage } from '../src/services/ocrService.js';
+import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
+import { getFavoriteIngredients, getFavoriteItems, getUserAllergens, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { splitIngredientInput } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
+assert.deepEqual(resolveRoute('#/food/search?q=E330'), { view: 'search', category: 'food', query: 'E330' });
+assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
+assert.deepEqual(resolveRoute('#/search?q=BHA'), { view: 'search', category: 'cosmetics', query: 'BHA' });
+assert.equal(categoryPath('food', '/search'), '/food/search');
 
 const cnResults = searchIngredients('烟酰胺');
 assert.equal(cnResults[0].id, 'niacinamide');
 
 const enResults = searchIngredients('BHA');
 assert.equal(enResults[0].id, 'salicylic-acid');
+assert.deepEqual(searchIngredients('E330', 'food'), []);
 
 assert.deepEqual(splitIngredientInput('水，烟酰胺; 香精\n水杨酸'), ['水', '烟酰胺', '香精', '水杨酸']);
 assert.deepEqual(splitIngredientInput('苯氧乙醇(防腐剂)，香精（香料）'), ['苯氧乙醇', '香精']);
@@ -51,6 +60,19 @@ writeJson('compcheck:test-quota-fallback', ['ok']);
 assert.deepEqual(readJson('compcheck:test-quota-fallback', []), ['ok']);
 globalThis.window = originalWindow;
 
+writeJson('compcheck:favorites', ['niacinamide']);
+assert.deepEqual(getFavoriteItems(), [{ id: 'niacinamide', category: 'cosmetics' }]);
+assert.equal(getFavoriteIngredients('cosmetics')[0].id, 'niacinamide');
+assert.deepEqual(getFavoriteIngredients('food'), []);
+toggleFavorite('citric-acid', 'food');
+assert.deepEqual(getFavoriteItems(), [
+  { id: 'citric-acid', category: 'food' },
+  { id: 'niacinamide', category: 'cosmetics' }
+]);
+
+assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
+assert.deepEqual(getUserAllergens(), ['milk', 'soybeans']);
+
 const invalidFoodAdditive = {
   id: 'bad-food-additive',
   kind: 'food-additive',
@@ -74,5 +96,11 @@ const invalidFoodAdditive = {
   updatedAt: '2026-06-10'
 };
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceNote is required/);
+assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /dataCategory must be "food"/);
+assert.deepEqual(
+  getMatchingUserAllergens({ allergenTypes: ['milk', 'soybeans'] }, ['milk']).map((allergen) => allergen.id),
+  ['milk']
+);
+assert.deepEqual(getMatchingUserAllergens({ allergenTypes: cnResults[0].allergenTypes || [] }, ['milk']), []);
 
 console.log('Tests passed: ingredient search and text analysis behave as expected.');
