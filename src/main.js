@@ -1,7 +1,7 @@
 import { categoryPath } from './data/categories.js';
 import { getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
-import { addHistory, clearHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearHistory, removeHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
@@ -84,6 +84,13 @@ function bindPageEvents(route) {
       render();
     });
   }
+
+  document.querySelectorAll('[data-delete-history]').forEach((button) => {
+    button.addEventListener('click', () => {
+      removeHistory(button.dataset.deleteHistory);
+      render();
+    });
+  });
 
   const sampleSelect = document.querySelector('#sample-select');
   if (sampleSelect) {

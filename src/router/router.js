@@ -6,6 +6,7 @@ import { renderHomePage } from '../pages/homePage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
 import { renderSettingsPage } from '../pages/settingsPage.js';
+import { getIngredientById } from '../services/ingredientService.js';
 
 const APP_TITLE = 'CompCheck 成分小查';
 const VIEW_TITLES = {
@@ -98,6 +99,7 @@ export function renderRoute(route) {
 export function getRouteTitle(route) {
   const categoryLabel = categoryLabelFor(route.category);
   if (route.view === 'home') return `${categoryLabel} - ${APP_TITLE}`;
+  if (route.view === 'detail') return `${detailTitleFor(route)} - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && route.query) return `${route.query} 搜索结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && hasActiveSearchFilters(route.filters)) return `筛选结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'settings') return `${VIEW_TITLES.settings} - ${APP_TITLE}`;
@@ -151,6 +153,10 @@ function decodePathValue(value) {
 
 function categoryLabelFor(category) {
   return getProductCategory(category).label;
+}
+
+function detailTitleFor(route) {
+  return getIngredientById(route.id, route.category)?.nameCn || VIEW_TITLES.detail;
 }
 
 function hasActiveSearchFilters(filters = {}) {

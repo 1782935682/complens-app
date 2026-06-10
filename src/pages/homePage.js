@@ -1,5 +1,5 @@
 import { categoryPath, getProductCategory, productCategories } from '../data/categories.js';
-import { ingredientCard, html } from '../components/render.js';
+import { escapeHtml, ingredientCard, html } from '../components/render.js';
 import { getAllIngredients, getPopularIngredients } from '../services/ingredientService.js';
 import { getFavoriteIngredients, getHistory } from '../store/userStore.js';
 
@@ -54,7 +54,7 @@ export function renderHomePage(category = 'food') {
           ${history.length ? '<button class="text-button" data-clear-history>清空</button>' : ''}
         </div>
         ${history.length
-          ? `<div class="chip-list">${history.map((item) => `<a class="chip" href="#${categoryPath(category, '/search')}?q=${encodeURIComponent(item)}" data-route>${item}</a>`).join('')}</div>`
+          ? `<div class="history-list">${history.map((item) => renderHistoryItem(item, category)).join('')}</div>`
           : '<p class="empty">还没有查询记录。</p>'}
       </div>
       <div>
@@ -66,6 +66,16 @@ export function renderHomePage(category = 'food') {
           : '<p class="empty">当前类别还没有分类数据。</p>'}
       </div>
     </section>
+  `;
+}
+
+function renderHistoryItem(item, category) {
+  const safeItem = escapeHtml(item);
+  return html`
+    <span class="history-chip">
+      <a class="chip" href="#${categoryPath(category, '/search')}?q=${encodeURIComponent(item)}" data-route>${safeItem}</a>
+      <button type="button" class="history-chip__delete" data-delete-history="${safeItem}" aria-label="删除查询记录：${safeItem}">×</button>
+    </span>
   `;
 }
 

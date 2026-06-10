@@ -503,6 +503,42 @@ button.secondary:hover {
   gap: 8px;
 }
 
+.history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.history-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #edf2ef;
+}
+
+.history-chip .chip {
+  border-radius: 0;
+  background: transparent;
+}
+
+.history-chip__delete {
+  width: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  color: var(--muted);
+  background: transparent;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.history-chip__delete:hover {
+  color: var(--high);
+  background: #fee8e5;
+}
+
 .filter-summary {
   display: flex;
   flex-wrap: wrap;
@@ -875,5 +911,9 @@ button.secondary:hover {
 
   .text-button {
     width: auto;
+  }
+
+  .history-chip__delete {
+    width: 28px;
   }
 }
