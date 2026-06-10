@@ -696,3 +696,44 @@ button.secondary:hover {
     width: auto;
   }
 }
+
+/* Custom Select, Disclaimer, and Allergen Section Styles */
+select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+  font-size: 14px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(17, 106, 91, 0.14);
+}
+
+.disclaimer-box {
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #a0aec0;
+  border-radius: 8px;
+  background: #f7fafc;
+}
+
+.disclaimer-box h4 {
+  margin: 0 0 8px 0;
+  color: #4a5568;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.disclaimer-box p {
+  margin: 0;
+  color: #718096;
+  font-size: 14px;
+  line-height: 1.6;
+}
+

@@ -10,7 +10,7 @@ import { resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { getFavoriteIngredients, getFavoriteItems, getUserAllergens, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
-import { splitIngredientInput } from '../src/utils/text.js';
+import { splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
@@ -160,5 +160,21 @@ assert.match(sparseFoodDetailHtml, /暂无限量信息/);
 assert.match(sparseFoodDetailHtml, /暂无来源标题/);
 assert.match(sparseFoodDetailHtml, /暂无标准编号/);
 assert.doesNotMatch(sparseFoodDetailHtml, /undefined|null/);
+
+// SAMPLES validations and text analysis tests
+assert.equal(Object.keys(SAMPLES).length >= 7, true);
+assert.equal(typeof SAMPLES['food-2'], 'string');
+
+// Test Biscuit sample matches lecithins (卵磷脂) and sodium-metabisulfite (焦亚硫酸钠)
+const biscuitAnalysis = analyzeIngredientText(SAMPLES['food-2'], 'food');
+assert.equal(biscuitAnalysis.matchedCount, 2);
+assert.deepEqual(biscuitAnalysis.ingredients.map(item => item.id).sort(), ['lecithins', 'sodium-metabisulfite'].sort());
+
+// Test Chili Sauce sample matches sodium-benzoate (苯甲酸钠) and sodium-metabisulfite (焦亚硫酸钠)
+const chiliAnalysis = analyzeIngredientText(SAMPLES['food-4'], 'food');
+assert.equal(chiliAnalysis.matchedCount, 4); // 柠檬酸钠, 黄原胶, 苯甲酸钠, 焦亚硫酸钠
+// Let's verify how many matched. Yes, let's assert that the major additives 'sodium-benzoate' and 'sodium-metabisulfite' are in the results list!
+assert.equal(chiliAnalysis.ingredients.some(item => item.id === 'sodium-benzoate'), true);
+assert.equal(chiliAnalysis.ingredients.some(item => item.id === 'sodium-metabisulfite'), true);
 
 console.log('Tests passed: ingredient search and text analysis behave as expected.');
