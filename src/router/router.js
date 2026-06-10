@@ -4,6 +4,7 @@ import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
+import { renderReportDetailPage, renderReportsPage } from '../pages/reportsPage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
 import { renderSettingsPage } from '../pages/settingsPage.js';
 import { getIngredientById } from '../services/ingredientService.js';
@@ -14,6 +15,8 @@ const VIEW_TITLES = {
   detail: '成分详情',
   favorites: '收藏夹',
   home: '',
+  reports: '分析报告',
+  'report-detail': '报告详情',
   search: '搜索',
   settings: '过敏原档案',
   'not-found': '页面不存在'
@@ -22,6 +25,7 @@ const VIEW_TITLES = {
 const NAV_ITEMS = [
   { key: 'search', view: 'search', path: '/search' },
   { key: 'analyze', view: 'analyze', path: '/analyze' },
+  { key: 'reports', view: 'reports', path: '/reports' },
   { key: 'favorites', view: 'favorites', path: '/favorites' },
   { key: 'settings', view: 'settings', path: '/settings' }
 ];
@@ -77,6 +81,23 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/reports') {
+    return {
+      view: 'reports',
+      category: route.category
+    };
+  }
+
+  if (route.path.startsWith('/reports/')) {
+    const id = decodePathValue(route.path.replace('/reports/', ''));
+    if (!id) return notFoundRoute(route, path);
+    return {
+      view: 'report-detail',
+      category: route.category,
+      id
+    };
+  }
+
   if (route.path === '/favorites') {
     return {
       view: 'favorites',
@@ -98,6 +119,8 @@ export function renderRoute(route) {
   if (route.view === 'detail') return renderDetailPage(route.id, route.category);
   if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
+  if (route.view === 'reports') return renderReportsPage(route.category);
+  if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);
   if (route.view === 'settings') return renderSettingsPage();
   if (route.view === 'not-found') return renderNotFoundPage(route.path, route.category);
@@ -108,6 +131,7 @@ export function getRouteTitle(route) {
   const categoryLabel = categoryLabelFor(route.category);
   if (route.view === 'home') return `${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'detail') return `${detailTitleFor(route)} - ${categoryLabel} - ${APP_TITLE}`;
+  if (route.view === 'report-detail') return `${reportTitleFor(route)} - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && route.query) return `${route.query} 搜索结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && hasActiveSearchFilters(route.filters)) return `筛选结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'settings') return `${VIEW_TITLES.settings} - ${APP_TITLE}`;
@@ -120,7 +144,7 @@ export function getNavigationLinks(route) {
   return NAV_ITEMS.map((item) => ({
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
-    active: route?.view === item.view
+    active: route?.view === item.view || (item.key === 'reports' && route?.view === 'report-detail')
   }));
 }
 
@@ -174,6 +198,10 @@ function categoryLabelFor(category) {
 
 function detailTitleFor(route) {
   return getIngredientById(route.id, route.category)?.nameCn || VIEW_TITLES.detail;
+}
+
+function reportTitleFor(route) {
+  return route.id ? VIEW_TITLES['report-detail'] : VIEW_TITLES.reports;
 }
 
 function hasActiveSearchFilters(filters = {}) {

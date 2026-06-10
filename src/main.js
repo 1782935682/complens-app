@@ -1,7 +1,7 @@
 import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
-import { addHistory, clearHistory, removeHistory, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearAnalysisReports, clearHistory, deleteAnalysisReport, removeHistory, saveAnalysisReport, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
@@ -86,6 +86,33 @@ function bindPageEvents(route) {
   if (clearButton) {
     clearButton.addEventListener('click', () => {
       clearHistory();
+      render();
+    });
+  }
+
+  const saveReportButton = document.querySelector('[data-save-report]');
+  if (saveReportButton) {
+    saveReportButton.addEventListener('click', () => {
+      const report = saveAnalysisReport(route.input, route.category);
+      if (report) navigate(`#${categoryPath(report.category, `/reports/${report.id}`)}`);
+    });
+  }
+
+  document.querySelectorAll('[data-delete-report]').forEach((button) => {
+    button.addEventListener('click', () => {
+      deleteAnalysisReport(button.dataset.deleteReport);
+      if (route.view === 'report-detail') {
+        navigate(`#${categoryPath(route.category, '/reports')}`);
+      } else {
+        render();
+      }
+    });
+  });
+
+  const clearReportsButton = document.querySelector('[data-clear-reports]');
+  if (clearReportsButton) {
+    clearReportsButton.addEventListener('click', () => {
+      clearAnalysisReports(route.category);
       render();
     });
   }

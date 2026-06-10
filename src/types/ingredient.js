@@ -72,6 +72,31 @@
  * @property {string[]} unknownItems
  * @property {Ingredient[]} highlights
  * @property {string} summary
+ *
+ * @typedef {Object} AnalysisReportAllergenHit
+ * @property {string} id
+ * @property {AllergenType[]} allergenIds
+ *
+ * @typedef {Object} AnalysisReportTextAllergenHit
+ * @property {string} item
+ * @property {AllergenType[]} allergenIds
+ *
+ * @typedef {Object} AnalysisReport
+ * @property {string} id
+ * @property {DataCategory} category
+ * @property {string} title
+ * @property {string} input
+ * @property {string} createdAt
+ * @property {number} matchedCount
+ * @property {string} summary
+ * @property {string[]} matchedIngredientIds
+ * @property {string[]} highlightIngredientIds
+ * @property {string[]} unknownItems
+ * @property {Record<RiskLevel, number>} riskCounts
+ * @property {AllergenType[]} userAllergenIds
+ * @property {AnalysisReportAllergenHit[]} ingredientAllergenHits
+ * @property {AnalysisReportTextAllergenHit[]} textAllergenHits
+ * @property {number} schemaVersion
  */
 
 export {};
