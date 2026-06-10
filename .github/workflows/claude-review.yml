@@ -1,0 +1,60 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          direct_prompt: |
+            你是 CompCheck（成分小查）项目的资深代码审查员。请审查这个 PR 并以中文输出审查结果。
+
+            项目背景：
+            - 这是一个食品添加剂（主线）和化妆品成分（次线）查询 App
+            - 技术栈：纯 JavaScript ES Modules，无框架，无 TypeScript，无打包工具
+            - 过敏原用户档案是核心功能，贯穿全局
+
+            审查重点：
+
+            1. **技术栈合规**（README 第 21 节）
+               - 是否引入了禁止的依赖（React、Vue、TypeScript、Vite 等）
+               - 是否使用了 ES Modules 语法（import/export）
+
+            2. **食品添加剂数据模型**（README 第 25 节）
+               - 新增数据是否包含必填字段：id、dataCategory、nameCn、category、description、riskLevel、gbStatus、sourceNote
+               - 可选字段（aliases、allergenTypes、cautionFor、foodCategories）是否以空数组形式存在，不允许省略键名
+
+            3. **过敏原系统**（README 第 26 节）
+               - 存储 key 是否为 `compcheck:allergens`
+               - 接口是否暴露 `getUserAllergens()` 和 `setUserAllergens(ids)`
+               - 搜索结果、详情页、分析结果是否有过敏原警告逻辑
+
+            4. **多类别路由**（README 第 24 节）
+               - 路由是否遵循 `/food/...` 和 `/cosmetics/...` 前缀结构
+               - `resolveRoute()` 返回值是否包含 `category` 字段
+
+            5. **已知代码缺陷修复**（PROJECT_PLAN.md 第 7 节）
+               - `storageService.js writeJson` 是否增加了 try-catch
+               - `splitIngredientInput` 是否处理了括号内容剥离
+               - 收藏页是否新增了内联取消收藏按钮
+
+            6. **代码质量**
+               - 函数是否简洁，职责单一
+               - 异步操作是否有错误处理
+               - HTML 输出是否进行了转义（防 XSS）
+               - 合规文案是否遵守克制表达原则（无"绝对安全""绝对有害"等绝对化表述）
+
+            输出格式：
+            - 用中文写审查意见
+            - 分类列出：✅ 做对的地方、⚠️ 需要关注的问题、❌ 必须修复的错误
+            - 对每个问题给出具体文件名和行号
+            - 结尾给出总体评价（通过 / 需要修改 / 不通过）
