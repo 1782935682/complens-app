@@ -354,6 +354,45 @@ button.secondary:hover {
   gap: 16px;
 }
 
+.data-status {
+  border: 1px solid rgba(17, 106, 91, 0.18);
+  border-radius: 8px;
+  padding: 18px;
+  background: #f7fbf8;
+}
+
+.audit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.audit-metric {
+  display: grid;
+  gap: 2px;
+  min-height: 76px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+}
+
+.audit-metric strong {
+  font-size: 22px;
+}
+
+.audit-metric span,
+.audit-note,
+.data-disclaimer {
+  color: var(--muted);
+}
+
+.audit-note,
+.data-disclaimer {
+  margin: 12px 0 0;
+  font-size: 14px;
+}
+
 .two-column {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -552,6 +591,16 @@ button.secondary:hover {
   padding: 14px 16px;
   color: var(--high);
   background: #fff1ef;
+  font-weight: 800;
+}
+
+.data-warning {
+  margin: 14px 0 0;
+  border: 1px solid #f4c790;
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: #7a3b10;
+  background: #fff8ec;
   font-weight: 800;
 }
 
@@ -1204,6 +1253,7 @@ button.secondary:hover {
   .category-tabs,
   .info-grid,
   .food-detail-grid,
+  .audit-grid,
   .report-card,
   .report-metrics {
     grid-template-columns: 1fr;

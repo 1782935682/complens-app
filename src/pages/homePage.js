@@ -1,6 +1,6 @@
 import { categoryPath, getProductCategory, productCategories } from '../data/categories.js';
 import { escapeHtml, ingredientCard, html } from '../components/render.js';
-import { getIngredientCategorySummaries, getPopularIngredients } from '../services/ingredientService.js';
+import { getDatasetAuditSummary, getIngredientCategorySummaries, getPopularIngredients } from '../services/ingredientService.js';
 import { getAnalysisReports, getFavoriteIngredients, getHistory } from '../store/userStore.js';
 
 export function renderHomePage(category = 'food') {
@@ -10,6 +10,7 @@ export function renderHomePage(category = 'food') {
   const favorites = getFavoriteIngredients(category);
   const reports = getAnalysisReports(category);
   const ingredientCategories = getIngredientCategorySummaries(category);
+  const auditSummary = getDatasetAuditSummary(category);
 
   return html`
     ${renderCategoryTabs(category)}
@@ -44,6 +45,8 @@ export function renderHomePage(category = 'food') {
       </a>
     </section>
 
+    ${category === 'food' ? renderDatasetAuditSummary(auditSummary) : ''}
+
     <section class="section">
       <div class="section__head">
         <h2>热门成分</h2>
@@ -72,6 +75,33 @@ export function renderHomePage(category = 'food') {
           : '<p class="empty">当前类别还没有分类数据。</p>'}
       </div>
     </section>
+  `;
+}
+
+function renderDatasetAuditSummary(summary) {
+  return html`
+    <section class="section data-status" aria-label="数据状态" data-dataset-audit>
+      <div class="section__head">
+        <h2>数据状态</h2>
+        <span class="category">${summary.mvpMinimumReached ? '达到草稿下限' : '草稿扩充中'}</span>
+      </div>
+      <div class="audit-grid">
+        ${renderAuditMetric(`${summary.totalCount} 条`, '草稿数据')}
+        ${renderAuditMetric(`${summary.categoryCount} 类`, '覆盖分类')}
+        ${renderAuditMetric(`${summary.reviewedOrVerifiedCount} 条`, '已复核/验证')}
+        ${renderAuditMetric(`${summary.usageLimitCoveragePercent}%`, '限量覆盖')}
+      </div>
+      <p class="audit-note">当前食品添加剂库仍为草稿数据，逐食品类别限量、ADI 原文和来源条款需要继续审核。</p>
+    </section>
+  `;
+}
+
+function renderAuditMetric(value, label) {
+  return html`
+    <div class="audit-metric">
+      <strong>${escapeHtml(value)}</strong>
+      <span>${escapeHtml(label)}</span>
+    </div>
   `;
 }
 

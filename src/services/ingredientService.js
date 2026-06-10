@@ -10,6 +10,12 @@ const riskOrder = {
 };
 
 const riskFilterOrder = ['high', 'medium', 'low', 'unknown'];
+const datasetAuditTargets = {
+  food: {
+    minimum: 50,
+    target: 100
+  }
+};
 
 export function getAllIngredients(category = 'cosmetics') {
   return getDatasetByCategory(category).items;
@@ -56,6 +62,46 @@ export function getIngredientCategorySummaries(category = 'cosmetics') {
 
   return [...summaries.values()]
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+export function getDatasetAuditSummary(category = 'cosmetics') {
+  const items = getDatasetByCategory(category).items;
+  const categoryNames = new Set();
+  const reviewCounts = { draft: 0, reviewed: 0, verified: 0, unknown: 0 };
+  let withSourcesCount = 0;
+  let withUsageLimitsCount = 0;
+  let restrictedCount = 0;
+
+  for (const ingredient of items) {
+    if (ingredient.category) categoryNames.add(ingredient.category);
+    const reviewStatus = ['draft', 'reviewed', 'verified'].includes(ingredient.reviewStatus) ? ingredient.reviewStatus : 'unknown';
+    reviewCounts[reviewStatus] += 1;
+    if (Array.isArray(ingredient.sourceReferences) && ingredient.sourceReferences.length) withSourcesCount += 1;
+    if (Array.isArray(ingredient.usageLimits) && ingredient.usageLimits.length) withUsageLimitsCount += 1;
+    if (ingredient.gbStatus === 'restricted') restrictedCount += 1;
+  }
+
+  const totalCount = items.length;
+  const target = datasetAuditTargets[category] || { minimum: 0, target: 0 };
+  return {
+    category,
+    totalCount,
+    categoryCount: categoryNames.size,
+    reviewCounts,
+    draftCount: reviewCounts.draft,
+    reviewedCount: reviewCounts.reviewed,
+    verifiedCount: reviewCounts.verified,
+    reviewedOrVerifiedCount: reviewCounts.reviewed + reviewCounts.verified,
+    withSourcesCount,
+    withUsageLimitsCount,
+    missingUsageLimitsCount: Math.max(0, totalCount - withUsageLimitsCount),
+    restrictedCount,
+    mvpMinimum: target.minimum,
+    mvpTarget: target.target,
+    mvpMinimumReached: target.minimum ? totalCount >= target.minimum : false,
+    sourceCoveragePercent: getPercent(withSourcesCount, totalCount),
+    usageLimitCoveragePercent: getPercent(withUsageLimitsCount, totalCount)
+  };
 }
 
 export function searchIngredients(query, category = 'cosmetics', filters = {}) {
@@ -142,7 +188,7 @@ export function analyzeIngredientText(input, category = 'cosmetics') {
     matchedCount: ingredientsMatched.length,
     unknownItems: uniqueBy(unknownItems, normalizeText),
     highlights,
-    summary: buildAnalysisSummary(ingredientsMatched, unknownItems, rawItems.length)
+    summary: buildAnalysisSummary(ingredientsMatched, unknownItems, rawItems.length, category)
   };
 }
 
@@ -316,6 +362,11 @@ function relationRiskLabel(level) {
   return labels[level] || labels.unknown;
 }
 
+function getPercent(count, total) {
+  if (!total) return 0;
+  return Math.round((count / total) * 100);
+}
+
 function getDatasetByCategory(category) {
   if (category === 'food') {
     return {
@@ -351,7 +402,7 @@ function toSearchSuggestion(ingredient, match) {
   };
 }
 
-function buildAnalysisSummary(matched, unknownItems, totalCount) {
+function buildAnalysisSummary(matched, unknownItems, totalCount, category = 'cosmetics') {
   if (!totalCount) {
     return '请输入成分表文本，系统会优先匹配本地成分库并标出需要关注的项目。';
   }
@@ -362,8 +413,12 @@ function buildAnalysisSummary(matched, unknownItems, totalCount) {
 
   const watchCount = matched.filter((ingredient) => ['medium', 'high'].includes(ingredient.riskLevel)).length;
   const unknownText = unknownItems.length ? `，另有 ${unknownItems.length} 项暂未收录` : '';
+  const contextText = category === 'food' ? '摄入频率、食品类别和个人情况' : '肤质和使用场景';
   if (watchCount) {
-    return `已匹配 ${matched.length} 项成分，其中 ${watchCount} 项可能需要结合肤质和使用场景重点关注${unknownText}。`;
+    return `已匹配 ${matched.length} 项成分，其中 ${watchCount} 项可能需要结合${contextText}重点关注${unknownText}。`;
+  }
+  if (category === 'food') {
+    return `已匹配 ${matched.length} 项成分，当前未发现高关注项${unknownText}。仍建议结合摄入量、食品类别和产品标签判断。`;
   }
   return `已匹配 ${matched.length} 项成分，当前未发现高关注项${unknownText}。仍建议结合自身耐受和产品说明判断。`;
 }
