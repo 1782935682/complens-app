@@ -18,7 +18,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
-import { addHistory, clearAnalysisReports, clearScanDraft, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getScanDraft, getUserAllergens, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
+import { addHistory, clearAnalysisReports, clearLocalUserData, clearScanDraft, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getScanDraft, getUserAllergens, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -142,7 +142,7 @@ assert.equal(appManifest.shortcuts[1].url, './#/food/scan');
 const mainJs = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
 assert.match(mainJs, /navigator\.serviceWorker\.register\('\.\/sw\.js'\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v1'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v2'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
@@ -451,6 +451,40 @@ assert.match(settingsHtml, /2 项已关注/);
 assert.match(settingsHtml, /value="milk" checked/);
 assert.match(settingsHtml, /value="soybeans" checked/);
 assert.match(settingsHtml, /value="peanuts"/);
+assert.match(settingsHtml, /数据与隐私/);
+assert.match(settingsHtml, /data-export-local-data/);
+assert.match(settingsHtml, /data-clear-local-data/);
+assert.match(settingsHtml, /data-local-data-count="favorites">2</);
+assert.match(settingsHtml, /data-local-data-count="history">1</);
+assert.match(settingsHtml, /data-local-data-count="allergens">2</);
+saveScanDraft('柠檬酸，山梨酸钾', 'food');
+const localDataSummary = getLocalDataSummary();
+assert.equal(localDataSummary.favorites, 2);
+assert.equal(localDataSummary.history, 1);
+assert.equal(localDataSummary.allergens, 2);
+assert.equal(localDataSummary.scanDrafts, 1);
+assert.equal(localDataSummary.totalItems, 6);
+const localDataSnapshot = getLocalDataSnapshot();
+assert.equal(localDataSnapshot.schemaVersion, 1);
+assert.equal(localDataSnapshot.favorites.some((item) => item.id === 'citric-acid' && item.category === 'food'), true);
+assert.equal(localDataSnapshot.history[0], '烟酰胺');
+assert.equal(localDataSnapshot.scanDrafts.food, '柠檬酸，山梨酸钾');
+assert.deepEqual(clearLocalUserData(), {
+  favorites: 0,
+  history: 0,
+  allergens: 0,
+  reports: 0,
+  scanDrafts: 0,
+  totalItems: 0
+});
+assert.deepEqual(getFavoriteItems(), []);
+assert.deepEqual(getHistory(), []);
+assert.deepEqual(getUserAllergens(), []);
+assert.equal(getScanDraft('food'), '');
+toggleFavorite('citric-acid', 'food');
+toggleFavorite('niacinamide', 'cosmetics');
+addHistory('烟酰胺');
+setUserAllergens(['milk', 'soybeans']);
 
 const analyzeHtmlWithAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
 assert.match(analyzeHtmlWithAllergens, /您当前关注的过敏原档案：/);

@@ -7,6 +7,7 @@ const HISTORY_KEY = 'compcheck:history';
 const ALLERGENS_KEY = 'compcheck:allergens';
 const ANALYSIS_REPORTS_KEY = 'compcheck:analysis-reports';
 const SCAN_DRAFTS_KEY = 'compcheck:scan-drafts';
+const LOCAL_DATA_SCHEMA_VERSION = 1;
 const MAX_HISTORY = 8;
 const MAX_ANALYSIS_REPORTS = 20;
 const DEFAULT_CATEGORY = 'cosmetics';
@@ -148,6 +149,48 @@ export function clearAnalysisReports(category) {
     : [];
   writeJson(ANALYSIS_REPORTS_KEY, next);
   return next;
+}
+
+export function getLocalDataSummary() {
+  const scanDrafts = normalizeScanDrafts(readJson(SCAN_DRAFTS_KEY, {}));
+  const favorites = getFavoriteItems();
+  const history = getHistory();
+  const allergens = getUserAllergens();
+  const reports = getAnalysisReports();
+  const scanDraftCount = Object.keys(scanDrafts).length;
+  const totalItems = favorites.length + history.length + allergens.length + reports.length + scanDraftCount;
+
+  return {
+    favorites: favorites.length,
+    history: history.length,
+    allergens: allergens.length,
+    reports: reports.length,
+    scanDrafts: scanDraftCount,
+    totalItems
+  };
+}
+
+export function getLocalDataSnapshot() {
+  const scanDrafts = normalizeScanDrafts(readJson(SCAN_DRAFTS_KEY, {}));
+  return {
+    schemaVersion: LOCAL_DATA_SCHEMA_VERSION,
+    exportedAt: new Date().toISOString(),
+    summary: getLocalDataSummary(),
+    favorites: getFavoriteItems(),
+    history: getHistory(),
+    allergens: getUserAllergens(),
+    analysisReports: getAnalysisReports(),
+    scanDrafts
+  };
+}
+
+export function clearLocalUserData() {
+  writeJson(FAVORITES_KEY, []);
+  writeJson(HISTORY_KEY, []);
+  writeJson(ALLERGENS_KEY, []);
+  writeJson(ANALYSIS_REPORTS_KEY, []);
+  writeJson(SCAN_DRAFTS_KEY, {});
+  return getLocalDataSummary();
 }
 
 export function createAnalysisReport(input, category = DEFAULT_CATEGORY) {
