@@ -2,7 +2,7 @@ import { escapeHtml, html, ingredientCard, riskClass, riskLabel } from '../compo
 import { categoryPath, getProductCategory, isProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText } from '../services/ingredientService.js';
-import { getUserAllergens } from '../store/userStore.js';
+import { getAnalysisReports, getUserAllergens } from '../store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
 
 /**
@@ -40,6 +40,8 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const safeInput = escapeHtml(input);
   const safeSamples = hasValidSampleMap() ? SAMPLES : {};
   const sampleOptions = SAMPLE_OPTIONS.filter((sample) => sample.category === categoryId && typeof safeSamples[sample.id] === 'string');
+  const reportCount = getAnalysisReports(categoryId).length;
+  const canSaveReport = Boolean(String(input || '').trim());
 
   const activeAllergenNames = formatAllergenNames(userAllergens);
   const allergenStatusHtml = activeAllergenNames
@@ -80,6 +82,12 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
       <div class="summary-box">
         <strong>整体说明</strong>
         <p>${escapeHtml(result.summary)}</p>
+        <div class="form-actions report-toolbar">
+          ${canSaveReport ? html`<button type="button" data-save-report>保存报告</button>` : ''}
+          <a class="button-link secondary-link" href="#${categoryPath(categoryId, '/reports')}" data-route>
+            ${reportCount ? `查看 ${reportCount} 份历史报告` : '查看历史报告'}
+          </a>
+        </div>
       </div>
     </section>
 

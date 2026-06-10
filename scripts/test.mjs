@@ -14,7 +14,7 @@ import { ingredientCard } from '../src/components/render.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
-import { addHistory, getFavoriteIngredients, getFavoriteItems, getHistory, getUserAllergens, removeHistory, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
+import { addHistory, clearAnalysisReports, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getUserAllergens, removeHistory, saveAnalysisReport, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -32,6 +32,8 @@ assert.deepEqual(resolveRoute('#/food/search?risk=medium&ingredientCategory=%E9%
   filters: { risk: 'medium', ingredientCategory: '防腐剂' }
 });
 assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
 assert.deepEqual(resolveRoute('#/search?q=BHA'), {
   view: 'search',
@@ -47,18 +49,28 @@ assert.deepEqual(resolveRoute('#/food/not-a-real-page'), { view: 'not-found', ca
 assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
   { key: 'analyze', href: '#/food/analyze', active: false },
+  { key: 'reports', href: '#/food/reports', active: false },
   { key: 'favorites', href: '#/food/favorites', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
 assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
   { key: 'search', href: '#/cosmetics/search', active: false },
   { key: 'analyze', href: '#/cosmetics/analyze', active: true },
+  { key: 'reports', href: '#/cosmetics/reports', active: false },
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: false }
+]);
+assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), [
+  { key: 'search', href: '#/food/search', active: false },
+  { key: 'analyze', href: '#/food/analyze', active: false },
+  { key: 'reports', href: '#/food/reports', active: true },
+  { key: 'favorites', href: '#/food/favorites', active: false },
+  { key: 'settings', href: '#/food/settings', active: false }
 ]);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
   { key: 'home', href: '#/food', active: true },
@@ -79,6 +91,7 @@ assert.match(indexHtml, /rel="manifest" href="\.\/manifest\.webmanifest"/);
 assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
 assert.match(indexHtml, /data-mobile-nav-key="home"/);
 assert.match(indexHtml, /data-mobile-nav-key="analyze"/);
+assert.match(indexHtml, /data-nav-key="reports"/);
 const appManifest = JSON.parse(await readFile(new URL('../src/manifest.webmanifest', import.meta.url), 'utf8'));
 assert.equal(appManifest.display, 'standalone');
 assert.equal(appManifest.start_url, './#/food');
@@ -171,6 +184,7 @@ assert.deepEqual(getFavoriteItems(), [
 ]);
 
 writeJson('compcheck:history', []);
+writeJson('compcheck:analysis-reports', []);
 addHistory('烟酰胺');
 addHistory('BHA');
 assert.deepEqual(getHistory(), ['BHA', '烟酰胺']);
@@ -180,6 +194,7 @@ const homeHtmlWithHistory = renderHomePage('cosmetics');
 assert.match(homeHtmlWithHistory, /data-delete-history="烟酰胺"/);
 assert.match(homeHtmlWithHistory, /aria-label="删除查询记录：烟酰胺"/);
 assert.doesNotMatch(homeHtmlWithHistory, /data-delete-history="BHA"/);
+assert.match(homeHtmlWithHistory, /分析报告/);
 
 const originalUserAllergens = getUserAllergens();
 assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
@@ -193,6 +208,8 @@ assert.match(settingsHtml, /value="peanuts"/);
 
 const analyzeHtmlWithAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
 assert.match(analyzeHtmlWithAllergens, /您当前关注的过敏原档案：/);
+assert.match(analyzeHtmlWithAllergens, /data-save-report/);
+assert.match(analyzeHtmlWithAllergens, /查看历史报告/);
 assert.match(analyzeHtmlWithAllergens, /乳及乳制品、大豆/);
 assert.match(analyzeHtmlWithAllergens, /发现过敏原成分/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
@@ -208,6 +225,37 @@ setUserAllergens([]);
 const analyzeHtmlWithoutAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
 assert.match(analyzeHtmlWithoutAllergens, /您尚未设置关注的过敏原/);
 assert.doesNotMatch(analyzeHtmlWithoutAllergens, /发现过敏原成分/);
+const emptyAnalyzeHtml = renderAnalyzePage('', 'food');
+assert.doesNotMatch(emptyAnalyzeHtml, /data-save-report/);
+setUserAllergens(originalUserAllergens);
+
+writeJson('compcheck:analysis-reports', []);
+setUserAllergens(['milk', 'soybeans']);
+const reportDraft = createAnalysisReport(SAMPLES['food-2'], 'food');
+assert.equal(reportDraft.category, 'food');
+assert.equal(reportDraft.matchedIngredientIds.includes('lecithins'), true);
+assert.equal(reportDraft.ingredientAllergenHits.some((hit) => hit.id === 'lecithins' && hit.allergenIds.includes('soybeans')), true);
+assert.equal(reportDraft.textAllergenHits.some((hit) => hit.item === '全脂奶粉' && hit.allergenIds.includes('milk')), true);
+const savedReport = saveAnalysisReport(SAMPLES['food-2'], 'food');
+assert.equal(getAnalysisReports('food').length, 1);
+assert.equal(getAnalysisReportById(savedReport.id).id, savedReport.id);
+const reportsHtml = renderRoute(resolveRoute('#/food/reports'));
+assert.match(reportsHtml, /分析报告/);
+assert.match(reportsHtml, /data-delete-report=/);
+assert.match(reportsHtml, /重新分析/);
+const reportDetailHtml = renderRoute(resolveRoute(`#/food/reports/${savedReport.id}`));
+assert.match(reportDetailHtml, /原始成分表/);
+assert.match(reportDetailHtml, /保存时发现过敏原/);
+assert.match(reportDetailHtml, /全脂奶粉/);
+assert.match(reportDetailHtml, /href="#\/food\/analyze\?text=/);
+assert.deepEqual(deleteAnalysisReport(savedReport.id), []);
+assert.equal(getAnalysisReportById(savedReport.id), null);
+saveAnalysisReport(SAMPLES['food-1'], 'food');
+saveAnalysisReport(SAMPLES['cosmetic-1'], 'cosmetics');
+clearAnalysisReports('food');
+assert.equal(getAnalysisReports('food').length, 0);
+assert.equal(getAnalysisReports('cosmetics').length, 1);
+writeJson('compcheck:analysis-reports', []);
 setUserAllergens(originalUserAllergens);
 
 const foodCardHtml = ingredientCard(getIngredientById('citric-acid', 'food'));
