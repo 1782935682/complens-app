@@ -95,18 +95,27 @@
 
 ## 3. 项目定位
 
-本项目面向普通用户，用于查询、识别、理解产品成分。
+本项目（CompCheck / 成分小查）面向普通用户，用于查询、识别、理解食品和化妆品成分。
 
-应用应具备以下方向能力：
+### 3.1 类别优先级
 
-1. 成分查询
-2. 成分详情解释
-3. 成分安全性提示
-4. 产品成分表识别
-5. 成分收藏 / 历史记录
-6. 搜索和筛选
-7. 用户友好的解释文案
-8. 后续可扩展 AI 分析能力
+| 类别 | 优先级 | 说明 |
+|---|---|---|
+| 食品添加剂 | **主线，优先实现** | 用户扫描食品包装，查询添加剂安全性 |
+| 食品天然原料 | 第二阶段 | 天然成分说明 |
+| 营养成分 | 第三阶段 | 营养素查询 |
+| 化妆品成分 | 并行，后续迭代 | 护肤品成分安全性 |
+
+不同类别共用同一个 App，通过路由类别前缀区分（见第 26 节），数据和标准独立管理。
+
+### 3.2 核心能力
+
+1. 拍照 / 上传食品包装图片，OCR 识别后解析成结构化成分清单。
+2. 搜索成分名称（中文名 / E-number / GB 编号 / 英文名），展示安全状态、使用限量、ADI 值。
+3. **过敏原档案**：用户录入个人过敏原，任何搜索 / 详情 / 分析结果都自动高亮警告。
+4. 特殊人群提示：孕妇、婴幼儿、糖尿病患者的禁忌成分标注。
+5. 成分收藏 / 历史记录本地持久化。
+6. 后续支持 AI 辅助分析。
 
 不要把项目做成纯技术 Demo。页面、交互、数据流都要围绕真实用户使用场景设计。
 
@@ -222,48 +231,107 @@ src/services/ingredientService.ts
 
 ## 5. 推荐数据模型
 
-### 5.1 Ingredient
+本项目使用纯 JavaScript（无 TypeScript），类型定义使用 JSDoc 注释，统一维护在 `src/types/`。
 
-```ts
-export interface Ingredient {
-  id: string;
-  nameCn: string;
-  nameEn?: string;
-  aliases?: string[];
-  category?: string;
-  functions?: string[];
-  description: string;
-  riskLevel: 'low' | 'medium' | 'high' | 'unknown';
-  riskSummary?: string;
-  suitableFor?: string[];
-  cautionFor?: string[];
-  sourceNote?: string;
-}
+### 5.1 FoodAdditive（食品添加剂，主线）
+
+```js
+/**
+ * @typedef {'low' | 'medium' | 'high' | 'unknown'} RiskLevel
+ * @typedef {'permitted' | 'restricted' | 'prohibited' | 'unknown'} GbStatus
+ *
+ * @typedef {Object} FoodAdditive
+ * @property {string} id                   - 唯一标识，kebab-case，如 "sodium-benzoate"
+ * @property {'food-additive'} dataCategory
+ * @property {string} nameCn               - 中文名，如 "苯甲酸钠"
+ * @property {string=} nameEn              - 英文名，如 "Sodium Benzoate"
+ * @property {string[]=} aliases           - 别名列表
+ * @property {string=} eNumber             - EU E编号，如 "E211"
+ * @property {string=} gbCode              - GB/INS 编号，如 "INS 211"
+ * @property {string} category             - 功能类别：防腐剂 / 甜味剂 / 色素 / 增稠剂 / 抗氧化剂 等
+ * @property {string[]=} functions         - 具体功能描述列表
+ * @property {string} description          - 用户友好的说明文案
+ * @property {RiskLevel} riskLevel
+ * @property {string=} riskSummary         - 风险简要说明
+ * @property {GbStatus} gbStatus           - GB 2760 状态
+ * @property {string=} adi                 - 每日允许摄入量，如 "0–5 mg/kg bw"（无限制填 "不限"）
+ * @property {string=} usageLimits         - 使用限量说明，如 "碳酸饮料中最大用量 0.2 g/kg"
+ * @property {string[]=} foodCategories    - 允许使用的食品类别，如 ["碳酸饮料", "果汁"]
+ * @property {string[]=} allergenTypes     - 过敏原标注，引用 ALLERGEN_TYPES 中的 id
+ * @property {string[]=} cautionFor        - 特殊人群：'pregnant' | 'infant' | 'diabetic' | 'renal'
+ * @property {string=} sourceNote          - 数据来源，如 "GB 2760-2014 表 A.1 第 XX 条"
+ */
 ```
 
-### 5.2 SearchResult
+数据文件路径：`src/data/food-additives.js`
 
-```ts
-export interface SearchResult {
-  id: string;
-  nameCn: string;
-  nameEn?: string;
-  description: string;
-  riskLevel: 'low' | 'medium' | 'high' | 'unknown';
-  category?: string;
-}
+### 5.2 CosmeticIngredient（化妆品成分，后续迭代）
+
+```js
+/**
+ * @typedef {Object} CosmeticIngredient
+ * @property {string} id
+ * @property {'cosmetic-ingredient'} dataCategory
+ * @property {string} nameCn
+ * @property {string=} nameEn
+ * @property {string=} inciName            - INCI 标准名称
+ * @property {string[]=} aliases
+ * @property {string=} category
+ * @property {string[]=} functions
+ * @property {string} description
+ * @property {RiskLevel} riskLevel
+ * @property {string=} riskSummary
+ * @property {string[]=} allergenTypes     - 过敏原标注（如香料、MI 等）
+ * @property {string[]=} suitableFor
+ * @property {string[]=} cautionFor
+ * @property {string=} sourceNote
+ */
 ```
 
-### 5.3 AnalysisResult
+数据文件路径：`src/data/cosmetic-ingredients.js`
 
-```ts
-export interface AnalysisResult {
-  ingredients: Ingredient[];
-  matchedCount: number;
-  unknownItems: string[];
-  highlights: Ingredient[];
-  summary: string;
-}
+### 5.3 Allergen（过敏原枚举）
+
+```js
+/**
+ * @typedef {Object} AllergenType
+ * @property {string} id       - 标识符，如 "peanut"
+ * @property {string} nameCn   - 中文名，如 "花生"
+ * @property {string} nameEn   - 英文名，如 "Peanuts"
+ */
+```
+
+标准 14 类过敏原定义在 `src/data/allergens.js`，id 枚举固定为：
+`peanut` / `milk` / `egg` / `wheat` / `soy` / `nuts` / `fish` / `shellfish` / `sesame` / `mustard` / `celery` / `lupin` / `molluscs` / `sulphites`
+
+### 5.4 SearchResult
+
+```js
+/**
+ * @typedef {Object} SearchResult
+ * @property {string} id
+ * @property {'food-additive' | 'cosmetic-ingredient'} dataCategory
+ * @property {string} nameCn
+ * @property {string=} nameEn
+ * @property {string} description
+ * @property {RiskLevel} riskLevel
+ * @property {string=} category
+ * @property {string[]=} allergenTypes     - 用于搜索结果中过敏原角标
+ */
+```
+
+### 5.5 AnalysisResult
+
+```js
+/**
+ * @typedef {Object} AnalysisResult
+ * @property {Array<FoodAdditive|CosmeticIngredient>} ingredients - 已匹配成分
+ * @property {number} matchedCount
+ * @property {string[]} unknownItems       - 未能匹配的成分名
+ * @property {Array<FoodAdditive|CosmeticIngredient>} highlights  - 重点关注
+ * @property {Array<FoodAdditive|CosmeticIngredient>} allergenItems - 含用户过敏原的成分
+ * @property {string} summary
+ */
 ```
 
 ---
@@ -629,6 +697,7 @@ npm run test
 12. 不要用 mock 数据冒充真实功能完成。
 13. 不要为了构建通过删除核心逻辑。
 14. 不要在没有验证的情况下说已完成。
+15. 不允许自动 push 到 `main` 分支，所有提交必须通过 PR 或 MR 流程合并。
 
 ---
 
@@ -719,6 +788,47 @@ docs: update agent development guide
 10. 每次新增或修改页面、组件、样式时，必须同步检查整体 UI 是否一致。
 
 如果本次改动涉及页面、组件或交互，但最终效果明显不符合基础审美和移动端体验，则视为本次任务未完成。
+## 21. 技术栈规范与约束
+
+本项目使用以下技术栈，编码 Agent 不得在未经说明的情况下更换或引入新技术。
+
+### 21.1 已确定技术栈
+
+| 技术 | 选型 | 说明 |
+|---|---|---|
+| 语言 | 纯 JavaScript (ES2022+) | **不使用 TypeScript**，用 JSDoc 注释类型 |
+| 模块系统 | ES Modules (`type: "module"`) | `import` / `export`，不用 CommonJS |
+| 框架 | 无框架 | **不使用 React / Vue / Svelte** 等 |
+| 打包工具 | 无打包工具 | **不使用 Vite / webpack / rollup** |
+| 构建脚本 | `scripts/build.mjs` | 当前为文件复制，后续可扩展 |
+| 开发服务器 | `scripts/dev-server.mjs` | 自定义 Node.js HTTP 服务 |
+| 路由 | 自实现 hash 路由 | `window.location.hash` + `hashchange` |
+| 样式 | 单文件 `src/styles.css` | 原生 CSS，不使用 CSS-in-JS 或预处理器 |
+| 状态 | 无状态管理库 | 模块级函数 + localStorage |
+| 测试 | `scripts/test.mjs` | Node.js 原生 `assert`，不使用 Jest / Vitest |
+| Lint | `scripts/lint.mjs` | 自定义语法检查，不使用 ESLint |
+
+### 21.2 禁止引入的依赖
+
+以下依赖禁止引入，除非有充分理由并单独说明：
+
+- 任何 UI 框架（React、Vue、Angular、Svelte 等）
+- 任何打包工具（Vite、webpack、Parcel、esbuild 等）
+- TypeScript 编译器
+- 任何 CSS 框架（Tailwind、Bootstrap 等）
+- 任何状态管理库（Redux、Zustand、Pinia 等）
+- 任何路由库
+- 任何测试框架（Jest、Vitest、Mocha 等）
+- jQuery 或任何 DOM 操作库
+
+### 21.3 允许引入的依赖
+
+- 服务端代理（后端实现时）：如 `express`、`fastify`
+- OCR/AI SDK（服务端）：如供应商官方 SDK
+- 数据库 ORM（服务端）：如 `better-sqlite3`、`pg`
+
+---
+
 ## 22. AI_REVIEW 文件大小与归档规则
 
 `AI_REVIEW.md` 只用于记录当前这一轮代码修改的审查材料，不作为长期流水账使用。
@@ -989,4 +1099,237 @@ docs/reviews/2026-06-10-ingredient-search.md
 
 如果没有同步更新 `PROJECT_PLAN.md`，则视为本次任务未完成。
 ```
+
+---
+
+## 24. 多类别路由规范
+
+本项目支持多个成分类别，路由必须包含类别前缀。
+
+### 24.1 路由结构
+
+```text
+#/                          首页（类别选择 + 快速入口）
+#/food                      食品模块首页（热门添加剂、分类入口）
+#/food/search?q=...         食品成分搜索
+#/food/ingredient/:id       食品成分详情
+#/food/analyze              食品成分表分析
+#/cosmetics                 化妆品模块首页
+#/cosmetics/search?q=...    化妆品搜索
+#/cosmetics/ingredient/:id  化妆品成分详情
+#/cosmetics/analyze         化妆品成分表分析
+#/favorites                 收藏夹（跨类别）
+#/settings                  用户设置（过敏原档案）
+```
+
+### 24.2 路由解析规则
+
+`resolveRoute(hash)` 函数必须返回包含 `category` 字段的路由对象：
+
+```js
+// 示例返回值
+{ view: 'search', category: 'food', query: '苯甲酸钠' }
+{ view: 'detail', category: 'food', id: 'sodium-benzoate' }
+{ view: 'analyze', category: 'cosmetics', input: '' }
+{ view: 'settings' }
+{ view: 'favorites' }
+{ view: 'home' }
+```
+
+### 24.3 数据加载规则
+
+- `category === 'food'` 时，从 `src/data/food-additives.js` 加载数据
+- `category === 'cosmetics'` 时，从 `src/data/cosmetic-ingredients.js` 加载数据
+- service 层函数必须接受 `category` 参数，根据类别分发数据源
+
+---
+
+## 25. 食品添加剂数据文件规范
+
+### 25.1 文件路径
+
+```text
+src/data/food-additives.js    - 食品添加剂数据
+src/data/allergens.js         - 标准过敏原枚举
+src/data/cosmetic-ingredients.js  - 化妆品成分数据（将现有 ingredients.js 重命名）
+```
+
+### 25.2 food-additives.js 格式
+
+```js
+import { ALLERGEN_TYPES } from './allergens.js';
+
+/** @type {import('../types/ingredient.js').FoodAdditive[]} */
+export const foodAdditives = [
+  {
+    id: 'sodium-benzoate',
+    dataCategory: 'food-additive',
+    nameCn: '苯甲酸钠',
+    nameEn: 'Sodium Benzoate',
+    aliases: ['安息香酸钠'],
+    eNumber: 'E211',
+    gbCode: 'INS 211',
+    category: '防腐剂',
+    functions: ['防止食品变质', '抑制细菌和霉菌生长'],
+    description: '常用于碳酸饮料、果汁、酱油等食品中的防腐剂，在酸性环境下效果更好。',
+    riskLevel: 'medium',
+    riskSummary: '与维生素 C（抗坏血酸）共存时可能生成微量苯，建议关注复配情况。',
+    gbStatus: 'permitted',
+    adi: '0–5 mg/kg bw',
+    usageLimits: '碳酸饮料中最大用量 0.2 g/kg',
+    foodCategories: ['碳酸饮料', '果汁饮料', '酱油', '醋'],
+    allergenTypes: [],
+    cautionFor: [],
+    sourceNote: 'GB 2760-2014 表 A.1'
+  }
+];
+
+export const popularFoodAdditiveIds = ['sodium-benzoate'];
+```
+
+### 25.3 allergens.js 格式
+
+```js
+/** @type {Array<{id: string, nameCn: string, nameEn: string}>} */
+export const ALLERGEN_TYPES = [
+  { id: 'peanut',    nameCn: '花生',       nameEn: 'Peanuts' },
+  { id: 'milk',      nameCn: '牛奶/乳制品', nameEn: 'Milk' },
+  { id: 'egg',       nameCn: '鸡蛋',       nameEn: 'Eggs' },
+  { id: 'wheat',     nameCn: '小麦/麸质',   nameEn: 'Wheat/Gluten' },
+  { id: 'soy',       nameCn: '大豆',       nameEn: 'Soybeans' },
+  { id: 'nuts',      nameCn: '坚果',       nameEn: 'Tree nuts' },
+  { id: 'fish',      nameCn: '鱼类',       nameEn: 'Fish' },
+  { id: 'shellfish', nameCn: '贝类/甲壳类', nameEn: 'Crustacean shellfish' },
+  { id: 'sesame',    nameCn: '芝麻',       nameEn: 'Sesame' },
+  { id: 'mustard',   nameCn: '芥末',       nameEn: 'Mustard' },
+  { id: 'celery',    nameCn: '芹菜',       nameEn: 'Celery' },
+  { id: 'lupin',     nameCn: '羽扇豆',     nameEn: 'Lupin' },
+  { id: 'molluscs',  nameCn: '软体动物',   nameEn: 'Molluscs' },
+  { id: 'sulphites', nameCn: '亚硫酸盐',   nameEn: 'Sulphur dioxide/Sulphites' },
+];
+
+export const ALLERGEN_IDS = ALLERGEN_TYPES.map((a) => a.id);
+```
+
+### 25.4 数据必填字段
+
+以下字段所有食品添加剂数据条目都必须填写，不允许省略：
+
+`id` / `dataCategory` / `nameCn` / `category` / `description` / `riskLevel` / `gbStatus` / `sourceNote`
+
+以下字段有数据时必须填写，无数据时填空数组或空字符串，不允许省略键名：
+
+`aliases` / `allergenTypes` / `cautionFor` / `foodCategories`
+
+---
+
+## 26. 过敏原系统规范
+
+### 26.1 用户数据存储
+
+过敏原偏好存储在 `localStorage`，key 为 `compcheck:allergens`，值为过敏原 id 字符串数组：
+
+```js
+// 示例
+['peanut', 'milk', 'wheat']
+```
+
+在 `src/store/userStore.js` 中实现以下接口：
+
+```js
+export function getUserAllergens()       // 返回 string[]
+export function setUserAllergens(ids)    // 保存 string[]
+```
+
+### 26.2 过敏原警告触发规则
+
+满足以下任一条件时，必须显示过敏原警告：
+
+1. 成分的 `allergenTypes` 数组与用户设置的过敏原 id 有交集
+2. 成分描述或别名中包含用户过敏原的中文名（兜底匹配）
+
+不满足上述条件，或用户未设置过敏原，则不显示警告。
+
+### 26.3 各页面警告展示方式
+
+| 页面 | 展示方式 |
+|---|---|
+| 搜索结果列表 | 成分卡片右上角显示红色「含过敏原」角标 |
+| 成分详情页 | 页面顶部显示醒目红色 banner："⚠ 此成分含您关注的过敏原：花生、牛奶" |
+| 成分表分析结果 | 单独置顶一个「含过敏原成分」分区，红色高亮 |
+| 收藏页 | 含过敏原的收藏条目显示红色角标 |
+
+### 26.4 用户设置页
+
+路由 `#/settings`，必须包含：
+
+1. 过敏原选择列表（基于 `ALLERGEN_TYPES`，可多选，复选框样式）
+2. 保存按钮，保存后立即生效
+3. 清空所有过敏原设置按钮
+4. 已设置提示文案（"已关注 3 类过敏原"）
+
+---
+
+## 27. 现有代码迁移规则
+
+当前项目代码是化妆品原型。在向食品添加剂主线迁移过程中，编码 Agent 必须遵守以下规则。
+
+### 27.1 可以修改
+
+- `src/router/router.js`：扩展支持多类别路由
+- `src/services/ingredientService.js`：重构为按类别分发数据源
+- `src/store/userStore.js`：新增过敏原读写接口
+- `src/pages/*.js`：扩展支持食品字段展示和过敏原警告
+- `src/main.js`：新增 settings 路由绑定、document.title 更新
+
+### 27.2 禁止删除（保留化妆品原型）
+
+- `src/data/ingredients.js`：重命名为 `src/data/cosmetic-ingredients.js`，不删除数据
+- 化妆品相关页面逻辑：保留在 `/cosmetics/` 路由下，不删除
+
+### 27.3 重命名规则
+
+| 旧文件 | 新文件 | 说明 |
+|---|---|---|
+| `src/data/ingredients.js` | `src/data/cosmetic-ingredients.js` | 内容不变，路径调整 |
+
+### 27.4 新增文件清单
+
+迁移完成后，以下文件必须存在：
+
+```text
+src/data/food-additives.js
+src/data/cosmetic-ingredients.js
+src/data/allergens.js
+src/pages/settingsPage.js
+src/types/ingredient.js         （扩展 FoodAdditive、CosmeticIngredient 类型）
+```
+
+---
+
+## 28. 环境变量规范
+
+本项目不使用 Vite，环境变量名不加 `VITE_` 前缀。服务端密钥只在后端 Node.js 进程中读取，不在前端暴露。
+
+`.env.example` 格式：
+
+```env
+# 服务端口
+SERVER_PORT=8080
+
+# OCR 服务密钥（服务端读取，不传前端）
+OCR_API_KEY=
+
+# AI 服务密钥（服务端读取，不传前端）
+AI_API_KEY=
+
+# 数据库连接（后端实现后填写）
+DATABASE_URL=
+
+# 前端可读的公开配置（无敏感信息才允许）
+APP_NAME=成分小查
+APP_BASE_URL=http://localhost:8080
+```
+
+前端代码只允许读取明确标注为「前端可读」的环境变量，且只能通过后端注入或构建时替换，不能直接 `process.env`。
 
