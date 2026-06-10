@@ -475,17 +475,24 @@ export async function analyzeIngredientsByAI(input: string) {
 示例：
 
 ```env
-VITE_API_BASE_URL=
-VITE_APP_NAME=成分 App
-```
-
-如果是后端：
-
-```env
+# 服务端口（后端实现后使用）
 SERVER_PORT=8080
+
+# OCR 服务密钥（服务端读取，不传前端）
+OCR_API_KEY=
+
+# AI 服务密钥（服务端读取，不传前端）
+AI_API_KEY=
+
+# 数据库连接（后端实现后填写）
 DATABASE_URL=
-OPENAI_API_KEY=
+
+# 前端可读的公开配置（无敏感信息才允许，通过后端注入或构建时替换）
+APP_NAME=成分小查
+APP_BASE_URL=http://localhost:8080
 ```
+
+本项目不使用 Vite，环境变量名不加 `VITE_` 前缀。服务端密钥只在后端 Node.js 进程中读取，不在前端暴露。
 
 禁止提交真实密钥。
 
