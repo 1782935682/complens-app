@@ -32,31 +32,39 @@ jobs:
         id: pr-info
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER_AUTO: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.base_ref }}
+          REPO: ${{ github.repository }}
         run: |
-          if [ "${{ github.event_name }}" = "issue_comment" ]; then
-            PR_NUM="${{ github.event.issue.number }}"
-            BASE=$(gh pr view "$PR_NUM" --repo "${{ github.repository }}" --json baseRefName --jq '.baseRefName')
+          if [ "$EVENT_NAME" = "issue_comment" ]; then
+            PR_NUM="$ISSUE_NUMBER"
+            BASE=$(gh pr view "$PR_NUM" --repo "$REPO" --json baseRefName --jq '.baseRefName')
             git diff "origin/$BASE"...HEAD > /tmp/pr.diff
           else
-            PR_NUM="${{ github.event.pull_request.number }}"
-            git diff "origin/${{ github.base_ref }}"...HEAD > /tmp/pr.diff
+            PR_NUM="$PR_NUMBER_AUTO"
+            git diff "origin/$BASE_REF"...HEAD > /tmp/pr.diff
           fi
           echo "pr_number=$PR_NUM" >> "$GITHUB_OUTPUT"
 
       - name: 选择 AI 提供商
         id: ai-config
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          COMMENT="${{ github.event.comment.body }}"
-          if echo "$COMMENT" | grep -q '@bailian'; then
-            echo "api_key=${{ secrets.DASHSCOPE_API_KEY }}"  >> "$GITHUB_OUTPUT"
+          if echo "$COMMENT_BODY" | grep -q '@bailian'; then
+            echo "api_key=$DASHSCOPE_API_KEY"  >> "$GITHUB_OUTPUT"
             echo "api_base=https://dashscope.aliyuncs.com/compatible-mode/v1" >> "$GITHUB_OUTPUT"
-            echo "model=qwen-max"      >> "$GITHUB_OUTPUT"
+            echo "model=qwen-max"              >> "$GITHUB_OUTPUT"
             echo "provider=阿里云百炼 (qwen-max)" >> "$GITHUB_OUTPUT"
           else
-            echo "api_key=${{ secrets.DEEPSEEK_API_KEY }}"   >> "$GITHUB_OUTPUT"
-            echo "api_base=https://api.deepseek.com/v1"      >> "$GITHUB_OUTPUT"
-            echo "model=deepseek-chat" >> "$GITHUB_OUTPUT"
-            echo "provider=DeepSeek (deepseek-chat)"         >> "$GITHUB_OUTPUT"
+            echo "api_key=$DEEPSEEK_API_KEY"   >> "$GITHUB_OUTPUT"
+            echo "api_base=https://api.deepseek.com/v1" >> "$GITHUB_OUTPUT"
+            echo "model=deepseek-chat"         >> "$GITHUB_OUTPUT"
+            echo "provider=DeepSeek (deepseek-chat)" >> "$GITHUB_OUTPUT"
           fi
 
       - name: AI 代码审查

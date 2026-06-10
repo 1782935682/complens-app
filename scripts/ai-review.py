@@ -111,7 +111,8 @@ def main():
     repo      = os.environ.get('REPO', '')
 
     if not api_key:
-        print(f'{provider} API Key 未配置，跳过审查')
+        msg = f'⚠️ **{provider} API Key 未配置**，无法完成代码审查。\n\n请在仓库 `Settings → Secrets → Actions` 中添加对应的 Secret。'
+        post_comment(msg, pr_number, repo)
         sys.exit(0)
 
     diff = get_diff()
