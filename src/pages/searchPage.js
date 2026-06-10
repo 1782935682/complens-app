@@ -238,7 +238,7 @@ function renderPagination(category, query, activeFilters, activeSort, currentPag
 function renderEmpty(query, activeFilterCount) {
   if (activeFilterCount) return '<p class="empty">没有符合当前筛选条件的成分。可以放宽筛选条件或换一个关键词。</p>';
   if (!query) return '<p class="empty">输入成分名称、英文名、别名或分类后开始搜索。</p>';
-  return '<p class="empty">暂未找到相关成分。可以尝试英文名、别名，或到成分表识别页粘贴完整文本。</p>';
+  return '<p class="empty">暂未找到相关成分。可以尝试英文名、别名，或到扫描页/分析页录入完整成分表。</p>';
 }
 
 function getValidFilters(filters, options) {

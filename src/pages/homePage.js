@@ -31,9 +31,9 @@ export function renderHomePage(category = 'food') {
     </section>
 
     <section class="quick-actions" aria-label="快捷入口">
-      <a class="action-tile" href="#${categoryPath(category, '/analyze')}" data-route>
-        <strong>成分表识别</strong>
-        <span>粘贴文本并匹配本地库</span>
+      <a class="action-tile" href="#${categoryPath(category, '/scan')}" data-route>
+        <strong>拍照扫描</strong>
+        <span>上传标签并校正文本</span>
       </a>
       <a class="action-tile" href="#${categoryPath(category, '/reports')}" data-route>
         <strong>分析报告</strong>

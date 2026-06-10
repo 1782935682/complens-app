@@ -9,13 +9,14 @@ import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } fr
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
+import { renderScanPage } from '../src/pages/scanPage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { ingredientCard } from '../src/components/render.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
-import { addHistory, clearAnalysisReports, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getUserAllergens, removeHistory, saveAnalysisReport, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
+import { addHistory, clearAnalysisReports, clearScanDraft, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getScanDraft, getUserAllergens, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -57,6 +58,8 @@ assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&page=-4'), {
   filters: { risk: '', ingredientCategory: '' }
 });
 assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
+assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
@@ -74,11 +77,13 @@ assert.deepEqual(resolveRoute('#/not-a-real-page'), { view: 'not-found', categor
 assert.deepEqual(resolveRoute('#/food/not-a-real-page'), { view: 'not-found', category: 'food', path: '/food/not-a-real-page' });
 assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/scan')), '扫描识别 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
+  { key: 'scan', href: '#/food/scan', active: false },
   { key: 'analyze', href: '#/food/analyze', active: false },
   { key: 'reports', href: '#/food/reports', active: false },
   { key: 'favorites', href: '#/food/favorites', active: false },
@@ -86,6 +91,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
 ]);
 assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
   { key: 'search', href: '#/cosmetics/search', active: false },
+  { key: 'scan', href: '#/cosmetics/scan', active: false },
   { key: 'analyze', href: '#/cosmetics/analyze', active: true },
   { key: 'reports', href: '#/cosmetics/reports', active: false },
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
@@ -93,6 +99,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
 ]);
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), [
   { key: 'search', href: '#/food/search', active: false },
+  { key: 'scan', href: '#/food/scan', active: false },
   { key: 'analyze', href: '#/food/analyze', active: false },
   { key: 'reports', href: '#/food/reports', active: true },
   { key: 'favorites', href: '#/food/favorites', active: false },
@@ -100,14 +107,14 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), 
 ]);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
   { key: 'home', href: '#/food', active: true },
-  { key: 'analyze', href: '#/food/analyze', active: false },
+  { key: 'scan', href: '#/food/scan', active: false },
   { key: 'search', href: '#/food/search', active: false },
   { key: 'favorites', href: '#/food/favorites', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/cosmetics/settings')), [
   { key: 'home', href: '#/cosmetics', active: false },
-  { key: 'analyze', href: '#/cosmetics/analyze', active: false },
+  { key: 'scan', href: '#/cosmetics/scan', active: false },
   { key: 'search', href: '#/cosmetics/search', active: false },
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: true }
@@ -116,18 +123,41 @@ const indexHtml = await readFile(new URL('../src/index.html', import.meta.url), 
 assert.match(indexHtml, /rel="manifest" href="\.\/manifest\.webmanifest"/);
 assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
 assert.match(indexHtml, /data-mobile-nav-key="home"/);
-assert.match(indexHtml, /data-mobile-nav-key="analyze"/);
+assert.match(indexHtml, /data-mobile-nav-key="scan"/);
+assert.match(indexHtml, /data-nav-key="scan"/);
 assert.match(indexHtml, /data-nav-key="reports"/);
 const appManifest = JSON.parse(await readFile(new URL('../src/manifest.webmanifest', import.meta.url), 'utf8'));
 assert.equal(appManifest.display, 'standalone');
 assert.equal(appManifest.start_url, './#/food');
 assert.equal(appManifest.icons[0].src, './app-icon.svg');
+assert.equal(appManifest.shortcuts[1].url, './#/food/scan');
 const notFoundHtml = renderRoute(resolveRoute('#/food/not-a-real-page'));
 assert.match(notFoundHtml, /页面不存在/);
 assert.match(notFoundHtml, /没有找到这个页面/);
 assert.match(notFoundHtml, /href="#\/food"/);
 assert.match(notFoundHtml, /href="#\/food\/search"/);
 assert.equal(categoryPath('food', '/search'), '/food/search');
+
+const scanHtml = renderRoute(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'));
+assert.match(scanHtml, /扫描成分表/);
+assert.match(scanHtml, /data-scan-form/);
+assert.match(scanHtml, /data-scan-image-input/);
+assert.match(scanHtml, /accept="image\/png,image\/jpeg,image\/webp,image\/gif,image\/bmp,image\/avif"/);
+assert.match(scanHtml, /capture="environment"/);
+assert.match(scanHtml, /data-scan-preview/);
+assert.match(scanHtml, /data-scan-draft-status/);
+assert.match(scanHtml, /柠檬酸/);
+assert.match(scanHtml, /已从链接带入待分析文本/);
+assert.match(scanHtml, /href="#\/food\/analyze"/);
+assert.match(renderScanPage('', 'cosmetics'), /化妆品成分/);
+writeJson('compcheck:scan-drafts', {});
+assert.equal(getScanDraft('food'), '');
+assert.equal(saveScanDraft(' 柠檬酸，山梨酸钾 ', 'food'), '柠檬酸，山梨酸钾');
+assert.equal(getScanDraft('food'), '柠檬酸，山梨酸钾');
+assert.match(renderScanPage('', 'food'), /已恢复本机保存的扫描草稿/);
+assert.match(renderScanPage('', 'food'), /柠檬酸，山梨酸钾/);
+assert.deepEqual(clearScanDraft('food'), {});
+assert.equal(getScanDraft('food'), '');
 
 const cnResults = searchIngredients('烟酰胺');
 assert.equal(cnResults[0].id, 'niacinamide');

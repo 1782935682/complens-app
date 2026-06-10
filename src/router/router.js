@@ -5,6 +5,7 @@ import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
 import { renderReportDetailPage, renderReportsPage } from '../pages/reportsPage.js';
+import { renderScanPage } from '../pages/scanPage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
 import { renderSettingsPage } from '../pages/settingsPage.js';
 import { getIngredientById } from '../services/ingredientService.js';
@@ -17,6 +18,7 @@ const VIEW_TITLES = {
   home: '',
   reports: '分析报告',
   'report-detail': '报告详情',
+  scan: '扫描识别',
   search: '搜索',
   settings: '过敏原档案',
   'not-found': '页面不存在'
@@ -24,6 +26,7 @@ const VIEW_TITLES = {
 
 const NAV_ITEMS = [
   { key: 'search', view: 'search', path: '/search' },
+  { key: 'scan', view: 'scan', path: '/scan' },
   { key: 'analyze', view: 'analyze', path: '/analyze' },
   { key: 'reports', view: 'reports', path: '/reports' },
   { key: 'favorites', view: 'favorites', path: '/favorites' },
@@ -32,7 +35,7 @@ const NAV_ITEMS = [
 
 const MOBILE_NAV_ITEMS = [
   { key: 'home', view: 'home', path: '/' },
-  { key: 'analyze', view: 'analyze', path: '/analyze' },
+  { key: 'scan', view: 'scan', path: '/scan' },
   { key: 'search', view: 'search', path: '/search' },
   { key: 'favorites', view: 'favorites', path: '/favorites' },
   { key: 'settings', view: 'settings', path: '/settings' }
@@ -84,6 +87,14 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/scan') {
+    return {
+      view: 'scan',
+      category: route.category,
+      input: params.get('text') || ''
+    };
+  }
+
   if (route.path === '/reports') {
     return {
       view: 'reports',
@@ -121,6 +132,7 @@ export function resolveRoute(hash) {
 export function renderRoute(route) {
   if (route.view === 'detail') return renderDetailPage(route.id, route.category);
   if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort);
+  if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);

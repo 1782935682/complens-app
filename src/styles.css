@@ -902,6 +902,73 @@ button.secondary:hover {
   font-weight: 800;
 }
 
+.scan-head {
+  padding-top: 16px;
+}
+
+.scan-form {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.scan-upload,
+.scan-editor {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.scan-preview {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--muted);
+  background: #fbfcfb;
+  text-align: center;
+}
+
+.scan-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.scan-actions {
+  grid-column: 1 / -1;
+  align-items: center;
+}
+
+.scan-state-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.scan-state-item {
+  display: grid;
+  gap: 4px;
+  min-height: 98px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.scan-state-item span {
+  color: var(--muted);
+}
+
 .analyze-form {
   display: grid;
   gap: 10px;
@@ -1254,6 +1321,8 @@ button.secondary:hover {
   .info-grid,
   .food-detail-grid,
   .audit-grid,
+  .scan-form,
+  .scan-state-grid,
   .report-card,
   .report-metrics {
     grid-template-columns: 1fr;

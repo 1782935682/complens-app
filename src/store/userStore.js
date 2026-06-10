@@ -6,6 +6,7 @@ const FAVORITES_KEY = 'compcheck:favorites';
 const HISTORY_KEY = 'compcheck:history';
 const ALLERGENS_KEY = 'compcheck:allergens';
 const ANALYSIS_REPORTS_KEY = 'compcheck:analysis-reports';
+const SCAN_DRAFTS_KEY = 'compcheck:scan-drafts';
 const MAX_HISTORY = 8;
 const MAX_ANALYSIS_REPORTS = 20;
 const DEFAULT_CATEGORY = 'cosmetics';
@@ -81,6 +82,30 @@ export function setUserAllergens(ids) {
     .filter(Boolean))];
   writeJson(ALLERGENS_KEY, next);
   return next;
+}
+
+export function getScanDraft(category = DEFAULT_CATEGORY) {
+  const drafts = normalizeScanDrafts(readJson(SCAN_DRAFTS_KEY, {}));
+  return drafts[category] || '';
+}
+
+export function saveScanDraft(input, category = DEFAULT_CATEGORY) {
+  const normalizedInput = String(input || '').trim();
+  const drafts = normalizeScanDrafts(readJson(SCAN_DRAFTS_KEY, {}));
+  if (normalizedInput) {
+    drafts[category] = normalizedInput;
+  } else {
+    delete drafts[category];
+  }
+  writeJson(SCAN_DRAFTS_KEY, drafts);
+  return normalizedInput;
+}
+
+export function clearScanDraft(category = DEFAULT_CATEGORY) {
+  const drafts = normalizeScanDrafts(readJson(SCAN_DRAFTS_KEY, {}));
+  delete drafts[category];
+  writeJson(SCAN_DRAFTS_KEY, drafts);
+  return drafts;
 }
 
 export function getAnalysisReports(category) {
@@ -238,6 +263,15 @@ function normalizeStringList(value) {
   return Array.isArray(value)
     ? value.map((item) => String(item || '').trim()).filter(Boolean)
     : [];
+}
+
+function normalizeScanDrafts(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value)
+      .map(([category, input]) => [String(category || '').trim(), String(input || '').trim()])
+      .filter(([category, input]) => category && input)
+  );
 }
 
 function normalizeIngredientAllergenHits(value) {
