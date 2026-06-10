@@ -65,6 +65,7 @@ function bindPageEvents(route) {
       const textarea = document.querySelector('#ingredient-text');
       if (val === '0') return;
       if (!sampleIdsForCategory.has(val)) {
+        sampleSelect.value = '0';
         if (textarea) textarea.value = '';
         return;
       }
