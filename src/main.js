@@ -4,7 +4,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { addHistory, clearAnalysisReports, clearHistory, deleteAnalysisReport, getAnalysisReportById, removeHistory, saveAnalysisReport, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearAnalysisReports, clearHistory, clearScanDraft, deleteAnalysisReport, getAnalysisReportById, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
@@ -80,6 +80,29 @@ function bindPageEvents(route) {
       navigate(`#${categoryPath(route.category, '/analyze')}?text=${encodeURIComponent(input)}`);
     });
   });
+
+  document.querySelectorAll('[data-scan-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const input = String(formData.get('scanText') || '').trim();
+      if (!input) {
+        updateScanFeedback('请输入或粘贴成分表文本后再分析。');
+        return;
+      }
+      saveScanDraft(input, route.category);
+      updateScanDraftStatus('草稿已保存。');
+      navigate(`#${categoryPath(route.category, '/analyze')}?text=${encodeURIComponent(input)}`);
+    });
+  });
+
+  const scanTextInput = document.querySelector('#scan-text');
+  if (scanTextInput) {
+    scanTextInput.addEventListener('input', () => {
+      const saved = saveScanDraft(scanTextInput.value, route.category);
+      updateScanDraftStatus(saved ? '草稿已自动保存。' : '草稿已清空。');
+    });
+  }
 
   document.querySelectorAll('[data-favorite-id]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -188,17 +211,38 @@ function bindPageEvents(route) {
     });
   }
 
-  const imageInput = document.querySelector('[data-image-input]');
-  if (imageInput) {
-    imageInput.addEventListener('change', async () => {
-      const feedback = document.querySelector('[data-image-feedback]');
+  const scanImageInput = document.querySelector('[data-scan-image-input]');
+  if (scanImageInput) {
+    scanImageInput.addEventListener('change', async () => {
+      const feedback = document.querySelector('[data-scan-feedback]');
+      const preview = document.querySelector('[data-scan-preview]');
+      const textInput = document.querySelector('#scan-text');
+      const file = scanImageInput.files?.[0];
+      updateScanPreview(preview, file);
       try {
         if (feedback) feedback.textContent = '正在检查图片识别能力...';
-        const result = await extractIngredientsFromImage(imageInput.files?.[0]);
+        const result = await extractIngredientsFromImage(file);
+        if (result.text && textInput && !textInput.value.trim()) {
+          textInput.value = result.text;
+        }
         if (feedback) feedback.textContent = result.message;
       } catch {
-        if (feedback) feedback.textContent = '识别失败，请换一张更清晰的图片或直接粘贴成分表文本。';
+        if (feedback) feedback.textContent = '识别失败，请换一张更清晰的图片或直接录入成分表文本。';
       }
+    });
+  }
+
+  const clearScanTextButton = document.querySelector('[data-clear-scan-text]');
+  if (clearScanTextButton) {
+    clearScanTextButton.addEventListener('click', () => {
+      const textInput = document.querySelector('#scan-text');
+      if (textInput) {
+        textInput.value = '';
+        textInput.focus();
+      }
+      clearScanDraft(route.category);
+      updateScanFeedback('文本已清空。');
+      updateScanDraftStatus('草稿已清空。');
     });
   }
 
@@ -335,6 +379,49 @@ function downloadTextFile(fileName, content, mimeType) {
 function updateExportStatus(message) {
   const statusNode = document.querySelector('[data-export-status]');
   if (statusNode) statusNode.textContent = message;
+}
+
+function updateScanFeedback(message) {
+  const statusNode = document.querySelector('[data-scan-feedback]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateScanDraftStatus(message) {
+  const statusNode = document.querySelector('[data-scan-draft-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateScanPreview(preview, file) {
+  if (!preview) return;
+  preview.replaceChildren();
+
+  if (!file) {
+    const placeholder = document.createElement('span');
+    placeholder.textContent = '未选择图片';
+    preview.append(placeholder);
+    return;
+  }
+
+  if (!String(file.type || '').startsWith('image/')) {
+    const placeholder = document.createElement('span');
+    placeholder.textContent = file.name ? `已选择：${file.name}` : '已选择文件';
+    preview.append(placeholder);
+    return;
+  }
+
+  const image = document.createElement('img');
+  image.alt = file.name ? `已选择图片：${file.name}` : '已选择图片预览';
+  if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+    const objectUrl = URL.createObjectURL(file);
+    image.onload = () => URL.revokeObjectURL(objectUrl);
+    image.src = objectUrl;
+    preview.append(image);
+    return;
+  }
+
+  const placeholder = document.createElement('span');
+  placeholder.textContent = file.name ? `已选择：${file.name}` : '图片已选择';
+  preview.append(placeholder);
 }
 
 window.addEventListener('hashchange', render);
