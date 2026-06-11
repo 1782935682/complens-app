@@ -32,6 +32,7 @@ export function renderComparePage(category = 'food') {
     <section class="section">
       <div class="compare-toolbar">
         <a class="button-link" href="#${categoryPath(overview.category, '/search')}" data-route>添加成分</a>
+        ${overview.count ? '<button type="button" class="secondary" data-share-compare>分享对比</button>' : ''}
         ${overview.count ? '<button type="button" class="secondary" data-clear-compare>清空对比</button>' : ''}
         <span class="save-status" data-compare-status role="status" aria-live="polite">
           ${overview.isFull ? `最多可对比 ${overview.maxItems} 个成分。` : ''}

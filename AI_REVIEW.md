@@ -1,25 +1,27 @@
-# AI Review - Search Spelling Assist
+# AI Review - Share Flow
 
 ## 任务目标
 
-新增搜索拼音与纠错辅助闭环，让用户在食品添加剂或化妆品成分搜索中输入拼音、首字母、常见误写或轻微错字时，仍能得到可点击的候选成分和可验证的搜索结果。
+新增分享闭环，让用户在成分详情、分析报告和成分对比页面可以使用系统分享；桌面浏览器或不支持 Web Share 时，自动复制可读分享文本。
 
 ## 修改摘要
 
-- 新增 `src/data/searchAliases.js`，维护食品添加剂和化妆品常见成分的拼音、首字母和常见写法辅助索引。
-- 搜索服务接入辅助索引，`searchIngredients()` 和 `getSearchSuggestions()` 支持拼音、首字母、常见误写和近似匹配。
-- 搜索页在辅助命中时展示“可能相关”候选，候选可直接进入详情页。
-- 补充搜索辅助区域和移动端布局样式。
-- PWA shell 缓存版本升到 `compcheck-shell-v12`，并预缓存搜索辅助索引。
-- 补充拼音、首字母、常见误写、近似匹配、页面渲染和 service worker 缓存测试。
+- 新增 `src/services/shareService.js`，统一构建成分详情、报告详情和成分对比分享 payload。
+- 成分详情页新增分享按钮和状态反馈。
+- 报告详情页新增分享报告按钮，保留原有 Markdown / JSON 导出。
+- 成分对比页新增分享对比按钮，空对比状态不展示分享入口。
+- 主入口新增 Web Share 调用和复制 fallback。
+- PWA shell 缓存版本升到 `compcheck-shell-v13`，并预缓存分享服务。
+- 补充分享 payload、页面入口、主事件和 service worker 缓存测试。
 - 同步更新 `COMMANDS.md` 和 `PROJECT_PLAN.md`。
 
 ## 修改文件
 
-- `src/data/searchAliases.js`
-- `src/services/ingredientService.js`
-- `src/pages/searchPage.js`
-- `src/styles.css`
+- `src/services/shareService.js`
+- `src/pages/detailPage.js`
+- `src/pages/reportsPage.js`
+- `src/pages/comparePage.js`
+- `src/main.js`
 - `src/sw.js`
 - `scripts/test.mjs`
 - `COMMANDS.md`
@@ -43,18 +45,17 @@ git diff --check
 - `npm run test` 通过。
 - `npm run build` 通过，构建产物输出到 `dist/`。
 - `git diff --check` 通过。
-- `curl -I http://127.0.0.1:5179/`、`/main.js`、`/pages/searchPage.js`、`/services/ingredientService.js`、`/data/searchAliases.js` 和 `/sw.js` 均返回 HTTP 200。
+- `curl -I http://127.0.0.1:5180/`、`/main.js`、`/pages/detailPage.js`、`/pages/reportsPage.js`、`/pages/comparePage.js`、`/services/shareService.js` 和 `/sw.js` 均返回 HTTP 200。
 
 ## 风险点
 
-- 当前拼音索引是本地维护的 MVP 辅助索引，不是完整中文分词或全量拼音库；后续大规模数据接入时需要生成式索引或离线构建脚本。
-- 近似匹配只允许短距离编辑差异，避免过度召回；真实搜索日志上线前仍需根据用户输入校准阈值。
-- 搜索结果仍基于草稿数据集，辅助命中不代表数据已完成正式审核。
-- 已修复 Codex 审阅指出的 `山梨酸钾` 拼音别名误写问题，并补充正确拼音召回测试。
+- Web Share 能力取决于浏览器和系统环境；已提供复制 fallback。
+- 当前分享内容是文本和本地 hash 链接，不是服务端公开报告链接；跨设备打开仍依赖本机数据是否存在。
+- 分享内容仍基于草稿数据集，不代表食品添加剂数据已完成正式审核。
 
 ## 本次 git diff 摘要
 
-- 新增搜索辅助索引数据模型。
-- 搜索服务增加拼音、首字母、常见误写和近似匹配。
-- 搜索页展示辅助候选并补充移动端样式。
+- 新增分享 payload 构建服务。
+- 详情、报告、对比三条主流程新增分享入口。
+- 主事件接入 Web Share 与复制 fallback。
 - 更新 PWA 预缓存版本与测试覆盖。

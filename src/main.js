@@ -2,9 +2,11 @@ import { riskClass, riskLabel } from './components/render.js';
 import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
-import { getSearchSuggestions } from './services/ingredientService.js';
+import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
+import { getCompareOverview } from './services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
+import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, formatShareText } from './services/shareService.js';
 import { buildSupportRequestMarkdown } from './services/supportService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
@@ -160,6 +162,26 @@ function bindPageEvents(route) {
     });
   }
 
+  const shareCompareButton = document.querySelector('[data-share-compare]');
+  if (shareCompareButton) {
+    shareCompareButton.addEventListener('click', async () => {
+      const payload = buildCompareSharePayload(getCompareOverview(route.category), getShareBaseUrl());
+      await sharePayload(payload, updateCompareStatus);
+    });
+  }
+
+  document.querySelectorAll('[data-share-ingredient]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const ingredient = getIngredientById(button.dataset.shareIngredient, route.category);
+      if (!ingredient) {
+        updateShareStatus('成分不存在，无法分享。');
+        return;
+      }
+      const payload = buildIngredientSharePayload(ingredient, route.category, getShareBaseUrl());
+      await sharePayload(payload, updateShareStatus);
+    });
+  });
+
   const clearButton = document.querySelector('[data-clear-history]');
   if (clearButton) {
     clearButton.addEventListener('click', () => {
@@ -208,6 +230,18 @@ function bindPageEvents(route) {
       } catch {
         updateExportStatus('复制失败，请手动选择文本。');
       }
+    });
+  });
+
+  document.querySelectorAll('[data-share-report]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const report = getAnalysisReportById(button.dataset.shareReport);
+      if (!report) {
+        updateExportStatus('报告不存在，无法分享。');
+        return;
+      }
+      const payload = buildReportSharePayload(report, getShareBaseUrl());
+      await sharePayload(payload, updateExportStatus);
     });
   });
 
@@ -572,6 +606,11 @@ function updateCompareStatus(message) {
   if (statusNode) statusNode.textContent = message;
 }
 
+function updateShareStatus(message) {
+  const statusNode = document.querySelector('[data-share-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
 function bindSearchSuggestions(form, route) {
   const input = form.querySelector('input[name="q"]');
   const container = form.querySelector('[data-search-suggestions]');
@@ -654,6 +693,38 @@ async function copyText(text) {
   const copied = document.execCommand?.('copy');
   textarea.remove();
   if (!copied) throw new Error('Copy failed');
+}
+
+async function sharePayload(payload, updateStatus) {
+  if (!payload) {
+    updateStatus('没有可分享的内容。');
+    return;
+  }
+  try {
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      try {
+        await navigator.share({
+          title: payload.title,
+          text: payload.text,
+          url: payload.url
+        });
+        updateStatus('已打开系统分享。');
+        return;
+      } catch {
+        await copyText(formatShareText(payload));
+        updateStatus('系统分享未完成，已复制分享内容。');
+        return;
+      }
+    }
+    await copyText(formatShareText(payload));
+    updateStatus('已复制分享内容。');
+  } catch {
+    updateStatus('分享失败，请稍后再试。');
+  }
+}
+
+function getShareBaseUrl() {
+  return typeof window === 'undefined' ? '' : window.location.href;
 }
 
 async function readTextFile(file) {

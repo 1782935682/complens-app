@@ -50,9 +50,11 @@ export function renderDetailPage(id, category = 'cosmetics') {
           <button class="secondary ${compared ? 'is-active' : ''}" data-compare-add="${escapeHtml(ingredient.id)}">
             ${compared ? '已加入对比' : '加入对比'}
           </button>
+          <button class="secondary" data-share-ingredient="${escapeHtml(ingredient.id)}">分享</button>
         </div>
       </div>
       <span class="save-status" data-compare-status role="status" aria-live="polite"></span>
+      <span class="save-status" data-share-status role="status" aria-live="polite"></span>
       ${allergenMatches.length ? html`
         <div class="allergen-alert">
           此成分含您关注的过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}
