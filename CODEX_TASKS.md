@@ -368,7 +368,7 @@ npm run lint && npm run test && npm run build && npx cap sync
 
 ### Batch 3-A：后端项目初始化 `[Codex]`
 
-**状态**：⏳ 待开始（可与 M2 并行，不依赖 2-A/2-B）
+**状态**：✅ 已完成 2026-06-11（可与 M2 并行，不依赖 2-D/2-E 人工配置）
 
 **任务描述**：在仓库根目录下创建 `backend/` 子目录：
 
@@ -945,9 +945,11 @@ npm run lint && npm run test && npm run build
 ## 快速参考：当前最早未完成任务
 
 ```
-→ Batch 2-B：Capacitor 项目脚手架
-  文件：capacitor.config.json、package.json、.gitignore、COMMANDS.md
-  前置：Batch 2-A 已完成，Vite 构建产物输出到 dist/
+→ Batch 2-D / 2-E：iOS / Android 工程配置 [人工]
+  前置：Batch 2-C 已完成，需 Apple Developer / Xcode 与 Google Play / Android Studio 人工操作
+
+→ 下一个 Codex 批次：Batch 3-B：数据库 Schema 与成分 API
+  前置：Batch 3-A 后端项目初始化已完成，建议人工同步确认数据库托管与部署平台
 ```
 
 ---

@@ -19,6 +19,13 @@
 npm install
 ```
 
+后端位于 `backend/` 子目录，首次拉取或后端依赖变化后需要单独安装：
+
+```bash
+cd backend
+npm install
+```
+
 ## 本地启动
 
 ```bash
@@ -38,6 +45,58 @@ http://127.0.0.1:5173
 ```bash
 HOST=127.0.0.1 npm run dev -- --port 5174
 ```
+
+## 后端 API
+
+后端使用 Node.js 20 + TypeScript + Hono，入口位于 `backend/src/index.ts`。
+
+本地启动：
+
+```bash
+cd backend
+cp .env.example .env
+npm run dev
+```
+
+默认地址：
+
+```text
+http://127.0.0.1:3000
+```
+
+后端本地默认绑定 `HOST=127.0.0.1`；Docker Compose 会覆盖为 `HOST=0.0.0.0` 以便端口映射。
+
+健康检查：
+
+```bash
+curl http://127.0.0.1:3000/health
+```
+
+预期返回：
+
+```json
+{"status":"ok","version":"0.1.0","timestamp":"..."}
+```
+
+后端校验：
+
+```bash
+cd backend
+npm run typecheck
+npm test
+npm run build
+```
+
+Docker 本地栈：
+
+```bash
+cd backend
+docker compose up --build
+```
+
+该命令会启动 PostgreSQL 15 和 API 服务；数据库 schema 和迁移将在后续 Batch 3-B 接入。
+
+后端本地密钥和生成物不纳入版本管理：`backend/.env`、`backend/node_modules/`、`backend/dist/` 均已忽略。
 
 ## 构建
 
