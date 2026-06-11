@@ -473,6 +473,7 @@ assert.deepEqual(splitIngredientInput('（柠檬酸、山梨酸钾）'), []);
 assert.deepEqual(splitIngredientInput('柠檬酸(一水)，山梨酸钾'), ['柠檬酸', '山梨酸钾']);
 assert.deepEqual(splitIngredientInput('复配增稠剂（黄原胶、卡拉胶）；食用盐'), ['黄原胶', '卡拉胶', '食用盐']);
 assert.deepEqual(splitIngredientInput('烟酰胺（Niacinamide, Vitamin B3），水杨酸'), ['烟酰胺', '水杨酸']);
+assert.deepEqual(splitIngredientInput('烟酰胺（尼克酰胺、维生素B3），水杨酸'), ['烟酰胺', '水杨酸']);
 assert.deepEqual(splitIngredientInput('抗结剂（二氧化硅），酸度调节剂（柠檬酸）'), ['二氧化硅', '柠檬酸']);
 
 const analysis = analyzeIngredientText('水，烟酰胺，透明质酸钠，水杨酸，香精，未知成分');
@@ -480,6 +481,11 @@ assert.equal(analysis.matchedCount, 4);
 assert.deepEqual(analysis.highlights.map((item) => item.id), ['salicylic-acid', 'fragrance']);
 assert.deepEqual(analysis.unknownItems, ['水', '未知成分']);
 assert.match(analysis.summary, /已匹配 4 项成分/);
+const cjkAliasNoteAnalysis = analyzeIngredientText('烟酰胺（尼克酰胺、维生素B3）', 'cosmetics');
+assert.equal(cjkAliasNoteAnalysis.matchedCount, 1);
+assert.deepEqual(cjkAliasNoteAnalysis.ingredients.map((item) => item.id), ['niacinamide']);
+assert.deepEqual(cjkAliasNoteAnalysis.unknownItems, []);
+assert.equal(cjkAliasNoteAnalysis.quality.coveragePercent, 100);
 
 const foodAnalysis = analyzeIngredientText('柠檬酸，山梨酸钾，焦亚硫酸钠，未知添加剂', 'food');
 assert.equal(foodAnalysis.matchedCount, 3);

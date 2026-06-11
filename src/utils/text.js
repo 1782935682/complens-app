@@ -76,7 +76,6 @@ function expandBracketGroups(value) {
     if (!cleanPrefix && !rawPrefix) return '';
 
     if (isGenericBracketPrefix(cleanPrefix || rawPrefix)) return `，${cleanContent}`;
-    if (shouldExpandNonGenericBracketContent(cleanContent)) return `${cleanPrefix}，${cleanContent}`;
     return cleanPrefix;
   });
 }
@@ -110,10 +109,6 @@ function isGenericBracketPrefix(value) {
   const compact = normalizeText(value).replace(/\s+/g, '');
   if (!compact) return false;
   return genericBracketPrefixes.some((prefix) => compact === normalizeText(prefix).replace(/\s+/g, '') || compact.endsWith(normalizeText(prefix).replace(/\s+/g, '')));
-}
-
-function shouldExpandNonGenericBracketContent(value) {
-  return /[，,、;；]/.test(value) && /[\u3400-\u9FFF]/.test(value);
 }
 
 export function uniqueBy(items, getKey) {
