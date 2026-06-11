@@ -1007,8 +1007,8 @@ assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'citric-acid', cate
 assert.equal(storageFetchCalls, 0);
 
 const storageMap = new Map();
-const makeTestJwt = (exp) => `header.${Buffer.from(JSON.stringify({ exp })).toString('base64url')}.signature`;
-storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) + 60));
+const makeTestJwt = (exp, claims = {}) => `header.${Buffer.from(JSON.stringify({ ...claims, exp })).toString('base64url')}.signature`;
+storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) + 60, { sub: 'sync-add-user' }));
 globalThis.window = {
   localStorage: {
     getItem(key) {
@@ -1052,11 +1052,14 @@ assert.deepEqual(readJson('compcheck:favorites', []), [
   { id: 'local-favorite', category: 'food' },
   { id: 'server-favorite', category: 'food' }
 ]);
-storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) + 120));
-storageMap.set('compcheck:favorites', JSON.stringify([
+storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) + 120, { sub: 'sync-delete-user' }));
+const activeSyncFetch = globalThis.fetch;
+globalThis.fetch = undefined;
+writeJson('compcheck:favorites', [
   { id: 'remove-me', category: 'food' },
   { id: 'keep-me', category: 'food' }
-]));
+]);
+globalThis.fetch = activeSyncFetch;
 serverSyncItems = [
   { id: 'remove-me', category: 'food' },
   { id: 'keep-me', category: 'food' }
@@ -1069,6 +1072,26 @@ assert.deepEqual(JSON.parse(syncCalls.find((call) => call.options.method === 'PO
   { id: 'keep-me', category: 'food' }
 ]);
 assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'keep-me', category: 'food' }]);
+const accountAToken = makeTestJwt(Math.floor(Date.now() / 1000) + 180, { sub: 'account-a' });
+const accountBToken = makeTestJwt(Math.floor(Date.now() / 1000) + 180, { sub: 'account-b' });
+storageMap.set(AUTH_TOKEN_KEY, accountAToken);
+globalThis.fetch = undefined;
+writeJson('compcheck:favorites', [{ id: 'account-a-favorite', category: 'food' }]);
+globalThis.fetch = activeSyncFetch;
+storageMap.set('compcheck:favorites', JSON.stringify([{ id: 'stale-shared-favorite', category: 'food' }]));
+serverSyncItems = [{ id: 'account-b-server-favorite', category: 'food' }];
+syncCalls.length = 0;
+storageMap.set(AUTH_TOKEN_KEY, accountBToken);
+assert.deepEqual(readJson('compcheck:favorites', []), []);
+await new Promise((resolve) => setTimeout(resolve, 0));
+await new Promise((resolve) => setTimeout(resolve, 0));
+assert.equal(syncCalls[0].url, '/api/user/favorites');
+assert.equal(syncCalls[0].options.method, undefined);
+assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'account-b-server-favorite', category: 'food' }]);
+globalThis.fetch = undefined;
+storageMap.set(AUTH_TOKEN_KEY, accountAToken);
+assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'account-a-favorite', category: 'food' }]);
+globalThis.fetch = activeSyncFetch;
 globalThis.fetch = originalFetch;
 globalThis.window = originalWindow;
 

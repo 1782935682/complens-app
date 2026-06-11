@@ -25,9 +25,11 @@ function getStorage() {
 
 export function readJson(key, fallback) {
   const storage = getStorage();
+  const token = getAuthToken();
+  const storageKey = getScopedStorageKey(key, token);
   try {
-    const raw = storage ? storage.getItem(key) ?? memoryStore.get(key) : memoryStore.get(key);
-    queueCloudRead(key, storage);
+    const raw = storage ? storage.getItem(storageKey) ?? memoryStore.get(storageKey) : memoryStore.get(storageKey);
+    queueCloudRead(key, storage, token);
     return raw ? JSON.parse(raw) : fallback;
   } catch {
     return fallback;
@@ -37,33 +39,33 @@ export function readJson(key, fallback) {
 export function writeJson(key, value) {
   const serialized = JSON.stringify(value);
   const storage = getStorage();
-  const previousValue = readStoredJson(key, storage, []);
+  const token = getAuthToken();
+  const storageKey = getScopedStorageKey(key, token);
+  const previousValue = readStoredJson(key, storage, [], token);
   try {
     if (storage) {
-      storage.setItem(key, serialized);
-      queueCloudWrite(key, value, storage, previousValue);
+      storage.setItem(storageKey, serialized);
+      queueCloudWrite(key, value, storage, previousValue, token);
       return;
     }
   } catch {
     // Fall back to in-memory storage when localStorage is unavailable or full.
   }
-  memoryStore.set(key, serialized);
-  queueCloudWrite(key, value, storage, previousValue);
+  memoryStore.set(storageKey, serialized);
+  queueCloudWrite(key, value, storage, previousValue, token);
 }
 
 export function isLoggedIn() {
   return Boolean(getAuthToken());
 }
 
-function queueCloudRead(key, storage) {
-  const token = getAuthToken();
+function queueCloudRead(key, storage, token = getAuthToken()) {
   if (!SYNC_CONFIGS[key] || !token || typeof fetch !== 'function') return;
   resetSyncStateForNewToken(key, token);
   ensureCloudHydration(key, storage, token);
 }
 
-function queueCloudWrite(key, value, storage, previousValue) {
-  const token = getAuthToken();
+function queueCloudWrite(key, value, storage, previousValue, token = getAuthToken()) {
   if (!SYNC_CONFIGS[key] || !token || typeof fetch !== 'function') return;
   resetSyncStateForNewToken(key, token);
   if (!isCloudHydrated(key, token)) {
@@ -100,7 +102,7 @@ function ensureCloudHydration(key, storage, token) {
 
     pendingWrites.delete(key);
     const next = applyPendingWrite(key, serverItems, pending);
-    writeStoredJson(key, next, storage);
+    writeStoredJson(key, next, storage, token);
     const writeVersion = bumpSyncVersion(key);
     void syncToCloud(key, next, storage, writeVersion, token);
   });
@@ -123,7 +125,7 @@ async function syncFromCloud(key, storage, version, token) {
   const response = await requestCloudJson(config.path, {}, token);
   if (!response || syncVersions.get(key) !== version) return null;
   const items = Array.isArray(response.items) ? response.items : [];
-  writeStoredJson(key, items, storage);
+  writeStoredJson(key, items, storage, token);
   return items;
 }
 
@@ -135,7 +137,7 @@ async function syncToCloud(key, value, storage, version, token) {
   }, token);
   if (!response || syncVersions.get(key) !== version) return;
   const items = Array.isArray(response.items) ? response.items : [];
-  writeStoredJson(key, items, storage);
+  writeStoredJson(key, items, storage, token);
 }
 
 async function requestCloudJson(path, options = {}, token = getAuthToken()) {
@@ -157,22 +159,24 @@ async function requestCloudJson(path, options = {}, token = getAuthToken()) {
   }
 }
 
-function writeStoredJson(key, value, storage) {
+function writeStoredJson(key, value, storage, token = getAuthToken()) {
   const serialized = JSON.stringify(value);
+  const storageKey = getScopedStorageKey(key, token);
   try {
     if (storage) {
-      storage.setItem(key, serialized);
+      storage.setItem(storageKey, serialized);
       return;
     }
   } catch {
     // Keep the local fallback path silent; cloud sync must never break local usage.
   }
-  memoryStore.set(key, serialized);
+  memoryStore.set(storageKey, serialized);
 }
 
-function readStoredJson(key, storage, fallback) {
+function readStoredJson(key, storage, fallback, token = getAuthToken()) {
+  const storageKey = getScopedStorageKey(key, token);
   try {
-    const raw = storage ? storage.getItem(key) ?? memoryStore.get(key) : memoryStore.get(key);
+    const raw = storage ? storage.getItem(storageKey) ?? memoryStore.get(storageKey) : memoryStore.get(storageKey);
     return raw ? JSON.parse(raw) : fallback;
   } catch {
     return fallback;
@@ -252,6 +256,30 @@ function getAuthToken() {
 function getApiBaseUrl() {
   const configured = String(readRaw(API_BASE_URL_KEY) || '').trim();
   return (configured || '/api').replace(/\/$/, '');
+}
+
+function getScopedStorageKey(key, token) {
+  if (!SYNC_CONFIGS[key] || !token) return key;
+  return `compcheck:sync:${getAuthUserCacheKey(token)}:${key.replace(/^compcheck:/, '')}`;
+}
+
+function getAuthUserCacheKey(token) {
+  const payload = parseJwtPayload(token.split('.')[1] || '');
+  const identity = payload?.sub ?? payload?.userId ?? payload?.email ?? payload?.jti;
+  return sanitizeStorageKeyPart(identity || hashString(token));
+}
+
+function sanitizeStorageKeyPart(value) {
+  return String(value).trim().replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '') || 'unknown';
+}
+
+function hashString(value) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(36);
 }
 
 function readRaw(key) {
