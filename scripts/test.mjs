@@ -389,6 +389,7 @@ assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
 assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route\.category, '\/support'\)\}`\)/);
 assert.match(mainJs, /if \(requestedPage > totalPages\)/);
 assert.match(mainJs, /requestIngredientSearchPage\(route, totalPages\)/);
+assert.match(mainJs, /page: responsePage/);
 assert.match(mainJs, /sharePayloadWithFallback\(payload, \{ copyText, updateStatus \}\)/);
 assert.match(mainJs, /getNativeCameraPhoto\(\)/);
 assert.match(mainJs, /isNativePlatform\(\)/);
@@ -757,12 +758,29 @@ assert.match(apiErrorSearchHtml, /data-api-error/);
 assert.match(apiErrorSearchHtml, /已降级为本地草稿数据/);
 const apiSuccessSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance', {
   status: 'success',
+  page: 1,
   total: 1,
   totalPages: 1,
   items: [getIngredientById('citric-acid', 'food')]
 });
 assert.match(apiSuccessSearchHtml, /data-api-success/);
 assert.match(apiSuccessSearchHtml, /当前结果来自后端数据库/);
+const apiRiskSortedHtml = renderSearchPage('', 'food', {}, 1, 'risk', {
+  status: 'success',
+  page: 1,
+  total: 2,
+  totalPages: 1,
+  items: [getIngredientById('citric-acid', 'food'), getIngredientById('sodium-benzoate', 'food')]
+});
+assert.equal(apiRiskSortedHtml.indexOf('苯甲酸钠') < apiRiskSortedHtml.indexOf('柠檬酸'), true);
+const apiClampedPageHtml = renderSearchPage('', 'food', {}, 999, 'relevance', {
+  status: 'success',
+  page: 2,
+  total: 7,
+  totalPages: 2,
+  items: [getIngredientById('sodium-benzoate', 'food')]
+});
+assert.match(apiClampedPageHtml, /显示第 7-7 项，共 7 项/);
 const apiNullItemsSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance', {
   status: 'success',
   total: 0,

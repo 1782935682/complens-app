@@ -71,17 +71,21 @@ function shouldUseIngredientApi(route) {
 async function getSearchApiState(route) {
   const requestedPage = Math.max(1, Number(route.page) || 1);
   let result = await requestIngredientSearchPage(route, requestedPage);
-  const totalPages = Math.max(1, Number(result.totalPages || 1) || 1);
+  let totalPages = getApiTotalPages(result);
+  let responsePage = requestedPage;
 
   if (requestedPage > totalPages) {
     result = await requestIngredientSearchPage(route, totalPages);
+    responsePage = totalPages;
+    totalPages = getApiTotalPages(result);
   }
 
   return {
     status: 'success',
     items: result.items || [],
+    page: responsePage,
     total: result.total || 0,
-    totalPages: result.totalPages || 1
+    totalPages
   };
 }
 
@@ -92,6 +96,10 @@ function requestIngredientSearchPage(route, page) {
     page,
     limit: API_SEARCH_PAGE_SIZE
   });
+}
+
+function getApiTotalPages(result) {
+  return Math.max(1, Number(result?.totalPages || 1) || 1);
 }
 
 async function getDetailApiState(route) {

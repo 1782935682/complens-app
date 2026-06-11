@@ -20,12 +20,14 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
   const localResults = sortSearchResults(searchIngredients(query, category, activeFilters), activeSort);
   const isApiLoading = apiState?.status === 'loading';
   const isApiSuccess = apiState?.status === 'success';
-  const results = isApiSuccess ? normalizeApiSearchItems(apiState.items) : localResults;
+  const apiResults = isApiSuccess ? normalizeApiSearchItems(apiState.items) : [];
+  const results = isApiSuccess ? sortSearchResults(apiResults, activeSort) : localResults;
   const riskFacets = getRiskFacets(query, category, activeFilters, filterOptions.riskLevels);
   const categoryFacets = getCategoryFacets(query, category, activeFilters);
   const totalCount = isApiSuccess ? Number(apiState.total || results.length) : results.length;
   const totalPages = isApiSuccess ? Math.max(1, Number(apiState.totalPages || Math.ceil(totalCount / SEARCH_PAGE_SIZE)) || 1) : Math.max(1, Math.ceil(results.length / SEARCH_PAGE_SIZE));
-  const currentPage = clampPage(page, totalPages);
+  const activePage = isApiSuccess ? Number(apiState.page || page) : page;
+  const currentPage = clampPage(activePage, totalPages);
   const pagedResults = isApiSuccess ? results : results.slice((currentPage - 1) * SEARCH_PAGE_SIZE, currentPage * SEARCH_PAGE_SIZE);
   const safeQuery = escapeHtml(query || '');
   const activeFilterCount = [activeFilters.risk, activeFilters.ingredientCategory].filter(Boolean).length;
