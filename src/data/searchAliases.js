@@ -1,7 +1,7 @@
 const foodSearchAliasEntries = [
   ['citric-acid', { pinyin: ['ningmengsuan', 'ning meng suan'], initials: ['nms'], common: ['柠猛酸'] }],
   ['sodium-citrate', { pinyin: ['ningmengsuanna', 'gouyuansuanna'], initials: ['nmsn'] }],
-  ['potassium-sorbate', { pinyin: ['shanlisuangjia'], initials: ['slsj'] }],
+  ['potassium-sorbate', { pinyin: ['shanlisuanjia'], initials: ['slsj'] }],
   ['sodium-benzoate', { pinyin: ['benjiasuanna', 'anxixiangsuanna'], initials: ['bjsn'] }],
   ['ascorbic-acid', { pinyin: ['kanghuaixuesuan', 'weishengsuc'], initials: ['khxs', 'vc'] }],
   ['xanthan-gum', { pinyin: ['huangyuanjiao', 'hanshengjiao'], initials: ['hyj'] }],
