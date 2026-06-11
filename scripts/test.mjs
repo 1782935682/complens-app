@@ -201,6 +201,8 @@ assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route
 assert.match(mainJs, /navigator\.share/);
 assert.match(mainJs, /formatShareText\(payload\)/);
 assert.match(mainJs, /isShareAbort\(error\)/);
+assert.match(mainJs, /isShareTypeError\(error\)/);
+assert.match(mainJs, /系统分享不可用，已复制分享内容。/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
 assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v13'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);

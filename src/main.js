@@ -715,6 +715,11 @@ async function sharePayload(payload, updateStatus) {
           updateStatus('已取消系统分享。');
           return;
         }
+        if (isShareTypeError(error)) {
+          await copyText(formatShareText(payload));
+          updateStatus('系统分享不可用，已复制分享内容。');
+          return;
+        }
         await copyText(formatShareText(payload));
         updateStatus('系统分享未完成，已复制分享内容。');
         return;
@@ -733,6 +738,10 @@ function getShareBaseUrl() {
 
 function isShareAbort(error) {
   return error && (error.name === 'AbortError' || error.code === 20);
+}
+
+function isShareTypeError(error) {
+  return error instanceof TypeError || error?.name === 'TypeError';
 }
 
 async function readTextFile(file) {
