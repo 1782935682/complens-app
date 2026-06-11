@@ -1022,6 +1022,13 @@ globalThis.window = {
 const syncCalls = [];
 globalThis.fetch = async (url, options = {}) => {
   syncCalls.push({ url, options });
+  if (options.method === 'POST') {
+    return {
+      ok: true,
+      json: async () => JSON.parse(options.body)
+    };
+  }
+
   return {
     ok: true,
     json: async () => ({
@@ -1032,9 +1039,18 @@ globalThis.fetch = async (url, options = {}) => {
 assert.equal(isLoggedIn(), true);
 writeJson('compcheck:favorites', [{ id: 'local-favorite', category: 'food' }]);
 await new Promise((resolve) => setTimeout(resolve, 0));
+await new Promise((resolve) => setTimeout(resolve, 0));
+assert.equal(syncCalls[0].url, '/api/user/favorites');
+assert.equal(syncCalls[0].options.method, undefined);
 assert.equal(syncCalls.some((call) => call.url === '/api/user/favorites' && call.options.method === 'POST'), true);
-assert.deepEqual(JSON.parse(syncCalls.find((call) => call.options.method === 'POST').options.body).items, [{ id: 'local-favorite', category: 'food' }]);
-assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'server-favorite', category: 'food' }]);
+assert.deepEqual(JSON.parse(syncCalls.find((call) => call.options.method === 'POST').options.body).items, [
+  { id: 'server-favorite', category: 'food' },
+  { id: 'local-favorite', category: 'food' }
+]);
+assert.deepEqual(readJson('compcheck:favorites', []), [
+  { id: 'server-favorite', category: 'food' },
+  { id: 'local-favorite', category: 'food' }
+]);
 globalThis.fetch = originalFetch;
 globalThis.window = originalWindow;
 

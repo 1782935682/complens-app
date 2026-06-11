@@ -1,5 +1,7 @@
 const memoryStore = new Map();
 const syncVersions = new Map();
+const hydrationStates = new Map();
+const pendingWrites = new Map();
 
 export const AUTH_TOKEN_KEY = 'compcheck:auth-token';
 const API_BASE_URL_KEY = 'compcheck:api-base-url';
@@ -53,38 +55,79 @@ export function isLoggedIn() {
 }
 
 function queueCloudRead(key, storage) {
-  if (!SYNC_CONFIGS[key] || !isLoggedIn() || typeof fetch !== 'function') return;
-  const version = bumpSyncVersion(key);
-  void syncFromCloud(key, storage, version);
+  const token = getAuthToken();
+  if (!SYNC_CONFIGS[key] || !token || typeof fetch !== 'function') return;
+  ensureCloudHydration(key, storage, token);
 }
 
 function queueCloudWrite(key, value, storage) {
-  if (!SYNC_CONFIGS[key] || !isLoggedIn() || typeof fetch !== 'function') return;
+  const token = getAuthToken();
+  if (!SYNC_CONFIGS[key] || !token || typeof fetch !== 'function') return;
+  if (!isCloudHydrated(key, token)) {
+    pendingWrites.set(key, value);
+    ensureCloudHydration(key, storage, token);
+    return;
+  }
+
   const version = bumpSyncVersion(key);
-  void syncToCloud(key, value, storage, version);
+  void syncToCloud(key, value, storage, version, token);
 }
 
-async function syncFromCloud(key, storage, version) {
+function ensureCloudHydration(key, storage, token) {
+  const current = hydrationStates.get(key);
+  if (current?.token === token) return;
+  if (current && current.token !== token) {
+    pendingWrites.delete(key);
+  }
+
+  const state = { token, status: 'pending' };
+  hydrationStates.set(key, state);
+  const version = bumpSyncVersion(key);
+  void syncFromCloud(key, storage, version, token).then((serverItems) => {
+    if (hydrationStates.get(key) !== state) return;
+    if (!serverItems) {
+      hydrationStates.delete(key);
+      return;
+    }
+
+    state.status = 'done';
+    const pending = pendingWrites.get(key);
+    if (pending === undefined) return;
+
+    pendingWrites.delete(key);
+    const merged = mergeSyncItems(key, serverItems, pending);
+    writeStoredJson(key, merged, storage);
+    const writeVersion = bumpSyncVersion(key);
+    void syncToCloud(key, merged, storage, writeVersion, token);
+  });
+}
+
+function isCloudHydrated(key, token) {
+  const state = hydrationStates.get(key);
+  return state?.token === token && state.status === 'done';
+}
+
+async function syncFromCloud(key, storage, version, token) {
   const config = SYNC_CONFIGS[key];
-  const response = await requestCloudJson(config.path);
-  if (!response || syncVersions.get(key) !== version) return;
+  const response = await requestCloudJson(config.path, {}, token);
+  if (!response || syncVersions.get(key) !== version) return null;
   const items = Array.isArray(response.items) ? response.items : [];
   writeStoredJson(key, items, storage);
+  return items;
 }
 
-async function syncToCloud(key, value, storage, version) {
+async function syncToCloud(key, value, storage, version, token) {
   const config = SYNC_CONFIGS[key];
   const response = await requestCloudJson(config.path, {
     method: config.method,
     body: JSON.stringify({ items: Array.isArray(value) ? value : [] })
-  });
+  }, token);
   if (!response || syncVersions.get(key) !== version) return;
   const items = Array.isArray(response.items) ? response.items : [];
   writeStoredJson(key, items, storage);
 }
 
-async function requestCloudJson(path, options = {}) {
-  const token = getAuthToken();
+async function requestCloudJson(path, options = {}, token = getAuthToken()) {
   if (!token) return null;
 
   try {
@@ -120,6 +163,35 @@ function bumpSyncVersion(key) {
   const version = (syncVersions.get(key) || 0) + 1;
   syncVersions.set(key, version);
   return version;
+}
+
+function mergeSyncItems(key, serverItems, pendingItems) {
+  const server = Array.isArray(serverItems) ? serverItems : [];
+  const pending = Array.isArray(pendingItems) ? pendingItems : [];
+  if (key === 'compcheck:favorites') {
+    return uniqueBy([...server, ...pending], (item) => `${item?.category || ''}:${item?.id || ''}`);
+  }
+  if (key === 'compcheck:history' || key === 'compcheck:allergens') {
+    return uniqueBy([...pending, ...server], (item) => String(item || '').trim());
+  }
+  if (key === 'compcheck:analysis-reports') {
+    return uniqueBy([...server, ...pending], (item) => String(item?.id || '').trim());
+  }
+
+  return uniqueBy([...server, ...pending], (item) => JSON.stringify(item));
+}
+
+function uniqueBy(items, getKey) {
+  const seen = new Set();
+  const result = [];
+  for (const item of items) {
+    const key = getKey(item);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    result.push(item);
+  }
+
+  return result;
 }
 
 function getAuthToken() {
