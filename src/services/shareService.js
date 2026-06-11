@@ -1,5 +1,6 @@
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { riskLabel } from '../components/render.js';
+import { shareWithNative } from './nativeBridgeService.js';
 
 export function buildIngredientSharePayload(ingredient, category = 'food', baseUrl = '') {
   if (!ingredient) return null;
@@ -76,7 +77,72 @@ export function buildShareUrl(category = 'food', path = '/', baseUrl = '') {
   return normalizedBase ? `${normalizedBase}${route}` : route;
 }
 
+export async function sharePayloadWithFallback(payload, options = {}) {
+  const {
+    copyText,
+    navigatorShare = typeof navigator === 'undefined' ? null : navigator.share?.bind(navigator),
+    updateStatus = () => {}
+  } = options;
+
+  if (!payload) {
+    updateStatus('没有可分享的内容。');
+    return { ok: false, method: 'none' };
+  }
+
+  try {
+    const nativeResult = await shareWithNative(payload);
+    if (nativeResult.ok) {
+      updateStatus(nativeResult.message || '已打开系统分享。');
+      return { ok: true, method: 'native' };
+    }
+    if (nativeResult.reason === 'abort') {
+      updateStatus('已取消系统分享。');
+      return { ok: false, method: 'native', reason: 'abort' };
+    }
+
+    if (typeof navigatorShare === 'function') {
+      try {
+        await navigatorShare({
+          title: payload.title,
+          text: payload.text,
+          url: payload.url
+        });
+        updateStatus('已打开系统分享。');
+        return { ok: true, method: 'web-share' };
+      } catch (error) {
+        if (isShareAbort(error)) {
+          updateStatus('已取消系统分享。');
+          return { ok: false, method: 'web-share', reason: 'abort' };
+        }
+        await copyShareText(payload, copyText);
+        updateStatus(isShareTypeError(error) ? '系统分享不可用，已复制分享内容。' : '系统分享未完成，已复制分享内容。');
+        return { ok: true, method: 'copy' };
+      }
+    }
+
+    await copyShareText(payload, copyText);
+    updateStatus('已复制分享内容。');
+    return { ok: true, method: 'copy' };
+  } catch {
+    updateStatus('分享失败，请稍后再试。');
+    return { ok: false, method: 'error' };
+  }
+}
+
+export function isShareAbort(error) {
+  return error && (error.name === 'AbortError' || error.code === 20);
+}
+
+export function isShareTypeError(error) {
+  return error instanceof TypeError || error?.name === 'TypeError';
+}
+
 function buildReportSharePath(report) {
   const input = String(report.input || '').trim();
   return input ? `/analyze?text=${encodeURIComponent(input)}` : '/analyze';
+}
+
+async function copyShareText(payload, copyText) {
+  if (typeof copyText !== 'function') throw new Error('Copy fallback unavailable');
+  await copyText(formatShareText(payload));
 }

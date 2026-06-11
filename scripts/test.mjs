@@ -26,7 +26,8 @@ import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
-import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText } from '../src/services/shareService.js';
+import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sharePayloadWithFallback } from '../src/services/shareService.js';
+import { getNativeCameraPhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
@@ -185,9 +186,15 @@ assert.match(packageJson.dependencies['@capacitor/core'], /^\^7\./);
 assert.match(packageJson.dependencies['@capacitor/cli'], /^\^7\./);
 assert.match(packageJson.dependencies['@capacitor/ios'], /^\^7\./);
 assert.match(packageJson.dependencies['@capacitor/android'], /^\^7\./);
+assert.match(packageJson.dependencies['@capacitor/camera'], /^\^7\./);
+assert.match(packageJson.dependencies['@capacitor/filesystem'], /^\^7\./);
+assert.match(packageJson.dependencies['@capacitor/share'], /^\^7\./);
 const packageLock = JSON.parse(await readFile(new URL('../package-lock.json', import.meta.url), 'utf8'));
 assert.equal(packageLock.packages['node_modules/@capacitor/cli'].version.startsWith('7.'), true);
 assert.equal(packageLock.packages['node_modules/@capacitor/cli'].engines.node, '>=20.0.0');
+assert.equal(packageLock.packages['node_modules/@capacitor/camera'].version.startsWith('7.'), true);
+assert.equal(packageLock.packages['node_modules/@capacitor/filesystem'].version.startsWith('7.'), true);
+assert.equal(packageLock.packages['node_modules/@capacitor/share'].version.startsWith('7.'), true);
 const capacitorConfig = JSON.parse(await readFile(new URL('../capacitor.config.json', import.meta.url), 'utf8'));
 assert.deepEqual(capacitorConfig, {
   appId: 'com.compcheck.app',
@@ -208,6 +215,7 @@ const ciWorkflow = await readFile(new URL('../.github/workflows/ci.yml', import.
 assert.match(ciWorkflow, /node-version: '20\.19'/);
 assert.match(ciWorkflow, /npm ci/);
 const indexHtml = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
+assert.match(indexHtml, /name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/);
 assert.match(indexHtml, /rel="manifest" href="\.\/manifest\.webmanifest"/);
 assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
 assert.match(indexHtml, /data-mobile-nav-key="home"/);
@@ -219,6 +227,9 @@ assert.match(indexHtml, /data-nav-key="reports"/);
 assert.match(indexHtml, /data-nav-key="membership"/);
 assert.match(indexHtml, /href="#\/food\/legal"/);
 assert.match(indexHtml, /data-shell-legal-link/);
+const stylesCss = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+assert.match(stylesCss, /padding-bottom: max\(env\(safe-area-inset-bottom, 0px\), 1rem\)/);
+assert.match(stylesCss, /\.scan-source-actions/);
 const appManifest = JSON.parse(await readFile(new URL('../public/manifest.webmanifest', import.meta.url), 'utf8'));
 assert.equal(appManifest.display, 'standalone');
 assert.equal(appManifest.start_url, './#/food');
@@ -231,15 +242,29 @@ assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboa
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
 assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route\.category, '\/support'\)\}`\)/);
-assert.match(mainJs, /navigator\.share/);
-assert.match(mainJs, /formatShareText\(payload\)/);
-assert.match(mainJs, /isShareAbort\(error\)/);
-assert.match(mainJs, /isShareTypeError\(error\)/);
-assert.match(mainJs, /系统分享不可用，已复制分享内容。/);
+assert.match(mainJs, /sharePayloadWithFallback\(payload, \{ copyText, updateStatus \}\)/);
+assert.match(mainJs, /getNativeCameraPhoto\(\)/);
+assert.match(mainJs, /isNativePlatform\(\)/);
+assert.match(mainJs, /data-native-scan-image/);
+assert.match(mainJs, /openScanFilePicker\(fileInput\)/);
+assert.match(mainJs, /updateScanPreviewWithDataUrl\(preview, result\.dataUrl\)/);
 assert.match(mainJs, /请先输入成分表文字/);
 assert.match(mainJs, /function updateAnalyzeStatus\(message\)/);
+const shareServiceJs = await readFile(new URL('../src/services/shareService.js', import.meta.url), 'utf8');
+assert.match(shareServiceJs, /shareWithNative\(payload\)/);
+assert.match(shareServiceJs, /navigatorShare/);
+assert.match(shareServiceJs, /formatShareText\(payload\)/);
+assert.match(shareServiceJs, /isShareAbort\(error\)/);
+assert.match(shareServiceJs, /isShareTypeError\(error\)/);
+assert.match(shareServiceJs, /系统分享不可用，已复制分享内容。/);
+const nativeBridgeServiceJs = await readFile(new URL('../src/services/nativeBridgeService.js', import.meta.url), 'utf8');
+assert.match(nativeBridgeServiceJs, /Capacitor\?\.isNativePlatform\?\.\(\)/);
+assert.match(nativeBridgeServiceJs, /Camera\.getPhoto/);
+assert.match(nativeBridgeServiceJs, /CameraResultType\.Base64/);
+assert.match(nativeBridgeServiceJs, /CameraSource\.Prompt/);
+assert.match(nativeBridgeServiceJs, /Share\.share/);
 const serviceWorkerJs = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v16'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v17'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/manifest\.webmanifest/);
 assert.match(serviceWorkerJs, /\.\/app-icon\.svg/);
@@ -258,6 +283,8 @@ const scanHtml = renderRoute(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E
 assert.match(scanHtml, /扫描成分表/);
 assert.match(scanHtml, /data-scan-form/);
 assert.match(scanHtml, /data-scan-image-input/);
+assert.match(scanHtml, /data-native-scan-image/);
+assert.match(scanHtml, /系统相机\/相册/);
 assert.match(scanHtml, /accept="image\/png,image\/jpeg,image\/webp,image\/gif,image\/bmp,image\/avif"/);
 assert.match(scanHtml, /capture="environment"/);
 assert.match(scanHtml, /data-scan-preview/);
@@ -276,6 +303,9 @@ assert.match(scanHtml, /柠檬酸/);
 assert.match(scanHtml, /已从链接带入待分析文本/);
 assert.match(scanHtml, /href="#\/food\/analyze"/);
 assert.match(renderScanPage('', 'cosmetics'), /化妆品成分/);
+const iosPlistAdditions = await readFile(new URL('../docs/ios-plist-additions.md', import.meta.url), 'utf8');
+assert.match(iosPlistAdditions, /NSCameraUsageDescription = "用于扫描食品成分表"/);
+assert.match(iosPlistAdditions, /NSPhotoLibraryUsageDescription = "用于从相册选择食品包装图片"/);
 writeJson('compcheck:scan-drafts', {});
 assert.equal(getScanDraft('food'), '');
 assert.equal(saveScanDraft(' 柠檬酸，山梨酸钾 ', 'food'), '柠檬酸，山梨酸钾');
@@ -316,6 +346,36 @@ assert.equal(citricSharePayload.url, 'https://example.com/app#/food/ingredient/c
 assert.match(citricSharePayload.text, /食品添加剂成分：柠檬酸/);
 assert.match(formatShareText(citricSharePayload), /CompCheck/);
 assert.equal(buildShareUrl('food', '/compare', 'https://example.com/#/old'), 'https://example.com/#/food/compare');
+assert.equal(isNativePlatform(), false);
+const nativePhotoResult = await getNativeCameraPhoto();
+assert.equal(nativePhotoResult.ok, false);
+assert.equal(nativePhotoResult.reason, 'web');
+const copiedShareTexts = [];
+const shareStatuses = [];
+assert.deepEqual(
+  await sharePayloadWithFallback(citricSharePayload, {
+    navigatorShare: null,
+    copyText: async (text) => copiedShareTexts.push(text),
+    updateStatus: (message) => shareStatuses.push(message)
+  }),
+  { ok: true, method: 'copy' }
+);
+assert.match(copiedShareTexts[0], /柠檬酸/);
+assert.equal(shareStatuses.at(-1), '已复制分享内容。');
+const webShareCopyStatuses = [];
+assert.deepEqual(
+  await sharePayloadWithFallback(citricSharePayload, {
+    navigatorShare: async () => {
+      throw new TypeError('Web Share blocked');
+    },
+    copyText: async (text) => copiedShareTexts.push(text),
+    updateStatus: (message) => webShareCopyStatuses.push(message)
+  }),
+  { ok: true, method: 'copy' }
+);
+assert.equal(webShareCopyStatuses.at(-1), '系统分享不可用，已复制分享内容。');
+assert.equal(isShareAbort({ name: 'AbortError' }), true);
+assert.equal(isShareTypeError(new TypeError('blocked')), true);
 
 const enResults = searchIngredients('BHA');
 assert.equal(enResults[0].id, 'salicylic-acid');

@@ -34,7 +34,10 @@ export function renderScanPage(input = '', category = 'food') {
       <form class="scan-form" data-scan-form>
         <div class="scan-upload">
           <label for="scan-image">成分表图片</label>
-          <input id="scan-image" name="image" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/avif" capture="environment" data-scan-image-input />
+          <div class="scan-source-actions">
+            <button class="secondary" type="button" data-native-scan-image>系统相机/相册</button>
+            <input id="scan-image" name="image" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/avif" capture="environment" data-scan-image-input />
+          </div>
           <div class="scan-preview" data-scan-preview aria-live="polite">
             <span>未选择图片</span>
           </div>

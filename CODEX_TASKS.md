@@ -256,7 +256,7 @@ npm run lint && npm run test
 
 ### Batch 2-C：原生权限与移动端适配 `[Codex]`
 
-**状态**：⏳ 待开始（依赖 2-B 完成）
+**状态**：✅ 已完成 2026-06-11
 
 **任务描述**：
 
@@ -291,6 +291,7 @@ npm run lint && npm run test
 
 **涉及文件**：
 - `src/pages/scanPage.js`
+- `src/services/nativeBridgeService.js`（新增）
 - `src/services/shareService.js`
 - `src/index.html`
 - `src/styles.css`
