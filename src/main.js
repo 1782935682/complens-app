@@ -4,7 +4,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, completeOnboarding, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, completeOnboarding, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
@@ -659,10 +659,17 @@ function registerServiceWorker() {
   }
 }
 
+function getInitialHash() {
+  const onboardingState = getOnboardingState();
+  return onboardingState.status === 'pending'
+    ? `#${categoryPath(onboardingState.preferredCategory, '/onboarding')}`
+    : `#${categoryPath(onboardingState.preferredCategory)}`;
+}
+
 window.addEventListener('hashchange', render);
 
 if (!window.location.hash) {
-  window.location.hash = shouldShowOnboardingPrompt() ? '#/food/onboarding' : '#/food';
+  window.location.hash = getInitialHash();
 } else {
   render();
 }
