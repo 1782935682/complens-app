@@ -180,6 +180,7 @@ npm run validate:data && npm run lint && npm run test && npm run build
 - `package-lock.json`（新增 Vite 依赖锁定）
 - `public/`（PWA 静态资源迁移）
 - `.github/workflows/ci.yml`（安装依赖并覆盖 Vite/public 触发路径）
+- `.github/workflows/ai-review.yml`（避免 `@codex review` 评论取消 PR 自动 AI Review）
 - `scripts/lint.mjs`（覆盖 public JS 语法检查）
 - `COMMANDS.md`
 
