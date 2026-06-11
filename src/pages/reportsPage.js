@@ -90,6 +90,7 @@ export function renderReportDetailPage(id, category = 'food') {
       <div class="form-actions report-toolbar">
         <a class="button-link" href="#${categoryPath(report.category, '/analyze')}?text=${encodeURIComponent(report.input)}" data-route>重新分析</a>
         <a class="button-link secondary-link" href="#${categoryPath(report.category, '/reports')}" data-route>返回报告列表</a>
+        <button type="button" class="secondary" data-share-report="${escapeHtml(report.id)}">分享报告</button>
       </div>
     </section>
 

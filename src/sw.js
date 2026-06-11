@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'compcheck-shell-v12';
+const CACHE_VERSION = 'compcheck-shell-v13';
 const CACHE_PREFIX = 'compcheck-';
 
 const APP_SHELL_ASSETS = [
@@ -40,6 +40,7 @@ const APP_SHELL_ASSETS = [
   './services/membershipService.js',
   './services/ocrService.js',
   './services/reportExportService.js',
+  './services/shareService.js',
   './services/storageService.js',
   './services/supportService.js',
   './store/userStore.js',
