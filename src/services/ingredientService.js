@@ -213,13 +213,23 @@ export function analyzeIngredientText(input, category = 'cosmetics') {
   const rawItems = splitIngredientInput(input);
   const matched = [];
   const unknownItems = [];
+  const analysisItems = [];
 
   for (const item of rawItems) {
-    const match = findIngredientByLooseName(item, category);
+    const match = findIngredientMatch(item, category);
     if (match) {
-      matched.push(match);
+      const ingredient = toAnalysisIngredient(match);
+      matched.push(ingredient);
+      analysisItems.push(toMatchedAnalysisItem(match));
     } else {
       unknownItems.push(item);
+      analysisItems.push({
+        type: 'unknown',
+        inputText: item,
+        confidence: 'low',
+        confidenceLabel: '待核对',
+        note: '本地数据库暂未收录该条目'
+      });
     }
   }
 
@@ -233,6 +243,8 @@ export function analyzeIngredientText(input, category = 'cosmetics') {
     matchedCount: ingredientsMatched.length,
     unknownItems: uniqueBy(unknownItems, normalizeText),
     highlights,
+    analysisItems,
+    quality: buildAnalysisQuality(analysisItems, rawItems.length),
     summary: buildAnalysisSummary(ingredientsMatched, unknownItems, rawItems.length, category)
   };
 }
@@ -282,22 +294,37 @@ function matchesSearchFilters(ingredient, filters) {
 }
 
 function findIngredientByLooseName(value, category) {
+  return findIngredientMatch(value, category)?.ingredient || null;
+}
+
+function findIngredientMatch(value, category) {
   const keyword = normalizeText(value).replace(/[().]/g, '');
   const compactKeyword = keyword.replace(/\s+/g, '');
-  let best = { ingredient: null, score: 0 };
+  let best = { ingredient: null, score: 0, matchedText: '', matchLabel: '' };
 
   for (const ingredient of getDatasetByCategory(category).items) {
-    for (const name of getSearchableNames(ingredient)) {
-      const normalized = normalizeText(name).replace(/[().]/g, '');
+    for (const field of getSearchableNameFields(ingredient)) {
+      const normalized = normalizeText(field.value).replace(/[().]/g, '');
       const compactName = normalized.replace(/\s+/g, '');
       const score = getLooseNameMatchScore(keyword, compactKeyword, normalized, compactName);
       if (score > best.score) {
-        best = { ingredient, score };
+        best = {
+          ingredient,
+          score,
+          matchedText: field.value,
+          matchLabel: field.label
+        };
       }
     }
   }
 
-  return best.ingredient;
+  if (!best.ingredient) return null;
+  return {
+    ...best,
+    inputText: String(value || '').trim(),
+    confidence: getAnalysisConfidence(best.score),
+    confidenceLabel: getAnalysisConfidenceLabel(best.score)
+  };
 }
 
 function getLooseNameMatchScore(keyword, compactKeyword, normalizedName, compactName) {
@@ -306,18 +333,22 @@ function getLooseNameMatchScore(keyword, compactKeyword, normalizedName, compact
   if (compactKeyword.length < 2) return 0;
   if (compactName.startsWith(compactKeyword)) return 70 + Math.min(compactKeyword.length, 20);
   if (compactName.includes(compactKeyword)) return 50 + Math.min(compactKeyword.length, 20);
-  if (compactName.length >= 4 && compactKeyword.includes(compactName)) return 40 + Math.min(compactName.length, 20);
+  if ((compactName.length >= 4 || (compactName.length >= 3 && hasCjk(compactName))) && compactKeyword.includes(compactName)) return 40 + Math.min(compactName.length, 20);
   return 0;
 }
 
 function getSearchableNames(ingredient) {
+  return getSearchableNameFields(ingredient).map((field) => field.value);
+}
+
+function getSearchableNameFields(ingredient) {
   return [
-    ingredient.nameCn,
-    ingredient.nameEn,
-    ingredient.gbCode,
-    ingredient.eNumber,
-    ...(ingredient.aliases || [])
-  ].filter(Boolean);
+    { label: '中文名', value: ingredient.nameCn },
+    { label: '英文名', value: ingredient.nameEn },
+    { label: 'GB/INS', value: ingredient.gbCode },
+    { label: 'E-number', value: ingredient.eNumber },
+    ...(ingredient.aliases || []).map((value) => ({ label: '别名', value }))
+  ].filter((field) => field.value);
 }
 
 function getSuggestionMatch(ingredient, keyword, category) {
@@ -542,6 +573,62 @@ function toSearchSuggestion(ingredient, match) {
     matchedText: match.matchedText,
     matchLabel: match.matchLabel
   };
+}
+
+function toAnalysisIngredient(match) {
+  return {
+    ...match.ingredient,
+    inputText: match.inputText,
+    matchedText: match.matchedText,
+    matchLabel: match.matchLabel,
+    matchConfidence: match.confidence,
+    confidenceLabel: match.confidenceLabel
+  };
+}
+
+function toMatchedAnalysisItem(match) {
+  return {
+    type: 'matched',
+    inputText: match.inputText,
+    ingredientId: match.ingredient.id,
+    nameCn: match.ingredient.nameCn,
+    matchedText: match.matchedText,
+    matchLabel: match.matchLabel,
+    confidence: match.confidence,
+    confidenceLabel: match.confidenceLabel,
+    note: `${match.matchLabel}匹配：${match.matchedText}`
+  };
+}
+
+function buildAnalysisQuality(analysisItems, totalCount) {
+  const matchedItems = analysisItems.filter((item) => item.type === 'matched');
+  const unknownItems = analysisItems.filter((item) => item.type === 'unknown');
+  const lowConfidenceItems = matchedItems.filter((item) => item.confidence === 'low');
+  const mediumConfidenceItems = matchedItems.filter((item) => item.confidence === 'medium');
+  const highConfidenceItems = matchedItems.filter((item) => item.confidence === 'high');
+
+  return {
+    totalCount,
+    matchedCount: matchedItems.length,
+    unknownCount: unknownItems.length,
+    highConfidenceCount: highConfidenceItems.length,
+    mediumConfidenceCount: mediumConfidenceItems.length,
+    lowConfidenceCount: lowConfidenceItems.length,
+    coveragePercent: getPercent(matchedItems.length, totalCount),
+    needsReview: Boolean(unknownItems.length || lowConfidenceItems.length)
+  };
+}
+
+function getAnalysisConfidence(score) {
+  if (score >= 100) return 'high';
+  if (score >= 70) return 'medium';
+  return 'low';
+}
+
+function getAnalysisConfidenceLabel(score) {
+  if (score >= 100) return '高置信';
+  if (score >= 70) return '中等置信';
+  return '低置信';
 }
 
 function buildAnalysisSummary(matched, unknownItems, totalCount, category = 'cosmetics') {

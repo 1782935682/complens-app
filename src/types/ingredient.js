@@ -87,7 +87,30 @@
  * @property {number} matchedCount
  * @property {string[]} unknownItems
  * @property {Ingredient[]} highlights
+ * @property {AnalysisItem[]=} analysisItems
+ * @property {AnalysisQuality=} quality
  * @property {string} summary
+ *
+ * @typedef {Object} AnalysisItem
+ * @property {'matched' | 'unknown'} type
+ * @property {string} inputText
+ * @property {string=} ingredientId
+ * @property {string=} nameCn
+ * @property {string=} matchedText
+ * @property {string=} matchLabel
+ * @property {'low' | 'medium' | 'high'} confidence
+ * @property {string} confidenceLabel
+ * @property {string} note
+ *
+ * @typedef {Object} AnalysisQuality
+ * @property {number} totalCount
+ * @property {number} matchedCount
+ * @property {number} unknownCount
+ * @property {number} highConfidenceCount
+ * @property {number} mediumConfidenceCount
+ * @property {number} lowConfidenceCount
+ * @property {number} coveragePercent
+ * @property {boolean} needsReview
  *
  * @typedef {Object} AIIngredientSummary
  * @property {string} id
