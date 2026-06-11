@@ -220,14 +220,24 @@ function buildReportSearchText(report, category) {
     report.input,
     ...report.unknownItems,
     ...insightText,
-    ...report.textAllergenHits.map((hit) => hit.item),
+    ...report.ingredientAllergenHits.flatMap((hit) => [
+      hit.id,
+      ...(hit.allergenIds || []),
+      formatAllergenNames(getAllergensByIds(hit.allergenIds || []))
+    ]),
+    ...report.textAllergenHits.flatMap((hit) => [
+      hit.item,
+      ...(hit.allergenIds || []),
+      formatAllergenNames(getAllergensByIds(hit.allergenIds || []))
+    ]),
     ...matchedIngredients.flatMap((ingredient) => [
       ingredient.nameCn,
       ingredient.nameEn,
       ingredient.category,
       ingredient.riskSummary,
       ...(ingredient.aliases || []),
-      ...(ingredient.allergenTypes || [])
+      ...(ingredient.allergenTypes || []),
+      formatAllergenNames(getAllergensByIds(ingredient.allergenTypes || []))
     ])
   ].filter(Boolean).join(' ');
 }

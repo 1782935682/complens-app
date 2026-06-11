@@ -612,6 +612,7 @@ assert.equal(localDataSnapshot.preferences.historyRecordingEnabled, true);
 assert.equal(localDataSnapshot.favorites.some((item) => item.id === 'citric-acid' && item.category === 'food'), true);
 assert.equal(localDataSnapshot.history[0], '烟酰胺');
 assert.equal(localDataSnapshot.scanDrafts.food, '柠檬酸，山梨酸钾');
+setHistoryRecordingEnabled(false);
 assert.deepEqual(clearLocalUserData(), {
   favorites: 0,
   history: 0,
@@ -624,7 +625,8 @@ assert.deepEqual(getFavoriteItems(), []);
 assert.deepEqual(getHistory(), []);
 assert.deepEqual(getUserAllergens(), []);
 assert.equal(getScanDraft('food'), '');
-assert.equal(isHistoryRecordingEnabled(), true);
+assert.equal(isHistoryRecordingEnabled(), false);
+assert.deepEqual(addHistory('清空后仍不记录'), []);
 const disabledHistorySnapshot = {
   ...localDataSnapshot,
   preferences: {
@@ -711,6 +713,10 @@ const filteredReportsHtml = renderRoute(resolveRoute('#/food/reports?q=%E5%8D%B5
 assert.match(filteredReportsHtml, /value="卵磷脂"/);
 assert.match(filteredReportsHtml, /1 \/ 1 份/);
 assert.match(filteredReportsHtml, /data-delete-report=/);
+const allergenFilteredReportsHtml = renderRoute(resolveRoute('#/food/reports?q=%E4%B9%B3%E5%8F%8A%E4%B9%B3%E5%88%B6%E5%93%81'));
+assert.match(allergenFilteredReportsHtml, /value="乳及乳制品"/);
+assert.match(allergenFilteredReportsHtml, /1 \/ 1 份/);
+assert.match(allergenFilteredReportsHtml, /data-delete-report=/);
 const emptyFilteredReportsHtml = renderRoute(resolveRoute('#/food/reports?q=%E4%B8%8D%E5%AD%98%E5%9C%A8%E6%8A%A5%E5%91%8A'));
 assert.match(emptyFilteredReportsHtml, /没有找到匹配的本地报告/);
 assert.doesNotMatch(emptyFilteredReportsHtml, /data-delete-report=/);

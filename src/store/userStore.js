@@ -220,7 +220,6 @@ export function importLocalDataSnapshot(snapshot) {
 export function clearLocalUserData() {
   writeJson(FAVORITES_KEY, []);
   writeJson(HISTORY_KEY, []);
-  writeJson(HISTORY_RECORDING_KEY, true);
   writeJson(ALLERGENS_KEY, []);
   writeJson(ANALYSIS_REPORTS_KEY, []);
   writeJson(SCAN_DRAFTS_KEY, {});

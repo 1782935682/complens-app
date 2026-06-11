@@ -393,7 +393,7 @@ function bindPageEvents(route) {
 
       clearLocalUserData();
       syncAllergenForm(allergenForm, []);
-      syncHistoryRecordingToggle(true);
+      syncHistoryRecordingToggle(isHistoryRecordingEnabled());
       updateAllergenSettingsFeedback(0, '已清空');
       updateLocalDataSummary('本机数据已清空。');
     });
