@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { index, integer, jsonb, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
+import { index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
 
 export const ingredients = pgTable('ingredients', {
   id: text('id').primaryKey(),
@@ -55,6 +55,24 @@ export const ingredientSources = pgTable('ingredient_sources', {
   index('ingredient_sources_ingredient_id_idx').on(table.ingredientId)
 ]);
 
+export const users = pgTable('users', {
+  id: text('id').primaryKey(),
+  email: text('email').notNull(),
+  passwordHash: text('password_hash').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('users_email_unique_idx').on(table.email)
+]);
+
+export const sessions = pgTable('sessions', {
+  token: text('token').primaryKey(),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull()
+}, (table) => [
+  index('sessions_user_id_idx').on(table.userId),
+  index('sessions_expires_at_idx').on(table.expiresAt)
+]);
+
 export type SourceReference = {
   title: string;
   standard: string;
@@ -73,3 +91,7 @@ export type UsageLimit = {
 export type IngredientRow = typeof ingredients.$inferSelect;
 export type NewIngredientRow = typeof ingredients.$inferInsert;
 export type NewIngredientSourceRow = typeof ingredientSources.$inferInsert;
+export type UserRow = typeof users.$inferSelect;
+export type NewUserRow = typeof users.$inferInsert;
+export type SessionRow = typeof sessions.$inferSelect;
+export type NewSessionRow = typeof sessions.$inferInsert;

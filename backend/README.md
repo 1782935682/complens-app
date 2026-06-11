@@ -48,6 +48,29 @@ Supported list query parameters:
 - `page`: positive integer, default `1`.
 - `limit`: positive integer up to `100`, default `20`.
 
+Auth API:
+
+```bash
+curl -X POST http://localhost:3000/api/auth/register \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"tester@example.com","password":"strong-pass"}'
+
+curl -X POST http://localhost:3000/api/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"tester@example.com","password":"strong-pass"}'
+
+curl http://localhost:3000/api/auth/me \
+  -H "Authorization: Bearer $TOKEN"
+
+curl -X POST http://localhost:3000/api/auth/logout \
+  -H "Authorization: Bearer $TOKEN"
+
+curl -X DELETE http://localhost:3000/api/auth/account \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+Auth responses never include `password_hash`. JWT sessions are valid for 7 days by default and can be invalidated server-side through `/api/auth/logout`.
+
 ## Validation
 
 ```bash

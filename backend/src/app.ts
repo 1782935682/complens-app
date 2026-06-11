@@ -2,11 +2,14 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import type { AppConfig } from './config.js';
 import { requestLogger } from './middleware/requestLogger.js';
+import { createAuthRoute } from './routes/auth.js';
 import { healthRoute } from './routes/health.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
+import { createLazyAuthService, type AuthService } from './services/authService.js';
 import { createLazyIngredientService, type IngredientService } from './services/ingredientService.js';
 
 export type AppServices = {
+  authService?: AuthService;
   ingredientService?: IngredientService;
 };
 
@@ -21,6 +24,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.use('*', requestLogger());
 
   app.route('/', healthRoute);
+  app.route('/api', createAuthRoute(services.authService ?? createLazyAuthService(config.databaseUrl, config.jwtSecret)));
   app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService(config.databaseUrl)));
 
   app.notFound((context) => context.json({ error: 'not_found' }, 404));
