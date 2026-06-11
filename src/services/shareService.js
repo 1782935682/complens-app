@@ -38,7 +38,7 @@ export function buildReportSharePayload(report, baseUrl = '') {
   return {
     title: `${report.title} - CompCheck`,
     text: lines.join('\n'),
-    url: buildShareUrl(report.category, `/reports/${report.id}`, baseUrl)
+    url: buildShareUrl(report.category, buildReportSharePath(report), baseUrl)
   };
 }
 
@@ -74,4 +74,9 @@ export function buildShareUrl(category = 'food', path = '/', baseUrl = '') {
   const route = `#${categoryPath(category, path)}`;
   const normalizedBase = String(baseUrl || '').split('#')[0];
   return normalizedBase ? `${normalizedBase}${route}` : route;
+}
+
+function buildReportSharePath(report) {
+  const input = String(report.input || '').trim();
+  return input ? `/analyze?text=${encodeURIComponent(input)}` : '/analyze';
 }

@@ -1141,7 +1141,7 @@ assert.match(reportMarkdown, /卵磷脂/);
 assert.match(reportMarkdown, /过敏原：大豆/);
 assert.match(reportMarkdown, /全脂奶粉/);
 const reportSharePayload = buildReportSharePayload(savedReport, 'https://example.com/app');
-assert.equal(reportSharePayload.url, `https://example.com/app#/food/reports/${savedReport.id}`);
+assert.equal(reportSharePayload.url, `https://example.com/app#/food/analyze?text=${encodeURIComponent(savedReport.input)}`);
 assert.match(reportSharePayload.text, /食品添加剂分析报告/);
 assert.match(reportSharePayload.text, /已匹配：/);
 assert.match(reportMarkdown, /不提供医疗诊断或治疗建议/);
