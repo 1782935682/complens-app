@@ -1,3 +1,4 @@
+import { isProductCategory } from '../data/categories.js';
 import { getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText, getIngredientById } from '../services/ingredientService.js';
 import { readJson, writeJson } from '../services/storageService.js';
@@ -73,7 +74,7 @@ export function addCompareIngredient(id, category = DEFAULT_CATEGORY) {
   const normalized = normalizeFavoriteItem({ id, category });
   const current = getCompareItems();
   const categoryItems = current.filter((item) => item.category === normalized?.category);
-  if (!normalized || !getIngredientById(normalized.id, normalized.category)) {
+  if (!normalized || !isProductCategory(normalized.category) || !getIngredientById(normalized.id, normalized.category)) {
     return buildCompareResult(false, 'missing', '未找到可加入对比的成分。', category);
   }
   if (categoryItems.some((item) => item.id === normalized.id)) {
@@ -504,6 +505,7 @@ function normalizeFavoriteItems(value) {
 function normalizeCompareItems(value) {
   const categoryCounts = new Map();
   return normalizeFavoriteItems(value).filter((item) => {
+    if (!isProductCategory(item.category)) return false;
     if (!getIngredientById(item.id, item.category)) return false;
     const count = categoryCounts.get(item.category) || 0;
     if (count >= MAX_COMPARE_ITEMS) return false;
