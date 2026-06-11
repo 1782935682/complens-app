@@ -34,7 +34,11 @@ export const ingredients = pgTable('ingredients', {
   index('ingredients_category_idx').on(table.category),
   index('ingredients_risk_level_idx').on(table.riskLevel),
   index('ingredients_gb_code_idx').on(table.gbCode),
-  index('ingredients_e_number_idx').on(table.eNumber)
+  index('ingredients_e_number_idx').on(table.eNumber),
+  index('ingredients_name_cn_trgm_idx').using('gin', table.nameCn.op('gin_trgm_ops')),
+  index('ingredients_name_en_trgm_idx').using('gin', table.nameEn.op('gin_trgm_ops')),
+  index('ingredients_description_trgm_idx').using('gin', table.description.op('gin_trgm_ops')),
+  index('ingredients_aliases_gin_idx').using('gin', table.aliases)
 ]);
 
 export const ingredientSources = pgTable('ingredient_sources', {

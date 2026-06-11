@@ -8,6 +8,13 @@
       "when": 1781188308681,
       "tag": "0000_thick_the_professor",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781189141635,
+      "tag": "0001_complex_maximus",
+      "breakpoints": true
     }
   ]
 }

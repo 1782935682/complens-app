@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, ilike, or, sql, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
 import { ingredientSources, ingredients, type IngredientRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 
@@ -211,14 +211,18 @@ function buildIngredientWhere(params: IngredientListParams): SQL | undefined {
   const filters: SQL[] = [];
 
   if (params.q) {
-    const pattern = `%${params.q}%`;
+    const pattern = `%${escapeLikePattern(params.q)}%`;
     filters.push(or(
-      ilike(ingredients.nameCn, pattern),
-      ilike(ingredients.nameEn, pattern),
-      ilike(ingredients.gbCode, pattern),
-      ilike(ingredients.eNumber, pattern),
-      ilike(ingredients.description, pattern),
-      sql`${ingredients.aliases}::text ILIKE ${pattern}`
+      ilikeEscaped(ingredients.nameCn, pattern),
+      ilikeEscaped(ingredients.nameEn, pattern),
+      ilikeEscaped(ingredients.gbCode, pattern),
+      ilikeEscaped(ingredients.eNumber, pattern),
+      ilikeEscaped(ingredients.description, pattern),
+      sql`exists (
+        select 1
+        from jsonb_array_elements_text(${ingredients.aliases}) as alias(value)
+        where alias.value ILIKE ${pattern} ESCAPE '\'
+      )`
     ) as SQL);
   }
 
@@ -231,4 +235,12 @@ function buildIngredientWhere(params: IngredientListParams): SQL | undefined {
   }
 
   return filters.length > 0 ? and(...filters) : undefined;
+}
+
+export function escapeLikePattern(value: string) {
+  return value.replace(/[\\%_]/g, (match) => `\\${match}`);
+}
+
+function ilikeEscaped(column: AnyColumn, pattern: string): SQL {
+  return sql`${column} ILIKE ${pattern} ESCAPE '\'`;
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import type { IngredientService } from '../src/services/ingredientService.js';
+import { escapeLikePattern, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
@@ -145,5 +145,11 @@ describe('GET /api/ingredients/:id', () => {
     expect((await found.json()).nameCn).toBe('苯甲酸钠');
     expect(missing.status).toBe(404);
     expect(await missing.json()).toEqual({ error: 'not_found' });
+  });
+});
+
+describe('ingredient search helpers', () => {
+  it('escapes SQL LIKE wildcards in user search terms', () => {
+    expect(escapeLikePattern('%_\\E211')).toBe('\\%\\_\\\\E211');
   });
 });

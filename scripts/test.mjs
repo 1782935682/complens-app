@@ -263,6 +263,8 @@ assert.match(backendDbSchema, /export const ingredients = pgTable\('ingredients'
 assert.match(backendDbSchema, /jsonb\('usage_limits'\)/);
 assert.match(backendDbSchema, /jsonb\('food_categories'\)/);
 assert.match(backendDbSchema, /export const ingredientSources = pgTable\('ingredient_sources'/);
+assert.match(backendDbSchema, /ingredients_description_trgm_idx/);
+assert.match(backendDbSchema, /ingredients_aliases_gin_idx/);
 const backendIngredientsRoute = await readFile(new URL('../backend/src/routes/ingredients.ts', import.meta.url), 'utf8');
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/categories'/);
@@ -275,6 +277,10 @@ const backendMigrationSql = await readFile(new URL('../backend/src/db/migrations
 assert.match(backendMigrationSql, /CREATE TABLE "ingredients"/);
 assert.match(backendMigrationSql, /CREATE TABLE "ingredient_sources"/);
 assert.match(backendMigrationSql, /FOREIGN KEY \("ingredient_id"\) REFERENCES "public"\."ingredients"\("id"\) ON DELETE cascade/);
+const backendSearchIndexMigrationSql = await readFile(new URL('../backend/src/db/migrations/0001_complex_maximus.sql', import.meta.url), 'utf8');
+assert.match(backendSearchIndexMigrationSql, /CREATE EXTENSION IF NOT EXISTS "pg_trgm"/);
+assert.match(backendSearchIndexMigrationSql, /ingredients_description_trgm_idx/);
+assert.match(backendSearchIndexMigrationSql, /ingredients_aliases_gin_idx/);
 const backendVitestConfig = await readFile(new URL('../backend/vitest.config.ts', import.meta.url), 'utf8');
 assert.match(backendVitestConfig, /include: \['tests\/\*\*\/\*\.test\.ts'\]/);
 const viteConfigJs = await readFile(new URL('../vite.config.js', import.meta.url), 'utf8');
