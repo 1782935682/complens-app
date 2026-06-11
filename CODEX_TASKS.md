@@ -80,7 +80,7 @@ npm run build           # 通过
 
 ### Batch 1-B：前端已知缺口修复 `[Codex]`
 
-**状态**：⏳ 待开始（依赖 Batch 0-A 完成）
+**状态**：✅ 已完成 2026-06-11
 
 **任务描述**（全部在一个 PR 内完成）：
 
@@ -937,9 +937,9 @@ npm run lint && npm run test && npm run build
 ## 快速参考：当前最早未完成任务
 
 ```
-→ Batch 0-A：修复当前测试失败
-  文件：src/data/foodAdditives.js（修正 aspartame riskLevel: 'medium'，sucralose riskLevel: 'low'）
-  断言位置：scripts/test.mjs:492
+→ 阶段 2 前置人工操作（解锁 Vite 约束）[人工]
+  文件：readme.md、scripts/ai-review.py、.github/workflows/claude-review.yml
+  说明：人工完成并标注 [人工完成 ✅ YYYY-MM-DD] 后，Codex 才能执行 Batch 2-A：前端工程化迁移（Vite）
 ```
 
 ---

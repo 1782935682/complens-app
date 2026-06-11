@@ -1,6 +1,6 @@
 import { escapeHtml, html } from '../components/render.js';
 import { categoryPath, getProductCategory, isProductCategory } from '../data/categories.js';
-import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION } from '../services/ocrService.js';
+import { OCR_PROTOCOL_VERSION } from '../services/ocrService.js';
 import { getScanDraft } from '../store/userStore.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES } from '../utils/imageFile.js';
 
@@ -69,7 +69,7 @@ export function renderScanPage(input = '', category = 'food') {
         </div>
         <div class="scan-protocol-grid" aria-label="OCR 协议状态">
           ${scanProtocolItem('协议版本', `v${OCR_PROTOCOL_VERSION}`)}
-          ${scanProtocolItem('服务端 endpoint', OCR_ENDPOINT_PATH)}
+          ${scanProtocolItem('服务状态', 'OCR 服务未接入，请手动输入文字')}
           ${scanProtocolItem('文件上限', formatBytes(SCAN_IMAGE_MAX_BYTES))}
         </div>
       </div>

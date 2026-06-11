@@ -90,6 +90,12 @@ function bindPageEvents(route) {
       event.preventDefault();
       const formData = new FormData(form);
       const input = String(formData.get('ingredients') || '').trim();
+      if (!input) {
+        updateAnalyzeStatus('请先输入成分表文字');
+        const textarea = form.querySelector('#ingredient-text');
+        if (textarea && typeof textarea.focus === 'function') textarea.focus();
+        return;
+      }
       navigate(`#${categoryPath(route.category, '/analyze')}?text=${encodeURIComponent(input)}`);
     });
   });
@@ -558,6 +564,11 @@ function updateAllergenSettingsFeedback(count, message) {
   const countNode = document.querySelector('[data-allergen-count]');
   if (countNode) countNode.textContent = `${count} 项已关注`;
   const statusNode = document.querySelector('[data-allergen-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateAnalyzeStatus(message) {
+  const statusNode = document.querySelector('[data-analyze-status]');
   if (statusNode) statusNode.textContent = message;
 }
 

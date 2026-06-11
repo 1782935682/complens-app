@@ -65,6 +65,10 @@ export function getIngredientCategorySummaries(category = 'cosmetics') {
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
 }
 
+export function getCategoryStats(category = 'cosmetics') {
+  return getIngredientCategorySummaries(category);
+}
+
 export function getDatasetAuditSummary(category = 'cosmetics') {
   const items = getDatasetByCategory(category).items;
   const categoryNames = new Set();
