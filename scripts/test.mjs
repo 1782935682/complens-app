@@ -772,6 +772,10 @@ assert.equal(
   buildSupportPrefillUrl('food', { topic: 'data-correction', subject: '柠檬酸来源', message: '需要核对' }),
   '#/food/support?topic=data-correction&subject=%E6%9F%A0%E6%AA%AC%E9%85%B8%E6%9D%A5%E6%BA%90&message=%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9'
 );
+assert.equal(
+  buildSupportPrefillUrl('food', { topic: 'bug-feedback', subject: '页面显示异常', message: '按钮没有响应' }),
+  '#/food/support?topic=bug-feedback&subject=%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8&message=%E6%8C%89%E9%92%AE%E6%B2%A1%E6%9C%89%E5%93%8D%E5%BA%94'
+);
 const legalIndexHtml = renderLegalPage('food');
 assert.match(legalIndexHtml, /隐私与条款/);
 assert.match(legalIndexHtml, /隐私政策草案/);
@@ -799,6 +803,9 @@ assert.match(supportPrefillHtml, /data-support-prefill/);
 assert.match(supportPrefillHtml, /value="data-correction" selected/);
 assert.match(supportPrefillHtml, /value="柠檬酸来源"/);
 assert.match(supportPrefillHtml, />需要核对<\/textarea>/);
+const bugFeedbackPrefillHtml = renderRoute(resolveRoute('#/food/support?topic=bug-feedback&subject=%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8&message=%E6%8C%89%E9%92%AE%E6%B2%A1%E6%9C%89%E5%93%8D%E5%BA%94'));
+assert.match(bugFeedbackPrefillHtml, /value="bug-feedback" selected/);
+assert.match(bugFeedbackPrefillHtml, /value="页面显示异常"/);
 assert.equal(deleteSupportRequest(supportRequest.id).length, 0);
 assert.equal(getSupportRequests().length, 0);
 saveSupportRequest({

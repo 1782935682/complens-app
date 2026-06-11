@@ -1,5 +1,5 @@
 import { categoryPath, getProductCategory } from '../data/categories.js';
-import { defaultSupportTopic, getSupportTopic, isSupportTopic } from '../data/supportTopics.js';
+import { getSupportTopic, isSupportTopic } from '../data/supportTopics.js';
 
 const SUPPORT_PREFILL_LIMITS = {
   contact: 120,
@@ -63,7 +63,7 @@ export function buildSupportPrefillFromParams(params = new URLSearchParams()) {
 export function buildSupportPrefillUrl(category = 'food', input = {}) {
   const prefill = normalizeSupportPrefill(input);
   const params = new URLSearchParams();
-  if (prefill.topic && prefill.topic !== defaultSupportTopic) params.set('topic', prefill.topic);
+  if (prefill.topic) params.set('topic', prefill.topic);
   if (prefill.subject) params.set('subject', prefill.subject);
   if (prefill.message) params.set('message', prefill.message);
   if (prefill.contact) params.set('contact', prefill.contact);
