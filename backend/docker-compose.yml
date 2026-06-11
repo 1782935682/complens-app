@@ -19,6 +19,7 @@ services:
       - .env
     environment:
       HOST: 0.0.0.0
+      DATABASE_URL: postgres://postgres:password@postgres:5432/compcheck
     ports:
       - "3000:3000"
 

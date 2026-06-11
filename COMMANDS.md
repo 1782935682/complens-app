@@ -97,7 +97,7 @@ npm run db:migrate
 npm run db:seed
 ```
 
-默认 PostgreSQL 宿主端口为 `15432`，避免和本机已有 `5432` 冲突；如需调整，可在 `backend/.env` 设置 `POSTGRES_PORT` 并同步 `DATABASE_URL`。
+默认 PostgreSQL 宿主端口为 `15432`，避免和本机已有 `5432` 冲突；如需调整，可在 `backend/.env` 设置 `POSTGRES_PORT` 并同步宿主机使用的 `DATABASE_URL`。
 
 成分 API 验收：
 
@@ -115,7 +115,7 @@ cd backend
 docker compose up --build
 ```
 
-该命令会启动 PostgreSQL 15 和 API 服务。
+该命令会启动 PostgreSQL 15 和 API 服务。宿主机命令使用 `localhost:15432` 连接数据库，API 容器会在 compose 中覆盖为 `postgres:5432` 连接同一个 PostgreSQL 服务。
 
 后端本地密钥和生成物不纳入版本管理：`backend/.env`、`backend/node_modules/`、`backend/dist/` 均已忽略。
 
