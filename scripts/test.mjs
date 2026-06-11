@@ -796,6 +796,19 @@ assert.equal(getCompareItems('food').length, 4);
 assert.equal(getCompareItems('cosmetics').length, 4);
 assert.equal(getCompareItems('food').some((item) => item.id === 'acesulfame-potassium'), false);
 assert.equal(getCompareItems('cosmetics').some((item) => item.id === 'fragrance'), false);
+const staleCompareImport = importLocalDataSnapshot({
+  ...localDataSnapshot,
+  compareItems: [
+    { id: 'missing-food-1', category: 'food' },
+    { id: 'missing-food-2', category: 'food' },
+    { id: 'missing-food-3', category: 'food' },
+    { id: 'missing-food-4', category: 'food' },
+    { id: 'citric-acid', category: 'food' }
+  ]
+});
+assert.equal(staleCompareImport.ok, true);
+assert.deepEqual(getCompareItems('food'), [{ id: 'citric-acid', category: 'food' }]);
+assert.equal(addCompareIngredient('sodium-benzoate', 'food').ok, true);
 const invalidImportResult = importLocalDataSnapshot({ schemaVersion: 999, history: ['不应覆盖'] });
 assert.equal(invalidImportResult.ok, false);
 assert.deepEqual(getHistory(), localDataSnapshot.history);

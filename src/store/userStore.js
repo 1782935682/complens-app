@@ -504,6 +504,7 @@ function normalizeFavoriteItems(value) {
 function normalizeCompareItems(value) {
   const categoryCounts = new Map();
   return normalizeFavoriteItems(value).filter((item) => {
+    if (!getIngredientById(item.id, item.category)) return false;
     const count = categoryCounts.get(item.category) || 0;
     if (count >= MAX_COMPARE_ITEMS) return false;
     categoryCounts.set(item.category, count + 1);
