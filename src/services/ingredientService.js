@@ -1,7 +1,7 @@
 import { ingredients, popularIngredientIds } from '../data/ingredients.js';
 import { foodAdditives, popularFoodAdditiveIds } from '../data/foodAdditives.js';
 import { searchAssistAliases } from '../data/searchAliases.js';
-import { normalizeText, splitIngredientInput, uniqueBy } from '../utils/text.js';
+import { normalizeIngredientItem, normalizeText, splitIngredientInput, uniqueBy } from '../utils/text.js';
 
 const riskOrder = {
   high: 3,
@@ -298,7 +298,7 @@ function findIngredientByLooseName(value, category) {
 }
 
 function findIngredientMatch(value, category) {
-  const keyword = normalizeText(value).replace(/[().]/g, '');
+  const keyword = normalizeText(normalizeIngredientItem(value)).replace(/[().]/g, '');
   const compactKeyword = keyword.replace(/\s+/g, '');
   let best = { ingredient: null, score: 0, matchedText: '', matchLabel: '' };
 
@@ -333,8 +333,8 @@ function getLooseNameMatchScore(keyword, compactKeyword, normalizedName, compact
   if (compactKeyword.length < 2) return 0;
   if (compactName.startsWith(compactKeyword)) return 70 + Math.min(compactKeyword.length, 20);
   if (compactName.includes(compactKeyword)) return 50 + Math.min(compactKeyword.length, 20);
-  if (compactName.length >= 4 && compactKeyword.includes(compactName)) return 40 + Math.min(compactName.length, 20);
   if (compactName.length >= 3 && hasCjk(compactName) && hasAllowedIngredientPrefix(compactKeyword, compactName)) return 40 + Math.min(compactName.length, 20);
+  if (compactName.length >= 4 && compactKeyword.includes(compactName)) return 40 + Math.min(compactName.length, 20);
   return 0;
 }
 
@@ -594,16 +594,18 @@ function toAnalysisIngredient(match) {
 }
 
 function toMatchedAnalysisItem(match) {
+  const matchLabel = match.matchLabel || '本地库';
+  const matchedText = match.matchedText || match.ingredient.nameCn || match.inputText;
   return {
     type: 'matched',
     inputText: match.inputText,
     ingredientId: match.ingredient.id,
     nameCn: match.ingredient.nameCn,
-    matchedText: match.matchedText,
-    matchLabel: match.matchLabel,
+    matchedText,
+    matchLabel,
     confidence: match.confidence,
     confidenceLabel: match.confidenceLabel,
-    note: `${match.matchLabel}匹配：${match.matchedText}`
+    note: `${matchLabel}匹配：${matchedText}`
   };
 }
 

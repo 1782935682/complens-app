@@ -73,6 +73,7 @@ function expandBracketGroups(value) {
     const cleanPrefix = normalizeIngredientItem(prefix);
     const cleanContent = String(content || '').trim();
     if (!cleanContent) return cleanPrefix;
+    if (!cleanPrefix && !rawPrefix) return '';
 
     if (isGenericBracketPrefix(cleanPrefix || rawPrefix)) return `，${cleanContent}`;
     if (shouldExpandNonGenericBracketContent(cleanContent)) return `${cleanPrefix}，${cleanContent}`;
@@ -80,7 +81,7 @@ function expandBracketGroups(value) {
   });
 }
 
-function normalizeIngredientItem(value) {
+export function normalizeIngredientItem(value) {
   return stripQuantitySuffix(stripBracketNotes(value))
     .replace(labelPrefixPattern, '')
     .replace(/^\s*[\d一二三四五六七八九十]+[.、)]\s*/, '')
