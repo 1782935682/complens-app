@@ -274,7 +274,9 @@ function renderResults(results, category) {
 }
 
 function normalizeApiSearchItems(items) {
-  return (Array.isArray(items) ? items : []).map((item) => ({
+  if (!Array.isArray(items)) return [];
+
+  return items.map((item) => ({
     id: item.id,
     nameCn: item.nameCn,
     nameEn: item.nameEn,

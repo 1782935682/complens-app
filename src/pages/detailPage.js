@@ -82,7 +82,12 @@ export function renderDetailPage(id, category = 'cosmetics', apiState = null) {
 }
 
 function renderLoadingIngredientPage(id, category, categoryLabel) {
-  const searchHref = `#${categoryPath(category, '/search')}${id ? `?q=${encodeURIComponent(id)}` : ''}`;
+  const safeId = String(id || '').trim();
+  if (!safeId) {
+    return renderMissingIngredientPage('', category, categoryLabel);
+  }
+
+  const searchHref = `#${categoryPath(category, '/search')}?q=${encodeURIComponent(safeId)}`;
   return html`
     <section class="section missing-ingredient" data-detail-loading>
       <p class="eyebrow">${escapeHtml(categoryLabel)} / 后端数据库</p>

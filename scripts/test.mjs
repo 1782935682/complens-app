@@ -10,7 +10,7 @@ import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } fr
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
 import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
-import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
+import { renderDetailPage, renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
 import { renderLegalPage } from '../src/pages/legalPage.js';
@@ -290,6 +290,8 @@ assert.match(backendIngredientsRoute, /route\.get\('\/ingredients'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/categories'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/search'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/:id'/);
+assert.equal(backendIngredientsRoute.indexOf("route.get('/ingredients/search'") < backendIngredientsRoute.indexOf("route.get('/ingredients/:id'"), true);
+assert.match(backendIngredientsRoute, /never interpreted as an ingredient id/);
 assert.match(backendIngredientsRoute, /invalid_parameter/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
 assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 2);
@@ -351,6 +353,9 @@ assert.match(viteConfigJs, /publicDir: '\.\.\/public'/);
 assert.match(viteConfigJs, /define: \{ __APP_NAME__: JSON\.stringify\(process\.env\.APP_NAME \|\| '成分小查'\) \}/);
 assert.match(viteConfigJs, /outDir: '\.\.\/dist'/);
 assert.match(viteConfigJs, /target: process\.env\.API_ORIGIN \|\| 'http:\/\/127\.0\.0\.1:3000'/);
+const commandsMd = await readFile(new URL('../COMMANDS.md', import.meta.url), 'utf8');
+assert.match(commandsMd, /compcheck:api-base-url/);
+assert.match(commandsMd, /不保存用户数据/);
 const ciWorkflow = await readFile(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8');
 assert.match(ciWorkflow, /node-version: '20\.19'/);
 assert.match(ciWorkflow, /npm ci/);
@@ -696,6 +701,9 @@ assert.match(missingIngredientHtml, /该成分暂未收录/);
 assert.match(missingIngredientHtml, /href="#\/food\/search\?q=not-in-dataset"/);
 assert.match(missingIngredientHtml, /data-support-correction-link/);
 assert.match(missingIngredientHtml, /href="#\/food\/support\?topic=data-correction/);
+const emptyLoadingDetailHtml = renderDetailPage('', 'food', { status: 'loading' });
+assert.match(emptyLoadingDetailHtml, /data-missing-ingredient/);
+assert.doesNotMatch(emptyLoadingDetailHtml, /data-detail-loading/);
 
 const filteredSearchHtml = renderSearchPage('', 'food', { risk: 'medium', ingredientCategory: '防腐剂' });
 assert.match(filteredSearchHtml, /筛选结果/);
@@ -751,6 +759,14 @@ const apiSuccessSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance'
 });
 assert.match(apiSuccessSearchHtml, /data-api-success/);
 assert.match(apiSuccessSearchHtml, /当前结果来自后端数据库/);
+const apiNullItemsSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance', {
+  status: 'success',
+  total: 0,
+  totalPages: 1,
+  items: null
+});
+assert.match(apiNullItemsSearchHtml, /data-api-success/);
+assert.match(apiNullItemsSearchHtml, /未找到相关成分/);
 const pinyinSearchHtml = renderSearchPage('ningmengsuan', 'food');
 assert.match(pinyinSearchHtml, /data-search-assist/);
 assert.match(pinyinSearchHtml, /可能相关/);

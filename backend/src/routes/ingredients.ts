@@ -24,6 +24,8 @@ export function createIngredientsRoute(ingredientService: IngredientService) {
     return context.json({ items });
   });
 
+  // Keep the explicit search endpoint before /ingredients/:id so "search" is
+  // never interpreted as an ingredient id by routers with ordered matching.
   route.get('/ingredients/search', async (context) => {
     const parsed = parseListQuery(context.req.query());
     if (!parsed.ok) {
