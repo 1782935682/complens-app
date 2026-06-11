@@ -255,6 +255,8 @@ assert.match(backendDockerCompose, /\$\{POSTGRES_PORT:-15432\}:5432/);
 assert.match(backendDockerCompose, /env_file:\n\s+- \.env/);
 assert.match(backendDockerCompose, /HOST: 0\.0\.0\.0/);
 assert.match(backendDockerCompose, /DATABASE_URL: postgres:\/\/postgres:password@postgres:5432\/compcheck/);
+const backendAppSource = await readFile(new URL('../backend/src/app.ts', import.meta.url), 'utf8');
+assert.match(backendAppSource, /createLazyIngredientService\(config\.databaseUrl\)/);
 const backendDrizzleConfig = await readFile(new URL('../backend/drizzle.config.ts', import.meta.url), 'utf8');
 assert.match(backendDrizzleConfig, /dialect: 'postgresql'/);
 assert.match(backendDrizzleConfig, /schema: '\.\/src\/db\/schema\.ts'/);

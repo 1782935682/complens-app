@@ -124,16 +124,28 @@ export function getDefaultIngredientService(): IngredientService {
   return defaultService as IngredientService;
 }
 
-export function createLazyIngredientService(): IngredientService {
+export function createLazyIngredientService(databaseUrl?: string): IngredientService {
+  let lazyClient: DatabaseClient | null = null;
+  let lazyService: IngredientService | null = null;
+
+  function getLazyService() {
+    if (!lazyClient) {
+      lazyClient = createDatabaseClient(databaseUrl);
+      lazyService = createIngredientService(lazyClient.db);
+    }
+
+    return lazyService as IngredientService;
+  }
+
   return {
     listIngredients(params) {
-      return getDefaultIngredientService().listIngredients(params);
+      return getLazyService().listIngredients(params);
     },
     getIngredientById(id) {
-      return getDefaultIngredientService().getIngredientById(id);
+      return getLazyService().getIngredientById(id);
     },
     getCategorySummaries() {
-      return getDefaultIngredientService().getCategorySummaries();
+      return getLazyService().getCategorySummaries();
     }
   };
 }

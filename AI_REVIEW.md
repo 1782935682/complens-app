@@ -19,6 +19,7 @@
 - 非法分页、limit 或 riskLevel 返回 400 JSON；缺失详情返回 404 JSON。
 - 处理 PR Review 反馈：关键词搜索会转义 `%`、`_`、`\`，aliases 改为 JSONB 数组元素级 `ILIKE`，并新增 `pg_trgm` 文本搜索 GIN 索引与 aliases JSONB GIN 索引迁移。
 - 处理 Codex Review 反馈：Docker Compose 中 API 容器显式覆盖 `DATABASE_URL=postgres://postgres:password@postgres:5432/compcheck`，保留宿主机命令使用 `localhost:15432`。
+- 处理 Codex Review 反馈：`createApp(config)` 会把 `config.databaseUrl` 传给默认 lazy ingredient service，避免显式配置被服务层重新读取默认环境覆盖。
 - 后端 Vitest 新增 ingredients API 测试。
 - CI 增加 `backend/**` 触发，并执行后端 `npm ci`、typecheck、test、build。
 - 更新 `COMMANDS.md`、`backend/README.md`、`CODEX_TASKS.md`、`PROJECT_PLAN.md` 和根项目静态断言。
@@ -43,6 +44,7 @@
 - `backend/src/routes/ingredients.ts`
 - `backend/src/services/ingredientService.ts`
 - `backend/scripts/seed.ts`
+- `backend/tests/appConfig.test.ts`
 - `backend/tests/health.test.ts`
 - `backend/tests/ingredients.test.ts`
 - `backend/tsconfig.test.json`
@@ -78,7 +80,7 @@ git diff --check
 - `npm run test` 通过。
 - `npm run build` 通过。
 - `backend npm run typecheck` 通过。
-- `backend npm test` 通过，2 个测试文件、9 个测试用例通过。
+- `backend npm test` 通过，3 个测试文件、11 个测试用例通过。
 - `backend npm run build` 通过。
 - `npx drizzle-kit generate` 生成 migration 成功。
 - `backend npm run db:migrate` 通过，迁移应用成功。

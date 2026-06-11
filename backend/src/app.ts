@@ -21,7 +21,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.use('*', requestLogger());
 
   app.route('/', healthRoute);
-  app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService()));
+  app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService(config.databaseUrl)));
 
   app.notFound((context) => context.json({ error: 'not_found' }, 404));
   app.onError((error, context) => {
