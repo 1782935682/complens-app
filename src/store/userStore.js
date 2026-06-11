@@ -1,4 +1,5 @@
 import { isProductCategory } from '../data/categories.js';
+import { defaultSupportTopic, isSupportTopic } from '../data/supportTopics.js';
 import { getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText, getIngredientById } from '../services/ingredientService.js';
 import { readJson, writeJson } from '../services/storageService.js';
@@ -11,16 +12,19 @@ const ANALYSIS_REPORTS_KEY = 'compcheck:analysis-reports';
 const SCAN_DRAFTS_KEY = 'compcheck:scan-drafts';
 const ONBOARDING_KEY = 'compcheck:onboarding';
 const COMPARE_ITEMS_KEY = 'compcheck:compare-items';
+const SUPPORT_REQUESTS_KEY = 'compcheck:support-requests';
 const LOCAL_DATA_SCHEMA_VERSION = 1;
 const ONBOARDING_SCHEMA_VERSION = 1;
 const MAX_HISTORY = 8;
 const MAX_ANALYSIS_REPORTS = 20;
+const MAX_SUPPORT_REQUESTS = 12;
 export const MAX_COMPARE_ITEMS = 4;
 const DEFAULT_CATEGORY = 'cosmetics';
 const DEFAULT_ONBOARDING_CATEGORY = 'food';
 const REPORT_SCHEMA_VERSION = 2;
 const ONBOARDING_STATUSES = ['pending', 'completed', 'skipped'];
 const ONBOARDING_CATEGORIES = ['food', 'cosmetics'];
+const SUPPORT_STATUSES = ['local', 'copied', 'closed'];
 
 export function getFavoriteItems() {
   return readJson(FAVORITES_KEY, [])
@@ -266,6 +270,61 @@ export function clearAnalysisReports(category) {
   return next;
 }
 
+export function getSupportRequests(category) {
+  const requests = normalizeSupportRequests(readJson(SUPPORT_REQUESTS_KEY, []));
+  const filtered = category ? requests.filter((request) => request.category === category) : requests;
+  return filtered.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export function saveSupportRequest(input = {}, category = DEFAULT_ONBOARDING_CATEGORY) {
+  const supportCategory = isProductCategory(category) ? category : DEFAULT_ONBOARDING_CATEGORY;
+  const subject = truncateText(input.subject, 80);
+  const message = truncateText(input.message, 1000);
+  const contact = truncateText(input.contact, 120);
+  const topic = isSupportTopic(input.topic) ? input.topic : defaultSupportTopic;
+
+  if (!subject) {
+    return buildSupportResult(false, 'subject', '请填写问题标题。', supportCategory);
+  }
+  if (!message) {
+    return buildSupportResult(false, 'message', '请填写问题描述。', supportCategory);
+  }
+  if (input.acceptedBoundary !== true) {
+    return buildSupportResult(false, 'boundary', '请先确认反馈内容的本机保存边界。', supportCategory);
+  }
+
+  const request = {
+    id: createSupportRequestId(),
+    category: supportCategory,
+    topic,
+    subject,
+    message,
+    contact,
+    status: 'local',
+    createdAt: new Date().toISOString()
+  };
+  const next = [request, ...getSupportRequests().filter((item) => item.id !== request.id)]
+    .slice(0, MAX_SUPPORT_REQUESTS);
+  writeJson(SUPPORT_REQUESTS_KEY, next);
+  return buildSupportResult(true, 'saved', '反馈已保存在本机，可复制后发送给客服。', supportCategory, request);
+}
+
+export function deleteSupportRequest(id) {
+  const normalizedId = String(id || '').trim();
+  if (!normalizedId) return getSupportRequests();
+  const next = getSupportRequests().filter((request) => request.id !== normalizedId);
+  writeJson(SUPPORT_REQUESTS_KEY, next);
+  return next;
+}
+
+export function clearSupportRequests(category) {
+  const next = category
+    ? getSupportRequests().filter((request) => request.category !== category)
+    : [];
+  writeJson(SUPPORT_REQUESTS_KEY, next);
+  return next;
+}
+
 export function getLocalDataSummary() {
   const scanDrafts = normalizeScanDrafts(readJson(SCAN_DRAFTS_KEY, {}));
   const favorites = getFavoriteItems();
@@ -273,8 +332,9 @@ export function getLocalDataSummary() {
   const allergens = getUserAllergens();
   const reports = getAnalysisReports();
   const compareItems = getCompareItems();
+  const supportRequests = getSupportRequests();
   const scanDraftCount = Object.keys(scanDrafts).length;
-  const totalItems = favorites.length + history.length + allergens.length + reports.length + compareItems.length + scanDraftCount;
+  const totalItems = favorites.length + history.length + allergens.length + reports.length + compareItems.length + supportRequests.length + scanDraftCount;
 
   return {
     favorites: favorites.length,
@@ -282,6 +342,7 @@ export function getLocalDataSummary() {
     allergens: allergens.length,
     reports: reports.length,
     compareItems: compareItems.length,
+    supportRequests: supportRequests.length,
     scanDrafts: scanDraftCount,
     totalItems
   };
@@ -302,6 +363,7 @@ export function getLocalDataSnapshot() {
     history: getHistory(),
     allergens: getUserAllergens(),
     analysisReports: getAnalysisReports(),
+    supportRequests: getSupportRequests(),
     scanDrafts
   };
 }
@@ -316,6 +378,7 @@ export function importLocalDataSnapshot(snapshot) {
   writeJson(HISTORY_RECORDING_KEY, normalized.data.preferences.historyRecordingEnabled);
   writeJson(ALLERGENS_KEY, normalized.data.allergens);
   writeJson(ANALYSIS_REPORTS_KEY, normalized.data.analysisReports);
+  writeJson(SUPPORT_REQUESTS_KEY, normalized.data.supportRequests);
   writeJson(SCAN_DRAFTS_KEY, normalized.data.scanDrafts);
   writeJson(ONBOARDING_KEY, normalized.data.preferences.onboarding);
 
@@ -332,6 +395,7 @@ export function clearLocalUserData() {
   writeJson(HISTORY_KEY, []);
   writeJson(ALLERGENS_KEY, []);
   writeJson(ANALYSIS_REPORTS_KEY, []);
+  writeJson(SUPPORT_REQUESTS_KEY, []);
   writeJson(SCAN_DRAFTS_KEY, {});
   resetOnboarding();
   return getLocalDataSummary();
@@ -425,6 +489,7 @@ function normalizeLocalDataSnapshot(snapshot) {
       preferences: normalizeLocalDataPreferences(snapshot.preferences),
       allergens: uniqueStrings(snapshot.allergens),
       analysisReports: normalizeAnalysisReports(snapshot.analysisReports),
+      supportRequests: normalizeSupportRequests(snapshot.supportRequests),
       scanDrafts: normalizeScanDrafts(snapshot.scanDrafts)
     }
   };
@@ -487,6 +552,16 @@ function buildCompareResult(ok, reason, message, category) {
   };
 }
 
+function buildSupportResult(ok, reason, message, category, request = null) {
+  return {
+    ok,
+    reason,
+    message,
+    request,
+    requests: getSupportRequests(category)
+  };
+}
+
 function normalizeFavoriteItems(value) {
   if (!Array.isArray(value)) return [];
   const seen = new Set();
@@ -512,6 +587,41 @@ function normalizeCompareItems(value) {
     categoryCounts.set(item.category, count + 1);
     return true;
   });
+}
+
+function normalizeSupportRequests(value) {
+  if (!Array.isArray(value)) return [];
+  const requestIds = new Set();
+  const requests = [];
+  for (const item of value) {
+    const normalized = normalizeSupportRequest(item);
+    if (!normalized || requestIds.has(normalized.id)) continue;
+    requestIds.add(normalized.id);
+    requests.push(normalized);
+  }
+  return requests
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, MAX_SUPPORT_REQUESTS);
+}
+
+function normalizeSupportRequest(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const subject = truncateText(value.subject, 80);
+  const message = truncateText(value.message, 1000);
+  if (!subject || !message) return null;
+  const category = isProductCategory(value.category) ? value.category : DEFAULT_ONBOARDING_CATEGORY;
+  const topic = isSupportTopic(value.topic) ? value.topic : defaultSupportTopic;
+  const createdAt = normalizeIsoDate(value.createdAt);
+  return {
+    id: normalizeSupportRequestId(value.id),
+    category,
+    topic,
+    subject,
+    message,
+    contact: truncateText(value.contact, 120),
+    status: SUPPORT_STATUSES.includes(value.status) ? value.status : 'local',
+    createdAt
+  };
 }
 
 function normalizeAnalysisReports(value) {
@@ -570,6 +680,11 @@ function normalizeReportId(value) {
   return /^[a-z0-9][a-z0-9_-]{0,80}$/i.test(id) ? id : createReportId();
 }
 
+function normalizeSupportRequestId(value) {
+  const id = String(value || '').trim();
+  return /^[a-z0-9][a-z0-9_-]{0,80}$/i.test(id) ? id : createSupportRequestId();
+}
+
 function buildReportTitle(input) {
   const compact = String(input || '').replace(/\s+/g, ' ').trim();
   if (!compact) return '未命名报告';
@@ -579,6 +694,21 @@ function buildReportTitle(input) {
 function createReportId() {
   const random = Math.random().toString(36).slice(2, 8);
   return `report-${Date.now().toString(36)}-${random}`;
+}
+
+function createSupportRequestId() {
+  const random = Math.random().toString(36).slice(2, 8);
+  return `support-${Date.now().toString(36)}-${random}`;
+}
+
+function truncateText(value, maxLength) {
+  const normalized = String(value || '').replace(/\s+/g, ' ').trim();
+  return normalized.length > maxLength ? normalized.slice(0, maxLength) : normalized;
+}
+
+function normalizeIsoDate(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? new Date(0).toISOString() : date.toISOString();
 }
 
 function countRisks(ingredients) {

@@ -31,6 +31,7 @@ export function renderSettingsPage(category = 'food') {
         <p class="helper-text">查看当前套餐、本机用量、Pro 规划、恢复购买和管理订阅状态。真实订阅需要移动端支付、账号和服务端权益校验后开放。</p>
         <div class="form-actions">
           <a class="button-link" href="#${categoryPath(category, '/membership')}" data-route>查看会员中心</a>
+          <a class="button-link secondary-link" href="#${categoryPath(category, '/support')}" data-route>联系支持</a>
         </div>
       </div>
     </section>
@@ -62,6 +63,7 @@ export function renderSettingsPage(category = 'food') {
           ${renderLocalDataMetric('compareItems', localDataSummary.compareItems, '对比')}
           ${renderLocalDataMetric('history', localDataSummary.history, '历史')}
           ${renderLocalDataMetric('reports', localDataSummary.reports, '报告')}
+          ${renderLocalDataMetric('supportRequests', localDataSummary.supportRequests, '反馈')}
           ${renderLocalDataMetric('scanDrafts', localDataSummary.scanDrafts, '扫描草稿')}
           ${renderLocalDataMetric('allergens', localDataSummary.allergens, '过敏原')}
         </div>

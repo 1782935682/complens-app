@@ -697,7 +697,7 @@ button.danger-button:hover {
 
 .local-data-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
   gap: 8px;
 }
 
@@ -852,6 +852,104 @@ button.danger-button:hover {
 .membership-actions {
   display: grid;
   gap: 12px;
+}
+
+.support-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.support-stat {
+  display: grid;
+  gap: 2px;
+  min-height: 96px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--surface);
+}
+
+.support-stat strong {
+  color: var(--primary-strong);
+  font-size: 26px;
+}
+
+.support-stat span {
+  color: var(--muted);
+}
+
+.support-form {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.support-boundary {
+  margin-top: 2px;
+}
+
+.support-request-list {
+  display: grid;
+  gap: 12px;
+}
+
+.support-request {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: var(--surface);
+}
+
+.support-request__body {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.support-request__body h3,
+.support-request__body p {
+  margin: 0;
+}
+
+.support-request__body p,
+.support-request__body small {
+  color: var(--muted);
+}
+
+.support-request__body small {
+  font-size: 13px;
+}
+
+.support-request__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.support-request__meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border-radius: 999px;
+  padding: 3px 9px;
+  color: var(--primary-strong);
+  background: #eef7f3;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.support-request__actions {
+  display: flex;
+  gap: 8px;
 }
 
 .local-data-import {
@@ -2106,6 +2204,8 @@ button.danger-button:hover {
   .membership-current,
   .membership-usage-grid,
   .membership-plan-grid,
+  .support-overview,
+  .support-request,
   .scan-form,
   .scan-protocol-grid,
   .scan-state-grid,
@@ -2154,6 +2254,10 @@ button.danger-button:hover {
   }
 
   .report-card__actions {
+    flex-direction: column;
+  }
+
+  .support-request__actions {
     flex-direction: column;
   }
 

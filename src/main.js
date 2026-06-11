@@ -5,7 +5,8 @@ import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearScanDraft, completeOnboarding, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
+import { buildSupportRequestMarkdown } from './services/supportService.js';
+import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
@@ -430,6 +431,60 @@ function bindPageEvents(route) {
     });
   });
 
+  const supportForm = document.querySelector('[data-support-form]');
+  if (supportForm) {
+    supportForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(supportForm);
+      const result = saveSupportRequest({
+        topic: String(formData.get('topic') || ''),
+        subject: String(formData.get('subject') || ''),
+        message: String(formData.get('message') || ''),
+        contact: String(formData.get('contact') || ''),
+        acceptedBoundary: formData.get('acceptedBoundary') === 'on'
+      }, route.category);
+      if (!result.ok) {
+        updateSupportStatus(result.message);
+        return;
+      }
+      render();
+      updateSupportStatus(result.message);
+    });
+  }
+
+  document.querySelectorAll('[data-copy-support-request]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const request = getSupportRequests().find((item) => item.id === button.dataset.copySupportRequest);
+      if (!request) {
+        updateSupportStatus('反馈记录不存在，无法复制。');
+        return;
+      }
+      try {
+        await copyText(buildSupportRequestMarkdown(request));
+        updateSupportStatus('已复制反馈内容。');
+      } catch {
+        updateSupportStatus('复制失败，请手动选择文本。');
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-delete-support-request]').forEach((button) => {
+    button.addEventListener('click', () => {
+      deleteSupportRequest(button.dataset.deleteSupportRequest);
+      render();
+      updateSupportStatus('反馈记录已删除。');
+    });
+  });
+
+  const clearSupportRequestsButton = document.querySelector('[data-clear-support-requests]');
+  if (clearSupportRequestsButton) {
+    clearSupportRequestsButton.addEventListener('click', () => {
+      clearSupportRequests();
+      render();
+      updateSupportStatus('本机反馈记录已清空。');
+    });
+  }
+
   const onboardingForm = document.querySelector('[data-onboarding-form]');
   if (onboardingForm) {
     onboardingForm.addEventListener('submit', (event) => {
@@ -499,6 +554,11 @@ function updateOnboardingStatus(message) {
 
 function updateMembershipStatus(message) {
   const statusNode = document.querySelector('[data-membership-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateSupportStatus(message) {
+  const statusNode = document.querySelector('[data-support-status]');
   if (statusNode) statusNode.textContent = message;
 }
 

@@ -12,6 +12,7 @@ import { renderReportDetailPage, renderReportsPage } from '../pages/reportsPage.
 import { renderScanPage } from '../pages/scanPage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
 import { renderSettingsPage } from '../pages/settingsPage.js';
+import { renderSupportPage } from '../pages/supportPage.js';
 import { getIngredientById } from '../services/ingredientService.js';
 
 const APP_TITLE = 'CompCheck 成分小查';
@@ -29,6 +30,7 @@ const VIEW_TITLES = {
   scan: '扫描识别',
   search: '搜索',
   settings: '过敏原档案',
+  support: '支持中心',
   'not-found': '页面不存在'
 };
 
@@ -134,6 +136,13 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/support') {
+    return {
+      view: 'support',
+      category: route.category
+    };
+  }
+
   if (route.path === '/reports') {
     return {
       view: 'reports',
@@ -177,6 +186,7 @@ export function renderRoute(route) {
   if (route.view === 'data') return renderDataPage(route.category);
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
   if (route.view === 'membership') return renderMembershipPage(route.category);
+  if (route.view === 'support') return renderSupportPage(route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
@@ -206,7 +216,7 @@ export function getNavigationLinks(route) {
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
       || (item.key === 'reports' && route?.view === 'report-detail')
-      || (item.key === 'settings' && route?.view === 'onboarding')
+      || (item.key === 'settings' && ['onboarding', 'support'].includes(route?.view))
   }));
 }
 
@@ -217,7 +227,7 @@ export function getMobileNavigationLinks(route) {
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
       || (item.key === 'favorites' && route?.view === 'compare')
-      || (item.key === 'settings' && ['membership', 'onboarding'].includes(route?.view))
+      || (item.key === 'settings' && ['membership', 'onboarding', 'support'].includes(route?.view))
   }));
 }
 
