@@ -29,13 +29,13 @@ jobs:
 
             项目背景：
             - 这是一个食品添加剂（主线）和化妆品成分（次线）查询 App
-            - 技术栈：纯 JavaScript ES Modules，无框架，无 TypeScript，无打包工具
+            - 技术栈：纯 JavaScript ES Modules，无框架，无 TypeScript，Vite（M2 起）构建
             - 过敏原用户档案是核心功能，贯穿全局
 
             审查重点：
 
             1. **技术栈合规**（README 第 21 节）
-               - 是否引入了禁止的依赖（React、Vue、TypeScript、Vite 等）
+               - 是否引入了禁止的依赖（React、Vue、TypeScript、webpack、Parcel 等）
                - 是否使用了 ES Modules 语法（import/export）
 
             2. **食品添加剂数据模型**（README 第 25 节）

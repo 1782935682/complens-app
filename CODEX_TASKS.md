@@ -124,19 +124,19 @@ npm run validate:data && npm run lint && npm run test && npm run build
 
 ### 前置人工操作（解锁 Vite 约束） `[人工]`
 
-**状态**：⏳ 待完成 — **必须在 Batch 2-A 之前完成**
+**状态**：✅ 已完成 2026-06-11
 
-- [ ] 修改 `readme.md` 第 21 节：
+- [x] 修改 `readme.md` 第 21 节：
   - 21.1 表格"打包工具"行改为：`Vite`（M2 起引入）
   - 21.2 禁止引入列表删除"任何打包工具（Vite、webpack…）"，改为"webpack、Parcel（Vite 内置 Rollup 除外）"
-- [ ] 同步修改 `scripts/ai-review.py` 和 `.github/workflows/claude-review.yml` 中对 Vite 的禁止约束说明（搜索"Vite"关键字删除或调整）
-- [ ] 在此处标注：`[人工完成 ✅ YYYY-MM-DD]`
+- [x] 同步修改 `scripts/ai-review.py`、`scripts/deepseek-review.py` 和 `.github/workflows/claude-review.yml` 中对 Vite 的禁止约束说明（搜索"Vite"关键字删除或调整）
+- [x] 在此处标注：`[人工完成 ✅ 2026-06-11]`
 
 ---
 
 ### Batch 2-A：前端工程化迁移（Vite） `[Codex]`
 
-**状态**：⏳ 待开始（依赖前置人工操作完成）
+**状态**：✅ 已完成 2026-06-11
 
 **任务描述**：
 
@@ -147,7 +147,9 @@ npm run validate:data && npm run lint && npm run test && npm run build
    import { defineConfig } from 'vite';
    export default defineConfig({
      root: 'src',
+     base: './',
      publicDir: '../public',
+     define: { __APP_NAME__: JSON.stringify(process.env.APP_NAME || '成分小查') },
      build: { outDir: '../dist', emptyOutDir: true },
      server: { port: 5173, open: false },
    });
@@ -175,6 +177,11 @@ npm run validate:data && npm run lint && npm run test && npm run build
 **涉及文件**：
 - `vite.config.js`（新建）
 - `package.json`（修改 scripts）
+- `package-lock.json`（新增 Vite 依赖锁定）
+- `public/`（PWA 静态资源迁移）
+- `.github/workflows/ci.yml`（安装依赖并覆盖 Vite/public 触发路径）
+- `.github/workflows/ai-review.yml`（避免 `@codex review` 评论取消 PR 自动 AI Review）
+- `scripts/lint.mjs`（覆盖 public JS 语法检查）
 - `COMMANDS.md`
 
 **验收标准**：
@@ -937,9 +944,9 @@ npm run lint && npm run test && npm run build
 ## 快速参考：当前最早未完成任务
 
 ```
-→ 阶段 2 前置人工操作（解锁 Vite 约束）[人工]
-  文件：readme.md、scripts/ai-review.py、.github/workflows/claude-review.yml
-  说明：人工完成并标注 [人工完成 ✅ YYYY-MM-DD] 后，Codex 才能执行 Batch 2-A：前端工程化迁移（Vite）
+→ Batch 2-B：Capacitor 项目脚手架
+  文件：capacitor.config.json、package.json、.gitignore、COMMANDS.md
+  前置：Batch 2-A 已完成，Vite 构建产物输出到 dist/
 ```
 
 ---

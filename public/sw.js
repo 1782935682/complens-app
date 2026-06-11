@@ -1,51 +1,11 @@
-const CACHE_VERSION = 'compcheck-shell-v15';
+const CACHE_VERSION = 'compcheck-shell-v16';
 const CACHE_PREFIX = 'compcheck-';
 
 const APP_SHELL_ASSETS = [
   './',
   './index.html',
-  './styles.css',
-  './main.js',
   './manifest.webmanifest',
-  './app-icon.svg',
-  './components/render.js',
-  './data/allergens.js',
-  './data/categories.js',
-  './data/foodAdditives.js',
-  './data/ingredients.js',
-  './data/legalContent.js',
-  './data/membershipPlans.js',
-  './data/searchAliases.js',
-  './data/supportTopics.js',
-  './pages/analyzePage.js',
-  './pages/comparePage.js',
-  './pages/dataPage.js',
-  './pages/detailPage.js',
-  './pages/favoritesPage.js',
-  './pages/homePage.js',
-  './pages/legalPage.js',
-  './pages/membershipPage.js',
-  './pages/notFoundPage.js',
-  './pages/onboardingPage.js',
-  './pages/reportsPage.js',
-  './pages/scanPage.js',
-  './pages/searchPage.js',
-  './pages/settingsPage.js',
-  './pages/supportPage.js',
-  './router/router.js',
-  './services/aiAnalysisService.js',
-  './services/allergenService.js',
-  './services/compareService.js',
-  './services/ingredientService.js',
-  './services/membershipService.js',
-  './services/ocrService.js',
-  './services/reportExportService.js',
-  './services/shareService.js',
-  './services/storageService.js',
-  './services/supportService.js',
-  './store/userStore.js',
-  './utils/imageFile.js',
-  './utils/text.js'
+  './app-icon.svg'
 ];
 
 self.addEventListener('install', (event) => {

@@ -4,14 +4,14 @@
 
 ## 环境要求
 
-- Node.js >= 18
-- 当前版本无第三方运行依赖，仍建议执行 `npm install` 生成并校验 lockfile。
+- Node.js >= 20.19
+- 当前前端使用 Vite，首次拉取后需要执行 `npm install` 安装开发依赖并校验 lockfile。
 
 ## 环境变量
 
-参考 `.env.example`。本项目不使用 Vite，环境变量不加 `VITE_` 前缀。
+参考 `.env.example`。本项目通过 Vite 构建前端，但公开配置仍不使用 `VITE_` 前缀，统一在 `vite.config.js` 中显式 `define` 注入。
 
-当前前端版本不读取任何环境变量。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。
+当前前端仅允许读取显式注入的公开配置。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。
 
 ## 安装依赖
 
@@ -25,6 +25,8 @@ npm install
 npm run dev
 ```
 
+该命令启动 Vite dev server。
+
 默认地址：
 
 ```text
@@ -34,7 +36,7 @@ http://127.0.0.1:5173
 可通过环境变量调整：
 
 ```bash
-HOST=127.0.0.1 PORT=5174 npm run dev
+HOST=127.0.0.1 npm run dev -- --port 5174
 ```
 
 ## 构建
@@ -43,7 +45,15 @@ HOST=127.0.0.1 PORT=5174 npm run dev
 npm run build
 ```
 
-构建产物输出到 `dist/`，该目录为生成物，不纳入版本管理。
+该命令执行 `vite build`。构建产物输出到 `dist/`，该目录为生成物，不纳入版本管理。
+
+## 预览构建产物
+
+```bash
+npm run preview
+```
+
+该命令启动 Vite preview server，用于检查 `dist/` 产物。
 
 ## 代码检查
 
@@ -54,6 +64,7 @@ npm run lint
 当前检查内容：
 
 - JavaScript 语法检查
+- `public/` service worker 语法检查
 - `src/` 文案合规扫描
 
 ## 测试
