@@ -162,7 +162,7 @@ function renderAnalysisQuality(result) {
           <div>
             <p class="eyebrow">解析质量</p>
             <h2>本地匹配覆盖 ${Number(quality.coveragePercent) || 0}%</h2>
-            <p class="helper-text">${quality.needsReview ? '请优先核对低置信匹配和暂未收录条目。' : '当前条目均已被本地库稳定匹配。'}</p>
+            <p class="helper-text">${quality.needsReview ? '请优先核对中/低置信匹配和暂未收录条目。' : '当前条目均已被本地库稳定匹配。'}</p>
           </div>
           <span class="analysis-quality__badge">${quality.needsReview ? '需核对' : '匹配稳定'}</span>
         </div>

@@ -622,7 +622,7 @@ function buildAnalysisQuality(analysisItems, totalCount) {
     mediumConfidenceCount: mediumConfidenceItems.length,
     lowConfidenceCount: lowConfidenceItems.length,
     coveragePercent: getPercent(matchedItems.length, totalCount),
-    needsReview: Boolean(unknownItems.length || lowConfidenceItems.length)
+    needsReview: Boolean(unknownItems.length || mediumConfidenceItems.length || lowConfidenceItems.length)
   };
 }
 
