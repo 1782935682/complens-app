@@ -202,30 +202,35 @@ function filterReports(reports, query, category) {
 }
 
 function buildReportSearchText(report, category) {
+  const matchedIngredientIds = Array.isArray(report.matchedIngredientIds) ? report.matchedIngredientIds : [];
+  const highlightIngredientIds = Array.isArray(report.highlightIngredientIds) ? report.highlightIngredientIds : [];
+  const ingredientAllergenHits = Array.isArray(report.ingredientAllergenHits) ? report.ingredientAllergenHits : [];
+  const textAllergenHits = Array.isArray(report.textAllergenHits) ? report.textAllergenHits : [];
+  const unknownItems = Array.isArray(report.unknownItems) ? report.unknownItems : [];
+  const insights = Array.isArray(report.insights) ? report.insights : [];
   const matchedIngredients = resolveIngredients([
-    ...report.matchedIngredientIds,
-    ...report.highlightIngredientIds,
-    ...report.ingredientAllergenHits.map((hit) => hit.id)
+    ...matchedIngredientIds,
+    ...highlightIngredientIds,
+    ...ingredientAllergenHits.map((hit) => hit.id)
   ], category);
-  const insightText = (report.insights || [])
-    .flatMap((insight) => [
-      insight.title,
-      insight.summary,
-      ...(insight.items || [])
-    ]);
+  const insightText = insights.flatMap((insight) => [
+    insight.title,
+    insight.summary,
+    ...(insight.items || [])
+  ]);
 
   return [
     report.title,
     report.summary,
     report.input,
-    ...report.unknownItems,
+    ...unknownItems,
     ...insightText,
-    ...report.ingredientAllergenHits.flatMap((hit) => [
+    ...ingredientAllergenHits.flatMap((hit) => [
       hit.id,
       ...(hit.allergenIds || []),
       formatAllergenNames(getAllergensByIds(hit.allergenIds || []))
     ]),
-    ...report.textAllergenHits.flatMap((hit) => [
+    ...textAllergenHits.flatMap((hit) => [
       hit.item,
       ...(hit.allergenIds || []),
       formatAllergenNames(getAllergensByIds(hit.allergenIds || []))

@@ -36,6 +36,9 @@ export function buildAIAnalysisRequest(input, category = 'food', options = {}) {
   const dataCategory = isProductCategory(category) ? category : 'food';
   const productCategory = getProductCategory(dataCategory);
   const localAnalysis = analyzeIngredientText(normalizedInput, dataCategory);
+  const localIngredients = Array.isArray(localAnalysis.ingredients) ? localAnalysis.ingredients : [];
+  const localHighlights = Array.isArray(localAnalysis.highlights) ? localAnalysis.highlights : [];
+  const localUnknownItems = normalizeStringList(localAnalysis.unknownItems);
 
   return {
     protocolVersion: AI_ANALYSIS_PROTOCOL_VERSION,
@@ -50,12 +53,12 @@ export function buildAIAnalysisRequest(input, category = 'food', options = {}) {
       consumerGroups: normalizeStringList(options.consumerGroups)
     },
     localAnalysis: {
-      summary: localAnalysis.summary,
-      matchedCount: localAnalysis.matchedCount,
-      unknownItems: localAnalysis.unknownItems,
-      riskCounts: countRisks(localAnalysis.ingredients),
-      highlightIngredientIds: localAnalysis.highlights.map((ingredient) => ingredient.id).filter(Boolean),
-      ingredients: localAnalysis.ingredients.map(toAIIngredientSummary)
+      summary: String(localAnalysis.summary || ''),
+      matchedCount: Number(localAnalysis.matchedCount) || localIngredients.length,
+      unknownItems: localUnknownItems,
+      riskCounts: countRisks(localIngredients),
+      highlightIngredientIds: localHighlights.map((ingredient) => ingredient.id).filter(Boolean),
+      ingredients: localIngredients.map(toAIIngredientSummary)
     },
     outputContract: AI_ANALYSIS_RESPONSE_CONTRACT,
     safetyRules: buildSafetyRules(dataCategory)
@@ -107,6 +110,7 @@ export function buildAIAnalysisFallback(request) {
   const safeRequest = isPlainObject(request)
     ? request
     : buildAIAnalysisRequest('', 'food');
+  const dataCategory = isProductCategory(safeRequest.category) ? safeRequest.category : 'food';
   const localAnalysis = isPlainObject(safeRequest.localAnalysis) ? safeRequest.localAnalysis : {};
   const riskCounts = normalizeRiskCounts(localAnalysis.riskCounts);
   const unknownItems = normalizeStringList(localAnalysis.unknownItems);
@@ -126,7 +130,7 @@ export function buildAIAnalysisFallback(request) {
       {
         title: '数据边界',
         tone: unknownItems.length ? 'watch' : 'info',
-        body: getFallbackCoverageText(safeRequest.category, unknownItems.length)
+        body: getFallbackCoverageText(dataCategory, unknownItems.length)
       }
     ],
     ingredientNotes: ingredients
@@ -138,8 +142,8 @@ export function buildAIAnalysisFallback(request) {
         confidence: 'medium'
       })),
     allergenWarnings: [],
-    nextSteps: buildFallbackNextSteps(safeRequest.category, highOrMediumCount, unknownItems.length),
-    limitations: buildFallbackLimitations(safeRequest.category)
+    nextSteps: buildFallbackNextSteps(dataCategory, highOrMediumCount, unknownItems.length),
+    limitations: buildFallbackLimitations(dataCategory)
   };
 }
 
@@ -253,7 +257,8 @@ function normalizeLocale(value) {
 }
 
 function countRisks(ingredients) {
-  return ingredients.reduce((counts, ingredient) => {
+  const items = Array.isArray(ingredients) ? ingredients : [];
+  return items.reduce((counts, ingredient) => {
     const level = normalizeRiskLevel(ingredient.riskLevel);
     counts[level] += 1;
     return counts;

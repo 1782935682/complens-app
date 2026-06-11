@@ -418,6 +418,9 @@ assert.match(aiFallback.riskNarrative, /需关注/);
 assert.equal(aiFallback.sections.some((section) => section.title === '数据边界'), true);
 assert.equal(aiFallback.ingredientNotes.some((note) => note.id === 'potassium-sorbate'), true);
 assert.equal(aiFallback.nextSteps.some((step) => /暂未收录/.test(step)), true);
+const sparseAiFallback = buildAIAnalysisFallback({ localAnalysis: { matchedCount: 0 } });
+assert.match(sparseAiFallback.sections.find((section) => section.title === '数据边界').body, /食品添加剂数据/);
+assert.deepEqual(sparseAiFallback.ingredientNotes, []);
 const validAIResponse = {
   schemaVersion: AI_ANALYSIS_PROTOCOL_VERSION,
   summary: '该配料表匹配到本地食品添加剂库中的酸度调节剂和防腐剂。',
@@ -651,6 +654,36 @@ assert.equal(invalidImportResult.ok, false);
 assert.deepEqual(getHistory(), localDataSnapshot.history);
 assert.match(invalidImportResult.message, /仅支持 schemaVersion/);
 assert.equal(importLocalDataSnapshot(null).ok, false);
+const maliciousReportImport = importLocalDataSnapshot({
+  schemaVersion: 1,
+  favorites: [],
+  history: [],
+  preferences: { historyRecordingEnabled: true },
+  allergens: [],
+  analysisReports: [{
+    id: 'report-bad" onclick="alert(1)',
+    category: 'food',
+    title: '恶意报告 ID',
+    input: '柠檬酸',
+    createdAt: '2026-06-11T00:00:00.000Z',
+    matchedCount: 1,
+    summary: '测试报告',
+    matchedIngredientIds: ['citric-acid'],
+    highlightIngredientIds: [],
+    unknownItems: [],
+    riskCounts: { low: 1, medium: 0, high: 0, unknown: 0 },
+    userAllergenIds: [],
+    ingredientAllergenHits: [],
+    textAllergenHits: [],
+    schemaVersion: 2
+  }],
+  scanDrafts: {}
+});
+assert.equal(maliciousReportImport.ok, true);
+const importedReportWithSafeId = getAnalysisReports('food')[0];
+assert.match(importedReportWithSafeId.id, /^[a-z0-9][a-z0-9_-]{0,80}$/i);
+assert.doesNotMatch(importedReportWithSafeId.id, /["'<>\s]/);
+assert.doesNotMatch(renderRoute(resolveRoute('#/food/reports')), /onclick=/);
 clearLocalUserData();
 toggleFavorite('citric-acid', 'food');
 toggleFavorite('niacinamide', 'cosmetics');

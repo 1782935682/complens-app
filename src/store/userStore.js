@@ -367,7 +367,7 @@ function normalizeAnalysisReport(value) {
   const unknownItems = normalizeStringList(value.unknownItems);
   const userAllergenIds = normalizeStringList(value.userAllergenIds);
   const report = {
-    id: value.id,
+    id: normalizeReportId(value.id),
     category,
     title: typeof value.title === 'string' && value.title.trim() ? value.title : buildReportTitle(value.input),
     input: value.input,
@@ -388,6 +388,11 @@ function normalizeAnalysisReport(value) {
     ...report,
     insights: insights.length ? insights : buildReportInsights(report)
   };
+}
+
+function normalizeReportId(value) {
+  const id = String(value || '').trim();
+  return /^[a-z0-9][a-z0-9_-]{0,80}$/i.test(id) ? id : createReportId();
 }
 
 function buildReportTitle(input) {
