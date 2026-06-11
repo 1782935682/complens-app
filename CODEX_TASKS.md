@@ -524,7 +524,7 @@ npm test
 
 ### Batch 3-D：收藏与历史云同步 `[Codex]`
 
-**状态**：⏳ 待开始（依赖 3-C 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **任务描述**：
 
@@ -948,8 +948,8 @@ npm run lint && npm run test && npm run build
 → Batch 2-D / 2-E：iOS / Android 工程配置 [人工]
   前置：Batch 2-C 已完成，需 Apple Developer / Xcode 与 Google Play / Android Studio 人工操作
 
-→ 下一个 Codex 批次：Batch 3-D：收藏与历史云同步
-  前置：Batch 3-C 账号与鉴权已完成，建议人工同步确认数据库托管与部署平台
+→ 下一个 Codex 批次：Batch 4-A：套餐设计与权益服务
+  前置：Batch 3-D 收藏与历史云同步已完成，订阅支付仍需后续人工商店配置
 ```
 
 ---
