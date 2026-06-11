@@ -5,6 +5,8 @@ import { renderDataPage } from '../pages/dataPage.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
+import { getLegalPageDocumentTitle, renderLegalPage } from '../pages/legalPage.js';
+import { getLegalDocument } from '../data/legalContent.js';
 import { renderMembershipPage } from '../pages/membershipPage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
 import { renderOnboardingPage } from '../pages/onboardingPage.js';
@@ -23,6 +25,7 @@ const VIEW_TITLES = {
   detail: '成分详情',
   favorites: '收藏夹',
   home: '',
+  legal: '隐私与条款',
   membership: '会员中心',
   onboarding: '首次设置',
   reports: '分析报告',
@@ -143,6 +146,24 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/legal') {
+    return {
+      view: 'legal',
+      category: route.category,
+      documentId: ''
+    };
+  }
+
+  if (route.path.startsWith('/legal/')) {
+    const documentId = decodePathValue(route.path.replace('/legal/', ''));
+    if (!documentId || !getLegalDocument(documentId)) return notFoundRoute(route, path);
+    return {
+      view: 'legal',
+      category: route.category,
+      documentId
+    };
+  }
+
   if (route.path === '/reports') {
     return {
       view: 'reports',
@@ -185,6 +206,7 @@ export function renderRoute(route) {
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'data') return renderDataPage(route.category);
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
+  if (route.view === 'legal') return renderLegalPage(route.category, route.documentId);
   if (route.view === 'membership') return renderMembershipPage(route.category);
   if (route.view === 'support') return renderSupportPage(route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
@@ -205,6 +227,7 @@ export function getRouteTitle(route) {
   if (route.view === 'search' && hasActiveSearchFilters(route.filters)) return `筛选结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'reports' && route.query) return `${route.query} 报告检索 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'settings') return `${VIEW_TITLES.settings} - ${APP_TITLE}`;
+  if (route.view === 'legal' && route.documentId) return `${getLegalPageDocumentTitle(route.documentId)} - ${VIEW_TITLES.legal} - ${APP_TITLE}`;
   const title = VIEW_TITLES[route.view] || VIEW_TITLES['not-found'];
   return `${title} - ${categoryLabel} - ${APP_TITLE}`;
 }
@@ -216,7 +239,7 @@ export function getNavigationLinks(route) {
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
       || (item.key === 'reports' && route?.view === 'report-detail')
-      || (item.key === 'settings' && ['onboarding', 'support'].includes(route?.view))
+      || (item.key === 'settings' && ['legal', 'onboarding', 'support'].includes(route?.view))
   }));
 }
 
@@ -227,7 +250,7 @@ export function getMobileNavigationLinks(route) {
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
       || (item.key === 'favorites' && route?.view === 'compare')
-      || (item.key === 'settings' && ['membership', 'onboarding', 'support'].includes(route?.view))
+      || (item.key === 'settings' && ['legal', 'membership', 'onboarding', 'support'].includes(route?.view))
   }));
 }
 

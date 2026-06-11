@@ -37,6 +37,8 @@ function render() {
 function updateShellNavigation(route) {
   const brandLink = document.querySelector('[data-brand-link]');
   if (brandLink) brandLink.setAttribute('href', `#${categoryPath(route.category)}`);
+  const shellLegalLink = document.querySelector('[data-shell-legal-link]');
+  if (shellLegalLink) shellLegalLink.setAttribute('href', `#${categoryPath(route.category, '/legal')}`);
 
   updateNavigationGroup('[data-nav-key]', 'navKey', getNavigationLinks(route));
   updateNavigationGroup('[data-mobile-nav-key]', 'mobileNavKey', getMobileNavigationLinks(route));

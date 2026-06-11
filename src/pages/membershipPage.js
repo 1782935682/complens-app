@@ -72,7 +72,7 @@ export function renderMembershipPage(category = 'food') {
     <section class="section">
       <div class="disclaimer-box">
         <h4>权益边界</h4>
-        <p>当前页面只展示会员信息架构和上线前缺口，不会模拟成功购买、订阅续费或跨端恢复。真实权益以后必须由服务端和商店票据校验共同决定。</p>
+        <p>当前页面只展示会员信息架构和上线前缺口，不会模拟成功购买、订阅续费或跨端恢复。真实权益以后必须由服务端和商店票据校验共同决定。<a class="inline-link" href="#${categoryPath(category, '/legal/subscription')}" data-route>查看订阅说明</a></p>
       </div>
     </section>
   `;

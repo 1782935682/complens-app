@@ -87,7 +87,7 @@ export function renderSupportPage(category = 'food') {
     <section class="section">
       <div class="disclaimer-box">
         <h4>支持边界</h4>
-        <p>当前版本还没有账号、客服工单系统或服务端同步。支持记录只保存在本机浏览器，也会随本机数据导出、导入和清空。</p>
+        <p>当前版本还没有账号、客服工单系统或服务端同步。支持记录只保存在本机浏览器，也会随本机数据导出、导入和清空。<a class="inline-link" href="#${categoryPath(category, '/legal/privacy')}" data-route>查看隐私说明</a></p>
       </div>
     </section>
   `;
