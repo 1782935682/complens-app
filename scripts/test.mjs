@@ -1020,6 +1020,7 @@ globalThis.window = {
   }
 };
 const syncCalls = [];
+let serverSyncItems = [{ id: 'server-favorite', category: 'food' }];
 globalThis.fetch = async (url, options = {}) => {
   syncCalls.push({ url, options });
   if (options.method === 'POST') {
@@ -1032,7 +1033,7 @@ globalThis.fetch = async (url, options = {}) => {
   return {
     ok: true,
     json: async () => ({
-      items: [{ id: 'server-favorite', category: 'food' }]
+      items: serverSyncItems
     })
   };
 };
@@ -1044,13 +1045,30 @@ assert.equal(syncCalls[0].url, '/api/user/favorites');
 assert.equal(syncCalls[0].options.method, undefined);
 assert.equal(syncCalls.some((call) => call.url === '/api/user/favorites' && call.options.method === 'POST'), true);
 assert.deepEqual(JSON.parse(syncCalls.find((call) => call.options.method === 'POST').options.body).items, [
-  { id: 'server-favorite', category: 'food' },
-  { id: 'local-favorite', category: 'food' }
+  { id: 'local-favorite', category: 'food' },
+  { id: 'server-favorite', category: 'food' }
 ]);
 assert.deepEqual(readJson('compcheck:favorites', []), [
-  { id: 'server-favorite', category: 'food' },
-  { id: 'local-favorite', category: 'food' }
+  { id: 'local-favorite', category: 'food' },
+  { id: 'server-favorite', category: 'food' }
 ]);
+storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) + 120));
+storageMap.set('compcheck:favorites', JSON.stringify([
+  { id: 'remove-me', category: 'food' },
+  { id: 'keep-me', category: 'food' }
+]));
+serverSyncItems = [
+  { id: 'remove-me', category: 'food' },
+  { id: 'keep-me', category: 'food' }
+];
+syncCalls.length = 0;
+writeJson('compcheck:favorites', [{ id: 'keep-me', category: 'food' }]);
+await new Promise((resolve) => setTimeout(resolve, 0));
+await new Promise((resolve) => setTimeout(resolve, 0));
+assert.deepEqual(JSON.parse(syncCalls.find((call) => call.options.method === 'POST').options.body).items, [
+  { id: 'keep-me', category: 'food' }
+]);
+assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'keep-me', category: 'food' }]);
 globalThis.fetch = originalFetch;
 globalThis.window = originalWindow;
 

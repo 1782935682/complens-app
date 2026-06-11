@@ -37,17 +37,18 @@ export function readJson(key, fallback) {
 export function writeJson(key, value) {
   const serialized = JSON.stringify(value);
   const storage = getStorage();
+  const previousValue = readStoredJson(key, storage, []);
   try {
     if (storage) {
       storage.setItem(key, serialized);
-      queueCloudWrite(key, value, storage);
+      queueCloudWrite(key, value, storage, previousValue);
       return;
     }
   } catch {
     // Fall back to in-memory storage when localStorage is unavailable or full.
   }
   memoryStore.set(key, serialized);
-  queueCloudWrite(key, value, storage);
+  queueCloudWrite(key, value, storage, previousValue);
 }
 
 export function isLoggedIn() {
@@ -57,14 +58,20 @@ export function isLoggedIn() {
 function queueCloudRead(key, storage) {
   const token = getAuthToken();
   if (!SYNC_CONFIGS[key] || !token || typeof fetch !== 'function') return;
+  resetSyncStateForNewToken(key, token);
   ensureCloudHydration(key, storage, token);
 }
 
-function queueCloudWrite(key, value, storage) {
+function queueCloudWrite(key, value, storage, previousValue) {
   const token = getAuthToken();
   if (!SYNC_CONFIGS[key] || !token || typeof fetch !== 'function') return;
+  resetSyncStateForNewToken(key, token);
   if (!isCloudHydrated(key, token)) {
-    pendingWrites.set(key, value);
+    const pending = pendingWrites.get(key);
+    pendingWrites.set(key, {
+      before: pending?.before ?? previousValue,
+      after: value
+    });
     ensureCloudHydration(key, storage, token);
     return;
   }
@@ -76,9 +83,6 @@ function queueCloudWrite(key, value, storage) {
 function ensureCloudHydration(key, storage, token) {
   const current = hydrationStates.get(key);
   if (current?.token === token) return;
-  if (current && current.token !== token) {
-    pendingWrites.delete(key);
-  }
 
   const state = { token, status: 'pending' };
   hydrationStates.set(key, state);
@@ -95,11 +99,18 @@ function ensureCloudHydration(key, storage, token) {
     if (pending === undefined) return;
 
     pendingWrites.delete(key);
-    const merged = mergeSyncItems(key, serverItems, pending);
-    writeStoredJson(key, merged, storage);
+    const next = applyPendingWrite(key, serverItems, pending);
+    writeStoredJson(key, next, storage);
     const writeVersion = bumpSyncVersion(key);
-    void syncToCloud(key, merged, storage, writeVersion, token);
+    void syncToCloud(key, next, storage, writeVersion, token);
   });
+}
+
+function resetSyncStateForNewToken(key, token) {
+  const current = hydrationStates.get(key);
+  if (!current || current.token === token) return;
+  hydrationStates.delete(key);
+  pendingWrites.delete(key);
 }
 
 function isCloudHydrated(key, token) {
@@ -159,26 +170,65 @@ function writeStoredJson(key, value, storage) {
   memoryStore.set(key, serialized);
 }
 
+function readStoredJson(key, storage, fallback) {
+  try {
+    const raw = storage ? storage.getItem(key) ?? memoryStore.get(key) : memoryStore.get(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function bumpSyncVersion(key) {
   const version = (syncVersions.get(key) || 0) + 1;
   syncVersions.set(key, version);
   return version;
 }
 
-function mergeSyncItems(key, serverItems, pendingItems) {
+function applyPendingWrite(key, serverItems, pending) {
   const server = Array.isArray(serverItems) ? serverItems : [];
-  const pending = Array.isArray(pendingItems) ? pendingItems : [];
+  const before = Array.isArray(pending?.before) ? pending.before : [];
+  const after = Array.isArray(pending?.after) ? pending.after : [];
+  const keyOf = getSyncItemKeyFactory(key);
+  const beforeMap = mapBy(before, keyOf);
+  const afterMap = mapBy(after, keyOf);
+  const removed = new Set([...beforeMap.keys()].filter((itemKey) => !afterMap.has(itemKey)));
+  const changed = after.filter((item) => {
+    const itemKey = keyOf(item);
+    if (!itemKey) return false;
+    return !beforeMap.has(itemKey) || JSON.stringify(beforeMap.get(itemKey)) !== JSON.stringify(item);
+  });
+
+  return uniqueBy([
+    ...changed,
+    ...server.filter((item) => !removed.has(keyOf(item)))
+  ], keyOf);
+}
+
+function getSyncItemKeyFactory(key) {
   if (key === 'compcheck:favorites') {
-    return uniqueBy([...server, ...pending], (item) => `${item?.category || ''}:${item?.id || ''}`);
+    return (item) => `${item?.category || ''}:${item?.id || ''}`;
   }
   if (key === 'compcheck:history' || key === 'compcheck:allergens') {
-    return uniqueBy([...pending, ...server], (item) => String(item || '').trim());
+    return (item) => String(item || '').trim();
   }
   if (key === 'compcheck:analysis-reports') {
-    return uniqueBy([...server, ...pending], (item) => String(item?.id || '').trim());
+    return (item) => String(item?.id || '').trim();
   }
 
-  return uniqueBy([...server, ...pending], (item) => JSON.stringify(item));
+  return (item) => JSON.stringify(item);
+}
+
+function mapBy(items, getKey) {
+  const result = new Map();
+  for (const item of items) {
+    const key = getKey(item);
+    if (key && !result.has(key)) {
+      result.set(key, item);
+    }
+  }
+
+  return result;
 }
 
 function uniqueBy(items, getKey) {
