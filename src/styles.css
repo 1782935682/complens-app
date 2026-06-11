@@ -1640,6 +1640,100 @@ button.danger-button:hover {
   background: var(--surface);
 }
 
+.onboarding-flow {
+  padding-top: clamp(12px, 3vw, 28px);
+}
+
+.onboarding-form {
+  display: grid;
+}
+
+.onboarding-card,
+.onboarding-prompt {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--surface);
+}
+
+.onboarding-prompt {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  border-color: rgba(200, 95, 56, 0.26);
+  background: #fffaf7;
+}
+
+.onboarding-prompt p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.onboarding-category-grid {
+  margin-top: 0;
+}
+
+.onboarding-category-option {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 112px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fbfcfb;
+  cursor: pointer;
+}
+
+.onboarding-category-option:has(input:checked),
+.onboarding-category-option.is-active {
+  border-color: rgba(17, 106, 91, 0.5);
+  background: #eef7f3;
+  box-shadow: 0 0 0 3px rgba(17, 106, 91, 0.1);
+}
+
+.onboarding-category-option input,
+.boundary-confirm input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--primary);
+}
+
+.onboarding-category-option span {
+  display: grid;
+  gap: 4px;
+}
+
+.onboarding-category-option small {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.compact-allergen-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.onboarding-toggle {
+  margin-bottom: 14px;
+}
+
+.boundary-confirm {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  margin: 0;
+  border: 1px solid rgba(180, 35, 24, 0.22);
+  border-radius: 8px;
+  padding: 14px;
+  color: #5c4039;
+  background: #fff7f5;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .allergen-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -1774,6 +1868,7 @@ button.danger-button:hover {
 
   .hero,
   .quick-actions,
+  .onboarding-prompt,
   .two-column,
   .category-tabs,
   .info-grid,

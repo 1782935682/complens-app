@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'compcheck-shell-v4';
+const CACHE_VERSION = 'compcheck-shell-v5';
 const CACHE_PREFIX = 'compcheck-';
 
 const APP_SHELL_ASSETS = [
@@ -19,6 +19,7 @@ const APP_SHELL_ASSETS = [
   './pages/favoritesPage.js',
   './pages/homePage.js',
   './pages/notFoundPage.js',
+  './pages/onboardingPage.js',
   './pages/reportsPage.js',
   './pages/scanPage.js',
   './pages/searchPage.js',
