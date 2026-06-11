@@ -77,6 +77,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
               ${sampleOptions.map((sample) => html`<option value="${escapeHtml(sample.id)}">${escapeHtml(sample.label)}</option>`).join('')}
             </select>
           </div>
+          <span class="save-status" data-analyze-status role="status" aria-live="polite"></span>
         </div>
       </form>
     </section>

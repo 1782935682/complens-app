@@ -22,12 +22,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
   const currentCategory = getProductCategory(category);
   const ingredient = getIngredientById(id, category);
   if (!ingredient) {
-    return html`
-      <section class="section">
-        <p class="empty">未找到该成分。</p>
-        <a class="button-link" href="#/" data-route>返回首页</a>
-      </section>
-    `;
+    return renderMissingIngredientPage(id, category, currentCategory.label);
   }
 
   const favorite = isFavorite(ingredient.id, category);
@@ -77,6 +72,32 @@ export function renderDetailPage(id, category = 'cosmetics') {
         <p>${escapeHtml(ingredient.sourceNote || '本页内容仅用于日常成分理解，不提供医疗诊断。')}</p>
       </section>
       ${renderRelatedIngredients(relatedIngredients, category)}
+    </section>
+  `;
+}
+
+function renderMissingIngredientPage(id, category, categoryLabel) {
+  const safeId = String(id || '').trim();
+  const searchHref = `#${categoryPath(category, '/search')}${safeId ? `?q=${encodeURIComponent(safeId)}` : ''}`;
+  const supportHref = buildSupportPrefillUrl(category, {
+    topic: 'data-correction',
+    subject: `${safeId || '未收录成分'} 数据需要补充`,
+    message: [
+      `待补充成分：${safeId || '未提供 ID'}`,
+      `类别：${categoryLabel}`,
+      '当前详情页未找到本地数据，请协助核对名称、来源、法规状态或适用食品类别。'
+    ].join('\n')
+  });
+
+  return html`
+    <section class="section missing-ingredient" data-missing-ingredient>
+      <p class="eyebrow">${escapeHtml(categoryLabel)} / 暂未收录</p>
+      <h1>该成分暂未收录</h1>
+      <p class="lead">当前本地数据库还没有 ${safeId ? `“${escapeHtml(safeId)}”` : '这条成分'} 的详情。可以先返回搜索，或提交数据纠错反馈。</p>
+      <div class="form-actions">
+        <a class="button-link" href="${escapeHtml(searchHref)}" data-route>返回搜索</a>
+        <a class="button-link secondary-link" href="${escapeHtml(supportHref)}" data-route data-support-correction-link>反馈这条数据</a>
+      </div>
     </section>
   `;
 }

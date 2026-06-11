@@ -1,7 +1,7 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
-import { getDatasetAuditSummary, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
+import { getCategoryStats, getDatasetAuditSummary, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
 import { getUserAllergens, isInCompare } from '../store/userStore.js';
 
 const SEARCH_PAGE_SIZE = 6;
@@ -57,7 +57,7 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
       ${renderCategoryFacets(categoryFacets, category, query, activeFilters, activeSort)}
       ${results.length ? renderPageSummary(results.length, currentPage, pagedResults.length) : ''}
       ${results.length ? renderCompareShortcut(category) : ''}
-      ${results.length ? renderResults(pagedResults, category) : renderEmpty(safeQuery, activeFilterCount)}
+      ${results.length ? renderResults(pagedResults, category) : renderEmpty(safeQuery, activeFilterCount, category)}
       ${results.length ? renderPagination(category, query, activeFilters, activeSort, currentPage, totalPages) : ''}
     </section>
   `;
@@ -271,10 +271,36 @@ function renderPagination(category, query, activeFilters, activeSort, currentPag
   `;
 }
 
-function renderEmpty(query, activeFilterCount) {
-  if (activeFilterCount) return '<p class="empty">没有符合当前筛选条件的成分。可以放宽筛选条件或换一个关键词。</p>';
-  if (!query) return '<p class="empty">输入成分名称、英文名、别名或分类后开始搜索。</p>';
-  return '<p class="empty">暂未找到相关成分。可以尝试英文名、别名，或到扫描页/分析页录入完整成分表。</p>';
+function renderEmpty(query, activeFilterCount, category) {
+  if (!query && !activeFilterCount) return '<p class="empty">输入成分名称、英文名、别名或分类后开始搜索。</p>';
+  const message = activeFilterCount
+    ? '没有符合当前筛选条件的成分。可以放宽筛选条件或换一个关键词。'
+    : '未找到相关成分。可以尝试英文名、别名，或到扫描页/分析页录入完整成分表。';
+  return html`
+    <div class="empty-state" data-search-empty-state>
+      <p class="empty">${escapeHtml(message)}</p>
+      ${renderEmptyCategoryEntrances(category)}
+    </div>
+  `;
+}
+
+function renderEmptyCategoryEntrances(category) {
+  const categories = getCategoryStats(category).slice(0, 3);
+  if (!categories.length) return '';
+
+  return html`
+    <div class="search-empty-categories" data-empty-category-links>
+      <strong>热门分类</strong>
+      <div class="chip-list">
+        ${categories.map((item) => html`
+          <a class="chip category-chip" href="#${categoryPath(category, '/search')}?ingredientCategory=${encodeURIComponent(item.name)}" data-route>
+            <span>${escapeHtml(item.name)}</span>
+            <small>${item.count} 项</small>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  `;
 }
 
 function getValidFilters(filters, options) {

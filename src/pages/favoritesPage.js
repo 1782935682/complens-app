@@ -20,8 +20,17 @@ export function renderFavoritesPage(category = 'cosmetics') {
       </div>
       ${favorites.length
         ? `<div class="card-grid">${favorites.map((item) => favoriteCard(item, category)).join('')}</div>`
-        : '<p class="empty">还没有收藏成分。打开成分详情后可以收藏常查内容。</p>'}
+        : renderEmptyFavorites(category)}
     </section>
+  `;
+}
+
+function renderEmptyFavorites(category) {
+  return html`
+    <div class="empty-state" data-empty-favorites>
+      <p class="empty">暂无收藏，去搜索成分并收藏</p>
+      <a class="button-link" href="#${categoryPath(category, '/search')}" data-route>去搜索成分</a>
+    </div>
   `;
 }
 
