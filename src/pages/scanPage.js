@@ -1,5 +1,6 @@
 import { escapeHtml, html } from '../components/render.js';
 import { categoryPath, getProductCategory, isProductCategory } from '../data/categories.js';
+import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION } from '../services/ocrService.js';
 import { getScanDraft } from '../store/userStore.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES } from '../utils/imageFile.js';
 
@@ -41,7 +42,7 @@ export function renderScanPage(input = '', category = 'food') {
             <button class="secondary" type="button" data-rotate-scan-image disabled>旋转预览</button>
             <button class="secondary" type="button" data-clear-scan-image disabled>移除图片</button>
           </div>
-          <p class="helper-text" data-scan-feedback>当前 OCR 服务尚未接入。支持 PNG、JPEG、WebP、GIF、BMP、AVIF，单张不超过 ${formatBytes(SCAN_IMAGE_MAX_BYTES)}。</p>
+          <p class="helper-text" data-scan-feedback>当前 OCR 服务尚未接入。协议 v${OCR_PROTOCOL_VERSION} 已固定，支持 PNG、JPEG、WebP、GIF、BMP、AVIF，单张不超过 ${formatBytes(SCAN_IMAGE_MAX_BYTES)}。</p>
         </div>
 
         <div class="scan-editor">
@@ -60,12 +61,36 @@ export function renderScanPage(input = '', category = 'food') {
     </section>
 
     <section class="section">
+      <div class="scan-protocol-panel">
+        <div>
+          <p class="eyebrow">OCR 服务端代理 / 待接入</p>
+          <h2>识别协议已就绪</h2>
+          <p class="helper-text">图片会先经过本地类型和大小检查；后续接入服务端 OCR 后，识别文本仍会先进入校正区，不直接生成判断。</p>
+        </div>
+        <div class="scan-protocol-grid" aria-label="OCR 协议状态">
+          ${scanProtocolItem('协议版本', `v${OCR_PROTOCOL_VERSION}`)}
+          ${scanProtocolItem('服务端 endpoint', OCR_ENDPOINT_PATH)}
+          ${scanProtocolItem('文件上限', formatBytes(SCAN_IMAGE_MAX_BYTES))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="scan-state-grid" aria-label="扫描状态">
         ${scanStateItem('图片', `支持拍照或相册选择，单张不超过 ${formatBytes(SCAN_IMAGE_MAX_BYTES)}。`)}
         ${scanStateItem('校正', '识别结果先进入可编辑文本区，避免直接误判。')}
         ${scanStateItem('分析', '确认文本后进入本地分析、过敏原提示和报告保存。')}
       </div>
     </section>
+  `;
+}
+
+function scanProtocolItem(title, value) {
+  return html`
+    <div class="scan-protocol-item">
+      <span>${escapeHtml(title)}</span>
+      <strong>${escapeHtml(value)}</strong>
+    </div>
   `;
 }
 

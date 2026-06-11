@@ -89,6 +89,93 @@
  * @property {Ingredient[]} highlights
  * @property {string} summary
  *
+ * @typedef {Object} AIIngredientSummary
+ * @property {string} id
+ * @property {string} nameCn
+ * @property {string} nameEn
+ * @property {string} category
+ * @property {RiskLevel} riskLevel
+ * @property {string} description
+ * @property {string} riskSummary
+ * @property {string} gbCode
+ * @property {string} eNumber
+ * @property {AllergenType[]} allergenTypes
+ * @property {ConsumerGroup[]} cautionGroups
+ *
+ * @typedef {Object} AIAnalysisRequest
+ * @property {number} protocolVersion
+ * @property {'ingredient-analysis'} requestType
+ * @property {DataCategory} category
+ * @property {string} categoryLabel
+ * @property {string} locale
+ * @property {string} input
+ * @property {string} generatedAt
+ * @property {{allergenIds: AllergenType[], consumerGroups: ConsumerGroup[]}} userContext
+ * @property {{summary: string, matchedCount: number, unknownItems: string[], riskCounts: Record<RiskLevel, number>, highlightIngredientIds: string[], ingredients: AIIngredientSummary[]}} localAnalysis
+ * @property {Object} outputContract
+ * @property {string[]} safetyRules
+ *
+ * @typedef {Object} AIAnalysisResponseSection
+ * @property {string} title
+ * @property {'info' | 'watch' | 'caution'} tone
+ * @property {string} body
+ *
+ * @typedef {Object} AIAnalysisIngredientNote
+ * @property {string} id
+ * @property {string} name
+ * @property {string} note
+ * @property {'low' | 'medium' | 'high'} confidence
+ *
+ * @typedef {Object} AIAnalysisAllergenWarning
+ * @property {string} item
+ * @property {AllergenType[]} allergenIds
+ * @property {string} message
+ *
+ * @typedef {Object} AIAnalysisResponse
+ * @property {number} schemaVersion
+ * @property {string} summary
+ * @property {string} riskNarrative
+ * @property {AIAnalysisResponseSection[]} sections
+ * @property {AIAnalysisIngredientNote[]} ingredientNotes
+ * @property {AIAnalysisAllergenWarning[]} allergenWarnings
+ * @property {string[]} nextSteps
+ * @property {string[]} limitations
+ *
+ * @typedef {Object} OCRImageMetadata
+ * @property {string} name
+ * @property {string} type
+ * @property {number} size
+ * @property {string} sizeLabel
+ * @property {number} lastModified
+ *
+ * @typedef {Object} OCRRequest
+ * @property {number} protocolVersion
+ * @property {'ingredient-image-ocr'} requestType
+ * @property {string} endpoint
+ * @property {DataCategory} category
+ * @property {string} locale
+ * @property {string} createdAt
+ * @property {OCRImageMetadata} image
+ * @property {Object} validation
+ * @property {Object} clientConstraints
+ * @property {Object} processingHints
+ * @property {Object} outputContract
+ * @property {string[]} safetyRules
+ *
+ * @typedef {Object} OCRCandidate
+ * @property {string} text
+ * @property {number} confidence
+ * @property {string} source
+ *
+ * @typedef {Object} OCRResponse
+ * @property {number} schemaVersion
+ * @property {string} text
+ * @property {number} confidence
+ * @property {string} language
+ * @property {OCRCandidate[]} candidates
+ * @property {string[]} warnings
+ * @property {string[]} nextSteps
+ *
  * @typedef {Object} AnalysisReportAllergenHit
  * @property {string} id
  * @property {AllergenType[]} allergenIds
@@ -96,6 +183,13 @@
  * @typedef {Object} AnalysisReportTextAllergenHit
  * @property {string} item
  * @property {AllergenType[]} allergenIds
+ *
+ * @typedef {Object} AnalysisReportInsight
+ * @property {string} key
+ * @property {string} title
+ * @property {'neutral' | 'watch' | 'caution'} tone
+ * @property {string} summary
+ * @property {string[]} items
  *
  * @typedef {Object} AnalysisReport
  * @property {string} id
@@ -112,6 +206,7 @@
  * @property {AllergenType[]} userAllergenIds
  * @property {AnalysisReportAllergenHit[]} ingredientAllergenHits
  * @property {AnalysisReportTextAllergenHit[]} textAllergenHits
+ * @property {AnalysisReportInsight[]} insights
  * @property {number} schemaVersion
  */
 

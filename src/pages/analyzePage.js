@@ -1,5 +1,6 @@
 import { escapeHtml, html, ingredientCard, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory, isProductCategory } from '../data/categories.js';
+import { AI_ANALYSIS_ENDPOINT_PATH, AI_ANALYSIS_PROTOCOL_VERSION, buildAIAnalysisFallback, buildAIAnalysisRequest } from '../services/aiAnalysisService.js';
 import { formatAllergenNames, getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText } from '../services/ingredientService.js';
 import { getAnalysisReports, getUserAllergens } from '../store/userStore.js';
@@ -42,6 +43,8 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
   const sampleOptions = SAMPLE_OPTIONS.filter((sample) => sample.category === categoryId && typeof safeSamples[sample.id] === 'string');
   const reportCount = getAnalysisReports(categoryId).length;
   const canSaveReport = Boolean(String(input || '').trim());
+  const aiRequest = canSaveReport ? buildAIAnalysisRequest(input, categoryId, { userAllergenIds: userAllergens }) : null;
+  const aiFallback = aiRequest ? buildAIAnalysisFallback(aiRequest) : null;
 
   const activeAllergenNames = formatAllergenNames(userAllergens);
   const allergenStatusHtml = activeAllergenNames
@@ -90,6 +93,8 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         </div>
       </div>
     </section>
+
+    ${aiFallback ? renderAIFallbackPreview(aiFallback, aiRequest) : ''}
 
     ${allergenHitCount ? html`
       <section class="section">
@@ -143,6 +148,82 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
   `;
 }
 
+function renderAIFallbackPreview(aiFallback, aiRequest) {
+  const ingredientNotes = Array.isArray(aiFallback.ingredientNotes) ? aiFallback.ingredientNotes : [];
+  const nextSteps = Array.isArray(aiFallback.nextSteps) ? aiFallback.nextSteps : [];
+  const limitations = Array.isArray(aiFallback.limitations) ? aiFallback.limitations : [];
+
+  return html`
+    <section class="section">
+      <div class="ai-panel">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">AI 辅助分析 / 本地降级</p>
+            <h2>结构化分析协议已就绪</h2>
+            <p class="helper-text">当前未连接服务端代理，以下内容由本地成分库按 AI 输出协议生成。</p>
+          </div>
+          <span class="ai-panel__status">协议 v${AI_ANALYSIS_PROTOCOL_VERSION}</span>
+        </div>
+
+        <div class="ai-protocol-strip" aria-label="AI 协议状态">
+          <span>endpoint：${escapeHtml(AI_ANALYSIS_ENDPOINT_PATH)}</span>
+          <span>匹配 ${Number(aiRequest?.localAnalysis?.matchedCount) || 0} 项</span>
+          <span>暂未收录 ${Array.isArray(aiRequest?.localAnalysis?.unknownItems) ? aiRequest.localAnalysis.unknownItems.length : 0} 项</span>
+        </div>
+
+        <div class="ai-section-grid">
+          ${aiFallback.sections.map((section) => aiSectionCard(section)).join('')}
+        </div>
+
+        <div class="ai-narrative">
+          <strong>风险叙述</strong>
+          <p>${escapeHtml(aiFallback.riskNarrative)}</p>
+        </div>
+
+        ${ingredientNotes.length ? html`
+          <div class="ai-note-list">
+            <strong>成分笔记</strong>
+            ${ingredientNotes.map((note) => html`
+              <article class="ai-note">
+                <span>${escapeHtml(confidenceLabel(note.confidence))}</span>
+                <h3>${escapeHtml(note.name)}</h3>
+                <p>${escapeHtml(note.note)}</p>
+              </article>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <div class="ai-next-grid">
+          ${nextSteps.length ? renderAIList('下一步', nextSteps) : ''}
+          ${limitations.length ? renderAIList('使用边界', limitations) : ''}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function aiSectionCard(section) {
+  const tone = ['info', 'watch', 'caution'].includes(section.tone) ? section.tone : 'info';
+  return html`
+    <article class="ai-section-card ai-section-card--${tone}">
+      <span>${escapeHtml(aiToneLabel(tone))}</span>
+      <h3>${escapeHtml(section.title)}</h3>
+      <p>${escapeHtml(section.body)}</p>
+    </article>
+  `;
+}
+
+function renderAIList(title, items) {
+  return html`
+    <div class="ai-list">
+      <strong>${escapeHtml(title)}</strong>
+      <ul>
+        ${items.map((item) => html`<li>${escapeHtml(item)}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+}
+
 function withDisplayDefaults(ingredient, category) {
   const isFood = category === 'food';
   return {
@@ -176,6 +257,18 @@ function renderDisclaimer() {
       </div>
     </section>
   `;
+}
+
+function aiToneLabel(tone) {
+  if (tone === 'caution') return '优先核对';
+  if (tone === 'watch') return '需要关注';
+  return '信息提示';
+}
+
+function confidenceLabel(confidence) {
+  if (confidence === 'high') return '高置信';
+  if (confidence === 'low') return '低置信';
+  return '中等置信';
 }
 
 function allergenCard(ingredient, allergens, category) {

@@ -4,7 +4,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
@@ -85,6 +85,20 @@ function bindPageEvents(route) {
       const formData = new FormData(form);
       const input = String(formData.get('ingredients') || '').trim();
       navigate(`#${categoryPath(route.category, '/analyze')}?text=${encodeURIComponent(input)}`);
+    });
+  });
+
+  document.querySelectorAll('[data-report-search-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const query = String(formData.get('q') || '').trim();
+      if (!query) {
+        navigate(`#${categoryPath(route.category, '/reports')}`);
+        return;
+      }
+      const params = new URLSearchParams({ q: query });
+      navigate(`#${categoryPath(route.category, '/reports')}?${params.toString()}`);
     });
   });
 
@@ -319,12 +333,53 @@ function bindPageEvents(route) {
     });
   }
 
+  const historyRecordingToggle = document.querySelector('[data-history-recording-toggle]');
+  if (historyRecordingToggle) {
+    historyRecordingToggle.addEventListener('change', () => {
+      const enabled = setHistoryRecordingEnabled(historyRecordingToggle.checked);
+      updateLocalDataSummary(enabled ? '已开启搜索历史记录。' : '已关闭搜索历史记录。');
+    });
+  }
+
   const exportLocalDataButton = document.querySelector('[data-export-local-data]');
   if (exportLocalDataButton) {
     exportLocalDataButton.addEventListener('click', () => {
       const snapshot = getLocalDataSnapshot();
       downloadTextFile('compcheck-local-data.json', `${JSON.stringify(snapshot, null, 2)}\n`, 'application/json');
       updateLocalDataSummary('已导出 JSON 文件。');
+    });
+  }
+
+  const importLocalDataButton = document.querySelector('[data-import-local-data]');
+  if (importLocalDataButton) {
+    importLocalDataButton.addEventListener('click', async () => {
+      const fileInput = document.querySelector('[data-import-local-data-input]');
+      const file = fileInput?.files?.[0];
+      if (!file) {
+        updateLocalDataSummary('请先选择一个 JSON 文件。');
+        return;
+      }
+
+      const confirmed = typeof window.confirm === 'function'
+        ? window.confirm('导入会覆盖当前本机收藏、历史、过敏原、报告和扫描草稿，继续？')
+        : true;
+      if (!confirmed) return;
+
+      try {
+        const text = await readTextFile(file);
+        const parsed = JSON.parse(text);
+        const result = importLocalDataSnapshot(parsed);
+        if (!result.ok) {
+          updateLocalDataSummary(result.message);
+          return;
+        }
+        syncAllergenForm(allergenForm, getUserAllergens());
+        syncHistoryRecordingToggle(isHistoryRecordingEnabled());
+        updateAllergenSettingsFeedback(getUserAllergens().length, '已导入');
+        updateLocalDataSummary(result.message);
+      } catch {
+        updateLocalDataSummary('导入失败：请选择有效的 JSON 文件。');
+      }
     });
   }
 
@@ -337,11 +392,8 @@ function bindPageEvents(route) {
       if (!confirmed) return;
 
       clearLocalUserData();
-      if (allergenForm) {
-        allergenForm.querySelectorAll('input[name="allergens"]').forEach((input) => {
-          input.checked = false;
-        });
-      }
+      syncAllergenForm(allergenForm, []);
+      syncHistoryRecordingToggle(isHistoryRecordingEnabled());
       updateAllergenSettingsFeedback(0, '已清空');
       updateLocalDataSummary('本机数据已清空。');
     });
@@ -353,6 +405,19 @@ function updateAllergenSettingsFeedback(count, message) {
   if (countNode) countNode.textContent = `${count} 项已关注`;
   const statusNode = document.querySelector('[data-allergen-status]');
   if (statusNode) statusNode.textContent = message;
+}
+
+function syncAllergenForm(form, selectedIds) {
+  if (!form) return;
+  const selected = new Set(Array.isArray(selectedIds) ? selectedIds : []);
+  form.querySelectorAll('input[name="allergens"]').forEach((input) => {
+    input.checked = selected.has(input.value);
+  });
+}
+
+function syncHistoryRecordingToggle(enabled) {
+  const toggle = document.querySelector('[data-history-recording-toggle]');
+  if (toggle) toggle.checked = Boolean(enabled);
 }
 
 function updateLocalDataSummary(message) {
@@ -449,6 +514,18 @@ async function copyText(text) {
   const copied = document.execCommand?.('copy');
   textarea.remove();
   if (!copied) throw new Error('Copy failed');
+}
+
+async function readTextFile(file) {
+  if (file && typeof file.text === 'function') {
+    return file.text();
+  }
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => resolve(String(reader.result || '')));
+    reader.addEventListener('error', () => reject(reader.error || new Error('Read failed')));
+    reader.readAsText(file);
+  });
 }
 
 function downloadTextFile(fileName, content, mimeType) {

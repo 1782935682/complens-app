@@ -4,6 +4,7 @@ import { readJson, writeJson } from '../services/storageService.js';
 
 const FAVORITES_KEY = 'compcheck:favorites';
 const HISTORY_KEY = 'compcheck:history';
+const HISTORY_RECORDING_KEY = 'compcheck:history-recording-enabled';
 const ALLERGENS_KEY = 'compcheck:allergens';
 const ANALYSIS_REPORTS_KEY = 'compcheck:analysis-reports';
 const SCAN_DRAFTS_KEY = 'compcheck:scan-drafts';
@@ -11,7 +12,7 @@ const LOCAL_DATA_SCHEMA_VERSION = 1;
 const MAX_HISTORY = 8;
 const MAX_ANALYSIS_REPORTS = 20;
 const DEFAULT_CATEGORY = 'cosmetics';
-const REPORT_SCHEMA_VERSION = 1;
+const REPORT_SCHEMA_VERSION = 2;
 
 export function getFavoriteItems() {
   return readJson(FAVORITES_KEY, [])
@@ -50,7 +51,18 @@ export function getHistory() {
   return readJson(HISTORY_KEY, []);
 }
 
+export function isHistoryRecordingEnabled() {
+  return readJson(HISTORY_RECORDING_KEY, true) !== false;
+}
+
+export function setHistoryRecordingEnabled(enabled) {
+  const next = Boolean(enabled);
+  writeJson(HISTORY_RECORDING_KEY, next);
+  return next;
+}
+
 export function addHistory(query) {
+  if (!isHistoryRecordingEnabled()) return getHistory();
   const normalized = String(query || '').trim();
   if (!normalized) return getHistory();
   const next = [
@@ -176,11 +188,32 @@ export function getLocalDataSnapshot() {
     schemaVersion: LOCAL_DATA_SCHEMA_VERSION,
     exportedAt: new Date().toISOString(),
     summary: getLocalDataSummary(),
+    preferences: {
+      historyRecordingEnabled: isHistoryRecordingEnabled()
+    },
     favorites: getFavoriteItems(),
     history: getHistory(),
     allergens: getUserAllergens(),
     analysisReports: getAnalysisReports(),
     scanDrafts
+  };
+}
+
+export function importLocalDataSnapshot(snapshot) {
+  const normalized = normalizeLocalDataSnapshot(snapshot);
+  if (!normalized.ok) return normalized;
+
+  writeJson(FAVORITES_KEY, normalized.data.favorites);
+  writeJson(HISTORY_KEY, normalized.data.history);
+  writeJson(HISTORY_RECORDING_KEY, normalized.data.preferences.historyRecordingEnabled);
+  writeJson(ALLERGENS_KEY, normalized.data.allergens);
+  writeJson(ANALYSIS_REPORTS_KEY, normalized.data.analysisReports);
+  writeJson(SCAN_DRAFTS_KEY, normalized.data.scanDrafts);
+
+  return {
+    ok: true,
+    message: '本机数据已导入。',
+    summary: getLocalDataSummary()
   };
 }
 
@@ -200,6 +233,9 @@ export function createAnalysisReport(input, category = DEFAULT_CATEGORY) {
   const reportCategory = typeof category === 'string' && category ? category : DEFAULT_CATEGORY;
   const analysis = analyzeIngredientText(normalizedInput, reportCategory);
   const userAllergenIds = getUserAllergens();
+  const matchedIngredientIds = analysis.ingredients.map((ingredient) => ingredient.id).filter(Boolean);
+  const highlightIngredientIds = analysis.highlights.map((ingredient) => ingredient.id).filter(Boolean);
+  const unknownItems = analysis.unknownItems;
   const ingredientAllergenHits = analysis.ingredients
     .map((ingredient) => ({
       id: ingredient.id,
@@ -212,8 +248,9 @@ export function createAnalysisReport(input, category = DEFAULT_CATEGORY) {
       allergenIds: getMatchingTextAllergens(item, userAllergenIds).map((allergen) => allergen.id)
     }))
     .filter((item) => item.item && item.allergenIds.length);
+  const riskCounts = countRisks(analysis.ingredients);
 
-  return {
+  const report = {
     id: createReportId(),
     category: reportCategory,
     title: buildReportTitle(normalizedInput),
@@ -221,14 +258,18 @@ export function createAnalysisReport(input, category = DEFAULT_CATEGORY) {
     createdAt: new Date().toISOString(),
     matchedCount: analysis.matchedCount,
     summary: analysis.summary,
-    matchedIngredientIds: analysis.ingredients.map((ingredient) => ingredient.id).filter(Boolean),
-    highlightIngredientIds: analysis.highlights.map((ingredient) => ingredient.id).filter(Boolean),
-    unknownItems: analysis.unknownItems,
-    riskCounts: countRisks(analysis.ingredients),
+    matchedIngredientIds,
+    highlightIngredientIds,
+    unknownItems,
+    riskCounts,
     userAllergenIds,
     ingredientAllergenHits,
     textAllergenHits,
     schemaVersion: REPORT_SCHEMA_VERSION
+  };
+  return {
+    ...report,
+    insights: buildReportInsights(report)
   };
 }
 
@@ -248,6 +289,76 @@ function normalizeFavoriteItem(value) {
   return null;
 }
 
+function normalizeLocalDataSnapshot(snapshot) {
+  if (!snapshot || typeof snapshot !== 'object' || Array.isArray(snapshot)) {
+    return {
+      ok: false,
+      message: '导入失败：JSON 根节点必须是对象。'
+    };
+  }
+
+  const schemaVersion = Number(snapshot.schemaVersion);
+  if (!Number.isFinite(schemaVersion) || schemaVersion < 1 || schemaVersion > LOCAL_DATA_SCHEMA_VERSION) {
+    return {
+      ok: false,
+      message: `导入失败：仅支持 schemaVersion 1-${LOCAL_DATA_SCHEMA_VERSION} 的本机数据。`
+    };
+  }
+
+  return {
+    ok: true,
+    data: {
+      favorites: normalizeFavoriteItems(snapshot.favorites),
+      history: normalizeStringList(snapshot.history).slice(0, MAX_HISTORY),
+      preferences: normalizeLocalDataPreferences(snapshot.preferences),
+      allergens: uniqueStrings(snapshot.allergens),
+      analysisReports: normalizeAnalysisReports(snapshot.analysisReports),
+      scanDrafts: normalizeScanDrafts(snapshot.scanDrafts)
+    }
+  };
+}
+
+function normalizeLocalDataPreferences(value) {
+  return {
+    historyRecordingEnabled: value?.historyRecordingEnabled !== false
+  };
+}
+
+function normalizeFavoriteItems(value) {
+  if (!Array.isArray(value)) return [];
+  const seen = new Set();
+  const items = [];
+  for (const item of value) {
+    const normalized = normalizeFavoriteItem(item);
+    if (!normalized) continue;
+    const key = `${normalized.category}:${normalized.id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    items.push(normalized);
+  }
+  return items;
+}
+
+function normalizeAnalysisReports(value) {
+  if (!Array.isArray(value)) return [];
+  const reports = value
+    .map(normalizeAnalysisReport)
+    .filter(Boolean)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const categoryCounts = new Map();
+  const reportIds = new Set();
+  const next = [];
+  for (const report of reports) {
+    if (reportIds.has(report.id)) continue;
+    const count = categoryCounts.get(report.category) || 0;
+    if (count >= MAX_ANALYSIS_REPORTS) continue;
+    reportIds.add(report.id);
+    categoryCounts.set(report.category, count + 1);
+    next.push(report);
+  }
+  return next;
+}
+
 function normalizeAnalysisReport(value) {
   if (!value || typeof value.id !== 'string' || typeof value.input !== 'string') return null;
   const category = typeof value.category === 'string' ? value.category : DEFAULT_CATEGORY;
@@ -255,8 +366,8 @@ function normalizeAnalysisReport(value) {
   const highlightIngredientIds = normalizeStringList(value.highlightIngredientIds);
   const unknownItems = normalizeStringList(value.unknownItems);
   const userAllergenIds = normalizeStringList(value.userAllergenIds);
-  return {
-    id: value.id,
+  const report = {
+    id: normalizeReportId(value.id),
     category,
     title: typeof value.title === 'string' && value.title.trim() ? value.title : buildReportTitle(value.input),
     input: value.input,
@@ -272,6 +383,16 @@ function normalizeAnalysisReport(value) {
     textAllergenHits: normalizeTextAllergenHits(value.textAllergenHits),
     schemaVersion: Number.isFinite(value.schemaVersion) ? value.schemaVersion : REPORT_SCHEMA_VERSION
   };
+  const insights = normalizeReportInsights(value.insights);
+  return {
+    ...report,
+    insights: insights.length ? insights : buildReportInsights(report)
+  };
+}
+
+function normalizeReportId(value) {
+  const id = String(value || '').trim();
+  return /^[a-z0-9][a-z0-9_-]{0,80}$/i.test(id) ? id : createReportId();
 }
 
 function buildReportTitle(input) {
@@ -308,6 +429,10 @@ function normalizeStringList(value) {
     : [];
 }
 
+function uniqueStrings(value) {
+  return [...new Set(normalizeStringList(value))];
+}
+
 function normalizeScanDrafts(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
   return Object.fromEntries(
@@ -337,4 +462,140 @@ function normalizeTextAllergenHits(value) {
       }))
       .filter((item) => item.item && item.allergenIds.length)
     : [];
+}
+
+function buildReportInsights(report) {
+  const matchedCount = numberOrZero(report.matchedCount);
+  const unknownCount = Array.isArray(report.unknownItems) ? report.unknownItems.length : 0;
+  const ingredientAllergenHitCount = Array.isArray(report.ingredientAllergenHits) ? report.ingredientAllergenHits.length : 0;
+  const textAllergenHitCount = Array.isArray(report.textAllergenHits) ? report.textAllergenHits.length : 0;
+  const allergenHitCount = ingredientAllergenHitCount + textAllergenHitCount;
+  const watchedAllergenCount = Array.isArray(report.userAllergenIds) ? report.userAllergenIds.length : 0;
+  const riskCounts = normalizeRiskCounts(report.riskCounts);
+
+  return [
+    buildRiskInsight(riskCounts, matchedCount),
+    buildAllergenInsight(watchedAllergenCount, ingredientAllergenHitCount, textAllergenHitCount, allergenHitCount),
+    buildCoverageInsight(report.category, matchedCount, unknownCount),
+    buildNextStepInsight(report.category, riskCounts, allergenHitCount, unknownCount)
+  ];
+}
+
+function buildRiskInsight(riskCounts, matchedCount) {
+  const watchCount = riskCounts.high + riskCounts.medium;
+  const tone = riskCounts.high ? 'caution' : riskCounts.medium ? 'watch' : 'neutral';
+  const summary = riskCounts.high
+    ? `包含 ${riskCounts.high} 项高关注成分，建议优先查看重点关注成分和产品适用场景。`
+    : watchCount
+      ? `包含 ${watchCount} 项需重点理解的成分，建议结合使用频率、用量和个人情况判断。`
+      : matchedCount
+        ? '当前匹配项以低关注或未知等级为主，仍需结合完整标签和实际使用场景判断。'
+        : '当前未匹配到本地数据库成分，建议先检查原始成分表文本。';
+  return {
+    key: 'risk',
+    title: '风险分布',
+    tone,
+    summary,
+    items: [
+      `高关注 ${riskCounts.high} 项`,
+      `需关注 ${riskCounts.medium} 项`,
+      `低关注 ${riskCounts.low} 项`,
+      `未知等级 ${riskCounts.unknown} 项`
+    ]
+  };
+}
+
+function buildAllergenInsight(watchedAllergenCount, ingredientHitCount, textHitCount, totalHitCount) {
+  if (!watchedAllergenCount) {
+    return {
+      key: 'allergens',
+      title: '过敏原提醒',
+      tone: 'neutral',
+      summary: '保存报告时未配置个人过敏原档案，系统仅保留通用成分匹配结果。',
+      items: ['可在设置页补充关注过敏原后重新分析同一成分表。']
+    };
+  }
+
+  if (!totalHitCount) {
+    return {
+      key: 'allergens',
+      title: '过敏原提醒',
+      tone: 'neutral',
+      summary: `保存报告时关注 ${watchedAllergenCount} 类过敏原，当前未发现明确命中项。`,
+      items: ['仍建议以产品包装上的过敏原提示、可能含有声明和生产线提示为准。']
+    };
+  }
+
+  return {
+    key: 'allergens',
+    title: '过敏原提醒',
+    tone: 'caution',
+    summary: `命中 ${totalHitCount} 项关注过敏原，请优先核对包装原文和个人耐受情况。`,
+    items: [
+      `数据库成分命中 ${ingredientHitCount} 项`,
+      `标签文本命中 ${textHitCount} 项`
+    ]
+  };
+}
+
+function buildCoverageInsight(category, matchedCount, unknownCount) {
+  const isFood = category === 'food';
+  const sourceNote = isFood
+    ? '食品添加剂库仍处于草稿审核阶段，逐食品类别限量和 ADI 原文需要继续核验。'
+    : '化妆品数据当前为原型库，适合验证交互和基础成分理解。';
+  return {
+    key: 'coverage',
+    title: '数据边界',
+    tone: unknownCount ? 'watch' : 'neutral',
+    summary: `本地库匹配 ${matchedCount} 项，暂未收录 ${unknownCount} 项。${sourceNote}`,
+    items: unknownCount
+      ? ['暂未收录项可能是普通原料、复合配料、OCR 误识别文本或数据库尚未覆盖内容。']
+      : ['当前输入项均已匹配到本地库，但仍需按数据来源和审核状态理解结果。']
+  };
+}
+
+function buildNextStepInsight(category, riskCounts, allergenHitCount, unknownCount) {
+  const items = [];
+  if (allergenHitCount) items.push('先核对包装上的过敏原提示、可能含有声明和配料来源。');
+  if (riskCounts.high || riskCounts.medium) {
+    items.push(category === 'food'
+      ? '结合食品类别、摄入频率和单次食用量判断是否需要减少高频摄入。'
+      : '结合使用部位、频率和个人肤质判断是否需要降低使用频次。');
+  }
+  if (unknownCount) items.push('对暂未收录项，可尝试拆分复合配料或换用包装上的标准名称重新分析。');
+  if (!items.length) {
+    items.push(category === 'food'
+      ? '保留产品原包装信息，后续可在数据更新后重新分析同一配料表。'
+      : '继续结合产品说明、使用频率和个人耐受情况判断。');
+  }
+  return {
+    key: 'next-steps',
+    title: '下一步建议',
+    tone: allergenHitCount || riskCounts.high ? 'caution' : riskCounts.medium || unknownCount ? 'watch' : 'neutral',
+    summary: '以下建议用于日常决策辅助，不替代专业判断。',
+    items
+  };
+}
+
+function normalizeReportInsights(value) {
+  return Array.isArray(value)
+    ? value
+      .map((item) => ({
+        key: String(item?.key || '').trim(),
+        title: String(item?.title || '').trim(),
+        tone: normalizeInsightTone(item?.tone),
+        summary: String(item?.summary || '').trim(),
+        items: normalizeStringList(item?.items)
+      }))
+      .filter((item) => item.key && item.title && item.summary)
+    : [];
+}
+
+function normalizeInsightTone(value) {
+  const tone = String(value || '').trim();
+  return ['neutral', 'watch', 'caution'].includes(tone) ? tone : 'neutral';
+}
+
+function numberOrZero(value) {
+  return Number.isFinite(value) ? value : 0;
 }
