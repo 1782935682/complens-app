@@ -7,7 +7,7 @@ import { categoryPath } from '../src/data/categories.js';
 import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
-import { buildSupportRequestMarkdown } from '../src/services/supportService.js';
+import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
 import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
@@ -77,7 +77,16 @@ assert.deepEqual(resolveRoute('#/food/legal'), { view: 'legal', category: 'food'
 assert.deepEqual(resolveRoute('#/food/legal/privacy'), { view: 'legal', category: 'food', documentId: 'privacy' });
 assert.deepEqual(resolveRoute('#/food/legal/not-real'), { view: 'not-found', category: 'food', path: '/food/legal/not-real' });
 assert.deepEqual(resolveRoute('#/food/membership'), { view: 'membership', category: 'food' });
-assert.deepEqual(resolveRoute('#/food/support'), { view: 'support', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/support'), {
+  view: 'support',
+  category: 'food',
+  prefill: { topic: '', subject: '', message: '', contact: '', hasPrefill: false }
+});
+assert.deepEqual(resolveRoute('#/food/support?topic=data-correction&subject=%E6%9F%A0%E6%AA%AC%E9%85%B8%E6%9D%A5%E6%BA%90&message=%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9'), {
+  view: 'support',
+  category: 'food',
+  prefill: { topic: 'data-correction', subject: '柠檬酸来源', message: '需要核对', contact: '', hasPrefill: true }
+});
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food', query: '' });
 assert.deepEqual(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'), { view: 'reports', category: 'food', query: '卵磷脂' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
@@ -187,8 +196,9 @@ assert.match(mainJs, /function getInitialHash\(\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboarding'\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
+assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route\.category, '\/support'\)\}`\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v10'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v11'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
@@ -355,6 +365,9 @@ assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/ingredient\/sodiu
 assert.match(detailHtmlWithRelatedIngredients, /同属酸度调节剂/);
 assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
 assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/search\?q=%E9%85%B8%E5%91%B3%E5%89%82"/);
+assert.match(detailHtmlWithRelatedIngredients, /data-support-correction-link/);
+assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/support\?topic=data-correction/);
+assert.match(detailHtmlWithRelatedIngredients, /%E6%9F%A0%E6%AA%AC%E9%85%B8\+%E6%95%B0%E6%8D%AE%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9/);
 
 const filteredSearchHtml = renderSearchPage('', 'food', { risk: 'medium', ingredientCategory: '防腐剂' });
 assert.match(filteredSearchHtml, /筛选结果/);
@@ -382,6 +395,9 @@ assert.match(dataPageHtml, /GB 2760/);
 assert.match(dataPageHtml, /food-additives-seed-v4/);
 assert.match(dataPageHtml, /缺逐食品类别限量/);
 assert.match(dataPageHtml, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
+assert.match(dataPageHtml, /data-dataset-correction-link/);
+assert.match(dataPageHtml, /href="#\/food\/support\?topic=data-correction/);
+assert.match(dataPageHtml, /%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90%E6%88%96%E5%AE%A1%E6%A0%B8%E7%8A%B6%E6%80%81%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9/);
 assert.match(renderDataPage('cosmetics'), /当前类别含 8 条原型数据/);
 const searchHtmlWithSuggestions = renderSearchPage('E330', 'food');
 assert.match(searchHtmlWithSuggestions, /data-search-suggestions/);
@@ -744,6 +760,22 @@ assert.equal(supportRequest.category, 'food');
 assert.match(buildSupportRequestMarkdown(supportRequest), /# 柠檬酸来源需要核对/);
 assert.match(buildSupportRequestMarkdown(supportRequest), /类型：数据纠错/);
 assert.match(buildSupportRequestMarkdown(supportRequest), /联系方式：qa@example.com/);
+const supportPrefill = buildSupportPrefillFromParams(new URLSearchParams('topic=data-correction&subject=%E6%9F%A0%E6%AA%AC%E9%85%B8%E6%9D%A5%E6%BA%90&message=%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9&contact=qa%40example.com'));
+assert.deepEqual(supportPrefill, {
+  topic: 'data-correction',
+  subject: '柠檬酸来源',
+  message: '需要核对',
+  contact: 'qa@example.com',
+  hasPrefill: true
+});
+assert.equal(
+  buildSupportPrefillUrl('food', { topic: 'data-correction', subject: '柠檬酸来源', message: '需要核对' }),
+  '#/food/support?topic=data-correction&subject=%E6%9F%A0%E6%AA%AC%E9%85%B8%E6%9D%A5%E6%BA%90&message=%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9'
+);
+assert.equal(
+  buildSupportPrefillUrl('food', { topic: 'bug-feedback', subject: '页面显示异常', message: '按钮没有响应' }),
+  '#/food/support?topic=bug-feedback&subject=%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8&message=%E6%8C%89%E9%92%AE%E6%B2%A1%E6%9C%89%E5%93%8D%E5%BA%94'
+);
 const legalIndexHtml = renderLegalPage('food');
 assert.match(legalIndexHtml, /隐私与条款/);
 assert.match(legalIndexHtml, /隐私政策草案/);
@@ -766,6 +798,14 @@ assert.match(supportHtml, /data-delete-support-request=/);
 assert.match(supportHtml, /data-clear-support-requests/);
 assert.match(supportHtml, /href="#\/food\/legal\/privacy"/);
 assert.match(renderRoute(resolveRoute('#/food/support')), /支持记录只保存在本机浏览器/);
+const supportPrefillHtml = renderRoute(resolveRoute('#/food/support?topic=data-correction&subject=%E6%9F%A0%E6%AA%AC%E9%85%B8%E6%9D%A5%E6%BA%90&message=%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9'));
+assert.match(supportPrefillHtml, /data-support-prefill/);
+assert.match(supportPrefillHtml, /value="data-correction" selected/);
+assert.match(supportPrefillHtml, /value="柠檬酸来源"/);
+assert.match(supportPrefillHtml, />需要核对<\/textarea>/);
+const bugFeedbackPrefillHtml = renderRoute(resolveRoute('#/food/support?topic=bug-feedback&subject=%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8&message=%E6%8C%89%E9%92%AE%E6%B2%A1%E6%9C%89%E5%93%8D%E5%BA%94'));
+assert.match(bugFeedbackPrefillHtml, /value="bug-feedback" selected/);
+assert.match(bugFeedbackPrefillHtml, /value="页面显示异常"/);
 assert.equal(deleteSupportRequest(supportRequest.id).length, 0);
 assert.equal(getSupportRequests().length, 0);
 saveSupportRequest({

@@ -1,6 +1,7 @@
 import { escapeHtml, html } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientCategorySummaries } from '../services/ingredientService.js';
+import { buildSupportPrefillUrl } from '../services/supportService.js';
 
 const reviewStatusLabels = {
   draft: '草稿',
@@ -106,9 +107,26 @@ export function renderDataPage(category = 'food') {
           <li>将草稿记录推进到已复核或已验证状态。</li>
           <li>为后端数据版本和审核记录预留发布流程。</li>
         </ul>
+        <div class="form-actions">
+          <a class="button-link secondary-link" href="${escapeHtml(buildDatasetCorrectionUrl(category, audit))}" data-route data-dataset-correction-link>反馈数据问题</a>
+        </div>
       </div>
     </section>
   `;
+}
+
+function buildDatasetCorrectionUrl(category, audit) {
+  return buildSupportPrefillUrl(category, {
+    topic: 'data-correction',
+    subject: `${getProductCategory(category).label}数据来源或审核状态需要核对`,
+    message: [
+      `当前记录：${audit.totalCount} 条`,
+      `来源覆盖：${audit.sourceCoveragePercent}%`,
+      `限量覆盖：${audit.usageLimitCoveragePercent}%`,
+      `缺逐食品类别限量：${audit.missingUsageLimitsCount} 条`,
+      '请描述需要核对的来源、分类、使用限量或审核状态。'
+    ].join('\n')
+  });
 }
 
 function renderAuditMetric(value, label) {

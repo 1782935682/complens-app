@@ -1,33 +1,31 @@
-# AI Review - Legal Center
+# AI Review - Data Correction Feedback
 
 ## 任务目标
 
-新增隐私与条款产品闭环，让用户能从设置页、会员中心、支持中心和页脚进入合规材料中心，查看隐私政策、服务条款、订阅说明、数据安全和内容来源边界，为 App Store / Google Play 上架材料提前建立应用内入口。
+新增数据纠错反馈闭环，让用户从食品详情页或数据来源页发现草稿数据、来源、限量或审核状态问题时，可以一键进入支持中心，并自动带入问题类型、标题和描述草稿，再保存为本机反馈记录。
 
 ## 修改摘要
 
-- 新增合规内容数据模型，覆盖隐私、服务条款、订阅、数据安全和内容来源说明。
-- 新增 `/legal` 合规中心和 `/legal/:id` 单篇说明页面。
-- 设置页新增隐私与条款入口。
-- 会员中心权益边界新增订阅说明入口。
-- 支持中心支持边界新增隐私说明入口。
-- 页脚新增固定隐私与条款入口。
-- 页脚隐私与条款入口会跟随当前食品/化妆品类别更新。
-- 路由、页面标题、桌面设置 active 态和移动端“我的” active 态接入合规中心。
-- 更新移动端样式和 PWA app shell 缓存清单，缓存版本升到 `compcheck-shell-v10`。
-- 补充合规中心路由、渲染、入口和 service worker 缓存清单测试。
+- 支持中心路由新增 query 预填解析，支持 `topic`、`subject`、`message` 和 `contact`。
+- 支持中心表单根据预填草稿自动选中问题类型并填入标题、描述和联系方式。
+- 预填链接会保留 `bug-feedback` 默认支持类型，避免浏览器 fallback 到第一个选项。
+- 食品详情页新增“反馈这条数据”入口，带入成分名称、ID、数据状态、GB / INS 编号和待核对项。
+- 数据来源页新增“反馈数据问题”入口，带入当前记录数、来源覆盖、限量覆盖和缺口数量。
+- 保存预填反馈后会清理 URL query，避免用户重复提交同一草稿。
+- 支持服务新增预填草稿归一化和预填链接构建能力。
+- 补充预填反馈移动端样式。
+- PWA shell 缓存版本升到 `compcheck-shell-v11`。
+- 补充路由、预填链接、支持中心渲染、详情页入口、数据页入口和 service worker 缓存版本测试。
 - 同步更新 `COMMANDS.md` 和 `PROJECT_PLAN.md`。
 
 ## 修改文件
 
-- `src/data/legalContent.js`
-- `src/pages/legalPage.js`
-- `src/pages/settingsPage.js`
-- `src/pages/membershipPage.js`
+- `src/services/supportService.js`
 - `src/pages/supportPage.js`
-- `src/router/router.js`
-- `src/index.html`
+- `src/pages/detailPage.js`
+- `src/pages/dataPage.js`
 - `src/main.js`
+- `src/router/router.js`
 - `src/styles.css`
 - `src/sw.js`
 - `scripts/test.mjs`
@@ -52,18 +50,17 @@ git diff --check
 - `npm run test` 通过。
 - `npm run build` 通过，构建产物输出到 `dist/`。
 - `git diff --check` 通过。
-- `curl -I http://127.0.0.1:5178/`、`/main.js`、`/pages/legalPage.js`、`/data/legalContent.js` 和 `/sw.js` 均返回 HTTP 200。
+- `curl -I http://127.0.0.1:5178/`、`/main.js`、`/pages/supportPage.js`、`/pages/detailPage.js`、`/pages/dataPage.js`、`/services/supportService.js` 和 `/sw.js` 均返回 HTTP 200。
 
 ## 风险点
 
-- 当前合规材料仍是产品内草案，不构成正式法律文本；正式上线前必须结合真实服务商、SDK、后端、支付和平台表单复核。
-- 订阅说明只描述当前未接入和未来要求，不代表 Apple IAP、Google Play Billing 或服务端 entitlement 已完成。
-- 隐私和数据安全说明需要在接入账号、云同步、OCR、AI、客服工单、统计分析或崩溃监控后继续更新。
+- 当前反馈仍只保存在本机浏览器，不会自动上传到客服后台；正式上线前仍需接入工单系统、账号关联和 SLA。
+- 预填草稿来自 URL query，已做长度限制和 HTML 转义，但保存前仍要求用户确认本机保存边界。
+- 数据纠错入口只能收集反馈，不能代表数据已复核或已验证。
+- 已修复 Codex 审阅指出的默认 `bug-feedback` topic 被预填链接省略后错选为订阅类型的问题。
 
 ## 本次 git diff 摘要
 
-- 新增隐私与条款用户流程入口。
-- 新增合规内容模型和合规页面。
-- 扩展设置页、会员中心、支持中心和页脚入口。
-- 修复 Codex 审阅指出的页脚法律入口类别固定问题。
-- 更新 PWA 预缓存与测试覆盖。
+- 新增支持中心预填反馈模型和路由解析。
+- 新增详情页、数据来源页到支持中心的数据纠错入口。
+- 更新 PWA 预缓存版本与测试覆盖。

@@ -449,6 +449,9 @@ function bindPageEvents(route) {
         updateSupportStatus(result.message);
         return;
       }
+      if (route.prefill?.hasPrefill && window.history?.replaceState) {
+        window.history.replaceState(null, '', `#${categoryPath(route.category, '/support')}`);
+      }
       render();
       updateSupportStatus(result.message);
     });
