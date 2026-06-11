@@ -1,0 +1,8 @@
+{
+  "appId": "com.compcheck.app",
+  "appName": "成分小查",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
