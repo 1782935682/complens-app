@@ -433,7 +433,7 @@ npm test              # Vitest 通过
 
 ### Batch 3-B：数据库 Schema 与成分 API `[Codex]`
 
-**状态**：⏳ 待开始（依赖 3-A 完成）
+**状态**：✅ 已完成 2026-06-11（依赖 3-A 完成）
 
 **任务描述**：
 
@@ -948,8 +948,8 @@ npm run lint && npm run test && npm run build
 → Batch 2-D / 2-E：iOS / Android 工程配置 [人工]
   前置：Batch 2-C 已完成，需 Apple Developer / Xcode 与 Google Play / Android Studio 人工操作
 
-→ 下一个 Codex 批次：Batch 3-B：数据库 Schema 与成分 API
-  前置：Batch 3-A 后端项目初始化已完成，建议人工同步确认数据库托管与部署平台
+→ 下一个 Codex 批次：Batch 3-C：账号与鉴权
+  前置：Batch 3-B 数据库 Schema 与成分 API 已完成，建议人工同步确认数据库托管与部署平台
 ```
 
 ---
