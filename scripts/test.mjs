@@ -26,7 +26,7 @@ import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
-import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sharePayloadWithFallback } from '../src/services/shareService.js';
+import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sanitizeNativeSharePayload, sharePayloadWithFallback } from '../src/services/shareService.js';
 import { getBase64ByteSize, getNativeCameraPhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
@@ -253,7 +253,8 @@ assert.match(mainJs, /updateScanPreviewWithDataUrl\(preview, result\.dataUrl\)/)
 assert.match(mainJs, /请先输入成分表文字/);
 assert.match(mainJs, /function updateAnalyzeStatus\(message\)/);
 const shareServiceJs = await readFile(new URL('../src/services/shareService.js', import.meta.url), 'utf8');
-assert.match(shareServiceJs, /shareWithNative\(payload\)/);
+assert.match(shareServiceJs, /nativeShare = shareWithNative/);
+assert.match(shareServiceJs, /sanitizeNativeSharePayload\(payload\)/);
 assert.match(shareServiceJs, /navigatorShare/);
 assert.match(shareServiceJs, /formatShareText\(payload\)/);
 assert.match(shareServiceJs, /isShareAbort\(error\)/);
@@ -266,6 +267,7 @@ assert.match(nativeBridgeServiceJs, /CameraResultType\.Base64/);
 assert.match(nativeBridgeServiceJs, /CameraSource\.Prompt/);
 assert.match(nativeBridgeServiceJs, /getBase64ByteSize\(photo\.base64String\)/);
 assert.match(nativeBridgeServiceJs, /Share\.share/);
+assert.match(nativeBridgeServiceJs, /if \(payload\.url\) shareOptions\.url = payload\.url/);
 const serviceWorkerJs = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
 assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v17'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
@@ -349,6 +351,11 @@ assert.equal(citricSharePayload.url, 'https://example.com/app#/food/ingredient/c
 assert.match(citricSharePayload.text, /食品添加剂成分：柠檬酸/);
 assert.match(formatShareText(citricSharePayload), /CompCheck/);
 assert.equal(buildShareUrl('food', '/compare', 'https://example.com/#/old'), 'https://example.com/#/food/compare');
+assert.equal(sanitizeNativeSharePayload({ ...citricSharePayload, url: 'capacitor://localhost/#/food/ingredient/citric-acid' }).url, '');
+assert.equal(sanitizeNativeSharePayload({ ...citricSharePayload, url: 'https://localhost/#/food/ingredient/citric-acid' }).url, '');
+assert.equal(sanitizeNativeSharePayload({ ...citricSharePayload, url: '#/food/ingredient/citric-acid' }).url, '');
+assert.equal(sanitizeNativeSharePayload({ ...citricSharePayload, url: '/food/ingredient/citric-acid' }).url, '');
+assert.equal(sanitizeNativeSharePayload(citricSharePayload).url, 'https://example.com/app#/food/ingredient/citric-acid');
 assert.equal(isNativePlatform(), false);
 assert.equal(getBase64ByteSize(''), 0);
 assert.equal(getBase64ByteSize('TWE='), 2);
@@ -368,6 +375,19 @@ assert.deepEqual(
 );
 assert.match(copiedShareTexts[0], /柠檬酸/);
 assert.equal(shareStatuses.at(-1), '已复制分享内容。');
+let nativeSharePayload = null;
+assert.deepEqual(
+  await sharePayloadWithFallback({ ...citricSharePayload, url: 'capacitor://localhost/#/food/ingredient/citric-acid' }, {
+    nativeShare: async (payload) => {
+      nativeSharePayload = payload;
+      return { ok: true, method: 'native', message: '已打开系统分享。' };
+    },
+    copyText: async (text) => copiedShareTexts.push(text),
+    updateStatus: (message) => shareStatuses.push(message)
+  }),
+  { ok: true, method: 'native' }
+);
+assert.equal(nativeSharePayload.url, '');
 const webShareCopyStatuses = [];
 assert.deepEqual(
   await sharePayloadWithFallback(citricSharePayload, {
