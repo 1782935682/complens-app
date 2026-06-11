@@ -1,8 +1,9 @@
 import { escapeHtml, html } from '../components/render.js';
 import { standardAllergens } from '../data/allergens.js';
+import { categoryPath } from '../data/categories.js';
 import { getLocalDataSummary, getUserAllergens, isHistoryRecordingEnabled } from '../store/userStore.js';
 
-export function renderSettingsPage() {
+export function renderSettingsPage(category = 'food') {
   const selected = new Set(getUserAllergens());
   const localDataSummary = getLocalDataSummary();
   const historyRecordingEnabled = isHistoryRecordingEnabled();
@@ -16,6 +17,22 @@ export function renderSettingsPage() {
         <span class="count" data-allergen-count>${selected.size} 项已关注</span>
       </div>
       <p class="lead">选择需要重点提示的过敏原。搜索、详情和成分表分析会优先标出匹配项。</p>
+    </section>
+
+    <section class="section">
+      <div class="info-block membership-entry">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">会员与同步</p>
+            <h2>会员中心</h2>
+          </div>
+          <span class="count">Free</span>
+        </div>
+        <p class="helper-text">查看当前套餐、本机用量、Pro 规划、恢复购买和管理订阅状态。真实订阅需要移动端支付、账号和服务端权益校验后开放。</p>
+        <div class="form-actions">
+          <a class="button-link" href="#${categoryPath(category, '/membership')}" data-route>查看会员中心</a>
+        </div>
+      </div>
     </section>
 
     <section class="section">
