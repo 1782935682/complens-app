@@ -4,7 +4,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, toggleFavorite } from './store/userStore.js';
+import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, completeOnboarding, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
@@ -398,6 +398,35 @@ function bindPageEvents(route) {
       updateLocalDataSummary('本机数据已清空。');
     });
   }
+
+  const onboardingForm = document.querySelector('[data-onboarding-form]');
+  if (onboardingForm) {
+    onboardingForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(onboardingForm);
+      const acceptedBoundary = formData.get('acceptedBoundary') === 'on';
+      if (!acceptedBoundary) {
+        updateOnboardingStatus('请先确认使用边界。');
+        return;
+      }
+      const state = completeOnboarding({
+        preferredCategory: String(formData.get('category') || route.category),
+        allergenIds: formData.getAll('allergens'),
+        historyRecordingEnabled: formData.get('historyRecordingEnabled') === 'on',
+        acceptedBoundary
+      });
+      updateOnboardingStatus('首次设置已保存。');
+      navigate(`#${categoryPath(state.preferredCategory)}`);
+    });
+  }
+
+  const skipOnboardingButton = document.querySelector('[data-skip-onboarding]');
+  if (skipOnboardingButton) {
+    skipOnboardingButton.addEventListener('click', () => {
+      const state = skipOnboarding({ preferredCategory: route.category });
+      navigate(`#${categoryPath(state.preferredCategory)}`);
+    });
+  }
 }
 
 function updateAllergenSettingsFeedback(count, message) {
@@ -429,6 +458,11 @@ function updateLocalDataSummary(message) {
     if (countNode) countNode.textContent = String(value);
   });
   const statusNode = document.querySelector('[data-local-data-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateOnboardingStatus(message) {
+  const statusNode = document.querySelector('[data-onboarding-status]');
   if (statusNode) statusNode.textContent = message;
 }
 
@@ -625,10 +659,17 @@ function registerServiceWorker() {
   }
 }
 
+function getInitialHash() {
+  const onboardingState = getOnboardingState();
+  return onboardingState.status === 'pending'
+    ? `#${categoryPath(onboardingState.preferredCategory, '/onboarding')}`
+    : `#${categoryPath(onboardingState.preferredCategory)}`;
+}
+
 window.addEventListener('hashchange', render);
 
 if (!window.location.hash) {
-  window.location.hash = '#/';
+  window.location.hash = getInitialHash();
 } else {
   render();
 }

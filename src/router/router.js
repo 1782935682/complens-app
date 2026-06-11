@@ -5,6 +5,7 @@ import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
+import { renderOnboardingPage } from '../pages/onboardingPage.js';
 import { renderReportDetailPage, renderReportsPage } from '../pages/reportsPage.js';
 import { renderScanPage } from '../pages/scanPage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
@@ -18,6 +19,7 @@ const VIEW_TITLES = {
   detail: '成分详情',
   favorites: '收藏夹',
   home: '',
+  onboarding: '首次设置',
   reports: '分析报告',
   'report-detail': '报告详情',
   scan: '扫描识别',
@@ -105,6 +107,13 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/onboarding') {
+    return {
+      view: 'onboarding',
+      category: route.category
+    };
+  }
+
   if (route.path === '/reports') {
     return {
       view: 'reports',
@@ -145,6 +154,7 @@ export function renderRoute(route) {
   if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort);
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'data') return renderDataPage(route.category);
+  if (route.view === 'onboarding') return renderOnboardingPage(route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
@@ -172,7 +182,9 @@ export function getNavigationLinks(route) {
   return NAV_ITEMS.map((item) => ({
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
-    active: route?.view === item.view || (item.key === 'reports' && route?.view === 'report-detail')
+    active: route?.view === item.view
+      || (item.key === 'reports' && route?.view === 'report-detail')
+      || (item.key === 'settings' && route?.view === 'onboarding')
   }));
 }
 
@@ -181,7 +193,7 @@ export function getMobileNavigationLinks(route) {
   return MOBILE_NAV_ITEMS.map((item) => ({
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
-    active: route?.view === item.view
+    active: route?.view === item.view || (item.key === 'settings' && route?.view === 'onboarding')
   }));
 }
 

@@ -10,6 +10,7 @@ import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
+import { renderOnboardingPage } from '../src/pages/onboardingPage.js';
 import { renderScanPage } from '../src/pages/scanPage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
@@ -18,7 +19,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
-import { addHistory, clearAnalysisReports, clearLocalUserData, clearScanDraft, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getScanDraft, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
+import { addHistory, clearAnalysisReports, clearLocalUserData, clearScanDraft, completeOnboarding, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getScanDraft, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -63,6 +64,7 @@ assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
 assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/onboarding'), { view: 'onboarding', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food', query: '' });
 assert.deepEqual(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'), { view: 'reports', category: 'food', query: '卵磷脂' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
@@ -83,6 +85,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索�
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/scan')), '扫描识别 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/data')), '数据来源 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/onboarding')), '首次设置 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82')), '卵磷脂 报告检索 - 食品添加剂 - CompCheck 成分小查');
@@ -114,6 +117,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), 
   { key: 'favorites', href: '#/food/favorites', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
+assert.equal(getNavigationLinks(resolveRoute('#/food/onboarding')).find((item) => item.key === 'settings').active, true);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
   { key: 'home', href: '#/food', active: true },
   { key: 'scan', href: '#/food/scan', active: false },
@@ -143,12 +147,16 @@ assert.equal(appManifest.icons[0].src, './app-icon.svg');
 assert.equal(appManifest.shortcuts[1].url, './#/food/scan');
 const mainJs = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
 assert.match(mainJs, /navigator\.serviceWorker\.register\('\.\/sw\.js'\)/);
+assert.match(mainJs, /function getInitialHash\(\)/);
+assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboarding'\)/);
+assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v4'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v5'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
 assert.match(serviceWorkerJs, /\.\/pages\/dataPage\.js/);
+assert.match(serviceWorkerJs, /\.\/pages\/onboardingPage\.js/);
 assert.match(serviceWorkerJs, /\.\/utils\/imageFile\.js/);
 assert.match(serviceWorkerJs, /request\.mode === 'navigate'/);
 assert.match(serviceWorkerJs, /caches\.match\('\.\/index\.html'\)/);
@@ -557,6 +565,44 @@ assert.deepEqual(getFavoriteItems(), [
 
 writeJson('compcheck:history', []);
 writeJson('compcheck:analysis-reports', []);
+resetOnboarding();
+assert.equal(shouldShowOnboardingPrompt(), true);
+const onboardingHtml = renderOnboardingPage('food');
+assert.match(onboardingHtml, /建立本机成分档案/);
+assert.match(onboardingHtml, /data-onboarding-form/);
+assert.match(onboardingHtml, /name="category" value="food" checked/);
+assert.match(onboardingHtml, /name="allergens" value="milk"/);
+assert.match(onboardingHtml, /name="historyRecordingEnabled" checked/);
+assert.match(onboardingHtml, /name="acceptedBoundary"/);
+assert.match(onboardingHtml, /data-skip-onboarding/);
+assert.match(renderOnboardingPage('cosmetics'), /name="category" value="cosmetics" checked/);
+const homeHtmlWithOnboardingPrompt = renderHomePage('food');
+assert.match(homeHtmlWithOnboardingPrompt, /data-onboarding-prompt/);
+assert.match(homeHtmlWithOnboardingPrompt, /href="#\/food\/onboarding"/);
+const completedOnboarding = completeOnboarding({
+  preferredCategory: 'food',
+  allergenIds: ['milk', 'soybeans', 'milk'],
+  historyRecordingEnabled: false,
+  acceptedBoundary: true
+});
+assert.equal(completedOnboarding.status, 'completed');
+assert.equal(completedOnboarding.allergenCount, 2);
+assert.equal(completedOnboarding.historyRecordingEnabled, false);
+assert.equal(completedOnboarding.acceptedBoundary, true);
+assert.equal(shouldShowOnboardingPrompt(), false);
+assert.deepEqual(getUserAllergens(), ['milk', 'soybeans']);
+assert.equal(isHistoryRecordingEnabled(), false);
+assert.doesNotMatch(renderHomePage('food'), /data-onboarding-prompt/);
+assert.equal(getOnboardingState().preferredCategory, 'food');
+const skippedOnboarding = skipOnboarding({ preferredCategory: 'cosmetics' });
+assert.equal(skippedOnboarding.status, 'skipped');
+assert.equal(skippedOnboarding.preferredCategory, 'cosmetics');
+assert.equal(shouldShowOnboardingPrompt(), false);
+assert.equal(`#${categoryPath(getOnboardingState().preferredCategory)}`, '#/cosmetics');
+resetOnboarding();
+assert.equal(getOnboardingState().status, 'pending');
+assert.equal(shouldShowOnboardingPrompt(), true);
+setUserAllergens([]);
 setHistoryRecordingEnabled(true);
 addHistory('烟酰胺');
 addHistory('BHA');

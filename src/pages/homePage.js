@@ -1,7 +1,8 @@
 import { categoryPath, getProductCategory, productCategories } from '../data/categories.js';
 import { escapeHtml, ingredientCard, html } from '../components/render.js';
 import { getDatasetAuditSummary, getIngredientCategorySummaries, getPopularIngredients } from '../services/ingredientService.js';
-import { getAnalysisReports, getFavoriteIngredients, getHistory, isHistoryRecordingEnabled } from '../store/userStore.js';
+import { getAnalysisReports, getFavoriteIngredients, getHistory, isHistoryRecordingEnabled, shouldShowOnboardingPrompt } from '../store/userStore.js';
+import { renderOnboardingPrompt } from './onboardingPage.js';
 
 export function renderHomePage(category = 'food') {
   const currentCategory = getProductCategory(category);
@@ -15,6 +16,7 @@ export function renderHomePage(category = 'food') {
 
   return html`
     ${renderCategoryTabs(category)}
+    ${shouldShowOnboardingPrompt() ? renderOnboardingPrompt(category) : ''}
     <section class="hero">
       <div>
         <p class="eyebrow">${currentCategory.label}</p>

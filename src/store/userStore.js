@@ -8,11 +8,16 @@ const HISTORY_RECORDING_KEY = 'compcheck:history-recording-enabled';
 const ALLERGENS_KEY = 'compcheck:allergens';
 const ANALYSIS_REPORTS_KEY = 'compcheck:analysis-reports';
 const SCAN_DRAFTS_KEY = 'compcheck:scan-drafts';
+const ONBOARDING_KEY = 'compcheck:onboarding';
 const LOCAL_DATA_SCHEMA_VERSION = 1;
+const ONBOARDING_SCHEMA_VERSION = 1;
 const MAX_HISTORY = 8;
 const MAX_ANALYSIS_REPORTS = 20;
 const DEFAULT_CATEGORY = 'cosmetics';
+const DEFAULT_ONBOARDING_CATEGORY = 'food';
 const REPORT_SCHEMA_VERSION = 2;
+const ONBOARDING_STATUSES = ['pending', 'completed', 'skipped'];
+const ONBOARDING_CATEGORIES = ['food', 'cosmetics'];
 
 export function getFavoriteItems() {
   return readJson(FAVORITES_KEY, [])
@@ -94,6 +99,53 @@ export function setUserAllergens(ids) {
     .map((id) => String(id || '').trim())
     .filter(Boolean))];
   writeJson(ALLERGENS_KEY, next);
+  return next;
+}
+
+export function getOnboardingState() {
+  return normalizeOnboardingState(readJson(ONBOARDING_KEY, null));
+}
+
+export function shouldShowOnboardingPrompt() {
+  return getOnboardingState().status === 'pending';
+}
+
+export function completeOnboarding(options = {}) {
+  const now = new Date().toISOString();
+  const allergenIds = setUserAllergens(options.allergenIds);
+  const historyRecordingEnabled = setHistoryRecordingEnabled(options.historyRecordingEnabled !== false);
+  const next = {
+    schemaVersion: ONBOARDING_SCHEMA_VERSION,
+    status: 'completed',
+    preferredCategory: normalizeOnboardingCategory(options.preferredCategory),
+    acceptedBoundary: options.acceptedBoundary === true,
+    allergenCount: allergenIds.length,
+    historyRecordingEnabled,
+    completedAt: now,
+    skippedAt: '',
+    updatedAt: now
+  };
+  writeJson(ONBOARDING_KEY, next);
+  return next;
+}
+
+export function skipOnboarding(options = {}) {
+  const now = new Date().toISOString();
+  const next = {
+    ...getOnboardingState(),
+    schemaVersion: ONBOARDING_SCHEMA_VERSION,
+    status: 'skipped',
+    preferredCategory: normalizeOnboardingCategory(options.preferredCategory),
+    skippedAt: now,
+    updatedAt: now
+  };
+  writeJson(ONBOARDING_KEY, next);
+  return next;
+}
+
+export function resetOnboarding() {
+  const next = createDefaultOnboardingState();
+  writeJson(ONBOARDING_KEY, next);
   return next;
 }
 
@@ -189,7 +241,8 @@ export function getLocalDataSnapshot() {
     exportedAt: new Date().toISOString(),
     summary: getLocalDataSummary(),
     preferences: {
-      historyRecordingEnabled: isHistoryRecordingEnabled()
+      historyRecordingEnabled: isHistoryRecordingEnabled(),
+      onboarding: getOnboardingState()
     },
     favorites: getFavoriteItems(),
     history: getHistory(),
@@ -209,6 +262,7 @@ export function importLocalDataSnapshot(snapshot) {
   writeJson(ALLERGENS_KEY, normalized.data.allergens);
   writeJson(ANALYSIS_REPORTS_KEY, normalized.data.analysisReports);
   writeJson(SCAN_DRAFTS_KEY, normalized.data.scanDrafts);
+  writeJson(ONBOARDING_KEY, normalized.data.preferences.onboarding);
 
   return {
     ok: true,
@@ -223,6 +277,7 @@ export function clearLocalUserData() {
   writeJson(ALLERGENS_KEY, []);
   writeJson(ANALYSIS_REPORTS_KEY, []);
   writeJson(SCAN_DRAFTS_KEY, {});
+  resetOnboarding();
   return getLocalDataSummary();
 }
 
@@ -319,9 +374,51 @@ function normalizeLocalDataSnapshot(snapshot) {
 }
 
 function normalizeLocalDataPreferences(value) {
+  const hasOnboarding = value && typeof value === 'object' && !Array.isArray(value) && Object.hasOwn(value, 'onboarding');
   return {
-    historyRecordingEnabled: value?.historyRecordingEnabled !== false
+    historyRecordingEnabled: value?.historyRecordingEnabled !== false,
+    onboarding: hasOnboarding ? normalizeOnboardingState(value.onboarding) : getOnboardingState()
   };
+}
+
+function createDefaultOnboardingState() {
+  return {
+    schemaVersion: ONBOARDING_SCHEMA_VERSION,
+    status: 'pending',
+    preferredCategory: DEFAULT_ONBOARDING_CATEGORY,
+    acceptedBoundary: false,
+    allergenCount: 0,
+    historyRecordingEnabled: true,
+    completedAt: '',
+    skippedAt: '',
+    updatedAt: ''
+  };
+}
+
+function normalizeOnboardingState(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return createDefaultOnboardingState();
+  }
+  const status = ONBOARDING_STATUSES.includes(value.status)
+    ? value.status
+    : value.completed === true
+      ? 'completed'
+      : 'pending';
+  return {
+    schemaVersion: ONBOARDING_SCHEMA_VERSION,
+    status,
+    preferredCategory: normalizeOnboardingCategory(value.preferredCategory),
+    acceptedBoundary: value.acceptedBoundary === true,
+    allergenCount: Number.isFinite(value.allergenCount) && value.allergenCount >= 0 ? value.allergenCount : 0,
+    historyRecordingEnabled: value.historyRecordingEnabled !== false,
+    completedAt: typeof value.completedAt === 'string' ? value.completedAt : '',
+    skippedAt: typeof value.skippedAt === 'string' ? value.skippedAt : '',
+    updatedAt: typeof value.updatedAt === 'string' ? value.updatedAt : ''
+  };
+}
+
+function normalizeOnboardingCategory(value) {
+  return ONBOARDING_CATEGORIES.includes(value) ? value : DEFAULT_ONBOARDING_CATEGORY;
 }
 
 function normalizeFavoriteItems(value) {
