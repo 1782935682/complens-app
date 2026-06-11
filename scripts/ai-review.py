@@ -84,7 +84,7 @@ def call_api(diff, api_key, api_base, model, provider):
             {'role': 'user', 'content': prompt},
         ],
         'max_tokens': 5000,
-        'temperature': 0.3,
+        'temperature': 0.0,
     }).encode('utf-8')
 
     url = api_base.rstrip('/') + '/chat/completions'

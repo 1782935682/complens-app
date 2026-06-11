@@ -2,9 +2,16 @@ name: AI Review (DeepSeek / 百炼)
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, reopened]
+    paths:
+      - 'src/**'
+      - 'scripts/**'
   issue_comment:
     types: [created]
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
 
 jobs:
   review:
