@@ -26,6 +26,7 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
   const safeQuery = escapeHtml(query || '');
   const activeFilterCount = [activeFilters.risk, activeFilters.ingredientCategory].filter(Boolean).length;
   const suggestions = getSearchSuggestions(query, category, 5);
+  const assistSuggestions = getAssistSuggestions(suggestions);
   const auditSummary = getDatasetAuditSummary(category);
 
   return html`
@@ -51,6 +52,7 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
       </div>
       ${renderActiveFilterSummary(activeFilters, activeSort)}
       ${renderDatasetAuditNotice(category, auditSummary)}
+      ${renderSearchAssist(assistSuggestions, category)}
       ${renderRiskFacets(riskFacets, category, query, activeFilters, activeSort)}
       ${renderCategoryFacets(categoryFacets, category, query, activeFilters, activeSort)}
       ${results.length ? renderPageSummary(results.length, currentPage, pagedResults.length) : ''}
@@ -80,6 +82,24 @@ function renderSuggestionLinks(suggestions, category) {
         <small>${escapeHtml([item.nameEn, item.matchedText ? `${item.matchLabel}：${item.matchedText}` : item.category].filter(Boolean).join(' / '))}</small>
       </a>
     `).join('')}
+  `;
+}
+
+function renderSearchAssist(suggestions, category) {
+  if (!suggestions.length) return '';
+  return html`
+    <div class="search-assist" data-search-assist>
+      <strong>可能相关</strong>
+      <div class="search-assist__list">
+        ${suggestions.map((item) => html`
+          <a class="search-assist__item" href="#${categoryPath(category, `/ingredient/${item.id}`)}" data-route>
+            <span class="${riskClass(item.riskLevel)}">${riskLabel(item.riskLevel)}</span>
+            <span>${escapeHtml(item.nameCn)}</span>
+            <small>${escapeHtml(`${item.matchLabel}：${item.matchedText}`)}</small>
+          </a>
+        `).join('')}
+      </div>
+    </div>
   `;
 }
 
@@ -265,6 +285,11 @@ function getValidFilters(filters, options) {
 
 function hasActiveFilters(filters) {
   return Boolean(filters.risk || filters.ingredientCategory);
+}
+
+function getAssistSuggestions(suggestions) {
+  const assistLabels = new Set(['拼音', '首字母', '常见写法', '近似']);
+  return suggestions.filter((item) => assistLabels.has(item.matchLabel)).slice(0, 3);
 }
 
 function buildSearchHref(category, query, filters = {}, page = 1, sort = DEFAULT_SEARCH_SORT) {

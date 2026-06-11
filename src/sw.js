@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'compcheck-shell-v11';
+const CACHE_VERSION = 'compcheck-shell-v12';
 const CACHE_PREFIX = 'compcheck-';
 
 const APP_SHELL_ASSETS = [
@@ -15,6 +15,7 @@ const APP_SHELL_ASSETS = [
   './data/ingredients.js',
   './data/legalContent.js',
   './data/membershipPlans.js',
+  './data/searchAliases.js',
   './data/supportTopics.js',
   './pages/analyzePage.js',
   './pages/comparePage.js',

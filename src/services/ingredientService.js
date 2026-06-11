@@ -1,5 +1,6 @@
 import { ingredients, popularIngredientIds } from '../data/ingredients.js';
 import { foodAdditives, popularFoodAdditiveIds } from '../data/foodAdditives.js';
+import { searchAssistAliases } from '../data/searchAliases.js';
 import { normalizeText, splitIngredientInput, uniqueBy } from '../utils/text.js';
 
 const riskOrder = {
@@ -156,7 +157,7 @@ export function searchIngredients(query, category = 'cosmetics', filters = {}) {
   return getDatasetByCategory(category).items
     .map((ingredient) => ({
       ingredient,
-      score: keyword ? getSearchScore(ingredient, keyword) : 1
+      score: keyword ? getSearchScore(ingredient, keyword, category) : 1
     }))
     .filter((item) => item.score > 0)
     .filter((item) => matchesSearchFilters(item.ingredient, activeFilters))
@@ -180,7 +181,7 @@ export function getSearchSuggestions(query, category = 'cosmetics', limit = 6) {
   return getDatasetByCategory(category).items
     .map((ingredient) => ({
       ingredient,
-      match: getSuggestionMatch(ingredient, keyword)
+      match: getSuggestionMatch(ingredient, keyword, category)
     }))
     .filter((item) => item.match.score > 0)
     .sort((a, b) => b.match.score - a.match.score || a.ingredient.nameCn.localeCompare(b.ingredient.nameCn, 'zh-Hans-CN'))
@@ -236,16 +237,21 @@ export function analyzeIngredientText(input, category = 'cosmetics') {
   };
 }
 
-function getSearchScore(ingredient, keyword) {
+function getSearchScore(ingredient, keyword, category) {
   const names = getSearchableNames(ingredient);
-  const exact = names.some((name) => normalizeText(name) === keyword);
+  const assistTerms = getSearchAssistFields(ingredient, category).map((field) => field.value);
+  const terms = [...names, ...assistTerms];
+  const exact = terms.some((name) => normalizeText(name) === keyword);
   if (exact) return 100;
 
-  const startsWith = names.some((name) => normalizeText(name).startsWith(keyword));
+  const startsWith = terms.some((name) => normalizeText(name).startsWith(keyword));
   if (startsWith) return 70;
 
-  const includesName = names.some((name) => normalizeText(name).includes(keyword));
+  const includesName = terms.some((name) => normalizeText(name).includes(keyword));
   if (includesName) return 50;
+
+  const nearName = names.some((name) => isNearSearchTerm(keyword, name));
+  if (nearName) return 42;
 
   const haystack = normalizeText([
     ingredient.category,
@@ -314,13 +320,14 @@ function getSearchableNames(ingredient) {
   ].filter(Boolean);
 }
 
-function getSuggestionMatch(ingredient, keyword) {
+function getSuggestionMatch(ingredient, keyword, category) {
   const fields = [
     { label: '中文名', value: ingredient.nameCn, weight: 100 },
     { label: '英文名', value: ingredient.nameEn, weight: 96 },
     { label: 'GB/INS', value: ingredient.gbCode, weight: 94 },
     { label: 'E-number', value: ingredient.eNumber, weight: 94 },
     ...(ingredient.aliases || []).map((value) => ({ label: '别名', value, weight: 90 })),
+    ...getSearchAssistFields(ingredient, category),
     { label: '分类', value: ingredient.category, weight: 60 },
     ...(ingredient.functions || []).map((value) => ({ label: '功能', value, weight: 52 }))
   ].filter((field) => field.value);
@@ -338,6 +345,19 @@ function getSuggestionMatch(ingredient, keyword) {
     }
   }
 
+  if (!best.score) {
+    for (const field of fields) {
+      const score = getNearFieldMatchScore(field.value, keyword, field.weight);
+      if (score > best.score) {
+        best = {
+          score,
+          matchedText: field.value,
+          matchLabel: '近似'
+        };
+      }
+    }
+  }
+
   if (best.score) return best;
 
   const haystack = normalizeText([ingredient.description, ingredient.riskSummary].join(' '));
@@ -351,6 +371,67 @@ function getFieldMatchScore(value, keyword, weight) {
   if (value === keyword) return weight + 20;
   if (value.startsWith(keyword)) return weight;
   return value.includes(keyword) ? weight - 20 : 0;
+}
+
+function getSearchAssistFields(ingredient, category) {
+  const aliasSet = searchAssistAliases[category]?.[ingredient.id] || {};
+  return [
+    ...(aliasSet.pinyin || []).map((value) => ({ label: '拼音', value, weight: 88 })),
+    ...(aliasSet.initials || []).map((value) => ({ label: '首字母', value, weight: 82 })),
+    ...(aliasSet.common || []).map((value) => ({ label: '常见写法', value, weight: 86 }))
+  ];
+}
+
+function getNearFieldMatchScore(value, keyword, weight) {
+  if (!isNearSearchTerm(keyword, value)) return 0;
+  return Math.max(24, weight - 36);
+}
+
+function isNearSearchTerm(keyword, value) {
+  const source = compactSearchValue(keyword);
+  const target = compactSearchValue(value);
+  if (source.length < 2 || target.length < 2) return false;
+  if (Math.abs(source.length - target.length) > 2) return false;
+  const maxDistance = getNearSearchDistance(source);
+  if (!maxDistance) return false;
+  return getEditDistance(source, target, maxDistance) <= maxDistance;
+}
+
+function compactSearchValue(value) {
+  return normalizeText(value)
+    .replace(/[()\[\]{}（）【】《》<>\-_/\\.'"]/g, '')
+    .replace(/\s+/g, '');
+}
+
+function getNearSearchDistance(value) {
+  if (value.length >= 8) return 2;
+  if (value.length >= 3) return 1;
+  return hasCjk(value) ? 1 : 0;
+}
+
+function hasCjk(value) {
+  return /[\u3400-\u9FFF]/.test(value);
+}
+
+function getEditDistance(left, right, maxDistance) {
+  let previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+  for (let leftIndex = 1; leftIndex <= left.length; leftIndex += 1) {
+    const current = [leftIndex];
+    let rowMinimum = current[0];
+    for (let rightIndex = 1; rightIndex <= right.length; rightIndex += 1) {
+      const cost = left[leftIndex - 1] === right[rightIndex - 1] ? 0 : 1;
+      const value = Math.min(
+        previous[rightIndex] + 1,
+        current[rightIndex - 1] + 1,
+        previous[rightIndex - 1] + cost
+      );
+      current[rightIndex] = value;
+      rowMinimum = Math.min(rowMinimum, value);
+    }
+    if (rowMinimum > maxDistance) return maxDistance + 1;
+    previous = current;
+  }
+  return previous[right.length];
 }
 
 function getRelatedScore(source, candidate) {
