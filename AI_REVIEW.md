@@ -12,8 +12,9 @@
 - 会员中心权益边界新增订阅说明入口。
 - 支持中心支持边界新增隐私说明入口。
 - 页脚新增固定隐私与条款入口。
+- 页脚隐私与条款入口会跟随当前食品/化妆品类别更新。
 - 路由、页面标题、桌面设置 active 态和移动端“我的” active 态接入合规中心。
-- 更新移动端样式和 PWA app shell 缓存清单，缓存版本升到 `compcheck-shell-v9`。
+- 更新移动端样式和 PWA app shell 缓存清单，缓存版本升到 `compcheck-shell-v10`。
 - 补充合规中心路由、渲染、入口和 service worker 缓存清单测试。
 - 同步更新 `COMMANDS.md` 和 `PROJECT_PLAN.md`。
 
@@ -26,6 +27,7 @@
 - `src/pages/supportPage.js`
 - `src/router/router.js`
 - `src/index.html`
+- `src/main.js`
 - `src/styles.css`
 - `src/sw.js`
 - `scripts/test.mjs`
@@ -50,7 +52,7 @@ git diff --check
 - `npm run test` 通过。
 - `npm run build` 通过，构建产物输出到 `dist/`。
 - `git diff --check` 通过。
-- `curl -I http://127.0.0.1:5178/`、`/pages/legalPage.js`、`/data/legalContent.js` 和 `/sw.js` 均返回 HTTP 200。
+- `curl -I http://127.0.0.1:5178/`、`/main.js`、`/pages/legalPage.js`、`/data/legalContent.js` 和 `/sw.js` 均返回 HTTP 200。
 
 ## 风险点
 
@@ -63,4 +65,5 @@ git diff --check
 - 新增隐私与条款用户流程入口。
 - 新增合规内容模型和合规页面。
 - 扩展设置页、会员中心、支持中心和页脚入口。
+- 修复 Codex 审阅指出的页脚法律入口类别固定问题。
 - 更新 PWA 预缓存与测试覆盖。
