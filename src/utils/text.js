@@ -85,6 +85,7 @@ export function normalizeIngredientItem(value) {
   return stripQuantitySuffix(stripBracketNotes(value))
     .replace(labelPrefixPattern, '')
     .replace(/^\s*[\d一二三四五六七八九十]+[.、)]\s*/, '')
+    .replace(/^\s*(?:食品添加剂|添加剂)\s*[:：-]\s*/, '')
     .replace(/^\s*(?:食品添加剂|添加剂)\s*[:：-]?\s*$/, '')
     .trim();
 }
