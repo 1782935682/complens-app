@@ -468,6 +468,7 @@ assert.deepEqual(splitIngredientInput('苯氧乙醇(防腐剂)，香精（香料
 assert.deepEqual(splitIngredientInput('单，双甘油脂肪酸酯，甘油'), ['单，双甘油脂肪酸酯', '甘油']);
 assert.deepEqual(splitIngredientInput('配料：水，食品添加剂（柠檬酸、山梨酸钾），黄原胶0.1%'), ['水', '柠檬酸', '山梨酸钾', '黄原胶']);
 assert.deepEqual(splitIngredientInput('复配增稠剂（黄原胶、卡拉胶）；食用盐'), ['黄原胶', '卡拉胶', '食用盐']);
+assert.deepEqual(splitIngredientInput('烟酰胺（Niacinamide, Vitamin B3），水杨酸'), ['烟酰胺', '水杨酸']);
 
 const analysis = analyzeIngredientText('水，烟酰胺，透明质酸钠，水杨酸，香精，未知成分');
 assert.equal(analysis.matchedCount, 4);
