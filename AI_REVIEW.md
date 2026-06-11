@@ -20,6 +20,7 @@
 - 处理 PR Review 反馈：关键词搜索会转义 `%`、`_`、`\`，aliases 改为 JSONB 数组元素级 `ILIKE`，并新增 `pg_trgm` 文本搜索 GIN 索引与 aliases JSONB GIN 索引迁移。
 - 处理 Codex Review 反馈：Docker Compose 中 API 容器显式覆盖 `DATABASE_URL=postgres://postgres:password@postgres:5432/compcheck`，保留宿主机命令使用 `localhost:15432`。
 - 处理 Codex Review 反馈：`createApp(config)` 会把 `config.databaseUrl` 传给默认 lazy ingredient service，避免显式配置被服务层重新读取默认环境覆盖。
+- 处理 Codex Review 反馈：`ILIKE` SQL 片段使用 `ESCAPE '\\'`，确保 `%`、`_`、`\` 转义后的搜索模式被 PostgreSQL 正确识别。
 - 后端 Vitest 新增 ingredients API 测试。
 - CI 增加 `backend/**` 触发，并执行后端 `npm ci`、typecheck、test、build。
 - 更新 `COMMANDS.md`、`backend/README.md`、`CODEX_TASKS.md`、`PROJECT_PLAN.md` 和根项目静态断言。
@@ -67,6 +68,7 @@ cd backend && docker compose up -d --build api
 cd backend && docker compose exec api node -e "console.log(process.env.DATABASE_URL)"
 curl "http://127.0.0.1:3000/api/ingredients?q=苯甲酸"
 curl "http://127.0.0.1:3000/api/ingredients?q=E211"
+curl "http://127.0.0.1:3000/api/ingredients?q=%25"
 curl "http://127.0.0.1:3000/api/ingredients/categories"
 curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"
 curl -i "http://127.0.0.1:3000/api/ingredients/not-exist"
@@ -90,6 +92,7 @@ git diff --check
 - API curl 验收通过：
   - `q=苯甲酸` 返回 3 条匹配记录。
   - 容器化 API 请求 `q=E211` 返回 `sodium-benzoate`，确认可连通 compose PostgreSQL 服务。
+  - 容器化 API 请求 `q=%25` 返回空结果且无 SQL 错误，确认 LIKE wildcard 转义路径可执行。
   - `/api/ingredients/categories` 返回分类统计。
   - `/api/ingredients/sodium-benzoate` 返回苯甲酸钠详情。
   - `/api/ingredients/not-exist` 返回 404 `{"error":"not_found"}`。
