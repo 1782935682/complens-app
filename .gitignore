@@ -5,3 +5,8 @@ dist/
 # Capacitor 平台目录（仅保留 capacitor.config.json）
 /ios/
 /android/
+
+# Backend generated files and local secrets
+/backend/node_modules/
+/backend/dist/
+/backend/.env
