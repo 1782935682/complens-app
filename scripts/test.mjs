@@ -295,6 +295,7 @@ const backendAuthServiceSource = await readFile(new URL('../backend/src/services
 assert.match(backendAuthServiceSource, /const BCRYPT_ROUNDS = 12/);
 assert.match(backendAuthServiceSource, /7 \* 24 \* 60 \* 60 \* 1000/);
 assert.match(backendAuthServiceSource, /bcrypt\.hash/);
+assert.match(backendAuthServiceSource, /jti: randomUUID\(\)/);
 assert.match(backendAuthServiceSource, /jwt\.sign/);
 assert.match(backendAuthServiceSource, /jwt\.verify/);
 const backendAuthMiddleware = await readFile(new URL('../backend/src/middleware/auth.ts', import.meta.url), 'utf8');

@@ -53,7 +53,7 @@ export function createAuthService(db: Database, jwtSecret: string, now = () => n
 
   async function issueToken(user: AuthenticatedUser): Promise<AuthTokenResult> {
     const expiresAt = new Date(now().getTime() + SESSION_TTL_MS);
-    const token = jwt.sign({ sub: user.id, email: user.email }, jwtSecret, { expiresIn: JWT_EXPIRES_IN_SECONDS });
+    const token = jwt.sign({ sub: user.id, email: user.email, jti: randomUUID() }, jwtSecret, { expiresIn: JWT_EXPIRES_IN_SECONDS });
 
     await db.insert(sessions).values({
       token,

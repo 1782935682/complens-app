@@ -1,7 +1,9 @@
-import { describe, expect, it, vi } from 'vitest';
+import bcrypt from 'bcrypt';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
+import type { Database } from '../src/db/client.js';
 import { parseBearerToken } from '../src/middleware/auth.js';
-import { AuthServiceError, normalizeEmail, type AuthService, type AuthenticatedUser } from '../src/services/authService.js';
+import { AuthServiceError, createAuthService, normalizeEmail, type AuthService, type AuthenticatedUser } from '../src/services/authService.js';
 
 const baseConfig = {
   corsOrigin: 'http://localhost:5173',
@@ -9,6 +11,10 @@ const baseConfig = {
   jwtSecret: 'test-only-compcheck-jwt-secret',
   port: 3000
 };
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 function createTestApp(authService: AuthService = createInMemoryAuthService()) {
   return createApp(baseConfig, { authService });
@@ -257,5 +263,42 @@ describe('auth helpers', () => {
     expect(parseBearerToken('bearer token-123')).toBe('token-123');
     expect(parseBearerToken('Basic token-123')).toBeNull();
     expect(normalizeEmail(' Tester@Example.COM ')).toBe('tester@example.com');
+  });
+});
+
+describe('createAuthService', () => {
+  it('adds per-session entropy so same-second logins receive distinct JWTs', async () => {
+    const passwordHash = await bcrypt.hash('strong-pass', 4);
+    const user = {
+      id: 'user-1',
+      email: 'tester@example.com',
+      passwordHash,
+      createdAt: new Date('2026-06-11T00:00:00.000Z')
+    };
+    const insertedSessions: Array<{ token: string; userId: string; expiresAt: Date }> = [];
+    const db = {
+      select: () => ({
+        from: () => ({
+          where: () => ({
+            limit: async () => [user]
+          })
+        })
+      }),
+      insert: () => ({
+        values: async (session: { token: string; userId: string; expiresAt: Date }) => {
+          insertedSessions.push(session);
+        }
+      })
+    } as unknown as Database;
+
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-11T00:00:00.000Z'));
+    const service = createAuthService(db, 'test-only-compcheck-jwt-secret', () => new Date('2026-06-11T00:00:00.000Z'));
+
+    const first = await service.login({ email: 'tester@example.com', password: 'strong-pass' });
+    const second = await service.login({ email: 'tester@example.com', password: 'strong-pass' });
+
+    expect(first.token).not.toBe(second.token);
+    expect(insertedSessions.map((session) => session.token)).toEqual([first.token, second.token]);
   });
 });
