@@ -1,38 +1,24 @@
-# AI Review - Native Mobile Adapters
+# AI Review - Native Share URL Follow-up
 
 ## 任务目标
 
-完成 `CODEX_TASKS.md` Batch 2-C：为现有 Vite + Capacitor 基座接入原生相机/相册、系统分享、移动端安全区和 iOS 权限说明，同时保证 Web/桌面环境继续走现有降级路径。
+处理 PR #47 合并后通过 `@codex review` 发现的 follow-up 问题：native Capacitor 环境分享时不能把 `capacitor://localhost`、`https://localhost` 或 hash/相对路径这类应用内部 URL 发给用户。
 
 ## 修改摘要
 
-- 安装 `@capacitor/camera`、`@capacitor/filesystem`、`@capacitor/share`，并锁定在 Capacitor 7.x 兼容范围。
-- 新增 `src/services/nativeBridgeService.js`，集中封装 `Capacitor.isNativePlatform()`、`Camera.getPhoto()` 和 `Share.share()`，非 native 环境直接返回降级结果。
-- 扫描页新增“系统相机/相册”入口；native 环境调用 Camera，Web 或异常时自动触发现有文件输入。
-- 按 Codex Review 反馈修正 native 相机取消行为：用户取消/未选择时留在扫描页，不再弹出第二个文件选择。
-- native base64 图片会计算解码字节数并复用现有图片类型/8 MiB 大小校验，避免绕过 Web 文件输入限制。
-- 分享链路从页面内逻辑迁移到 `shareService`，按原生分享、Web Share API、复制文本三层降级。
-- 将 viewport 改为 `viewport-fit=cover`，并用 `max(env(safe-area-inset-bottom, 0px), 1rem)` 加强移动端底部安全区。
-- 新增 `docs/ios-plist-additions.md`，记录 iOS Info.plist 中相机和相册权限描述。
-- 更新 `public/sw.js` 到 `compcheck-shell-v17`，避免移动 shell 静态资源缓存旧版本。
-- 补充测试覆盖 Capacitor 插件主版本、非 native Camera/Share fallback、viewport、安全区和 iOS 权限文档。
-- 同步更新 `COMMANDS.md`、`CODEX_TASKS.md` 和 `PROJECT_PLAN.md`，当前最早未完成任务推进到 Batch 2-D 人工 iOS 工程配置。
+- `sharePayloadWithFallback()` 在调用 native share 前会生成 native 专用 payload。
+- 新增 `sanitizeNativeSharePayload()`，在 native 分享路径清理内部 URL。
+- 清理范围覆盖 `capacitor://...`、`localhost`、`127.0.0.1`、`0.0.0.0`、hash-only 和相对路径。
+- 公共 URL 或后续配置的非内部 deep link 不会被清理。
+- `shareWithNative()` 只有在 URL 非空时才传给 `Share.share()`。
+- Web Share 和复制 fallback 仍保持原有 Web URL 行为；native share 失败后若继续 fallback，会使用清理后的 payload，避免复制内部链接。
+- 补充回归测试覆盖内部 URL 清理、公共 URL 保留和 native share 注入路径。
 
 ## 修改文件
 
-- `package.json`
-- `package-lock.json`
-- `src/services/nativeBridgeService.js`
 - `src/services/shareService.js`
-- `src/pages/scanPage.js`
-- `src/main.js`
-- `src/index.html`
-- `src/styles.css`
-- `public/sw.js`
-- `docs/ios-plist-additions.md`
+- `src/services/nativeBridgeService.js`
 - `scripts/test.mjs`
-- `COMMANDS.md`
-- `CODEX_TASKS.md`
 - `PROJECT_PLAN.md`
 - `AI_REVIEW.md`
 
@@ -58,12 +44,11 @@ git diff --check
 
 ## 风险点
 
-- native Camera 和 Share 逻辑目前只能在真机或模拟器中完整验收；Node 测试覆盖的是非 native 降级路径。
-- `@capacitor/filesystem` 已安装但本批次尚未消费，后续报告文件、离线包或本地导出能力接入时再使用。
-- iOS 权限描述已写入文档，真正写入 Info.plist 仍属于 Batch 2-D 人工 Xcode 配置。
+- 当前没有正式公网 Web 域名或 app deep link 配置，因此 native share 会省略内部 URL，只分享标题和文本。
+- 后续如果接入正式 Web 域名或 deep link，需要将 payload base URL 改为正式地址，并保留本次内部 URL 防护。
 
 ## 本次 git diff 摘要
 
-- 原生平台能力被封装为可降级服务，扫描和分享页面逻辑保持向后兼容。
-- 移动端 viewport、安全区和 PWA shell 缓存随原生适配一起更新。
-- 测试和文档同步记录 Batch 2-C 完成状态和下一步人工任务。
+- native 分享不会泄露 Capacitor/localhost 内部 URL。
+- 分享 fallback 继续保留桌面 Web 的正常链接。
+- 回归测试固定内部 URL 清理行为。

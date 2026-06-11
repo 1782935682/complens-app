@@ -64,12 +64,13 @@ export async function shareWithNative(payload) {
   }
 
   try {
-    await Share.share({
+    const shareOptions = {
       title: payload.title,
       text: payload.text,
-      url: payload.url,
       dialogTitle: payload.title
-    });
+    };
+    if (payload.url) shareOptions.url = payload.url;
+    await Share.share(shareOptions);
     return { ok: true, reason: '', message: '已打开系统分享。' };
   } catch (error) {
     return {

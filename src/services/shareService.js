@@ -80,6 +80,7 @@ export function buildShareUrl(category = 'food', path = '/', baseUrl = '') {
 export async function sharePayloadWithFallback(payload, options = {}) {
   const {
     copyText,
+    nativeShare = shareWithNative,
     navigatorShare = typeof navigator === 'undefined' ? null : navigator.share?.bind(navigator),
     updateStatus = () => {}
   } = options;
@@ -90,7 +91,9 @@ export async function sharePayloadWithFallback(payload, options = {}) {
   }
 
   try {
-    const nativeResult = await shareWithNative(payload);
+    const nativePayload = sanitizeNativeSharePayload(payload);
+    const nativeResult = await nativeShare(nativePayload);
+    const fallbackPayload = nativeResult.reason === 'web' ? payload : nativePayload;
     if (nativeResult.ok) {
       updateStatus(nativeResult.message || '已打开系统分享。');
       return { ok: true, method: 'native' };
@@ -103,9 +106,9 @@ export async function sharePayloadWithFallback(payload, options = {}) {
     if (typeof navigatorShare === 'function') {
       try {
         await navigatorShare({
-          title: payload.title,
-          text: payload.text,
-          url: payload.url
+          title: fallbackPayload.title,
+          text: fallbackPayload.text,
+          url: fallbackPayload.url
         });
         updateStatus('已打开系统分享。');
         return { ok: true, method: 'web-share' };
@@ -114,13 +117,13 @@ export async function sharePayloadWithFallback(payload, options = {}) {
           updateStatus('已取消系统分享。');
           return { ok: false, method: 'web-share', reason: 'abort' };
         }
-        await copyShareText(payload, copyText);
+        await copyShareText(fallbackPayload, copyText);
         updateStatus(isShareTypeError(error) ? '系统分享不可用，已复制分享内容。' : '系统分享未完成，已复制分享内容。');
         return { ok: true, method: 'copy' };
       }
     }
 
-    await copyShareText(payload, copyText);
+    await copyShareText(fallbackPayload, copyText);
     updateStatus('已复制分享内容。');
     return { ok: true, method: 'copy' };
   } catch {
@@ -137,9 +140,29 @@ export function isShareTypeError(error) {
   return error instanceof TypeError || error?.name === 'TypeError';
 }
 
+export function sanitizeNativeSharePayload(payload) {
+  if (!payload) return payload;
+  if (!isInternalShareUrl(payload.url)) return payload;
+  return {
+    ...payload,
+    url: ''
+  };
+}
+
 function buildReportSharePath(report) {
   const input = String(report.input || '').trim();
   return input ? `/analyze?text=${encodeURIComponent(input)}` : '/analyze';
+}
+
+function isInternalShareUrl(url) {
+  const value = String(url || '').trim();
+  if (!value || value.startsWith('#') || value.startsWith('/')) return true;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === 'capacitor:' || ['localhost', '127.0.0.1', '0.0.0.0'].includes(parsed.hostname);
+  } catch {
+    return true;
+  }
 }
 
 async function copyShareText(payload, copyText) {
