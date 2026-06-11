@@ -5,6 +5,7 @@ function createTestApp() {
   return createApp({
     corsOrigin: 'http://localhost:5173',
     databaseUrl: 'postgres://postgres:password@localhost:15432/compcheck',
+    jwtSecret: 'test-only-compcheck-jwt-secret',
     port: 3000
   });
 }
