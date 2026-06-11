@@ -375,6 +375,7 @@ assert.deepEqual(
 );
 assert.equal(webShareCopyStatuses.at(-1), '系统分享不可用，已复制分享内容。');
 assert.equal(isShareAbort({ name: 'AbortError' }), true);
+assert.equal(isShareAbort({ message: 'cancelled' }), true);
 assert.equal(isShareTypeError(new TypeError('blocked')), true);
 
 const enResults = searchIngredients('BHA');

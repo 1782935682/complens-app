@@ -130,7 +130,7 @@ export async function sharePayloadWithFallback(payload, options = {}) {
 }
 
 export function isShareAbort(error) {
-  return error && (error.name === 'AbortError' || error.code === 20);
+  return error && (error.name === 'AbortError' || error.code === 20 || error.message === 'cancelled');
 }
 
 export function isShareTypeError(error) {
