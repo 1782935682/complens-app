@@ -2,15 +2,17 @@ const API_BASE_URL_KEY = 'compcheck:api-base-url';
 const DEFAULT_API_BASE_URL = '/api';
 const REQUEST_TIMEOUT_MS = 3500;
 
-export async function fetchIngredientSearch({ query = '', filters = {}, page = 1, limit = 20 } = {}) {
+export async function fetchIngredientSearch({ query = '', filters = {}, page = 1, limit = 20, sort = '' } = {}) {
   const params = new URLSearchParams();
   const normalizedQuery = String(query || '').trim();
   const ingredientCategory = String(filters?.ingredientCategory || '').trim();
   const riskLevel = String(filters?.risk || '').trim();
+  const normalizedSort = String(sort || '').trim();
 
   if (normalizedQuery) params.set('q', normalizedQuery);
   if (ingredientCategory) params.set('category', ingredientCategory);
   if (riskLevel) params.set('riskLevel', riskLevel);
+  if (normalizedSort) params.set('sort', normalizedSort);
   params.set('page', String(Math.max(1, Number(page) || 1)));
   params.set('limit', String(Math.max(1, Number(limit) || 20)));
 

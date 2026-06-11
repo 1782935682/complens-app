@@ -293,8 +293,22 @@ assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/:id'/);
 assert.equal(backendIngredientsRoute.indexOf("route.get('/ingredients/search'") < backendIngredientsRoute.indexOf("route.get('/ingredients/:id'"), true);
 assert.match(backendIngredientsRoute, /never interpreted as an ingredient id/);
 assert.match(backendIngredientsRoute, /invalid_parameter/);
+assert.match(backendIngredientsRoute, /sort must be one of relevance, risk, name/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
 assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 2);
+assert.match(backendIngredientServiceSource, /validSearchSorts = \['relevance', 'risk', 'name'\]/);
+assert.match(backendIngredientServiceSource, /\.orderBy\(\.\.\.buildIngredientOrderBy\(params\.sort\)\)[\s\S]*\.limit\(params\.limit\)/);
+assert.match(backendIngredientServiceSource, /when 'high' then 0[\s\S]*when 'medium' then 1[\s\S]*when 'low' then 2/);
+assert.match(backendIngredientServiceSource, /riskFacets,/);
+assert.match(backendIngredientServiceSource, /categoryFacets/);
+assert.match(backendIngredientServiceSource, /buildIngredientWhere\(\{ \.\.\.params, riskLevel: undefined \}\)/);
+assert.match(backendIngredientServiceSource, /buildIngredientWhere\(\{ \.\.\.params, category: undefined \}\)/);
+const ingredientApiServiceSource = await readFile(new URL('../src/services/ingredientApiService.js', import.meta.url), 'utf8');
+assert.match(ingredientApiServiceSource, /params\.set\('sort', normalizedSort\)/);
+const mainSource = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+assert.match(mainSource, /sort: route\.sort/);
+assert.match(mainSource, /riskFacets: result\.riskFacets \|\| \[\]/);
+assert.match(mainSource, /categoryFacets: result\.categoryFacets \|\| \[\]/);
 const backendAuthRoute = await readFile(new URL('../backend/src/routes/auth.ts', import.meta.url), 'utf8');
 assert.match(backendAuthRoute, /route\.post\('\/auth\/register'/);
 assert.match(backendAuthRoute, /route\.post\('\/auth\/login'/);
@@ -773,6 +787,26 @@ const apiRiskSortedHtml = renderSearchPage('', 'food', {}, 1, 'risk', {
   items: [getIngredientById('citric-acid', 'food'), getIngredientById('sodium-benzoate', 'food')]
 });
 assert.equal(apiRiskSortedHtml.indexOf('苯甲酸钠') < apiRiskSortedHtml.indexOf('柠檬酸'), true);
+const apiFacetSourceHtml = renderSearchPage('', 'food', {}, 1, 'relevance', {
+  status: 'success',
+  page: 1,
+  total: 1,
+  totalPages: 1,
+  items: [getIngredientById('sodium-benzoate', 'food')],
+  riskFacets: [
+    { level: 'high', count: 1 },
+    { level: 'medium', count: 3 }
+  ],
+  categoryFacets: [
+    { name: '后端新增分类', count: 2 },
+    { name: '防腐剂', count: 1 }
+  ]
+});
+assert.match(apiFacetSourceHtml, /后端新增分类[\s\S]*2/);
+assert.match(apiFacetSourceHtml, /防腐剂[\s\S]*1/);
+assert.match(apiFacetSourceHtml, /高关注[\s\S]*1/);
+assert.match(apiFacetSourceHtml, /需关注[\s\S]*3/);
+assert.doesNotMatch(apiFacetSourceHtml, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82" data-route>[\s\S]*<span>酸度调节剂<\/span>/);
 const apiClampedPageHtml = renderSearchPage('', 'food', {}, 999, 'relevance', {
   status: 'success',
   page: 2,

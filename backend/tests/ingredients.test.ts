@@ -59,7 +59,9 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
       page: params.page,
       limit: params.limit,
       total: 1,
-      totalPages: 1
+      totalPages: 1,
+      riskFacets: [{ level: 'medium', count: 1 }],
+      categoryFacets: [{ name: '防腐剂', count: 1 }]
     })),
     getIngredientById: vi.fn(async (id) => (id === 'sodium-benzoate'
       ? {
@@ -122,6 +124,7 @@ describe('GET /api/ingredients', () => {
       q: '苯甲酸',
       category: '防腐剂',
       riskLevel: 'medium',
+      sort: undefined,
       page: 2,
       limit: 10
     });
@@ -132,6 +135,7 @@ describe('GET /api/ingredients', () => {
 
     const invalidPage = await app.request('/api/ingredients?page=0');
     const invalidRisk = await app.request('/api/ingredients?riskLevel=critical');
+    const invalidSort = await app.request('/api/ingredients?sort=createdAt');
 
     expect(invalidPage.status).toBe(400);
     expect(await invalidPage.json()).toEqual({
@@ -140,6 +144,7 @@ describe('GET /api/ingredients', () => {
       message: 'page must be a positive integer'
     });
     expect(invalidRisk.status).toBe(400);
+    expect(invalidSort.status).toBe(400);
   });
 });
 
@@ -148,15 +153,18 @@ describe('GET /api/ingredients/search', () => {
     const service = createIngredientService();
     const app = createTestApp(service);
 
-    const response = await app.request('/api/ingredients/search?q=E211&page=1&limit=5');
+    const response = await app.request('/api/ingredients/search?q=E211&page=1&limit=5&sort=risk');
     const body = await response.json();
 
     expect(response.status).toBe(200);
     expect(body.items[0].sourceName).toBe('测试来源');
+    expect(body.riskFacets).toEqual([{ level: 'medium', count: 1 }]);
+    expect(body.categoryFacets).toEqual([{ name: '防腐剂', count: 1 }]);
     expect(service.listIngredients).toHaveBeenCalledWith({
       q: 'E211',
       category: undefined,
       riskLevel: undefined,
+      sort: 'risk',
       page: 1,
       limit: 5
     });

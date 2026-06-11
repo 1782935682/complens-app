@@ -22,8 +22,12 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
   const isApiSuccess = apiState?.status === 'success';
   const apiResults = isApiSuccess ? normalizeApiSearchItems(apiState.items) : [];
   const results = isApiSuccess ? sortSearchResults(apiResults, activeSort) : localResults;
-  const riskFacets = getRiskFacets(query, category, activeFilters, filterOptions.riskLevels);
-  const categoryFacets = getCategoryFacets(query, category, activeFilters);
+  const riskFacets = isApiSuccess
+    ? getApiRiskFacets(apiState.riskFacets, results, filterOptions.riskLevels)
+    : getRiskFacets(query, category, activeFilters, filterOptions.riskLevels);
+  const categoryFacets = isApiSuccess
+    ? getApiCategoryFacets(apiState.categoryFacets, results)
+    : getCategoryFacets(query, category, activeFilters);
   const totalCount = isApiSuccess ? Number(apiState.total || results.length) : results.length;
   const totalPages = isApiSuccess ? Math.max(1, Number(apiState.totalPages || Math.ceil(totalCount / SEARCH_PAGE_SIZE)) || 1) : Math.max(1, Math.ceil(results.length / SEARCH_PAGE_SIZE));
   const activePage = isApiSuccess ? Number(apiState.page || page) : page;
@@ -415,9 +419,66 @@ function getRiskFacets(query, category, activeFilters, riskLevels) {
     .filter((item) => item.count > 0);
 }
 
+function getResultRiskFacets(items, riskLevels) {
+  if (!items.length) return [];
+
+  const counts = new Map();
+  for (const item of items) {
+    const risk = item.riskLevel || 'unknown';
+    counts.set(risk, (counts.get(risk) || 0) + 1);
+  }
+
+  return riskLevels
+    .map((level) => ({ level, count: counts.get(level) || 0 }))
+    .filter((item) => item.count > 0);
+}
+
+function getApiRiskFacets(facets, fallbackItems, riskLevels) {
+  if (!Array.isArray(facets)) return getResultRiskFacets(fallbackItems, riskLevels);
+
+  const counts = new Map();
+  for (const item of facets) {
+    const level = String(item?.level || '').trim();
+    const count = Number(item?.count || 0);
+    if (riskLevels.includes(level) && count > 0) {
+      counts.set(level, count);
+    }
+  }
+
+  return riskLevels
+    .map((level) => ({ level, count: counts.get(level) || 0 }))
+    .filter((item) => item.count > 0);
+}
+
 function getCategoryFacets(query, category, activeFilters) {
   const baseFilters = { ...activeFilters, ingredientCategory: '' };
   const items = searchIngredients(query, category, baseFilters);
+  if (!items.length) return [];
+
+  const counts = new Map();
+  for (const item of items) {
+    const name = item.category || '未分类';
+    counts.set(name, (counts.get(name) || 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+function getApiCategoryFacets(facets, fallbackItems) {
+  if (!Array.isArray(facets)) return getResultCategoryFacets(fallbackItems);
+
+  return facets
+    .map((item) => ({
+      name: String(item?.name || '').trim() || '未分类',
+      count: Number(item?.count || 0)
+    }))
+    .filter((item) => item.count > 0)
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+function getResultCategoryFacets(items) {
   if (!items.length) return [];
 
   const counts = new Map();

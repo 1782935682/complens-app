@@ -85,7 +85,9 @@ async function getSearchApiState(route) {
     items: result.items || [],
     page: responsePage,
     total: result.total || 0,
-    totalPages
+    totalPages,
+    riskFacets: result.riskFacets || [],
+    categoryFacets: result.categoryFacets || []
   };
 }
 
@@ -93,6 +95,7 @@ function requestIngredientSearchPage(route, page) {
   return fetchIngredientSearch({
     query: route.query,
     filters: route.filters,
+    sort: route.sort,
     page,
     limit: API_SEARCH_PAGE_SIZE
   });
