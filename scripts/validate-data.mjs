@@ -108,6 +108,8 @@ function validateSourceReferences(sourceReferences, label, errors) {
     const path = `${label}.sourceReferences[${index}]`;
     requireString(source, 'title', path, errors);
     requireString(source, 'standard', path, errors);
+    requireString(source, 'url', path, errors);
+    requireIsoDate(source, 'retrievedAt', path, errors);
   });
 }
 

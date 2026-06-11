@@ -301,6 +301,16 @@ assert.equal(searchIngredients('INS 211', 'food')[0].id, 'sodium-benzoate');
 assert.equal(searchIngredients('E621', 'food')[0].id, 'monosodium-glutamate');
 assert.equal(searchIngredients('E950', 'food')[0].id, 'acesulfame-potassium');
 assert.equal(searchIngredients('E282', 'food')[0].id, 'calcium-propionate');
+assert.equal(searchIngredients('花青素', 'food')[0].id, 'anthocyanins');
+assert.equal(searchIngredients('E100', 'food')[0].id, 'curcumin');
+assert.equal(searchIngredients('辣椒红', 'food')[0].id, 'paprika-extract');
+assert.equal(searchIngredients('苋菜红', 'food')[0].id, 'amaranth');
+assert.equal(searchIngredients('亮蓝', 'food')[0].id, 'brilliant-blue-fcf');
+assert.equal(searchIngredients('焦磷酸钠', 'food')[0].id, 'sodium-pyrophosphate');
+assert.equal(searchIngredients('三聚磷酸钠', 'food')[0].id, 'sodium-tripolyphosphate');
+assert.equal(searchIngredients('木糖醇', 'food')[0].id, 'xylitol');
+assert.equal(searchIngredients('麦芽糖醇', 'food')[0].id, 'maltitol');
+assert.equal(searchIngredients('赤藓糖醇', 'food')[0].id, 'erythritol');
 assert.equal(searchIngredients('ningmengsuan', 'food')[0].id, 'citric-acid');
 assert.equal(searchIngredients('nms', 'food')[0].id, 'citric-acid');
 assert.equal(searchIngredients('柠猛酸', 'food')[0].id, 'citric-acid');
@@ -325,11 +335,36 @@ assert.deepEqual(searchIngredients('40 mg', 'food'), []);
 assert.deepEqual(searchIngredients('', 'food'), []);
 assert.deepEqual(
   searchIngredients('', 'food', { risk: 'medium', ingredientCategory: '防腐剂' }).map((item) => item.id).sort(),
-  ['calcium-propionate', 'natamycin', 'nisin', 'potassium-nitrate', 'potassium-sorbate', 'sodium-benzoate'].sort()
+  [
+    'benzoic-acid',
+    'calcium-propionate',
+    'natamycin',
+    'nisin',
+    'potassium-benzoate',
+    'potassium-metabisulfite',
+    'potassium-nitrate',
+    'potassium-sorbate',
+    'sodium-benzoate',
+    'sodium-propionate',
+    'sorbic-acid'
+  ].sort()
 );
 assert.deepEqual(
   searchIngredients('防腐剂', 'food', { ingredientCategory: '防腐剂' }).map((item) => item.id).sort(),
-  ['calcium-propionate', 'natamycin', 'nisin', 'potassium-nitrate', 'potassium-sorbate', 'sodium-benzoate', 'sodium-nitrite'].sort()
+  [
+    'benzoic-acid',
+    'calcium-propionate',
+    'natamycin',
+    'nisin',
+    'potassium-benzoate',
+    'potassium-metabisulfite',
+    'potassium-nitrate',
+    'potassium-sorbate',
+    'sodium-benzoate',
+    'sodium-nitrite',
+    'sodium-propionate',
+    'sorbic-acid'
+  ].sort()
 );
 assert.deepEqual(searchIngredients('', 'food', { risk: 'high' }).map((item) => item.id), ['sodium-nitrite']);
 assert.deepEqual(getSearchFilterOptions('food').categories.includes('防腐剂'), true);
@@ -342,33 +377,38 @@ assert.equal(getIngredientById('sulfur-dioxide', 'food').allergenTypes[0], 'sulp
 assert.equal(getIngredientById('sodium-alginate', 'food').gbCode, 'INS 401');
 assert.equal(getIngredientById('carrageenan', 'food').category, '增稠剂');
 assert.equal(getIngredientById('malic-acid', 'food').eNumber, 'E296');
+assert.equal(getIngredientById('sodium-tripolyphosphate', 'food').category, '其他');
+assert.deepEqual(getIngredientById('xylitol', 'food').usageLimits, []);
 const foodAuditSummary = getDatasetAuditSummary('food');
-assert.equal(foodAuditSummary.totalCount, 50);
-assert.equal(foodAuditSummary.categoryCount, 13);
-assert.equal(foodAuditSummary.draftCount, 50);
+assert.equal(foodAuditSummary.totalCount, 100);
+assert.equal(foodAuditSummary.categoryCount, 15);
+assert.equal(foodAuditSummary.draftCount, 100);
 assert.equal(foodAuditSummary.reviewedOrVerifiedCount, 0);
 assert.equal(foodAuditSummary.withUsageLimitsCount, 0);
-assert.equal(foodAuditSummary.missingUsageLimitsCount, 50);
+assert.equal(foodAuditSummary.missingUsageLimitsCount, 100);
 assert.equal(foodAuditSummary.mvpMinimumReached, true);
 const foodSourceSummaries = getDatasetSourceSummaries('food');
 assert.equal(foodSourceSummaries.length, 4);
-assert.equal(foodSourceSummaries[0].recordCount, 50);
+assert.equal(foodSourceSummaries[0].recordCount, 100);
 assert.equal(foodSourceSummaries.some((item) => item.standard === 'GB 2760'), true);
 assert.equal(foodSourceSummaries.some((item) => item.standard === 'FAO/WHO JECFA'), true);
 const foodVersionSummaries = getDatasetVersionSummaries('food');
-assert.deepEqual(foodVersionSummaries, [{ version: 'food-additives-seed-v4', count: 50, latestUpdatedAt: '2026-06-10' }]);
+assert.deepEqual(foodVersionSummaries, [{ version: 'food-additives-seed-v5', count: 100, latestUpdatedAt: '2026-06-11' }]);
 const foodCategorySummaries = getIngredientCategorySummaries('food');
 assert.equal(foodCategorySummaries.find((item) => item.name === '酸度调节剂').count, 9);
-assert.equal(foodCategorySummaries.find((item) => item.name === '防腐剂').count, 7);
-assert.equal(foodCategorySummaries.find((item) => item.name === '防腐剂').riskCounts.medium, 6);
+assert.equal(foodCategorySummaries.find((item) => item.name === '防腐剂').count, 12);
+assert.equal(foodCategorySummaries.find((item) => item.name === '防腐剂').riskCounts.medium, 11);
 assert.equal(foodCategorySummaries.find((item) => item.name === '防腐剂').riskCounts.high, 1);
-assert.equal(foodCategorySummaries.find((item) => item.name === '着色剂').count, 5);
+assert.equal(foodCategorySummaries.find((item) => item.name === '着色剂').count, 13);
 assert.equal(foodCategorySummaries.find((item) => item.name === '增味剂').count, 2);
-assert.equal(foodCategorySummaries.find((item) => item.name === '甜味剂').count, 6);
-assert.equal(foodCategorySummaries.find((item) => item.name === '增稠剂').count, 7);
-assert.equal(foodCategorySummaries.find((item) => item.name === '乳化剂').count, 3);
-assert.equal(foodCategorySummaries.find((item) => item.name === '抗氧化剂').count, 4);
+assert.equal(foodCategorySummaries.find((item) => item.name === '甜味剂').count, 11);
+assert.equal(foodCategorySummaries.find((item) => item.name === '增稠剂').count, 12);
+assert.equal(foodCategorySummaries.find((item) => item.name === '乳化剂').count, 8);
+assert.equal(foodCategorySummaries.find((item) => item.name === '抗氧化剂').count, 9);
 assert.equal(foodCategorySummaries.find((item) => item.name === '抗结剂').count, 1);
+assert.equal(foodCategorySummaries.find((item) => item.name === '膨松剂').count, 6);
+assert.equal(foodCategorySummaries.find((item) => item.name === '香料类').count, 5);
+assert.equal(foodCategorySummaries.find((item) => item.name === '其他').count, 7);
 assert.equal(foodCategorySummaries.every((item) => item.count > 0), true);
 
 const relatedCitricAcid = getRelatedIngredients('citric-acid', 'food');
@@ -406,17 +446,17 @@ assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/data"/);
 assert.match(homeHtmlWithCategoryFilters, /查看来源与审核/);
 assert.match(homeHtmlWithCategoryFilters, /酸度调节剂[\s\S]*9 项/);
 assert.match(homeHtmlWithCategoryFilters, /data-dataset-audit/);
-assert.match(homeHtmlWithCategoryFilters, /50 条[\s\S]*草稿数据/);
+assert.match(homeHtmlWithCategoryFilters, /100 条[\s\S]*草稿数据/);
 assert.match(homeHtmlWithCategoryFilters, /0 条[\s\S]*已复核\/验证/);
 assert.match(homeHtmlWithCategoryFilters, /0%[\s\S]*限量覆盖/);
 const dataPageHtml = renderRoute(resolveRoute('#/food/data'));
 assert.match(dataPageHtml, /数据来源与审核状态/);
 assert.match(dataPageHtml, /data-dataset-detail/);
-assert.match(dataPageHtml, /50 条[\s\S]*当前记录/);
+assert.match(dataPageHtml, /100 条[\s\S]*当前记录/);
 assert.match(dataPageHtml, /4 个来源/);
 assert.match(dataPageHtml, /食品安全国家标准 食品添加剂使用标准/);
 assert.match(dataPageHtml, /GB 2760/);
-assert.match(dataPageHtml, /food-additives-seed-v4/);
+assert.match(dataPageHtml, /food-additives-seed-v5/);
 assert.match(dataPageHtml, /缺逐食品类别限量/);
 assert.match(dataPageHtml, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
 assert.match(dataPageHtml, /data-dataset-correction-link/);
@@ -429,7 +469,7 @@ assert.match(searchHtmlWithSuggestions, /suggestion-item/);
 assert.match(searchHtmlWithSuggestions, /柠檬酸/);
 assert.match(searchHtmlWithSuggestions, /E-number：E330/);
 assert.match(searchHtmlWithSuggestions, /data-dataset-audit-note/);
-assert.match(searchHtmlWithSuggestions, /50 条草稿数据/);
+assert.match(searchHtmlWithSuggestions, /100 条草稿数据/);
 assert.match(searchHtmlWithSuggestions, /使用限量和 ADI 原文仍在审核中/);
 const pinyinSearchHtml = renderSearchPage('ningmengsuan', 'food');
 assert.match(pinyinSearchHtml, /data-search-assist/);
@@ -438,7 +478,7 @@ assert.match(pinyinSearchHtml, /拼音：ningmengsuan/);
 const nearSearchHtml = renderSearchPage('山莉酸钾', 'food');
 assert.match(nearSearchHtml, /近似：山梨酸钾/);
 const firstPageSearchHtml = renderSearchPage('剂', 'food');
-assert.match(firstPageSearchHtml, /显示第 1-6 项，共 50 项/);
+assert.match(firstPageSearchHtml, /显示第 1-6 项，共 100 项/);
 assert.match(firstPageSearchHtml, /href="#\/food\/search\?q=%E5%89%82&page=2"/);
 const riskSortedSearchHtml = renderSearchPage('剂', 'food', {}, 1, 'risk');
 assert.match(riskSortedSearchHtml, /value="risk" selected/);
@@ -448,17 +488,17 @@ assert.match(riskSortedSearchHtml, /category-facets/);
 assert.match(riskSortedSearchHtml, /href="#\/food\/search\?q=%E5%89%82&risk=medium&sort=risk"/);
 assert.match(riskSortedSearchHtml, /href="#\/food\/search\?q=%E5%89%82&ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82&sort=risk"/);
 assert.match(riskSortedSearchHtml, /href="#\/food\/search\?q=%E5%89%82&sort=risk&page=2"/);
-const riskSortedSweetenerHtml = renderSearchPage('', 'food', { ingredientCategory: '甜味剂' }, 1, 'risk');
-assert.equal(riskSortedSweetenerHtml.indexOf('阿斯巴甜') < riskSortedSweetenerHtml.indexOf('三氯蔗糖'), true);
-assert.match(riskSortedSweetenerHtml, /href="#\/food\/search\?ingredientCategory=%E7%94%9C%E5%91%B3%E5%89%82&sort=risk"/);
-assert.match(riskSortedSweetenerHtml, /href="#\/food\/search\?risk=medium&ingredientCategory=%E7%94%9C%E5%91%B3%E5%89%82&sort=risk"/);
+const riskSortedPreservativeHtml = renderSearchPage('', 'food', { ingredientCategory: '防腐剂' }, 1, 'risk');
+assert.equal(riskSortedPreservativeHtml.indexOf('亚硝酸钠') < riskSortedPreservativeHtml.indexOf('丙酸钙'), true);
+assert.match(riskSortedPreservativeHtml, /href="#\/food\/search\?ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82&sort=risk"/);
+assert.match(riskSortedPreservativeHtml, /href="#\/food\/search\?risk=high&ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82&sort=risk"/);
 const mediumNameSortedHtml = renderSearchPage('', 'food', { risk: 'medium' }, 1, 'name');
 assert.match(mediumNameSortedHtml, /href="#\/food\/search\?risk=medium&ingredientCategory=%E9%98%B2%E8%85%90%E5%89%82&sort=name"/);
 const highRiskSearchHtml = renderSearchPage('', 'food', { risk: 'high' });
 assert.match(highRiskSearchHtml, /高关注/);
 assert.match(highRiskSearchHtml, /亚硝酸钠/);
 const pagedSearchHtml = renderSearchPage('剂', 'food', {}, 2);
-assert.match(pagedSearchHtml, /显示第 7-12 项，共 50 项/);
+assert.match(pagedSearchHtml, /显示第 7-12 项，共 100 项/);
 assert.match(pagedSearchHtml, /aria-current="page">2</);
 assert.match(pagedSearchHtml, /href="#\/food\/search\?q=%E5%89%82"/);
 assert.doesNotMatch(pagedSearchHtml, /<h3>阿斯巴甜<\/h3>/);
@@ -1296,6 +1336,8 @@ const invalidFoodAdditive = {
 };
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceNote is required/);
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /dataCategory must be "food"/);
+assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceReferences\[0\]\.url is required/);
+assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceReferences\[0\]\.retrievedAt must use YYYY-MM-DD/);
 assert.deepEqual(
   getMatchingUserAllergens({ allergenTypes: ['milk', 'soybeans'] }, ['milk']).map((allergen) => allergen.id),
   ['milk']

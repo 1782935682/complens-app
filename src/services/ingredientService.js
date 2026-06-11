@@ -331,6 +331,7 @@ function getLooseNameMatchScore(keyword, compactKeyword, normalizedName, compact
   if (!keyword || !normalizedName) return 0;
   if (normalizedName === keyword || compactName === compactKeyword) return 100 + Math.min(compactName.length, 20);
   if (compactKeyword.length < 2) return 0;
+  if (isAmbiguousColorantStem(compactKeyword, compactName)) return 0;
   if (compactName.startsWith(compactKeyword)) return 70 + Math.min(compactKeyword.length, 20);
   if (compactName.includes(compactKeyword)) return 50 + Math.min(compactKeyword.length, 20);
   if (compactName.length >= 3 && hasCjk(compactName) && hasAllowedIngredientPrefix(compactKeyword, compactName)) return 40 + Math.min(compactName.length, 20);
@@ -443,6 +444,11 @@ function getNearSearchDistance(value) {
 
 function hasCjk(value) {
   return /[\u3400-\u9FFF]/.test(value);
+}
+
+function isAmbiguousColorantStem(compactKeyword, compactName) {
+  if (!hasCjk(compactKeyword) || compactKeyword.length > 2 || !compactName.startsWith(compactKeyword)) return false;
+  return ['红', '蓝', '黄', '绿', '色', '素', '色素', '红色素', '蓝色素', '黄色素', '绿色素'].includes(compactName.slice(compactKeyword.length));
 }
 
 function hasAllowedIngredientPrefix(compactKeyword, compactName) {
