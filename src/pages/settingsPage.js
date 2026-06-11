@@ -37,6 +37,22 @@ export function renderSettingsPage(category = 'food') {
     </section>
 
     <section class="section">
+      <div class="info-block">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">合规材料</p>
+            <h2>隐私与条款</h2>
+          </div>
+          <span class="count">草案</span>
+        </div>
+        <p class="helper-text">查看隐私政策、服务条款、订阅说明、数据安全和内容来源边界。正式上线前仍需按真实服务和平台要求复核。</p>
+        <div class="form-actions">
+          <a class="button-link secondary-link" href="#${categoryPath(category, '/legal')}" data-route>查看隐私与条款</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <form class="settings-panel" data-allergen-form>
         <div class="allergen-grid">
           ${standardAllergens.map((allergen) => renderAllergenOption(allergen, selected.has(allergen.id))).join('')}
