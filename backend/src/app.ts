@@ -3,8 +3,14 @@ import { cors } from 'hono/cors';
 import type { AppConfig } from './config.js';
 import { requestLogger } from './middleware/requestLogger.js';
 import { healthRoute } from './routes/health.js';
+import { createIngredientsRoute } from './routes/ingredients.js';
+import { createLazyIngredientService, type IngredientService } from './services/ingredientService.js';
 
-export function createApp(config: AppConfig) {
+export type AppServices = {
+  ingredientService?: IngredientService;
+};
+
+export function createApp(config: AppConfig, services: AppServices = {}) {
   const app = new Hono();
 
   app.use('*', cors({
@@ -15,6 +21,7 @@ export function createApp(config: AppConfig) {
   app.use('*', requestLogger());
 
   app.route('/', healthRoute);
+  app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService()));
 
   app.notFound((context) => context.json({ error: 'not_found' }, 404));
   app.onError((error, context) => {

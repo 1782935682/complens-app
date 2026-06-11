@@ -5,6 +5,7 @@ on:
     paths:
       - 'public/**'
       - 'src/**'
+      - 'backend/**'
       - 'scripts/**'
       - 'package.json'
       - 'package-lock.json'
@@ -15,6 +16,7 @@ on:
     paths:
       - 'public/**'
       - 'src/**'
+      - 'backend/**'
       - 'scripts/**'
       - 'package.json'
       - 'package-lock.json'
@@ -41,3 +43,15 @@ jobs:
       - run: npm run test
 
       - run: npm run build
+
+      - run: npm ci
+        working-directory: backend
+
+      - run: npm run typecheck
+        working-directory: backend
+
+      - run: npm test
+        working-directory: backend
+
+      - run: npm run build
+        working-directory: backend

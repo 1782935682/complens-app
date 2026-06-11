@@ -87,6 +87,27 @@ npm test
 npm run build
 ```
 
+数据库迁移与食品添加剂种子数据：
+
+```bash
+cd backend
+cp .env.example .env
+docker compose up -d postgres
+npm run db:migrate
+npm run db:seed
+```
+
+默认 PostgreSQL 宿主端口为 `15432`，避免和本机已有 `5432` 冲突；如需调整，可在 `backend/.env` 设置 `POSTGRES_PORT` 并同步 `DATABASE_URL`。
+
+成分 API 验收：
+
+```bash
+curl "http://127.0.0.1:3000/api/ingredients?q=苯甲酸"
+curl "http://127.0.0.1:3000/api/ingredients/categories"
+curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"
+curl -i "http://127.0.0.1:3000/api/ingredients/not-exist"
+```
+
 Docker 本地栈：
 
 ```bash
@@ -94,7 +115,7 @@ cd backend
 docker compose up --build
 ```
 
-该命令会启动 PostgreSQL 15 和 API 服务；数据库 schema 和迁移将在后续 Batch 3-B 接入。
+该命令会启动 PostgreSQL 15 和 API 服务。
 
 后端本地密钥和生成物不纳入版本管理：`backend/.env`、`backend/node_modules/`、`backend/dist/` 均已忽略。
 

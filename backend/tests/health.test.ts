@@ -4,6 +4,7 @@ import { createApp } from '../src/app.js';
 function createTestApp() {
   return createApp({
     corsOrigin: 'http://localhost:5173',
+    databaseUrl: 'postgres://postgres:password@localhost:15432/compcheck',
     port: 3000
   });
 }
