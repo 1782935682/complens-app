@@ -710,7 +710,11 @@ async function sharePayload(payload, updateStatus) {
         });
         updateStatus('已打开系统分享。');
         return;
-      } catch {
+      } catch (error) {
+        if (isShareAbort(error)) {
+          updateStatus('已取消系统分享。');
+          return;
+        }
         await copyText(formatShareText(payload));
         updateStatus('系统分享未完成，已复制分享内容。');
         return;
@@ -725,6 +729,10 @@ async function sharePayload(payload, updateStatus) {
 
 function getShareBaseUrl() {
   return typeof window === 'undefined' ? '' : window.location.href;
+}
+
+function isShareAbort(error) {
+  return error && (error.name === 'AbortError' || error.code === 20);
 }
 
 async function readTextFile(file) {

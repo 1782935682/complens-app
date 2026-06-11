@@ -200,6 +200,7 @@ assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
 assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route\.category, '\/support'\)\}`\)/);
 assert.match(mainJs, /navigator\.share/);
 assert.match(mainJs, /formatShareText\(payload\)/);
+assert.match(mainJs, /isShareAbort\(error\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
 assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v13'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
