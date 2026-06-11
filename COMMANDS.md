@@ -59,6 +59,12 @@ npm run preview
 
 当前移动端脚手架使用 Capacitor 7.x，匹配仓库 `Node.js >= 20.19` 的运行口径。不要升级到要求 Node 22+ 的 Capacitor 主版本，除非同步升级 `package.json` engines、CI Node 版本和本文档。
 
+已接入的 Capacitor 7.x 插件：
+
+- `@capacitor/camera`：原生相机 / 相册选择，Web 环境降级到文件输入。
+- `@capacitor/share`：原生系统分享，Web 环境降级到 Web Share API 或复制。
+- `@capacitor/filesystem`：随移动端基座安装，后续用于报告和离线文件能力。
+
 ```bash
 npm run cap:sync
 ```
@@ -122,6 +128,8 @@ npm run test
 - 隐私与条款路由、隐私政策草案、服务条款草案、订阅说明、数据安全和内容来源说明
 - 成分对比路由、本机对比列表、搜索 / 详情 / 收藏入口和横向对比页
 - 详情、报告和成分对比分享 / 复制 fallback
+- Capacitor Camera / Share 非 native 环境降级不崩溃
+- iOS 权限描述文档、viewport-fit 和安全区样式断言
 - 本地报告历史检索
 - 本地报告来源引用与审核状态导出
 - AI/OCR 未配置时的降级返回

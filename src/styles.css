@@ -1590,6 +1590,17 @@ button.danger-button:hover {
   min-width: 0;
 }
 
+.scan-source-actions {
+  display: grid;
+  grid-template-columns: minmax(150px, auto) minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.scan-source-actions input {
+  min-width: 0;
+}
+
 .scan-preview {
   display: grid;
   place-items: center;
@@ -2409,7 +2420,7 @@ button.danger-button:hover {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 4px;
-    padding: 8px max(10px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-right));
+    padding: 8px max(10px, env(safe-area-inset-left)) max(env(safe-area-inset-bottom, 0px), 1rem) max(10px, env(safe-area-inset-right));
     border-top: 1px solid rgba(220, 227, 223, 0.9);
     background: rgba(255, 255, 255, 0.96);
     box-shadow: 0 -8px 24px rgba(23, 39, 35, 0.08);
@@ -2435,11 +2446,11 @@ button.danger-button:hover {
   }
 
   .app-shell {
-    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+    padding-bottom: calc(92px + max(env(safe-area-inset-bottom, 0px), 1rem));
   }
 
   .app-footer {
-    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
   }
 
   .hero,
@@ -2474,6 +2485,10 @@ button.danger-button:hover {
 
   .hero {
     min-height: auto;
+  }
+
+  .scan-source-actions {
+    grid-template-columns: 1fr;
   }
 
   .search-row,

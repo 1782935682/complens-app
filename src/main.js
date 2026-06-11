@@ -6,7 +6,8 @@ import { getIngredientById, getSearchSuggestions } from './services/ingredientSe
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { getCompareOverview } from './services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, formatShareText } from './services/shareService.js';
+import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, sharePayloadWithFallback } from './services/shareService.js';
+import { getNativeCameraPhoto, isNativePlatform } from './services/nativeBridgeService.js';
 import { buildSupportRequestMarkdown } from './services/supportService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
@@ -324,6 +325,54 @@ function bindPageEvents(route) {
         if (feedback) feedback.textContent = result.message;
       } catch {
         if (feedback) feedback.textContent = '识别失败，请换一张更清晰的图片或直接录入成分表文本。';
+      }
+    });
+  }
+
+  const nativeScanImageButton = document.querySelector('[data-native-scan-image]');
+  if (nativeScanImageButton) {
+    nativeScanImageButton.addEventListener('click', async () => {
+      const fileInput = document.querySelector('[data-scan-image-input]');
+      const preview = document.querySelector('[data-scan-preview]');
+      scanPreviewRotation = 0;
+
+      if (!isNativePlatform()) {
+        updateScanFeedback('当前为 Web 环境，已打开文件选择。');
+        openScanFilePicker(fileInput);
+        return;
+      }
+
+      nativeScanImageButton.disabled = true;
+      updateScanFeedback('正在打开系统相机或相册...');
+      try {
+        const result = await getNativeCameraPhoto();
+        if (!result.ok) {
+          if (result.reason === 'cancelled' || result.reason === 'empty') {
+            updateScanFeedback(result.message || '已取消系统相机或相册选择。');
+            return;
+          }
+          updateScanFeedback(result.message || '系统相机或相册不可用，已打开文件选择。');
+          openScanFilePicker(fileInput);
+          return;
+        }
+
+        const validation = validateScanImageFile({ type: result.mimeType, size: result.size });
+        if (!validation.ok) {
+          updateScanPreview(preview, null, validation);
+          updateScanImageActionState({ canRotate: false, canClear: false });
+          updateScanFeedback(validation.message);
+          return;
+        }
+
+        scanPreviewRotation = 0;
+        updateScanPreviewWithDataUrl(preview, result.dataUrl);
+        updateScanImageActionState({ canRotate: true, canClear: true });
+        updateScanFeedback(result.message);
+      } catch {
+        updateScanFeedback('系统相机或相册不可用，已打开文件选择。');
+        openScanFilePicker(fileInput);
+      } finally {
+        nativeScanImageButton.disabled = false;
       }
     });
   }
@@ -707,52 +756,11 @@ async function copyText(text) {
 }
 
 async function sharePayload(payload, updateStatus) {
-  if (!payload) {
-    updateStatus('没有可分享的内容。');
-    return;
-  }
-  try {
-    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
-      try {
-        await navigator.share({
-          title: payload.title,
-          text: payload.text,
-          url: payload.url
-        });
-        updateStatus('已打开系统分享。');
-        return;
-      } catch (error) {
-        if (isShareAbort(error)) {
-          updateStatus('已取消系统分享。');
-          return;
-        }
-        if (isShareTypeError(error)) {
-          await copyText(formatShareText(payload));
-          updateStatus('系统分享不可用，已复制分享内容。');
-          return;
-        }
-        await copyText(formatShareText(payload));
-        updateStatus('系统分享未完成，已复制分享内容。');
-        return;
-      }
-    }
-    await copyText(formatShareText(payload));
-    updateStatus('已复制分享内容。');
-  } catch {
-    updateStatus('分享失败，请稍后再试。');
-  }
+  await sharePayloadWithFallback(payload, { copyText, updateStatus });
 }
 
 function getShareBaseUrl() {
   return typeof window === 'undefined' ? '' : window.location.href;
-}
-
-function isShareAbort(error) {
-  return error && (error.name === 'AbortError' || error.code === 20);
-}
-
-function isShareTypeError(error) {
-  return error instanceof TypeError || error?.name === 'TypeError';
 }
 
 async function readTextFile(file) {
@@ -826,6 +834,32 @@ function updateScanPreview(preview, file, validation = validateScanImageFile(fil
   const placeholder = document.createElement('span');
   placeholder.textContent = '图片已选择。';
   preview.append(placeholder);
+}
+
+function updateScanPreviewWithDataUrl(preview, dataUrl) {
+  if (!preview) return;
+  revokeScanPreviewObjectUrl();
+  preview.replaceChildren();
+  if (!dataUrl) {
+    const placeholder = document.createElement('span');
+    placeholder.textContent = '未选择图片';
+    preview.append(placeholder);
+    return;
+  }
+
+  const image = document.createElement('img');
+  image.alt = '已选择图片预览';
+  image.src = dataUrl;
+  applyScanPreviewRotation(image);
+  preview.append(image);
+}
+
+function openScanFilePicker(fileInput) {
+  try {
+    if (fileInput && typeof fileInput.click === 'function') fileInput.click();
+  } catch {
+    // File input is the progressive fallback; if the browser blocks click(), the visible input remains usable.
+  }
 }
 
 function applyScanPreviewRotation(image) {
