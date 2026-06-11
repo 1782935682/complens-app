@@ -1,33 +1,30 @@
-# AI Review - Ingredient Compare
+# AI Review - Support Center
 
 ## 任务目标
 
-新增成分对比产品闭环，让用户能从搜索结果、详情页和收藏页把同类别成分加入本机对比列表，并在 `/compare` 页面横向比较关注等级、功能分类、使用提醒、过敏原和食品数据状态。
+新增支持中心产品闭环，让用户能从设置页和会员中心进入 `/support`，记录订阅权益、数据纠错、扫描分析、隐私数据和功能问题，并把反馈记录纳入本机数据导出、导入和清空流程。
 
 ## 修改摘要
 
-- 修复 PR 审查反馈：读取和导入本机数据时先校验对比项类别并丢弃无法解析的 stale 对比项，再按类别最多保留 4 个项目，避免通过 JSON 导入绕过页面上限、让隐藏无效项占满名额，或保留 `cosmetic` 等无法路由清理的错误类别。
-- 新增本机对比列表存储，最多保存同类别 4 个成分，并随本机数据快照导出、导入和清空。
-- 新增 `compareService` 汇总对比数据，统一生成横向对比行。
-- 新增 `/compare` 页面，支持空状态、单项提示、对比卡片、横向表格、移出和清空。
-- 搜索结果、详情页和收藏页新增加入对比入口，并提供本页状态反馈。
-- 路由、桌面导航、页面标题和移动端 active 态接入成分对比。
-- 设置页本机数据摘要新增对比列表数量。
-- 更新移动端样式和 PWA app shell 缓存清单，缓存版本升到 `compcheck-shell-v7`。
-- 补充成分对比路由、渲染、存储、导出导入、导入上限截断、无效导入项过滤、错误类别过滤、旧版脏 localStorage 过滤和 service worker 缓存清单测试。
+- 新增支持主题数据模型和支持记录 Markdown 复制服务。
+- 新增本机支持记录存储，支持保存、读取、删除、按类别清空和本机快照导出导入。
+- 新增 `/support` 页面，包含问题类型、标题、描述、联系方式、本机保存边界确认、最近反馈、复制、删除、清空和空状态。
+- 设置页新增联系支持入口，并在本机数据摘要中展示反馈记录数量。
+- 会员中心的“联系客服”改为跳转支持中心，不再停留在未接入提示。
+- 路由、页面标题、桌面设置 active 态和移动端“我的” active 态接入支持中心。
+- 更新移动端样式和 PWA app shell 缓存清单，缓存版本升到 `compcheck-shell-v8`。
+- 补充支持中心路由、渲染、存储、导出导入、复制内容、删除清空和 service worker 缓存清单测试。
 - 同步更新 `COMMANDS.md` 和 `PROJECT_PLAN.md`。
 
 ## 修改文件
 
-- `src/services/compareService.js`
-- `src/pages/comparePage.js`
+- `src/data/supportTopics.js`
+- `src/services/supportService.js`
+- `src/pages/supportPage.js`
 - `src/store/userStore.js`
-- `src/pages/searchPage.js`
-- `src/pages/detailPage.js`
-- `src/pages/favoritesPage.js`
 - `src/pages/settingsPage.js`
+- `src/pages/membershipPage.js`
 - `src/router/router.js`
-- `src/index.html`
 - `src/main.js`
 - `src/styles.css`
 - `src/sw.js`
@@ -49,26 +46,25 @@ git diff --check
 ## 验证结果
 
 - `npm run validate:data`：通过，50 条食品添加剂数据校验通过。
-- `npm run lint`：通过，39 个 JavaScript 文件和 45 个文本文件扫描通过。
+- `npm run lint`：通过，42 个 JavaScript 文件和 48 个文本文件扫描通过。
 - `npm run test`：通过。
 - `npm run build`：通过，已生成 `dist/`。
 - `git diff --check`：通过。
-- `curl -I http://127.0.0.1:5173/`：通过，返回 `HTTP/1.1 200 OK`。
-- `curl -I http://127.0.0.1:5173/pages/comparePage.js`：通过，返回 `HTTP/1.1 200 OK`。
-- `curl -I http://127.0.0.1:5173/services/compareService.js`：通过，返回 `HTTP/1.1 200 OK`。
-- `curl -I http://127.0.0.1:5173/sw.js`：通过，返回 `HTTP/1.1 200 OK`。
+- `curl -I http://127.0.0.1:5177/`：通过，返回 `HTTP/1.1 200 OK`。
+- `curl -I http://127.0.0.1:5177/pages/supportPage.js`：通过，返回 `HTTP/1.1 200 OK`。
+- `curl -I http://127.0.0.1:5177/services/supportService.js`：通过，返回 `HTTP/1.1 200 OK`。
+- `curl -I http://127.0.0.1:5177/data/supportTopics.js`：通过，返回 `HTTP/1.1 200 OK`。
+- `curl -I http://127.0.0.1:5177/sw.js`：通过，返回 `HTTP/1.1 200 OK`。
 
 ## 风险点
 
-- 当前对比列表只存储在 localStorage，不具备账号同步、跨设备恢复或服务端可信状态。
-- 横向表格已做移动端横向滚动，但仍需要真机截图验收来确认小屏触控和动态字体下的体验。
-- 对比维度来自现有成分字段，食品逐条限量和来源条款仍处于草稿数据阶段。
-- 暂未提供拖拽排序、分享链接或报告化导出，后续可作为 Pro 报告或高级工具能力扩展。
+- 当前支持记录只保存在 localStorage，不会真正提交到客服后台，也不具备跨设备同步。
+- 复制反馈内容依赖浏览器剪贴板能力；不支持时只能显示失败状态，后续需要结合真实客服入口或邮件入口。
+- 支持中心已加入本机数据导出/导入/清空，但还没有账号删除、服务端工单状态和客服 SLA。
 
 ## 本次 git diff 摘要
 
-- 新增成分对比用户流程入口。
-- 新增对比服务和对比页。
-- 扩展本机数据快照和设置页摘要。
-- 修复导入快照绕过对比数量上限、无效对比项占用名额、错误类别对比项无法显示清理、旧版脏 localStorage 阻塞新增的问题。
+- 新增支持中心用户流程入口。
+- 新增支持主题、支持记录服务和支持页。
+- 扩展本机数据快照、设置页摘要和会员中心客服入口。
 - 更新 PWA 预缓存与测试覆盖。

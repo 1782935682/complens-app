@@ -1,5 +1,5 @@
 import { escapeHtml, html } from '../components/render.js';
-import { getProductCategory } from '../data/categories.js';
+import { categoryPath, getProductCategory } from '../data/categories.js';
 import { getMembershipOverview } from '../services/membershipService.js';
 
 export function renderMembershipPage(category = 'food') {
@@ -63,7 +63,7 @@ export function renderMembershipPage(category = 'food') {
           <button type="button" data-membership-action="purchase">查看 Pro</button>
           <button type="button" class="secondary" data-membership-action="restore">恢复购买</button>
           <button type="button" class="secondary" data-membership-action="manage">管理订阅</button>
-          <button type="button" class="secondary" data-membership-action="support">联系客服</button>
+          <a class="button-link secondary-link" href="#${categoryPath(category, '/support')}" data-route>联系客服</a>
           <span class="save-status" data-membership-status role="status" aria-live="polite"></span>
         </div>
       </div>
