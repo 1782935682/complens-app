@@ -69,18 +69,29 @@ function shouldUseIngredientApi(route) {
 }
 
 async function getSearchApiState(route) {
-  const result = await fetchIngredientSearch({
-    query: route.query,
-    filters: route.filters,
-    page: route.page,
-    limit: API_SEARCH_PAGE_SIZE
-  });
+  const requestedPage = Math.max(1, Number(route.page) || 1);
+  let result = await requestIngredientSearchPage(route, requestedPage);
+  const totalPages = Math.max(1, Number(result.totalPages || 1) || 1);
+
+  if (requestedPage > totalPages) {
+    result = await requestIngredientSearchPage(route, totalPages);
+  }
+
   return {
     status: 'success',
     items: result.items || [],
     total: result.total || 0,
     totalPages: result.totalPages || 1
   };
+}
+
+function requestIngredientSearchPage(route, page) {
+  return fetchIngredientSearch({
+    query: route.query,
+    filters: route.filters,
+    page,
+    limit: API_SEARCH_PAGE_SIZE
+  });
 }
 
 async function getDetailApiState(route) {

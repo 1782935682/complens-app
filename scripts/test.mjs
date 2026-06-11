@@ -387,6 +387,8 @@ assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboa
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
 assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route\.category, '\/support'\)\}`\)/);
+assert.match(mainJs, /if \(requestedPage > totalPages\)/);
+assert.match(mainJs, /requestIngredientSearchPage\(route, totalPages\)/);
 assert.match(mainJs, /sharePayloadWithFallback\(payload, \{ copyText, updateStatus \}\)/);
 assert.match(mainJs, /getNativeCameraPhoto\(\)/);
 assert.match(mainJs, /isNativePlatform\(\)/);
@@ -714,6 +716,8 @@ assert.match(filteredSearchHtml, /value="防腐剂" selected/);
 assert.match(filteredSearchHtml, /关注等级：需关注/);
 assert.match(filteredSearchHtml, /成分分类：防腐剂/);
 assert.match(filteredSearchHtml, /href="#\/food\/search"/);
+const cosmeticSearchHtml = renderSearchPage('retinol', 'cosmetics');
+assert.doesNotMatch(cosmeticSearchHtml, /data-badge--unverified/);
 const homeHtmlWithCategoryFilters = renderHomePage('food');
 assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
 assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/data"/);

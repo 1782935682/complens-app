@@ -255,7 +255,7 @@ function renderResults(results, category) {
           <a class="result-item__main" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
             <span class="${riskClass(result.riskLevel)}">${riskLabel(result.riskLevel)}</span>
             ${allergenMatches.length ? `<span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}</span>` : ''}
-            ${!result.isVerified ? `<span class="data-badge data-badge--unverified">${escapeHtml(confidenceLabel(result.confidenceLevel))}</span>` : ''}
+            ${shouldShowProvenanceBadge(result, category) ? `<span class="data-badge data-badge--unverified">${escapeHtml(confidenceLabel(result.confidenceLevel))}</span>` : ''}
             <h3>${escapeHtml(result.nameCn)}</h3>
             <p class="latin">${escapeHtml(result.nameEn || '')}</p>
             <p>${escapeHtml(result.description)}</p>
@@ -271,6 +271,10 @@ function renderResults(results, category) {
       }).join('')}
     </div>
   `;
+}
+
+function shouldShowProvenanceBadge(result, category) {
+  return category === 'food' && result?.isVerified === false;
 }
 
 function normalizeApiSearchItems(items) {
