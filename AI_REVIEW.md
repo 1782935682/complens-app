@@ -1,28 +1,27 @@
-# AI Review - Analysis Confidence Flow
+# AI Review - Capacitor Scaffold
 
 ## 任务目标
 
-新增成分表分析置信度闭环，让用户粘贴更接近真实包装的配料文本时，系统能更稳地拆分复配添加剂、清理剂量后缀，并明确展示本地库匹配覆盖率、匹配原因、置信度和需要核对的条目。
+完成 `CODEX_TASKS.md` Batch 2-B：为现有 Vite Web 应用补齐 Capacitor 项目脚手架，让后续 iOS/Android 原生权限、同步和人工平台配置可以在明确命令下继续推进。
 
 ## 修改摘要
 
-- `splitIngredientInput()` 支持 `配料：` / `成分：` 前缀清理、复配添加剂括号展开、剂量/百分比后缀清理，并保留原有单/双甘油脂肪酸酯保护逻辑。
-- `analyzeIngredientText()` 新增 `analysisItems` 和 `quality`，返回逐条匹配原因、置信度、覆盖率、低置信数量和暂未收录数量。
-- 分析页新增解析质量面板，展示覆盖率、解析条目、本地匹配、暂未收录、低置信和逐条核对提示。
-- 补充移动端样式，解析质量指标和匹配条目在小屏下单列展示。
-- PWA shell 缓存版本升到 `compcheck-shell-v14`。
-- 补充真实包装成分表拆分、分析置信度、解析质量面板和 service worker 缓存测试。
-- 同步更新 `COMMANDS.md` 和 `PROJECT_PLAN.md`。
+- 安装 `@capacitor/core`、`@capacitor/cli`、`@capacitor/ios`、`@capacitor/android`，并更新锁文件。
+- 按 PR review 反馈将 Capacitor 固定在 7.x，避免 Capacitor 8 的 Node 22+ engine 要求和仓库 Node 20.19 口径冲突。
+- 新增 `capacitor.config.json`，固定 `appId`、`appName`、`webDir` 和 Android scheme。
+- 增加 `cap:sync`、`cap:open:ios`、`cap:open:android` 命令。
+- 在 `.gitignore` 忽略本机生成的 `ios/` 和 `android/` 平台目录，仅保留 Capacitor 配置入库。
+- `scripts/test.mjs` 增加 Capacitor 依赖主版本、CLI Node engine、脚本、配置和忽略规则断言，避免脚手架后续被误删或误升主版本。
+- 同步更新 `COMMANDS.md`、`CODEX_TASKS.md` 和 `PROJECT_PLAN.md`，当前最早未完成任务推进到 Batch 2-C。
 
 ## 修改文件
 
-- `src/utils/text.js`
-- `src/services/ingredientService.js`
-- `src/pages/analyzePage.js`
-- `src/types/ingredient.js`
-- `src/styles.css`
-- `src/sw.js`
+- `capacitor.config.json`
+- `package.json`
+- `package-lock.json`
+- `.gitignore`
 - `scripts/test.mjs`
+- `CODEX_TASKS.md`
 - `COMMANDS.md`
 - `PROJECT_PLAN.md`
 - `AI_REVIEW.md`
@@ -30,6 +29,8 @@
 ## 验证命令
 
 ```bash
+npm run build && npx cap sync
+npx cap doctor
 npm run validate:data
 npm run lint
 npm run test
@@ -39,28 +40,26 @@ git diff --check
 
 ## 验证结果
 
-- `npm run validate:data` 通过，50 条食品添加剂记录校验成功。
-- `npm run lint` 通过。
+- `npm run build` 通过，生成 `dist/` 产物。
+- `npx cap add ios` 通过，已生成本机 `ios/` 平台目录并同步 Web 产物。
+- `npx cap add android` 通过，已生成本机 `android/` 平台目录并同步 Web 产物。
+- `npm run cap:sync` 通过，Vite 构建和 Capacitor 两端同步均成功。
+- `npm view @capacitor/cli@7 version engines` 确认 Capacitor 7.x CLI 要求 `node >=20.0.0`，最新 7.x 为 7.6.6。
+- `npx cap doctor` 检测到已安装 Capacitor 7.6.6 依赖，Android 状态正常；因本机未安装 Xcode 返回非零状态，属于本批次允许的本机 IDE 缺失提示。
+- `npm run validate:data` 通过，100 条食品添加剂记录校验成功。
+- `npm run lint` 通过，46 个 JavaScript 文件和 53 个文本文件扫描成功。
 - `npm run test` 通过。
-- `npm run build` 通过，构建产物输出到 `dist/`。
+- `npm run build` 通过。
 - `git diff --check` 通过。
-- `curl -I http://127.0.0.1:5181/`、`/main.js`、`/pages/analyzePage.js`、`/services/ingredientService.js`、`/utils/text.js`、`/styles.css` 和 `/sw.js` 均返回 HTTP 200。
 
 ## 风险点
 
-- 当前置信度来自本地字符串匹配分数，不是机器学习模型；后续接入真实 OCR/AI 后需要重新校准阈值。
-- 已按 Codex 审阅意见限制非泛型括号展开，避免 `烟酰胺（Niacinamide, Vitamin B3）` 和 `烟酰胺（尼克酰胺、维生素B3）` 这类别名说明被拆成未知成分。
-- 已按 Codex 审阅意见补齐现有食品添加剂分类中的泛型括号包装，避免 `抗结剂（二氧化硅）` 这类单项添加剂被丢弃。
-- 已按 Codex 审阅意见限制三字中文成分的嵌入式低置信匹配，避免 `脱氢乙酸钠` 被误判为 `乙酸钠`。
-- 已按 Codex 审阅意见保留泛型括号内的单项添加剂，避免 `食品添加剂（柠檬酸钠）` 被丢弃。
-- 已按 Codex 审阅意见将中等置信匹配纳入需要核对状态，避免 `柠檬` 这类前缀匹配被展示为稳定匹配。
-- 已按 Codex 审阅意见剥离冒号型添加剂标签，避免 `食品添加剂：柠檬酸` 被当作未知项。
-- 已按 DeepSeek 审阅意见收敛括号与匹配边界：无前缀括号不展开，允许前缀分支优先于普通包含匹配，直接 loose match 复用成分项归一化，并为匹配备注提供默认字段。
-- 复配括号解析使用启发式规则，已覆盖常见 `食品添加剂（柠檬酸、山梨酸钾）` 场景，但复杂供应商配方仍可能需要用户核对。
-- 暂未收录条目仍可能是普通食品原料、复合原料或数据库缺口，不能直接判断为风险项。
+- `npx cap add ios` 和 `npx cap add android` 会生成本机平台目录；本批次按任务要求将 `ios/`、`android/` 放入 `.gitignore`，因此 PR 中不提交原生工程模板。
+- `npx cap doctor` 在没有 Xcode、Android Studio 或 SDK 的机器上可能提示本机环境缺失；只要 Capacitor 配置本身无报错，本批次仍可验收。
+- 还没有接入 Capacitor Camera / Share / Filesystem 插件，扫描和分享仍使用 Web 逻辑；原生权限与降级逻辑留给 Batch 2-C。
 
 ## 本次 git diff 摘要
 
-- 增强成分表文本预处理和本地库匹配 metadata。
-- 分析页新增解析质量反馈和移动端样式。
-- 更新 PWA 预缓存版本与测试覆盖。
+- 新增 Capacitor 配置和移动端同步/打开命令。
+- 锁定 Capacitor 7.x 依赖并增加配置与 Node engine 回归断言。
+- 同步任务清单、命令文档和项目进度到 Batch 2-C / 25%。

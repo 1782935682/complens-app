@@ -55,6 +55,38 @@ npm run preview
 
 该命令启动 Vite preview server，用于检查 `dist/` 产物。
 
+## 移动端 Capacitor
+
+当前移动端脚手架使用 Capacitor 7.x，匹配仓库 `Node.js >= 20.19` 的运行口径。不要升级到要求 Node 22+ 的 Capacitor 主版本，除非同步升级 `package.json` engines、CI Node 版本和本文档。
+
+```bash
+npm run cap:sync
+```
+
+该命令会先执行 `npm run build`，再运行 `npx cap sync`，用于把 `dist/` Web 产物同步到本机 iOS / Android 平台工程。
+
+```bash
+npm run cap:open:ios
+npm run cap:open:android
+```
+
+这两个命令分别通过 Capacitor 打开本机 iOS / Android 工程。仓库只提交 `capacitor.config.json`，`ios/` 和 `android/` 是本机生成目录，已在 `.gitignore` 中忽略；需要平台工程时执行：
+
+```bash
+npm run build
+npx cap add ios
+npx cap add android
+npm run cap:sync
+```
+
+配置检查：
+
+```bash
+npx cap doctor
+```
+
+`npx cap doctor` 可用于检查 Capacitor 配置；允许提示本机未安装 Xcode、Android Studio 或相关 SDK。
+
 ## 代码检查
 
 ```bash

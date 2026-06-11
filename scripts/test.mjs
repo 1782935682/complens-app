@@ -178,6 +178,26 @@ const packageJson = JSON.parse(await readFile(new URL('../package.json', import.
 assert.equal(packageJson.scripts.dev, 'vite');
 assert.equal(packageJson.scripts.build, 'vite build');
 assert.equal(packageJson.scripts.preview, 'vite preview');
+assert.equal(packageJson.scripts['cap:sync'], 'npm run build && npx cap sync');
+assert.equal(packageJson.scripts['cap:open:ios'], 'npx cap open ios');
+assert.equal(packageJson.scripts['cap:open:android'], 'npx cap open android');
+assert.match(packageJson.dependencies['@capacitor/core'], /^\^7\./);
+assert.match(packageJson.dependencies['@capacitor/cli'], /^\^7\./);
+assert.match(packageJson.dependencies['@capacitor/ios'], /^\^7\./);
+assert.match(packageJson.dependencies['@capacitor/android'], /^\^7\./);
+const packageLock = JSON.parse(await readFile(new URL('../package-lock.json', import.meta.url), 'utf8'));
+assert.equal(packageLock.packages['node_modules/@capacitor/cli'].version.startsWith('7.'), true);
+assert.equal(packageLock.packages['node_modules/@capacitor/cli'].engines.node, '>=20.0.0');
+const capacitorConfig = JSON.parse(await readFile(new URL('../capacitor.config.json', import.meta.url), 'utf8'));
+assert.deepEqual(capacitorConfig, {
+  appId: 'com.compcheck.app',
+  appName: '成分小查',
+  webDir: 'dist',
+  server: { androidScheme: 'https' }
+});
+const gitignore = await readFile(new URL('../.gitignore', import.meta.url), 'utf8');
+assert.match(gitignore, /\/ios\//);
+assert.match(gitignore, /\/android\//);
 const viteConfigJs = await readFile(new URL('../vite.config.js', import.meta.url), 'utf8');
 assert.match(viteConfigJs, /root: 'src'/);
 assert.match(viteConfigJs, /base: '\.\/'/);
