@@ -10,6 +10,7 @@ import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
+import { renderMembershipPage } from '../src/pages/membershipPage.js';
 import { renderOnboardingPage } from '../src/pages/onboardingPage.js';
 import { renderScanPage } from '../src/pages/scanPage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
@@ -19,6 +20,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
+import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
 import { addHistory, clearAnalysisReports, clearLocalUserData, clearScanDraft, completeOnboarding, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getScanDraft, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
@@ -65,6 +67,7 @@ assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', 
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
 assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/onboarding'), { view: 'onboarding', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/membership'), { view: 'membership', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food', query: '' });
 assert.deepEqual(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'), { view: 'reports', category: 'food', query: '卵磷脂' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
@@ -86,6 +89,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选�
 assert.equal(getRouteTitle(resolveRoute('#/food/scan')), '扫描识别 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/data')), '数据来源 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/onboarding')), '首次设置 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/membership')), '会员中心 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82')), '卵磷脂 报告检索 - 食品添加剂 - CompCheck 成分小查');
@@ -97,6 +101,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'data', href: '#/food/data', active: false },
   { key: 'reports', href: '#/food/reports', active: false },
   { key: 'favorites', href: '#/food/favorites', active: false },
+  { key: 'membership', href: '#/food/membership', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
 assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
@@ -106,6 +111,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
   { key: 'data', href: '#/cosmetics/data', active: false },
   { key: 'reports', href: '#/cosmetics/reports', active: false },
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
+  { key: 'membership', href: '#/cosmetics/membership', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: false }
 ]);
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), [
@@ -115,9 +121,11 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), 
   { key: 'data', href: '#/food/data', active: false },
   { key: 'reports', href: '#/food/reports', active: true },
   { key: 'favorites', href: '#/food/favorites', active: false },
+  { key: 'membership', href: '#/food/membership', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
 assert.equal(getNavigationLinks(resolveRoute('#/food/onboarding')).find((item) => item.key === 'settings').active, true);
+assert.equal(getNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'membership').active, true);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
   { key: 'home', href: '#/food', active: true },
   { key: 'scan', href: '#/food/scan', active: false },
@@ -132,6 +140,7 @@ assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/cosmetics/settings')),
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: true }
 ]);
+assert.equal(getMobileNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'settings').active, true);
 const indexHtml = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
 assert.match(indexHtml, /rel="manifest" href="\.\/manifest\.webmanifest"/);
 assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
@@ -140,6 +149,7 @@ assert.match(indexHtml, /data-mobile-nav-key="scan"/);
 assert.match(indexHtml, /data-nav-key="scan"/);
 assert.match(indexHtml, /data-nav-key="data"/);
 assert.match(indexHtml, /data-nav-key="reports"/);
+assert.match(indexHtml, /data-nav-key="membership"/);
 const appManifest = JSON.parse(await readFile(new URL('../src/manifest.webmanifest', import.meta.url), 'utf8'));
 assert.equal(appManifest.display, 'standalone');
 assert.equal(appManifest.start_url, './#/food');
@@ -151,12 +161,15 @@ assert.match(mainJs, /function getInitialHash\(\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboarding'\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v5'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v6'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
+assert.match(serviceWorkerJs, /\.\/data\/membershipPlans\.js/);
 assert.match(serviceWorkerJs, /\.\/pages\/dataPage\.js/);
+assert.match(serviceWorkerJs, /\.\/pages\/membershipPage\.js/);
 assert.match(serviceWorkerJs, /\.\/pages\/onboardingPage\.js/);
+assert.match(serviceWorkerJs, /\.\/services\/membershipService\.js/);
 assert.match(serviceWorkerJs, /\.\/utils\/imageFile\.js/);
 assert.match(serviceWorkerJs, /request\.mode === 'navigate'/);
 assert.match(serviceWorkerJs, /caches\.match\('\.\/index\.html'\)/);
@@ -632,6 +645,8 @@ assert.match(settingsHtml, /2 项已关注/);
 assert.match(settingsHtml, /value="milk" checked/);
 assert.match(settingsHtml, /value="soybeans" checked/);
 assert.match(settingsHtml, /value="peanuts"/);
+assert.match(settingsHtml, /会员中心/);
+assert.match(settingsHtml, /href="#\/food\/membership"/);
 assert.match(settingsHtml, /数据与隐私/);
 assert.match(settingsHtml, /data-export-local-data/);
 assert.match(settingsHtml, /data-import-local-data-input/);
@@ -643,6 +658,28 @@ assert.match(settingsHtml, /data-local-data-count="favorites">2</);
 assert.match(settingsHtml, /data-local-data-count="history">1</);
 assert.match(settingsHtml, /data-local-data-count="allergens">2</);
 assert.match(settingsHtml, /data-history-recording-toggle checked/);
+assert.match(renderSettingsPage('cosmetics'), /href="#\/cosmetics\/membership"/);
+const membershipOverview = getMembershipOverview('food');
+assert.equal(membershipOverview.currentPlan.id, 'free');
+assert.equal(membershipOverview.proPlan.id, 'pro');
+assert.equal(membershipOverview.entitlement.purchaseEnabled, false);
+assert.equal(membershipOverview.entitlement.restoreEnabled, false);
+assert.equal(membershipOverview.usage.find((item) => item.key === 'reports').value, '0 / 20');
+assert.equal(membershipOverview.usage.find((item) => item.key === 'history').value, '1 / 8');
+assert.match(getMembershipActionMessage('restore'), /恢复购买尚未开放/);
+assert.match(getMembershipActionMessage('restore'), /服务端订阅状态同步/);
+const membershipHtml = renderMembershipPage('food');
+assert.match(membershipHtml, /会员中心/);
+assert.match(membershipHtml, /当前套餐/);
+assert.match(membershipHtml, /本机用量/);
+assert.match(membershipHtml, /CompCheck Pro/);
+assert.match(membershipHtml, /data-membership-action="purchase"/);
+assert.match(membershipHtml, /data-membership-action="restore"/);
+assert.match(membershipHtml, /data-membership-status/);
+assert.match(membershipHtml, /权益边界/);
+assert.doesNotMatch(membershipHtml, /购买成功|已订阅|续费成功/);
+const routedMembershipHtml = renderRoute(resolveRoute('#/food/membership'));
+assert.match(routedMembershipHtml, /真实权益以后必须由服务端和商店票据校验共同决定/);
 setHistoryRecordingEnabled(false);
 const settingsHtmlWithHistoryDisabled = renderSettingsPage();
 assert.match(settingsHtmlWithHistoryDisabled, /data-history-recording-toggle/);

@@ -3,6 +3,7 @@ import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
+import { getMembershipActionMessage } from './services/membershipService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, completeOnboarding, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
@@ -399,6 +400,12 @@ function bindPageEvents(route) {
     });
   }
 
+  document.querySelectorAll('[data-membership-action]').forEach((button) => {
+    button.addEventListener('click', () => {
+      updateMembershipStatus(getMembershipActionMessage(button.dataset.membershipAction));
+    });
+  });
+
   const onboardingForm = document.querySelector('[data-onboarding-form]');
   if (onboardingForm) {
     onboardingForm.addEventListener('submit', (event) => {
@@ -463,6 +470,11 @@ function updateLocalDataSummary(message) {
 
 function updateOnboardingStatus(message) {
   const statusNode = document.querySelector('[data-onboarding-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateMembershipStatus(message) {
+  const statusNode = document.querySelector('[data-membership-status]');
   if (statusNode) statusNode.textContent = message;
 }
 

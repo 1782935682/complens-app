@@ -695,6 +695,141 @@ button.danger-button:hover {
   color: var(--muted);
 }
 
+.membership-entry {
+  border-color: rgba(17, 106, 91, 0.22);
+  background: #fbfdfb;
+}
+
+.membership-current {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.35fr);
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.membership-current p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.membership-state {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-height: 118px;
+  border: 1px solid rgba(17, 106, 91, 0.22);
+  border-radius: 8px;
+  padding: 16px;
+  background: #eef7f3;
+}
+
+.membership-state strong {
+  color: var(--primary-strong);
+  font-size: 28px;
+}
+
+.membership-state span,
+.membership-usage-item span,
+.membership-usage-item small,
+.membership-plan p,
+.membership-list li {
+  color: var(--muted);
+}
+
+.membership-usage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.membership-usage-item {
+  display: grid;
+  gap: 4px;
+  min-height: 118px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.membership-usage-item strong {
+  color: var(--primary-strong);
+  font-size: 24px;
+}
+
+.membership-usage-item small {
+  font-size: 13px;
+}
+
+.membership-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.membership-plan {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: var(--surface);
+}
+
+.membership-plan.is-current {
+  border-color: rgba(17, 106, 91, 0.42);
+  box-shadow: 0 0 0 3px rgba(17, 106, 91, 0.1);
+}
+
+.membership-plan__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.membership-plan__head h3,
+.membership-plan__head p,
+.membership-plan > p {
+  margin: 0;
+}
+
+.membership-plan__head span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--primary-strong);
+  background: #eef7f3;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.membership-list {
+  display: grid;
+  gap: 8px;
+}
+
+.membership-list ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.membership-actions {
+  display: grid;
+  gap: 12px;
+}
+
 .local-data-import {
   display: grid;
   gap: 8px;
@@ -1876,6 +2011,9 @@ button.danger-button:hover {
   .audit-grid,
   .review-status-grid,
   .local-data-grid,
+  .membership-current,
+  .membership-usage-grid,
+  .membership-plan-grid,
   .scan-form,
   .scan-protocol-grid,
   .scan-state-grid,

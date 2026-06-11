@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'compcheck-shell-v5';
+const CACHE_VERSION = 'compcheck-shell-v6';
 const CACHE_PREFIX = 'compcheck-';
 
 const APP_SHELL_ASSETS = [
@@ -13,11 +13,13 @@ const APP_SHELL_ASSETS = [
   './data/categories.js',
   './data/foodAdditives.js',
   './data/ingredients.js',
+  './data/membershipPlans.js',
   './pages/analyzePage.js',
   './pages/dataPage.js',
   './pages/detailPage.js',
   './pages/favoritesPage.js',
   './pages/homePage.js',
+  './pages/membershipPage.js',
   './pages/notFoundPage.js',
   './pages/onboardingPage.js',
   './pages/reportsPage.js',
@@ -28,6 +30,7 @@ const APP_SHELL_ASSETS = [
   './services/aiAnalysisService.js',
   './services/allergenService.js',
   './services/ingredientService.js',
+  './services/membershipService.js',
   './services/ocrService.js',
   './services/reportExportService.js',
   './services/storageService.js',

@@ -4,6 +4,7 @@ import { renderDataPage } from '../pages/dataPage.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
 import { renderHomePage } from '../pages/homePage.js';
+import { renderMembershipPage } from '../pages/membershipPage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
 import { renderOnboardingPage } from '../pages/onboardingPage.js';
 import { renderReportDetailPage, renderReportsPage } from '../pages/reportsPage.js';
@@ -19,6 +20,7 @@ const VIEW_TITLES = {
   detail: '成分详情',
   favorites: '收藏夹',
   home: '',
+  membership: '会员中心',
   onboarding: '首次设置',
   reports: '分析报告',
   'report-detail': '报告详情',
@@ -35,6 +37,7 @@ const NAV_ITEMS = [
   { key: 'data', view: 'data', path: '/data' },
   { key: 'reports', view: 'reports', path: '/reports' },
   { key: 'favorites', view: 'favorites', path: '/favorites' },
+  { key: 'membership', view: 'membership', path: '/membership' },
   { key: 'settings', view: 'settings', path: '/settings' }
 ];
 
@@ -114,6 +117,13 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/membership') {
+    return {
+      view: 'membership',
+      category: route.category
+    };
+  }
+
   if (route.path === '/reports') {
     return {
       view: 'reports',
@@ -155,11 +165,12 @@ export function renderRoute(route) {
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'data') return renderDataPage(route.category);
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
+  if (route.view === 'membership') return renderMembershipPage(route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);
-  if (route.view === 'settings') return renderSettingsPage();
+  if (route.view === 'settings') return renderSettingsPage(route.category);
   if (route.view === 'not-found') return renderNotFoundPage(route.path, route.category);
   return renderHomePage(route.category);
 }
@@ -193,7 +204,7 @@ export function getMobileNavigationLinks(route) {
   return MOBILE_NAV_ITEMS.map((item) => ({
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
-    active: route?.view === item.view || (item.key === 'settings' && route?.view === 'onboarding')
+    active: route?.view === item.view || (item.key === 'settings' && ['membership', 'onboarding'].includes(route?.view))
   }));
 }
 
