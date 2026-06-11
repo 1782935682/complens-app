@@ -18,13 +18,13 @@ PROMPT_TEMPLATE = """请审查以下 PR 变更。
 ## 项目背景
 
 - **产品**：食品添加剂查询 App（主线），化妆品成分（次线）
-- **技术栈**：纯 JavaScript ES Modules，无框架、无 TypeScript、无打包工具（Vite/webpack 均禁止）
+- **技术栈**：纯 JavaScript ES Modules，无框架、无 TypeScript、Vite（M2 起）构建
 - **核心功能**：过敏原用户档案（全局警告）、多类别路由（/food/... 和 /cosmetics/...）
 
 ## 审查维度
 
 1. **逻辑正确性** — 函数逻辑是否正确，边界条件和异常路径是否处理
-2. **技术栈合规** — 是否引入禁止依赖（React / Vue / TypeScript / Vite 等）
+2. **技术栈合规** — 是否引入禁止依赖（React / Vue / TypeScript / webpack / Parcel 等）
 3. **数据模型完整性** — 食品添加剂必填字段：id、nameCn、category、description、riskLevel、gbStatus、sourceNote；数组字段（allergenTypes、cautionFor、foodCategories）不得省略键名
 4. **过敏原系统** — 存储 key 必须为 compcheck:allergens；接口须暴露 getUserAllergens() 和 setUserAllergens(ids)；搜索/详情/分析页须检查并高亮过敏原
 5. **多类别路由** — resolveRoute() 返回值是否包含 category 字段；路由是否遵循 /food/... 和 /cosmetics/... 前缀

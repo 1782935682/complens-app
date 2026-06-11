@@ -4,13 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node scripts/dev-server.mjs",
-    "build": "node scripts/build.mjs",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "lint": "node scripts/lint.mjs",
     "test": "node scripts/test.mjs",
     "validate:data": "node scripts/validate-data.mjs"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19"
+  },
+  "devDependencies": {
+    "vite": "^8.0.16"
   }
 }
