@@ -59,6 +59,7 @@ export function renderSettingsPage(category = 'food') {
         </div>
         <div class="local-data-grid" aria-label="本机数据摘要">
           ${renderLocalDataMetric('favorites', localDataSummary.favorites, '收藏')}
+          ${renderLocalDataMetric('compareItems', localDataSummary.compareItems, '对比')}
           ${renderLocalDataMetric('history', localDataSummary.history, '历史')}
           ${renderLocalDataMetric('reports', localDataSummary.reports, '报告')}
           ${renderLocalDataMetric('scanDrafts', localDataSummary.scanDrafts, '扫描草稿')}

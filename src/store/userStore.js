@@ -9,10 +9,12 @@ const ALLERGENS_KEY = 'compcheck:allergens';
 const ANALYSIS_REPORTS_KEY = 'compcheck:analysis-reports';
 const SCAN_DRAFTS_KEY = 'compcheck:scan-drafts';
 const ONBOARDING_KEY = 'compcheck:onboarding';
+const COMPARE_ITEMS_KEY = 'compcheck:compare-items';
 const LOCAL_DATA_SCHEMA_VERSION = 1;
 const ONBOARDING_SCHEMA_VERSION = 1;
 const MAX_HISTORY = 8;
 const MAX_ANALYSIS_REPORTS = 20;
+export const MAX_COMPARE_ITEMS = 4;
 const DEFAULT_CATEGORY = 'cosmetics';
 const DEFAULT_ONBOARDING_CATEGORY = 'food';
 const REPORT_SCHEMA_VERSION = 2;
@@ -50,6 +52,54 @@ export function toggleFavorite(id, category = DEFAULT_CATEGORY) {
 
 export function isFavorite(id, category = DEFAULT_CATEGORY) {
   return getFavoriteItems().some((item) => item.id === id && item.category === category);
+}
+
+export function getCompareItems(category) {
+  const items = normalizeFavoriteItems(readJson(COMPARE_ITEMS_KEY, []));
+  return category ? items.filter((item) => item.category === category) : items;
+}
+
+export function getCompareIngredients(category = DEFAULT_CATEGORY) {
+  return getCompareItems(category)
+    .map((item) => getIngredientById(item.id, item.category))
+    .filter(Boolean);
+}
+
+export function isInCompare(id, category = DEFAULT_CATEGORY) {
+  return getCompareItems(category).some((item) => item.id === id && item.category === category);
+}
+
+export function addCompareIngredient(id, category = DEFAULT_CATEGORY) {
+  const normalized = normalizeFavoriteItem({ id, category });
+  const current = getCompareItems();
+  const categoryItems = current.filter((item) => item.category === normalized?.category);
+  if (!normalized || !getIngredientById(normalized.id, normalized.category)) {
+    return buildCompareResult(false, 'missing', '未找到可加入对比的成分。', category);
+  }
+  if (categoryItems.some((item) => item.id === normalized.id)) {
+    return buildCompareResult(true, 'exists', '已在对比列表中。', normalized.category);
+  }
+  if (categoryItems.length >= MAX_COMPARE_ITEMS) {
+    return buildCompareResult(false, 'full', `最多选择 ${MAX_COMPARE_ITEMS} 个成分对比。`, normalized.category);
+  }
+
+  writeJson(COMPARE_ITEMS_KEY, [...current, normalized]);
+  return buildCompareResult(true, 'added', `已加入对比（${categoryItems.length + 1}/${MAX_COMPARE_ITEMS}）。`, normalized.category);
+}
+
+export function removeCompareIngredient(id, category = DEFAULT_CATEGORY) {
+  const normalizedId = String(id || '').trim();
+  const current = getCompareItems();
+  const next = current.filter((item) => item.id !== normalizedId || item.category !== category);
+  writeJson(COMPARE_ITEMS_KEY, next);
+  return buildCompareResult(true, 'removed', '已从对比列表移除。', category);
+}
+
+export function clearCompareItems(category) {
+  const current = getCompareItems();
+  const next = category ? current.filter((item) => item.category !== category) : [];
+  writeJson(COMPARE_ITEMS_KEY, next);
+  return buildCompareResult(true, 'cleared', '已清空当前类别对比列表。', category || DEFAULT_CATEGORY);
 }
 
 export function getHistory() {
@@ -221,14 +271,16 @@ export function getLocalDataSummary() {
   const history = getHistory();
   const allergens = getUserAllergens();
   const reports = getAnalysisReports();
+  const compareItems = getCompareItems();
   const scanDraftCount = Object.keys(scanDrafts).length;
-  const totalItems = favorites.length + history.length + allergens.length + reports.length + scanDraftCount;
+  const totalItems = favorites.length + history.length + allergens.length + reports.length + compareItems.length + scanDraftCount;
 
   return {
     favorites: favorites.length,
     history: history.length,
     allergens: allergens.length,
     reports: reports.length,
+    compareItems: compareItems.length,
     scanDrafts: scanDraftCount,
     totalItems
   };
@@ -245,6 +297,7 @@ export function getLocalDataSnapshot() {
       onboarding: getOnboardingState()
     },
     favorites: getFavoriteItems(),
+    compareItems: getCompareItems(),
     history: getHistory(),
     allergens: getUserAllergens(),
     analysisReports: getAnalysisReports(),
@@ -257,6 +310,7 @@ export function importLocalDataSnapshot(snapshot) {
   if (!normalized.ok) return normalized;
 
   writeJson(FAVORITES_KEY, normalized.data.favorites);
+  writeJson(COMPARE_ITEMS_KEY, normalized.data.compareItems);
   writeJson(HISTORY_KEY, normalized.data.history);
   writeJson(HISTORY_RECORDING_KEY, normalized.data.preferences.historyRecordingEnabled);
   writeJson(ALLERGENS_KEY, normalized.data.allergens);
@@ -273,6 +327,7 @@ export function importLocalDataSnapshot(snapshot) {
 
 export function clearLocalUserData() {
   writeJson(FAVORITES_KEY, []);
+  writeJson(COMPARE_ITEMS_KEY, []);
   writeJson(HISTORY_KEY, []);
   writeJson(ALLERGENS_KEY, []);
   writeJson(ANALYSIS_REPORTS_KEY, []);
@@ -364,6 +419,7 @@ function normalizeLocalDataSnapshot(snapshot) {
     ok: true,
     data: {
       favorites: normalizeFavoriteItems(snapshot.favorites),
+      compareItems: normalizeFavoriteItems(snapshot.compareItems),
       history: normalizeStringList(snapshot.history).slice(0, MAX_HISTORY),
       preferences: normalizeLocalDataPreferences(snapshot.preferences),
       allergens: uniqueStrings(snapshot.allergens),
@@ -419,6 +475,15 @@ function normalizeOnboardingState(value) {
 
 function normalizeOnboardingCategory(value) {
   return ONBOARDING_CATEGORIES.includes(value) ? value : DEFAULT_ONBOARDING_CATEGORY;
+}
+
+function buildCompareResult(ok, reason, message, category) {
+  return {
+    ok,
+    reason,
+    message,
+    items: getCompareItems(category)
+  };
 }
 
 function normalizeFavoriteItems(value) {

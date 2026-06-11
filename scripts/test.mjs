@@ -5,7 +5,9 @@ import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMa
 import { analyzeIngredientText, getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
 import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, validateOCRResponse } from '../src/services/ocrService.js';
+import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
+import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
@@ -21,7 +23,7 @@ import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
-import { addHistory, clearAnalysisReports, clearLocalUserData, clearScanDraft, completeOnboarding, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getScanDraft, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
+import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearScanDraft, completeOnboarding, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getScanDraft, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -63,6 +65,7 @@ assert.deepEqual(resolveRoute('#/food/search?q=%E5%89%82&page=-4'), {
   filters: { risk: '', ingredientCategory: '' }
 });
 assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/compare'), { view: 'compare', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
 assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food' });
@@ -86,6 +89,7 @@ assert.deepEqual(resolveRoute('#/not-a-real-page'), { view: 'not-found', categor
 assert.deepEqual(resolveRoute('#/food/not-a-real-page'), { view: 'not-found', category: 'food', path: '/food/not-a-real-page' });
 assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/compare')), '成分对比 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/scan')), '扫描识别 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/data')), '数据来源 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/onboarding')), '首次设置 - 食品添加剂 - CompCheck 成分小查');
@@ -96,6 +100,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
+  { key: 'compare', href: '#/food/compare', active: false },
   { key: 'scan', href: '#/food/scan', active: false },
   { key: 'analyze', href: '#/food/analyze', active: false },
   { key: 'data', href: '#/food/data', active: false },
@@ -106,6 +111,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
 ]);
 assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
   { key: 'search', href: '#/cosmetics/search', active: false },
+  { key: 'compare', href: '#/cosmetics/compare', active: false },
   { key: 'scan', href: '#/cosmetics/scan', active: false },
   { key: 'analyze', href: '#/cosmetics/analyze', active: true },
   { key: 'data', href: '#/cosmetics/data', active: false },
@@ -116,6 +122,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
 ]);
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), [
   { key: 'search', href: '#/food/search', active: false },
+  { key: 'compare', href: '#/food/compare', active: false },
   { key: 'scan', href: '#/food/scan', active: false },
   { key: 'analyze', href: '#/food/analyze', active: false },
   { key: 'data', href: '#/food/data', active: false },
@@ -126,6 +133,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), 
 ]);
 assert.equal(getNavigationLinks(resolveRoute('#/food/onboarding')).find((item) => item.key === 'settings').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'membership').active, true);
+assert.equal(getNavigationLinks(resolveRoute('#/food/compare')).find((item) => item.key === 'compare').active, true);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
   { key: 'home', href: '#/food', active: true },
   { key: 'scan', href: '#/food/scan', active: false },
@@ -141,11 +149,13 @@ assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/cosmetics/settings')),
   { key: 'settings', href: '#/cosmetics/settings', active: true }
 ]);
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'settings').active, true);
+assert.equal(getMobileNavigationLinks(resolveRoute('#/food/compare')).find((item) => item.key === 'favorites').active, true);
 const indexHtml = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
 assert.match(indexHtml, /rel="manifest" href="\.\/manifest\.webmanifest"/);
 assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
 assert.match(indexHtml, /data-mobile-nav-key="home"/);
 assert.match(indexHtml, /data-mobile-nav-key="scan"/);
+assert.match(indexHtml, /data-nav-key="compare"/);
 assert.match(indexHtml, /data-nav-key="scan"/);
 assert.match(indexHtml, /data-nav-key="data"/);
 assert.match(indexHtml, /data-nav-key="reports"/);
@@ -161,14 +171,16 @@ assert.match(mainJs, /function getInitialHash\(\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboarding'\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v6'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v7'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/membershipPlans\.js/);
+assert.match(serviceWorkerJs, /\.\/pages\/comparePage\.js/);
 assert.match(serviceWorkerJs, /\.\/pages\/dataPage\.js/);
 assert.match(serviceWorkerJs, /\.\/pages\/membershipPage\.js/);
 assert.match(serviceWorkerJs, /\.\/pages\/onboardingPage\.js/);
+assert.match(serviceWorkerJs, /\.\/services\/compareService\.js/);
 assert.match(serviceWorkerJs, /\.\/services\/membershipService\.js/);
 assert.match(serviceWorkerJs, /\.\/utils\/imageFile\.js/);
 assert.match(serviceWorkerJs, /request\.mode === 'navigate'/);
@@ -655,6 +667,7 @@ assert.match(settingsHtml, /accept="application\/json,.json"/);
 assert.match(settingsHtml, /导入并覆盖/);
 assert.match(settingsHtml, /data-clear-local-data/);
 assert.match(settingsHtml, /data-local-data-count="favorites">2</);
+assert.match(settingsHtml, /data-local-data-count="compareItems">0</);
 assert.match(settingsHtml, /data-local-data-count="history">1</);
 assert.match(settingsHtml, /data-local-data-count="allergens">2</);
 assert.match(settingsHtml, /data-history-recording-toggle checked/);
@@ -680,6 +693,32 @@ assert.match(membershipHtml, /权益边界/);
 assert.doesNotMatch(membershipHtml, /购买成功|已订阅|续费成功/);
 const routedMembershipHtml = renderRoute(resolveRoute('#/food/membership'));
 assert.match(routedMembershipHtml, /真实权益以后必须由服务端和商店票据校验共同决定/);
+assert.deepEqual(getCompareItems('food'), []);
+assert.match(renderComparePage('food'), /还没有加入对比的成分/);
+assert.equal(addCompareIngredient('citric-acid', 'food').ok, true);
+assert.equal(addCompareIngredient('citric-acid', 'food').reason, 'exists');
+assert.equal(addCompareIngredient('sodium-benzoate', 'food').ok, true);
+assert.equal(addCompareIngredient('niacinamide', 'cosmetics').ok, true);
+assert.equal(getCompareItems('food').length, 2);
+assert.equal(getCompareIngredients('food')[0].id, 'citric-acid');
+const compareOverview = getCompareOverview('food');
+assert.equal(compareOverview.count, 2);
+assert.equal(compareOverview.rows.some((row) => row.key === 'gbStatus'), true);
+const compareHtml = renderComparePage('food');
+assert.match(compareHtml, /成分对比/);
+assert.match(compareHtml, /柠檬酸/);
+assert.match(compareHtml, /苯甲酸钠/);
+assert.match(compareHtml, /横向对比/);
+assert.match(compareHtml, /data-compare-remove="citric-acid"/);
+assert.match(compareHtml, /清空对比/);
+assert.match(renderRoute(resolveRoute('#/food/search?q=E330')), /data-compare-add="citric-acid"/);
+assert.match(renderRoute(resolveRoute('#/food/ingredient/citric-acid')), /已加入对比/);
+assert.equal(addCompareIngredient('potassium-sorbate', 'food').ok, true);
+assert.equal(addCompareIngredient('lecithins', 'food').ok, true);
+assert.equal(addCompareIngredient('acesulfame-potassium', 'food').reason, 'full');
+assert.equal(getCompareItems('food').length, 4);
+assert.equal(removeCompareIngredient('lecithins', 'food').ok, true);
+assert.equal(getCompareItems('food').length, 3);
 setHistoryRecordingEnabled(false);
 const settingsHtmlWithHistoryDisabled = renderSettingsPage();
 assert.match(settingsHtmlWithHistoryDisabled, /data-history-recording-toggle/);
@@ -688,19 +727,22 @@ setHistoryRecordingEnabled(true);
 saveScanDraft('柠檬酸，山梨酸钾', 'food');
 const localDataSummary = getLocalDataSummary();
 assert.equal(localDataSummary.favorites, 2);
+assert.equal(localDataSummary.compareItems, 4);
 assert.equal(localDataSummary.history, 1);
 assert.equal(localDataSummary.allergens, 2);
 assert.equal(localDataSummary.scanDrafts, 1);
-assert.equal(localDataSummary.totalItems, 6);
+assert.equal(localDataSummary.totalItems, 10);
 const localDataSnapshot = getLocalDataSnapshot();
 assert.equal(localDataSnapshot.schemaVersion, 1);
 assert.equal(localDataSnapshot.preferences.historyRecordingEnabled, true);
 assert.equal(localDataSnapshot.favorites.some((item) => item.id === 'citric-acid' && item.category === 'food'), true);
+assert.equal(localDataSnapshot.compareItems.some((item) => item.id === 'citric-acid' && item.category === 'food'), true);
 assert.equal(localDataSnapshot.history[0], '烟酰胺');
 assert.equal(localDataSnapshot.scanDrafts.food, '柠檬酸，山梨酸钾');
 setHistoryRecordingEnabled(false);
 assert.deepEqual(clearLocalUserData(), {
   favorites: 0,
+  compareItems: 0,
   history: 0,
   allergens: 0,
   reports: 0,
@@ -708,6 +750,7 @@ assert.deepEqual(clearLocalUserData(), {
   totalItems: 0
 });
 assert.deepEqual(getFavoriteItems(), []);
+assert.deepEqual(getCompareItems(), []);
 assert.deepEqual(getHistory(), []);
 assert.deepEqual(getUserAllergens(), []);
 assert.equal(getScanDraft('food'), '');
@@ -727,8 +770,9 @@ setHistoryRecordingEnabled(true);
 const importResult = importLocalDataSnapshot(localDataSnapshot);
 assert.equal(importResult.ok, true);
 assert.equal(isHistoryRecordingEnabled(), true);
-assert.equal(importResult.summary.totalItems, 6);
+assert.equal(importResult.summary.totalItems, 10);
 assert.deepEqual(getFavoriteItems(), localDataSnapshot.favorites);
+assert.deepEqual(getCompareItems(), localDataSnapshot.compareItems);
 assert.deepEqual(getHistory(), localDataSnapshot.history);
 assert.deepEqual(getUserAllergens(), localDataSnapshot.allergens);
 assert.equal(getScanDraft('food'), '柠檬酸，山梨酸钾');

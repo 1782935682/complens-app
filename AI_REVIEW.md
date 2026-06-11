@@ -1,25 +1,29 @@
-# AI Review - Membership Center
+# AI Review - Ingredient Compare
 
 ## 任务目标
 
-新增会员中心前端闭环，让用户能查看当前 Free 套餐、Pro 规划、本机用量、购买/恢复/管理订阅状态，并明确真实订阅支付与服务端权益校验尚未接入。
+新增成分对比产品闭环，让用户能从搜索结果、详情页和收藏页把同类别成分加入本机对比列表，并在 `/compare` 页面横向比较关注等级、功能分类、使用提醒、过敏原和食品数据状态。
 
 ## 修改摘要
 
-- 新增 `/membership` 路由、页面标题、桌面导航入口和移动端“我的”active 态。
-- 新增会员套餐数据和权益占位服务，区分当前 Free 与规划中的 CompCheck Pro。
-- 会员中心展示当前套餐、本机报告/历史/OCR/同步用量、套餐对比和订阅操作。
-- 购买、恢复购买、管理订阅和客服按钮只返回未接入提示，不模拟购买成功或订阅状态。
-- 设置页新增会员中心入口，按当前类别跳转。
-- 更新移动端样式和 PWA app shell 缓存清单，缓存版本升到 `compcheck-shell-v6`。
-- 补充会员中心路由、导航、渲染、服务和 service worker 缓存清单测试。
+- 新增本机对比列表存储，最多保存同类别 4 个成分，并随本机数据快照导出、导入和清空。
+- 新增 `compareService` 汇总对比数据，统一生成横向对比行。
+- 新增 `/compare` 页面，支持空状态、单项提示、对比卡片、横向表格、移出和清空。
+- 搜索结果、详情页和收藏页新增加入对比入口，并提供本页状态反馈。
+- 路由、桌面导航、页面标题和移动端 active 态接入成分对比。
+- 设置页本机数据摘要新增对比列表数量。
+- 更新移动端样式和 PWA app shell 缓存清单，缓存版本升到 `compcheck-shell-v7`。
+- 补充成分对比路由、渲染、存储、导出导入和 service worker 缓存清单测试。
 - 同步更新 `COMMANDS.md` 和 `PROJECT_PLAN.md`。
 
 ## 修改文件
 
-- `src/data/membershipPlans.js`
-- `src/services/membershipService.js`
-- `src/pages/membershipPage.js`
+- `src/services/compareService.js`
+- `src/pages/comparePage.js`
+- `src/store/userStore.js`
+- `src/pages/searchPage.js`
+- `src/pages/detailPage.js`
+- `src/pages/favoritesPage.js`
 - `src/pages/settingsPage.js`
 - `src/router/router.js`
 - `src/index.html`
@@ -43,26 +47,26 @@ git diff --check
 
 ## 验证结果
 
-- `npm run validate:data`：通过。
-- `npm run lint`：通过。
+- `npm run validate:data`：通过，50 条食品添加剂数据校验通过。
+- `npm run lint`：通过，39 个 JavaScript 文件和 45 个文本文件扫描通过。
 - `npm run test`：通过。
-- `npm run build`：通过。
+- `npm run build`：通过，已生成 `dist/`。
 - `git diff --check`：通过。
 - `curl -I http://127.0.0.1:5173/`：通过，返回 `HTTP/1.1 200 OK`。
-- `curl -I http://127.0.0.1:5173/pages/membershipPage.js`：通过，返回 `HTTP/1.1 200 OK`。
-- `curl -I http://127.0.0.1:5173/services/membershipService.js`：通过，返回 `HTTP/1.1 200 OK`。
+- `curl -I http://127.0.0.1:5173/pages/comparePage.js`：通过，返回 `HTTP/1.1 200 OK`。
+- `curl -I http://127.0.0.1:5173/services/compareService.js`：通过，返回 `HTTP/1.1 200 OK`。
 - `curl -I http://127.0.0.1:5173/sw.js`：通过，返回 `HTTP/1.1 200 OK`。
 
 ## 风险点
 
-- 当前只是前端会员中心信息架构，不具备真实 Apple IAP、Google Play Billing、恢复购买或服务端 entitlement 能力。
-- 套餐价格、免费额度和 Pro 权益仍是产品草案，后续需要和真实订阅 SKU、退款策略、商店审核说明对齐。
-- 本机用量来自 localStorage，不等同于跨设备、跨平台的可信用量统计。
-- 仍需要移动端真机视觉验收，确认会员中心在小屏、动态字体和安全区下无遮挡。
+- 当前对比列表只存储在 localStorage，不具备账号同步、跨设备恢复或服务端可信状态。
+- 横向表格已做移动端横向滚动，但仍需要真机截图验收来确认小屏触控和动态字体下的体验。
+- 对比维度来自现有成分字段，食品逐条限量和来源条款仍处于草稿数据阶段。
+- 暂未提供拖拽排序、分享链接或报告化导出，后续可作为 Pro 报告或高级工具能力扩展。
 
 ## 本次 git diff 摘要
 
-- 新增会员中心用户流程入口。
-- 新增会员套餐与权益占位服务。
-- 明确订阅操作未接入，不产生虚假付费状态。
+- 新增成分对比用户流程入口。
+- 新增对比服务和对比页。
+- 扩展本机数据快照和设置页摘要。
 - 更新 PWA 预缓存与测试覆盖。

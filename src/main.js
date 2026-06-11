@@ -5,7 +5,7 @@ import { extractIngredientsFromImage } from './services/ocrService.js';
 import { getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
-import { addHistory, clearAnalysisReports, clearHistory, clearLocalUserData, clearScanDraft, completeOnboarding, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
+import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearScanDraft, completeOnboarding, deleteAnalysisReport, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
@@ -132,6 +132,30 @@ function bindPageEvents(route) {
       render();
     });
   });
+
+  document.querySelectorAll('[data-compare-add]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const result = addCompareIngredient(button.dataset.compareAdd, route.category);
+      updateCompareStatus(result.message);
+      button.classList.toggle('is-active', result.ok);
+      if (result.ok) button.textContent = '已加入对比';
+    });
+  });
+
+  document.querySelectorAll('[data-compare-remove]').forEach((button) => {
+    button.addEventListener('click', () => {
+      removeCompareIngredient(button.dataset.compareRemove, route.category);
+      render();
+    });
+  });
+
+  const clearCompareButton = document.querySelector('[data-clear-compare]');
+  if (clearCompareButton) {
+    clearCompareButton.addEventListener('click', () => {
+      clearCompareItems(route.category);
+      render();
+    });
+  }
 
   const clearButton = document.querySelector('[data-clear-history]');
   if (clearButton) {
@@ -475,6 +499,11 @@ function updateOnboardingStatus(message) {
 
 function updateMembershipStatus(message) {
   const statusNode = document.querySelector('[data-membership-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateCompareStatus(message) {
+  const statusNode = document.querySelector('[data-compare-status]');
   if (statusNode) statusNode.textContent = message;
 }
 
