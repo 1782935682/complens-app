@@ -333,7 +333,8 @@ function getLooseNameMatchScore(keyword, compactKeyword, normalizedName, compact
   if (compactKeyword.length < 2) return 0;
   if (compactName.startsWith(compactKeyword)) return 70 + Math.min(compactKeyword.length, 20);
   if (compactName.includes(compactKeyword)) return 50 + Math.min(compactKeyword.length, 20);
-  if ((compactName.length >= 4 || (compactName.length >= 3 && hasCjk(compactName))) && compactKeyword.includes(compactName)) return 40 + Math.min(compactName.length, 20);
+  if (compactName.length >= 4 && compactKeyword.includes(compactName)) return 40 + Math.min(compactName.length, 20);
+  if (compactName.length >= 3 && hasCjk(compactName) && hasAllowedIngredientPrefix(compactKeyword, compactName)) return 40 + Math.min(compactName.length, 20);
   return 0;
 }
 
@@ -442,6 +443,12 @@ function getNearSearchDistance(value) {
 
 function hasCjk(value) {
   return /[\u3400-\u9FFF]/.test(value);
+}
+
+function hasAllowedIngredientPrefix(compactKeyword, compactName) {
+  if (!compactKeyword.endsWith(compactName)) return false;
+  const prefix = compactKeyword.slice(0, -compactName.length);
+  return ['食用', '食品级', '食品添加剂', '添加剂'].includes(prefix);
 }
 
 function getEditDistance(left, right, maxDistance) {
