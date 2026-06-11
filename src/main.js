@@ -347,11 +347,24 @@ function bindPageEvents(route) {
       try {
         const result = await getNativeCameraPhoto();
         if (!result.ok) {
+          if (result.reason === 'cancelled' || result.reason === 'empty') {
+            updateScanFeedback(result.message || '已取消系统相机或相册选择。');
+            return;
+          }
           updateScanFeedback(result.message || '系统相机或相册不可用，已打开文件选择。');
           openScanFilePicker(fileInput);
           return;
         }
 
+        const validation = validateScanImageFile({ type: result.mimeType, size: result.size });
+        if (!validation.ok) {
+          updateScanPreview(preview, null, validation);
+          updateScanImageActionState({ canRotate: false, canClear: false });
+          updateScanFeedback(validation.message);
+          return;
+        }
+
+        scanPreviewRotation = 0;
         updateScanPreviewWithDataUrl(preview, result.dataUrl);
         updateScanImageActionState({ canRotate: true, canClear: true });
         updateScanFeedback(result.message);

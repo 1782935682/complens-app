@@ -9,6 +9,8 @@
 - 安装 `@capacitor/camera`、`@capacitor/filesystem`、`@capacitor/share`，并锁定在 Capacitor 7.x 兼容范围。
 - 新增 `src/services/nativeBridgeService.js`，集中封装 `Capacitor.isNativePlatform()`、`Camera.getPhoto()` 和 `Share.share()`，非 native 环境直接返回降级结果。
 - 扫描页新增“系统相机/相册”入口；native 环境调用 Camera，Web 或异常时自动触发现有文件输入。
+- 按 Codex Review 反馈修正 native 相机取消行为：用户取消/未选择时留在扫描页，不再弹出第二个文件选择。
+- native base64 图片会计算解码字节数并复用现有图片类型/8 MiB 大小校验，避免绕过 Web 文件输入限制。
 - 分享链路从页面内逻辑迁移到 `shareService`，按原生分享、Web Share API、复制文本三层降级。
 - 将 viewport 改为 `viewport-fit=cover`，并用 `max(env(safe-area-inset-bottom, 0px), 1rem)` 加强移动端底部安全区。
 - 新增 `docs/ios-plist-additions.md`，记录 iOS Info.plist 中相机和相册权限描述。
