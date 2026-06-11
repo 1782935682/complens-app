@@ -1,55 +1,46 @@
-# AI Review - Backend Ingredients API
+# AI Review - Data Foundation and Database Connection
 
-## 任务目标
+## 本轮目标
 
-完成 `CODEX_TASKS.md` Batch 3-B 数据库 Schema 与成分 API，在 Batch 3-A 后端骨架上接入 PostgreSQL/Drizzle 成分库、迁移、seed 和只读查询接口。
-
-## 修改摘要
-
-- 新增 Drizzle 配置 `backend/drizzle.config.ts`。
-- 新增 `ingredients` 主表，覆盖 `FoodAdditive` 字段；数组和对象字段使用 JSONB。
-- 新增 `ingredient_sources` 来源关联表，并用外键关联 `ingredients.id`。
-- 生成首个迁移文件 `backend/src/db/migrations/0000_thick_the_professor.sql`。
-- 新增数据库 client，默认使用 `DATABASE_URL`，本地默认 PostgreSQL 宿主端口为 `15432`。
-- 新增 `backend/scripts/seed.ts`，从前端 `src/data/foodAdditives.js` 读取 100 条食品添加剂数据并幂等 upsert。
-- 新增成分服务和 API：
-  - `GET /api/ingredients?q=&category=&riskLevel=&page=1&limit=20`
-  - `GET /api/ingredients/categories`
-  - `GET /api/ingredients/:id`
-- 非法分页、limit 或 riskLevel 返回 400 JSON；缺失详情返回 404 JSON。
-- 处理 PR Review 反馈：关键词搜索会转义 `%`、`_`、`\`，aliases 改为 JSONB 数组元素级 `ILIKE`，并新增 `pg_trgm` 文本搜索 GIN 索引与 aliases JSONB GIN 索引迁移。
-- 处理 Codex Review 反馈：Docker Compose 中 API 容器显式覆盖 `DATABASE_URL=postgres://postgres:password@postgres:5432/compcheck`，保留宿主机命令使用 `localhost:15432`。
-- 处理 Codex Review 反馈：`createApp(config)` 会把 `config.databaseUrl` 传给默认 lazy ingredient service，避免显式配置被服务层重新读取默认环境覆盖。
-- 处理 Codex Review 反馈：`ILIKE` SQL 片段使用 `ESCAPE '\\'`，确保 `%`、`_`、`\` 转义后的搜索模式被 PostgreSQL 正确识别。
-- 后端 Vitest 新增 ingredients API 测试。
-- CI 增加 `backend/**` 触发，并执行后端 `npm ci`、typecheck、test、build。
-- 更新 `COMMANDS.md`、`backend/README.md`、`CODEX_TASKS.md`、`PROJECT_PLAN.md` 和根项目静态断言。
+完成“可信成分数据底座 + 数据库真实对接”的基础闭环，暂停订阅、支付、OCR、AI、上架、iOS/Android 签名相关开发。
 
 ## 修改文件
 
-- `.github/workflows/ci.yml`
-- `AI_REVIEW.md`
+- `PROJECT_PLAN.md`
 - `CODEX_TASKS.md`
 - `COMMANDS.md`
-- `PROJECT_PLAN.md`
-- `backend/.env.example`
-- `backend/README.md`
-- `backend/docker-compose.yml`
-- `backend/drizzle.config.ts`
-- `backend/package.json`
-- `backend/src/app.ts`
-- `backend/src/config.ts`
-- `backend/src/db/client.ts`
-- `backend/src/db/schema.ts`
-- `backend/src/db/migrations/`
-- `backend/src/routes/ingredients.ts`
-- `backend/src/services/ingredientService.ts`
-- `backend/scripts/seed.ts`
-- `backend/tests/appConfig.test.ts`
-- `backend/tests/health.test.ts`
-- `backend/tests/ingredients.test.ts`
-- `backend/tsconfig.test.json`
+- `DATA_SOURCES.md`
+- `src/types/ingredient.js`
+- `src/data/foodAdditives.js`
+- `src/services/ingredientService.js`
+- `src/services/ingredientApiService.js`
+- `src/pages/searchPage.js`
+- `src/pages/detailPage.js`
+- `src/router/router.js`
+- `src/main.js`
+- `src/styles.css`
+- `scripts/validate-data.mjs`
 - `scripts/test.mjs`
+- `vite.config.js`
+- `backend/src/db/schema.ts`
+- `backend/src/db/migrations/0004_good_timeslip.sql`
+- `backend/src/db/migrations/meta/0004_snapshot.json`
+- `backend/src/db/migrations/meta/_journal.json`
+- `backend/src/services/ingredientService.ts`
+- `backend/src/routes/ingredients.ts`
+- `backend/tests/ingredients.test.ts`
+
+## 变更摘要
+
+- 食品添加剂类型、前端数据、后端 schema、seed 映射和 API 返回统一补齐来源可信字段：`sourceName`、`sourceType`、`sourceVersion`、`sourceUrl`、`effectiveDate`、`confidenceLevel`、`lastReviewedAt`、`regulatoryBasis`、`rawSourceText`、`isVerified`。
+- 当前 100 条食品添加剂 seed 全部标记为 `confidenceLevel: "unverified"`、`isVerified: false`，避免用户误解为完整或权威数据。
+- 新增 Drizzle migration，将来源字段写入 `ingredients` 表；seed 可将现有食品添加剂数据导入本地 PostgreSQL。
+- 补齐 `GET /api/ingredients/search?q=`，复用现有分页、关键词、分类和别名搜索逻辑。
+- 前端食品搜索和详情优先请求后端 API，API 失败时降级本地数据，并处理 loading、error、empty 状态。
+- Vite 本地 dev server 将 `/api` 代理到 `API_ORIGIN` 或默认 `http://127.0.0.1:3000`，便于本地前端真实读取后端数据库。
+- 搜索结果显示未验证标识；详情页展示来源、可信等级、法规依据和原始来源摘要。
+- 增强 `npm run validate:data`，检查来源字段、可信等级、重复项、已验证数据依据和绝对化医疗结论。
+- 新增 `DATA_SOURCES.md`，记录当前来源、数据量、可信等级、缺失范围和 AI 不得编造的数据。
 
 ## 验证命令
 
@@ -61,52 +52,52 @@ npm run build
 cd backend && npm run typecheck
 cd backend && npm test
 cd backend && npm run build
-cd backend && docker compose up -d postgres
 cd backend && npm run db:migrate
 cd backend && npm run db:seed
-cd backend && docker compose up -d --build api
-cd backend && docker compose exec api node -e "console.log(process.env.DATABASE_URL)"
-curl "http://127.0.0.1:3000/api/ingredients?q=苯甲酸"
-curl "http://127.0.0.1:3000/api/ingredients?q=E211"
-curl "http://127.0.0.1:3000/api/ingredients?q=%25"
-curl "http://127.0.0.1:3000/api/ingredients/categories"
+cd backend && npm run dev
+curl http://127.0.0.1:3000/health
+curl "http://127.0.0.1:3000/api/ingredients/search?q=E211&limit=2"
 curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"
 curl -i "http://127.0.0.1:3000/api/ingredients/not-exist"
+npm run dev -- --host 127.0.0.1 --port 5173
+curl "http://127.0.0.1:5175/api/ingredients/search?q=E211&limit=2"
 git diff --check
 ```
 
 ## 验证结果
 
 - `npm run validate:data` 通过，100 条食品添加剂记录校验成功。
-- `npm run lint` 通过。
-- `npm run test` 通过。
-- `npm run build` 通过。
-- `backend npm run typecheck` 通过。
-- `backend npm test` 通过，3 个测试文件、11 个测试用例通过。
-- `backend npm run build` 通过。
-- `npx drizzle-kit generate` 生成 migration 成功。
-- `backend npm run db:migrate` 通过，迁移应用成功。
-- `backend npm run db:seed` 通过，输出 `Seeded 100 ingredients`。
-- `docker compose up -d --build api` 通过，API 容器正常启动。
-- API 容器内 `DATABASE_URL` 确认为 `postgres://postgres:password@postgres:5432/compcheck`。
-- API curl 验收通过：
-  - `q=苯甲酸` 返回 3 条匹配记录。
-  - 容器化 API 请求 `q=E211` 返回 `sodium-benzoate`，确认可连通 compose PostgreSQL 服务。
-  - 容器化 API 请求 `q=%25` 返回空结果且无 SQL 错误，确认 LIKE wildcard 转义路径可执行。
-  - `/api/ingredients/categories` 返回分类统计。
-  - `/api/ingredients/sodium-benzoate` 返回苯甲酸钠详情。
-  - `/api/ingredients/not-exist` 返回 404 `{"error":"not_found"}`。
+- `npm run lint` 通过，48 个 JavaScript 文件检查、54 个文本文件扫描通过。
+- `npm run test` 通过，前端搜索、详情、数据校验和文本分析断言通过。
+- `npm run build` 通过，Vite 构建产物生成成功。
+- `cd backend && npm run typecheck` 通过。
+- `cd backend && npm test` 通过，5 个测试文件、33 个测试用例通过。
+- `cd backend && npm run build` 通过。
+- `cd backend && docker compose up -d postgres` 通过，本地 PostgreSQL 容器运行中。
+- `cd backend && npm run db:migrate` 通过，Drizzle migration 应用成功。
+- `cd backend && npm run db:seed` 通过，输出 `Seeded 100 ingredients`。
+- `cd backend && npm run dev` 可启动，API 监听 `http://127.0.0.1:3000`。
+- `curl http://127.0.0.1:3000/health` 返回 200 和 `{"status":"ok"}`。
+- `curl "http://127.0.0.1:3000/api/ingredients/search?q=E211&limit=2"` 返回 `sodium-benzoate`，包含来源字段、`confidenceLevel:"unverified"` 和 `isVerified:false`。
+- `curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"` 返回详情和来源字段。
+- `curl "http://127.0.0.1:3000/api/ingredients/categories"` 返回分类统计。
+- `curl -i "http://127.0.0.1:3000/api/ingredients/not-exist"` 返回 404 `{"error":"not_found"}`。
+- `npm run dev -- --host 127.0.0.1 --port 5173` 可启动；当前环境中 5173/5174 已占用，Vite 自动落到 `http://127.0.0.1:5175/`。
+- `curl "http://127.0.0.1:5175/api/ingredients/search?q=E211&limit=2"` 通过 Vite `/api` 代理返回数据库中的 `sodium-benzoate` 和来源字段。
 - `git diff --check` 通过。
 
 ## 风险点
 
-- 当前 API 仍是只读成分查询，没有账号、JWT、用户数据同步、限流或审计日志。
-- `q` 关键词搜索包含 JSONB aliases 的文本匹配，适合当前 100 条种子数据；数据规模扩大后需要全文索引或专用搜索索引。
-- 本地 PostgreSQL 默认映射到宿主 `15432`，避免和本机 5432 冲突；API 容器通过 compose 服务名 `postgres:5432` 访问同一数据库；生产环境需要单独配置托管数据库 `DATABASE_URL`。
-- 当前 seed 读取前端数据源，后续数据后台或导入流程接入后需要替换为正式数据发布流程。
+- 当前数据量仅 100 条 seed 样本，不能视为完整食品添加剂库。
+- 当前来源字段是统一 seed 溯源入口和待审核状态，逐条标准条款、来源版本、生效日期、ADI 原文和逐食品类别限量仍未人工确认。
+- 生产数据库未完成；当前仅完成本地数据库或开发环境数据库对接。
+- 前端化妆品数据仍是原型数据，本轮未扩展，不能与食品添加剂主线混用为可信库。
+- `README.md` 存在，`AGENTS.md` 不存在；本轮按 `readme.md`、`PROJECT_PLAN.md`、`CODEX_TASKS.md`、`COMMANDS.md` 和代码现状执行。
+- OCR 和 AI 只能依赖可信数据底座继续推进；AI 不得作为原始数据来源。
 
-## 本次 git diff 摘要
+## 剩余问题
 
-- 后端从健康检查骨架推进到可迁移、可 seed、可查询的食品添加剂只读 API。
-- PR CI 开始覆盖后端基础校验。
-- 项目真实进度更新为 28%，下一个 Codex 批次为 Batch 3-C 账号与鉴权。
+- 需要人工确认官方来源清单和具体版本。
+- 需要建立官方数据导入、逐条审核、变更记录和发布流程。
+- 需要配置生产数据库、备份、监控和数据发布权限。
+- 需要在可信数据底座完成后再恢复 OCR、AI、订阅、支付、上架和签名相关开发。

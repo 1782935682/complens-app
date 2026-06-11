@@ -4,6 +4,8 @@
  * @typedef {'cosmetic' | 'food-additive'} IngredientKind
  * @typedef {'permitted' | 'restricted' | 'prohibited' | 'unknown'} GBStatus
  * @typedef {'draft' | 'reviewed' | 'verified'} DataReviewStatus
+ * @typedef {'official_standard' | 'regulation' | 'public_database' | 'manual_verified' | 'unknown'} SourceType
+ * @typedef {'high' | 'medium' | 'low' | 'unverified'} ConfidenceLevel
  * @typedef {'pregnant' | 'infant' | 'child' | 'diabetic' | 'renal' | 'sensitive'} ConsumerGroup
  * @typedef {'celery' | 'cereals-gluten' | 'crustaceans' | 'eggs' | 'fish' | 'lupin' | 'milk' | 'molluscs' | 'mustard' | 'peanuts' | 'sesame' | 'soybeans' | 'sulphites' | 'tree-nuts'} AllergenType
  *
@@ -38,6 +40,16 @@
  * @property {DataReviewStatus=} reviewStatus
  * @property {string=} dataVersion
  * @property {string=} updatedAt
+ * @property {string=} sourceName
+ * @property {SourceType=} sourceType
+ * @property {string=} sourceVersion
+ * @property {string=} sourceUrl
+ * @property {string=} effectiveDate
+ * @property {ConfidenceLevel=} confidenceLevel
+ * @property {string=} lastReviewedAt
+ * @property {string=} regulatoryBasis
+ * @property {string=} rawSourceText
+ * @property {boolean=} isVerified
  *
  * @typedef {Ingredient & {
  *   kind: 'food-additive',
@@ -54,7 +66,17 @@
  *   sourceReferences: SourceReference[],
  *   reviewStatus: DataReviewStatus,
  *   dataVersion: string,
- *   updatedAt: string
+ *   updatedAt: string,
+ *   sourceName: string,
+ *   sourceType: SourceType,
+ *   sourceVersion: string,
+ *   sourceUrl: string,
+ *   effectiveDate: string,
+ *   confidenceLevel: ConfidenceLevel,
+ *   lastReviewedAt: string,
+ *   regulatoryBasis: string,
+ *   rawSourceText: string,
+ *   isVerified: boolean
  * }} FoodAdditive
  *
  * @typedef {Object} SearchResult
@@ -67,6 +89,9 @@
  * @property {string=} gbCode
  * @property {string=} eNumber
  * @property {AllergenType[]=} allergenTypes
+ * @property {ConfidenceLevel=} confidenceLevel
+ * @property {boolean=} isVerified
+ * @property {string=} sourceName
  *
  * @typedef {SearchResult & {
  *   matchedText?: string,

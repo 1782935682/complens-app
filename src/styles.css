@@ -700,6 +700,19 @@ button.danger-button:hover {
   font-weight: 800;
 }
 
+.data-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-left: 8px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: #5f3d00;
+  background: #fff2bf;
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .danger-text {
   color: var(--high);
   font-weight: 800;

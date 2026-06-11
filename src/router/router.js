@@ -201,9 +201,9 @@ export function resolveRoute(hash) {
   return notFoundRoute(route, path);
 }
 
-export function renderRoute(route) {
-  if (route.view === 'detail') return renderDetailPage(route.id, route.category);
-  if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort);
+export function renderRoute(route, asyncState = null) {
+  if (route.view === 'detail') return renderDetailPage(route.id, route.category, asyncState);
+  if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort, asyncState);
   if (route.view === 'compare') return renderComparePage(route.category);
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'data') return renderDataPage(route.category);

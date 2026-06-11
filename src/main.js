@@ -2,6 +2,7 @@ import { riskClass, riskLabel } from './components/render.js';
 import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { extractIngredientsFromImage } from './services/ocrService.js';
+import { fetchIngredientById, fetchIngredientSearch } from './services/ingredientApiService.js';
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { getCompareOverview } from './services/compareService.js';
@@ -14,8 +15,10 @@ import { validateScanImageFile } from './utils/imageFile.js';
 import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
+const API_SEARCH_PAGE_SIZE = 6;
 let scanPreviewObjectUrl = '';
 let scanPreviewRotation = 0;
+let routeRenderVersion = 0;
 
 registerServiceWorker();
 
@@ -24,17 +27,69 @@ function navigate(hash) {
 }
 
 function render() {
+  const renderVersion = routeRenderVersion + 1;
+  routeRenderVersion = renderVersion;
   const route = resolveRoute(window.location.hash);
   revokeScanPreviewObjectUrl();
   scanPreviewRotation = 0;
   document.title = getRouteTitle(route);
   updateShellNavigation(route);
-  app.innerHTML = renderRoute(route);
+  app.innerHTML = renderRoute(route, getInitialApiState(route));
   bindPageEvents(route);
   window.scrollTo({ top: 0, behavior: 'auto' });
   if (typeof app.focus === 'function') {
     app.focus({ preventScroll: true });
   }
+  hydrateIngredientApiRoute(route, renderVersion);
+}
+
+function getInitialApiState(route) {
+  if (!shouldUseIngredientApi(route)) return null;
+  return { status: 'loading' };
+}
+
+async function hydrateIngredientApiRoute(route, renderVersion) {
+  if (!shouldUseIngredientApi(route)) return;
+  try {
+    const state = route.view === 'search'
+      ? await getSearchApiState(route)
+      : await getDetailApiState(route);
+    if (renderVersion !== routeRenderVersion) return;
+    app.innerHTML = renderRoute(route, state);
+    bindPageEvents(route);
+  } catch {
+    if (renderVersion !== routeRenderVersion) return;
+    app.innerHTML = renderRoute(route, { status: 'error' });
+    bindPageEvents(route);
+  }
+}
+
+function shouldUseIngredientApi(route) {
+  return route?.category === 'food' && ['search', 'detail'].includes(route.view);
+}
+
+async function getSearchApiState(route) {
+  const result = await fetchIngredientSearch({
+    query: route.query,
+    filters: route.filters,
+    page: route.page,
+    limit: API_SEARCH_PAGE_SIZE
+  });
+  return {
+    status: 'success',
+    items: result.items || [],
+    total: result.total || 0,
+    totalPages: result.totalPages || 1
+  };
+}
+
+async function getDetailApiState(route) {
+  const item = await fetchIngredientById(route.id);
+  if (!item) return { status: 'error' };
+  return {
+    status: 'success',
+    item
+  };
 }
 
 function updateShellNavigation(route) {

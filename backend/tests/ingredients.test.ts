@@ -35,6 +35,16 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
         reviewStatus: 'draft',
         dataVersion: 'test',
         updatedAt: '2026-06-10',
+        sourceName: '测试来源',
+        sourceType: 'official_standard',
+        sourceVersion: 'test',
+        sourceUrl: 'https://example.com/source',
+        effectiveDate: '待人工核验',
+        confidenceLevel: 'unverified',
+        lastReviewedAt: '2026-06-10',
+        regulatoryBasis: '测试法规依据',
+        rawSourceText: '测试原始来源片段',
+        isVerified: false,
         gbCode: 'INS 211',
         gbStatus: 'restricted',
         eNumber: 'E211',
@@ -71,6 +81,16 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
           reviewStatus: 'draft',
           dataVersion: 'test',
           updatedAt: '2026-06-10',
+          sourceName: '测试来源',
+          sourceType: 'official_standard',
+          sourceVersion: 'test',
+          sourceUrl: 'https://example.com/source',
+          effectiveDate: '待人工核验',
+          confidenceLevel: 'unverified',
+          lastReviewedAt: '2026-06-10',
+          regulatoryBasis: '测试法规依据',
+          rawSourceText: '测试原始来源片段',
+          isVerified: false,
           gbCode: 'INS 211',
           gbStatus: 'restricted',
           eNumber: 'E211',
@@ -120,6 +140,26 @@ describe('GET /api/ingredients', () => {
       message: 'page must be a positive integer'
     });
     expect(invalidRisk.status).toBe(400);
+  });
+});
+
+describe('GET /api/ingredients/search', () => {
+  it('reuses list query parsing for explicit search route', async () => {
+    const service = createIngredientService();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/ingredients/search?q=E211&page=1&limit=5');
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.items[0].sourceName).toBe('测试来源');
+    expect(service.listIngredients).toHaveBeenCalledWith({
+      q: 'E211',
+      category: undefined,
+      riskLevel: undefined,
+      page: 1,
+      limit: 5
+    });
   });
 });
 

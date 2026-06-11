@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
+import { boolean, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
 
 export const ingredients = pgTable('ingredients', {
   id: text('id').primaryKey(),
@@ -20,6 +20,16 @@ export const ingredients = pgTable('ingredients', {
   reviewStatus: text('review_status').notNull(),
   dataVersion: text('data_version').notNull(),
   updatedAt: text('updated_at').notNull(),
+  sourceName: text('source_name').notNull(),
+  sourceType: text('source_type').notNull(),
+  sourceVersion: text('source_version').notNull(),
+  sourceUrl: text('source_url').notNull(),
+  effectiveDate: text('effective_date').notNull(),
+  confidenceLevel: text('confidence_level').notNull(),
+  lastReviewedAt: text('last_reviewed_at').notNull(),
+  regulatoryBasis: text('regulatory_basis').notNull(),
+  rawSourceText: text('raw_source_text').notNull(),
+  isVerified: boolean('is_verified').notNull().default(false),
   gbCode: text('gb_code').notNull(),
   gbStatus: text('gb_status').notNull(),
   eNumber: text('e_number'),

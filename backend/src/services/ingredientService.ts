@@ -3,8 +3,10 @@ import { createDatabaseClient, type Database, type DatabaseClient } from '../db/
 import { ingredientSources, ingredients, type IngredientRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
+export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
 
 export type RiskLevel = typeof validRiskLevels[number];
+export type ConfidenceLevel = typeof validConfidenceLevels[number];
 
 export type FoodAdditiveInput = {
   id: string;
@@ -25,6 +27,16 @@ export type FoodAdditiveInput = {
   reviewStatus: string;
   dataVersion: string;
   updatedAt: string;
+  sourceName: string;
+  sourceType: string;
+  sourceVersion: string;
+  sourceUrl: string;
+  effectiveDate: string;
+  confidenceLevel: ConfidenceLevel;
+  lastReviewedAt: string;
+  regulatoryBasis: string;
+  rawSourceText: string;
+  isVerified: boolean;
   gbCode: string;
   gbStatus: string;
   eNumber?: string;
@@ -170,6 +182,16 @@ export function toIngredientRow(additive: FoodAdditiveInput): NewIngredientRow {
     reviewStatus: additive.reviewStatus,
     dataVersion: additive.dataVersion,
     updatedAt: additive.updatedAt,
+    sourceName: additive.sourceName,
+    sourceType: additive.sourceType,
+    sourceVersion: additive.sourceVersion,
+    sourceUrl: additive.sourceUrl,
+    effectiveDate: additive.effectiveDate,
+    confidenceLevel: additive.confidenceLevel,
+    lastReviewedAt: additive.lastReviewedAt,
+    regulatoryBasis: additive.regulatoryBasis,
+    rawSourceText: additive.rawSourceText,
+    isVerified: additive.isVerified,
     gbCode: additive.gbCode,
     gbStatus: additive.gbStatus,
     eNumber: additive.eNumber ?? null,

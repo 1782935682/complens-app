@@ -24,6 +24,16 @@ export function createIngredientsRoute(ingredientService: IngredientService) {
     return context.json({ items });
   });
 
+  route.get('/ingredients/search', async (context) => {
+    const parsed = parseListQuery(context.req.query());
+    if (!parsed.ok) {
+      return context.json(parsed.error, 400);
+    }
+
+    const result = await ingredientService.listIngredients(parsed.value);
+    return context.json(result);
+  });
+
   route.get('/ingredients/:id', async (context) => {
     const ingredient = await ingredientService.getIngredientById(context.req.param('id'));
     if (!ingredient) {

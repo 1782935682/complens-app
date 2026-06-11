@@ -580,7 +580,11 @@ function toSearchResult(ingredient) {
     category: ingredient.category,
     gbCode: ingredient.gbCode,
     eNumber: ingredient.eNumber,
-    allergenTypes: ingredient.allergenTypes || []
+    allergenTypes: ingredient.allergenTypes || [],
+    confidenceLevel: ingredient.confidenceLevel,
+    isVerified: ingredient.isVerified,
+    sourceName: ingredient.sourceName,
+    reviewStatus: ingredient.reviewStatus
   };
 }
 
