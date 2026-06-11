@@ -233,7 +233,7 @@ function buildIngredientWhere(params: IngredientListParams): SQL | undefined {
       sql`exists (
         select 1
         from jsonb_array_elements_text(${ingredients.aliases}) as alias(value)
-        where alias.value ILIKE ${pattern} ESCAPE '\'
+        where alias.value ILIKE ${pattern} ESCAPE '\\'
       )`
     ) as SQL);
   }
@@ -254,5 +254,5 @@ export function escapeLikePattern(value: string) {
 }
 
 function ilikeEscaped(column: AnyColumn, pattern: string): SQL {
-  return sql`${column} ILIKE ${pattern} ESCAPE '\'`;
+  return sql`${column} ILIKE ${pattern} ESCAPE '\\'`;
 }
