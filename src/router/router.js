@@ -1,5 +1,6 @@
 import { renderAnalyzePage } from '../pages/analyzePage.js';
 import { categoryPath, defaultCategory, getProductCategory, isProductCategory, legacyCategory } from '../data/categories.js';
+import { renderComparePage } from '../pages/comparePage.js';
 import { renderDataPage } from '../pages/dataPage.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
@@ -16,6 +17,7 @@ import { getIngredientById } from '../services/ingredientService.js';
 const APP_TITLE = 'CompCheck 成分小查';
 const VIEW_TITLES = {
   analyze: '成分表分析',
+  compare: '成分对比',
   data: '数据来源',
   detail: '成分详情',
   favorites: '收藏夹',
@@ -32,6 +34,7 @@ const VIEW_TITLES = {
 
 const NAV_ITEMS = [
   { key: 'search', view: 'search', path: '/search' },
+  { key: 'compare', view: 'compare', path: '/compare' },
   { key: 'scan', view: 'scan', path: '/scan' },
   { key: 'analyze', view: 'analyze', path: '/analyze' },
   { key: 'data', view: 'data', path: '/data' },
@@ -84,6 +87,13 @@ export function resolveRoute(hash) {
         ingredientCategory: params.get('ingredientCategory') || ''
       },
       ...(sort ? { sort } : {})
+    };
+  }
+
+  if (route.path === '/compare') {
+    return {
+      view: 'compare',
+      category: route.category
     };
   }
 
@@ -162,6 +172,7 @@ export function resolveRoute(hash) {
 export function renderRoute(route) {
   if (route.view === 'detail') return renderDetailPage(route.id, route.category);
   if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort);
+  if (route.view === 'compare') return renderComparePage(route.category);
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'data') return renderDataPage(route.category);
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
@@ -204,7 +215,9 @@ export function getMobileNavigationLinks(route) {
   return MOBILE_NAV_ITEMS.map((item) => ({
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
-    active: route?.view === item.view || (item.key === 'settings' && ['membership', 'onboarding'].includes(route?.view))
+    active: route?.view === item.view
+      || (item.key === 'favorites' && route?.view === 'compare')
+      || (item.key === 'settings' && ['membership', 'onboarding'].includes(route?.view))
   }));
 }
 

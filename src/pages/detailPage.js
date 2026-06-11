@@ -2,7 +2,7 @@ import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js'
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { getIngredientById, getRelatedIngredients } from '../services/ingredientService.js';
-import { getUserAllergens, isFavorite } from '../store/userStore.js';
+import { getUserAllergens, isFavorite, isInCompare } from '../store/userStore.js';
 
 const GB_STATUS_LABELS = {
   permitted: '允许使用',
@@ -30,6 +30,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
   }
 
   const favorite = isFavorite(ingredient.id, category);
+  const compared = isInCompare(ingredient.id, category);
   const allergenMatches = getMatchingUserAllergens(ingredient, getUserAllergens());
   const relatedIngredients = getRelatedIngredients(ingredient.id, category, 4);
   return html`
@@ -41,10 +42,16 @@ export function renderDetailPage(id, category = 'cosmetics') {
           <h1>${escapeHtml(ingredient.nameCn)}</h1>
           <p class="latin">${escapeHtml(ingredient.nameEn || '')}</p>
         </div>
-        <button class="favorite-button ${favorite ? 'is-active' : ''}" data-favorite-id="${ingredient.id}">
-          ${favorite ? '已收藏' : '收藏'}
-        </button>
+        <div class="detail-actions">
+          <button class="favorite-button ${favorite ? 'is-active' : ''}" data-favorite-id="${ingredient.id}">
+            ${favorite ? '已收藏' : '收藏'}
+          </button>
+          <button class="secondary ${compared ? 'is-active' : ''}" data-compare-add="${escapeHtml(ingredient.id)}">
+            ${compared ? '已加入对比' : '加入对比'}
+          </button>
+        </div>
       </div>
+      <span class="save-status" data-compare-status role="status" aria-live="polite"></span>
       ${allergenMatches.length ? html`
         <div class="allergen-alert">
           此成分含您关注的过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}

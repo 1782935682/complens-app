@@ -2,7 +2,7 @@ import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js'
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { getDatasetAuditSummary, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
-import { getUserAllergens } from '../store/userStore.js';
+import { getUserAllergens, isInCompare } from '../store/userStore.js';
 
 const SEARCH_PAGE_SIZE = 6;
 const DEFAULT_SEARCH_SORT = 'relevance';
@@ -54,6 +54,7 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
       ${renderRiskFacets(riskFacets, category, query, activeFilters, activeSort)}
       ${renderCategoryFacets(categoryFacets, category, query, activeFilters, activeSort)}
       ${results.length ? renderPageSummary(results.length, currentPage, pagedResults.length) : ''}
+      ${results.length ? renderCompareShortcut(category) : ''}
       ${results.length ? renderResults(pagedResults, category) : renderEmpty(safeQuery, activeFilterCount)}
       ${results.length ? renderPagination(category, query, activeFilters, activeSort, currentPage, totalPages) : ''}
     </section>
@@ -199,19 +200,34 @@ function renderResults(results, category) {
     <div class="result-list">
       ${results.map((result) => {
         const allergenMatches = getMatchingUserAllergens(result, userAllergens);
+        const compared = isInCompare(result.id, category);
         return html`
-        <a class="result-item" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
-          <div>
+        <article class="result-item">
+          <a class="result-item__main" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
             <span class="${riskClass(result.riskLevel)}">${riskLabel(result.riskLevel)}</span>
             ${allergenMatches.length ? `<span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}</span>` : ''}
             <h3>${escapeHtml(result.nameCn)}</h3>
             <p class="latin">${escapeHtml(result.nameEn || '')}</p>
             <p>${escapeHtml(result.description)}</p>
+          </a>
+          <div class="result-item__side">
+            <span class="category">${escapeHtml(result.category || '未分类')}</span>
+            <button type="button" class="secondary ${compared ? 'is-active' : ''}" data-compare-add="${escapeHtml(result.id)}">
+              ${compared ? '已加入' : '对比'}
+            </button>
           </div>
-          <span class="category">${escapeHtml(result.category || '未分类')}</span>
-        </a>
+        </article>
       `;
       }).join('')}
+    </div>
+  `;
+}
+
+function renderCompareShortcut(category) {
+  return html`
+    <div class="compare-inline">
+      <a class="inline-link" href="#${categoryPath(category, '/compare')}" data-route>查看成分对比</a>
+      <span class="save-status" data-compare-status role="status" aria-live="polite"></span>
     </div>
   `;
 }

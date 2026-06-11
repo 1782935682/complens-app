@@ -338,6 +338,12 @@ button.secondary:hover {
   background: #edf2ef;
 }
 
+button.secondary.is-active {
+  border-color: rgba(17, 106, 91, 0.36);
+  color: var(--primary-strong);
+  background: #eef7f3;
+}
+
 button.secondary:disabled:hover {
   background: white;
 }
@@ -529,6 +535,8 @@ button.danger-button:hover {
 
 .ingredient-card__actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   justify-content: flex-end;
   padding: 0 18px 18px;
 }
@@ -575,6 +583,22 @@ button.danger-button:hover {
   justify-content: space-between;
   gap: 16px;
   padding: 18px;
+}
+
+.result-item__main {
+  display: block;
+  min-width: 0;
+}
+
+.result-item__side {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  align-content: start;
+}
+
+.result-item__side button {
+  min-width: 86px;
 }
 
 .category,
@@ -673,7 +697,7 @@ button.danger-button:hover {
 
 .local-data-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -877,6 +901,67 @@ button.danger-button:hover {
   color: var(--muted);
 }
 
+.compare-toolbar,
+.compare-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.compare-inline {
+  margin: 0 0 14px;
+}
+
+.compare-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.compare-card .ingredient-card__main {
+  min-height: 200px;
+}
+
+.compare-table {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.45fr) repeat(var(--compare-columns), minmax(160px, 1fr));
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.compare-table__head,
+.compare-table__label,
+.compare-table__cell {
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 12px;
+}
+
+.compare-table__head {
+  color: var(--text);
+  background: #eef3ef;
+  font-weight: 800;
+}
+
+.compare-table__head a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.compare-table__label {
+  color: var(--muted);
+  background: #fbfcfb;
+  font-weight: 800;
+}
+
+.compare-table__cell {
+  overflow-wrap: anywhere;
+}
+
 .ingredient-card--allergen {
   border-color: #f1b8b2;
   background: #fffefe;
@@ -1033,6 +1118,13 @@ button.danger-button:hover {
   align-items: start;
   justify-content: space-between;
   gap: 18px;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .favorite-button {
@@ -2033,8 +2125,12 @@ button.danger-button:hover {
 
   .search-row,
   .result-item,
-  .detail__header {
+  .detail__header,
+  .detail-actions,
+  .compare-toolbar,
+  .compare-inline {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .suggestion-item {
@@ -2059,6 +2155,14 @@ button.danger-button:hover {
 
   .report-card__actions {
     flex-direction: column;
+  }
+
+  .result-item__side {
+    justify-items: stretch;
+  }
+
+  .compare-table {
+    grid-template-columns: minmax(112px, 0.48fr) repeat(var(--compare-columns), minmax(148px, 1fr));
   }
 
   button,
