@@ -889,6 +889,21 @@ button.danger-button:hover {
   box-shadow: var(--shadow);
 }
 
+.support-prefill {
+  gap: 6px;
+  border-style: dashed;
+  background: #fbfcfb;
+}
+
+.support-prefill h3,
+.support-prefill p {
+  margin: 0;
+}
+
+.support-prefill p {
+  color: var(--muted);
+}
+
 .support-boundary {
   margin-top: 2px;
 }
@@ -950,6 +965,10 @@ button.danger-button:hover {
 .support-request__actions {
   display: flex;
   gap: 8px;
+}
+
+.data-correction-actions {
+  margin-top: 16px;
 }
 
 .legal-document-grid {

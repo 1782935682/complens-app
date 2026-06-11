@@ -1,5 +1,11 @@
-import { getProductCategory } from '../data/categories.js';
-import { getSupportTopic } from '../data/supportTopics.js';
+import { categoryPath, getProductCategory } from '../data/categories.js';
+import { defaultSupportTopic, getSupportTopic, isSupportTopic } from '../data/supportTopics.js';
+
+const SUPPORT_PREFILL_LIMITS = {
+  contact: 120,
+  message: 1000,
+  subject: 80
+};
 
 export function buildSupportRequestMarkdown(request) {
   const topic = getSupportTopic(request.topic);
@@ -43,4 +49,42 @@ export function formatSupportStatus(status) {
     closed: '已关闭'
   };
   return labels[status] || labels.local;
+}
+
+export function buildSupportPrefillFromParams(params = new URLSearchParams()) {
+  return normalizeSupportPrefill({
+    topic: params.get('topic') || '',
+    subject: params.get('subject') || '',
+    message: params.get('message') || '',
+    contact: params.get('contact') || ''
+  });
+}
+
+export function buildSupportPrefillUrl(category = 'food', input = {}) {
+  const prefill = normalizeSupportPrefill(input);
+  const params = new URLSearchParams();
+  if (prefill.topic && prefill.topic !== defaultSupportTopic) params.set('topic', prefill.topic);
+  if (prefill.subject) params.set('subject', prefill.subject);
+  if (prefill.message) params.set('message', prefill.message);
+  if (prefill.contact) params.set('contact', prefill.contact);
+  const query = params.toString();
+  return `#${categoryPath(category, '/support')}${query ? `?${query}` : ''}`;
+}
+
+export function normalizeSupportPrefill(input = {}) {
+  const topic = isSupportTopic(input.topic) ? input.topic : '';
+  const subject = limitSupportText(input.subject, SUPPORT_PREFILL_LIMITS.subject);
+  const message = limitSupportText(input.message, SUPPORT_PREFILL_LIMITS.message);
+  const contact = limitSupportText(input.contact, SUPPORT_PREFILL_LIMITS.contact);
+  return {
+    topic,
+    subject,
+    message,
+    contact,
+    hasPrefill: Boolean(topic || subject || message || contact)
+  };
+}
+
+function limitSupportText(value, maxLength) {
+  return String(value || '').trim().slice(0, maxLength);
 }

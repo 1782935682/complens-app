@@ -2,6 +2,7 @@ import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js'
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { getIngredientById, getRelatedIngredients } from '../services/ingredientService.js';
+import { buildSupportPrefillUrl } from '../services/supportService.js';
 import { getUserAllergens, isFavorite, isInCompare } from '../store/userStore.js';
 
 const GB_STATUS_LABELS = {
@@ -64,7 +65,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
         ${renderInfoBlock('适合关注', ingredient.suitableFor)}
         ${renderInfoBlock('使用提醒', ingredient.cautionFor)}
       </div>
-      ${category === 'food' ? renderFoodAdditiveDetails(ingredient) : ''}
+      ${category === 'food' ? renderFoodAdditiveDetails(ingredient, category) : ''}
       <section class="note">
         <h2>风险说明</h2>
         <p>${escapeHtml(ingredient.riskSummary || '暂无明确风险说明，建议结合产品整体配方和个人耐受判断。')}</p>
@@ -78,7 +79,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
   `;
 }
 
-export function renderFoodAdditiveDetails(ingredient) {
+export function renderFoodAdditiveDetails(ingredient, category = 'food') {
   if (!ingredient) {
     return '';
   }
@@ -97,6 +98,7 @@ export function renderFoodAdditiveDetails(ingredient) {
       ${renderInfoBlock('适用食品类别', ingredient.foodCategories || [])}
       ${renderUsageLimits(ingredient.usageLimits || [])}
       ${renderSourceReferences(ingredient.sourceReferences || [])}
+      ${renderIngredientCorrectionAction(ingredient, category)}
     </section>
   `;
 }
@@ -193,6 +195,27 @@ function renderSourceReferences(sourceReferences) {
           </li>
         `).join('')}</ul>`
         : html`<p class="empty small">暂无来源信息</p>`}
+    </div>
+  `;
+}
+
+function renderIngredientCorrectionAction(ingredient, category) {
+  const name = ingredient.nameCn || ingredient.nameEn || '未命名成分';
+  const id = ingredient.id || '暂无 ID';
+  const href = buildSupportPrefillUrl(category, {
+    topic: 'data-correction',
+    subject: `${name} 数据需要核对`,
+    message: [
+      `成分：${name}`,
+      `ID：${id}`,
+      `当前数据状态：${reviewStatusLabel(ingredient.reviewStatus)}`,
+      `当前 GB / INS 编号：${ingredient.gbCode || '暂无'}`,
+      '需要核对：来源条款、逐食品类别限量、ADI 原文或风险提示。'
+    ].join('\n')
+  });
+  return html`
+    <div class="form-actions data-correction-actions">
+      <a class="button-link secondary-link" href="${escapeHtml(href)}" data-route data-support-correction-link>反馈这条数据</a>
     </div>
   `;
 }

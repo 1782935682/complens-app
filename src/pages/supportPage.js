@@ -1,13 +1,14 @@
 import { escapeHtml, html } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { getSupportTopic, supportTopics } from '../data/supportTopics.js';
-import { formatSupportDate, formatSupportStatus } from '../services/supportService.js';
+import { formatSupportDate, formatSupportStatus, normalizeSupportPrefill } from '../services/supportService.js';
 import { getSupportRequests } from '../store/userStore.js';
 
-export function renderSupportPage(category = 'food') {
+export function renderSupportPage(category = 'food', prefill = {}) {
   const categoryLabel = getProductCategory(category).label;
   const requests = getSupportRequests();
   const categoryRequests = requests.filter((request) => request.category === category);
+  const draft = normalizeSupportPrefill(prefill);
   return html`
     <section class="section">
       <div class="section__head">
@@ -44,25 +45,26 @@ export function renderSupportPage(category = 'food') {
           </div>
           <span class="count">不会自动上传</span>
         </div>
+        ${draft.hasPrefill ? renderSupportPrefillNotice(draft) : ''}
         <label class="filter-field" for="support-topic">
           问题类型
           <select id="support-topic" name="topic">
             ${supportTopics.map((topic) => html`
-              <option value="${escapeHtml(topic.id)}">${escapeHtml(topic.label)} - ${escapeHtml(topic.description)}</option>
+              <option value="${escapeHtml(topic.id)}"${draft.topic === topic.id ? ' selected' : ''}>${escapeHtml(topic.label)} - ${escapeHtml(topic.description)}</option>
             `).join('')}
           </select>
         </label>
         <label class="filter-field" for="support-subject">
           标题
-          <input id="support-subject" name="subject" maxlength="80" autocomplete="off" placeholder="例如：报告导出后缺少来源引用" />
+          <input id="support-subject" name="subject" maxlength="80" autocomplete="off" placeholder="例如：报告导出后缺少来源引用" value="${escapeHtml(draft.subject)}" />
         </label>
         <label class="filter-field" for="support-message">
           问题描述
-          <textarea id="support-message" name="message" rows="6" maxlength="1000" placeholder="写下触发步骤、看到的结果、期望结果，或需要核对的成分与来源。"></textarea>
+          <textarea id="support-message" name="message" rows="6" maxlength="1000" placeholder="写下触发步骤、看到的结果、期望结果，或需要核对的成分与来源。">${escapeHtml(draft.message)}</textarea>
         </label>
         <label class="filter-field" for="support-contact">
           联系方式
-          <input id="support-contact" name="contact" maxlength="120" autocomplete="email" placeholder="邮箱或其他联系方式，可留空" />
+          <input id="support-contact" name="contact" maxlength="120" autocomplete="email" placeholder="邮箱或其他联系方式，可留空" value="${escapeHtml(draft.contact)}" />
         </label>
         <label class="boundary-confirm support-boundary">
           <input type="checkbox" name="acceptedBoundary" />
@@ -90,6 +92,16 @@ export function renderSupportPage(category = 'food') {
         <p>当前版本还没有账号、客服工单系统或服务端同步。支持记录只保存在本机浏览器，也会随本机数据导出、导入和清空。<a class="inline-link" href="#${categoryPath(category, '/legal/privacy')}" data-route>查看隐私说明</a></p>
       </div>
     </section>
+  `;
+}
+
+function renderSupportPrefillNotice(prefill) {
+  const topic = prefill.topic ? getSupportTopic(prefill.topic).label : '反馈草稿';
+  return html`
+    <div class="info-block support-prefill" data-support-prefill>
+      <h3>已带入${escapeHtml(topic)}</h3>
+      <p>请补充触发步骤并确认本机保存边界后再保存。</p>
+    </div>
   `;
 }
 

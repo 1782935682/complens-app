@@ -16,6 +16,7 @@ import { renderSearchPage } from '../pages/searchPage.js';
 import { renderSettingsPage } from '../pages/settingsPage.js';
 import { renderSupportPage } from '../pages/supportPage.js';
 import { getIngredientById } from '../services/ingredientService.js';
+import { buildSupportPrefillFromParams } from '../services/supportService.js';
 
 const APP_TITLE = 'CompCheck 成分小查';
 const VIEW_TITLES = {
@@ -142,7 +143,8 @@ export function resolveRoute(hash) {
   if (route.path === '/support') {
     return {
       view: 'support',
-      category: route.category
+      category: route.category,
+      prefill: buildSupportPrefillFromParams(params)
     };
   }
 
@@ -208,7 +210,7 @@ export function renderRoute(route) {
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
   if (route.view === 'legal') return renderLegalPage(route.category, route.documentId);
   if (route.view === 'membership') return renderMembershipPage(route.category);
-  if (route.view === 'support') return renderSupportPage(route.category);
+  if (route.view === 'support') return renderSupportPage(route.category, route.prefill);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
