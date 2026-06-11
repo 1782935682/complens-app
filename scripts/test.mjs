@@ -776,6 +776,26 @@ assert.deepEqual(getCompareItems(), localDataSnapshot.compareItems);
 assert.deepEqual(getHistory(), localDataSnapshot.history);
 assert.deepEqual(getUserAllergens(), localDataSnapshot.allergens);
 assert.equal(getScanDraft('food'), '柠檬酸，山梨酸钾');
+const overLimitCompareImport = importLocalDataSnapshot({
+  ...localDataSnapshot,
+  compareItems: [
+    { id: 'citric-acid', category: 'food' },
+    { id: 'sodium-benzoate', category: 'food' },
+    { id: 'potassium-sorbate', category: 'food' },
+    { id: 'lecithins', category: 'food' },
+    { id: 'acesulfame-potassium', category: 'food' },
+    { id: 'niacinamide', category: 'cosmetics' },
+    { id: 'hyaluronic-acid', category: 'cosmetics' },
+    { id: 'salicylic-acid', category: 'cosmetics' },
+    { id: 'retinol', category: 'cosmetics' },
+    { id: 'fragrance', category: 'cosmetics' }
+  ]
+});
+assert.equal(overLimitCompareImport.ok, true);
+assert.equal(getCompareItems('food').length, 4);
+assert.equal(getCompareItems('cosmetics').length, 4);
+assert.equal(getCompareItems('food').some((item) => item.id === 'acesulfame-potassium'), false);
+assert.equal(getCompareItems('cosmetics').some((item) => item.id === 'fragrance'), false);
 const invalidImportResult = importLocalDataSnapshot({ schemaVersion: 999, history: ['不应覆盖'] });
 assert.equal(invalidImportResult.ok, false);
 assert.deepEqual(getHistory(), localDataSnapshot.history);

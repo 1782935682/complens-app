@@ -419,7 +419,7 @@ function normalizeLocalDataSnapshot(snapshot) {
     ok: true,
     data: {
       favorites: normalizeFavoriteItems(snapshot.favorites),
-      compareItems: normalizeFavoriteItems(snapshot.compareItems),
+      compareItems: normalizeCompareItems(snapshot.compareItems),
       history: normalizeStringList(snapshot.history).slice(0, MAX_HISTORY),
       preferences: normalizeLocalDataPreferences(snapshot.preferences),
       allergens: uniqueStrings(snapshot.allergens),
@@ -499,6 +499,16 @@ function normalizeFavoriteItems(value) {
     items.push(normalized);
   }
   return items;
+}
+
+function normalizeCompareItems(value) {
+  const categoryCounts = new Map();
+  return normalizeFavoriteItems(value).filter((item) => {
+    const count = categoryCounts.get(item.category) || 0;
+    if (count >= MAX_COMPARE_ITEMS) return false;
+    categoryCounts.set(item.category, count + 1);
+    return true;
+  });
 }
 
 function normalizeAnalysisReports(value) {
