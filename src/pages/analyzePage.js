@@ -94,6 +94,8 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
       </div>
     </section>
 
+    ${renderAnalysisQuality(result)}
+
     ${aiFallback ? renderAIFallbackPreview(aiFallback, aiRequest) : ''}
 
     ${allergenHitCount ? html`
@@ -145,6 +147,58 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
     ` : ''}
 
     ${renderDisclaimer()}
+  `;
+}
+
+function renderAnalysisQuality(result) {
+  const quality = result?.quality;
+  const items = Array.isArray(result?.analysisItems) ? result.analysisItems : [];
+  if (!quality || !quality.totalCount) return '';
+
+  return html`
+    <section class="section">
+      <div class="analysis-quality ${quality.needsReview ? 'analysis-quality--review' : ''}">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">解析质量</p>
+            <h2>本地匹配覆盖 ${Number(quality.coveragePercent) || 0}%</h2>
+            <p class="helper-text">${quality.needsReview ? '请优先核对中/低置信匹配和暂未收录条目。' : '当前条目均已被本地库稳定匹配。'}</p>
+          </div>
+          <span class="analysis-quality__badge">${quality.needsReview ? '需核对' : '匹配稳定'}</span>
+        </div>
+        <div class="analysis-quality__metrics">
+          ${qualityMetric('解析条目', quality.totalCount)}
+          ${qualityMetric('本地匹配', quality.matchedCount)}
+          ${qualityMetric('暂未收录', quality.unknownCount)}
+          ${qualityMetric('低置信', quality.lowConfidenceCount)}
+        </div>
+        <div class="analysis-match-list">
+          ${items.map(analysisMatchItem).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function qualityMetric(label, value) {
+  return html`
+    <span>
+      <strong>${Number(value) || 0}</strong>
+      ${escapeHtml(label)}
+    </span>
+  `;
+}
+
+function analysisMatchItem(item) {
+  const isMatched = item.type === 'matched';
+  return html`
+    <article class="analysis-match-item analysis-match-item--${isMatched ? 'matched' : 'unknown'}">
+      <span class="analysis-match-item__status">${escapeHtml(item.confidenceLabel || (isMatched ? '已匹配' : '待核对'))}</span>
+      <h3>${escapeHtml(item.inputText || '')}</h3>
+      <p>${isMatched
+        ? escapeHtml(`${item.note || '本地库匹配'}，识别为 ${item.nameCn || item.matchedText || '本地成分'}`)
+        : escapeHtml(item.note || '本地数据库暂未收录该条目')}</p>
+    </article>
   `;
 }
 

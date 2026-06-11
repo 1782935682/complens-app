@@ -32,13 +32,61 @@ export const SAMPLE_OPTIONS = [
 ];
 
 const protectedDelimiter = '\uE000';
+const labelPrefixPattern = /(?:配料表?|成分表?|原料|ingredients?)\s*[:：]/gi;
+const genericBracketPrefixes = [
+  '食品添加剂',
+  '添加剂',
+  '复配添加剂',
+  '保湿剂',
+  '酸度调节剂',
+  '抗结剂',
+  '抗氧化剂',
+  '防腐剂',
+  '漂白剂',
+  '甜味剂',
+  '增稠剂',
+  '增味剂',
+  '乳化剂',
+  '着色剂',
+  '色素',
+  '护色剂',
+  '膨松剂',
+  '稳定剂',
+  '营养强化剂'
+];
 
 export function splitIngredientInput(value) {
-  return String(value || '')
+  return normalizeIngredientInput(value)
     .replace(/单\s*[,，、]\s*双/g, `单${protectedDelimiter}双`)
     .split(/[,，、;；\n\r]+/)
-    .map((item) => stripBracketNotes(item).replaceAll(protectedDelimiter, '，').trim())
+    .map((item) => normalizeIngredientItem(item).replaceAll(protectedDelimiter, '，').trim())
     .filter(Boolean);
+}
+
+function normalizeIngredientInput(value) {
+  return expandBracketGroups(String(value || '').replace(labelPrefixPattern, ''));
+}
+
+function expandBracketGroups(value) {
+  return String(value || '').replace(/([^,，、;；\n\r()（）]*)[\(（]([^()（）]+)[\)）]/g, (match, prefix, content) => {
+    const rawPrefix = String(prefix || '').trim();
+    const cleanPrefix = normalizeIngredientItem(prefix);
+    const cleanContent = String(content || '').trim();
+    if (!cleanContent) return cleanPrefix;
+    if (!cleanPrefix && !rawPrefix) return '';
+
+    if (isGenericBracketPrefix(cleanPrefix || rawPrefix)) return `，${cleanContent}`;
+    return cleanPrefix;
+  });
+}
+
+export function normalizeIngredientItem(value) {
+  return stripQuantitySuffix(stripBracketNotes(value))
+    .replace(labelPrefixPattern, '')
+    .replace(/^\s*[\d一二三四五六七八九十]+[.、)]\s*/, '')
+    .replace(/^\s*(?:食品添加剂|添加剂)\s*[:：-]\s*/, '')
+    .replace(/^\s*(?:食品添加剂|添加剂)\s*[:：-]?\s*$/, '')
+    .trim();
 }
 
 function stripBracketNotes(value) {
@@ -49,6 +97,18 @@ function stripBracketNotes(value) {
     result = result.replace(/\s*[\(（][^()（）]*[\)）]\s*/g, '');
   } while (result !== previous);
   return result;
+}
+
+function stripQuantitySuffix(value) {
+  return String(value || '')
+    .replace(/\s*(?:含量|添加量)?\s*[:：]?\s*\d+(?:\.\d+)?\s*(?:%|g|kg|mg|ug|µg|ml|l|克|千克|毫克|微克|毫升|升)\s*$/i, '')
+    .trim();
+}
+
+function isGenericBracketPrefix(value) {
+  const compact = normalizeText(value).replace(/\s+/g, '');
+  if (!compact) return false;
+  return genericBracketPrefixes.some((prefix) => compact === normalizeText(prefix).replace(/\s+/g, '') || compact.endsWith(normalizeText(prefix).replace(/\s+/g, '')));
 }
 
 export function uniqueBy(items, getKey) {

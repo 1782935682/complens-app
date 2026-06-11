@@ -1,27 +1,26 @@
-# AI Review - Share Flow
+# AI Review - Analysis Confidence Flow
 
 ## 任务目标
 
-新增分享闭环，让用户在成分详情、分析报告和成分对比页面可以使用系统分享；桌面浏览器或不支持 Web Share 时，自动复制可读分享文本。
+新增成分表分析置信度闭环，让用户粘贴更接近真实包装的配料文本时，系统能更稳地拆分复配添加剂、清理剂量后缀，并明确展示本地库匹配覆盖率、匹配原因、置信度和需要核对的条目。
 
 ## 修改摘要
 
-- 新增 `src/services/shareService.js`，统一构建成分详情、报告详情和成分对比分享 payload。
-- 成分详情页新增分享按钮和状态反馈。
-- 报告详情页新增分享报告按钮，保留原有 Markdown / JSON 导出。
-- 成分对比页新增分享对比按钮，空对比状态不展示分享入口。
-- 主入口新增 Web Share 调用和复制 fallback。
-- PWA shell 缓存版本升到 `compcheck-shell-v13`，并预缓存分享服务。
-- 补充分享 payload、页面入口、主事件和 service worker 缓存测试。
+- `splitIngredientInput()` 支持 `配料：` / `成分：` 前缀清理、复配添加剂括号展开、剂量/百分比后缀清理，并保留原有单/双甘油脂肪酸酯保护逻辑。
+- `analyzeIngredientText()` 新增 `analysisItems` 和 `quality`，返回逐条匹配原因、置信度、覆盖率、低置信数量和暂未收录数量。
+- 分析页新增解析质量面板，展示覆盖率、解析条目、本地匹配、暂未收录、低置信和逐条核对提示。
+- 补充移动端样式，解析质量指标和匹配条目在小屏下单列展示。
+- PWA shell 缓存版本升到 `compcheck-shell-v14`。
+- 补充真实包装成分表拆分、分析置信度、解析质量面板和 service worker 缓存测试。
 - 同步更新 `COMMANDS.md` 和 `PROJECT_PLAN.md`。
 
 ## 修改文件
 
-- `src/services/shareService.js`
-- `src/pages/detailPage.js`
-- `src/pages/reportsPage.js`
-- `src/pages/comparePage.js`
-- `src/main.js`
+- `src/utils/text.js`
+- `src/services/ingredientService.js`
+- `src/pages/analyzePage.js`
+- `src/types/ingredient.js`
+- `src/styles.css`
 - `src/sw.js`
 - `scripts/test.mjs`
 - `COMMANDS.md`
@@ -45,20 +44,23 @@ git diff --check
 - `npm run test` 通过。
 - `npm run build` 通过，构建产物输出到 `dist/`。
 - `git diff --check` 通过。
-- `curl -I http://127.0.0.1:5180/`、`/main.js`、`/pages/detailPage.js`、`/pages/reportsPage.js`、`/pages/comparePage.js`、`/services/shareService.js` 和 `/sw.js` 均返回 HTTP 200。
+- `curl -I http://127.0.0.1:5181/`、`/main.js`、`/pages/analyzePage.js`、`/services/ingredientService.js`、`/utils/text.js`、`/styles.css` 和 `/sw.js` 均返回 HTTP 200。
 
 ## 风险点
 
-- Web Share 能力取决于浏览器和系统环境；已提供复制 fallback。
-- 已按 Codex 审阅意见区分用户取消系统分享的 `AbortError`，取消时只提示状态，不再自动复制到剪贴板。
-- 已显式处理 Web Share 被策略拒绝等 `TypeError` 场景，继续走复制 fallback。
-- 已按 Codex 审阅意见将报告分享链接指向带入原始成分表的重新分析入口，避免分享本机 localStorage 报告 ID。
-- 当前分享内容是文本和本地 hash 链接，不是服务端公开报告链接。
-- 分享内容仍基于草稿数据集，不代表食品添加剂数据已完成正式审核。
+- 当前置信度来自本地字符串匹配分数，不是机器学习模型；后续接入真实 OCR/AI 后需要重新校准阈值。
+- 已按 Codex 审阅意见限制非泛型括号展开，避免 `烟酰胺（Niacinamide, Vitamin B3）` 和 `烟酰胺（尼克酰胺、维生素B3）` 这类别名说明被拆成未知成分。
+- 已按 Codex 审阅意见补齐现有食品添加剂分类中的泛型括号包装，避免 `抗结剂（二氧化硅）` 这类单项添加剂被丢弃。
+- 已按 Codex 审阅意见限制三字中文成分的嵌入式低置信匹配，避免 `脱氢乙酸钠` 被误判为 `乙酸钠`。
+- 已按 Codex 审阅意见保留泛型括号内的单项添加剂，避免 `食品添加剂（柠檬酸钠）` 被丢弃。
+- 已按 Codex 审阅意见将中等置信匹配纳入需要核对状态，避免 `柠檬` 这类前缀匹配被展示为稳定匹配。
+- 已按 Codex 审阅意见剥离冒号型添加剂标签，避免 `食品添加剂：柠檬酸` 被当作未知项。
+- 已按 DeepSeek 审阅意见收敛括号与匹配边界：无前缀括号不展开，允许前缀分支优先于普通包含匹配，直接 loose match 复用成分项归一化，并为匹配备注提供默认字段。
+- 复配括号解析使用启发式规则，已覆盖常见 `食品添加剂（柠檬酸、山梨酸钾）` 场景，但复杂供应商配方仍可能需要用户核对。
+- 暂未收录条目仍可能是普通食品原料、复合原料或数据库缺口，不能直接判断为风险项。
 
 ## 本次 git diff 摘要
 
-- 新增分享 payload 构建服务。
-- 详情、报告、对比三条主流程新增分享入口。
-- 主事件接入 Web Share 与复制 fallback。
+- 增强成分表文本预处理和本地库匹配 metadata。
+- 分析页新增解析质量反馈和移动端样式。
 - 更新 PWA 预缓存版本与测试覆盖。
