@@ -469,6 +469,7 @@ assert.deepEqual(splitIngredientInput('单，双甘油脂肪酸酯，甘油'), [
 assert.deepEqual(splitIngredientInput('配料：水，食品添加剂（柠檬酸、山梨酸钾），黄原胶0.1%'), ['水', '柠檬酸', '山梨酸钾', '黄原胶']);
 assert.deepEqual(splitIngredientInput('复配增稠剂（黄原胶、卡拉胶）；食用盐'), ['黄原胶', '卡拉胶', '食用盐']);
 assert.deepEqual(splitIngredientInput('烟酰胺（Niacinamide, Vitamin B3），水杨酸'), ['烟酰胺', '水杨酸']);
+assert.deepEqual(splitIngredientInput('抗结剂（二氧化硅），酸度调节剂（柠檬酸）'), ['二氧化硅', '柠檬酸']);
 
 const analysis = analyzeIngredientText('水，烟酰胺，透明质酸钠，水杨酸，香精，未知成分');
 assert.equal(analysis.matchedCount, 4);
@@ -497,6 +498,9 @@ assert.equal(prefixedFoodAnalysis.matchedCount, 1);
 assert.equal(prefixedFoodAnalysis.ingredients[0].id, 'citric-acid');
 assert.equal(prefixedFoodAnalysis.ingredients[0].matchConfidence, 'low');
 assert.equal(prefixedFoodAnalysis.quality.lowConfidenceCount, 1);
+const wrappedSingleItemAnalysis = analyzeIngredientText('抗结剂（二氧化硅）', 'food');
+assert.equal(wrappedSingleItemAnalysis.matchedCount, 1);
+assert.equal(wrappedSingleItemAnalysis.ingredients[0].id, 'silicon-dioxide');
 const expandedFoodAnalysis = analyzeIngredientText('味精，柠檬黄，山梨糖醇，未知添加剂', 'food');
 assert.equal(expandedFoodAnalysis.matchedCount, 3);
 assert.deepEqual(expandedFoodAnalysis.ingredients.map((item) => item.id), ['monosodium-glutamate', 'tartrazine', 'sorbitol']);
