@@ -6,12 +6,19 @@
 
 - Node.js >= 20.19
 - 当前前端使用 Vite，首次拉取后需要执行 `npm install` 安装开发依赖并校验 lockfile。
+- 当前阶段优先级为数据源准确性、数据完整度和数据库真实对接；订阅、支付、OCR、AI、上架、iOS/Android 签名暂停推进。
 
 ## 环境变量
 
 参考 `.env.example`。本项目通过 Vite 构建前端，但公开配置仍不使用 `VITE_` 前缀，统一在 `vite.config.js` 中显式 `define` 注入。
 
 当前前端仅允许读取显式注入的公开配置。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。
+
+食品搜索和详情默认请求同源 `/api`；如需指向独立后端，可在浏览器本地设置 `compcheck:api-base-url`。后端不可用时，前端食品搜索/详情会降级到本地 `src/data/foodAdditives.js` seed，并展示错误提示和未验证状态。
+
+## 本地存储调试 Key
+
+`compcheck:api-base-url` 仅用于本地或测试环境覆盖后端 API 地址，例如把前端指向独立运行的后端服务。该 key 不保存用户数据、不参与过敏原/收藏/历史/报告同步，也不得复用为业务数据存储 key。清空该 key 后，前端会回到默认同源 `/api`。
 
 ## 安装依赖
 
@@ -46,7 +53,20 @@ http://127.0.0.1:5173
 HOST=127.0.0.1 npm run dev -- --port 5174
 ```
 
-## 后端 API
+本地开发时，Vite 会把 `/api` 代理到 `API_ORIGIN`，默认是 `http://127.0.0.1:3000`。需要验证前端真实读取数据库时，先启动后端和数据库，再启动前端：
+
+```bash
+cd backend
+docker compose up -d postgres
+npm run db:migrate
+npm run db:seed
+npm run dev
+
+# 新终端回到仓库根目录
+npm run dev
+```
+
+## 后端 API 与数据库
 
 后端使用 Node.js 20 + TypeScript + Hono，入口位于 `backend/src/index.ts`。
 
@@ -87,22 +107,37 @@ npm test
 npm run build
 ```
 
-数据库迁移与食品添加剂种子数据：
+数据库启动：
 
 ```bash
 cd backend
 cp .env.example .env
 docker compose up -d postgres
+```
+
+数据库迁移：
+
+```bash
+cd backend
 npm run db:migrate
+```
+
+食品添加剂 seed 导入：
+
+```bash
+cd backend
 npm run db:seed
 ```
 
 默认 PostgreSQL 宿主端口为 `15432`，避免和本机已有 `5432` 冲突；如需调整，可在 `backend/.env` 设置 `POSTGRES_PORT` 并同步宿主机使用的 `DATABASE_URL`。
 
+生产数据库未完成。当前仅完成本地数据库或开发环境数据库对接，不应将本地 schema、migration 或 seed 完成描述为生产数据库已完成。
+
 成分 API 验收：
 
 ```bash
 curl "http://127.0.0.1:3000/api/ingredients?q=苯甲酸"
+curl "http://127.0.0.1:3000/api/ingredients/search?q=E211&limit=2"
 curl "http://127.0.0.1:3000/api/ingredients/categories"
 curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"
 curl -i "http://127.0.0.1:3000/api/ingredients/not-exist"
@@ -220,7 +255,7 @@ npm run test
 npm run validate:data
 ```
 
-当前校验食品添加剂数据的必填字段、枚举值、重复 id、来源字段和使用限量结构。
+当前校验食品添加剂数据的必填字段、枚举值、重复 id、重复中文名 + 英文名组合、来源字段、可信等级、已验证数据来源依据，以及风险说明中的绝对化医疗结论。
 
 ## 文档与差异检查
 

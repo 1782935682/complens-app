@@ -18,9 +18,13 @@ const REVIEW_STATUS_LABELS = {
   verified: '已验证'
 };
 
-export function renderDetailPage(id, category = 'cosmetics') {
+export function renderDetailPage(id, category = 'cosmetics', apiState = null) {
   const currentCategory = getProductCategory(category);
-  const ingredient = getIngredientById(id, category);
+  if (apiState?.status === 'loading') {
+    return renderLoadingIngredientPage(id, category, currentCategory.label);
+  }
+
+  const ingredient = apiState?.status === 'success' ? apiState.item : getIngredientById(id, category);
   if (!ingredient) {
     return renderMissingIngredientPage(id, category, currentCategory.label);
   }
@@ -50,6 +54,7 @@ export function renderDetailPage(id, category = 'cosmetics') {
       </div>
       <span class="save-status" data-compare-status role="status" aria-live="polite"></span>
       <span class="save-status" data-share-status role="status" aria-live="polite"></span>
+      ${apiState?.status === 'error' ? renderApiFallbackNotice() : ''}
       ${allergenMatches.length ? html`
         <div class="allergen-alert">
           此成分含您关注的过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}
@@ -73,6 +78,33 @@ export function renderDetailPage(id, category = 'cosmetics') {
       </section>
       ${renderRelatedIngredients(relatedIngredients, category)}
     </section>
+  `;
+}
+
+function renderLoadingIngredientPage(id, category, categoryLabel) {
+  const safeId = String(id || '').trim();
+  if (!safeId) {
+    return renderMissingIngredientPage('', category, categoryLabel);
+  }
+
+  const searchHref = `#${categoryPath(category, '/search')}?q=${encodeURIComponent(safeId)}`;
+  return html`
+    <section class="section missing-ingredient" data-detail-loading>
+      <p class="eyebrow">${escapeHtml(categoryLabel)} / 后端数据库</p>
+      <h1>正在加载成分详情</h1>
+      <p class="lead">正在优先请求后端成分 API。若后端不可用，会自动降级到本地草稿数据。</p>
+      <div class="form-actions">
+        <a class="button-link secondary-link" href="${escapeHtml(searchHref)}" data-route>返回搜索</a>
+      </div>
+    </section>
+  `;
+}
+
+function renderApiFallbackNotice() {
+  return html`
+    <div class="data-warning" data-api-error>
+      后端成分 API 暂不可用，当前展示本地草稿数据。未验证数据不能视为权威结论。
+    </div>
   `;
 }
 
@@ -117,12 +149,33 @@ export function renderFoodAdditiveDetails(ingredient, category = 'food') {
         ${renderField('ADI', ingredient.adi)}
         ${renderField('数据状态', reviewStatusLabel(ingredient.reviewStatus))}
       </div>
+      ${renderProvenanceDetails(ingredient)}
       ${renderFoodAuditNotice(ingredient)}
       ${renderInfoBlock('适用食品类别', ingredient.foodCategories || [])}
       ${renderUsageLimits(ingredient.usageLimits || [])}
       ${renderSourceReferences(ingredient.sourceReferences || [])}
       ${renderIngredientCorrectionAction(ingredient, category)}
     </section>
+  `;
+}
+
+function renderProvenanceDetails(ingredient) {
+  return html`
+    <div class="food-detail-section" data-provenance-details>
+      <h3>来源与可信等级</h3>
+      <div class="food-detail-grid">
+        ${renderField('来源名称', ingredient.sourceName)}
+        ${renderField('来源类型', sourceTypeLabel(ingredient.sourceType))}
+        ${renderField('来源版本', ingredient.sourceVersion)}
+        ${renderField('生效日期', ingredient.effectiveDate)}
+        ${renderField('可信等级', confidenceLabel(ingredient.confidenceLevel))}
+        ${renderField('最后校验', ingredient.lastReviewedAt)}
+        ${renderField('可信来源确认', ingredient.isVerified ? '是' : '否')}
+      </div>
+      <p class="data-disclaimer">${escapeHtml(ingredient.regulatoryBasis || '暂无法规依据说明。')}</p>
+      ${ingredient.sourceUrl ? `<p><a href="${escapeHtml(getSafeHttpUrl(ingredient.sourceUrl) || '#')}" target="_blank" rel="noreferrer">查看来源入口</a></p>` : ''}
+      <p class="empty small">原始来源片段：${escapeHtml(ingredient.rawSourceText || '暂无')}</p>
+    </div>
   `;
 }
 
@@ -309,4 +362,25 @@ function gbStatusLabel(status) {
 
 function reviewStatusLabel(status) {
   return REVIEW_STATUS_LABELS[status] || REVIEW_STATUS_LABELS.draft;
+}
+
+function sourceTypeLabel(type) {
+  const labels = {
+    official_standard: '官方标准',
+    regulation: '法规文件',
+    public_database: '公开数据库',
+    manual_verified: '人工确认',
+    unknown: '未知来源'
+  };
+  return labels[type] || labels.unknown;
+}
+
+function confidenceLabel(level) {
+  const labels = {
+    high: '高可信',
+    medium: '中可信',
+    low: '低可信',
+    unverified: '未验证'
+  };
+  return labels[level] || labels.unverified;
 }

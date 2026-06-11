@@ -3,8 +3,12 @@ import { createDatabaseClient, type Database, type DatabaseClient } from '../db/
 import { ingredientSources, ingredients, type IngredientRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
+export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
+export const validSearchSorts = ['relevance', 'risk', 'name'] as const;
 
 export type RiskLevel = typeof validRiskLevels[number];
+export type ConfidenceLevel = typeof validConfidenceLevels[number];
+export type SearchSort = typeof validSearchSorts[number];
 
 export type FoodAdditiveInput = {
   id: string;
@@ -25,6 +29,16 @@ export type FoodAdditiveInput = {
   reviewStatus: string;
   dataVersion: string;
   updatedAt: string;
+  sourceName: string;
+  sourceType: string;
+  sourceVersion: string;
+  sourceUrl: string;
+  effectiveDate: string;
+  confidenceLevel: ConfidenceLevel;
+  lastReviewedAt: string;
+  regulatoryBasis: string;
+  rawSourceText: string;
+  isVerified: boolean;
   gbCode: string;
   gbStatus: string;
   eNumber?: string;
@@ -39,8 +53,19 @@ export type IngredientListParams = {
   q?: string;
   category?: string;
   riskLevel?: RiskLevel;
+  sort?: SearchSort;
   page: number;
   limit: number;
+};
+
+export type IngredientRiskFacet = {
+  level: string;
+  count: number;
+};
+
+export type IngredientCategoryFacet = {
+  name: string;
+  count: number;
 };
 
 export type IngredientListResult = {
@@ -49,6 +74,8 @@ export type IngredientListResult = {
   limit: number;
   total: number;
   totalPages: number;
+  riskFacets: IngredientRiskFacet[];
+  categoryFacets: IngredientCategoryFacet[];
 };
 
 export type IngredientCategorySummary = {
@@ -69,6 +96,10 @@ export function isRiskLevel(value: string): value is RiskLevel {
   return validRiskLevels.includes(value as RiskLevel);
 }
 
+export function isSearchSort(value: string): value is SearchSort {
+  return validSearchSorts.includes(value as SearchSort);
+}
+
 export function createIngredientService(db: Database): IngredientService {
   return {
     async listIngredients(params) {
@@ -82,16 +113,22 @@ export function createIngredientService(db: Database): IngredientService {
         .select()
         .from(ingredients)
         .where(where)
-        .orderBy(asc(ingredients.nameCn))
+        .orderBy(...buildIngredientOrderBy(params.sort))
         .limit(params.limit)
         .offset(offset);
+      const [riskFacets, categoryFacets] = await Promise.all([
+        getRiskFacets(db, params),
+        getCategoryFacets(db, params)
+      ]);
 
       return {
         items: rows,
         page: params.page,
         limit: params.limit,
         total,
-        totalPages: Math.max(1, Math.ceil(total / params.limit))
+        totalPages: Math.max(1, Math.ceil(total / params.limit)),
+        riskFacets,
+        categoryFacets
       };
     },
 
@@ -170,6 +207,16 @@ export function toIngredientRow(additive: FoodAdditiveInput): NewIngredientRow {
     reviewStatus: additive.reviewStatus,
     dataVersion: additive.dataVersion,
     updatedAt: additive.updatedAt,
+    sourceName: additive.sourceName,
+    sourceType: additive.sourceType,
+    sourceVersion: additive.sourceVersion,
+    sourceUrl: additive.sourceUrl,
+    effectiveDate: additive.effectiveDate,
+    confidenceLevel: additive.confidenceLevel,
+    lastReviewedAt: additive.lastReviewedAt,
+    regulatoryBasis: additive.regulatoryBasis,
+    rawSourceText: additive.rawSourceText,
+    isVerified: additive.isVerified,
     gbCode: additive.gbCode,
     gbStatus: additive.gbStatus,
     eNumber: additive.eNumber ?? null,
@@ -219,6 +266,36 @@ export async function upsertIngredients(db: Database, additives: FoodAdditiveInp
   });
 }
 
+async function getRiskFacets(db: Database, params: IngredientListParams): Promise<IngredientRiskFacet[]> {
+  const rows = await db
+    .select({
+      level: ingredients.riskLevel,
+      count: count()
+    })
+    .from(ingredients)
+    .where(buildIngredientWhere({ ...params, riskLevel: undefined }))
+    .groupBy(ingredients.riskLevel);
+
+  const counts = new Map(rows.map((row) => [row.level, row.count]));
+  return validRiskLevels
+    .map((level) => ({ level, count: counts.get(level) || 0 }))
+    .filter((item) => item.count > 0);
+}
+
+async function getCategoryFacets(db: Database, params: IngredientListParams): Promise<IngredientCategoryFacet[]> {
+  const rows = await db
+    .select({
+      name: ingredients.category,
+      count: count()
+    })
+    .from(ingredients)
+    .where(buildIngredientWhere({ ...params, category: undefined }))
+    .groupBy(ingredients.category)
+    .orderBy(desc(count()), asc(ingredients.category));
+
+  return rows;
+}
+
 function buildIngredientWhere(params: IngredientListParams): SQL | undefined {
   const filters: SQL[] = [];
 
@@ -247,6 +324,22 @@ function buildIngredientWhere(params: IngredientListParams): SQL | undefined {
   }
 
   return filters.length > 0 ? and(...filters) : undefined;
+}
+
+function buildIngredientOrderBy(sort: SearchSort | undefined) {
+  if (sort === 'risk') {
+    return [
+      sql`case ${ingredients.riskLevel}
+        when 'high' then 0
+        when 'medium' then 1
+        when 'low' then 2
+        else 3
+      end`,
+      asc(ingredients.nameCn)
+    ];
+  }
+
+  return [asc(ingredients.nameCn)];
 }
 
 export function escapeLikePattern(value: string) {

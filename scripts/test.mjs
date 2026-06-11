@@ -10,7 +10,7 @@ import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } fr
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
 import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
-import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
+import { renderDetailPage, renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
 import { renderLegalPage } from '../src/pages/legalPage.js';
@@ -282,13 +282,33 @@ assert.match(backendDbSchema, /export const userAllergens = pgTable\('user_aller
 assert.match(backendDbSchema, /export const userReports = pgTable\('user_reports'/);
 assert.match(backendDbSchema, /ingredients_description_trgm_idx/);
 assert.match(backendDbSchema, /ingredients_aliases_gin_idx/);
+assert.match(backendDbSchema, /sourceName: text\('source_name'\)\.notNull\(\)/);
+assert.match(backendDbSchema, /confidenceLevel: text\('confidence_level'\)\.notNull\(\)/);
+assert.match(backendDbSchema, /isVerified: boolean\('is_verified'\)\.notNull\(\)\.default\(false\)/);
 const backendIngredientsRoute = await readFile(new URL('../backend/src/routes/ingredients.ts', import.meta.url), 'utf8');
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/categories'/);
+assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/search'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/:id'/);
+assert.equal(backendIngredientsRoute.indexOf("route.get('/ingredients/search'") < backendIngredientsRoute.indexOf("route.get('/ingredients/:id'"), true);
+assert.match(backendIngredientsRoute, /never interpreted as an ingredient id/);
 assert.match(backendIngredientsRoute, /invalid_parameter/);
+assert.match(backendIngredientsRoute, /sort must be one of relevance, risk, name/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
 assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 2);
+assert.match(backendIngredientServiceSource, /validSearchSorts = \['relevance', 'risk', 'name'\]/);
+assert.match(backendIngredientServiceSource, /\.orderBy\(\.\.\.buildIngredientOrderBy\(params\.sort\)\)[\s\S]*\.limit\(params\.limit\)/);
+assert.match(backendIngredientServiceSource, /when 'high' then 0[\s\S]*when 'medium' then 1[\s\S]*when 'low' then 2/);
+assert.match(backendIngredientServiceSource, /riskFacets,/);
+assert.match(backendIngredientServiceSource, /categoryFacets/);
+assert.match(backendIngredientServiceSource, /buildIngredientWhere\(\{ \.\.\.params, riskLevel: undefined \}\)/);
+assert.match(backendIngredientServiceSource, /buildIngredientWhere\(\{ \.\.\.params, category: undefined \}\)/);
+const ingredientApiServiceSource = await readFile(new URL('../src/services/ingredientApiService.js', import.meta.url), 'utf8');
+assert.match(ingredientApiServiceSource, /params\.set\('sort', normalizedSort\)/);
+const mainSource = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+assert.match(mainSource, /sort: route\.sort/);
+assert.match(mainSource, /riskFacets: result\.riskFacets \|\| \[\]/);
+assert.match(mainSource, /categoryFacets: result\.categoryFacets \|\| \[\]/);
 const backendAuthRoute = await readFile(new URL('../backend/src/routes/auth.ts', import.meta.url), 'utf8');
 assert.match(backendAuthRoute, /route\.post\('\/auth\/register'/);
 assert.match(backendAuthRoute, /route\.post\('\/auth\/login'/);
@@ -346,6 +366,10 @@ assert.match(viteConfigJs, /base: '\.\/'/);
 assert.match(viteConfigJs, /publicDir: '\.\.\/public'/);
 assert.match(viteConfigJs, /define: \{ __APP_NAME__: JSON\.stringify\(process\.env\.APP_NAME \|\| '成分小查'\) \}/);
 assert.match(viteConfigJs, /outDir: '\.\.\/dist'/);
+assert.match(viteConfigJs, /target: process\.env\.API_ORIGIN \|\| 'http:\/\/127\.0\.0\.1:3000'/);
+const commandsMd = await readFile(new URL('../COMMANDS.md', import.meta.url), 'utf8');
+assert.match(commandsMd, /compcheck:api-base-url/);
+assert.match(commandsMd, /不保存用户数据/);
 const ciWorkflow = await readFile(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8');
 assert.match(ciWorkflow, /node-version: '20\.19'/);
 assert.match(ciWorkflow, /npm ci/);
@@ -377,6 +401,9 @@ assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboa
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
 assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route\.category, '\/support'\)\}`\)/);
+assert.match(mainJs, /if \(requestedPage > totalPages\)/);
+assert.match(mainJs, /requestIngredientSearchPage\(route, totalPages\)/);
+assert.match(mainJs, /page: responsePage/);
 assert.match(mainJs, /sharePayloadWithFallback\(payload, \{ copyText, updateStatus \}\)/);
 assert.match(mainJs, /getNativeCameraPhoto\(\)/);
 assert.match(mainJs, /isNativePlatform\(\)/);
@@ -624,6 +651,9 @@ assert.equal(getIngredientById('carrageenan', 'food').category, '增稠剂');
 assert.equal(getIngredientById('malic-acid', 'food').eNumber, 'E296');
 assert.equal(getIngredientById('sodium-tripolyphosphate', 'food').category, '其他');
 assert.deepEqual(getIngredientById('xylitol', 'food').usageLimits, []);
+assert.equal(getIngredientById('xylitol', 'food').confidenceLevel, 'unverified');
+assert.equal(getIngredientById('xylitol', 'food').isVerified, false);
+assert.match(getIngredientById('xylitol', 'food').sourceName, /GB 2760/);
 const foodAuditSummary = getDatasetAuditSummary('food');
 assert.equal(foodAuditSummary.totalCount, 100);
 assert.equal(foodAuditSummary.categoryCount, 15);
@@ -670,6 +700,10 @@ const detailHtmlWithRelatedIngredients = renderRoute(resolveRoute('#/food/ingred
 assert.match(detailHtmlWithRelatedIngredients, /data-related-ingredients/);
 assert.match(detailHtmlWithRelatedIngredients, /data-food-audit-note/);
 assert.match(detailHtmlWithRelatedIngredients, /逐食品类别限量、ADI 原文和来源条款仍需审核/);
+assert.match(detailHtmlWithRelatedIngredients, /data-provenance-details/);
+assert.match(detailHtmlWithRelatedIngredients, /来源与可信等级/);
+assert.match(detailHtmlWithRelatedIngredients, /未验证/);
+assert.match(detailHtmlWithRelatedIngredients, /可信来源确认[\s\S]*否/);
 assert.match(detailHtmlWithRelatedIngredients, /相关成分/);
 assert.match(detailHtmlWithRelatedIngredients, /href="#\/food\/ingredient\/sodium-citrate"/);
 assert.match(detailHtmlWithRelatedIngredients, /同属酸度调节剂/);
@@ -684,14 +718,21 @@ assert.match(missingIngredientHtml, /该成分暂未收录/);
 assert.match(missingIngredientHtml, /href="#\/food\/search\?q=not-in-dataset"/);
 assert.match(missingIngredientHtml, /data-support-correction-link/);
 assert.match(missingIngredientHtml, /href="#\/food\/support\?topic=data-correction/);
+const emptyLoadingDetailHtml = renderDetailPage('', 'food', { status: 'loading' });
+assert.match(emptyLoadingDetailHtml, /data-missing-ingredient/);
+assert.doesNotMatch(emptyLoadingDetailHtml, /data-detail-loading/);
 
 const filteredSearchHtml = renderSearchPage('', 'food', { risk: 'medium', ingredientCategory: '防腐剂' });
 assert.match(filteredSearchHtml, /筛选结果/);
+assert.match(filteredSearchHtml, /data-badge--unverified/);
+assert.match(filteredSearchHtml, /未验证/);
 assert.match(filteredSearchHtml, /value="medium" selected/);
 assert.match(filteredSearchHtml, /value="防腐剂" selected/);
 assert.match(filteredSearchHtml, /关注等级：需关注/);
 assert.match(filteredSearchHtml, /成分分类：防腐剂/);
 assert.match(filteredSearchHtml, /href="#\/food\/search"/);
+const cosmeticSearchHtml = renderSearchPage('retinol', 'cosmetics');
+assert.doesNotMatch(cosmeticSearchHtml, /data-badge--unverified/);
 const homeHtmlWithCategoryFilters = renderHomePage('food');
 assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82"/);
 assert.match(homeHtmlWithCategoryFilters, /href="#\/food\/data"/);
@@ -723,6 +764,65 @@ assert.match(searchHtmlWithSuggestions, /E-number：E330/);
 assert.match(searchHtmlWithSuggestions, /data-dataset-audit-note/);
 assert.match(searchHtmlWithSuggestions, /100 条草稿数据/);
 assert.match(searchHtmlWithSuggestions, /使用限量和 ADI 原文仍在审核中/);
+const apiLoadingSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance', { status: 'loading' });
+assert.match(apiLoadingSearchHtml, /data-search-loading/);
+assert.match(apiLoadingSearchHtml, /正在从后端数据库读取成分数据/);
+const apiErrorSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance', { status: 'error' });
+assert.match(apiErrorSearchHtml, /data-api-error/);
+assert.match(apiErrorSearchHtml, /已降级为本地草稿数据/);
+const apiSuccessSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance', {
+  status: 'success',
+  page: 1,
+  total: 1,
+  totalPages: 1,
+  items: [getIngredientById('citric-acid', 'food')]
+});
+assert.match(apiSuccessSearchHtml, /data-api-success/);
+assert.match(apiSuccessSearchHtml, /当前结果来自后端数据库/);
+const apiRiskSortedHtml = renderSearchPage('', 'food', {}, 1, 'risk', {
+  status: 'success',
+  page: 1,
+  total: 2,
+  totalPages: 1,
+  items: [getIngredientById('citric-acid', 'food'), getIngredientById('sodium-benzoate', 'food')]
+});
+assert.equal(apiRiskSortedHtml.indexOf('苯甲酸钠') < apiRiskSortedHtml.indexOf('柠檬酸'), true);
+const apiFacetSourceHtml = renderSearchPage('', 'food', {}, 1, 'relevance', {
+  status: 'success',
+  page: 1,
+  total: 1,
+  totalPages: 1,
+  items: [getIngredientById('sodium-benzoate', 'food')],
+  riskFacets: [
+    { level: 'high', count: 1 },
+    { level: 'medium', count: 3 }
+  ],
+  categoryFacets: [
+    { name: '后端新增分类', count: 2 },
+    { name: '防腐剂', count: 1 }
+  ]
+});
+assert.match(apiFacetSourceHtml, /后端新增分类[\s\S]*2/);
+assert.match(apiFacetSourceHtml, /防腐剂[\s\S]*1/);
+assert.match(apiFacetSourceHtml, /高关注[\s\S]*1/);
+assert.match(apiFacetSourceHtml, /需关注[\s\S]*3/);
+assert.doesNotMatch(apiFacetSourceHtml, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%E5%BA%A6%E8%B0%83%E8%8A%82%E5%89%82" data-route>[\s\S]*<span>酸度调节剂<\/span>/);
+const apiClampedPageHtml = renderSearchPage('', 'food', {}, 999, 'relevance', {
+  status: 'success',
+  page: 2,
+  total: 7,
+  totalPages: 2,
+  items: [getIngredientById('sodium-benzoate', 'food')]
+});
+assert.match(apiClampedPageHtml, /显示第 7-7 项，共 7 项/);
+const apiNullItemsSearchHtml = renderSearchPage('E330', 'food', {}, 1, 'relevance', {
+  status: 'success',
+  total: 0,
+  totalPages: 1,
+  items: null
+});
+assert.match(apiNullItemsSearchHtml, /data-api-success/);
+assert.match(apiNullItemsSearchHtml, /未找到相关成分/);
 const pinyinSearchHtml = renderSearchPage('ningmengsuan', 'food');
 assert.match(pinyinSearchHtml, /data-search-assist/);
 assert.match(pinyinSearchHtml, /可能相关/);
@@ -1699,6 +1799,9 @@ const invalidFoodAdditive = {
   updatedAt: '2026-06-10'
 };
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceNote is required/);
+assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceName is required/);
+assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /confidenceLevel must be one of/);
+assert.match(validateFoodAdditives([{ ...invalidFoodAdditive, riskSummary: '绝对安全' }]).join('\n'), /absolute medical claim/);
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /dataCategory must be "food"/);
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceReferences\[0\]\.url is required/);
 assert.match(validateFoodAdditives([invalidFoodAdditive]).join('\n'), /sourceReferences\[0\]\.retrievedAt must use YYYY-MM-DD/);

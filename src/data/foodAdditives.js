@@ -1,5 +1,8 @@
 const retrievedAt = '2026-06-10';
 const dataVersion = 'food-additives-seed-v5';
+const seedSourceName = 'GB 2760 / Codex INS / JECFA / EU Food Additives Database seed references';
+const seedSourceVersion = 'food-additives-seed-v5';
+const seedRegulatoryBasis = '当前为食品添加剂种子数据，依据 GB 2760、Codex INS、JECFA 和 EU 食品添加剂数据库的公开入口整理；逐食品类别限量、条款编号和 ADI 原文仍需人工核验。';
 
 const gb2760Source = {
   title: '食品安全国家标准 食品添加剂使用标准',
@@ -37,9 +40,9 @@ const euSource = {
  * Seed data for the food-additive MVP. Records are intentionally marked as draft
  * until the full GB 2760 category-level limits are audited and imported.
  *
- * @type {import('../types/ingredient.js').FoodAdditive[]}
+ * @type {Omit<import('../types/ingredient.js').FoodAdditive, 'sourceName' | 'sourceType' | 'sourceVersion' | 'sourceUrl' | 'effectiveDate' | 'confidenceLevel' | 'lastReviewedAt' | 'regulatoryBasis' | 'rawSourceText' | 'isVerified'>[]}
  */
-export const foodAdditives = [
+const rawFoodAdditives = [
   {
     id: 'citric-acid',
     kind: 'food-additive',
@@ -2836,6 +2839,25 @@ export const foodAdditives = [
     cautionGroups: ['child', 'sensitive']
   }
 ];
+
+/** @type {import('../types/ingredient.js').FoodAdditive[]} */
+export const foodAdditives = rawFoodAdditives.map(withSeedProvenance);
+
+function withSeedProvenance(additive) {
+  return {
+    ...additive,
+    sourceName: seedSourceName,
+    sourceType: 'official_standard',
+    sourceVersion: seedSourceVersion,
+    sourceUrl: gb2760Source.url,
+    effectiveDate: '待人工核验',
+    confidenceLevel: 'unverified',
+    lastReviewedAt: additive.updatedAt || retrievedAt,
+    regulatoryBasis: seedRegulatoryBasis,
+    rawSourceText: additive.sourceNote,
+    isVerified: false
+  };
+}
 
 export const popularFoodAdditiveIds = [
   'citric-acid',

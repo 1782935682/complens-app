@@ -12,17 +12,27 @@ const SEARCH_SORT_OPTIONS = [
   { value: 'name', label: '中文名排序' }
 ];
 
-export function renderSearchPage(query, category = 'cosmetics', filters = {}, page = 1, sort = DEFAULT_SEARCH_SORT) {
+export function renderSearchPage(query, category = 'cosmetics', filters = {}, page = 1, sort = DEFAULT_SEARCH_SORT, apiState = null) {
   const currentCategory = getProductCategory(category);
   const filterOptions = getSearchFilterOptions(category);
   const activeFilters = getValidFilters(filters, filterOptions);
   const activeSort = getValidSort(sort);
-  const results = sortSearchResults(searchIngredients(query, category, activeFilters), activeSort);
-  const riskFacets = getRiskFacets(query, category, activeFilters, filterOptions.riskLevels);
-  const categoryFacets = getCategoryFacets(query, category, activeFilters);
-  const totalPages = Math.max(1, Math.ceil(results.length / SEARCH_PAGE_SIZE));
-  const currentPage = clampPage(page, totalPages);
-  const pagedResults = results.slice((currentPage - 1) * SEARCH_PAGE_SIZE, currentPage * SEARCH_PAGE_SIZE);
+  const localResults = sortSearchResults(searchIngredients(query, category, activeFilters), activeSort);
+  const isApiLoading = apiState?.status === 'loading';
+  const isApiSuccess = apiState?.status === 'success';
+  const apiResults = isApiSuccess ? normalizeApiSearchItems(apiState.items) : [];
+  const results = isApiSuccess ? sortSearchResults(apiResults, activeSort) : localResults;
+  const riskFacets = isApiSuccess
+    ? getApiRiskFacets(apiState.riskFacets, results, filterOptions.riskLevels)
+    : getRiskFacets(query, category, activeFilters, filterOptions.riskLevels);
+  const categoryFacets = isApiSuccess
+    ? getApiCategoryFacets(apiState.categoryFacets, results)
+    : getCategoryFacets(query, category, activeFilters);
+  const totalCount = isApiSuccess ? Number(apiState.total || results.length) : results.length;
+  const totalPages = isApiSuccess ? Math.max(1, Number(apiState.totalPages || Math.ceil(totalCount / SEARCH_PAGE_SIZE)) || 1) : Math.max(1, Math.ceil(results.length / SEARCH_PAGE_SIZE));
+  const activePage = isApiSuccess ? Number(apiState.page || page) : page;
+  const currentPage = clampPage(activePage, totalPages);
+  const pagedResults = isApiSuccess ? results : results.slice((currentPage - 1) * SEARCH_PAGE_SIZE, currentPage * SEARCH_PAGE_SIZE);
   const safeQuery = escapeHtml(query || '');
   const activeFilterCount = [activeFilters.risk, activeFilters.ingredientCategory].filter(Boolean).length;
   const suggestions = getSearchSuggestions(query, category, 5);
@@ -48,18 +58,43 @@ export function renderSearchPage(query, category = 'cosmetics', filters = {}, pa
       <div class="section__head">
         <h2>${renderResultTitle(safeQuery, activeFilterCount)}</h2>
         <span class="category">${currentCategory.label}</span>
-        <span class="count">${results.length} 项</span>
+        <span class="count">${totalCount} 项</span>
       </div>
+      ${renderApiStateNotice(apiState)}
       ${renderActiveFilterSummary(activeFilters, activeSort)}
       ${renderDatasetAuditNotice(category, auditSummary)}
       ${renderSearchAssist(assistSuggestions, category)}
       ${renderRiskFacets(riskFacets, category, query, activeFilters, activeSort)}
       ${renderCategoryFacets(categoryFacets, category, query, activeFilters, activeSort)}
-      ${results.length ? renderPageSummary(results.length, currentPage, pagedResults.length) : ''}
-      ${results.length ? renderCompareShortcut(category) : ''}
-      ${results.length ? renderResults(pagedResults, category) : renderEmpty(safeQuery, activeFilterCount, category)}
-      ${results.length ? renderPagination(category, query, activeFilters, activeSort, currentPage, totalPages) : ''}
+      ${isApiLoading ? renderLoadingState() : ''}
+      ${!isApiLoading && results.length ? renderPageSummary(totalCount, currentPage, pagedResults.length) : ''}
+      ${!isApiLoading && results.length ? renderCompareShortcut(category) : ''}
+      ${!isApiLoading && results.length ? renderResults(pagedResults, category) : ''}
+      ${!isApiLoading && !results.length ? renderEmpty(safeQuery, activeFilterCount, category) : ''}
+      ${!isApiLoading && results.length ? renderPagination(category, query, activeFilters, activeSort, currentPage, totalPages) : ''}
     </section>
+  `;
+}
+
+function renderApiStateNotice(apiState) {
+  if (!apiState || apiState.status === 'idle') return '';
+  if (apiState.status === 'loading') {
+    return '<p class="data-disclaimer" data-api-loading>正在从后端数据库读取成分数据...</p>';
+  }
+  if (apiState.status === 'success') {
+    return '<p class="data-disclaimer" data-api-success>当前结果来自后端数据库；未验证数据会单独标识。</p>';
+  }
+  if (apiState.status === 'error') {
+    return '<p class="data-warning" data-api-error>后端成分 API 暂不可用，已降级为本地草稿数据。请不要将未验证数据视为权威结论。</p>';
+  }
+  return '';
+}
+
+function renderLoadingState() {
+  return html`
+    <div class="empty-state" data-search-loading>
+      <p class="empty">正在加载后端数据库结果...</p>
+    </div>
   `;
 }
 
@@ -226,6 +261,7 @@ function renderResults(results, category) {
           <a class="result-item__main" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
             <span class="${riskClass(result.riskLevel)}">${riskLabel(result.riskLevel)}</span>
             ${allergenMatches.length ? `<span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}</span>` : ''}
+            ${shouldShowProvenanceBadge(result, category) ? `<span class="data-badge data-badge--unverified">${escapeHtml(confidenceLabel(result.confidenceLevel))}</span>` : ''}
             <h3>${escapeHtml(result.nameCn)}</h3>
             <p class="latin">${escapeHtml(result.nameEn || '')}</p>
             <p>${escapeHtml(result.description)}</p>
@@ -241,6 +277,40 @@ function renderResults(results, category) {
       }).join('')}
     </div>
   `;
+}
+
+function shouldShowProvenanceBadge(result, category) {
+  return category === 'food' && result?.isVerified === false;
+}
+
+function normalizeApiSearchItems(items) {
+  if (!Array.isArray(items)) return [];
+
+  return items.map((item) => ({
+    id: item.id,
+    nameCn: item.nameCn,
+    nameEn: item.nameEn,
+    description: item.description,
+    riskLevel: item.riskLevel,
+    category: item.category,
+    gbCode: item.gbCode,
+    eNumber: item.eNumber,
+    allergenTypes: item.allergenTypes || [],
+    confidenceLevel: item.confidenceLevel,
+    isVerified: item.isVerified,
+    sourceName: item.sourceName,
+    reviewStatus: item.reviewStatus
+  }));
+}
+
+function confidenceLabel(level) {
+  const labels = {
+    high: '高可信',
+    medium: '中可信',
+    low: '低可信',
+    unverified: '未验证'
+  };
+  return labels[level] || labels.unverified;
 }
 
 function renderCompareShortcut(category) {
@@ -349,9 +419,66 @@ function getRiskFacets(query, category, activeFilters, riskLevels) {
     .filter((item) => item.count > 0);
 }
 
+function getResultRiskFacets(items, riskLevels) {
+  if (!items.length) return [];
+
+  const counts = new Map();
+  for (const item of items) {
+    const risk = item.riskLevel || 'unknown';
+    counts.set(risk, (counts.get(risk) || 0) + 1);
+  }
+
+  return riskLevels
+    .map((level) => ({ level, count: counts.get(level) || 0 }))
+    .filter((item) => item.count > 0);
+}
+
+function getApiRiskFacets(facets, fallbackItems, riskLevels) {
+  if (!Array.isArray(facets)) return getResultRiskFacets(fallbackItems, riskLevels);
+
+  const counts = new Map();
+  for (const item of facets) {
+    const level = String(item?.level || '').trim();
+    const count = Number(item?.count || 0);
+    if (riskLevels.includes(level) && count > 0) {
+      counts.set(level, count);
+    }
+  }
+
+  return riskLevels
+    .map((level) => ({ level, count: counts.get(level) || 0 }))
+    .filter((item) => item.count > 0);
+}
+
 function getCategoryFacets(query, category, activeFilters) {
   const baseFilters = { ...activeFilters, ingredientCategory: '' };
   const items = searchIngredients(query, category, baseFilters);
+  if (!items.length) return [];
+
+  const counts = new Map();
+  for (const item of items) {
+    const name = item.category || '未分类';
+    counts.set(name, (counts.get(name) || 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+function getApiCategoryFacets(facets, fallbackItems) {
+  if (!Array.isArray(facets)) return getResultCategoryFacets(fallbackItems);
+
+  return facets
+    .map((item) => ({
+      name: String(item?.name || '').trim() || '未分类',
+      count: Number(item?.count || 0)
+    }))
+    .filter((item) => item.count > 0)
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+}
+
+function getResultCategoryFacets(items) {
   if (!items.length) return [];
 
   const counts = new Map();

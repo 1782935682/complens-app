@@ -36,6 +36,106 @@
 
 ---
 
+## 当前优先级重排（2026-06-12 起）
+
+当前开发优先级调整为：
+
+1. 数据源准确性
+2. 数据完整度
+3. 数据库真实对接
+4. 搜索和详情体验
+5. 成分表文本分析
+6. OCR 识别
+7. AI 总结
+8. 订阅、支付、上架
+
+执行边界：
+
+- 本阶段按现有 `src/data/foodAdditives.js` 推进食品添加剂 / 食品成分方向，不新增化妆品、护肤品或药品数据。
+- 当前数据量只有 100 条食品添加剂 seed 样本，不能视为完整成分库。
+- 数据库如果只是 schema/seed/migration 脚手架和本地开发库完成，不能标记为生产数据库已完成。
+- OCR 和 AI 依赖可信数据底座，暂缓真实接入；AI 只能做解释和总结，不能作为原始数据来源。
+- 订阅、支付、上架、iOS/Android 签名暂停推进，直到可信数据底座和数据库查询闭环稳定。
+
+## 数据底座阶段：食品添加剂可信数据 + 数据库闭环
+
+### Data Batch 1-A：来源字段、数据库 API 和前端降级闭环 `[Codex]`
+
+**状态**：✅ 已完成 2026-06-12
+
+**完成内容**：
+
+1. 统一前后端成分来源字段：`sourceName`、`sourceType`、`sourceVersion`、`sourceUrl`、`effectiveDate`、`confidenceLevel`、`lastReviewedAt`、`regulatoryBasis`、`rawSourceText`、`isVerified`。
+2. 食品添加剂 seed 统一标记为 `confidenceLevel: "unverified"`、`isVerified: false`，避免把样本数据伪装成权威库。
+3. Drizzle `ingredients` schema、migration 和 seed 支持来源字段。
+4. 补齐 `GET /api/ingredients/search?q=`，并保留列表、详情、分类 API。
+5. 前端食品搜索/详情优先请求后端 API，失败时降级本地数据，并展示 loading、error、empty、未验证标识和详情来源。
+6. Vite 本地开发代理 `/api` 到后端，便于本地真实数据库联调。
+7. 增强 `npm run validate:data`，覆盖来源字段、可信等级、重复项和绝对化医疗结论检查。
+8. 新增 `DATA_SOURCES.md`，同步 `PROJECT_PLAN.md`、`COMMANDS.md`、`AI_REVIEW.md`。
+
+**验收标准**：
+
+```bash
+npm run validate:data
+npm run lint
+npm run test
+npm run build
+cd backend && npm run db:migrate
+cd backend && npm run db:seed
+cd backend && npm run typecheck
+cd backend && npm test
+cd backend && npm run build
+```
+
+### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
+
+**状态**：⏳ 未开始
+
+**任务描述**：
+
+1. 人工确认本阶段官方来源清单，例如 GB 2760 官方发布文件、CFSA 或国家标准公开入口、Codex INS、JECFA、EU Food Additives Database。
+2. 建立官方数据导入结构，不允许 AI 编造安全结论、法规状态、限量、ADI、来源版本或原文片段。
+3. 为每条数据补 `sourceVersion`、`effectiveDate`、`regulatoryBasis`、`rawSourceText` 和可追溯条款。
+4. 仅当条目经过可信来源确认后，才允许将 `confidenceLevel` 调高并设置 `isVerified: true`。
+5. 输出数据质量报告：覆盖数量、未验证数量、缺失字段、冲突字段、来源版本和人工复核清单。
+
+**涉及文件**：
+
+- `DATA_SOURCES.md`
+- `src/data/foodAdditives.js`
+- `scripts/validate-data.mjs`
+- `backend/src/db/schema.ts`
+- `backend/scripts/seed.ts`
+- `PROJECT_PLAN.md`
+- `AI_REVIEW.md`
+
+**验收标准**：
+
+```bash
+npm run validate:data
+npm run lint
+npm run test
+npm run build
+cd backend && npm run db:migrate
+cd backend && npm run db:seed
+cd backend && npm run typecheck
+cd backend && npm test
+```
+
+### Data Batch 1-C：数据发布与审核状态后台化 `[Codex]`
+
+**状态**：⏳ 未开始
+
+**任务描述**：
+
+1. 设计数据导入、审核、发布和回滚流程。
+2. 为数据库记录增加或复用数据版本、审核人、审核时间、来源快照和变更说明。
+3. 前端增加来源筛选、可信等级筛选和未验证数据提醒的可测试交互。
+4. 文档明确生产数据库、开发数据库和本地 seed 的边界。
+
+---
+
 ## 阶段 0：前置修复（立即执行）
 
 > 必须在所有其他批次之前完成。当前 `npm run test` 失败，阻断 CI 和后续开发。
