@@ -274,7 +274,7 @@ assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/categories'/)
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/:id'/);
 assert.match(backendIngredientsRoute, /invalid_parameter/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
-assert.match(backendIngredientServiceSource, /ESCAPE '\\\\'/);
+assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 2);
 const backendSeedScript = await readFile(new URL('../backend/scripts/seed.ts', import.meta.url), 'utf8');
 assert.match(backendSeedScript, /src\/data\/foodAdditives\.js/);
 assert.match(backendSeedScript, /Seeded \$\{foodAdditives\.length\} ingredients/);
