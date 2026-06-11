@@ -4,10 +4,19 @@ import { formatAllergenNames, getAllergensByIds } from '../services/allergenServ
 import { getIngredientById } from '../services/ingredientService.js';
 import { buildReportFileName, buildReportMarkdown } from '../services/reportExportService.js';
 import { getAnalysisReportById, getAnalysisReports } from '../store/userStore.js';
+import { normalizeText } from '../utils/text.js';
 
-export function renderReportsPage(category = 'food') {
+const REVIEW_STATUS_LABELS = {
+  draft: '草稿（未审核）',
+  reviewed: '已复核',
+  verified: '已验证'
+};
+
+export function renderReportsPage(category = 'food', query = '') {
   const currentCategory = getProductCategory(category);
   const reports = getAnalysisReports(category);
+  const normalizedQuery = normalizeReportQuery(query);
+  const visibleReports = filterReports(reports, normalizedQuery, category);
   return html`
     <section class="section">
       <div class="section__head">
@@ -15,14 +24,24 @@ export function renderReportsPage(category = 'food') {
           <p class="eyebrow">${currentCategory.label} / 本地报告</p>
           <h1>分析报告</h1>
         </div>
-        <span class="count">${reports.length} 份</span>
+        <span class="count">${normalizedQuery ? `${visibleReports.length} / ${reports.length}` : reports.length} 份</span>
       </div>
+      <form class="report-search" data-report-search-form>
+        <label for="report-query">检索历史报告</label>
+        <div class="report-search__row">
+          <input id="report-query" type="search" name="q" value="${escapeHtml(normalizedQuery)}" placeholder="输入成分、过敏原、报告标题或原始文本" />
+          <button type="submit" class="secondary">检索</button>
+          ${normalizedQuery ? html`<a class="button-link secondary-link" href="#${categoryPath(category, '/reports')}" data-route>清除</a>` : ''}
+        </div>
+      </form>
       <div class="form-actions report-toolbar">
         <a class="button-link" href="#${categoryPath(category, '/analyze')}" data-route>新建分析</a>
         ${reports.length ? html`<button type="button" class="secondary" data-clear-reports>清空本类别报告</button>` : ''}
       </div>
       ${reports.length
-        ? html`<div class="report-list">${reports.map((report) => reportCard(report)).join('')}</div>`
+        ? visibleReports.length
+          ? html`<div class="report-list">${visibleReports.map((report) => reportCard(report)).join('')}</div>`
+          : html`<p class="empty">没有找到匹配的本地报告。可以换用成分名、过敏原、风险关键词或原始文本片段再试。</p>`
         : html`<p class="empty">还没有保存的分析报告。完成一次成分表分析后，可以将结果保存到本地。</p>`}
     </section>
   `;
@@ -48,6 +67,7 @@ export function renderReportDetailPage(id, category = 'food') {
   const matchedIngredients = resolveIngredients(report.matchedIngredientIds, report.category);
   const highlightIngredients = resolveIngredients(report.highlightIngredientIds, report.category);
   const missingIds = report.matchedIngredientIds.filter((idValue) => !getIngredientById(idValue, report.category));
+  const sourceEvidence = buildReportSourceEvidence(matchedIngredients, missingIds);
   const allergenHitCount = report.ingredientAllergenHits.length + report.textAllergenHits.length;
   const markdown = buildReportMarkdown(report);
 
@@ -72,6 +92,10 @@ export function renderReportDetailPage(id, category = 'food') {
         <a class="button-link secondary-link" href="#${categoryPath(report.category, '/reports')}" data-route>返回报告列表</a>
       </div>
     </section>
+
+    ${renderReportInsights(report)}
+
+    ${renderReportSourceEvidence(sourceEvidence)}
 
     <section class="section">
       <div class="report-export">
@@ -171,6 +195,43 @@ function reportCard(report) {
   `;
 }
 
+function filterReports(reports, query, category) {
+  if (!query) return reports;
+  const keyword = normalizeText(query);
+  return reports.filter((report) => normalizeText(buildReportSearchText(report, category)).includes(keyword));
+}
+
+function buildReportSearchText(report, category) {
+  const matchedIngredients = resolveIngredients([
+    ...report.matchedIngredientIds,
+    ...report.highlightIngredientIds,
+    ...report.ingredientAllergenHits.map((hit) => hit.id)
+  ], category);
+  const insightText = (report.insights || [])
+    .flatMap((insight) => [
+      insight.title,
+      insight.summary,
+      ...(insight.items || [])
+    ]);
+
+  return [
+    report.title,
+    report.summary,
+    report.input,
+    ...report.unknownItems,
+    ...insightText,
+    ...report.textAllergenHits.map((hit) => hit.item),
+    ...matchedIngredients.flatMap((ingredient) => [
+      ingredient.nameCn,
+      ingredient.nameEn,
+      ingredient.category,
+      ingredient.riskSummary,
+      ...(ingredient.aliases || []),
+      ...(ingredient.allergenTypes || [])
+    ])
+  ].filter(Boolean).join(' ');
+}
+
 function resolveIngredients(ids, category) {
   return ids
     .map((id) => getIngredientById(id, category))
@@ -183,6 +244,42 @@ function metricItem(label, value) {
       <span>${escapeHtml(label)}</span>
       <strong>${escapeHtml(value)}</strong>
     </div>
+  `;
+}
+
+function renderReportInsights(report) {
+  const insights = Array.isArray(report.insights) ? report.insights : [];
+  if (!insights.length) return '';
+
+  return html`
+    <section class="section">
+      <div class="section__head">
+        <div>
+          <h2>报告解读</h2>
+          <p class="helper-text">这些结论基于保存时的本地成分库、过敏原档案和原始文本生成。</p>
+        </div>
+      </div>
+      <div class="report-insight-grid">
+        ${insights.map((insight) => reportInsightCard(insight)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function reportInsightCard(insight) {
+  const tone = ['neutral', 'watch', 'caution'].includes(insight.tone) ? insight.tone : 'neutral';
+  const items = Array.isArray(insight.items) ? insight.items : [];
+  return html`
+    <article class="report-insight report-insight--${tone}">
+      <span class="report-insight__tone">${insightToneLabel(tone)}</span>
+      <h3>${escapeHtml(insight.title)}</h3>
+      <p>${escapeHtml(insight.summary)}</p>
+      ${items.length ? html`
+        <ul>
+          ${items.map((item) => html`<li>${escapeHtml(item)}</li>`).join('')}
+        </ul>
+      ` : ''}
+    </article>
   `;
 }
 
@@ -210,9 +307,120 @@ function renderTextAllergenHits(report) {
   `).join('');
 }
 
+function buildReportSourceEvidence(ingredients, missingIds) {
+  const reviewCounts = { draft: 0, reviewed: 0, verified: 0 };
+  const sourceMap = new Map();
+
+  for (const ingredient of ingredients) {
+    const reviewStatus = normalizeReviewStatus(ingredient.reviewStatus);
+    reviewCounts[reviewStatus] += 1;
+
+    for (const source of ingredient.sourceReferences || []) {
+      if (!source || typeof source !== 'object') continue;
+      const title = valueOrFallback(source.title, '暂无来源标题');
+      const standard = valueOrFallback(source.standard, '暂无标准编号');
+      const key = [title, standard, source.url].filter(Boolean).join('|');
+      const summary = sourceMap.get(key) || {
+        title,
+        standard,
+        region: valueOrFallback(source.region, ''),
+        retrievedAt: valueOrFallback(source.retrievedAt, ''),
+        url: getSafeHttpUrl(source.url),
+        ingredientNames: []
+      };
+      if (!summary.ingredientNames.includes(ingredient.nameCn)) {
+        summary.ingredientNames.push(ingredient.nameCn);
+      }
+      sourceMap.set(key, summary);
+    }
+  }
+
+  return {
+    totalIngredients: ingredients.length,
+    missingIds,
+    reviewCounts,
+    sources: [...sourceMap.values()]
+      .sort((a, b) => b.ingredientNames.length - a.ingredientNames.length || a.title.localeCompare(b.title, 'zh-Hans-CN'))
+  };
+}
+
+function renderReportSourceEvidence(evidence) {
+  if (!evidence.totalIngredients && !evidence.missingIds.length) return '';
+
+  return html`
+    <section class="section">
+      <div class="section__head">
+        <div>
+          <h2>数据来源与审核状态</h2>
+          <p class="helper-text">基于当前本地成分库重新关联保存报告中的匹配成分，用于核对来源覆盖和草稿审核边界。</p>
+        </div>
+      </div>
+      <div class="report-source-summary" aria-label="报告来源概览">
+        ${metricItem('当前匹配', `${evidence.totalIngredients} 项`)}
+        ${metricItem('数据来源', `${evidence.sources.length} 个`)}
+        ${metricItem('草稿数据', `${evidence.reviewCounts.draft} 项`)}
+        ${metricItem('数据变更', `${evidence.missingIds.length} 项`)}
+      </div>
+      ${evidence.missingIds.length ? html`
+        <p class="data-warning">有 ${evidence.missingIds.length} 个保存成分 ID 当前未在本地库中找到，来源引用无法确认。</p>
+      ` : ''}
+      ${evidence.sources.length ? html`
+        <div class="report-source-list">
+          ${evidence.sources.map((source) => renderReportSourceCard(source)).join('')}
+        </div>
+      ` : html`<p class="empty">当前匹配成分暂无来源信息。</p>`}
+    </section>
+  `;
+}
+
+function renderReportSourceCard(source) {
+  const title = source.url
+    ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)}</a>`
+    : escapeHtml(source.title);
+  return html`
+    <article class="report-source-card">
+      <span class="report-source-card__standard">${escapeHtml(source.standard)}</span>
+      <h3>${title}</h3>
+      <p>覆盖成分：${escapeHtml(source.ingredientNames.join('、'))}</p>
+      <div class="report-source-card__meta">
+        ${source.region ? html`<span>${escapeHtml(source.region)}</span>` : ''}
+        ${source.retrievedAt ? html`<span>检索：${escapeHtml(source.retrievedAt)}</span>` : ''}
+      </div>
+    </article>
+  `;
+}
+
 function formatReportDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '未知时间';
   const pad = (part) => String(part).padStart(2, '0');
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+function insightToneLabel(tone) {
+  if (tone === 'caution') return '优先核对';
+  if (tone === 'watch') return '需要关注';
+  return '信息提示';
+}
+
+function normalizeReviewStatus(status) {
+  return Object.hasOwn(REVIEW_STATUS_LABELS, status) ? status : 'draft';
+}
+
+function normalizeReportQuery(value) {
+  return String(value || '').trim();
+}
+
+function valueOrFallback(value, fallback) {
+  const normalized = typeof value === 'string' ? value.trim() : '';
+  return normalized || fallback;
+}
+
+function getSafeHttpUrl(value) {
+  try {
+    const url = new URL(String(value || ''));
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+  } catch {
+    return '';
+  }
 }

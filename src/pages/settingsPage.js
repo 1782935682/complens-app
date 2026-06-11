@@ -1,10 +1,11 @@
 import { escapeHtml, html } from '../components/render.js';
 import { standardAllergens } from '../data/allergens.js';
-import { getLocalDataSummary, getUserAllergens } from '../store/userStore.js';
+import { getLocalDataSummary, getUserAllergens, isHistoryRecordingEnabled } from '../store/userStore.js';
 
 export function renderSettingsPage() {
   const selected = new Set(getUserAllergens());
   const localDataSummary = getLocalDataSummary();
+  const historyRecordingEnabled = isHistoryRecordingEnabled();
   return html`
     <section class="section">
       <div class="section__head">
@@ -46,9 +47,22 @@ export function renderSettingsPage() {
           ${renderLocalDataMetric('scanDrafts', localDataSummary.scanDrafts, '扫描草稿')}
           ${renderLocalDataMetric('allergens', localDataSummary.allergens, '过敏原')}
         </div>
-        <p class="helper-text">这些内容目前只保存在本机浏览器。导出会生成 JSON 文件，清空会移除本机收藏、历史、过敏原、报告和扫描草稿。</p>
+        <label class="history-privacy-toggle">
+          <input type="checkbox" name="historyRecordingEnabled" data-history-recording-toggle ${historyRecordingEnabled ? 'checked' : ''} />
+          <span>
+            <strong>自动记录搜索历史</strong>
+            <small>关闭后不会记录新的搜索；已有历史仍可单条删除、清空或随本机数据导出。</small>
+          </span>
+        </label>
+        <p class="helper-text">这些内容目前只保存在本机浏览器。导出会生成 JSON 文件；导入会用所选 JSON 覆盖本机收藏、历史、过敏原、报告和扫描草稿；清空会移除全部本机数据。</p>
+        <div class="local-data-import">
+          <label for="local-data-import-file">导入本机数据 JSON</label>
+          <input id="local-data-import-file" type="file" accept="application/json,.json" data-import-local-data-input />
+          <p class="helper-text">仅导入从本应用导出的 JSON 快照。导入前请确认当前本机数据已备份。</p>
+        </div>
         <div class="form-actions">
           <button type="button" class="secondary" data-export-local-data>导出本机数据</button>
+          <button type="button" class="secondary" data-import-local-data>导入并覆盖</button>
           <button type="button" class="secondary danger-button" data-clear-local-data>清空本机数据</button>
           <span class="save-status" data-local-data-status role="status" aria-live="polite"></span>
         </div>

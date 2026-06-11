@@ -108,7 +108,8 @@ export function resolveRoute(hash) {
   if (route.path === '/reports') {
     return {
       view: 'reports',
-      category: route.category
+      category: route.category,
+      query: params.get('q') || ''
     };
   }
 
@@ -145,7 +146,7 @@ export function renderRoute(route) {
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'data') return renderDataPage(route.category);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
-  if (route.view === 'reports') return renderReportsPage(route.category);
+  if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);
   if (route.view === 'settings') return renderSettingsPage();
@@ -160,6 +161,7 @@ export function getRouteTitle(route) {
   if (route.view === 'report-detail') return `${reportTitleFor(route)} - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && route.query) return `${route.query} 搜索结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && hasActiveSearchFilters(route.filters)) return `筛选结果 - ${categoryLabel} - ${APP_TITLE}`;
+  if (route.view === 'reports' && route.query) return `${route.query} 报告检索 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'settings') return `${VIEW_TITLES.settings} - ${APP_TITLE}`;
   const title = VIEW_TITLES[route.view] || VIEW_TITLES['not-found'];
   return `${title} - ${categoryLabel} - ${APP_TITLE}`;

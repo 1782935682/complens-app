@@ -1,12 +1,13 @@
 import { categoryPath, getProductCategory, productCategories } from '../data/categories.js';
 import { escapeHtml, ingredientCard, html } from '../components/render.js';
 import { getDatasetAuditSummary, getIngredientCategorySummaries, getPopularIngredients } from '../services/ingredientService.js';
-import { getAnalysisReports, getFavoriteIngredients, getHistory } from '../store/userStore.js';
+import { getAnalysisReports, getFavoriteIngredients, getHistory, isHistoryRecordingEnabled } from '../store/userStore.js';
 
 export function renderHomePage(category = 'food') {
   const currentCategory = getProductCategory(category);
   const popular = getPopularIngredients(category);
   const history = getHistory();
+  const historyRecordingEnabled = isHistoryRecordingEnabled();
   const favorites = getFavoriteIngredients(category);
   const reports = getAnalysisReports(category);
   const ingredientCategories = getIngredientCategorySummaries(category);
@@ -62,6 +63,7 @@ export function renderHomePage(category = 'food') {
           <h2>最近查询</h2>
           ${history.length ? '<button class="text-button" data-clear-history>清空</button>' : ''}
         </div>
+        ${historyRecordingEnabled ? '' : html`<p class="helper-text history-privacy-note">已关闭自动记录查询历史。可在设置页重新开启。</p>`}
         ${history.length
           ? `<div class="history-list">${history.map((item) => renderHistoryItem(item, category)).join('')}</div>`
           : '<p class="empty">还没有查询记录。</p>'}

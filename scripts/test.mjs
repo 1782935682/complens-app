@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
+import { AI_ANALYSIS_ENDPOINT_PATH, AI_ANALYSIS_PROTOCOL_VERSION, buildAIAnalysisFallback, buildAIAnalysisRequest, validateAIAnalysisResponse, analyzeIngredientsByAI } from '../src/services/aiAnalysisService.js';
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
-import { extractIngredientsFromImage } from '../src/services/ocrService.js';
+import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
@@ -18,7 +18,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { readJson, writeJson } from '../src/services/storageService.js';
-import { addHistory, clearAnalysisReports, clearLocalUserData, clearScanDraft, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getScanDraft, getUserAllergens, removeHistory, saveAnalysisReport, saveScanDraft, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
+import { addHistory, clearAnalysisReports, clearLocalUserData, clearScanDraft, createAnalysisReport, deleteAnalysisReport, getAnalysisReportById, getAnalysisReports, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getScanDraft, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeHistory, saveAnalysisReport, saveScanDraft, setHistoryRecordingEnabled, setUserAllergens, toggleFavorite } from '../src/store/userStore.js';
 import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -63,7 +63,8 @@ assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
 assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food' });
-assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food', query: '' });
+assert.deepEqual(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'), { view: 'reports', category: 'food', query: '卵磷脂' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
 assert.deepEqual(resolveRoute('#/search?q=BHA'), {
@@ -84,6 +85,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/scan')), '扫描识别 - 食品�
 assert.equal(getRouteTitle(resolveRoute('#/food/data')), '数据来源 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82')), '卵磷脂 报告检索 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
@@ -142,7 +144,7 @@ assert.equal(appManifest.shortcuts[1].url, './#/food/scan');
 const mainJs = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
 assert.match(mainJs, /navigator\.serviceWorker\.register\('\.\/sw\.js'\)/);
 const serviceWorkerJs = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v2'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v4'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/main\.js/);
 assert.match(serviceWorkerJs, /\.\/data\/foodAdditives\.js/);
@@ -169,6 +171,10 @@ assert.match(scanHtml, /data-clear-scan-image/);
 assert.match(scanHtml, /旋转预览/);
 assert.match(scanHtml, /移除图片/);
 assert.match(scanHtml, /data-scan-draft-status/);
+assert.match(scanHtml, /协议 v1 已固定/);
+assert.match(scanHtml, /OCR 服务端代理 \/ 待接入/);
+assert.match(scanHtml, /识别协议已就绪/);
+assert.match(scanHtml, /\/api\/ocr\/extract-ingredients/);
 assert.match(scanHtml, /单张不超过 8 MB/);
 assert.match(scanHtml, /柠檬酸/);
 assert.match(scanHtml, /已从链接带入待分析文本/);
@@ -390,13 +396,132 @@ assert.equal(emulsifierCommaAnalysis.matchedCount, 1);
 assert.deepEqual(emulsifierCommaAnalysis.ingredients.map((item) => item.id), ['mono-and-diglycerides-fatty-acids']);
 assert.deepEqual(emulsifierCommaAnalysis.unknownItems, []);
 
-const aiResult = await analyzeIngredientsByAI('烟酰胺');
+const aiRequest = buildAIAnalysisRequest('柠檬酸，山梨酸钾，未知添加剂', 'food', {
+  userAllergenIds: ['soybeans'],
+  consumerGroups: ['child']
+});
+assert.equal(aiRequest.protocolVersion, AI_ANALYSIS_PROTOCOL_VERSION);
+assert.equal(aiRequest.requestType, 'ingredient-analysis');
+assert.equal(aiRequest.category, 'food');
+assert.equal(aiRequest.categoryLabel, '食品添加剂');
+assert.equal(aiRequest.endpoint, undefined);
+assert.equal(aiRequest.userContext.allergenIds[0], 'soybeans');
+assert.equal(aiRequest.localAnalysis.matchedCount, 2);
+assert.equal(aiRequest.localAnalysis.ingredients.some((item) => item.id === 'potassium-sorbate' && item.gbCode === 'INS 202'), true);
+assert.equal(aiRequest.localAnalysis.unknownItems[0], '未知添加剂');
+assert.equal(aiRequest.outputContract.schemaVersion, AI_ANALYSIS_PROTOCOL_VERSION);
+assert.equal(aiRequest.safetyRules.some((rule) => /结构化 JSON/.test(rule)), true);
+const aiFallback = buildAIAnalysisFallback(aiRequest);
+assert.equal(aiFallback.schemaVersion, AI_ANALYSIS_PROTOCOL_VERSION);
+assert.match(aiFallback.summary, /已匹配 2 项成分/);
+assert.match(aiFallback.riskNarrative, /需关注/);
+assert.equal(aiFallback.sections.some((section) => section.title === '数据边界'), true);
+assert.equal(aiFallback.ingredientNotes.some((note) => note.id === 'potassium-sorbate'), true);
+assert.equal(aiFallback.nextSteps.some((step) => /暂未收录/.test(step)), true);
+const validAIResponse = {
+  schemaVersion: AI_ANALYSIS_PROTOCOL_VERSION,
+  summary: '该配料表匹配到本地食品添加剂库中的酸度调节剂和防腐剂。',
+  riskNarrative: '山梨酸钾属于需关注项，应结合摄入频率和食品类别理解。',
+  sections: [
+    { title: '重点关注', tone: 'watch', body: '优先核对山梨酸钾相关说明。' }
+  ],
+  ingredientNotes: [
+    { id: 'potassium-sorbate', name: '山梨酸钾', note: '常见防腐剂，建议结合食品类别理解。', confidence: 'high' }
+  ],
+  allergenWarnings: [
+    { item: '标签文本', allergenIds: ['soybeans'], message: '示例过敏原提示。' }
+  ],
+  nextSteps: ['核对包装原文。'],
+  limitations: ['仅用于日常成分理解。']
+};
+assert.deepEqual(validateAIAnalysisResponse(validAIResponse), {
+  ok: true,
+  errors: [],
+  value: validAIResponse
+});
+const invalidAIResponse = validateAIAnalysisResponse({
+  schemaVersion: 999,
+  summary: '',
+  sections: [{ title: '坏响应', tone: 'severe', body: '' }],
+  ingredientNotes: 'bad',
+  allergenWarnings: [],
+  nextSteps: [],
+  limitations: []
+});
+assert.equal(invalidAIResponse.ok, false);
+assert.equal(invalidAIResponse.value, null);
+assert.equal(invalidAIResponse.errors.some((error) => /schemaVersion/.test(error)), true);
+assert.equal(invalidAIResponse.errors.some((error) => /ingredientNotes/.test(error)), true);
+const aiResult = await analyzeIngredientsByAI('烟酰胺', 'cosmetics');
 assert.equal(aiResult.enabled, false);
+assert.equal(aiResult.endpoint, AI_ANALYSIS_ENDPOINT_PATH);
+assert.equal(aiResult.request.category, 'cosmetics');
+assert.equal(aiResult.fallback.schemaVersion, AI_ANALYSIS_PROTOCOL_VERSION);
 assert.match(aiResult.message, /服务端代理/);
 
-const ocrResult = await extractIngredientsFromImage({ name: 'ingredient-list.png' });
+const ocrFile = {
+  name: 'ingredient-list.png',
+  type: 'image/png',
+  size: 4096,
+  lastModified: 1710000000000
+};
+const ocrRequest = buildOCRRequest(ocrFile, { category: 'food' });
+assert.equal(ocrRequest.protocolVersion, OCR_PROTOCOL_VERSION);
+assert.equal(ocrRequest.requestType, 'ingredient-image-ocr');
+assert.equal(ocrRequest.endpoint, OCR_ENDPOINT_PATH);
+assert.equal(ocrRequest.validation.ok, true);
+assert.equal(ocrRequest.image.name, 'ingredient-list.png');
+assert.equal(ocrRequest.image.sizeLabel, '4 KB');
+assert.equal(ocrRequest.processingHints.requireUserCorrectionBeforeAnalysis, true);
+assert.equal(ocrRequest.outputContract.schemaVersion, OCR_PROTOCOL_VERSION);
+assert.equal(ocrRequest.safetyRules.some((rule) => /可编辑文本区/.test(rule)), true);
+const ocrFallback = buildOCRFallback(ocrRequest);
+assert.equal(ocrFallback.schemaVersion, OCR_PROTOCOL_VERSION);
+assert.equal(ocrFallback.text, '');
+assert.equal(ocrFallback.confidence, 0);
+assert.equal(ocrFallback.warnings.some((warning) => /未连接服务端 OCR 代理/.test(warning)), true);
+assert.equal(ocrFallback.nextSteps.some((step) => /校正文本区/.test(step)), true);
+const validOCRResponse = {
+  schemaVersion: OCR_PROTOCOL_VERSION,
+  text: '水，柠檬酸，山梨酸钾',
+  confidence: 0.88,
+  language: 'zh-CN',
+  candidates: [
+    { text: '水，柠檬酸，山梨酸钾', confidence: 0.88, source: 'line-1' }
+  ],
+  warnings: ['示例低置信区域'],
+  nextSteps: ['请核对包装原文后再分析。']
+};
+assert.deepEqual(validateOCRResponse(validOCRResponse), {
+  ok: true,
+  errors: [],
+  value: validOCRResponse
+});
+const invalidOCRResponse = validateOCRResponse({
+  schemaVersion: 999,
+  text: 123,
+  confidence: 2,
+  language: '',
+  candidates: [{ text: '', confidence: -1 }],
+  warnings: 'bad',
+  nextSteps: []
+});
+assert.equal(invalidOCRResponse.ok, false);
+assert.equal(invalidOCRResponse.value, null);
+assert.equal(invalidOCRResponse.errors.some((error) => /confidence/.test(error)), true);
+assert.equal(invalidOCRResponse.errors.some((error) => /warnings/.test(error)), true);
+const emptyOcrResult = await extractIngredientsFromImage(null);
+assert.equal(emptyOcrResult.enabled, false);
+assert.equal(emptyOcrResult.text, '');
+assert.match(emptyOcrResult.message, /请先选择/);
+const invalidOcrResult = await extractIngredientsFromImage({ name: 'bad.svg', type: 'image/svg+xml', size: 100 });
+assert.equal(invalidOcrResult.validation.reason, 'type');
+const ocrResult = await extractIngredientsFromImage(ocrFile, { category: 'food' });
 assert.equal(ocrResult.enabled, false);
 assert.equal(ocrResult.text, '');
+assert.equal(ocrResult.endpoint, OCR_ENDPOINT_PATH);
+assert.equal(ocrResult.request.image.name, 'ingredient-list.png');
+assert.equal(ocrResult.fallback.schemaVersion, OCR_PROTOCOL_VERSION);
 assert.match(ocrResult.message, /图片识别接口已预留/);
 
 assert.equal(standardAllergenTypes.length, 14);
@@ -429,6 +554,7 @@ assert.deepEqual(getFavoriteItems(), [
 
 writeJson('compcheck:history', []);
 writeJson('compcheck:analysis-reports', []);
+setHistoryRecordingEnabled(true);
 addHistory('烟酰胺');
 addHistory('BHA');
 assert.deepEqual(getHistory(), ['BHA', '烟酰胺']);
@@ -441,6 +567,12 @@ assert.doesNotMatch(homeHtmlWithHistory, /data-delete-history="BHA"/);
 assert.match(homeHtmlWithHistory, /分析报告/);
 assert.match(homeHtmlWithHistory, /data-suggestion-category="cosmetics"/);
 assert.match(homeHtmlWithHistory, /data-search-suggestions/);
+assert.equal(setHistoryRecordingEnabled(false), false);
+assert.equal(isHistoryRecordingEnabled(), false);
+assert.deepEqual(addHistory('不会记录'), ['烟酰胺']);
+const homeHtmlWithHistoryDisabled = renderHomePage('cosmetics');
+assert.match(homeHtmlWithHistoryDisabled, /已关闭自动记录查询历史/);
+assert.equal(setHistoryRecordingEnabled(true), true);
 
 const originalUserAllergens = getUserAllergens();
 assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
@@ -453,10 +585,20 @@ assert.match(settingsHtml, /value="soybeans" checked/);
 assert.match(settingsHtml, /value="peanuts"/);
 assert.match(settingsHtml, /数据与隐私/);
 assert.match(settingsHtml, /data-export-local-data/);
+assert.match(settingsHtml, /data-import-local-data-input/);
+assert.match(settingsHtml, /data-import-local-data/);
+assert.match(settingsHtml, /accept="application\/json,.json"/);
+assert.match(settingsHtml, /导入并覆盖/);
 assert.match(settingsHtml, /data-clear-local-data/);
 assert.match(settingsHtml, /data-local-data-count="favorites">2</);
 assert.match(settingsHtml, /data-local-data-count="history">1</);
 assert.match(settingsHtml, /data-local-data-count="allergens">2</);
+assert.match(settingsHtml, /data-history-recording-toggle checked/);
+setHistoryRecordingEnabled(false);
+const settingsHtmlWithHistoryDisabled = renderSettingsPage();
+assert.match(settingsHtmlWithHistoryDisabled, /data-history-recording-toggle/);
+assert.doesNotMatch(settingsHtmlWithHistoryDisabled, /data-history-recording-toggle checked/);
+setHistoryRecordingEnabled(true);
 saveScanDraft('柠檬酸，山梨酸钾', 'food');
 const localDataSummary = getLocalDataSummary();
 assert.equal(localDataSummary.favorites, 2);
@@ -466,6 +608,7 @@ assert.equal(localDataSummary.scanDrafts, 1);
 assert.equal(localDataSummary.totalItems, 6);
 const localDataSnapshot = getLocalDataSnapshot();
 assert.equal(localDataSnapshot.schemaVersion, 1);
+assert.equal(localDataSnapshot.preferences.historyRecordingEnabled, true);
 assert.equal(localDataSnapshot.favorites.some((item) => item.id === 'citric-acid' && item.category === 'food'), true);
 assert.equal(localDataSnapshot.history[0], '烟酰胺');
 assert.equal(localDataSnapshot.scanDrafts.food, '柠檬酸，山梨酸钾');
@@ -481,6 +624,32 @@ assert.deepEqual(getFavoriteItems(), []);
 assert.deepEqual(getHistory(), []);
 assert.deepEqual(getUserAllergens(), []);
 assert.equal(getScanDraft('food'), '');
+assert.equal(isHistoryRecordingEnabled(), true);
+const disabledHistorySnapshot = {
+  ...localDataSnapshot,
+  preferences: {
+    historyRecordingEnabled: false
+  }
+};
+const disabledHistoryImport = importLocalDataSnapshot(disabledHistorySnapshot);
+assert.equal(disabledHistoryImport.ok, true);
+assert.equal(isHistoryRecordingEnabled(), false);
+assert.deepEqual(addHistory('仍不记录'), localDataSnapshot.history);
+setHistoryRecordingEnabled(true);
+const importResult = importLocalDataSnapshot(localDataSnapshot);
+assert.equal(importResult.ok, true);
+assert.equal(isHistoryRecordingEnabled(), true);
+assert.equal(importResult.summary.totalItems, 6);
+assert.deepEqual(getFavoriteItems(), localDataSnapshot.favorites);
+assert.deepEqual(getHistory(), localDataSnapshot.history);
+assert.deepEqual(getUserAllergens(), localDataSnapshot.allergens);
+assert.equal(getScanDraft('food'), '柠檬酸，山梨酸钾');
+const invalidImportResult = importLocalDataSnapshot({ schemaVersion: 999, history: ['不应覆盖'] });
+assert.equal(invalidImportResult.ok, false);
+assert.deepEqual(getHistory(), localDataSnapshot.history);
+assert.match(invalidImportResult.message, /仅支持 schemaVersion/);
+assert.equal(importLocalDataSnapshot(null).ok, false);
+clearLocalUserData();
 toggleFavorite('citric-acid', 'food');
 toggleFavorite('niacinamide', 'cosmetics');
 addHistory('烟酰胺');
@@ -490,6 +659,16 @@ const analyzeHtmlWithAllergens = renderAnalyzePage(SAMPLES['food-2'], 'food');
 assert.match(analyzeHtmlWithAllergens, /您当前关注的过敏原档案：/);
 assert.match(analyzeHtmlWithAllergens, /data-save-report/);
 assert.match(analyzeHtmlWithAllergens, /查看历史报告/);
+assert.match(analyzeHtmlWithAllergens, /AI 辅助分析 \/ 本地降级/);
+assert.match(analyzeHtmlWithAllergens, /结构化分析协议已就绪/);
+assert.match(analyzeHtmlWithAllergens, /协议 v1/);
+assert.match(analyzeHtmlWithAllergens, /endpoint：\/api\/ai\/analyze-ingredients/);
+assert.match(analyzeHtmlWithAllergens, /本地库匹配/);
+assert.match(analyzeHtmlWithAllergens, /数据边界/);
+assert.match(analyzeHtmlWithAllergens, /风险叙述/);
+assert.match(analyzeHtmlWithAllergens, /成分笔记/);
+assert.match(analyzeHtmlWithAllergens, /下一步/);
+assert.match(analyzeHtmlWithAllergens, /使用边界/);
 assert.match(analyzeHtmlWithAllergens, /乳及乳制品、大豆/);
 assert.match(analyzeHtmlWithAllergens, /发现过敏原成分/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
@@ -507,22 +686,34 @@ assert.match(analyzeHtmlWithoutAllergens, /您尚未设置关注的过敏原/);
 assert.doesNotMatch(analyzeHtmlWithoutAllergens, /发现过敏原成分/);
 const emptyAnalyzeHtml = renderAnalyzePage('', 'food');
 assert.doesNotMatch(emptyAnalyzeHtml, /data-save-report/);
+assert.doesNotMatch(emptyAnalyzeHtml, /AI 辅助分析/);
 setUserAllergens(originalUserAllergens);
 
 writeJson('compcheck:analysis-reports', []);
 setUserAllergens(['milk', 'soybeans']);
 const reportDraft = createAnalysisReport(SAMPLES['food-2'], 'food');
 assert.equal(reportDraft.category, 'food');
+assert.equal(reportDraft.schemaVersion, 2);
 assert.equal(reportDraft.matchedIngredientIds.includes('lecithins'), true);
 assert.equal(reportDraft.ingredientAllergenHits.some((hit) => hit.id === 'lecithins' && hit.allergenIds.includes('soybeans')), true);
 assert.equal(reportDraft.textAllergenHits.some((hit) => hit.item === '全脂奶粉' && hit.allergenIds.includes('milk')), true);
+assert.equal(reportDraft.insights.some((insight) => insight.key === 'risk' && insight.title === '风险分布'), true);
+assert.equal(reportDraft.insights.some((insight) => insight.key === 'coverage' && /食品添加剂库仍处于草稿审核阶段/.test(insight.summary)), true);
 const savedReport = saveAnalysisReport(SAMPLES['food-2'], 'food');
 assert.equal(getAnalysisReports('food').length, 1);
 assert.equal(getAnalysisReportById(savedReport.id).id, savedReport.id);
 const reportsHtml = renderRoute(resolveRoute('#/food/reports'));
 assert.match(reportsHtml, /分析报告/);
+assert.match(reportsHtml, /data-report-search-form/);
 assert.match(reportsHtml, /data-delete-report=/);
 assert.match(reportsHtml, /重新分析/);
+const filteredReportsHtml = renderRoute(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'));
+assert.match(filteredReportsHtml, /value="卵磷脂"/);
+assert.match(filteredReportsHtml, /1 \/ 1 份/);
+assert.match(filteredReportsHtml, /data-delete-report=/);
+const emptyFilteredReportsHtml = renderRoute(resolveRoute('#/food/reports?q=%E4%B8%8D%E5%AD%98%E5%9C%A8%E6%8A%A5%E5%91%8A'));
+assert.match(emptyFilteredReportsHtml, /没有找到匹配的本地报告/);
+assert.doesNotMatch(emptyFilteredReportsHtml, /data-delete-report=/);
 const reportDetailHtml = renderRoute(resolveRoute(`#/food/reports/${savedReport.id}`));
 assert.match(reportDetailHtml, /原始成分表/);
 assert.match(reportDetailHtml, /导出报告/);
@@ -530,13 +721,26 @@ assert.match(reportDetailHtml, /data-report-markdown/);
 assert.match(reportDetailHtml, /data-copy-report=/);
 assert.match(reportDetailHtml, /data-download-report="markdown"/);
 assert.match(reportDetailHtml, /data-download-report="json"/);
+assert.match(reportDetailHtml, /报告解读/);
+assert.match(reportDetailHtml, /风险分布/);
+assert.match(reportDetailHtml, /数据边界/);
+assert.match(reportDetailHtml, /下一步建议/);
+assert.match(reportDetailHtml, /数据来源与审核状态/);
+assert.match(reportDetailHtml, /草稿数据/);
+assert.match(reportDetailHtml, /食品安全国家标准 食品添加剂使用标准/);
+assert.match(reportDetailHtml, /覆盖成分：/);
 assert.match(reportDetailHtml, /保存时发现过敏原/);
 assert.match(reportDetailHtml, /全脂奶粉/);
 assert.match(reportDetailHtml, /href="#\/food\/analyze\?text=/);
 const reportMarkdown = buildReportMarkdown(savedReport);
 assert.match(reportMarkdown, /^# /);
+assert.match(reportMarkdown, /## 报告解读/);
+assert.match(reportMarkdown, /### 风险分布/);
 assert.match(reportMarkdown, /## 原始成分表/);
 assert.match(reportMarkdown, /## 已匹配成分/);
+assert.match(reportMarkdown, /## 数据来源与审核状态/);
+assert.match(reportMarkdown, /草稿（未审核）：/);
+assert.match(reportMarkdown, /### 来源引用/);
 assert.match(reportMarkdown, /卵磷脂/);
 assert.match(reportMarkdown, /过敏原：大豆/);
 assert.match(reportMarkdown, /全脂奶粉/);
@@ -544,12 +748,38 @@ assert.match(reportMarkdown, /不提供医疗诊断或治疗建议/);
 const exportPayload = buildReportExportPayload(savedReport);
 assert.equal(exportPayload.report.id, savedReport.id);
 assert.equal(exportPayload.report.categoryLabel, '食品添加剂');
+assert.equal(exportPayload.report.insights.some((insight) => insight.key === 'next-steps'), true);
 assert.equal(exportPayload.matchedIngredients.some((item) => item.id === 'lecithins'), true);
+assert.equal(exportPayload.matchedIngredients.some((item) => item.id === 'lecithins' && item.reviewStatusLabel === '草稿（未审核）'), true);
+assert.equal(exportPayload.reviewStatusSummary.draft > 0, true);
+assert.equal(exportPayload.sourceReferences.some((source) => source.title === '食品安全国家标准 食品添加剂使用标准' && source.ingredientNames.includes('卵磷脂')), true);
 assert.equal(exportPayload.textAllergenHits.some((hit) => hit.item === '全脂奶粉' && hit.allergenNames === '乳及乳制品'), true);
 assert.match(buildReportFileName(savedReport, 'md'), /^\d{8}-.+\.md$/);
 assert.match(buildReportFileName({ ...savedReport, title: 'A/B:C*D?E"F<G>H|I' }, 'json'), /^\d{8}-ABCDEFGHI\.json$/);
 assert.deepEqual(deleteAnalysisReport(savedReport.id), []);
 assert.equal(getAnalysisReportById(savedReport.id), null);
+writeJson('compcheck:analysis-reports', [{
+  id: 'legacy-report',
+  category: 'food',
+  title: '旧版报告',
+  input: '柠檬酸，未知添加剂',
+  createdAt: '2026-06-10T00:00:00.000Z',
+  matchedCount: 1,
+  summary: '旧版报告摘要',
+  matchedIngredientIds: ['citric-acid'],
+  highlightIngredientIds: [],
+  unknownItems: ['未知添加剂'],
+  riskCounts: { low: 1, medium: 0, high: 0, unknown: 0 },
+  userAllergenIds: [],
+  ingredientAllergenHits: [],
+  textAllergenHits: [],
+  schemaVersion: 1
+}]);
+const legacyReport = getAnalysisReportById('legacy-report');
+assert.equal(legacyReport.schemaVersion, 1);
+assert.equal(legacyReport.insights.length, 4);
+assert.equal(legacyReport.insights.some((insight) => insight.key === 'coverage' && insight.tone === 'watch'), true);
+writeJson('compcheck:analysis-reports', []);
 saveAnalysisReport(SAMPLES['food-1'], 'food');
 saveAnalysisReport(SAMPLES['cosmetic-1'], 'cosmetics');
 clearAnalysisReports('food');
