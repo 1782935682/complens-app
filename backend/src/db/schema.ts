@@ -73,6 +73,48 @@ export const sessions = pgTable('sessions', {
   index('sessions_expires_at_idx').on(table.expiresAt)
 ]);
 
+export const userFavorites = pgTable('user_favorites', {
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  category: text('category').notNull(),
+  ingredientId: text('ingredient_id').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.category, table.ingredientId] }),
+  index('user_favorites_user_id_idx').on(table.userId)
+]);
+
+export const userHistory = pgTable('user_history', {
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  query: text('query').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.query] }),
+  index('user_history_user_id_idx').on(table.userId),
+  index('user_history_created_at_idx').on(table.createdAt)
+]);
+
+export const userAllergens = pgTable('user_allergens', {
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  allergenId: text('allergen_id').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.allergenId] }),
+  index('user_allergens_user_id_idx').on(table.userId)
+]);
+
+export const userReports = pgTable('user_reports', {
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  reportId: text('report_id').notNull(),
+  category: text('category').notNull(),
+  data: jsonb('data').$type<Record<string, unknown>>().notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.reportId] }),
+  index('user_reports_user_id_idx').on(table.userId),
+  index('user_reports_category_idx').on(table.category)
+]);
+
 export type SourceReference = {
   title: string;
   standard: string;
@@ -95,3 +137,11 @@ export type UserRow = typeof users.$inferSelect;
 export type NewUserRow = typeof users.$inferInsert;
 export type SessionRow = typeof sessions.$inferSelect;
 export type NewSessionRow = typeof sessions.$inferInsert;
+export type UserFavoriteRow = typeof userFavorites.$inferSelect;
+export type NewUserFavoriteRow = typeof userFavorites.$inferInsert;
+export type UserHistoryRow = typeof userHistory.$inferSelect;
+export type NewUserHistoryRow = typeof userHistory.$inferInsert;
+export type UserAllergenRow = typeof userAllergens.$inferSelect;
+export type NewUserAllergenRow = typeof userAllergens.$inferInsert;
+export type UserReportRow = typeof userReports.$inferSelect;
+export type NewUserReportRow = typeof userReports.$inferInsert;

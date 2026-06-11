@@ -14,6 +14,7 @@ function createMockIngredientService(): IngredientService {
 afterEach(() => {
   vi.doUnmock('../src/services/authService.js');
   vi.doUnmock('../src/services/ingredientService.js');
+  vi.doUnmock('../src/services/userService.js');
   vi.doUnmock('../src/db/client.js');
   vi.resetModules();
 });
@@ -57,6 +58,38 @@ describe('createApp configuration', () => {
     });
 
     expect(createLazyAuthService).toHaveBeenCalledWith(customDatabaseUrl, 'custom-jwt-secret-for-tests');
+  });
+
+  it('passes the configured database URL to the default user service', async () => {
+    const createLazyUserService = vi.fn(() => ({
+      listFavorites: vi.fn(),
+      addFavorite: vi.fn(),
+      replaceFavorites: vi.fn(),
+      deleteFavorite: vi.fn(),
+      listHistory: vi.fn(),
+      addHistory: vi.fn(),
+      replaceHistory: vi.fn(),
+      deleteHistory: vi.fn(),
+      listAllergens: vi.fn(),
+      replaceAllergens: vi.fn(),
+      listReports: vi.fn(),
+      addReport: vi.fn(),
+      replaceReports: vi.fn(),
+      deleteReport: vi.fn()
+    }));
+    vi.doMock('../src/services/userService.js', () => ({
+      createLazyUserService
+    }));
+    const { createApp } = await import('../src/app.js');
+
+    createApp({
+      corsOrigin: 'http://localhost:5173',
+      databaseUrl: customDatabaseUrl,
+      jwtSecret: 'test-only-compcheck-jwt-secret',
+      port: 3000
+    });
+
+    expect(createLazyUserService).toHaveBeenCalledWith(customDatabaseUrl);
   });
 });
 

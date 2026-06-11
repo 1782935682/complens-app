@@ -24,7 +24,7 @@ import { ingredientCard } from '../src/components/render.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
-import { readJson, writeJson } from '../src/services/storageService.js';
+import { AUTH_TOKEN_KEY, isLoggedIn, readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sanitizeNativeSharePayload, sharePayloadWithFallback } from '../src/services/shareService.js';
 import { getBase64ByteSize, getNativeCameraPhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
@@ -261,6 +261,7 @@ assert.match(backendDockerCompose, /HOST: 0\.0\.0\.0/);
 assert.match(backendDockerCompose, /DATABASE_URL: postgres:\/\/postgres:password@postgres:5432\/compcheck/);
 const backendAppSource = await readFile(new URL('../backend/src/app.ts', import.meta.url), 'utf8');
 assert.match(backendAppSource, /createLazyAuthService\(config\.databaseUrl, config\.jwtSecret\)/);
+assert.match(backendAppSource, /createLazyUserService\(config\.databaseUrl\)/);
 assert.match(backendAppSource, /createLazyIngredientService\(config\.databaseUrl\)/);
 const backendDrizzleConfig = await readFile(new URL('../backend/drizzle.config.ts', import.meta.url), 'utf8');
 assert.match(backendDrizzleConfig, /dialect: 'postgresql'/);
@@ -275,6 +276,10 @@ assert.match(backendDbSchema, /export const users = pgTable\('users'/);
 assert.match(backendDbSchema, /uniqueIndex\('users_email_unique_idx'\)/);
 assert.match(backendDbSchema, /export const sessions = pgTable\('sessions'/);
 assert.match(backendDbSchema, /references\(\(\) => users\.id, \{ onDelete: 'cascade' \}\)/);
+assert.match(backendDbSchema, /export const userFavorites = pgTable\('user_favorites'/);
+assert.match(backendDbSchema, /export const userHistory = pgTable\('user_history'/);
+assert.match(backendDbSchema, /export const userAllergens = pgTable\('user_allergens'/);
+assert.match(backendDbSchema, /export const userReports = pgTable\('user_reports'/);
 assert.match(backendDbSchema, /ingredients_description_trgm_idx/);
 assert.match(backendDbSchema, /ingredients_aliases_gin_idx/);
 const backendIngredientsRoute = await readFile(new URL('../backend/src/routes/ingredients.ts', import.meta.url), 'utf8');
@@ -302,6 +307,16 @@ const backendAuthMiddleware = await readFile(new URL('../backend/src/middleware/
 assert.match(backendAuthMiddleware, /Authorization/);
 assert.match(backendAuthMiddleware, /Bearer\\s\+\(\.\+\)/);
 assert.match(backendAuthMiddleware, /context\.set\('userId'/);
+const backendUserRoute = await readFile(new URL('../backend/src/routes/user.ts', import.meta.url), 'utf8');
+assert.match(backendUserRoute, /route\.get\('\/user\/favorites'/);
+assert.match(backendUserRoute, /route\.post\('\/user\/history'/);
+assert.match(backendUserRoute, /route\.put\('\/user\/allergens'/);
+assert.match(backendUserRoute, /route\.delete\('\/user\/reports'/);
+const backendUserServiceSource = await readFile(new URL('../backend/src/services/userService.ts', import.meta.url), 'utf8');
+assert.match(backendUserServiceSource, /userFavorites/);
+assert.match(backendUserServiceSource, /replaceFavorites/);
+assert.match(backendUserServiceSource, /replaceAllergens/);
+assert.match(backendUserServiceSource, /replaceReports/);
 const backendSeedScript = await readFile(new URL('../backend/scripts/seed.ts', import.meta.url), 'utf8');
 assert.match(backendSeedScript, /src\/data\/foodAdditives\.js/);
 assert.match(backendSeedScript, /Seeded \$\{foodAdditives\.length\} ingredients/);
@@ -318,6 +333,11 @@ assert.match(backendAuthMigrationSql, /CREATE TABLE "users"/);
 assert.match(backendAuthMigrationSql, /"password_hash" text NOT NULL/);
 assert.match(backendAuthMigrationSql, /CREATE TABLE "sessions"/);
 assert.match(backendAuthMigrationSql, /FOREIGN KEY \("user_id"\) REFERENCES "public"\."users"\("id"\) ON DELETE cascade/);
+const backendUserDataMigrationSql = await readFile(new URL('../backend/src/db/migrations/0003_ordinary_mad_thinker.sql', import.meta.url), 'utf8');
+assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_favorites"/);
+assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_history"/);
+assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_allergens"/);
+assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_reports"/);
 const backendVitestConfig = await readFile(new URL('../backend/vitest.config.ts', import.meta.url), 'utf8');
 assert.match(backendVitestConfig, /include: \['tests\/\*\*\/\*\.test\.ts'\]/);
 const viteConfigJs = await readFile(new URL('../vite.config.js', import.meta.url), 'utf8');
@@ -972,6 +992,50 @@ globalThis.window = {
 };
 writeJson('compcheck:test-quota-fallback', ['ok']);
 assert.deepEqual(readJson('compcheck:test-quota-fallback', []), ['ok']);
+globalThis.window = originalWindow;
+
+const originalFetch = globalThis.fetch;
+let storageFetchCalls = 0;
+globalThis.fetch = async () => {
+  storageFetchCalls += 1;
+  return { ok: true, json: async () => ({ items: [] }) };
+};
+writeJson('compcheck:favorites', [{ id: 'citric-acid', category: 'food' }]);
+assert.equal(isLoggedIn(), false);
+assert.equal(storageFetchCalls, 0);
+assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'citric-acid', category: 'food' }]);
+assert.equal(storageFetchCalls, 0);
+
+const storageMap = new Map();
+const makeTestJwt = (exp) => `header.${Buffer.from(JSON.stringify({ exp })).toString('base64url')}.signature`;
+storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) + 60));
+globalThis.window = {
+  localStorage: {
+    getItem(key) {
+      return storageMap.has(key) ? storageMap.get(key) : null;
+    },
+    setItem(key, value) {
+      storageMap.set(key, value);
+    }
+  }
+};
+const syncCalls = [];
+globalThis.fetch = async (url, options = {}) => {
+  syncCalls.push({ url, options });
+  return {
+    ok: true,
+    json: async () => ({
+      items: [{ id: 'server-favorite', category: 'food' }]
+    })
+  };
+};
+assert.equal(isLoggedIn(), true);
+writeJson('compcheck:favorites', [{ id: 'local-favorite', category: 'food' }]);
+await new Promise((resolve) => setTimeout(resolve, 0));
+assert.equal(syncCalls.some((call) => call.url === '/api/user/favorites' && call.options.method === 'POST'), true);
+assert.deepEqual(JSON.parse(syncCalls.find((call) => call.options.method === 'POST').options.body).items, [{ id: 'local-favorite', category: 'food' }]);
+assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'server-favorite', category: 'food' }]);
+globalThis.fetch = originalFetch;
 globalThis.window = originalWindow;
 
 writeJson('compcheck:favorites', ['niacinamide']);

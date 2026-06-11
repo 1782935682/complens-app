@@ -5,12 +5,15 @@ import { requestLogger } from './middleware/requestLogger.js';
 import { createAuthRoute } from './routes/auth.js';
 import { healthRoute } from './routes/health.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
+import { createUserRoute } from './routes/user.js';
 import { createLazyAuthService, type AuthService } from './services/authService.js';
 import { createLazyIngredientService, type IngredientService } from './services/ingredientService.js';
+import { createLazyUserService, type UserService } from './services/userService.js';
 
 export type AppServices = {
   authService?: AuthService;
   ingredientService?: IngredientService;
+  userService?: UserService;
 };
 
 export function createApp(config: AppConfig, services: AppServices = {}) {
@@ -24,7 +27,9 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.use('*', requestLogger());
 
   app.route('/', healthRoute);
-  app.route('/api', createAuthRoute(services.authService ?? createLazyAuthService(config.databaseUrl, config.jwtSecret)));
+  const authService = services.authService ?? createLazyAuthService(config.databaseUrl, config.jwtSecret);
+  app.route('/api', createAuthRoute(authService));
+  app.route('/api', createUserRoute(authService, services.userService ?? createLazyUserService(config.databaseUrl)));
   app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService(config.databaseUrl)));
 
   app.notFound((context) => context.json({ error: 'not_found' }, 404));
