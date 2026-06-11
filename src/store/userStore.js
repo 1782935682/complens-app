@@ -55,7 +55,7 @@ export function isFavorite(id, category = DEFAULT_CATEGORY) {
 }
 
 export function getCompareItems(category) {
-  const items = normalizeFavoriteItems(readJson(COMPARE_ITEMS_KEY, []));
+  const items = normalizeCompareItems(readJson(COMPARE_ITEMS_KEY, []));
   return category ? items.filter((item) => item.category === category) : items;
 }
 

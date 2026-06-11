@@ -809,6 +809,15 @@ const staleCompareImport = importLocalDataSnapshot({
 assert.equal(staleCompareImport.ok, true);
 assert.deepEqual(getCompareItems('food'), [{ id: 'citric-acid', category: 'food' }]);
 assert.equal(addCompareIngredient('sodium-benzoate', 'food').ok, true);
+writeJson('compcheck:compare-items', [
+  { id: 'stale-food-1', category: 'food' },
+  { id: 'stale-food-2', category: 'food' },
+  { id: 'stale-food-3', category: 'food' },
+  { id: 'stale-food-4', category: 'food' }
+]);
+assert.deepEqual(getCompareItems('food'), []);
+assert.equal(addCompareIngredient('citric-acid', 'food').ok, true);
+assert.deepEqual(getCompareItems('food'), [{ id: 'citric-acid', category: 'food' }]);
 const invalidImportResult = importLocalDataSnapshot({ schemaVersion: 999, history: ['不应覆盖'] });
 assert.equal(invalidImportResult.ok, false);
 assert.deepEqual(getHistory(), localDataSnapshot.history);
