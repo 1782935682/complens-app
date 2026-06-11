@@ -69,11 +69,12 @@ function normalizeIngredientInput(value) {
 
 function expandBracketGroups(value) {
   return String(value || '').replace(/([^,，、;；\n\r()（）]*)[\(（]([^()（）]+)[\)）]/g, (match, prefix, content) => {
+    const rawPrefix = String(prefix || '').trim();
     const cleanPrefix = normalizeIngredientItem(prefix);
     const cleanContent = String(content || '').trim();
     if (!cleanContent) return cleanPrefix;
 
-    if (isGenericBracketPrefix(cleanPrefix)) return `，${cleanContent}`;
+    if (isGenericBracketPrefix(cleanPrefix || rawPrefix)) return `，${cleanContent}`;
     if (shouldExpandNonGenericBracketContent(cleanContent)) return `${cleanPrefix}，${cleanContent}`;
     return cleanPrefix;
   });
