@@ -29,6 +29,21 @@ const ONBOARDING_CATEGORIES = ['food', 'cosmetics'];
 const SUPPORT_STATUSES = ['local', 'copied', 'closed'];
 const SCAN_STATUSES = ['idle', 'loading', 'success', 'empty', 'error', 'manual'];
 const OCR_MODES = ['real', 'manual', 'fallback'];
+let currentUser = null;
+
+export function getCurrentUserState() {
+  return currentUser;
+}
+
+export function setCurrentUserState(user) {
+  currentUser = normalizeCurrentUser(user);
+  return currentUser;
+}
+
+export function clearCurrentUserState() {
+  currentUser = null;
+  return currentUser;
+}
 
 export function getFavoriteItems() {
   return readJson(FAVORITES_KEY, [])
@@ -463,6 +478,18 @@ function normalizeFavoriteItem(value) {
     };
   }
   return null;
+}
+
+function normalizeCurrentUser(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const id = String(value.id || '').trim();
+  const email = String(value.email || '').trim().toLowerCase();
+  if (!id || !email) return null;
+  return {
+    id,
+    email,
+    createdAt: typeof value.createdAt === 'string' ? value.createdAt : ''
+  };
 }
 
 function normalizeLocalDataSnapshot(snapshot) {

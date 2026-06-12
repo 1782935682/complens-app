@@ -5,6 +5,7 @@ import { recognizeImage } from './services/ocrService.js';
 import { fetchIngredientById, fetchIngredientSearch } from './services/ingredientApiService.js';
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
+import { buildAuthRedirectTarget, login, logout, register, validateAuthInput } from './services/authService.js';
 import { getCompareOverview } from './services/compareService.js';
 import { clearProductArchives, deleteProductArchive, getProductArchiveById, saveProductArchiveFromReport, toggleProductArchiveFavorite } from './services/productArchiveService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
@@ -191,6 +192,8 @@ function updateNavigationGroup(selector, datasetKey, items) {
 }
 
 function bindPageEvents(route) {
+  bindAuthEvents(route);
+
   document.querySelectorAll('[data-search-form]').forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -690,6 +693,57 @@ function bindPageEvents(route) {
   bindHistorySwipeActions();
 }
 
+function bindAuthEvents(route) {
+  document.querySelectorAll('[data-auth-password-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const input = document.querySelector(`#${button.getAttribute('aria-controls')}`);
+      if (!input) return;
+      const nextType = input.type === 'password' ? 'text' : 'password';
+      input.type = nextType;
+      button.textContent = nextType === 'password' ? '显示' : '隐藏';
+      button.setAttribute('aria-pressed', nextType === 'text' ? 'true' : 'false');
+    });
+  });
+
+  document.querySelectorAll('[data-auth-form]').forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submitButton = form.querySelector('button[type="submit"]');
+      const formData = new FormData(form);
+      const email = String(formData.get('email') || '');
+      const password = String(formData.get('password') || '');
+      const validation = validateAuthInput(email, password);
+      if (!validation.ok) {
+        updateAuthStatus(validation.message);
+        focusAuthField(form, validation.field);
+        return;
+      }
+
+      const mode = form.dataset.authMode === 'register' ? 'register' : 'login';
+      if (submitButton) submitButton.disabled = true;
+      updateAuthStatus(mode === 'register' ? '正在注册...' : '正在登录...');
+      try {
+        await (mode === 'register' ? register : login)(email, password);
+        updateAuthStatus('登录成功，正在同步本机数据...');
+        navigate(`#${buildAuthRedirectTarget(form.dataset.authRedirect, route.category)}`);
+      } catch (error) {
+        updateAuthStatus(error?.message || '服务器异常，请稍后再试');
+        if (error?.field) focusAuthField(form, error.field);
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-auth-logout]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      await logout();
+      render();
+    });
+  });
+}
+
 function bindHistorySwipeActions() {
   document.querySelectorAll('[data-history-swipe]').forEach((card) => {
     const surface = card.querySelector('.history-card__surface');
@@ -1064,6 +1118,16 @@ function updateMembershipStatus(message) {
 function updateSupportStatus(message) {
   const statusNode = document.querySelector('[data-support-status]');
   if (statusNode) statusNode.textContent = message;
+}
+
+function updateAuthStatus(message) {
+  const statusNode = document.querySelector('[data-auth-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function focusAuthField(form, field) {
+  const input = form?.querySelector(`[name="${field}"]`);
+  if (input && typeof input.focus === 'function') input.focus();
 }
 
 function updateCompareStatus(message) {
