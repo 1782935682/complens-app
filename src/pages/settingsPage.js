@@ -79,6 +79,7 @@ export function renderSettingsPage(category = 'food') {
           ${renderLocalDataMetric('compareItems', localDataSummary.compareItems, '对比')}
           ${renderLocalDataMetric('history', localDataSummary.history, '历史')}
           ${renderLocalDataMetric('reports', localDataSummary.reports, '报告')}
+          ${renderLocalDataMetric('products', localDataSummary.products, '产品档案')}
           ${renderLocalDataMetric('supportRequests', localDataSummary.supportRequests, '反馈')}
           ${renderLocalDataMetric('scanDrafts', localDataSummary.scanDrafts, '扫描草稿')}
           ${renderLocalDataMetric('allergens', localDataSummary.allergens, '过敏原')}
@@ -90,7 +91,7 @@ export function renderSettingsPage(category = 'food') {
             <small>关闭后不会记录新的搜索；已有历史仍可单条删除、清空或随本机数据导出。</small>
           </span>
         </label>
-        <p class="helper-text">这些内容目前只保存在本机浏览器。导出会生成 JSON 文件；导入会用所选 JSON 覆盖本机收藏、历史、过敏原、报告和扫描草稿；清空会移除全部本机数据。</p>
+        <p class="helper-text">这些内容目前只保存在本机浏览器。导出会生成 JSON 文件；导入会用所选 JSON 覆盖本机收藏、历史、过敏原、报告、产品档案和扫描草稿；清空会移除全部本机数据。</p>
         <div class="local-data-import">
           <label for="local-data-import-file">导入本机数据 JSON</label>
           <input id="local-data-import-file" type="file" accept="application/json,.json" data-import-local-data-input />

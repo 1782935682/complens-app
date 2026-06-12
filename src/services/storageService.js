@@ -9,7 +9,8 @@ const SYNC_CONFIGS = {
   'compcheck:favorites': { path: '/user/favorites', method: 'POST' },
   'compcheck:history': { path: '/user/history', method: 'POST' },
   'compcheck:allergens': { path: '/user/allergens', method: 'PUT' },
-  'compcheck:analysis-reports': { path: '/user/reports', method: 'POST' }
+  'compcheck:analysis-reports': { path: '/user/reports', method: 'POST' },
+  'compcheck:products': { path: '/user/products?limit=100', method: 'POST' }
 };
 
 function getStorage() {
@@ -216,7 +217,7 @@ function getSyncItemKeyFactory(key) {
   if (key === 'compcheck:history' || key === 'compcheck:allergens') {
     return (item) => String(item || '').trim();
   }
-  if (key === 'compcheck:analysis-reports') {
+  if (key === 'compcheck:analysis-reports' || key === 'compcheck:products') {
     return (item) => String(item?.id || '').trim();
   }
 

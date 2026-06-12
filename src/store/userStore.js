@@ -1,6 +1,7 @@
 import { isProductCategory } from '../data/categories.js';
 import { defaultSupportTopic, isSupportTopic } from '../data/supportTopics.js';
 import { getIngredientById } from '../services/ingredientService.js';
+import { clearProductArchives, getProductArchives, normalizeProductArchives, PRODUCT_ARCHIVES_KEY } from '../services/productArchiveService.js';
 import { buildIngredientReport, normalizeIngredientReport } from '../services/reportService.js';
 import { readJson, writeJson } from '../services/storageService.js';
 
@@ -363,16 +364,18 @@ export function getLocalDataSummary() {
   const history = getHistory();
   const allergens = getUserAllergens();
   const reports = getAnalysisReports();
+  const products = getProductArchives();
   const compareItems = getCompareItems();
   const supportRequests = getSupportRequests();
   const scanDraftCount = Object.keys(scanDrafts).length;
-  const totalItems = favorites.length + history.length + allergens.length + reports.length + compareItems.length + supportRequests.length + scanDraftCount;
+  const totalItems = favorites.length + history.length + allergens.length + reports.length + products.length + compareItems.length + supportRequests.length + scanDraftCount;
 
   return {
     favorites: favorites.length,
     history: history.length,
     allergens: allergens.length,
     reports: reports.length,
+    products: products.length,
     compareItems: compareItems.length,
     supportRequests: supportRequests.length,
     scanDrafts: scanDraftCount,
@@ -395,6 +398,7 @@ export function getLocalDataSnapshot() {
     history: getHistory(),
     allergens: getUserAllergens(),
     analysisReports: getAnalysisReports(),
+    products: getProductArchives(),
     supportRequests: getSupportRequests(),
     scanDrafts
   };
@@ -410,6 +414,7 @@ export function importLocalDataSnapshot(snapshot) {
   writeJson(HISTORY_RECORDING_KEY, normalized.data.preferences.historyRecordingEnabled);
   writeJson(ALLERGENS_KEY, normalized.data.allergens);
   writeJson(ANALYSIS_REPORTS_KEY, normalized.data.analysisReports);
+  writeJson(PRODUCT_ARCHIVES_KEY, normalized.data.products);
   writeJson(SUPPORT_REQUESTS_KEY, normalized.data.supportRequests);
   writeJson(SCAN_DRAFTS_KEY, normalized.data.scanDrafts);
   writeJson(ONBOARDING_KEY, normalized.data.preferences.onboarding);
@@ -427,6 +432,7 @@ export function clearLocalUserData() {
   writeJson(HISTORY_KEY, []);
   writeJson(ALLERGENS_KEY, []);
   writeJson(ANALYSIS_REPORTS_KEY, []);
+  clearProductArchives();
   writeJson(SUPPORT_REQUESTS_KEY, []);
   writeJson(SCAN_DRAFTS_KEY, {});
   writeJson(SCAN_PENDING_KEY, createDefaultPendingScan());
@@ -484,6 +490,7 @@ function normalizeLocalDataSnapshot(snapshot) {
       preferences: normalizeLocalDataPreferences(snapshot.preferences),
       allergens: uniqueStrings(snapshot.allergens),
       analysisReports: normalizeAnalysisReports(snapshot.analysisReports),
+      products: normalizeProductArchives(snapshot.products),
       supportRequests: normalizeSupportRequests(snapshot.supportRequests),
       scanDrafts: normalizeScanDrafts(snapshot.scanDrafts)
     }

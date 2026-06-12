@@ -1,6 +1,6 @@
-import { and, desc, eq, sql } from 'drizzle-orm';
+import { and, count, desc, eq, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { userAllergens, userFavorites, userHistory, userReports } from '../db/schema.js';
+import { productArchives, userAllergens, userFavorites, userHistory, userReports } from '../db/schema.js';
 
 export type UserFavoriteItem = {
   id: string;
@@ -19,6 +19,36 @@ export type UserReportItem = Record<string, unknown> & {
   createdAt?: string;
 };
 
+export type UserProductItem = Record<string, unknown> & {
+  id: string;
+  category?: string;
+  productName?: string;
+  brandName?: string;
+  originalText?: string;
+  reportId?: string;
+  riskGrade?: string;
+  isFavorite?: boolean;
+  tags?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type UserProductListParams = {
+  search?: string;
+  isFavorite?: boolean;
+  riskGrade?: string;
+  page?: number;
+  limit?: number;
+};
+
+export type UserProductList = {
+  items: UserProductItem[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
 export type UserService = {
   listFavorites(userId: string): Promise<UserFavoriteItem[]>;
   addFavorite(userId: string, item: UserFavoriteItem): Promise<UserFavoriteItem[]>;
@@ -34,10 +64,24 @@ export type UserService = {
   addReport(userId: string, report: UserReportItem): Promise<UserReportItem[]>;
   replaceReports(userId: string, reports: UserReportItem[]): Promise<UserReportItem[]>;
   deleteReport(userId: string, reportId?: string): Promise<UserReportItem[]>;
+  listProducts(userId: string, params?: UserProductListParams): Promise<UserProductList>;
+  getProduct(userId: string, productId: string): Promise<UserProductItem | null>;
+  addProduct(userId: string, product: UserProductItem): Promise<UserProductItem[]>;
+  replaceProducts(userId: string, products: UserProductItem[]): Promise<UserProductItem[]>;
+  updateProduct(userId: string, productId: string, patch: Partial<UserProductItem>): Promise<UserProductItem | null>;
+  deleteProduct(userId: string, productId: string): Promise<UserProductItem[]>;
 };
 
 let defaultClient: DatabaseClient | null = null;
 let defaultService: UserService | null = null;
+type ProductArchiveSelect = typeof productArchives.$inferSelect;
+type NormalizedProductListParams = {
+  search: string;
+  isFavorite?: boolean;
+  riskGrade: string;
+  page: number;
+  limit: number;
+};
 
 export function createUserService(db: Database, now = () => new Date()): UserService {
   const service: UserService = {
@@ -256,6 +300,122 @@ export function createUserService(db: Database, now = () => new Date()): UserSer
         eq(userReports.reportId, normalized)
       ));
       return service.listReports(userId);
+    },
+
+    async listProducts(userId, params = {}) {
+      const listParams = normalizeProductListParams(params);
+      const where = buildProductWhere(userId, listParams);
+      const offset = (listParams.page - 1) * listParams.limit;
+      const [{ total }] = await db
+        .select({ total: count() })
+        .from(productArchives)
+        .where(where);
+      const rows = await db
+        .select()
+        .from(productArchives)
+        .where(where)
+        .orderBy(desc(productArchives.updatedAt), desc(productArchives.createdAt))
+        .limit(listParams.limit)
+        .offset(offset);
+
+      return {
+        items: rows.map(rowToProduct),
+        total,
+        page: listParams.page,
+        limit: listParams.limit,
+        totalPages: Math.max(1, Math.ceil(total / listParams.limit))
+      };
+    },
+
+    async getProduct(userId, productId) {
+      const normalized = normalizeText(productId);
+      if (!normalized) return null;
+      const rows = await db
+        .select()
+        .from(productArchives)
+        .where(and(
+          eq(productArchives.userId, userId),
+          eq(productArchives.id, normalized)
+        ))
+        .limit(1);
+
+      return rows[0] ? rowToProduct(rows[0]) : null;
+    },
+
+    async addProduct(userId, product) {
+      const currentTime = now();
+      const normalized = normalizeProduct(product, currentTime);
+      const row = productToRow(userId, normalized, currentTime);
+      await db
+        .insert(productArchives)
+        .values(row)
+        .onConflictDoUpdate({
+          target: [productArchives.userId, productArchives.id],
+          set: {
+            category: sql`excluded.category`,
+            productName: sql`excluded.product_name`,
+            brandName: sql`excluded.brand_name`,
+            thumbnailUrl: sql`excluded.thumbnail_url`,
+            originalText: sql`excluded.original_text`,
+            parsedIngredients: sql`excluded.parsed_ingredients`,
+            matchResults: sql`excluded.match_results`,
+            reportId: sql`excluded.report_id`,
+            riskGrade: sql`excluded.risk_grade`,
+            isFavorite: sql`excluded.is_favorite`,
+            tags: sql`excluded.tags`,
+            data: sql`excluded.data`,
+            createdAt: sql`${productArchives.createdAt}`,
+            updatedAt: sql`excluded.updated_at`
+          }
+        });
+
+      return (await service.listProducts(userId, { limit: 100 })).items;
+    },
+
+    async replaceProducts(userId, products) {
+      const currentTime = now();
+      const rows = uniqueProducts(products).map((product) => productToRow(userId, product, currentTime));
+      await db.transaction(async (tx) => {
+        await tx.delete(productArchives).where(eq(productArchives.userId, userId));
+        if (rows.length > 0) {
+          await tx.insert(productArchives).values(rows);
+        }
+      });
+
+      return (await service.listProducts(userId, { limit: 100 })).items;
+    },
+
+    async updateProduct(userId, productId, patch) {
+      const existing = await service.getProduct(userId, productId);
+      if (!existing) return null;
+      const currentTime = now();
+      const updated = normalizeProduct({
+        ...existing,
+        ...normalizeProductPatch(patch),
+        id: existing.id,
+        createdAt: existing.createdAt,
+        updatedAt: currentTime.toISOString()
+      }, currentTime);
+      const row = productToRow(userId, updated, currentTime);
+      await db
+        .update(productArchives)
+        .set(productToUpdateSet(row))
+        .where(and(
+          eq(productArchives.userId, userId),
+          eq(productArchives.id, updated.id)
+        ));
+      return service.getProduct(userId, updated.id);
+    },
+
+    async deleteProduct(userId, productId) {
+      const normalized = normalizeText(productId);
+      if (!normalized) throw new UserServiceValidationError('invalid_product');
+
+      await db.delete(productArchives).where(and(
+        eq(productArchives.userId, userId),
+        eq(productArchives.id, normalized)
+      ));
+      return (await service.listProducts(userId, { limit: 100 })).items;
     }
   };
 
@@ -326,6 +486,24 @@ export function createLazyUserService(databaseUrl?: string): UserService {
     },
     deleteReport(userId, reportId) {
       return getLazyService().deleteReport(userId, reportId);
+    },
+    listProducts(userId, params) {
+      return getLazyService().listProducts(userId, params);
+    },
+    getProduct(userId, productId) {
+      return getLazyService().getProduct(userId, productId);
+    },
+    addProduct(userId, product) {
+      return getLazyService().addProduct(userId, product);
+    },
+    replaceProducts(userId, products) {
+      return getLazyService().replaceProducts(userId, products);
+    },
+    updateProduct(userId, productId, patch) {
+      return getLazyService().updateProduct(userId, productId, patch);
+    },
+    deleteProduct(userId, productId) {
+      return getLazyService().deleteProduct(userId, productId);
     }
   };
 }
@@ -383,6 +561,181 @@ function normalizeReport(report: UserReportItem): UserReportItem {
   };
 }
 
+function uniqueProducts(products: UserProductItem[]) {
+  const seen = new Set<string>();
+  const result: UserProductItem[] = [];
+  for (const product of Array.isArray(products) ? products : []) {
+    const normalized = normalizeProduct(product);
+    if (seen.has(normalized.id)) continue;
+    seen.add(normalized.id);
+    result.push(normalized);
+  }
+
+  return result;
+}
+
+function normalizeProduct(product: UserProductItem, fallbackDate = new Date()): UserProductItem {
+  if (!product || typeof product !== 'object' || Array.isArray(product)) {
+    throw new UserServiceValidationError('invalid_product');
+  }
+
+  const id = normalizeText(product.id);
+  const productName = truncateText(product.productName, 100);
+  const originalText = normalizeText(product.originalText);
+  const reportId = normalizeText(product.reportId);
+  if (!id || !productName || !originalText || !reportId) {
+    throw new UserServiceValidationError('invalid_product');
+  }
+
+  return {
+    ...product,
+    id,
+    category: normalizeText(product.category) || 'food',
+    productName,
+    brandName: truncateText(product.brandName, 100) || undefined,
+    originalText,
+    parsedIngredients: Array.isArray(product.parsedIngredients) ? product.parsedIngredients : [],
+    matchResults: Array.isArray(product.matchResults) ? product.matchResults : [],
+    reportId,
+    riskGrade: normalizeRiskGrade(product.riskGrade),
+    isFavorite: product.isFavorite === true,
+    tags: normalizeTags(product.tags),
+    createdAt: (parseDate(product.createdAt) ?? fallbackDate).toISOString(),
+    updatedAt: (parseDate(product.updatedAt) ?? fallbackDate).toISOString()
+  };
+}
+
+function productToRow(userId: string, product: UserProductItem, fallbackDate: Date) {
+  return {
+    userId,
+    id: product.id,
+    category: normalizeText(product.category) || 'food',
+    productName: normalizeText(product.productName),
+    brandName: normalizeText(product.brandName) || null,
+    thumbnailUrl: normalizeText(product.thumbnailUrl) || null,
+    originalText: normalizeText(product.originalText),
+    parsedIngredients: Array.isArray(product.parsedIngredients) ? product.parsedIngredients as Record<string, unknown>[] : [],
+    matchResults: Array.isArray(product.matchResults) ? product.matchResults as Record<string, unknown>[] : [],
+    reportId: normalizeText(product.reportId) || null,
+    riskGrade: normalizeRiskGrade(product.riskGrade),
+    isFavorite: product.isFavorite === true,
+    tags: normalizeTags(product.tags),
+    data: product,
+    createdAt: parseDate(product.createdAt) ?? fallbackDate,
+    updatedAt: parseDate(product.updatedAt) ?? fallbackDate
+  };
+}
+
+function productToUpdateSet(row: ReturnType<typeof productToRow>) {
+  return {
+    category: row.category,
+    productName: row.productName,
+    brandName: row.brandName,
+    thumbnailUrl: row.thumbnailUrl,
+    originalText: row.originalText,
+    parsedIngredients: row.parsedIngredients,
+    matchResults: row.matchResults,
+    reportId: row.reportId,
+    riskGrade: row.riskGrade,
+    isFavorite: row.isFavorite,
+    tags: row.tags,
+    data: row.data,
+    updatedAt: row.updatedAt
+  };
+}
+
+function rowToProduct(row: ProductArchiveSelect): UserProductItem {
+  const data = row.data && typeof row.data === 'object' && !Array.isArray(row.data)
+    ? row.data as UserProductItem
+    : {} as UserProductItem;
+  return normalizeProduct({
+    ...data,
+    id: row.id,
+    category: row.category,
+    productName: row.productName,
+    brandName: row.brandName ?? undefined,
+    thumbnailUrl: row.thumbnailUrl ?? undefined,
+    originalText: row.originalText,
+    parsedIngredients: row.parsedIngredients,
+    matchResults: row.matchResults,
+    reportId: row.reportId ?? data.reportId,
+    riskGrade: row.riskGrade ?? data.riskGrade,
+    isFavorite: row.isFavorite,
+    tags: row.tags,
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString()
+  }, row.updatedAt);
+}
+
+function normalizeProductPatch(patch: Partial<UserProductItem>) {
+  const next: Partial<UserProductItem> = {};
+  if (Object.hasOwn(patch, 'productName')) next.productName = patch.productName;
+  if (Object.hasOwn(patch, 'brandName')) next.brandName = patch.brandName;
+  if (Object.hasOwn(patch, 'isFavorite')) next.isFavorite = patch.isFavorite === true;
+  if (Object.hasOwn(patch, 'tags')) next.tags = normalizeTags(patch.tags);
+  if (Object.hasOwn(patch, 'riskGrade')) next.riskGrade = normalizeRiskGrade(patch.riskGrade);
+  return next;
+}
+
+function normalizeProductListParams(params: UserProductListParams): NormalizedProductListParams {
+  return {
+    search: normalizeText(params.search),
+    isFavorite: params.isFavorite,
+    riskGrade: normalizeRiskGradeFilter(params.riskGrade),
+    page: Math.max(1, Number(params.page) || 1),
+    limit: Math.min(100, Math.max(1, Number(params.limit) || 20))
+  };
+}
+
+function buildProductWhere(userId: string, params: NormalizedProductListParams): SQL | undefined {
+  const filters: SQL[] = [eq(productArchives.userId, userId)];
+  if (params.search) {
+    const pattern = `%${escapeLikePattern(params.search)}%`;
+    filters.push(or(
+      ilikeEscaped(productArchives.productName, pattern),
+      ilikeEscaped(productArchives.brandName, pattern),
+      ilikeEscaped(productArchives.originalText, pattern),
+      sql`exists (
+        select 1
+        from jsonb_array_elements_text(${productArchives.tags}) as tag(value)
+        where tag.value ILIKE ${pattern} ESCAPE '\\'
+      )`
+    ) as SQL);
+  }
+  if (params.isFavorite !== undefined) {
+    filters.push(eq(productArchives.isFavorite, params.isFavorite));
+  }
+  if (params.riskGrade) {
+    filters.push(eq(productArchives.riskGrade, params.riskGrade));
+  }
+  return and(...filters);
+}
+
+function ilikeEscaped(column: AnyColumn, pattern: string): SQL {
+  return sql`${column} ILIKE ${pattern} ESCAPE '\\'`;
+}
+
+function escapeLikePattern(value: string) {
+  return value.replace(/[\\%_]/g, (match) => `\\${match}`);
+}
+
+function normalizeRiskGrade(value: unknown) {
+  const grade = normalizeText(value);
+  return ['A', 'B', 'C', 'D', 'F'].includes(grade) ? grade : 'C';
+}
+
+function normalizeRiskGradeFilter(value: unknown) {
+  const grade = normalizeText(value);
+  return ['A', 'B', 'C', 'D', 'F'].includes(grade) ? grade : '';
+}
+
+function normalizeTags(value: unknown) {
+  return uniqueStrings(Array.isArray(value) ? value : [])
+    .map((tag) => truncateText(tag, 24))
+    .filter(Boolean)
+    .slice(0, 12);
+}
+
 function uniqueStrings(values: unknown[]) {
   return [...new Set((Array.isArray(values) ? values : [])
     .map((value) => normalizeText(value))
@@ -391,6 +744,11 @@ function uniqueStrings(values: unknown[]) {
 
 function normalizeText(value: unknown) {
   return String(value || '').trim();
+}
+
+function truncateText(value: unknown, maxLength: number) {
+  const normalized = normalizeText(value).replace(/\s+/g, ' ');
+  return normalized.length > maxLength ? normalized.slice(0, maxLength) : normalized;
 }
 
 function offsetDate(base: Date, index: number) {
@@ -407,9 +765,9 @@ function parseDate(value: unknown) {
 }
 
 export class UserServiceValidationError extends Error {
-  code: 'invalid_item' | 'invalid_report';
+  code: 'invalid_item' | 'invalid_report' | 'invalid_product';
 
-  constructor(code: 'invalid_item' | 'invalid_report') {
+  constructor(code: 'invalid_item' | 'invalid_report' | 'invalid_product') {
     super(code);
     this.code = code;
   }
