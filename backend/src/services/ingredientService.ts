@@ -303,8 +303,9 @@ export async function upsertIngredients(db: Database, additives: FoodAdditiveInp
           target: ingredients.id,
           set: {
             ...row,
-            reviewedAt: sql`case when ${ingredients.dataVersion} is distinct from ${row.dataVersion} then ${row.reviewedAt} else ${ingredients.reviewedAt} end`,
-            changeNote: sql`case when ${ingredients.dataVersion} is distinct from ${row.dataVersion} then ${row.changeNote} else ${ingredients.changeNote} end`,
+            reviewedBy: sql`case when ${ingredients.dataVersion} is distinct from excluded.data_version then excluded.reviewed_by else ${ingredients.reviewedBy} end`,
+            reviewedAt: sql`case when ${ingredients.dataVersion} is distinct from excluded.data_version then excluded.reviewed_at else ${ingredients.reviewedAt} end`,
+            changeNote: sql`case when ${ingredients.dataVersion} is distinct from excluded.data_version then excluded.change_note else ${ingredients.changeNote} end`,
             createdAt: sql`${ingredients.createdAt}`
           }
         });

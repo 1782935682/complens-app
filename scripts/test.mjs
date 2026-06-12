@@ -373,6 +373,9 @@ assert.match(backendIngredientsRoute, /sort must be one of relevance, risk, name
 assert.match(backendIngredientsRoute, /confidenceLevel must be one of high, medium, low, unverified/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
 assert.match(backendIngredientServiceSource, /eq\(ingredients\.confidenceLevel, params\.confidenceLevel\)/);
+assert.match(backendIngredientServiceSource, /reviewedBy: sql`case when \$\{ingredients\.dataVersion\} is distinct from excluded\.data_version then excluded\.reviewed_by else \$\{ingredients\.reviewedBy\} end`/);
+assert.match(backendIngredientServiceSource, /reviewedAt: sql`case when \$\{ingredients\.dataVersion\} is distinct from excluded\.data_version then excluded\.reviewed_at else \$\{ingredients\.reviewedAt\} end`/);
+assert.match(backendIngredientServiceSource, /changeNote: sql`case when \$\{ingredients\.dataVersion\} is distinct from excluded\.data_version then excluded\.change_note else \$\{ingredients\.changeNote\} end`/);
 assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 4);
 assert.match(backendIngredientServiceSource, /validSearchSorts = \['relevance', 'risk', 'name'\]/);
 assert.match(backendIngredientServiceSource, /batchSearch\(params\)/);
@@ -1013,6 +1016,7 @@ assert.match(dataPageHtml, /100 条[\s\S]*当前记录/);
 assert.match(dataPageHtml, /data-data-filter-form/);
 assert.match(dataPageHtml, /name="source"/);
 assert.match(dataPageHtml, /name="confidenceLevel"/);
+assert.match(await readFile(new URL('../src/pages/dataPage.js', import.meta.url), 'utf8'), /<p class="filter-summary">\$\{escapeHtml\(renderDataFilterSummary/);
 assert.match(dataPageHtml, /100%[\s\S]*待审核/);
 assert.match(dataPageHtml, /可信等级/);
 assert.match(dataPageHtml, /待审核/);

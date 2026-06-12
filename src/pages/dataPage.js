@@ -68,7 +68,7 @@ export function renderDataPage(category = 'food', filters = {}) {
         <button type="submit" class="button-link secondary-link">筛选</button>
         ${hasActiveDataFilters(activeFilters) ? html`<a class="filter-clear" href="#${categoryPath(category, '/data')}" data-route>清除</a>` : ''}
       </form>
-      <p class="filter-summary">${renderDataFilterSummary(activeFilters, filteredItems.length, allItems.length)}</p>
+      <p class="filter-summary">${escapeHtml(renderDataFilterSummary(activeFilters, filteredItems.length, allItems.length))}</p>
     </section>
 
     <section class="section data-status" data-dataset-detail>
