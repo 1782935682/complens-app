@@ -159,7 +159,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics', productNam
   `;
 }
 
-function renderDatabaseMatchSummary(summary) {
+export function renderDatabaseMatchSummary(summary) {
   const results = Array.isArray(summary?.results) ? summary.results : [];
   if (!results.length) return '';
   const matchedCount = results.filter((item) => item.match && item.confidence > 0).length;

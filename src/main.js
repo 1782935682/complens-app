@@ -12,6 +12,8 @@ import { getNativePhoto, isNativePlatform } from './services/nativeBridgeService
 import { deleteImage, getImage, saveImage } from './services/imageStoreService.js';
 import { compressImage } from './utils/imageProcessor.js';
 import { buildSupportRequestMarkdown } from './services/supportService.js';
+import { matchIngredients } from './services/ingredientMatchService.js';
+import { renderDatabaseMatchSummary } from './pages/analyzePage.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, markScanTipsSeen, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { formatBytes, validateScanImageFile } from './utils/imageFile.js';
 import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
@@ -43,6 +45,7 @@ function render() {
     app.focus({ preventScroll: true });
   }
   hydrateIngredientApiRoute(route, renderVersion);
+  hydrateAnalyzeMatchRoute(route, renderVersion);
 }
 
 function getInitialApiState(route) {
@@ -63,6 +66,21 @@ async function hydrateIngredientApiRoute(route, renderVersion) {
     if (renderVersion !== routeRenderVersion) return;
     app.innerHTML = renderRoute(route, { status: 'error' });
     bindPageEvents(route);
+  }
+}
+
+async function hydrateAnalyzeMatchRoute(route, renderVersion) {
+  if (route?.view !== 'analyze' || !String(route.input || '').trim()) return;
+  const matchPanel = document.querySelector('[data-ingredient-match-summary]');
+  if (!matchPanel) return;
+
+  try {
+    const summary = await matchIngredients(parseIngredientList(route.input), route.category);
+    if (renderVersion !== routeRenderVersion) return;
+    const section = matchPanel.closest('section');
+    if (section) section.outerHTML = renderDatabaseMatchSummary(summary);
+  } catch {
+    // The initial local summary is already rendered; leave it in place on API failure.
   }
 }
 
