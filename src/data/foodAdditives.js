@@ -107,7 +107,7 @@ const gb2760RegulationOverrides = {
     rawSourceText: 'GB 2760-2024 表 A.1：黄原胶（又名汉生胶）xanthan gum；CNS号 20.009；INS号 415；功能 稳定剂、增稠剂；含各类食品例外口径及 02.02.01.01、06.03.02.01、06.03.02.02、11.01.02、13.01.03 的最大使用量。'
   },
   'calcium-carbonate': {
-    foodCategories: ['各类食品（按表 A.2 例外排除）', '小麦粉'],
+    foodCategories: ['各类食品（按表 A.2 例外排除）', '小麦粉', '饼干'],
     usageLimits: [
       {
         foodCategory: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
@@ -118,9 +118,14 @@ const gb2760RegulationOverrides = {
         foodCategory: '06.03.01 小麦粉',
         limit: '0.03 g/kg',
         note: 'GB 2760-2024 表 A.1；PDF page 112 / 标准页 109'
+      },
+      {
+        foodCategory: '07.03 饼干',
+        limit: '按生产需要适量使用',
+        note: 'GB 2760-2024 表 A.1；PDF page 112 / 标准页 109'
       }
     ],
-    rawSourceText: 'GB 2760-2024 表 A.1：碳酸钙（包括轻质碳酸钙，重质碳酸钙）calcium carbonate；CNS号 13.006；INS号 170(i)；功能 膨松剂、面粉处理剂、稳定剂；各类食品（表 A.2 中编号为 1~68 的食品类别除外）按生产需要适量使用；06.03.01 小麦粉 0.03 g/kg。'
+    rawSourceText: 'GB 2760-2024 表 A.1：碳酸钙（包括轻质碳酸钙，重质碳酸钙）calcium carbonate；CNS号 13.006；INS号 170(i)；功能 膨松剂、面粉处理剂、稳定剂；各类食品（表 A.2 中编号为 1~68 的食品类别除外）按生产需要适量使用；06.03.01 小麦粉 0.03 g/kg；07.03 饼干按生产需要适量使用。'
   },
   'sodium-bicarbonate': {
     foodCategories: ['各类食品（按表 A.2 例外排除）', '发酵大米制品'],
@@ -3189,6 +3194,7 @@ function buildGb2760RegulationOverride(additive) {
     regulatoryBasis: `${regulation.rawSourceText} ${gb2760RegulationBasisSuffix}`,
     rawSourceText: regulation.rawSourceText,
     sourceReferences,
+    adi: review ? `${review.adi}（JECFA ${review.jecfaId}，${officialReviewRetrievedAt} 核对；GB 2760 使用规定已按官方 PDF 表 A.1 导入）` : additive.adi,
     usageLimits: regulation.usageLimits,
     foodCategories: regulation.foodCategories,
     isVerified: true,

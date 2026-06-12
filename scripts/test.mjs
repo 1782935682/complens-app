@@ -936,6 +936,7 @@ assert.equal(reviewedCitricAcid.isVerified, true);
 assert.equal(reviewedCitricAcid.sourceName, seedSourceName);
 assert.match(reviewedCitricAcid.sourceUrl, /sppt\.cfsa\.net\.cn/);
 assert.match(reviewedCitricAcid.adi, /NOT LIMITED/);
+assert.doesNotMatch(reviewedCitricAcid.adi, /GB 2760 限量未导入/);
 assert.equal(reviewedCitricAcid.usageLimits.length, 1);
 assert.match(reviewedCitricAcid.usageLimits[0].foodCategory, /表 A\.2/);
 assert.match(reviewedCitricAcid.usageLimits[0].limit, /按生产需要适量使用/);
@@ -949,6 +950,10 @@ assert.equal(verifiedXanthanGum.usageLimits.some((limit) => limit.foodCategory.i
 const verifiedSodiumBicarbonate = getIngredientById('sodium-bicarbonate', 'food');
 assert.equal(verifiedSodiumBicarbonate.usageLimits.length, 2);
 assert.equal(verifiedSodiumBicarbonate.dataStatus, 'verified_regulation');
+assert.doesNotMatch(verifiedSodiumBicarbonate.adi, /GB 2760 限量未导入/);
+const verifiedCalciumCarbonate = getIngredientById('calcium-carbonate', 'food');
+assert.equal(verifiedCalciumCarbonate.usageLimits.length, 3);
+assert.equal(verifiedCalciumCarbonate.usageLimits.some((limit) => limit.foodCategory.includes('07.03') && limit.limit === '按生产需要适量使用'), true);
 const reviewedPotassiumCitrate = getIngredientById('potassium-citrate', 'food');
 assert.equal(reviewedPotassiumCitrate.reviewStatus, 'reviewed');
 assert.equal(reviewedPotassiumCitrate.confidenceLevel, 'medium');
