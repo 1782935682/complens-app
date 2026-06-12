@@ -259,7 +259,7 @@ function bindPageEvents(route) {
   const saveReportButton = document.querySelector('[data-save-report]');
   if (saveReportButton) {
     saveReportButton.addEventListener('click', () => {
-      const report = saveAnalysisReport(route.input, route.category);
+      const report = saveAnalysisReport(route.input, route.category, { productName: route.productName });
       if (report) navigate(`#${categoryPath(report.category, `/reports/${report.id}`)}`);
     });
   }
@@ -648,7 +648,7 @@ function bindScanPageEvents(route) {
 function bindOcrConfirmEvents(route) {
   const form = document.querySelector('[data-ocr-confirm-form]');
   if (!form) {
-    if (route.view === 'ocr-confirm') void hydrateOcrConfirmImage();
+    if (route.view === 'ocr-confirm') void hydrateOcrConfirmImage(route.category);
     return;
   }
 
@@ -702,7 +702,7 @@ function bindOcrConfirmEvents(route) {
     navigate(`#${categoryPath(route.category, '/analyze')}?${params.toString()}`);
   });
 
-  void hydrateOcrConfirmImage();
+  void hydrateOcrConfirmImage(route.category);
 }
 
 async function openScanSource(source) {
@@ -786,10 +786,10 @@ async function hydrateStoredScanPreview() {
   updateScanConfirmState(true);
 }
 
-async function hydrateOcrConfirmImage() {
+async function hydrateOcrConfirmImage(category) {
   const pending = getPendingScan();
   const container = document.querySelector('[data-ocr-confirm-image]');
-  if (!container || !pending.pendingImageId) return;
+  if (!container || pending.category !== category || !pending.pendingImageId) return;
   const image = await getImage(pending.pendingImageId);
   if (!image?.blob) {
     container.textContent = '图片暂不可用';

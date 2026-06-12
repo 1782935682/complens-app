@@ -109,7 +109,8 @@ export function resolveRoute(hash) {
     return {
       view: 'analyze',
       category: route.category,
-      input: params.get('text') || ''
+      input: params.get('text') || '',
+      productName: params.get('productName') || ''
     };
   }
 
@@ -221,7 +222,7 @@ export function renderRoute(route, asyncState = null) {
   if (route.view === 'legal') return renderLegalPage(route.category, route.documentId);
   if (route.view === 'membership') return renderMembershipPage(route.category);
   if (route.view === 'support') return renderSupportPage(route.category, route.prefill);
-  if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
+  if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category, route.productName);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);

@@ -10,10 +10,12 @@ import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
 /**
  * @param {string} input Raw ingredient-list text from the route query or form.
  * @param {import('../types/ingredient.js').DataCategory} category Active product category.
+ * @param {string} productName Optional product name carried from OCR confirmation.
  */
-export function renderAnalyzePage(input = '', category = 'cosmetics') {
+export function renderAnalyzePage(input = '', category = 'cosmetics', productName = '') {
   const categoryId = isProductCategory(category) ? category : 'food';
   const currentCategory = getProductCategory(categoryId);
+  const normalizedProductName = String(productName || '').trim();
   const result = analyzeIngredientText(input, categoryId);
   const parsedIngredients = parseIngredientList(input);
   const matchSummary = matchIngredientsLocal(parsedIngredients, categoryId);
@@ -60,6 +62,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <div>
           <p class="eyebrow">${currentCategory.label} / 文本识别版</p>
           <h1>成分表分析</h1>
+          ${normalizedProductName ? html`<p class="helper-text">产品名称：${escapeHtml(normalizedProductName)}</p>` : ''}
           ${allergenStatusHtml}
         </div>
       </div>

@@ -10,6 +10,7 @@ export function renderOcrConfirmPage(category = 'food') {
   const sameCategory = pending.category === categoryId;
   const text = sameCategory ? pending.pendingText : '';
   const productName = sameCategory ? pending.pendingProductName : '';
+  const hasPendingImage = sameCategory && Boolean(pending.pendingImageId);
   const count = parseIngredientList(text).length;
   const status = sameCategory ? pending.status : 'manual';
   const mode = sameCategory ? pending.pendingOcrMode : 'manual';
@@ -27,7 +28,7 @@ export function renderOcrConfirmPage(category = 'food') {
 
       <section class="ocr-source-card ocr-source-card--${escapeHtml(status)}">
         <div class="ocr-thumb" data-ocr-confirm-image>
-          ${pending.pendingImageId ? html`<span>图片读取中...</span>` : html`<span>手动输入</span>`}
+          ${hasPendingImage ? html`<span>图片读取中...</span>` : html`<span>手动输入</span>`}
         </div>
         <div>
           <strong>${escapeHtml(modeLabel(mode))}</strong>

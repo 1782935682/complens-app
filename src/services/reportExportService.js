@@ -25,6 +25,7 @@ export function buildReportExportPayload(report) {
     report: {
       id: report.id,
       title: report.title,
+      productName: report.productName || '',
       category: report.category,
       categoryLabel: category.label,
       createdAt: report.createdAt,
@@ -63,12 +64,13 @@ export function buildReportMarkdown(report) {
     `# ${payload.report.title}`,
     [
       `- 类别：${payload.report.categoryLabel}`,
+      payload.report.productName ? `- 产品名称：${payload.report.productName}` : '',
       `- 保存时间：${formatExportDate(payload.report.createdAt)}`,
       `- 已匹配：${payload.report.matchedCount} 项`,
       `- 重点关注：${payload.highlightIngredients.length} 项`,
       `- 暂未收录：${payload.report.unknownItems.length + payload.report.missingIngredientIds.length} 项`,
       `- 过敏原命中：${allergenHitCount} 项`
-    ].join('\n'),
+    ].filter(Boolean).join('\n'),
     `## 整体说明\n${payload.report.summary}`,
     `## 原始成分表\n${payload.report.input}`
   ];

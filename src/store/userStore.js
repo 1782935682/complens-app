@@ -275,8 +275,8 @@ export function getAnalysisReportById(id) {
   return getAnalysisReports().find((report) => report.id === normalizedId) || null;
 }
 
-export function saveAnalysisReport(input, category = DEFAULT_CATEGORY) {
-  const report = createAnalysisReport(input, category);
+export function saveAnalysisReport(input, category = DEFAULT_CATEGORY, options = {}) {
+  const report = createAnalysisReport(input, category, options);
   if (!report) return null;
   const current = getAnalysisReports().filter((item) => item.id !== report.id);
   const sameCategory = [report, ...current.filter((item) => item.category === report.category)]
@@ -435,11 +435,12 @@ export function clearLocalUserData() {
   return getLocalDataSummary();
 }
 
-export function createAnalysisReport(input, category = DEFAULT_CATEGORY) {
+export function createAnalysisReport(input, category = DEFAULT_CATEGORY, options = {}) {
   const normalizedInput = String(input || '').trim();
   if (!normalizedInput) return null;
 
   const reportCategory = typeof category === 'string' && category ? category : DEFAULT_CATEGORY;
+  const productName = truncateText(options?.productName, 50);
   const analysis = analyzeIngredientText(normalizedInput, reportCategory);
   const userAllergenIds = getUserAllergens();
   const matchedIngredientIds = analysis.ingredients.map((ingredient) => ingredient.id).filter(Boolean);
@@ -462,7 +463,8 @@ export function createAnalysisReport(input, category = DEFAULT_CATEGORY) {
   const report = {
     id: createReportId(),
     category: reportCategory,
-    title: buildReportTitle(normalizedInput),
+    productName,
+    title: productName || buildReportTitle(normalizedInput),
     input: normalizedInput,
     createdAt: new Date().toISOString(),
     matchedCount: analysis.matchedCount,
@@ -740,7 +742,8 @@ function normalizeAnalysisReport(value) {
   const report = {
     id: normalizeReportId(value.id),
     category,
-    title: typeof value.title === 'string' && value.title.trim() ? value.title : buildReportTitle(value.input),
+    productName: truncateText(value.productName, 50),
+    title: typeof value.title === 'string' && value.title.trim() ? value.title : buildReportTitle(value.productName || value.input),
     input: value.input,
     createdAt: typeof value.createdAt === 'string' ? value.createdAt : new Date(0).toISOString(),
     matchedCount: Number.isFinite(value.matchedCount) ? value.matchedCount : matchedIngredientIds.length,

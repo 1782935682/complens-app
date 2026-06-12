@@ -151,7 +151,10 @@ export function sanitizeNativeSharePayload(payload) {
 
 function buildReportSharePath(report) {
   const input = String(report.input || '').trim();
-  return input ? `/analyze?text=${encodeURIComponent(input)}` : '/analyze';
+  if (!input) return '/analyze';
+  const params = new URLSearchParams({ text: input });
+  if (report.productName) params.set('productName', report.productName);
+  return `/analyze?${params.toString()}`;
 }
 
 function isInternalShareUrl(url) {
