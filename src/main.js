@@ -439,13 +439,21 @@ function bindPageEvents(route) {
 
   const clearLocalDataButton = document.querySelector('[data-clear-local-data]');
   if (clearLocalDataButton) {
-    clearLocalDataButton.addEventListener('click', () => {
+    clearLocalDataButton.addEventListener('click', async () => {
       const confirmed = typeof window.confirm === 'function'
         ? window.confirm('清空本机收藏、历史、过敏原、报告和扫描草稿？')
         : true;
       if (!confirmed) return;
 
+      const pending = getPendingScan();
       clearLocalUserData();
+      if (pending.pendingImageId) {
+        try {
+          await deleteImage(pending.pendingImageId);
+        } catch {
+          // Other local data has already been cleared; image cleanup is best-effort.
+        }
+      }
       syncAllergenForm(allergenForm, []);
       syncHistoryRecordingToggle(isHistoryRecordingEnabled());
       updateAllergenSettingsFeedback(0, '已清空');
