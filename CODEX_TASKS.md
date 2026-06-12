@@ -150,6 +150,8 @@
 
 | 批次 | 名称 | 完成日期 |
 |---|---|---|
+| Batch F-B | 历史列表与产品收藏管理 | ✅ 2026-06-12 |
+| Batch F-A | 产品档案与 IndexedDB 图片存储 | ✅ 2026-06-12 |
 | Batch R-A | 食品配料分析报告页 | ✅ 2026-06-12 |
 | Batch P-B | 数据库批量成分匹配 | ✅ 2026-06-12 |
 | Batch P-A | 配料表文本解析增强 | ✅ 2026-06-12 |
@@ -1456,7 +1458,7 @@ cd backend && npm run typecheck && npm test
 
 ### Batch F-B：历史列表与产品收藏管理 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 F-A 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **涉及文件**：
 - `src/pages/historyPage.js`（新建）
@@ -2146,7 +2148,7 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 
 ```
 → 无阻塞，Codex 可立即执行（按顺序）：
-  Batch F-B → Q-A → U-A → M-A → M-B
+  Batch Q-A → U-A → M-A → M-B
   → A-A（等 AI Key，只能做解释层）
 
 → 当前需要人工并行处理：
@@ -2167,8 +2169,8 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 【OCR 产品闭环（Codex 主线）】
 【已完成】O-A（拍照入口）→ O-D（图片预处理）→ O-B（OCR 抽象）→ O-C（文本确认）
 → P-A（配料解析）→ P-B（数据库匹配）
-【已完成】R-A（分析报告）→ F-A（产品档案）
-【下一步】F-B（历史收藏）→ Q-A（登录 UI）→ U-A（个性化）
+【已完成】R-A（分析报告）→ F-A（产品档案）→ F-B（历史收藏）
+【下一步】Q-A（登录 UI）→ U-A（个性化）
 → M-A（首页重构）→ M-B（PWA 优化）
 → A-A[人工+Codex，需 AI Key]
 

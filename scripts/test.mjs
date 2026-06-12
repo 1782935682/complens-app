@@ -13,6 +13,7 @@ import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderDetailPage, renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
+import { renderHistoryPage } from '../src/pages/historyPage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
 import { renderLegalPage } from '../src/pages/legalPage.js';
 import { renderMembershipPage } from '../src/pages/membershipPage.js';
@@ -109,8 +110,12 @@ assert.deepEqual(resolveRoute('#/food/report/report-123'), { view: 'report-detai
 assert.deepEqual(resolveRoute('#/report/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/food/products'), { view: 'products', category: 'food', query: '', page: 1 });
 assert.deepEqual(resolveRoute('#/food/products?q=%E9%A5%BC%E5%B9%B2&page=2'), { view: 'products', category: 'food', query: '饼干', page: 2 });
+assert.deepEqual(resolveRoute('#/food/history'), { view: 'history', category: 'food', query: '', filter: 'all' });
+assert.deepEqual(resolveRoute('#/food/history?q=%E9%A5%BC%E5%B9%B2&filter=favorite'), { view: 'history', category: 'food', query: '饼干', filter: 'favorite' });
+assert.deepEqual(resolveRoute('#/history'), { view: 'history', category: 'food', query: '', filter: 'all' });
 assert.deepEqual(resolveRoute('#/food/product/product-123'), { view: 'product-detail', category: 'food', id: 'product-123' });
 assert.deepEqual(resolveRoute('#/product/product-123'), { view: 'product-detail', category: 'food', id: 'product-123' });
+assert.deepEqual(resolveRoute('#/food/favorites?tab=products'), { view: 'favorites', category: 'food', tab: 'products' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
 assert.deepEqual(resolveRoute('#/search?q=BHA'), {
   view: 'search',
@@ -139,6 +144,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠�
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82')), '卵磷脂 报告检索 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/products')), '产品档案 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/history')), '分析历史 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
@@ -147,6 +153,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'analyze', href: '#/food/analyze', active: false },
   { key: 'data', href: '#/food/data', active: false },
   { key: 'reports', href: '#/food/reports', active: false },
+  { key: 'history', href: '#/food/history', active: false },
   { key: 'favorites', href: '#/food/favorites', active: false },
   { key: 'membership', href: '#/food/membership', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
@@ -158,6 +165,7 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/cosmetics/analyze')), [
   { key: 'analyze', href: '#/cosmetics/analyze', active: true },
   { key: 'data', href: '#/cosmetics/data', active: false },
   { key: 'reports', href: '#/cosmetics/reports', active: false },
+  { key: 'history', href: '#/cosmetics/history', active: false },
   { key: 'favorites', href: '#/cosmetics/favorites', active: false },
   { key: 'membership', href: '#/cosmetics/membership', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: false }
@@ -169,12 +177,14 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), 
   { key: 'analyze', href: '#/food/analyze', active: false },
   { key: 'data', href: '#/food/data', active: false },
   { key: 'reports', href: '#/food/reports', active: true },
+  { key: 'history', href: '#/food/history', active: false },
   { key: 'favorites', href: '#/food/favorites', active: false },
   { key: 'membership', href: '#/food/membership', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
-assert.equal(getNavigationLinks(resolveRoute('#/food/products')).find((item) => item.key === 'reports').active, true);
-assert.equal(getNavigationLinks(resolveRoute('#/food/product/product-123')).find((item) => item.key === 'reports').active, true);
+assert.equal(getNavigationLinks(resolveRoute('#/food/products')).find((item) => item.key === 'history').active, true);
+assert.equal(getNavigationLinks(resolveRoute('#/food/product/product-123')).find((item) => item.key === 'history').active, true);
+assert.equal(getNavigationLinks(resolveRoute('#/food/history')).find((item) => item.key === 'history').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/onboarding')).find((item) => item.key === 'settings').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/legal')).find((item) => item.key === 'settings').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'membership').active, true);
@@ -184,20 +194,20 @@ assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
   { key: 'home', href: '#/food', active: true },
   { key: 'scan', href: '#/food/scan', active: false },
   { key: 'search', href: '#/food/search', active: false },
-  { key: 'favorites', href: '#/food/favorites', active: false },
+  { key: 'history', href: '#/food/history', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/cosmetics/settings')), [
   { key: 'home', href: '#/cosmetics', active: false },
   { key: 'scan', href: '#/cosmetics/scan', active: false },
   { key: 'search', href: '#/cosmetics/search', active: false },
-  { key: 'favorites', href: '#/cosmetics/favorites', active: false },
+  { key: 'history', href: '#/cosmetics/history', active: false },
   { key: 'settings', href: '#/cosmetics/settings', active: true }
 ]);
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'settings').active, true);
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/legal/privacy')).find((item) => item.key === 'settings').active, true);
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/support')).find((item) => item.key === 'settings').active, true);
-assert.equal(getMobileNavigationLinks(resolveRoute('#/food/compare')).find((item) => item.key === 'favorites').active, true);
+assert.equal(getMobileNavigationLinks(resolveRoute('#/food/history')).find((item) => item.key === 'history').active, true);
 const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
 assert.equal(packageJson.scripts.dev, 'vite');
 assert.equal(packageJson.scripts.build, 'vite build');
@@ -418,16 +428,19 @@ assert.match(indexHtml, /rel="manifest" href="\.\/manifest\.webmanifest"/);
 assert.match(indexHtml, /name="apple-mobile-web-app-capable" content="yes"/);
 assert.match(indexHtml, /data-mobile-nav-key="home"/);
 assert.match(indexHtml, /data-mobile-nav-key="scan"/);
+assert.match(indexHtml, /data-mobile-nav-key="history"/);
 assert.match(indexHtml, /data-nav-key="compare"/);
 assert.match(indexHtml, /data-nav-key="scan"/);
 assert.match(indexHtml, /data-nav-key="data"/);
 assert.match(indexHtml, /data-nav-key="reports"/);
+assert.match(indexHtml, /data-nav-key="history"/);
 assert.match(indexHtml, /data-nav-key="membership"/);
 assert.match(indexHtml, /href="#\/food\/legal"/);
 assert.match(indexHtml, /data-shell-legal-link/);
 const stylesCss = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
 assert.match(stylesCss, /padding-bottom: max\(env\(safe-area-inset-bottom, 0px\), 1rem\)/);
 assert.match(stylesCss, /\.scan-source-button/);
+assert.match(stylesCss, /touch-action: pan-y/);
 const appManifest = JSON.parse(await readFile(new URL('../public/manifest.webmanifest', import.meta.url), 'utf8'));
 assert.equal(appManifest.display, 'standalone');
 assert.equal(appManifest.start_url, './#/food');
@@ -457,6 +470,9 @@ assert.match(mainJs, /getPendingScanForReport\(route\)/);
 assert.match(mainJs, /imageId: pending\?\.pendingImageId/);
 assert.match(mainJs, /clearPendingScan\(\)/);
 assert.match(mainJs, /hydrateProductArchiveImage\(route, renderVersion\)/);
+assert.match(mainJs, /data-history-search-form/);
+assert.match(mainJs, /data-clear-product-history/);
+assert.match(mainJs, /bindHistorySwipeActions\(\)/);
 assert.match(mainJs, /\['cancelled', 'empty'\]\.includes\(result\.reason\)/);
 assert.match(mainJs, /dataUrlToBlob\(result\.dataUrl, result\.mimeType\)/);
 assert.match(mainJs, /new File\(\[blob\], fileName/);
@@ -489,7 +505,7 @@ assert.match(nativeBridgeServiceJs, /getBase64ByteSize\(photo\.base64String\)/);
 assert.match(nativeBridgeServiceJs, /Share\.share/);
 assert.match(nativeBridgeServiceJs, /if \(payload\.url\) shareOptions\.url = payload\.url/);
 const serviceWorkerJs = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v18'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v19'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/manifest\.webmanifest/);
 assert.match(serviceWorkerJs, /\.\/app-icon\.svg/);
@@ -1892,6 +1908,30 @@ assert.match(reportDetailWithProductHtml, /查看产品档案/);
 assert.doesNotMatch(reportDetailWithProductHtml, /保存为产品档案/);
 assert.equal(toggleProductArchiveFavorite(archivedProduct.id).isFavorite, true);
 assert.equal(getProductArchives({ category: 'food', isFavorite: true }).length, 1);
+const historyHtml = renderHistoryPage('food');
+assert.match(historyHtml, /分析历史/);
+assert.match(historyHtml, /data-history-swipe=/);
+assert.match(historyHtml, /data-delete-product-archive=/);
+assert.match(historyHtml, /测试饼干/);
+assert.match(historyHtml, /data:image\/jpeg;base64,AAA=/);
+assert.match(historyHtml, /项需关注/);
+assert.match(historyHtml, /filter=favorite/);
+assert.match(historyHtml, /filter=concern/);
+assert.match(renderHistoryPage('food', '饼干'), /1 条匹配/);
+assert.match(renderHistoryPage('food', '', 'favorite'), /测试饼干/);
+assert.match(renderRoute(resolveRoute('#/food/history?q=%E9%A5%BC%E5%B9%B2&filter=favorite')), /测试饼干/);
+const emptyHistoryHtml = renderHistoryPage('food', '不存在产品');
+assert.match(emptyHistoryHtml, /data-empty-history/);
+assert.match(emptyHistoryHtml, /去拍照识别/);
+const favoriteProductsHtml = renderRoute(resolveRoute('#/food/favorites?tab=products'));
+assert.match(favoriteProductsHtml, /收藏产品/);
+assert.match(favoriteProductsHtml, /data-favorite-product-card/);
+assert.match(favoriteProductsHtml, /测试饼干/);
+const homeHtmlWithProducts = renderHomePage('food');
+assert.match(homeHtmlWithProducts, /data-recent-products/);
+assert.match(homeHtmlWithProducts, /查看全部历史 →/);
+assert.match(homeHtmlWithProducts, /href="#\/food\/history"/);
+assert.match(homeHtmlWithProducts, /测试饼干/);
 clearProductArchives();
 const overLimitProducts = Array.from({ length: MAX_PRODUCT_ARCHIVES + 2 }, (_, index) => ({
   ...archivedProduct,

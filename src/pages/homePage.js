@@ -1,6 +1,8 @@
 import { categoryPath, getProductCategory, productCategories } from '../data/categories.js';
 import { escapeHtml, ingredientCard, html } from '../components/render.js';
 import { getDatasetAuditSummary, getIngredientCategorySummaries, getPopularIngredients } from '../services/ingredientService.js';
+import { getProductArchives } from '../services/productArchiveService.js';
+import { riskGradeLabel } from '../services/reportService.js';
 import { getAnalysisReports, getFavoriteIngredients, getHistory, isHistoryRecordingEnabled, shouldShowOnboardingPrompt } from '../store/userStore.js';
 import { renderOnboardingPrompt } from './onboardingPage.js';
 
@@ -11,6 +13,7 @@ export function renderHomePage(category = 'food') {
   const historyRecordingEnabled = isHistoryRecordingEnabled();
   const favorites = getFavoriteIngredients(category);
   const reports = getAnalysisReports(category);
+  const recentProducts = getProductArchives({ category }).slice(0, 4);
   const ingredientCategories = getIngredientCategorySummaries(category);
   const auditSummary = getDatasetAuditSummary(category);
 
@@ -55,6 +58,8 @@ export function renderHomePage(category = 'food') {
       </a>
     </section>
 
+    ${recentProducts.length ? renderRecentProducts(category, recentProducts) : ''}
+
     ${category === 'food' ? renderDatasetAuditSummary(auditSummary) : ''}
 
     <section class="section">
@@ -89,6 +94,20 @@ export function renderHomePage(category = 'food') {
   `;
 }
 
+function renderRecentProducts(category, products) {
+  return html`
+    <section class="section recent-products" data-recent-products>
+      <div class="section__head">
+        <h2>最近分析产品</h2>
+        <a class="inline-link" href="#${categoryPath(category, '/history')}" data-route>查看全部历史 →</a>
+      </div>
+      <div class="recent-product-strip">
+        ${products.map(recentProductCard).join('')}
+      </div>
+    </section>
+  `;
+}
+
 function renderDatasetAuditSummary(summary) {
   return html`
     <section class="section data-status" aria-label="数据状态" data-dataset-audit>
@@ -114,6 +133,31 @@ function renderAuditMetric(value, label) {
       <span>${escapeHtml(label)}</span>
     </div>
   `;
+}
+
+function recentProductCard(product) {
+  return html`
+    <a class="recent-product-card" href="#${categoryPath(product.category, `/product/${product.id}`)}" data-route>
+      <span class="recent-product-card__thumb">
+        ${product.thumbnailDataUrl
+          ? html`<img src="${escapeHtml(product.thumbnailDataUrl)}" alt="${escapeHtml(product.productName)}缩略图" />`
+          : html`<span>无图</span>`}
+      </span>
+      <span class="recent-product-card__body">
+        <strong>${escapeHtml(product.productName)}</strong>
+        <span>${formatRecentProductDate(product.createdAt)} · ${escapeHtml(product.riskGrade)} ${escapeHtml(riskGradeLabel(product.riskGrade))}</span>
+      </span>
+    </a>
+  `;
+}
+
+function formatRecentProductDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '日期未知';
+  return date.toLocaleDateString('zh-CN', {
+    month: '2-digit',
+    day: '2-digit'
+  });
 }
 
 function renderCategoryChip(item, category) {

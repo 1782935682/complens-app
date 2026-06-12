@@ -6,7 +6,7 @@ import { fetchIngredientById, fetchIngredientSearch } from './services/ingredien
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { getCompareOverview } from './services/compareService.js';
-import { deleteProductArchive, getProductArchiveById, saveProductArchiveFromReport, toggleProductArchiveFavorite } from './services/productArchiveService.js';
+import { clearProductArchives, deleteProductArchive, getProductArchiveById, saveProductArchiveFromReport, toggleProductArchiveFavorite } from './services/productArchiveService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, sharePayloadWithFallback } from './services/shareService.js';
 import { getNativePhoto, isNativePlatform } from './services/nativeBridgeService.js';
@@ -257,6 +257,20 @@ function bindPageEvents(route) {
     });
   });
 
+  document.querySelectorAll('[data-history-search-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const query = String(formData.get('q') || '').trim();
+      const filter = String(formData.get('filter') || '').trim();
+      const params = new URLSearchParams();
+      if (query) params.set('q', query);
+      if (filter && filter !== 'all') params.set('filter', filter);
+      const suffix = params.toString();
+      navigate(`#${categoryPath(route.category, '/history')}${suffix ? `?${suffix}` : ''}`);
+    });
+  });
+
   bindScanPageEvents(route);
   bindOcrConfirmEvents(route);
 
@@ -371,6 +385,18 @@ function bindPageEvents(route) {
       }
     });
   });
+
+  const clearProductHistoryButton = document.querySelector('[data-clear-product-history]');
+  if (clearProductHistoryButton) {
+    clearProductHistoryButton.addEventListener('click', () => {
+      const confirmed = typeof window.confirm === 'function'
+        ? window.confirm('清空当前类别的分析历史？收藏产品也会被删除。')
+        : true;
+      if (!confirmed) return;
+      clearProductArchives(clearProductHistoryButton.dataset.clearProductHistory || route.category);
+      render();
+    });
+  }
 
   document.querySelectorAll('[data-delete-report]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -660,6 +686,51 @@ function bindPageEvents(route) {
       navigate(`#${categoryPath(state.preferredCategory)}`);
     });
   }
+
+  bindHistorySwipeActions();
+}
+
+function bindHistorySwipeActions() {
+  document.querySelectorAll('[data-history-swipe]').forEach((card) => {
+    const surface = card.querySelector('.history-card__surface');
+    if (!surface) return;
+
+    let startX = 0;
+    let startY = 0;
+    let deltaX = 0;
+    let tracking = false;
+
+    surface.addEventListener('touchstart', (event) => {
+      if (event.touches.length !== 1) return;
+      tracking = true;
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+      deltaX = 0;
+      surface.style.transition = 'none';
+      card.classList.remove('is-swipe-open');
+    }, { passive: true });
+
+    surface.addEventListener('touchmove', (event) => {
+      if (!tracking || event.touches.length !== 1) return;
+      const nextDeltaX = event.touches[0].clientX - startX;
+      const deltaY = event.touches[0].clientY - startY;
+      if (Math.abs(deltaY) > Math.abs(nextDeltaX)) return;
+      deltaX = nextDeltaX;
+      const translateX = Math.max(-88, Math.min(0, deltaX));
+      surface.style.transform = `translateX(${translateX}px)`;
+    }, { passive: true });
+
+    const finishSwipe = () => {
+      if (!tracking) return;
+      tracking = false;
+      surface.style.transition = '';
+      surface.style.transform = '';
+      card.classList.toggle('is-swipe-open', deltaX < -64);
+    };
+
+    surface.addEventListener('touchend', finishSwipe, { passive: true });
+    surface.addEventListener('touchcancel', finishSwipe, { passive: true });
+  });
 }
 
 function bindScanPageEvents(route) {
