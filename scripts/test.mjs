@@ -2254,6 +2254,20 @@ assert.match(reportDetailHtml, /过敏原命中/);
 assert.match(reportDetailHtml, /全脂奶粉/);
 assert.match(reportDetailHtml, /href="#\/food\/analyze\?text=/);
 assert.match(reportDetailHtml, /productName=/);
+const legacyScopeReport = createAnalysisReport('焦亚硫酸钠', 'food', { productName: '旧报告来源范围' });
+legacyScopeReport.id = 'legacy-source-scope-report';
+legacyScopeReport.title = '旧报告来源范围';
+legacyScopeReport.matchResults = legacyScopeReport.matchResults.map((item) => ({
+  ...item,
+  match: item.match?.id === 'sodium-metabisulfite'
+    ? { ...item.match, sourceScope: 'unknown' }
+    : item.match
+}));
+writeJson('compcheck:analysis-reports', [legacyScopeReport, savedReport]);
+const legacyScopeReportHtml = renderRoute(resolveRoute(`#/food/reports/${legacyScopeReport.id}`));
+assert.match(legacyScopeReportHtml, /来源范围：种子参考/);
+assert.doesNotMatch(legacyScopeReportHtml, /来源范围：未知/);
+writeJson('compcheck:analysis-reports', [savedReport]);
 const personalSearchHtml = renderSearchPage('碳酸氢钠', 'food');
 assert.match(personalSearchHtml, /personal-badge--watch/);
 assert.match(personalSearchHtml, /你关注的/);
