@@ -40,6 +40,8 @@ import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatfo
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
 import { clearMatchCache, matchIngredients, matchIngredientsLocal } from '../src/services/ingredientMatchService.js';
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
+
+const seedSourceName = 'GB 2760 / Codex INS / JECFA / EU Food Additives Database seed references';
 import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
@@ -90,7 +92,15 @@ assert.deepEqual(resolveRoute('#/food/analyze?text=%E6%9F%A0%E6%AA%AC%E9%85%B8&p
 assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
 assert.deepEqual(resolveRoute('#/food/ocr-confirm'), { view: 'ocr-confirm', category: 'food' });
-assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food' });
+assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food', filters: { source: '', confidenceLevel: '' } });
+assert.deepEqual(resolveRoute(`#/food/data?source=${encodeURIComponent(seedSourceName)}&confidenceLevel=unverified`), {
+  view: 'data',
+  category: 'food',
+  filters: {
+    source: seedSourceName,
+    confidenceLevel: 'unverified'
+  }
+});
 assert.deepEqual(resolveRoute('#/food/onboarding'), { view: 'onboarding', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/legal'), { view: 'legal', category: 'food', documentId: '' });
 assert.deepEqual(resolveRoute('#/food/legal/privacy'), { view: 'legal', category: 'food', documentId: 'privacy' });
@@ -346,6 +356,9 @@ assert.match(backendDbSchema, /ingredients_description_trgm_idx/);
 assert.match(backendDbSchema, /ingredients_aliases_gin_idx/);
 assert.match(backendDbSchema, /sourceName: text\('source_name'\)\.notNull\(\)/);
 assert.match(backendDbSchema, /confidenceLevel: text\('confidence_level'\)\.notNull\(\)/);
+assert.match(backendDbSchema, /reviewedBy: text\('reviewed_by'\)\.notNull\(\)\.default\('system'\)/);
+assert.match(backendDbSchema, /reviewedAt: timestamp\('reviewed_at', \{ withTimezone: true \}\)\.notNull\(\)\.defaultNow\(\)/);
+assert.match(backendDbSchema, /changeNote: text\('change_note'\)\.notNull\(\)\.default\('seed import'\)/);
 assert.match(backendDbSchema, /isVerified: boolean\('is_verified'\)\.notNull\(\)\.default\(false\)/);
 const backendIngredientsRoute = await readFile(new URL('../backend/src/routes/ingredients.ts', import.meta.url), 'utf8');
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients'/);
@@ -357,7 +370,9 @@ assert.equal(backendIngredientsRoute.indexOf("route.get('/ingredients/search'") 
 assert.match(backendIngredientsRoute, /never interpreted as an ingredient id/);
 assert.match(backendIngredientsRoute, /invalid_parameter/);
 assert.match(backendIngredientsRoute, /sort must be one of relevance, risk, name/);
+assert.match(backendIngredientsRoute, /confidenceLevel must be one of high, medium, low, unverified/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
+assert.match(backendIngredientServiceSource, /eq\(ingredients\.confidenceLevel, params\.confidenceLevel\)/);
 assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 4);
 assert.match(backendIngredientServiceSource, /validSearchSorts = \['relevance', 'risk', 'name'\]/);
 assert.match(backendIngredientServiceSource, /batchSearch\(params\)/);
@@ -995,6 +1010,12 @@ const dataPageHtml = renderRoute(resolveRoute('#/food/data'));
 assert.match(dataPageHtml, /数据来源与审核状态/);
 assert.match(dataPageHtml, /data-dataset-detail/);
 assert.match(dataPageHtml, /100 条[\s\S]*当前记录/);
+assert.match(dataPageHtml, /data-data-filter-form/);
+assert.match(dataPageHtml, /name="source"/);
+assert.match(dataPageHtml, /name="confidenceLevel"/);
+assert.match(dataPageHtml, /100%[\s\S]*待审核/);
+assert.match(dataPageHtml, /可信等级/);
+assert.match(dataPageHtml, /待审核/);
 assert.match(dataPageHtml, /4 个来源/);
 assert.match(dataPageHtml, /食品安全国家标准 食品添加剂使用标准/);
 assert.match(dataPageHtml, /GB 2760/);
@@ -1004,6 +1025,11 @@ assert.match(dataPageHtml, /href="#\/food\/search\?ingredientCategory=%E9%85%B8%
 assert.match(dataPageHtml, /data-dataset-correction-link/);
 assert.match(dataPageHtml, /href="#\/food\/support\?topic=data-correction/);
 assert.match(dataPageHtml, /%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90%E6%88%96%E5%AE%A1%E6%A0%B8%E7%8A%B6%E6%80%81%E9%9C%80%E8%A6%81%E6%A0%B8%E5%AF%B9/);
+const filteredDataPageHtml = renderRoute(resolveRoute(`#/food/data?source=${encodeURIComponent(seedSourceName)}&confidenceLevel=unverified`));
+assert.match(filteredDataPageHtml, /当前筛选 100 \/ 100 条记录/);
+assert.match(filteredDataPageHtml, /value="GB 2760 \/ Codex INS \/ JECFA \/ EU Food Additives Database seed references" selected/);
+assert.match(filteredDataPageHtml, /value="unverified" selected/);
+assert.match(filteredDataPageHtml, /href="#\/food\/data"[\s\S]*清除/);
 assert.match(renderDataPage('cosmetics'), /当前类别含 8 条原型数据/);
 const searchHtmlWithSuggestions = renderSearchPage('E330', 'food');
 assert.match(searchHtmlWithSuggestions, /data-search-suggestions/);

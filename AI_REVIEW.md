@@ -1,39 +1,34 @@
-# AI Review - 2026-06-12 M-B PWA 体验优化与离线能力
+# AI Review - 2026-06-12 Data 1-C 数据版本与审核状态
 
 ## 本轮目标
 
-按 `CODEX_TASKS.md` 当前批次推进：
+按 `CODEX_TASKS.md` 当前可执行批次推进：
 
-- Batch M-B：PWA 体验优化与离线能力
+- Data Batch 1-C：数据版本管理与审核状态后台化
 
-本批次不处理真实 OCR Key、真实 AI Key、生产数据库、自动部署、远程服务器操作、支付订阅、商店上架、iOS/Android 签名、官方数据逐条审核和生产图片/CDN 存储。
+本批次不处理官方来源逐条审核、真实 OCR Key、真实 AI Key、生产数据库、自动部署、远程服务器操作、支付订阅、商店上架、iOS/Android 签名或生产图片/CDN 存储。
 
 ## 本轮完成
 
-1. `public/manifest.webmanifest` 更新为“成分镜”安装信息，补 `id`、`display_override`、`orientation`、类别、语言方向、扫描/搜索快捷方式和 72-512 多尺寸 PNG 图标。
-2. 基于现有 SVG 图标生成 `public/icons/icon-72.png`、`icon-96.png`、`icon-128.png`、`icon-144.png`、`icon-152.png`、`icon-192.png`、`icon-384.png`、`icon-512.png`。
-3. `public/sw.js` 更新到 `compcheck-shell-v24`，区分 app shell、成分 API、用户 API、OCR API、图片/图标和其他请求策略，并在 install 阶段解析 `index.html` 预热 Vite 产物 JS/CSS；运行时刷新 HTML 前会先缓存新 HTML 引用的 Vite bundles，图片/图标请求可回退读取 shell 预缓存，避免首次离线启动只有 HTML、图标缺失或 hash bundle 缺失。
-4. OCR API 保持 `network-only`，避免缓存识别图片或识别结果；登录态 auth/user API 同样不写入 Cache Storage，避免共享设备串读账号数据；成分 API 采用 network-first，并在离线时返回缓存或明确离线响应。
-5. `src/index.html` 新增全局离线横幅、PWA 安装提示容器、iOS `black-translucent` 状态栏、`成分镜` Apple Web App 标题和 Apple touch icon。
-6. `src/main.js` 新增 `navigator.onLine` 离线状态监听、离线横幅高度变量、banner `ResizeObserver` 重算、`beforeinstallprompt` 捕获、第三次打开后的安装提示、iOS 添加到主屏幕指引和安装/关闭状态持久化。
-7. `src/styles.css` 补 `100dvh` 高度兜底、顶部 safe-area 补偿、离线横幅/header sticky 遮挡修复、iOS 输入框 16px zoom 修复、安装提示和设置页离线能力列表样式。
-8. `src/pages/settingsPage.js` 新增“离线与安装”区块，列出本机历史报告、收藏与本机档案、OCR、账号与云同步的离线/联网边界。
-9. 新建 `docs/pwa-offline-capability.md`，说明离线能力矩阵、service worker 策略、安装提示和人工验收步骤。
-10. `scripts/test.mjs` 补 manifest、iOS meta、safe-area、离线横幅/header offset、安装提示、service worker v24 策略、Vite bundle 预缓存、HTML 更新前 bundle 缓存、图片/图标 shell cache 回退、登录态 API 不缓存、设置页离线说明和 PWA 文档断言。
-11. `CODEX_TASKS.md` 和 `PROJECT_PLAN.md` 已同步：M-B 标记完成，整体产品进度更新为 46%，下一项为等待 AI API Key 的 A-A。
+1. `backend/src/db/schema.ts` 为 `ingredients` 新增 `reviewed_by`、`reviewed_at`、`change_note`，并为 `confidence_level`、`data_version` 新增索引。
+2. 新增 Drizzle migration `backend/src/db/migrations/0006_cute_leo.sql` 和对应 meta snapshot。
+3. `backend/src/routes/ingredients.ts` 支持 `confidenceLevel=high|medium|low|unverified`，非法值返回 `400 invalid_parameter`。
+4. `backend/src/services/ingredientService.ts` 在列表/search 查询中按 `confidenceLevel` 过滤；seed upsert 支持导入审计选项，并在已有记录版本变化时才更新 `change_note` 和 `reviewed_at`。
+5. `backend/scripts/seed.ts` 支持 `--version`、`--reviewed-by`、`--change-note` 参数，并输出本次导入版本。
+6. `src/services/ingredientApiService.js` 会把前端筛选中的 `confidenceLevel` 传给后端 API。
+7. `src/pages/dataPage.js` 新增来源和可信等级筛选，展示可信等级统计、待审核比例、筛选后的版本/来源/分类摘要。
+8. `src/router/router.js` 和 `src/main.js` 支持 `/data?source=...&confidenceLevel=...` 的 hash query 与筛选表单交互。
+9. `scripts/test.mjs` 和 `backend/tests/ingredients.test.ts` 补充后端字段、API 参数、数据页筛选和 seed 审计字段断言。
+10. `CODEX_TASKS.md`、`PROJECT_PLAN.md`、`COMMANDS.md`、`DATA_SOURCES.md` 已同步。本批次标记完成，整体产品进度更新为 47%。
 
 ## 人工接入点
 
 | 阻塞项 | 状态 | 需要用户提供 |
 |---|---|---|
-| Lighthouse PWA 检查 | needs_browser_tooling | 在浏览器 Lighthouse 中确认 PWA 得分、manifest、service worker 和离线启动结果 |
-| iPhone Safari 添加到主屏幕验收 | needs_manual_device | 真机截图或反馈，确认状态栏、`100dvh`、输入框 zoom、底部 tabbar 和安装后启动表现 |
-| Android Chrome 安装与 shortcuts 验收 | needs_manual_device | 真机确认第三次打开后的安装提示、添加到主屏幕、长按图标快捷方式 |
-| 离线/弱网浏览器验收 | needs_manual_or_tooling | DevTools offline/slow 3G 或真机弱网结果，确认历史/收藏可看、OCR 和云同步会提示联网 |
 | Data Batch 1-B 官方来源导入 | blocked_by_user | 官方来源清单、10-20 条逐条审核样例、可升级为 reviewed/verified 的条目 |
+| 生产 DATABASE_URL | blocked_by_user | 生产 PostgreSQL 平台、连接串、备份和发布策略 |
 | OCR API Key | blocked_by_user | 选定 OCR 供应商、服务端 API Key、额度和错误策略 |
 | AI API Key | blocked_by_user | 选定 AI 供应商、服务端 API Key、成本上限和提示边界 |
-| 生产 DATABASE_URL | blocked_by_user | 生产 PostgreSQL 平台、连接串、备份和发布策略 |
 
 ## 验证结果
 
@@ -42,20 +37,26 @@ npm run validate:data
 npm run lint
 npm run test
 npm run build
+cd backend && npm run typecheck
+cd backend && npm test
+cd backend && npm run build
+cd backend && npm run db:migrate
+cd backend && npm run db:seed -- --version 2026-06-v1 --reviewed-by system --change-note "Data 1-C verification"
+curl http://127.0.0.1:3000/health
+curl "http://127.0.0.1:3000/api/ingredients?confidenceLevel=unverified&limit=5"
+curl -i "http://127.0.0.1:3000/api/ingredients?confidenceLevel=trusted&limit=5"
 git diff --check
-codex review --uncommitted
 ```
 
-以上已通过。`codex review --uncommitted` 已发现并推动修复登录态 API 缓存隔离、iOS 顶部 safe-area、Vite bundle 首次离线预缓存、运行时 HTML 更新前 bundle 缓存、图片/图标 shell cache 回退、离线横幅遮挡 header 和 iOS 安装标题不一致问题；远端 DeepSeek/百炼 review 后补充修复了统一 cache suffix、导航 revalidate 固定拉取 `index.html`、离线横幅改用 banner `ResizeObserver` 重算和 iOS 安装提示持久 dismiss 争议。本轮未运行 Lighthouse、真机安装、浏览器截图、axe 或完整 E2E 验收；这些仍需要人工或后续专项环境接入。
+以上已通过。数据库验证前发现本地 Docker PostgreSQL 旧卷密码与仓库 `.env` 默认值不一致，已将本机 dev 容器的 `postgres` 密码恢复为 `password` 后重跑迁移和 seed。API 验证显示 `confidenceLevel=unverified` 返回 100 条总量，非法 `trusted` 返回 `400 invalid_parameter`。
 
 ## 当前风险
 
-1. M-B 只完成 Web/PWA 层面的安装和离线基础，不代表 iOS/Android 原生工程、签名或商店上架完成。
-2. service worker 只为非登录态 GET 请求提供缓存兜底；离线写入、冲突解决和同步队列仍未实现。
-3. 安装提示受浏览器限制，`beforeinstallprompt` 不一定每次触发；iOS 仍需要用户通过分享菜单手动添加到主屏幕。
-4. PNG 图标基于当前 SVG 生成，可以满足 PWA 安装测试，但正式商店素材和 1024x1024 App Icon 仍需人工设计/验收。
-5. OCR、AI、生产数据库、官方数据审核和跨设备图片恢复仍未完成。
+1. `reviewed_by`、`reviewed_at`、`change_note` 只是导入和审核状态基础设施，不代表当前 seed 已完成官方法规审核。
+2. 当前 100 条食品添加剂仍全部是 `confidenceLevel: "unverified"`、`isVerified: false`。
+3. 生产数据库、备份、发布审计和审核后台仍未完成。
+4. `/data` 页筛选基于当前 seed 和本地聚合，仍需要后续后台化审核流支撑正式数据治理。
 
 ## 下一步
 
-当前没有无阻塞的 Codex 可直接执行批次。下一项 `Batch A-A：AI 解释层集成` 需要先人工提供 AI API Key 和成本边界。
+当前没有无阻塞的 Codex 可直接执行批次。下一项 `Batch A-A：AI 解释层集成` 需要先人工提供 AI API Key 和成本边界；`Data Batch 1-B` 仍需要人工提供官方来源清单和逐条审核样例。

@@ -39,6 +39,9 @@
  * @property {SourceReference[]=} sourceReferences
  * @property {DataReviewStatus=} reviewStatus
  * @property {string=} dataVersion
+ * @property {string=} reviewedBy
+ * @property {string=} reviewedAt
+ * @property {string=} changeNote
  * @property {string=} updatedAt
  * @property {string=} sourceName
  * @property {SourceType=} sourceType
@@ -66,6 +69,9 @@
  *   sourceReferences: SourceReference[],
  *   reviewStatus: DataReviewStatus,
  *   dataVersion: string,
+ *   reviewedBy?: string,
+ *   reviewedAt?: string,
+ *   changeNote?: string,
  *   updatedAt: string,
  *   sourceName: string,
  *   sourceType: SourceType,

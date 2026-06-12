@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
-import type { IngredientService, RiskLevel, SearchSort } from '../services/ingredientService.js';
-import { isRiskLevel, isSearchSort } from '../services/ingredientService.js';
+import type { ConfidenceLevel, IngredientService, RiskLevel, SearchSort } from '../services/ingredientService.js';
+import { isConfidenceLevel, isRiskLevel, isSearchSort } from '../services/ingredientService.js';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 20;
@@ -100,6 +100,11 @@ function parseListQuery(query: Record<string, string>) {
     return invalidParameter('riskLevel', 'riskLevel must be one of low, medium, high, unknown');
   }
 
+  const confidenceLevel = query.confidenceLevel?.trim();
+  if (confidenceLevel && !isConfidenceLevel(confidenceLevel)) {
+    return invalidParameter('confidenceLevel', 'confidenceLevel must be one of high, medium, low, unverified');
+  }
+
   const sort = query.sort?.trim();
   if (sort && !isSearchSort(sort)) {
     return invalidParameter('sort', 'sort must be one of relevance, risk, name');
@@ -111,6 +116,7 @@ function parseListQuery(query: Record<string, string>) {
       q: normalizeOptionalQuery(query.q),
       category: normalizeOptionalQuery(query.category),
       riskLevel: riskLevel as RiskLevel | undefined,
+      confidenceLevel: confidenceLevel as ConfidenceLevel | undefined,
       sort: sort as SearchSort | undefined,
       page: page.value,
       limit: limit.value

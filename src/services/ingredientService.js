@@ -44,10 +44,10 @@ export function getSearchFilterOptions(category = 'cosmetics') {
   return { riskLevels, categories };
 }
 
-export function getIngredientCategorySummaries(category = 'cosmetics') {
+export function getIngredientCategorySummaries(category = 'cosmetics', itemsOverride = null) {
   const summaries = new Map();
 
-  for (const ingredient of getDatasetByCategory(category).items) {
+  for (const ingredient of itemsOverride || getDatasetByCategory(category).items) {
     const name = ingredient.category;
     if (!name) continue;
     const summary = summaries.get(name) || {
@@ -69,10 +69,11 @@ export function getCategoryStats(category = 'cosmetics') {
   return getIngredientCategorySummaries(category);
 }
 
-export function getDatasetAuditSummary(category = 'cosmetics') {
-  const items = getDatasetByCategory(category).items;
+export function getDatasetAuditSummary(category = 'cosmetics', itemsOverride = null) {
+  const items = itemsOverride || getDatasetByCategory(category).items;
   const categoryNames = new Set();
   const reviewCounts = { draft: 0, reviewed: 0, verified: 0, unknown: 0 };
+  const confidenceCounts = { high: 0, medium: 0, low: 0, unverified: 0, unknown: 0 };
   let withSourcesCount = 0;
   let withUsageLimitsCount = 0;
   let restrictedCount = 0;
@@ -81,6 +82,8 @@ export function getDatasetAuditSummary(category = 'cosmetics') {
     if (ingredient.category) categoryNames.add(ingredient.category);
     const reviewStatus = ['draft', 'reviewed', 'verified'].includes(ingredient.reviewStatus) ? ingredient.reviewStatus : 'unknown';
     reviewCounts[reviewStatus] += 1;
+    const confidenceLevel = ['high', 'medium', 'low', 'unverified'].includes(ingredient.confidenceLevel) ? ingredient.confidenceLevel : 'unknown';
+    confidenceCounts[confidenceLevel] += 1;
     if (Array.isArray(ingredient.sourceReferences) && ingredient.sourceReferences.length) withSourcesCount += 1;
     if (Array.isArray(ingredient.usageLimits) && ingredient.usageLimits.length) withUsageLimitsCount += 1;
     if (ingredient.gbStatus === 'restricted') restrictedCount += 1;
@@ -97,6 +100,8 @@ export function getDatasetAuditSummary(category = 'cosmetics') {
     reviewedCount: reviewCounts.reviewed,
     verifiedCount: reviewCounts.verified,
     reviewedOrVerifiedCount: reviewCounts.reviewed + reviewCounts.verified,
+    confidenceCounts,
+    unverifiedCount: confidenceCounts.unverified,
     withSourcesCount,
     withUsageLimitsCount,
     missingUsageLimitsCount: Math.max(0, totalCount - withUsageLimitsCount),
@@ -105,14 +110,15 @@ export function getDatasetAuditSummary(category = 'cosmetics') {
     mvpTarget: target.target,
     mvpMinimumReached: target.minimum ? totalCount >= target.minimum : false,
     sourceCoveragePercent: getPercent(withSourcesCount, totalCount),
-    usageLimitCoveragePercent: getPercent(withUsageLimitsCount, totalCount)
+    usageLimitCoveragePercent: getPercent(withUsageLimitsCount, totalCount),
+    unverifiedPercent: getPercent(confidenceCounts.unverified, totalCount)
   };
 }
 
-export function getDatasetSourceSummaries(category = 'cosmetics') {
+export function getDatasetSourceSummaries(category = 'cosmetics', itemsOverride = null) {
   const sourceMap = new Map();
 
-  for (const ingredient of getDatasetByCategory(category).items) {
+  for (const ingredient of itemsOverride || getDatasetByCategory(category).items) {
     for (const source of ingredient.sourceReferences || []) {
       const key = [source.standard, source.title, source.url].filter(Boolean).join('|');
       const summary = sourceMap.get(key) || {
@@ -132,10 +138,10 @@ export function getDatasetSourceSummaries(category = 'cosmetics') {
     .sort((a, b) => b.recordCount - a.recordCount || a.title.localeCompare(b.title, 'zh-Hans-CN'));
 }
 
-export function getDatasetVersionSummaries(category = 'cosmetics') {
+export function getDatasetVersionSummaries(category = 'cosmetics', itemsOverride = null) {
   const versionMap = new Map();
 
-  for (const ingredient of getDatasetByCategory(category).items) {
+  for (const ingredient of itemsOverride || getDatasetByCategory(category).items) {
     const version = ingredient.dataVersion || '未标记版本';
     const summary = versionMap.get(version) || {
       version,

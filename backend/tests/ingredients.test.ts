@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import { createIngredientService as createRealIngredientService, escapeLikePattern, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
+import { createIngredientService as createRealIngredientService, escapeLikePattern, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
@@ -36,6 +36,9 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
         sourceReferences: [],
         reviewStatus: 'draft',
         dataVersion: 'test',
+        reviewedBy: 'system',
+        reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
+        changeNote: '测试导入',
         updatedAt: '2026-06-10',
         sourceName: '测试来源',
         sourceType: 'official_standard',
@@ -84,6 +87,9 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
           sourceReferences: [],
           reviewStatus: 'draft',
           dataVersion: 'test',
+          reviewedBy: 'system',
+          reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
+          changeNote: '测试导入',
           updatedAt: '2026-06-10',
           sourceName: '测试来源',
           sourceType: 'official_standard',
@@ -140,7 +146,7 @@ describe('GET /api/ingredients', () => {
     const service = createIngredientService();
     const app = createTestApp(service);
 
-    const response = await app.request('/api/ingredients?q=苯甲酸&category=防腐剂&riskLevel=medium&page=2&limit=10');
+    const response = await app.request('/api/ingredients?q=苯甲酸&category=防腐剂&riskLevel=medium&confidenceLevel=unverified&page=2&limit=10');
     const body = await response.json();
 
     expect(response.status).toBe(200);
@@ -149,6 +155,7 @@ describe('GET /api/ingredients', () => {
       q: '苯甲酸',
       category: '防腐剂',
       riskLevel: 'medium',
+      confidenceLevel: 'unverified',
       sort: undefined,
       page: 2,
       limit: 10
@@ -161,6 +168,7 @@ describe('GET /api/ingredients', () => {
     const invalidPage = await app.request('/api/ingredients?page=0');
     const invalidRisk = await app.request('/api/ingredients?riskLevel=critical');
     const invalidSort = await app.request('/api/ingredients?sort=createdAt');
+    const invalidConfidence = await app.request('/api/ingredients?confidenceLevel=trusted');
 
     expect(invalidPage.status).toBe(400);
     expect(await invalidPage.json()).toEqual({
@@ -170,6 +178,12 @@ describe('GET /api/ingredients', () => {
     });
     expect(invalidRisk.status).toBe(400);
     expect(invalidSort.status).toBe(400);
+    expect(invalidConfidence.status).toBe(400);
+    expect(await invalidConfidence.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'confidenceLevel',
+      message: 'confidenceLevel must be one of high, medium, low, unverified'
+    });
   });
 });
 
@@ -189,6 +203,7 @@ describe('GET /api/ingredients/search', () => {
       q: 'E211',
       category: undefined,
       riskLevel: undefined,
+      confidenceLevel: undefined,
       sort: 'risk',
       page: 1,
       limit: 5
@@ -265,6 +280,54 @@ describe('GET /api/ingredients/:id', () => {
 describe('ingredient search helpers', () => {
   it('escapes SQL LIKE wildcards in user search terms', () => {
     expect(escapeLikePattern('%_\\E211')).toBe('\\%\\_\\\\E211');
+  });
+
+  it('applies seed audit overrides without changing source confidence', () => {
+    const row = toIngredientRow({
+      id: 'xylitol',
+      kind: 'food-additive',
+      dataCategory: 'food',
+      nameCn: '木糖醇',
+      nameEn: 'Xylitol',
+      aliases: [],
+      category: '甜味剂',
+      functions: ['甜味剂'],
+      description: '测试数据',
+      riskLevel: 'low',
+      sourceNote: '测试来源',
+      sourceReferences: [],
+      reviewStatus: 'draft',
+      dataVersion: 'food-additives-seed-v5',
+      updatedAt: '2026-06-12',
+      sourceName: '测试来源',
+      sourceType: 'official_standard',
+      sourceVersion: '待人工核验',
+      sourceUrl: 'https://example.com/source',
+      effectiveDate: '待人工核验',
+      confidenceLevel: 'unverified',
+      lastReviewedAt: '2026-06-12',
+      regulatoryBasis: '待人工核验',
+      rawSourceText: '待人工核验',
+      isVerified: false,
+      gbCode: 'INS 967',
+      gbStatus: 'restricted',
+      usageLimits: [],
+      foodCategories: [],
+      allergenTypes: [],
+      cautionGroups: []
+    }, {
+      dataVersion: '2026-06-v1',
+      reviewedBy: 'system',
+      reviewedAt: new Date('2026-06-12T08:00:00.000Z'),
+      changeNote: 'seed version test'
+    });
+
+    expect(row.dataVersion).toBe('2026-06-v1');
+    expect(row.reviewedBy).toBe('system');
+    expect(row.reviewedAt).toEqual(new Date('2026-06-12T08:00:00.000Z'));
+    expect(row.changeNote).toBe('seed version test');
+    expect(row.confidenceLevel).toBe('unverified');
+    expect(row.isVerified).toBe(false);
   });
 
   it('requires at least two characters before server-side fuzzy prefix matches', async () => {
