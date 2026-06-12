@@ -112,22 +112,24 @@ function parseIngredientSegment(segment) {
   const rawSegment = String(segment || '').trim();
   if (!rawSegment) return [];
 
-  const bracket = rawSegment.match(/^([^()（）]*?)[(（]([^()（）]+)[)）]\s*$/);
+  const bracket = readWrappedSegment(rawSegment);
   if (bracket) {
-    const rawPrefix = String(bracket[1] || '').trim();
+    const rawPrefix = bracket.rawPrefix;
     const cleanPrefix = normalizeIngredientItem(rawPrefix);
-    const cleanContent = String(bracket[2] || '').trim();
+    const cleanContent = bracket.content;
     if (!cleanContent) return cleanPrefix ? [buildParsedItem(rawSegment, cleanPrefix)] : [];
     if (!cleanPrefix && !rawPrefix) return [];
 
     if (isGenericBracketPrefix(cleanPrefix || rawPrefix) && !percentOnlyPattern.test(cleanContent)) {
       return splitTopLevel(cleanContent)
-        .map((child) => normalizeIngredientItem(child))
-        .filter(Boolean)
-        .map((child) => buildParsedItem(child, child, {
-          isSubIngredient: true,
-          parentLabel: cleanPrefix || rawPrefix
-        }));
+        .map((child) => {
+          const normalized = normalizeIngredientItem(child);
+          return normalized ? buildParsedItem(child, normalized, {
+            isSubIngredient: true,
+            parentLabel: cleanPrefix || rawPrefix
+          }) : null;
+        })
+        .filter(Boolean);
     }
 
     if (percentOnlyPattern.test(cleanContent)) {
@@ -140,6 +142,32 @@ function parseIngredientSegment(segment) {
 
   const normalized = normalizeIngredientItem(rawSegment);
   return normalized ? [buildParsedItem(rawSegment, normalized)] : [];
+}
+
+function readWrappedSegment(value) {
+  const text = String(value || '').trim();
+  const openIndex = text.search(/[(（]/);
+  if (openIndex === -1) return null;
+
+  let depth = 0;
+  let closeIndex = -1;
+  for (let index = openIndex; index < text.length; index += 1) {
+    const char = text[index];
+    if (char === '(' || char === '（') depth += 1;
+    if (char === ')' || char === '）') {
+      depth = Math.max(0, depth - 1);
+      if (depth === 0) {
+        closeIndex = index;
+        break;
+      }
+    }
+  }
+
+  if (closeIndex !== text.length - 1) return null;
+  return {
+    rawPrefix: text.slice(0, openIndex).trim(),
+    content: text.slice(openIndex + 1, closeIndex).trim()
+  };
 }
 
 function buildParsedItem(rawText, normalizedText, overrides = {}) {
