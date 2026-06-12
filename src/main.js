@@ -18,16 +18,6 @@ import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
 const API_SEARCH_PAGE_SIZE = 6;
-const SAFE_PREVIEW_IMAGE_TYPES = new Set([
-  'image/png',
-  'image/jpeg',
-  'image/webp',
-  'image/gif',
-  'image/bmp',
-  'image/avif',
-  'image/heic',
-  'image/heif'
-]);
 let scanPreviewObjectUrl = '';
 let scanPreviewRotation = 0;
 let routeRenderVersion = 0;
@@ -749,6 +739,7 @@ async function handleScanFile(file, category) {
   }
 
   updateScanFeedback('正在预处理图片...');
+  updateScanPreview(document.querySelector('[data-scan-preview]'), file, validation);
   try {
     const processed = await compressImage(file, { maxWidth: 1200, maxBytes: 800_000 });
     const meta = {
@@ -771,7 +762,6 @@ async function handleScanFile(file, category) {
       pendingOcrConfidence: 1,
       pendingOcrProvider: 'manual'
     });
-    updateScanPreviewWithBlob(document.querySelector('[data-scan-preview]'), processed.blob);
     updateScanMeta(`图片大小：${formatBytes(processed.compressedSize)}${processed.originalSize !== processed.compressedSize ? `（原图 ${formatBytes(processed.originalSize)}）` : ''}`);
     updateScanConfirmState(true);
     updateScanFeedback(processed.fallback === 'canvas_unavailable'
@@ -789,7 +779,7 @@ async function hydrateStoredScanPreview() {
   if (!pending.pendingImageId) return;
   const image = await getImage(pending.pendingImageId);
   if (!image?.blob) return;
-  updateScanPreviewWithBlob(document.querySelector('[data-scan-preview]'), image.blob);
+  updateStoredScanPreview(document.querySelector('[data-scan-preview]'), '图片已保存，可继续识别或重选。');
   updateScanConfirmState(true);
 }
 
@@ -802,7 +792,7 @@ async function hydrateOcrConfirmImage() {
     container.textContent = '图片暂不可用';
     return;
   }
-  updateScanPreviewWithBlob(container, image.blob, '配料表图片缩略图');
+  updateStoredScanPreview(container, '图片已保存，请核对下方配料文本。');
 }
 
 function statusFromOcrResult(result) {
@@ -1082,23 +1072,13 @@ function updateScanPreviewWithDataUrl(preview, dataUrl) {
   preview.append(image);
 }
 
-function updateScanPreviewWithBlob(preview, blob, alt = '已选择图片预览') {
+function updateStoredScanPreview(preview, message) {
   if (!preview) return;
   revokeScanPreviewObjectUrl();
   preview.replaceChildren();
-  if (!isSafePreviewBlob(blob)) {
-    const placeholder = document.createElement('span');
-    placeholder.textContent = '图片格式暂不可预览，请重新选择 JPG、PNG 或 WebP 图片。';
-    preview.append(placeholder);
-    return;
-  }
-  const image = document.createElement('img');
-  image.alt = alt;
-  if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
-    scanPreviewObjectUrl = URL.createObjectURL(blob);
-    image.src = scanPreviewObjectUrl;
-  }
-  preview.append(image);
+  const placeholder = document.createElement('span');
+  placeholder.textContent = message || '图片已保存。';
+  preview.append(placeholder);
 }
 
 function openScanFilePicker(fileInput) {
@@ -1149,14 +1129,6 @@ function createScanFileFromBlob(blob, fileName, mimeType = 'image/jpeg') {
     }
   }
   return Object.assign(blob, { name: fileName });
-}
-
-function isSafePreviewBlob(blob) {
-  const type = String(blob?.type || '').toLowerCase();
-  return Boolean(blob)
-    && typeof URL !== 'undefined'
-    && typeof URL.createObjectURL === 'function'
-    && SAFE_PREVIEW_IMAGE_TYPES.has(type);
 }
 
 function registerServiceWorker() {

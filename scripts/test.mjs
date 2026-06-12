@@ -4,7 +4,7 @@ import { AI_ANALYSIS_ENDPOINT_PATH, AI_ANALYSIS_PROTOCOL_VERSION, buildAIAnalysi
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getCategoryStats, getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
-import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
+import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, getOcrEndpointUrl, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
@@ -1053,6 +1053,8 @@ const ocrFile = {
   lastModified: 1710000000000
 };
 const ocrRequest = buildOCRRequest(ocrFile, { category: 'food' });
+assert.equal(OCR_ENDPOINT_PATH, '/ocr');
+assert.equal(getOcrEndpointUrl(), '/api/ocr');
 assert.equal(ocrRequest.protocolVersion, OCR_PROTOCOL_VERSION);
 assert.equal(ocrRequest.requestType, 'ingredient-image-ocr');
 assert.equal(ocrRequest.endpoint, OCR_ENDPOINT_PATH);

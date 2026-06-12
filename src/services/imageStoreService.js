@@ -69,19 +69,6 @@ export async function cleanOldImages(daysToKeep = 30) {
   return oldIds.length;
 }
 
-export function createObjectUrl(blob) {
-  if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
-    return URL.createObjectURL(blob);
-  }
-  return '';
-}
-
-export function revokeObjectUrl(url) {
-  if (url && typeof URL !== 'undefined' && typeof URL.revokeObjectURL === 'function') {
-    URL.revokeObjectURL(url);
-  }
-}
-
 function openImageDb() {
   if (typeof indexedDB === 'undefined') {
     return Promise.reject(new Error('IndexedDB unavailable'));

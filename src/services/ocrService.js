@@ -2,7 +2,7 @@ import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../uti
 import { getApiBaseUrl, getAuthToken } from './storageService.js';
 
 export const OCR_PROTOCOL_VERSION = 2;
-export const OCR_ENDPOINT_PATH = '/api/ocr';
+export const OCR_ENDPOINT_PATH = '/ocr';
 const OCR_TIMEOUT_MS = 15_000;
 
 export const OCR_RESPONSE_CONTRACT = {
@@ -29,7 +29,7 @@ export async function callRealOcr(blob, opts = {}) {
   const timer = controller ? setTimeout(() => controller.abort(), OCR_TIMEOUT_MS) : null;
 
   try {
-    const response = await fetch(`${getApiBaseUrl()}${OCR_ENDPOINT_PATH}`, {
+    const response = await fetch(getOcrEndpointUrl(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -151,6 +151,10 @@ export function buildOCRRequest(file, options = {}) {
       '未配置 OCR Key 时必须进入 manual 模式，不能返回伪造识别文本。'
     ]
   };
+}
+
+export function getOcrEndpointUrl() {
+  return `${getApiBaseUrl()}${OCR_ENDPOINT_PATH}`;
 }
 
 export function validateOCRResponse(value) {
