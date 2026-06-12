@@ -11,6 +11,7 @@ const REVIEW_STATUS_LABELS = {
   reviewed: '已复核',
   verified: '已验证'
 };
+const ANALYZE_QUERY_TEXT_LIMIT = 800;
 
 export function renderReportsPage(category = 'food', query = '') {
   const currentCategory = getProductCategory(category);
@@ -252,7 +253,7 @@ function buildReportSearchText(report, category) {
 
 function buildReportAnalyzeHref(report) {
   const params = new URLSearchParams();
-  params.set('text', String(report.input || ''));
+  params.set('text', String(report.input || '').slice(0, ANALYZE_QUERY_TEXT_LIMIT));
   if (report.productName) params.set('productName', report.productName);
   return `#${categoryPath(report.category, '/analyze')}?${params.toString()}`;
 }

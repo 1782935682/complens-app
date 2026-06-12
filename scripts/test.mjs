@@ -7,6 +7,7 @@ import { categoryPath } from '../src/data/categories.js';
 import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, getOcrEndpointUrl, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
+import { computeRiskGrade, getTopIngredientNames } from '../src/services/reportService.js';
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
 import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
@@ -102,6 +103,8 @@ assert.deepEqual(resolveRoute('#/food/support?topic=data-correction&subject=%E6%
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food', query: '' });
 assert.deepEqual(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'), { view: 'reports', category: 'food', query: '卵磷脂' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
+assert.deepEqual(resolveRoute('#/food/report/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
+assert.deepEqual(resolveRoute('#/report/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
 assert.deepEqual(resolveRoute('#/search?q=BHA'), {
   view: 'search',
@@ -1742,14 +1745,38 @@ setUserAllergens(originalUserAllergens);
 
 writeJson('compcheck:analysis-reports', []);
 setUserAllergens(['milk', 'soybeans']);
+const fakeParsedIngredient = { rawText: '测试', normalizedText: '测试', index: 0 };
+let fakeMatchIndex = 0;
+const fakeMatch = (riskLevel) => ({
+  parsedIngredient: fakeParsedIngredient,
+  term: '测试',
+  eNumber: null,
+  match: { id: `fake-${riskLevel}-${fakeMatchIndex += 1}`, nameCn: '测试', riskLevel, category: '测试分类', confidenceLevel: 'reviewed', isVerified: true, reviewStatus: 'reviewed' },
+  confidence: 1,
+  matchType: 'exact',
+  alternates: []
+});
+assert.equal(computeRiskGrade([]), 'A');
+assert.equal(computeRiskGrade([fakeMatch('medium')]), 'B');
+assert.equal(computeRiskGrade([fakeMatch('high')]), 'C');
+assert.equal(computeRiskGrade([fakeMatch('high'), fakeMatch('high'), fakeMatch('high')]), 'D');
+assert.equal(computeRiskGrade([fakeMatch('high'), fakeMatch('high'), fakeMatch('high'), fakeMatch('high'), fakeMatch('high')]), 'F');
 const reportDraft = createAnalysisReport(SAMPLES['food-2'], 'food');
 assert.equal(reportDraft.category, 'food');
-assert.equal(reportDraft.schemaVersion, 2);
+assert.equal(reportDraft.schemaVersion, 3);
+assert.equal(reportDraft.productName, '未命名产品');
+assert.equal(reportDraft.originalText, SAMPLES['food-2']);
+assert.equal(Array.isArray(reportDraft.parsedIngredients), true);
+assert.equal(Array.isArray(reportDraft.matchResults), true);
+assert.equal(['A', 'B', 'C', 'D', 'F'].includes(reportDraft.riskGrade), true);
+assert.equal(typeof reportDraft.riskSummary.highRisk, 'number');
+assert.equal(reportDraft.matchRate > 0, true);
+assert.deepEqual(getTopIngredientNames(reportDraft).slice(0, 2), ['小麦粉', '白砂糖']);
 assert.equal(reportDraft.matchedIngredientIds.includes('lecithins'), true);
 assert.equal(reportDraft.ingredientAllergenHits.some((hit) => hit.id === 'lecithins' && hit.allergenIds.includes('soybeans')), true);
 assert.equal(reportDraft.textAllergenHits.some((hit) => hit.item === '全脂奶粉' && hit.allergenIds.includes('milk')), true);
 assert.equal(reportDraft.insights.some((insight) => insight.key === 'risk' && insight.title === '风险分布'), true);
-assert.equal(reportDraft.insights.some((insight) => insight.key === 'coverage' && /食品添加剂库仍处于草稿审核阶段/.test(insight.summary)), true);
+assert.equal(reportDraft.insights.some((insight) => insight.key === 'coverage' && /食品添加剂数据仍处于草稿审核阶段/.test(insight.summary)), true);
 const savedReport = saveAnalysisReport(SAMPLES['food-2'], 'food', { productName: '测试饼干' });
 assert.equal(savedReport.productName, '测试饼干');
 assert.equal(savedReport.title, '测试饼干');
@@ -1776,28 +1803,41 @@ const emptyFilteredReportsHtml = renderRoute(resolveRoute('#/food/reports?q=%E4%
 assert.match(emptyFilteredReportsHtml, /没有找到匹配的本地报告/);
 assert.doesNotMatch(emptyFilteredReportsHtml, /data-delete-report=/);
 const reportDetailHtml = renderRoute(resolveRoute(`#/food/reports/${savedReport.id}`));
-assert.match(reportDetailHtml, /原始成分表/);
+assert.match(reportDetailHtml, /整体评级/);
+assert.match(reportDetailHtml, /关注摘要/);
+assert.match(reportDetailHtml, /配料顺序说明/);
+assert.match(reportDetailHtml, /食品添加剂/);
+assert.match(reportDetailHtml, /普通原料 \/ 暂未收录/);
+assert.match(reportDetailHtml, /原始配料表/);
 assert.match(reportDetailHtml, /导出报告/);
 assert.match(reportDetailHtml, /data-report-markdown/);
 assert.match(reportDetailHtml, /data-copy-report=/);
 assert.match(reportDetailHtml, /data-share-report=/);
 assert.match(reportDetailHtml, /data-download-report="markdown"/);
 assert.match(reportDetailHtml, /data-download-report="json"/);
-assert.match(reportDetailHtml, /报告解读/);
 assert.match(reportDetailHtml, /风险分布/);
 assert.match(reportDetailHtml, /数据边界/);
 assert.match(reportDetailHtml, /下一步建议/);
-assert.match(reportDetailHtml, /数据来源与审核状态/);
-assert.match(reportDetailHtml, /草稿数据/);
+assert.match(reportDetailHtml, /来源与审核状态/);
+assert.match(reportDetailHtml, /待审核/);
 assert.match(reportDetailHtml, /食品安全国家标准 食品添加剂使用标准/);
 assert.match(reportDetailHtml, /覆盖成分：/);
-assert.match(reportDetailHtml, /保存时发现过敏原/);
+assert.match(reportDetailHtml, /过敏原命中/);
 assert.match(reportDetailHtml, /全脂奶粉/);
 assert.match(reportDetailHtml, /href="#\/food\/analyze\?text=/);
 assert.match(reportDetailHtml, /productName=/);
+assert.deepEqual(resolveRoute(`#/food/report/${savedReport.id}`), { view: 'report-detail', category: 'food', id: savedReport.id });
+const cosmeticReport = saveAnalysisReport(SAMPLES['cosmetic-1'], 'cosmetics', { productName: '测试面霜' });
+const cosmeticReportHtml = renderRoute(resolveRoute(`#/cosmetics/reports/${cosmeticReport.id}`));
+assert.match(cosmeticReportHtml, /化妆品成分/);
+assert.doesNotMatch(cosmeticReportHtml, /当前报告没有匹配到食品添加剂数据库成分/);
+deleteAnalysisReport(cosmeticReport.id);
 const reportMarkdown = buildReportMarkdown(savedReport);
 assert.match(reportMarkdown, /^# /);
 assert.match(reportMarkdown, /产品名称：测试饼干/);
+assert.match(reportMarkdown, /整体评级：/);
+assert.match(reportMarkdown, /## 关注摘要/);
+assert.match(reportMarkdown, /## 配料顺序/);
 assert.match(reportMarkdown, /## 报告解读/);
 assert.match(reportMarkdown, /### 风险分布/);
 assert.match(reportMarkdown, /## 原始成分表/);
@@ -1810,13 +1850,17 @@ assert.match(reportMarkdown, /过敏原：大豆/);
 assert.match(reportMarkdown, /全脂奶粉/);
 const reportSharePayload = buildReportSharePayload(savedReport, 'https://example.com/app');
 assert.equal(reportSharePayload.url, `https://example.com/app#/food/analyze?text=${encodeURIComponent(savedReport.input)}&productName=${encodeURIComponent(savedReport.productName)}`);
-assert.match(reportSharePayload.text, /食品添加剂分析报告/);
-assert.match(reportSharePayload.text, /已匹配：/);
+assert.match(reportSharePayload.text, /【成分镜分析报告】测试饼干/);
+assert.match(reportSharePayload.text, /整体评级：/);
+assert.match(reportSharePayload.text, /排名前三：/);
 assert.match(reportMarkdown, /不提供医疗诊断或治疗建议/);
 const exportPayload = buildReportExportPayload(savedReport);
 assert.equal(exportPayload.report.id, savedReport.id);
 assert.equal(exportPayload.report.categoryLabel, '食品添加剂');
 assert.equal(exportPayload.report.productName, '测试饼干');
+assert.equal(exportPayload.report.riskGrade, savedReport.riskGrade);
+assert.equal(Array.isArray(exportPayload.report.parsedIngredients), true);
+assert.equal(Array.isArray(exportPayload.report.matchResults), true);
 assert.equal(exportPayload.report.insights.some((insight) => insight.key === 'next-steps'), true);
 assert.equal(exportPayload.matchedIngredients.some((item) => item.id === 'lecithins'), true);
 assert.equal(exportPayload.matchedIngredients.some((item) => item.id === 'lecithins' && item.reviewStatusLabel === '草稿（未审核）'), true);
@@ -1859,11 +1903,15 @@ for (let index = 0; index < 20; index += 1) {
   saveAnalysisReport(`${SAMPLES['food-1']}，批次${index}`, 'food');
 }
 assert.equal(getAnalysisReports('food').length, 20);
+for (let index = 20; index < 50; index += 1) {
+  saveAnalysisReport(`${SAMPLES['food-1']}，批次${index}`, 'food');
+}
+assert.equal(getAnalysisReports('food').length, 50);
 saveAnalysisReport(SAMPLES['cosmetic-1'], 'cosmetics');
-assert.equal(getAnalysisReports('food').length, 20);
+assert.equal(getAnalysisReports('food').length, 50);
 assert.equal(getAnalysisReports('cosmetics').length, 1);
 saveAnalysisReport(`${SAMPLES['food-3']}，额外食品报告`, 'food');
-assert.equal(getAnalysisReports('food').length, 20);
+assert.equal(getAnalysisReports('food').length, 50);
 assert.equal(getAnalysisReports('cosmetics').length, 1);
 writeJson('compcheck:analysis-reports', []);
 setUserAllergens(originalUserAllergens);

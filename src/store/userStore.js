@@ -1,7 +1,7 @@
 import { isProductCategory } from '../data/categories.js';
 import { defaultSupportTopic, isSupportTopic } from '../data/supportTopics.js';
-import { getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
-import { analyzeIngredientText, getIngredientById } from '../services/ingredientService.js';
+import { getIngredientById } from '../services/ingredientService.js';
+import { buildIngredientReport, normalizeIngredientReport } from '../services/reportService.js';
 import { readJson, writeJson } from '../services/storageService.js';
 
 const FAVORITES_KEY = 'compcheck:favorites';
@@ -18,12 +18,11 @@ const SUPPORT_REQUESTS_KEY = 'compcheck:support-requests';
 const LOCAL_DATA_SCHEMA_VERSION = 1;
 const ONBOARDING_SCHEMA_VERSION = 1;
 const MAX_HISTORY = 8;
-const MAX_ANALYSIS_REPORTS = 20;
+const MAX_ANALYSIS_REPORTS = 50;
 const MAX_SUPPORT_REQUESTS = 12;
 export const MAX_COMPARE_ITEMS = 4;
 const DEFAULT_CATEGORY = 'cosmetics';
 const DEFAULT_ONBOARDING_CATEGORY = 'food';
-const REPORT_SCHEMA_VERSION = 2;
 const ONBOARDING_STATUSES = ['pending', 'completed', 'skipped'];
 const ONBOARDING_CATEGORIES = ['food', 'cosmetics'];
 const SUPPORT_STATUSES = ['local', 'copied', 'closed'];
@@ -438,50 +437,10 @@ export function clearLocalUserData() {
 export function createAnalysisReport(input, category = DEFAULT_CATEGORY, options = {}) {
   const normalizedInput = String(input || '').trim();
   if (!normalizedInput) return null;
-
-  const reportCategory = typeof category === 'string' && category ? category : DEFAULT_CATEGORY;
-  const productName = truncateText(options?.productName, 50);
-  const analysis = analyzeIngredientText(normalizedInput, reportCategory);
-  const userAllergenIds = getUserAllergens();
-  const matchedIngredientIds = analysis.ingredients.map((ingredient) => ingredient.id).filter(Boolean);
-  const highlightIngredientIds = analysis.highlights.map((ingredient) => ingredient.id).filter(Boolean);
-  const unknownItems = analysis.unknownItems;
-  const ingredientAllergenHits = analysis.ingredients
-    .map((ingredient) => ({
-      id: ingredient.id,
-      allergenIds: getMatchingUserAllergens(ingredient, userAllergenIds).map((allergen) => allergen.id)
-    }))
-    .filter((item) => item.id && item.allergenIds.length);
-  const textAllergenHits = analysis.unknownItems
-    .map((item) => ({
-      item,
-      allergenIds: getMatchingTextAllergens(item, userAllergenIds).map((allergen) => allergen.id)
-    }))
-    .filter((item) => item.item && item.allergenIds.length);
-  const riskCounts = countRisks(analysis.ingredients);
-
-  const report = {
-    id: createReportId(),
-    category: reportCategory,
-    productName,
-    title: productName || buildReportTitle(normalizedInput),
-    input: normalizedInput,
-    createdAt: new Date().toISOString(),
-    matchedCount: analysis.matchedCount,
-    summary: analysis.summary,
-    matchedIngredientIds,
-    highlightIngredientIds,
-    unknownItems,
-    riskCounts,
-    userAllergenIds,
-    ingredientAllergenHits,
-    textAllergenHits,
-    schemaVersion: REPORT_SCHEMA_VERSION
-  };
-  return {
-    ...report,
-    insights: buildReportInsights(report)
-  };
+  return buildIngredientReport(normalizedInput, category, {
+    ...options,
+    userAllergenIds: getUserAllergens()
+  });
 }
 
 function normalizeFavoriteItem(value) {
@@ -733,34 +692,11 @@ function normalizeAnalysisReports(value) {
 }
 
 function normalizeAnalysisReport(value) {
-  if (!value || typeof value.id !== 'string' || typeof value.input !== 'string') return null;
-  const category = typeof value.category === 'string' ? value.category : DEFAULT_CATEGORY;
-  const matchedIngredientIds = normalizeStringList(value.matchedIngredientIds);
-  const highlightIngredientIds = normalizeStringList(value.highlightIngredientIds);
-  const unknownItems = normalizeStringList(value.unknownItems);
-  const userAllergenIds = normalizeStringList(value.userAllergenIds);
-  const report = {
-    id: normalizeReportId(value.id),
-    category,
-    productName: truncateText(value.productName, 50),
-    title: typeof value.title === 'string' && value.title.trim() ? value.title : buildReportTitle(value.productName || value.input),
-    input: value.input,
-    createdAt: typeof value.createdAt === 'string' ? value.createdAt : new Date(0).toISOString(),
-    matchedCount: Number.isFinite(value.matchedCount) ? value.matchedCount : matchedIngredientIds.length,
-    summary: typeof value.summary === 'string' ? value.summary : '',
-    matchedIngredientIds,
-    highlightIngredientIds,
-    unknownItems,
-    riskCounts: normalizeRiskCounts(value.riskCounts),
-    userAllergenIds,
-    ingredientAllergenHits: normalizeIngredientAllergenHits(value.ingredientAllergenHits),
-    textAllergenHits: normalizeTextAllergenHits(value.textAllergenHits),
-    schemaVersion: Number.isFinite(value.schemaVersion) ? value.schemaVersion : REPORT_SCHEMA_VERSION
-  };
-  const insights = normalizeReportInsights(value.insights);
+  const report = normalizeIngredientReport(value);
+  if (!report) return null;
   return {
     ...report,
-    insights: insights.length ? insights : buildReportInsights(report)
+    id: normalizeReportId(report.id)
   };
 }
 

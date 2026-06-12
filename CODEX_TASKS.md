@@ -150,6 +150,7 @@
 
 | 批次 | 名称 | 完成日期 |
 |---|---|---|
+| Batch R-A | 食品配料分析报告页 | ✅ 2026-06-12 |
 | Batch P-B | 数据库批量成分匹配 | ✅ 2026-06-12 |
 | Batch P-A | 配料表文本解析增强 | ✅ 2026-06-12 |
 | Batch O-C | 识别文本确认与修正页 | ✅ 2026-06-12 |
@@ -1155,7 +1156,7 @@ cd backend && npm run typecheck && npm test
 
 ### Batch R-A：食品配料分析报告页 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 P-B 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：生成完整、信息密度高、视觉清晰的食品配料分析报告，包含整体风险评级、分类统计、配料顺序意义、特殊人群提示、数据来源说明。
 
@@ -1302,6 +1303,8 @@ export function computeRiskGrade(matchResults) {
 - 元数据（不含图片）存 localStorage（键：`compcheck:reports`，JSON 数组）
 - 图片 ID 仅存 reference，实际 blob 在 IndexedDB
 - 最多保留 50 条报告；超出时删除最旧的
+
+**2026-06-12 自动化处理记录**：已完成报告数据模型、整体评级、关注摘要、配料顺序说明、食品添加剂分类统计、特殊人群提示、数据来源说明、报告分享文案、Markdown/JSON 导出和 `/report/:id` 路由别名；保存报告上限提升到 50 条。验证：`npm run validate:data`、`npm run lint`、`npm run test`、`npm run build`、`git diff --check` 通过。
 
 #### 7. 禁止文案（`lint` 脚本检查）
 
@@ -2143,7 +2146,7 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 
 ```
 → 无阻塞，Codex 可立即执行（按顺序）：
-  Batch R-A → F-A → F-B → Q-A → U-A → M-A → M-B
+  Batch F-A → F-B → Q-A → U-A → M-A → M-B
   → A-A（等 AI Key，只能做解释层）
 
 → 当前需要人工并行处理：

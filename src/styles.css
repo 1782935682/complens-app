@@ -2289,6 +2289,164 @@ button.danger-button:hover {
   margin-top: 18px;
 }
 
+.report-detail-hero {
+  display: grid;
+  gap: 18px;
+}
+
+.report-grade-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.report-grade-card--A,
+.report-grade-card--B {
+  border-color: rgba(22, 101, 52, 0.28);
+  background: #f5fbf6;
+}
+
+.report-grade-card--C {
+  border-color: rgba(168, 85, 22, 0.32);
+  background: #fffaf5;
+}
+
+.report-grade-card--D,
+.report-grade-card--F {
+  border-color: rgba(180, 35, 24, 0.32);
+  background: #fff7f5;
+}
+
+.report-grade-card__grade {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--primary);
+  font-size: 40px;
+  font-weight: 900;
+}
+
+.report-grade-card--A .report-grade-card__grade {
+  background: var(--low);
+}
+
+.report-grade-card--B .report-grade-card__grade {
+  background: #65a30d;
+}
+
+.report-grade-card--C .report-grade-card__grade {
+  background: var(--medium);
+}
+
+.report-grade-card--D .report-grade-card__grade {
+  background: var(--high);
+}
+
+.report-grade-card--F .report-grade-card__grade {
+  background: #7f1d1d;
+}
+
+.report-grade-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.report-grade-card__meta,
+.report-ingredient-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.report-panel {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.report-panel--details summary {
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.report-panel--details p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.report-priority-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.report-category-chips {
+  margin-bottom: 12px;
+}
+
+.report-ingredient-list {
+  display: grid;
+  gap: 10px;
+}
+
+.report-ingredient-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.report-ingredient-item summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.report-ingredient-item__body {
+  display: grid;
+  gap: 8px;
+  padding: 0 14px 14px 38px;
+}
+
+.report-ingredient-item__body p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.report-risk-dot {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--unknown);
+}
+
+.report-risk-dot--low {
+  background: var(--low);
+}
+
+.report-risk-dot--medium {
+  background: var(--medium);
+}
+
+.report-risk-dot--high {
+  background: var(--high);
+}
+
 .report-insight-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2744,6 +2902,7 @@ button.danger-button:hover {
   .scan-protocol-grid,
   .scan-state-grid,
   .report-card,
+  .report-grade-card,
   .report-search__row,
   .report-metrics,
   .report-insight-grid,
@@ -2757,6 +2916,16 @@ button.danger-button:hover {
 
   .hero {
     min-height: auto;
+  }
+
+  .report-grade-card__grade {
+    width: 60px;
+    font-size: 34px;
+  }
+
+  .report-ingredient-item summary {
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
 
   .scan-source-actions {

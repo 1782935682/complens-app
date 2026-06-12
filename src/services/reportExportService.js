@@ -1,6 +1,7 @@
 import { getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getAllergensByIds } from './allergenService.js';
 import { getIngredientById } from './ingredientService.js';
+import { getConcernSummaries, getTopIngredientNames, riskGradeLabel } from './reportService.js';
 
 const EXPORT_SCHEMA_VERSION = 1;
 const REVIEW_STATUS_LABELS = {
@@ -31,9 +32,19 @@ export function buildReportExportPayload(report) {
       createdAt: report.createdAt,
       summary: report.summary,
       input: report.input,
+      originalText: report.originalText || report.input,
+      source: report.source || 'manual',
+      riskGrade: report.riskGrade || 'C',
+      riskGradeLabel: riskGradeLabel(report.riskGrade),
+      riskSummary: report.riskSummary || {},
+      matchRate: Number(report.matchRate) || 0,
+      parsedIngredients: report.parsedIngredients || [],
+      matchResults: report.matchResults || [],
       matchedCount: report.matchedCount,
       riskCounts: report.riskCounts,
       unknownItems: report.unknownItems,
+      unmatchedTerms: report.unmatchedTerms || report.unknownItems,
+      lowConfidenceTerms: report.lowConfidenceTerms || [],
       missingIngredientIds,
       insights
     },
@@ -66,12 +77,16 @@ export function buildReportMarkdown(report) {
       `- 类别：${payload.report.categoryLabel}`,
       payload.report.productName ? `- 产品名称：${payload.report.productName}` : '',
       `- 保存时间：${formatExportDate(payload.report.createdAt)}`,
+      `- 整体评级：${payload.report.riskGrade}（${payload.report.riskGradeLabel}）`,
+      `- 匹配率：${Math.round(payload.report.matchRate * 100)}%`,
       `- 已匹配：${payload.report.matchedCount} 项`,
       `- 重点关注：${payload.highlightIngredients.length} 项`,
       `- 暂未收录：${payload.report.unknownItems.length + payload.report.missingIngredientIds.length} 项`,
       `- 过敏原命中：${allergenHitCount} 项`
     ].filter(Boolean).join('\n'),
     `## 整体说明\n${payload.report.summary}`,
+    `## 关注摘要\n${buildConcernLines(report)}`,
+    `## 配料顺序\n配料表中排列越靠前，通常表示添加量或含量越靠前。本报告保存时识别的前三项为：${getTopIngredientNames(report).join('、') || '暂无'}。`,
     `## 原始成分表\n${payload.report.input}`
   ];
 
@@ -162,6 +177,13 @@ function buildIngredientSection(title, ingredients) {
     return `- ${name}：${riskLabelText(ingredient.riskLevel)}，${ingredient.category}。${ingredient.description}`;
   });
   return `${title}\n${lines.join('\n')}`;
+}
+
+function buildConcernLines(report) {
+  const concerns = getConcernSummaries(report, 3);
+  return concerns.length
+    ? concerns.map((item) => `- ${item}`).join('\n')
+    : '- 当前没有高关注或需关注匹配项，仍建议核对包装原文和数据审核状态。';
 }
 
 function buildInsightSection(insights) {
