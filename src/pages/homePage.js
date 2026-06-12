@@ -13,7 +13,7 @@ export function renderHomePage(category = 'food') {
   const historyRecordingEnabled = isHistoryRecordingEnabled();
   const favorites = getFavoriteIngredients(category);
   const reports = getAnalysisReports(category);
-  const recentProducts = getProductArchives({ category }).slice(0, 4);
+  const recentProducts = getProductArchives({ category }).sort(sortProductsByCreatedDesc).slice(0, 4);
   const ingredientCategories = getIngredientCategorySummaries(category);
   const auditSummary = getDatasetAuditSummary(category);
 
@@ -106,6 +106,10 @@ function renderRecentProducts(category, products) {
       </div>
     </section>
   `;
+}
+
+function sortProductsByCreatedDesc(a, b) {
+  return b.createdAt.localeCompare(a.createdAt);
 }
 
 function renderDatasetAuditSummary(summary) {

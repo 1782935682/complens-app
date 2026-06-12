@@ -13,10 +13,10 @@ export function renderHistoryPage(category = 'food', query = '', filter = 'all')
   const normalizedQuery = String(query || '').trim();
   const normalizedFilter = normalizeHistoryFilter(filter);
   const allProducts = getProductArchives({ category });
-  const filteredProducts = filterHistoryProducts(
+  const filteredProducts = sortByCreatedDesc(filterHistoryProducts(
     getProductArchives({ category, search: normalizedQuery }),
     normalizedFilter
-  );
+  ));
   const visibleProducts = filteredProducts.slice(0, HISTORY_DISPLAY_LIMIT);
 
   return html`
@@ -70,6 +70,10 @@ function filterHistoryProducts(products, filter) {
   if (filter === 'favorite') return products.filter((item) => item.isFavorite);
   if (filter === 'concern') return products.filter(isHighConcernProduct);
   return products;
+}
+
+function sortByCreatedDesc(products) {
+  return [...products].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 function renderHistoryFilterTabs(category, activeFilter, query) {
