@@ -681,7 +681,7 @@ function bindOcrConfirmEvents(route) {
     textarea?.focus();
   });
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const text = String(textarea?.value || '').trim();
     const productName = String(productInput?.value || '').trim();
@@ -691,14 +691,13 @@ function bindOcrConfirmEvents(route) {
       return;
     }
     saveScanDraft(text, route.category);
-    setPendingScan({
-      category: route.category,
-      status: 'success',
-      pendingText: text,
-      pendingProductName: productName
-    });
     const params = new URLSearchParams({ text });
     if (productName) params.set('productName', productName);
+    try {
+      await clearPendingScanImage();
+    } catch {
+      // The analysis URL is already self-contained; do not block navigation on best-effort cleanup.
+    }
     navigate(`#${categoryPath(route.category, '/analyze')}?${params.toString()}`);
   });
 
