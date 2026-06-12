@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import { createIngredientService as createRealIngredientService, escapeLikePattern, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
+import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialRecordRow, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
@@ -346,6 +346,50 @@ describe('ingredient search helpers', () => {
     expect(row.dataStatus).toBe('unverified');
     expect(row.sourceScope).toBe('seed_reference');
     expect(row.isVerified).toBe(false);
+  });
+
+  it('maps GB 2760 official staging records with source evidence intact', () => {
+    const row = toGb2760OfficialRecordRow({
+      id: 'gb2760-2024-a1-pectin-juice',
+      ingredientId: 'pectin',
+      standardCode: 'GB 2760-2024',
+      standardTitle: '食品安全国家标准 食品添加剂使用标准',
+      tableName: '表 A.1',
+      additiveNameCn: '果胶',
+      additiveNameEn: 'pectins',
+      cnsNumber: '20.006',
+      insNumber: '440',
+      functionText: '乳化剂、稳定剂、增稠剂',
+      foodCategoryCode: '14.02.01',
+      foodCategoryName: '果蔬汁（浆）',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: '以即饮状态计',
+      pdfPage: 45,
+      standardPage: 42,
+      rawSourceText: 'GB 2760-2024 表 A.1：果胶 pectins；14.02.01 果蔬汁（浆）；最大使用量 3.0 g/kg。',
+      sourceName: '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台',
+      sourceType: 'official_standard',
+      sourceUrl: 'https://sppt.cfsa.net.cn:8086/db?task=indexSearch',
+      downloadEndpoint: 'https://sppt.cfsa.net.cn:8086/cfsa_aiguo',
+      platformRecordId: '6CA1489A-9570-4906-8CE8-CC86FBFB1941',
+      announcementRecordId: '3D0601E8-A77C-4EC5-B148-30E2E7020822',
+      fileGuid: '43C9B75E-3D84-4577-80FC-0F7D77D36407',
+      factName: '1747898473246.pdf',
+      pdfSha256: '2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de',
+      retrievedAt: '2026-06-12',
+      extractionStatus: 'extracted',
+      reviewStatus: 'needs_review'
+    });
+
+    expect(row.ingredientId).toBe('pectin');
+    expect(row.sourceType).toBe('official_standard');
+    expect(row.sourceUrl).toContain('sppt.cfsa.net.cn');
+    expect(row.pdfSha256).toBe('2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de');
+    expect(row.pdfPage).toBe(45);
+    expect(row.standardPage).toBe(42);
+    expect(row.reviewStatus).toBe('needs_review');
+    expect(row.syncedAt).toBeInstanceOf(Date);
   });
 
   it('requires at least two characters before server-side fuzzy prefix matches', async () => {

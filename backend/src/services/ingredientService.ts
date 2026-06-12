@@ -1,6 +1,6 @@
 import { and, asc, count, desc, eq, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { ingredientSources, ingredients, type IngredientRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
+import { gb2760OfficialRecords, ingredientSources, ingredients, type IngredientRow, type NewGb2760OfficialRecordRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
 export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
@@ -56,6 +56,39 @@ export type FoodAdditiveInput = {
   foodCategories?: string[];
   allergenTypes?: string[];
   cautionGroups?: string[];
+};
+
+export type Gb2760OfficialRecordInput = {
+  id: string;
+  ingredientId?: string;
+  standardCode: string;
+  standardTitle: string;
+  tableName: string;
+  additiveNameCn: string;
+  additiveNameEn?: string;
+  cnsNumber?: string;
+  insNumber?: string;
+  functionText: string;
+  foodCategoryCode: string;
+  foodCategoryName: string;
+  maxUseLevel: string;
+  unit?: string;
+  note?: string;
+  pdfPage: number;
+  standardPage: number;
+  rawSourceText: string;
+  sourceName: string;
+  sourceType: string;
+  sourceUrl: string;
+  downloadEndpoint: string;
+  platformRecordId: string;
+  announcementRecordId: string;
+  fileGuid: string;
+  factName: string;
+  pdfSha256: string;
+  retrievedAt: string;
+  extractionStatus: string;
+  reviewStatus: string;
 };
 
 export type IngredientListParams = {
@@ -306,6 +339,62 @@ export function toIngredientSourceRows(additive: FoodAdditiveInput): NewIngredie
     publishedAt: source.publishedAt ?? null,
     retrievedAt: source.retrievedAt ?? null
   }));
+}
+
+export function toGb2760OfficialRecordRow(record: Gb2760OfficialRecordInput): NewGb2760OfficialRecordRow {
+  return {
+    id: record.id,
+    ingredientId: normalizeAuditText(record.ingredientId) || null,
+    standardCode: record.standardCode,
+    standardTitle: record.standardTitle,
+    tableName: record.tableName,
+    additiveNameCn: record.additiveNameCn,
+    additiveNameEn: record.additiveNameEn ?? null,
+    cnsNumber: record.cnsNumber ?? null,
+    insNumber: record.insNumber ?? null,
+    functionText: record.functionText,
+    foodCategoryCode: record.foodCategoryCode,
+    foodCategoryName: record.foodCategoryName,
+    maxUseLevel: record.maxUseLevel,
+    unit: record.unit ?? '',
+    note: record.note ?? '',
+    pdfPage: record.pdfPage,
+    standardPage: record.standardPage,
+    rawSourceText: record.rawSourceText,
+    sourceName: record.sourceName,
+    sourceType: record.sourceType,
+    sourceUrl: record.sourceUrl,
+    downloadEndpoint: record.downloadEndpoint,
+    platformRecordId: record.platformRecordId,
+    announcementRecordId: record.announcementRecordId,
+    fileGuid: record.fileGuid,
+    factName: record.factName,
+    pdfSha256: record.pdfSha256,
+    retrievedAt: record.retrievedAt,
+    extractionStatus: record.extractionStatus,
+    reviewStatus: record.reviewStatus,
+    syncedAt: new Date()
+  };
+}
+
+export async function upsertGb2760OfficialRecords(db: Database, records: Gb2760OfficialRecordInput[]) {
+  if (records.length === 0) return;
+
+  await db.transaction(async (tx) => {
+    for (const record of records) {
+      const row = toGb2760OfficialRecordRow(record);
+      await tx
+        .insert(gb2760OfficialRecords)
+        .values(row)
+        .onConflictDoUpdate({
+          target: gb2760OfficialRecords.id,
+          set: {
+            ...row,
+            createdAt: sql`${gb2760OfficialRecords.createdAt}`
+          }
+        });
+    }
+  });
 }
 
 export async function upsertIngredients(db: Database, additives: FoodAdditiveInput[], options: IngredientUpsertOptions = {}) {

@@ -75,6 +75,46 @@ export const ingredientSources = pgTable('ingredient_sources', {
   index('ingredient_sources_ingredient_id_idx').on(table.ingredientId)
 ]);
 
+export const gb2760OfficialRecords = pgTable('gb2760_official_records', {
+  id: text('id').primaryKey(),
+  ingredientId: text('ingredient_id').references(() => ingredients.id, { onDelete: 'set null' }),
+  standardCode: text('standard_code').notNull(),
+  standardTitle: text('standard_title').notNull(),
+  tableName: text('table_name').notNull(),
+  additiveNameCn: text('additive_name_cn').notNull(),
+  additiveNameEn: text('additive_name_en'),
+  cnsNumber: text('cns_number'),
+  insNumber: text('ins_number'),
+  functionText: text('function_text').notNull(),
+  foodCategoryCode: text('food_category_code').notNull(),
+  foodCategoryName: text('food_category_name').notNull(),
+  maxUseLevel: text('max_use_level').notNull(),
+  unit: text('unit').notNull().default(''),
+  note: text('note').notNull().default(''),
+  pdfPage: integer('pdf_page').notNull(),
+  standardPage: integer('standard_page').notNull(),
+  rawSourceText: text('raw_source_text').notNull(),
+  sourceName: text('source_name').notNull(),
+  sourceType: text('source_type').notNull(),
+  sourceUrl: text('source_url').notNull(),
+  downloadEndpoint: text('download_endpoint').notNull(),
+  platformRecordId: text('platform_record_id').notNull(),
+  announcementRecordId: text('announcement_record_id').notNull(),
+  fileGuid: text('file_guid').notNull(),
+  factName: text('fact_name').notNull(),
+  pdfSha256: text('pdf_sha256').notNull(),
+  retrievedAt: text('retrieved_at').notNull(),
+  extractionStatus: text('extraction_status').notNull(),
+  reviewStatus: text('review_status').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  syncedAt: timestamp('synced_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  index('gb2760_official_records_ingredient_id_idx').on(table.ingredientId),
+  index('gb2760_official_records_additive_name_cn_idx').on(table.additiveNameCn),
+  index('gb2760_official_records_review_status_idx').on(table.reviewStatus),
+  index('gb2760_official_records_pdf_sha256_idx').on(table.pdfSha256)
+]);
+
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull(),
@@ -190,6 +230,8 @@ export type UsageLimit = {
 export type IngredientRow = typeof ingredients.$inferSelect;
 export type NewIngredientRow = typeof ingredients.$inferInsert;
 export type NewIngredientSourceRow = typeof ingredientSources.$inferInsert;
+export type Gb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferSelect;
+export type NewGb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferInsert;
 export type UserRow = typeof users.$inferSelect;
 export type NewUserRow = typeof users.$inferInsert;
 export type SessionRow = typeof sessions.$inferSelect;
