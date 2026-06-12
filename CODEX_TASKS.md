@@ -257,9 +257,9 @@
 4. [x] 数据可信等级展示：搜索、详情、数据页、分析报告和导出展示数据状态、来源、待确认和低置信提示。
 5. [x] 建立硬性规则：任何新增条目缺失来源字段、状态字段或误把 JECFA 标成法规验证时，`validate:data` 必须报错退出。
 6. [ ] GB 2760 官方数据导入：导入基础字段和 `rawSourceText`；无法可靠结构化的法规内容不得编造结构化结论。
-7. [ ] OCR 未匹配收集：将 OCR 识别但未收录的条目标为 `unknown_from_ocr`，进入后续人工校验队列。
-8. [ ] 人工校验队列：提供待确认、低置信、未验证、OCR 未收录条目的审核入口和升级流程。
-9. [ ] 继续输出数据质量报告：总数、已验证法规数、JECFA 匹配数、普通配料数、未验证数、待确认数、来源版本分布、复核清单。
+7. [x] OCR 未匹配收集：OCR 来源报告的未收录条目以 `unknown_from_ocr` / `ocr_unmatched` 汇总到数据治理页人工校验队列。
+8. [x] 人工校验队列：`/data` 页提供 OCR 未收录、低置信候选和静态未验证数据的只读审核入口，并通过数据纠错表单提交校验线索；真实升级仍需人工来源确认。
+9. [x] 继续输出数据质量报告：`validate:data` 和数据治理页继续展示总数、JECFA 匹配、普通配料、未验证、待确认、来源版本分布和复核清单。
 
 **验收标准**：
 
@@ -278,6 +278,8 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 **2026-06-12 第二批官方数据导入记录**：PR #66 合并后继续从 WHO JECFA Food Additives and Contaminants Database 导入 22 条可直接映射的 JECFA 条目和 ADI 摘要：`pectin`、`calcium-carbonate`、`tartrazine`、`sunset-yellow-fcf`、`allura-red-ac`、`glycerol`、`calcium-chloride`、`sodium-alginate`、`acesulfame-potassium`、`carrageenan`、`guar-gum`、`polysorbate-80`、`sodium-nitrite`、`potassium-nitrate`、`potassium-citrate`、`calcium-citrate`、`lactic-acid`、`sodium-acetate`、`calcium-propionate`、`natamycin`、`propylene-glycol-alginate`、`sodium-carboxymethyl-cellulose`。累计 32 条为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组。`npm run validate:data` 输出：reviewed=32、verified=0、unverified=68、missingSourceFields=0、missingUsageLimits=100。
 
 **2026-06-12 基础权威数据底座记录**：新增分层字段 `dataStatus`、`matchConfidence`、`sourceScope`、`reviewNote`，后端 schema/seed/API 同步；当前食品基础库 112 条，其中 `verified_regulation=0`、`verified_jecfa=32`、`mapped_candidate=0`、`common_ingredient=12`、`unverified=68`、`unknown_from_ocr=0`。分析报告已展示已匹配数量、待确认数量、暂未收录数量、每个配料的数据状态、数据来源和低置信度提示。本批次不新增 AI 编造数据，不把 JECFA 当成 GB 2760 使用范围，不强行补齐全部食品配料。
+
+**2026-06-12 人工校验队列记录**：新增 `reviewQueueService` 和数据治理页“人工校验队列”，从本机报告聚合 OCR 未收录项、低置信候选项，并从静态数据聚合 `unverified` / `mapped_candidate` / `seed_reference` 记录。队列仅作为人工校验入口和数据纠错线索，不自动升级 `dataStatus`、`isVerified`、GB 2760 使用范围或限量。
 
 ---
 
