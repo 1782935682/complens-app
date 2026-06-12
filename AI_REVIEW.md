@@ -1,65 +1,57 @@
-# AI Review - 2026-06-12 OCR/解析/匹配自动化批次
+# AI Review - 2026-06-12 R-A 食品配料分析报告页
 
 ## 本轮目标
 
-按 `CODEX_TASKS.md` 自动推进所有无需人工介入的任务，跳过人工阻塞项。优先完成：
+按 `CODEX_TASKS.md` 当前最早可执行的 Codex 批次推进：
 
-- Batch O-A：拍照/上传入口与产品质量体验
-- Batch O-D：图片预处理服务（EXIF 修正 + 压缩 + IndexedDB）
-- Batch O-B：OCR 服务抽象层与模式切换
-- Batch O-C：识别文本确认与修正页
-- Batch P-A：配料表文本解析增强
-- Batch P-B：数据库批量成分匹配
+- Batch R-A：食品配料分析报告页
+
+本批次不处理等待人工确认的官方数据导入、生产数据库、真实 OCR Key、真实 AI Key、商店账号、支付和法务材料。
 
 ## 本轮完成
 
-1. 首页主入口突出“拍照识别食品配料表”，成分搜索降为辅助入口。
-2. 扫描页支持拍照、相册、Web 文件选择降级、图片预览、图片大小/类型校验、重选、拍摄技巧和底部安全区。
-3. 新增 `imageProcessor`，支持 JPEG EXIF Orientation 手动解析、canvas 方向修正和压缩；无 canvas 时降级保留原图，不伪造处理结果。
-4. 新增 `imageStoreService`，图片和 blob 存入 IndexedDB；IndexedDB 不可用时使用会话内存 fallback。localStorage 只保存图片 id、元数据、确认文本和设置。
-5. OCR 服务升级为 v2，提供 real/manual/fallback 三模式。无登录或无 OCR Key 时进入 manual/fallback，不返回伪造 OCR 文本。
-6. 后端新增 `POST /api/ocr` 鉴权占位；无 `OCR_API_KEY` 返回 503，供应商未实现返回 501。
-7. 新增确认页 `/ocr-confirm`，用户可编辑识别/手输文本、填写产品名、查看配料数量后进入分析。
-8. `parseIngredientList` 支持 OCR 噪声修正、配料前缀、复配括号、E-number、顺序、重复标记、未知项保留。
-9. 新增 `ingredientMatchService` 和后端 `POST /api/ingredients/batch-search`，支持 E-number、精确、别名和模糊匹配；低置信和未匹配项保留展示。
-10. 分析页新增数据库匹配摘要，明确展示 matched / low confidence / unmatched，以及 `unverified / isVerified false` 数据状态。
+1. 新增 `src/services/reportService.js`，集中生成和归一化食品配料分析报告。
+2. 报告模型升级到 `schemaVersion: 3`，保留旧报告兼容字段，并新增 `originalText`、`parsedIngredients`、`matchResults`、`riskGrade`、`riskSummary`、`unmatchedTerms`、`lowConfidenceTerms` 和 `matchRate`。
+3. 新增整体评级 A/B/C/D/F，按高关注和中等关注成分数量计算，报告页用大号评级卡展示。
+4. 新增关注摘要、配料顺序说明、食品添加剂分类统计、未收录/普通原料区、特殊人群提示、过敏原命中和数据来源说明。
+5. 新增 `src/pages/reportDetailPage.js`，报告详情支持删除、分享、重新分析、返回报告列表、复制 Markdown、下载 Markdown 和下载 JSON。
+6. `src/router/router.js` 增加 `/report/:id` 别名，保留 `/reports/:id` 兼容。
+7. `src/services/shareService.js` 改为分享报告摘要链接，指向可打开的报告详情页。
+8. `src/services/reportExportService.js` 的 Markdown/JSON 导出同步输出整体评级、关注摘要、配料顺序和结构化匹配数据。
+9. `src/store/userStore.js` 保存报告时统一走报告服务，单类别报告保留上限从 20 条提升到 50 条。
+10. `scripts/lint.mjs` 增加更严格的绝对化和恐吓式表达禁用词，避免报告文案越过医疗/安全边界。
+11. `scripts/test.mjs` 补充报告评级、详情渲染、路由别名、导出、分享和 50 条保留上限断言。
 
 ## 人工阻塞
 
 | 阻塞项 | 状态 | 需要用户提供 |
 |---|---|---|
 | Data Batch 1-B 官方来源导入 | blocked_by_user | 官方来源清单、10-20 条逐条审核样例、可升级为 reviewed/verified 的条目 |
-| 生产 DATABASE_URL | blocked_by_user | 生产 PostgreSQL 平台和连接串 |
-| OCR API Key | blocked_by_user | 选定 OCR 供应商和服务端 API Key |
-| AI API Key | blocked_by_user | 选定 AI 供应商和服务端 API Key |
+| 生产 DATABASE_URL | blocked_by_user | 生产 PostgreSQL 平台、连接串、备份和发布策略 |
+| OCR API Key | blocked_by_user | 选定 OCR 供应商、服务端 API Key、额度和错误策略 |
+| AI API Key | blocked_by_user | 选定 AI 供应商、服务端 API Key、成本上限和提示边界 |
+| Apple / Google 开发者账号 | blocked_by_user | App Store / Google Play 账号、签名证书和测试设备 |
+| 支付与合规材料 | blocked_by_user | IAP/Billing 商品、正式隐私政策、服务条款和法务复核 |
 
 ## 验证结果
 
 ```bash
-npm install
 npm run validate:data
 npm run lint
 npm run test
 npm run build
-
-cd backend
-npm install
-npm run typecheck
-npm test
-npm run db:migrate
-npm run db:seed
+git diff --check
 ```
 
-全部通过。`db:seed` 结果为 `Seeded 100 ingredients`，仍是本地 seed 数据，不是完整生产数据集。
+全部通过。
 
 ## 当前风险
 
-1. 真实 OCR 尚未接入；当前只能保证 manual/fallback 主路径和后端安全占位。
-2. 100 条食品添加剂 seed 全部仍是 `confidenceLevel: "unverified"`、`isVerified: false`。
-3. 批量匹配已可用，但匹配质量仍依赖现有 seed 数据和后续人工审核。
-4. R-A 食品配料分析报告页尚未完成，当前分析页只展示基础匹配摘要。
-5. 未做浏览器 E2E 和真机相机权限验收。
+1. 100 条食品添加剂 seed 仍全部是 `confidenceLevel: "unverified"`、`isVerified: false`，报告只透明展示草稿状态，不把数据写成已审核结论。
+2. 真实 OCR 尚未接入；当前报告可以从手动/确认文本生成，但不能视为真实拍照自动识别完成。
+3. 真实 AI 尚未接入；报告总结来自本地规则和现有数据，不是模型生成的个性化建议。
+4. 尚未做浏览器 E2E、PDF/图片导出、真机相机/分享验收和跨设备报告同步验收。
 
 ## 下一步
 
-当前最早可继续执行的 Codex 任务：`Batch R-A：食品配料分析报告页`。
+当前最早可继续执行的 Codex 任务：`Batch F-A：产品档案与 IndexedDB 图片存储`。

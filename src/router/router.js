@@ -11,7 +11,8 @@ import { renderMembershipPage } from '../pages/membershipPage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
 import { renderOnboardingPage } from '../pages/onboardingPage.js';
 import { renderOcrConfirmPage } from '../pages/ocrConfirmPage.js';
-import { renderReportDetailPage, renderReportsPage } from '../pages/reportsPage.js';
+import { renderReportDetailPage } from '../pages/reportDetailPage.js';
+import { renderReportsPage } from '../pages/reportsPage.js';
 import { renderScanPage } from '../pages/scanPage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
 import { renderSettingsPage } from '../pages/settingsPage.js';
@@ -190,6 +191,16 @@ export function resolveRoute(hash) {
     return {
       view: 'report-detail',
       category: route.category,
+      id
+    };
+  }
+
+  if (route.path.startsWith('/report/')) {
+    const id = decodePathValue(route.path.replace('/report/', ''));
+    if (!id) return notFoundRoute(route, path);
+    return {
+      view: 'report-detail',
+      category: route.hasCategoryPrefix ? route.category : defaultCategory,
       id
     };
   }

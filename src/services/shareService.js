@@ -1,6 +1,9 @@
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { riskLabel } from '../components/render.js';
 import { shareWithNative } from './nativeBridgeService.js';
+import { buildReportShareSummary } from './reportService.js';
+
+const REPORT_SHARE_TEXT_LIMIT = 800;
 
 export function buildIngredientSharePayload(ingredient, category = 'food', baseUrl = '') {
   if (!ingredient) return null;
@@ -25,20 +28,10 @@ export function buildIngredientSharePayload(ingredient, category = 'food', baseU
 export function buildReportSharePayload(report, baseUrl = '') {
   if (!report) return null;
   const currentCategory = getProductCategory(report.category);
-  const allergenHitCount = (report.ingredientAllergenHits || []).length + (report.textAllergenHits || []).length;
-  const lines = [
-    `${currentCategory.label}分析报告：${report.title}`,
-    report.summary,
-    `已匹配：${report.matchedCount || 0} 项`,
-    `重点关注：${(report.highlightIngredientIds || []).length} 项`,
-    `暂未收录：${(report.unknownItems || []).length} 项`,
-    `过敏原命中：${allergenHitCount} 项`,
-    '报告保存在本机，分享内容不代表数据已完成正式审核。'
-  ].filter(Boolean);
 
   return {
-    title: `${report.title} - CompCheck`,
-    text: lines.join('\n'),
+    title: `${report.productName || report.title || currentCategory.label} - 成分镜分析报告`,
+    text: buildReportShareSummary(report),
     url: buildShareUrl(report.category, buildReportSharePath(report), baseUrl)
   };
 }
@@ -150,10 +143,10 @@ export function sanitizeNativeSharePayload(payload) {
 }
 
 function buildReportSharePath(report) {
-  const input = String(report.input || '').trim();
+  const input = String(report?.originalText || report?.input || '').trim();
   if (!input) return '/analyze';
-  const params = new URLSearchParams({ text: input });
-  if (report.productName) params.set('productName', report.productName);
+  const params = new URLSearchParams({ text: input.slice(0, REPORT_SHARE_TEXT_LIMIT) });
+  if (report?.productName && report.productName !== '未命名产品') params.set('productName', report.productName);
   return `/analyze?${params.toString()}`;
 }
 
