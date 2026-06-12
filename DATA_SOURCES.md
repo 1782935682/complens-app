@@ -33,6 +33,13 @@
 
 `citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`。
 
+为后续把官方文档持续导入数据库，已新增 GB 2760 行级 staging 数据集和后端表 `gb2760_official_records`：
+
+- 当前 staging 行数：20 行，覆盖 9 个现有食品添加剂 ID。
+- 已与正式 `ingredients.usageLimits` 对齐的 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量。
+- 待审核 staging 行：7 行，来自官方 PDF 表 A.1 的 `guar-gum`、`pectin`、`potassium-citrate`、`sodium-carboxymethyl-cellulose`，状态为 `needs_review`，只代表官方 PDF 原文已抽取入库，不代表正式成分详情已升级。
+- staging 表按“添加剂 × 食品类别 × 最大使用量/备注”逐行存储，保留 `pdfPage`、`standardPage`、`rawSourceText`、平台记录 ID、附件 ID 和 PDF SHA-256，供后续人工审核后再聚合进正式 `ingredients.usageLimits`。
+
 已确认的 GB 2760-2024 官方来源：
 
 - 公告来源：国家卫生健康委公告（2024 年第 1 号），食品安全国家标准数据检索平台记录标题为“关于发布《食品安全国家标准 食品添加剂使用标准》（GB 2760-2024）等47项食品安全国家标准和6项修改单的公告（2024年 第1号）”，发布日期 `2024-02-08`，平台记录 ID `3D0601E8-A77C-4EC5-B148-30E2E7020822`。
@@ -113,6 +120,27 @@ OCR 未匹配数据不直接写入权威库。运行时只记录为 `unknown_fro
 - `reviewNote`
 - `isVerified`
 
+GB 2760 官方 PDF 抽取数据先进入后端 `gb2760_official_records` staging 表，核心字段包括：
+
+- `ingredientId`
+- `standardCode`
+- `tableName`
+- `additiveNameCn`
+- `cnsNumber`
+- `insNumber`
+- `functionText`
+- `foodCategoryCode`
+- `foodCategoryName`
+- `maxUseLevel`
+- `unit`
+- `note`
+- `pdfPage`
+- `standardPage`
+- `rawSourceText`
+- `pdfSha256`
+- `extractionStatus`
+- `reviewStatus`
+
 字段解释：
 
 - `dataStatus` 表示数据可信层级。
@@ -122,7 +150,7 @@ OCR 未匹配数据不直接写入权威库。运行时只记录为 `unknown_fro
 
 ## 后续数据任务
 
-1. 官方 GB 2760 数据导入：优先导入基础字段和原文片段，不能可靠结构化时保留 `rawSourceText`。
+1. 官方 GB 2760 数据导入：优先把官方 PDF 表格逐行导入 `gb2760_official_records` staging 表，不能可靠结构化时保留 `rawSourceText` 和 `needs_review`。
 2. JECFA 映射扩充：只扩充安全评价来源，不写中国法规使用限制。
 3. 常见配料词库：继续从真实标签样本和可信词表扩展，并保持 `common_ingredient` 状态。
 4. OCR 未匹配收集：保存未收录条目、来源上下文和置信度，进入人工校验队列。

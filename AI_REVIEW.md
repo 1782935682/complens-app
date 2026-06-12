@@ -1,4 +1,4 @@
-# AI Review - 2026-06-12 Data Foundation Layer
+# AI Review - 2026-06-13 Data Foundation Layer
 
 ## 本轮目标
 
@@ -27,7 +27,9 @@
 7. 数据治理页新增“人工校验队列”，汇总本机 OCR 未收录项、低置信候选和静态未验证数据，并通过数据纠错表单提交校验线索。
 8. GB 2760-2024 官方标准文本来源已从食品安全国家标准数据检索平台确认：标准文本 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`，附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`，发布日期 `2024-02-08`，实施日期 `2025-02-08`；官方 PDF 已保存到 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`。
 9. 已从官方 PDF 表 A.1 首批导入 5 条条款级法规数据：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`，写入 `usageLimits`、适用食品类别、PDF 页码/标准页码、官方来源引用，并升级为 `verified_regulation` / `isVerified: true`。
-10. `DATA_SOURCES.md`、`PROJECT_PLAN.md`、`CODEX_TASKS.md` 已同步新口径：基础权威库 + 持续扩充 + 人工校验队列。
+10. 新增 GB 2760 官方 PDF staging 层：`src/data/gb2760OfficialStaging.js` 保存 20 行表 A.1 行级抽取记录，后端 `gb2760_official_records` 表和 seed 通路可将这些记录入库。
+11. staging 数据中 13 行与首批 5 条 `verified_regulation` 的正式 `usageLimits` 对齐，7 行为 `needs_review`；`needs_review` 只代表官方 PDF 原文和页码已抽取，不自动升级正式成分详情或 `isVerified`。
+12. `DATA_SOURCES.md`、`PROJECT_PLAN.md`、`CODEX_TASKS.md` 已同步新口径：基础权威库 + 官方 PDF staging 入库层 + 持续扩充 + 人工校验队列。
 
 ## 已验证与未验证
 
@@ -35,6 +37,7 @@
 |---|---:|---|
 | GB 2760 官方标准文本来源 | 已确认 | 来源为国家卫健委公告（2024年第1号）和食品安全国家标准数据检索平台；仅代表标准文本来源确认 |
 | GB 2760 条款级法规依据 | 5 条已验证 | 已导入首批官方 PDF 表 A.1 使用范围和限量；其余不得展示为 GB 2760 已验证 |
+| GB 2760 官方 PDF staging | 20 行可入库 | 13 行已与正式 verified 记录对齐；7 行为 `needs_review`，不得展示为正式法规结论 |
 | JECFA 安全评价 | 27 条 JECFA-only，另 5 条作为补充来源 | 可作为安全评价来源；不得当作中国使用限制 |
 | 常见普通配料 | 12 条词库命中 | 来自项目样例标签词库；不是法规来源 |
 | 未验证食品添加剂 | 68 条 | 保留 seed reference 和来源线索，等待人工核验 |
@@ -46,7 +49,7 @@
 
 - 不新增 AI 生成的食品成分、法规结论、限量或来源链接。
 - 不把 JECFA ADI 或安全评价写成 GB 2760 允许使用范围。
-- 不为无法可靠结构化的法规文本编造食品类别、最大使用量或条款编号。
+- 不为无法可靠结构化的法规文本编造食品类别、最大使用量或条款编号；staging 行必须保留 `rawSourceText` 和审核状态。
 - 不把 common ingredient 词库展示为官方法规数据。
 - 不承诺一次性补齐全部食品配料。
 
@@ -54,7 +57,7 @@
 
 | 阻塞项 | 需要确认 |
 |---|---|
-| GB 2760 条款级核验 | 剩余添加剂的条款编号、食品类别、最大使用量、原文片段 |
+| GB 2760 条款级核验 | 剩余添加剂的条款编号、食品类别、最大使用量、原文片段；`needs_review` staging 行需要人工确认后才能进入正式 `ingredients.usageLimits` |
 | 分组/拆分规则 | 焦糖色、糖精类、胡萝卜素、苹果酸、Nisin 等是否拆分 |
 | 未验证 68 条添加剂 | 是否可匹配 JECFA、GB 2760 或其他官方依据 |
 | OCR 未匹配队列 | 是否为普通配料、添加剂、错字、噪声或需新增条目 |
@@ -71,10 +74,13 @@
 本轮 GB 2760-2024 官方来源和首批 PDF 条款级数据更新已通过：
 
 ```bash
+npm run db:generate
 npm run validate:data
 npm run lint
 npm run test
 npm run build
+cd backend && npm run typecheck
+cd backend && npm test
 git diff --check
 ```
 

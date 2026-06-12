@@ -64,6 +64,13 @@
       "when": 1781270400000,
       "tag": "0008_foundation_data_status",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1781281721199,
+      "tag": "0009_magical_red_skull",
+      "breakpoints": true
     }
   ]
 }
