@@ -34,9 +34,10 @@ export function renderOnboardingPage(category = 'food') {
 
       <section class="section onboarding-card">
         <div class="section__head">
-          <h2>过敏原档案</h2>
+          <h2>设置你的过敏原</h2>
           <span class="count">${selectedAllergens.size} 项已选择</span>
         </div>
+        <p class="helper-text">以后可以在设置中修改，并补充关注成分和忌口项。</p>
         <div class="allergen-grid compact-allergen-grid">
           ${standardAllergens.map((allergen) => renderAllergenOption(allergen, selectedAllergens.has(allergen.id))).join('')}
         </div>

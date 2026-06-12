@@ -5,6 +5,7 @@ import { recognizeImage } from './services/ocrService.js';
 import { fetchIngredientById, fetchIngredientSearch } from './services/ingredientApiService.js';
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
+import { addAvoidIngredient, addWatchIngredient, getPersonalProfile, removeAvoidIngredient, removeWatchIngredient } from './services/personalProfileService.js';
 import { buildAuthRedirectTarget, login, logout, register, validateAuthInput } from './services/authService.js';
 import { getCompareOverview } from './services/compareService.js';
 import { clearProductArchives, deleteProductArchive, getProductArchiveById, saveProductArchiveFromReport, toggleProductArchiveFavorite } from './services/productArchiveService.js';
@@ -524,6 +525,8 @@ function bindPageEvents(route) {
     });
   }
 
+  bindPersonalProfileSettings(route);
+
   const historyRecordingToggle = document.querySelector('[data-history-recording-toggle]');
   if (historyRecordingToggle) {
     historyRecordingToggle.addEventListener('change', () => {
@@ -552,7 +555,7 @@ function bindPageEvents(route) {
       }
 
       const confirmed = typeof window.confirm === 'function'
-        ? window.confirm('导入会覆盖当前本机收藏、历史、过敏原、报告、产品档案和扫描草稿，继续？')
+        ? window.confirm('导入会覆盖当前本机收藏、历史、过敏原、关注成分、忌口项、报告、产品档案和扫描草稿，继续？')
         : true;
       if (!confirmed) return;
 
@@ -564,8 +567,7 @@ function bindPageEvents(route) {
           updateLocalDataSummary(result.message);
           return;
         }
-        syncAllergenForm(allergenForm, getUserAllergens());
-        syncHistoryRecordingToggle(isHistoryRecordingEnabled());
+        render();
         updateAllergenSettingsFeedback(getUserAllergens().length, '已导入');
         updateLocalDataSummary(result.message);
       } catch {
@@ -578,7 +580,7 @@ function bindPageEvents(route) {
   if (clearLocalDataButton) {
     clearLocalDataButton.addEventListener('click', async () => {
       const confirmed = typeof window.confirm === 'function'
-        ? window.confirm('清空本机收藏、历史、过敏原、报告、产品档案和扫描草稿？')
+        ? window.confirm('清空本机收藏、历史、过敏原、关注成分、忌口项、报告、产品档案和扫描草稿？')
         : true;
       if (!confirmed) return;
 
@@ -591,8 +593,7 @@ function bindPageEvents(route) {
           // Other local data has already been cleared; image cleanup is best-effort.
         }
       }
-      syncAllergenForm(allergenForm, []);
-      syncHistoryRecordingToggle(isHistoryRecordingEnabled());
+      render();
       updateAllergenSettingsFeedback(0, '已清空');
       updateLocalDataSummary('本机数据已清空。');
     });
@@ -691,6 +692,47 @@ function bindPageEvents(route) {
   }
 
   bindHistorySwipeActions();
+}
+
+function bindPersonalProfileSettings(route) {
+  document.querySelectorAll('[data-add-personal-ingredient]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const type = button.dataset.addPersonalIngredient;
+      const ingredientId = button.dataset.ingredientId;
+      if (type === 'watch') {
+        addWatchIngredient(ingredientId, route.category);
+      } else if (type === 'avoid') {
+        addAvoidIngredient(ingredientId, route.category);
+      }
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-remove-personal-ingredient]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const type = button.dataset.removePersonalIngredient;
+      const ingredientId = button.dataset.ingredientId;
+      if (type === 'watch') {
+        removeWatchIngredient(ingredientId);
+      } else if (type === 'avoid') {
+        removeAvoidIngredient(ingredientId);
+      }
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-personal-ingredient-filter]').forEach((input) => {
+    input.addEventListener('input', () => filterPersonalIngredientCandidates(input));
+  });
+}
+
+function filterPersonalIngredientCandidates(input) {
+  const type = input.dataset.personalIngredientFilter;
+  const keyword = String(input.value || '').trim().toLowerCase();
+  document.querySelectorAll(`[data-personal-ingredient-candidates="${type}"] [data-personal-ingredient-candidate]`).forEach((button) => {
+    const haystack = String(button.dataset.candidateText || '').toLowerCase();
+    button.hidden = Boolean(keyword) && !haystack.includes(keyword);
+  });
 }
 
 function bindAuthEvents(route) {
@@ -1070,27 +1112,24 @@ function statusFromOcrResult(result) {
 
 function updateAllergenSettingsFeedback(count, message) {
   const countNode = document.querySelector('[data-allergen-count]');
-  if (countNode) countNode.textContent = `${count} 项已关注`;
+  if (countNode) countNode.textContent = `已选 ${count} 种过敏原`;
+  updatePersonalProfileCount();
   const statusNode = document.querySelector('[data-allergen-status]');
   if (statusNode) statusNode.textContent = message;
+}
+
+function updatePersonalProfileCount() {
+  const countNode = document.querySelector('[data-personal-profile-count]');
+  if (!countNode) return;
+  const category = resolveRoute(window.location.hash).category;
+  const profile = getPersonalProfile(category);
+  const count = profile.allergenIds.length + profile.watchIds.length + profile.avoidIds.length;
+  countNode.textContent = `${count} 项个人设置`;
 }
 
 function updateAnalyzeStatus(message) {
   const statusNode = document.querySelector('[data-analyze-status]');
   if (statusNode) statusNode.textContent = message;
-}
-
-function syncAllergenForm(form, selectedIds) {
-  if (!form) return;
-  const selected = new Set(Array.isArray(selectedIds) ? selectedIds : []);
-  form.querySelectorAll('input[name="allergens"]').forEach((input) => {
-    input.checked = selected.has(input.value);
-  });
-}
-
-function syncHistoryRecordingToggle(enabled) {
-  const toggle = document.querySelector('[data-history-recording-toggle]');
-  if (toggle) toggle.checked = Boolean(enabled);
 }
 
 function updateLocalDataSummary(message) {

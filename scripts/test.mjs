@@ -33,6 +33,7 @@ import { compressImage } from '../src/utils/imageProcessor.js';
 import { AUTH_ERROR_MESSAGES, USER_KEY, getCurrentUser as getAuthCurrentUser, isLoggedIn as isAuthLoggedIn, logout as authLogout, syncLocalDataToServer, validateAuthInput } from '../src/services/authService.js';
 import { AUTH_TOKEN_KEY, isLoggedIn as isStorageLoggedIn, readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
+import { addAvoidIngredient, addWatchIngredient, clearAvoidIngredients, clearWatchIngredients, getAvoidIngredientIds, getPersonalIngredientHit, getPersonalProfile, getReportPersonalHits, getWatchIngredientIds, removeAvoidIngredient, removeWatchIngredient } from '../src/services/personalProfileService.js';
 import { clearProductArchives, createProductArchiveFromReport, getProductArchiveById, getProductArchiveByReportId, getProductArchives, MAX_PRODUCT_ARCHIVES, PRODUCT_ARCHIVES_KEY, saveProductArchiveFromReport, toggleProductArchiveFavorite } from '../src/services/productArchiveService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sanitizeNativeSharePayload, sharePayloadWithFallback } from '../src/services/shareService.js';
 import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
@@ -160,6 +161,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告�
 assert.equal(getRouteTitle(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82')), '卵磷脂 报告检索 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/products')), '产品档案 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/history')), '分析历史 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/settings')), '个人成分档案 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
@@ -526,7 +528,7 @@ assert.match(nativeBridgeServiceJs, /getBase64ByteSize\(photo\.base64String\)/);
 assert.match(nativeBridgeServiceJs, /Share\.share/);
 assert.match(nativeBridgeServiceJs, /if \(payload\.url\) shareOptions\.url = payload\.url/);
 const serviceWorkerJs = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v20'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v21'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/manifest\.webmanifest/);
 assert.match(serviceWorkerJs, /\.\/app-icon\.svg/);
@@ -1361,12 +1363,22 @@ const accountBToken = makeTestJwt(Math.floor(Date.now() / 1000) + 180, { sub: 'a
 storageMap.set(AUTH_TOKEN_KEY, accountAToken);
 globalThis.fetch = undefined;
 writeJson('compcheck:favorites', [{ id: 'account-a-favorite', category: 'food' }]);
+addWatchIngredient('sodium-bicarbonate', 'food');
+addAvoidIngredient('sodium-metabisulfite', 'food');
 globalThis.fetch = activeSyncFetch;
+storageMap.delete(AUTH_TOKEN_KEY);
+assert.deepEqual(getWatchIngredientIds('food'), []);
+assert.deepEqual(getAvoidIngredientIds('food'), []);
+storageMap.set(AUTH_TOKEN_KEY, accountAToken);
+assert.deepEqual(getWatchIngredientIds('food'), ['sodium-bicarbonate']);
+assert.deepEqual(getAvoidIngredientIds('food'), ['sodium-metabisulfite']);
 storageMap.set('compcheck:favorites', JSON.stringify([{ id: 'stale-shared-favorite', category: 'food' }]));
 serverSyncItems = [{ id: 'account-b-server-favorite', category: 'food' }];
 syncCalls.length = 0;
 storageMap.set(AUTH_TOKEN_KEY, accountBToken);
 assert.deepEqual(readJson('compcheck:favorites', []), []);
+assert.deepEqual(getWatchIngredientIds('food'), []);
+assert.deepEqual(getAvoidIngredientIds('food'), []);
 await new Promise((resolve) => setTimeout(resolve, 0));
 await new Promise((resolve) => setTimeout(resolve, 0));
 assert.equal(syncCalls[0].url, '/api/user/favorites');
@@ -1375,6 +1387,8 @@ assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'account-b-server-f
 globalThis.fetch = undefined;
 storageMap.set(AUTH_TOKEN_KEY, accountAToken);
 assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'account-a-favorite', category: 'food' }]);
+assert.deepEqual(getWatchIngredientIds('food'), ['sodium-bicarbonate']);
+assert.deepEqual(getAvoidIngredientIds('food'), ['sodium-metabisulfite']);
 globalThis.fetch = activeSyncFetch;
 storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) - 10, { sub: 'expired-auth-user' }));
 storageMap.set(USER_KEY, JSON.stringify({ id: 'expired-auth-user', email: 'expired@example.com', createdAt: '2026-06-12T00:00:00.000Z' }));
@@ -1394,6 +1408,8 @@ const authSyncResult = await syncLocalDataToServer({
   compareItems: [],
   history: ['柠檬酸'],
   allergens: ['milk'],
+  watchIngredients: ['sodium-bicarbonate'],
+  avoidIngredients: ['sodium-metabisulfite'],
   analysisReports: [],
   products: [],
   supportRequests: [],
@@ -1403,6 +1419,8 @@ assert.equal(authSyncResult.ok, true);
 assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'citric-acid', category: 'food' }]);
 assert.deepEqual(readJson('compcheck:history', []), ['柠檬酸']);
 assert.deepEqual(readJson('compcheck:allergens', []), ['milk']);
+assert.deepEqual(getWatchIngredientIds('food'), ['sodium-bicarbonate']);
+assert.deepEqual(getAvoidIngredientIds('food'), ['sodium-metabisulfite']);
 let authLogoutCalled = false;
 globalThis.fetch = async (url, options = {}) => {
   if (url === '/api/auth/logout') {
@@ -1494,12 +1512,38 @@ assert.equal(setHistoryRecordingEnabled(true), true);
 const originalUserAllergens = getUserAllergens();
 assert.deepEqual(setUserAllergens(['milk', 'milk', '', 'soybeans']), ['milk', 'soybeans']);
 assert.deepEqual(getUserAllergens(), ['milk', 'soybeans']);
+assert.deepEqual(clearWatchIngredients(), []);
+assert.deepEqual(clearAvoidIngredients(), []);
+assert.deepEqual(addWatchIngredient('sodium-bicarbonate', 'food'), ['sodium-bicarbonate']);
+assert.deepEqual(addWatchIngredient('sodium-bicarbonate', 'food'), ['sodium-bicarbonate']);
+assert.deepEqual(getWatchIngredientIds('food'), ['sodium-bicarbonate']);
+assert.deepEqual(removeWatchIngredient('sodium-bicarbonate'), []);
+assert.deepEqual(addWatchIngredient('sodium-bicarbonate', 'food'), ['sodium-bicarbonate']);
+assert.deepEqual(addAvoidIngredient('sodium-metabisulfite', 'food'), ['sodium-metabisulfite']);
+assert.deepEqual(addAvoidIngredient('sodium-metabisulfite', 'food'), ['sodium-metabisulfite']);
+assert.deepEqual(getAvoidIngredientIds('food'), ['sodium-metabisulfite']);
+assert.deepEqual(removeAvoidIngredient('sodium-metabisulfite'), []);
+assert.deepEqual(addAvoidIngredient('sodium-metabisulfite', 'food'), ['sodium-metabisulfite']);
+assert.deepEqual(getPersonalProfile('food'), {
+  allergenIds: ['milk', 'soybeans'],
+  watchIds: ['sodium-bicarbonate'],
+  avoidIds: ['sodium-metabisulfite']
+});
 const settingsHtml = renderSettingsPage();
-assert.match(settingsHtml, /过敏原档案/);
-assert.match(settingsHtml, /2 项已关注/);
+assert.match(settingsHtml, /个人成分档案/);
+assert.match(settingsHtml, /4 项个人设置/);
+assert.match(settingsHtml, /已选 2 种过敏原/);
 assert.match(settingsHtml, /value="milk" checked/);
 assert.match(settingsHtml, /value="soybeans" checked/);
 assert.match(settingsHtml, /value="peanuts"/);
+assert.match(settingsHtml, /我的关注成分/);
+assert.match(settingsHtml, /添加后在分析报告中重点展示，不代表有害/);
+assert.match(settingsHtml, /data-remove-personal-ingredient="watch" data-ingredient-id="sodium-bicarbonate"/);
+assert.match(settingsHtml, /data-add-personal-ingredient="watch"/);
+assert.match(settingsHtml, /我的忌口项/);
+assert.match(settingsHtml, /不构成医疗建议/);
+assert.match(settingsHtml, /data-remove-personal-ingredient="avoid" data-ingredient-id="sodium-metabisulfite"/);
+assert.match(settingsHtml, /data-add-personal-ingredient="avoid"/);
 assert.match(settingsHtml, /账号与云同步/);
 assert.match(settingsHtml, /访客模式/);
 assert.match(settingsHtml, /登录账号，开启云同步/);
@@ -1522,6 +1566,8 @@ assert.match(settingsHtml, /data-local-data-count="history">1</);
 assert.match(settingsHtml, /data-local-data-count="products">0</);
 assert.match(settingsHtml, /data-local-data-count="supportRequests">0</);
 assert.match(settingsHtml, /data-local-data-count="allergens">2</);
+assert.match(settingsHtml, /data-local-data-count="watchIngredients">1</);
+assert.match(settingsHtml, /data-local-data-count="avoidIngredients">1</);
 assert.match(settingsHtml, /data-history-recording-toggle checked/);
 assert.match(renderSettingsPage('cosmetics'), /href="#\/cosmetics\/membership"/);
 assert.match(renderSettingsPage('cosmetics'), /href="#\/cosmetics\/support"/);
@@ -1681,10 +1727,12 @@ assert.equal(localDataSummary.favorites, 2);
 assert.equal(localDataSummary.compareItems, 4);
 assert.equal(localDataSummary.history, 1);
 assert.equal(localDataSummary.allergens, 2);
+assert.equal(localDataSummary.watchIngredients, 1);
+assert.equal(localDataSummary.avoidIngredients, 1);
 assert.equal(localDataSummary.products, 0);
 assert.equal(localDataSummary.supportRequests, 1);
 assert.equal(localDataSummary.scanDrafts, 1);
-assert.equal(localDataSummary.totalItems, 11);
+assert.equal(localDataSummary.totalItems, 13);
 const localDataSnapshot = getLocalDataSnapshot();
 assert.equal(localDataSnapshot.schemaVersion, 1);
 assert.equal(localDataSnapshot.preferences.historyRecordingEnabled, true);
@@ -1693,6 +1741,8 @@ assert.equal(localDataSnapshot.compareItems.some((item) => item.id === 'citric-a
 assert.equal(localDataSnapshot.supportRequests.some((item) => item.subject === '扫描草稿反馈'), true);
 assert.deepEqual(localDataSnapshot.products, []);
 assert.equal(localDataSnapshot.history[0], '烟酰胺');
+assert.deepEqual(localDataSnapshot.watchIngredients, ['sodium-bicarbonate']);
+assert.deepEqual(localDataSnapshot.avoidIngredients, ['sodium-metabisulfite']);
 assert.equal(localDataSnapshot.scanDrafts.food, '柠檬酸，山梨酸钾');
 setHistoryRecordingEnabled(false);
 assert.deepEqual(clearLocalUserData(), {
@@ -1700,6 +1750,8 @@ assert.deepEqual(clearLocalUserData(), {
   compareItems: 0,
   history: 0,
   allergens: 0,
+  watchIngredients: 0,
+  avoidIngredients: 0,
   reports: 0,
   products: 0,
   supportRequests: 0,
@@ -1710,6 +1762,8 @@ assert.deepEqual(getFavoriteItems(), []);
 assert.deepEqual(getCompareItems(), []);
 assert.deepEqual(getHistory(), []);
 assert.deepEqual(getUserAllergens(), []);
+assert.deepEqual(getWatchIngredientIds(), []);
+assert.deepEqual(getAvoidIngredientIds(), []);
 assert.deepEqual(getSupportRequests(), []);
 assert.equal(getScanDraft('food'), '');
 assert.equal(isHistoryRecordingEnabled(), false);
@@ -1728,11 +1782,13 @@ setHistoryRecordingEnabled(true);
 const importResult = importLocalDataSnapshot(localDataSnapshot);
 assert.equal(importResult.ok, true);
 assert.equal(isHistoryRecordingEnabled(), true);
-assert.equal(importResult.summary.totalItems, 11);
+assert.equal(importResult.summary.totalItems, 13);
 assert.deepEqual(getFavoriteItems(), localDataSnapshot.favorites);
 assert.deepEqual(getCompareItems(), localDataSnapshot.compareItems);
 assert.deepEqual(getHistory(), localDataSnapshot.history);
 assert.deepEqual(getUserAllergens(), localDataSnapshot.allergens);
+assert.deepEqual(getWatchIngredientIds(), localDataSnapshot.watchIngredients);
+assert.deepEqual(getAvoidIngredientIds(), localDataSnapshot.avoidIngredients);
 assert.deepEqual(getSupportRequests(), localDataSnapshot.supportRequests);
 assert.equal(getScanDraft('food'), '柠檬酸，山梨酸钾');
 const overLimitCompareImport = importLocalDataSnapshot({
@@ -1883,6 +1939,10 @@ setUserAllergens(originalUserAllergens);
 
 writeJson('compcheck:analysis-reports', []);
 setUserAllergens(['milk', 'soybeans']);
+clearWatchIngredients();
+clearAvoidIngredients();
+addWatchIngredient('sodium-bicarbonate', 'food');
+addAvoidIngredient('sodium-metabisulfite', 'food');
 const fakeParsedIngredient = { rawText: '测试', normalizedText: '测试', index: 0 };
 let fakeMatchIndex = 0;
 const fakeMatch = (riskLevel) => ({
@@ -1920,6 +1980,14 @@ assert.equal(savedReport.productName, '测试饼干');
 assert.equal(savedReport.title, '测试饼干');
 assert.equal(getAnalysisReports('food').length, 1);
 assert.equal(getAnalysisReportById(savedReport.id).id, savedReport.id);
+const reportPersonalProfile = getPersonalProfile('food');
+assert.equal(getPersonalIngredientHit(getIngredientById('lecithins', 'food'), 'food', reportPersonalProfile).type, 'allergen');
+assert.equal(getPersonalIngredientHit(getIngredientById('sodium-metabisulfite', 'food'), 'food', reportPersonalProfile).type, 'avoid');
+assert.equal(getPersonalIngredientHit(getIngredientById('sodium-bicarbonate', 'food'), 'food', reportPersonalProfile).type, 'watch');
+const reportPersonalHits = getReportPersonalHits(savedReport, reportPersonalProfile);
+assert.equal(reportPersonalHits.some((hit) => hit.id === 'lecithins' && hit.type === 'allergen'), true);
+assert.equal(reportPersonalHits.some((hit) => hit.id === 'sodium-metabisulfite' && hit.type === 'avoid'), true);
+assert.equal(reportPersonalHits.some((hit) => hit.id === 'sodium-bicarbonate' && hit.type === 'watch'), true);
 const reportsHtml = renderRoute(resolveRoute('#/food/reports'));
 assert.match(reportsHtml, /分析报告/);
 assert.match(reportsHtml, /data-report-search-form/);
@@ -1943,6 +2011,10 @@ assert.doesNotMatch(emptyFilteredReportsHtml, /data-delete-report=/);
 const reportDetailHtml = renderRoute(resolveRoute(`#/food/reports/${savedReport.id}`));
 assert.match(reportDetailHtml, /整体评级/);
 assert.match(reportDetailHtml, /关注摘要/);
+assert.match(reportDetailHtml, /个人命中摘要/);
+assert.match(reportDetailHtml, /含过敏原/);
+assert.match(reportDetailHtml, /你的忌口项/);
+assert.match(reportDetailHtml, /你关注的/);
 assert.match(reportDetailHtml, /配料顺序说明/);
 assert.match(reportDetailHtml, /食品添加剂/);
 assert.match(reportDetailHtml, /普通原料 \/ 暂未收录/);
@@ -1964,6 +2036,23 @@ assert.match(reportDetailHtml, /过敏原命中/);
 assert.match(reportDetailHtml, /全脂奶粉/);
 assert.match(reportDetailHtml, /href="#\/food\/analyze\?text=/);
 assert.match(reportDetailHtml, /productName=/);
+const personalSearchHtml = renderSearchPage('碳酸氢钠', 'food');
+assert.match(personalSearchHtml, /personal-badge--watch/);
+assert.match(personalSearchHtml, /你关注的/);
+const personalDetailHtml = renderDetailPage('sodium-metabisulfite', 'food');
+assert.match(personalDetailHtml, /personal-alert--avoid/);
+assert.match(personalDetailHtml, /你的忌口项/);
+clearWatchIngredients();
+clearAvoidIngredients();
+setUserAllergens([]);
+const clearedPersonalReportHtml = renderRoute(resolveRoute(`#/food/reports/${savedReport.id}`));
+assert.doesNotMatch(clearedPersonalReportHtml, /个人命中摘要/);
+assert.doesNotMatch(clearedPersonalReportHtml, /personal-badge--(?:allergen|avoid|watch)/);
+assert.doesNotMatch(renderSearchPage('碳酸氢钠', 'food'), /personal-badge--watch/);
+assert.doesNotMatch(renderDetailPage('sodium-metabisulfite', 'food'), /personal-alert--avoid/);
+setUserAllergens(['milk', 'soybeans']);
+addWatchIngredient('sodium-bicarbonate', 'food');
+addAvoidIngredient('sodium-metabisulfite', 'food');
 assert.deepEqual(resolveRoute(`#/food/report/${savedReport.id}`), { view: 'report-detail', category: 'food', id: savedReport.id });
 writeJson(PRODUCT_ARCHIVES_KEY, []);
 const productDraft = createProductArchiveFromReport(savedReport, {

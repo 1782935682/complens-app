@@ -12,6 +12,10 @@ const SYNC_CONFIGS = {
   'compcheck:analysis-reports': { path: '/user/reports', method: 'POST' },
   'compcheck:products': { path: '/user/products?limit=100', method: 'POST' }
 };
+const LOCAL_ACCOUNT_SCOPED_KEYS = new Set([
+  'compcheck:watch-ingredients',
+  'compcheck:avoid-ingredients'
+]);
 
 function getStorage() {
   try {
@@ -260,8 +264,12 @@ export function getApiBaseUrl() {
 }
 
 function getScopedStorageKey(key, token) {
-  if (!SYNC_CONFIGS[key] || !token) return key;
+  if (!isAccountScopedKey(key) || !token) return key;
   return `compcheck:sync:${getAuthUserCacheKey(token)}:${key.replace(/^compcheck:/, '')}`;
+}
+
+function isAccountScopedKey(key) {
+  return Boolean(SYNC_CONFIGS[key]) || LOCAL_ACCOUNT_SCOPED_KEYS.has(key);
 }
 
 function getAuthUserCacheKey(token) {

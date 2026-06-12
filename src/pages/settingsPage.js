@@ -2,23 +2,28 @@ import { escapeHtml, html } from '../components/render.js';
 import { standardAllergens } from '../data/allergens.js';
 import { categoryPath } from '../data/categories.js';
 import { getCurrentUser } from '../services/authService.js';
-import { getLocalDataSummary, getUserAllergens, isHistoryRecordingEnabled } from '../store/userStore.js';
+import { getPersonalIngredientOptions, getPersonalIngredients, getPersonalProfile } from '../services/personalProfileService.js';
+import { getLocalDataSummary, isHistoryRecordingEnabled } from '../store/userStore.js';
 
 export function renderSettingsPage(category = 'food') {
-  const selected = new Set(getUserAllergens());
+  const profile = getPersonalProfile(category);
+  const selected = new Set(profile.allergenIds);
+  const selectedWatchIds = new Set(profile.watchIds);
+  const selectedAvoidIds = new Set(profile.avoidIds);
   const localDataSummary = getLocalDataSummary();
   const historyRecordingEnabled = isHistoryRecordingEnabled();
   const currentUser = getCurrentUser();
+  const personalCount = profile.allergenIds.length + profile.watchIds.length + profile.avoidIds.length;
   return html`
     <section class="section">
       <div class="section__head">
         <div>
           <p class="eyebrow">个人设置</p>
-          <h1>过敏原档案</h1>
+          <h1>个人成分档案</h1>
         </div>
-        <span class="count" data-allergen-count>${selected.size} 项已关注</span>
+        <span class="count" data-personal-profile-count>${personalCount} 项个人设置</span>
       </div>
-      <p class="lead">选择需要重点提示的过敏原。搜索、详情和成分表分析会优先标出匹配项。</p>
+      <p class="lead">选择需要重点提示的过敏原、关注成分和忌口项。搜索、详情和成分表分析会按优先级标出匹配项。</p>
     </section>
 
     <section class="section">
@@ -55,16 +60,39 @@ export function renderSettingsPage(category = 'food') {
     </section>
 
     <section class="section">
-      <form class="settings-panel" data-allergen-form>
-        <div class="allergen-grid">
-          ${standardAllergens.map((allergen) => renderAllergenOption(allergen, selected.has(allergen.id))).join('')}
-        </div>
-        <div class="form-actions">
-          <button type="submit">保存设置</button>
-          <button type="button" class="secondary" data-clear-allergens>清空选择</button>
-          <span class="save-status" data-allergen-status role="status" aria-live="polite"></span>
-        </div>
-      </form>
+      <div class="profile-settings-grid">
+        <details class="settings-panel personal-settings-panel" open>
+          <summary>
+            <span>过敏原</span>
+            <span class="count" data-allergen-count>已选 ${selected.size} 种过敏原</span>
+          </summary>
+          <p class="helper-text">EU 14 类标准过敏原。命中时会优先显示红色提醒，请结合包装原文核对。</p>
+          <form data-allergen-form>
+            <div class="allergen-grid">
+              ${standardAllergens.map((allergen) => renderAllergenOption(allergen, selected.has(allergen.id))).join('')}
+            </div>
+            <div class="form-actions">
+              <button type="submit">保存设置</button>
+              <button type="button" class="secondary" data-clear-allergens>清空选择</button>
+              <span class="save-status" data-allergen-status role="status" aria-live="polite"></span>
+            </div>
+          </form>
+        </details>
+        ${renderPersonalIngredientSection({
+          type: 'watch',
+          title: '我的关注成分',
+          help: '添加后在分析报告中重点展示，不代表有害。',
+          category,
+          selectedIds: selectedWatchIds
+        })}
+        ${renderPersonalIngredientSection({
+          type: 'avoid',
+          title: '我的忌口项',
+          help: '添加后在分析报告中标注提醒，不构成医疗建议。',
+          category,
+          selectedIds: selectedAvoidIds
+        })}
+      </div>
     </section>
 
     <section class="section">
@@ -85,6 +113,8 @@ export function renderSettingsPage(category = 'food') {
           ${renderLocalDataMetric('supportRequests', localDataSummary.supportRequests, '反馈')}
           ${renderLocalDataMetric('scanDrafts', localDataSummary.scanDrafts, '扫描草稿')}
           ${renderLocalDataMetric('allergens', localDataSummary.allergens, '过敏原')}
+          ${renderLocalDataMetric('watchIngredients', localDataSummary.watchIngredients, '关注成分')}
+          ${renderLocalDataMetric('avoidIngredients', localDataSummary.avoidIngredients, '忌口项')}
         </div>
         <label class="history-privacy-toggle">
           <input type="checkbox" name="historyRecordingEnabled" data-history-recording-toggle ${historyRecordingEnabled ? 'checked' : ''} />
@@ -93,7 +123,7 @@ export function renderSettingsPage(category = 'food') {
             <small>关闭后不会记录新的搜索；已有历史仍可单条删除、清空或随本机数据导出。</small>
           </span>
         </label>
-        <p class="helper-text">这些内容目前只保存在本机浏览器。导出会生成 JSON 文件；导入会用所选 JSON 覆盖本机收藏、历史、过敏原、报告、产品档案和扫描草稿；清空会移除全部本机数据。</p>
+        <p class="helper-text">这些内容目前只保存在本机浏览器。导出会生成 JSON 文件；导入会用所选 JSON 覆盖本机收藏、历史、过敏原、关注成分、忌口项、报告、产品档案和扫描草稿；清空会移除全部本机数据。</p>
         <div class="local-data-import">
           <label for="local-data-import-file">导入本机数据 JSON</label>
           <input id="local-data-import-file" type="file" accept="application/json,.json" data-import-local-data-input />
@@ -107,6 +137,69 @@ export function renderSettingsPage(category = 'food') {
         </div>
       </div>
     </section>
+  `;
+}
+
+function renderPersonalIngredientSection({ type, title, help, category, selectedIds }) {
+  const selectedIngredients = getPersonalIngredients([...selectedIds], category);
+  const options = getPersonalIngredientOptions(category);
+  return html`
+    <details class="settings-panel personal-settings-panel" open data-personal-profile-section="${escapeHtml(type)}">
+      <summary>
+        <span>${escapeHtml(title)}</span>
+        <span class="count">${selectedIds.size} 项</span>
+      </summary>
+      <p class="helper-text">${escapeHtml(help)}</p>
+      <div class="profile-chip-list" aria-label="${escapeHtml(title)}已添加成分">
+        ${selectedIngredients.length
+          ? selectedIngredients.map((ingredient) => renderSelectedIngredientChip(type, ingredient)).join('')
+          : html`<p class="empty small">当前类别暂无已添加成分。</p>`}
+      </div>
+      <label class="personal-ingredient-search" for="${escapeHtml(type)}-ingredient-search">
+        <span>搜索成分</span>
+        <input id="${escapeHtml(type)}-ingredient-search" type="search" data-personal-ingredient-filter="${escapeHtml(type)}" placeholder="中文名、英文名、E 编号或分类" autocomplete="off" />
+      </label>
+      <div class="personal-candidate-list" data-personal-ingredient-candidates="${escapeHtml(type)}">
+        ${options.map((ingredient) => renderIngredientCandidate(type, ingredient, selectedIds.has(ingredient.id))).join('')}
+      </div>
+    </details>
+  `;
+}
+
+function renderSelectedIngredientChip(type, ingredient) {
+  return html`
+    <button type="button" class="profile-chip profile-chip--${escapeHtml(type)}" data-remove-personal-ingredient="${escapeHtml(type)}" data-ingredient-id="${escapeHtml(ingredient.id)}">
+      <strong>${escapeHtml(ingredient.nameCn)}</strong>
+      <span>移除</span>
+    </button>
+  `;
+}
+
+function renderIngredientCandidate(type, ingredient, selected) {
+  const searchText = [
+    ingredient.nameCn,
+    ingredient.nameEn,
+    ingredient.eNumber,
+    ingredient.gbCode,
+    ingredient.category,
+    ...(ingredient.aliases || [])
+  ].filter(Boolean).join(' ');
+  return html`
+    <button
+      type="button"
+      class="personal-candidate ${selected ? 'is-selected' : ''}"
+      data-personal-ingredient-candidate
+      data-add-personal-ingredient="${escapeHtml(type)}"
+      data-ingredient-id="${escapeHtml(ingredient.id)}"
+      data-candidate-text="${escapeHtml(searchText)}"
+      ${selected ? 'disabled' : ''}
+    >
+      <span>
+        <strong>${escapeHtml(ingredient.nameCn)}</strong>
+        <small>${escapeHtml([ingredient.nameEn, ingredient.eNumber || ingredient.gbCode, ingredient.category].filter(Boolean).join(' / '))}</small>
+      </span>
+      <em>${selected ? '已添加' : '添加'}</em>
+    </button>
   `;
 }
 

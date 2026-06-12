@@ -1,8 +1,8 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
-import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { getCategoryStats, getDatasetAuditSummary, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
-import { getUserAllergens, isInCompare } from '../store/userStore.js';
+import { getPersonalIngredientHit, getPersonalProfile } from '../services/personalProfileService.js';
+import { isInCompare } from '../store/userStore.js';
 
 const SEARCH_PAGE_SIZE = 6;
 const DEFAULT_SEARCH_SORT = 'relevance';
@@ -250,17 +250,17 @@ function renderPageSummary(totalCount, currentPage, pageCount) {
 }
 
 function renderResults(results, category) {
-  const userAllergens = getUserAllergens();
+  const profile = getPersonalProfile(category);
   return html`
     <div class="result-list">
       ${results.map((result) => {
-        const allergenMatches = getMatchingUserAllergens(result, userAllergens);
+        const personalHit = getPersonalIngredientHit(result, category, profile);
         const compared = isInCompare(result.id, category);
         return html`
         <article class="result-item">
           <a class="result-item__main" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
             <span class="${riskClass(result.riskLevel)}">${riskLabel(result.riskLevel)}</span>
-            ${allergenMatches.length ? `<span class="allergen-badge">过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}</span>` : ''}
+            ${personalHit ? renderPersonalHitBadge(personalHit) : ''}
             ${shouldShowProvenanceBadge(result, category) ? `<span class="data-badge data-badge--unverified">${escapeHtml(confidenceLabel(result.confidenceLevel))}</span>` : ''}
             <h3>${escapeHtml(result.nameCn)}</h3>
             <p class="latin">${escapeHtml(result.nameEn || '')}</p>
@@ -277,6 +277,10 @@ function renderResults(results, category) {
       }).join('')}
     </div>
   `;
+}
+
+function renderPersonalHitBadge(hit) {
+  return `<span class="personal-badge personal-badge--${escapeHtml(hit.type)}">${escapeHtml(hit.badgeLabel)}</span>`;
 }
 
 function shouldShowProvenanceBadge(result, category) {
