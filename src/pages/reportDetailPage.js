@@ -225,7 +225,7 @@ function renderMatchedIngredient(item, category) {
           ${match.eNumber ? html`<span>E-number：${escapeHtml(match.eNumber)}</span>` : ''}
           ${match.gbCode ? html`<span>GB/INS：${escapeHtml(match.gbCode)}</span>` : ''}
           <span>匹配置信度：${Math.round((Number(item.confidence) || 0) * 100)}%</span>
-          <span>来源范围：${escapeHtml(sourceScopeLabel(match.sourceScope || fullIngredient?.sourceScope))}</span>
+          <span>来源范围：${escapeHtml(sourceScopeLabel(getReportMatchSourceScope(match, fullIngredient)))}</span>
           <span>数据来源：${escapeHtml(match.sourceName || fullIngredient?.sourceName || '暂无')}</span>
           <span>审核状态：${escapeHtml(reviewStatusLabel(match.reviewStatus || fullIngredient?.reviewStatus))}</span>
           ${match.reviewNote || fullIngredient?.reviewNote ? html`<span>备注：${escapeHtml(match.reviewNote || fullIngredient.reviewNote)}</span>` : ''}
@@ -434,6 +434,12 @@ function getReportMatchDataStatus(item) {
   if (!item?.match || item.confidence <= 0) return 'unknown_from_ocr';
   if (item.confidence < 0.9) return 'mapped_candidate';
   return normalizeDataStatus(item.match.dataStatus);
+}
+
+function getReportMatchSourceScope(match, fullIngredient) {
+  const matchScope = String(match?.sourceScope || '').trim();
+  if (matchScope && matchScope !== 'unknown') return matchScope;
+  return String(fullIngredient?.sourceScope || '').trim() || matchScope || 'unknown';
 }
 
 function normalizeDataStatus(status) {
