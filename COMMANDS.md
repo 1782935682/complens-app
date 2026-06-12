@@ -133,6 +133,15 @@ cd backend
 npm run db:seed
 ```
 
+可选审计参数：
+
+```bash
+cd backend
+npm run db:seed -- --version 2026-06-v1 --reviewed-by system --change-note "seed version update"
+```
+
+`--version` 会覆盖本次导入写入数据库的 `data_version`；同一条记录只有在数据库中已有版本与本次版本不同时，才会更新 `change_note` 和 `reviewed_at`。这只记录导入批次，不代表人工法规审核完成。
+
 默认 PostgreSQL 宿主端口为 `15432`，避免和本机已有 `5432` 冲突；如需调整，可在 `backend/.env` 设置 `POSTGRES_PORT` 并同步宿主机使用的 `DATABASE_URL`。
 
 生产数据库未完成。当前仅完成本地数据库或开发环境数据库对接，不应将本地 schema、migration 或 seed 完成描述为生产数据库已完成。
@@ -142,6 +151,7 @@ npm run db:seed
 ```bash
 curl "http://127.0.0.1:3000/api/ingredients?q=苯甲酸"
 curl "http://127.0.0.1:3000/api/ingredients/search?q=E211&limit=2"
+curl "http://127.0.0.1:3000/api/ingredients?confidenceLevel=unverified&limit=5"
 curl "http://127.0.0.1:3000/api/ingredients/categories"
 curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"
 curl -i "http://127.0.0.1:3000/api/ingredients/not-exist"

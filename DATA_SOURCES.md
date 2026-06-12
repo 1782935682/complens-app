@@ -40,6 +40,17 @@ isVerified: false
 - 未逐条确认生效日期。
 - 未逐条确认 ADI 原文、适用条件和逐食品类别限量。
 
+## 数据版本与审核记录
+
+2026-06-12 已完成 Data Batch 1-C 的基础设施：
+
+- 后端 `ingredients` 表保留 `data_version`，并新增 `reviewed_by`、`reviewed_at`、`change_note` 用于记录导入批次和审核状态变更说明。
+- 后端 `GET /api/ingredients` 和 `GET /api/ingredients/search` 支持 `confidenceLevel=high|medium|low|unverified` 筛选。
+- seed 脚本支持 `--version`、`--reviewed-by`、`--change-note` 参数；版本变化时才更新 `change_note` 和 `reviewed_at`。
+- 前端 `/data` 页支持按 `sourceName` 和 `confidenceLevel` 查看当前 seed 的来源、版本、分类和待审核比例。
+
+这些字段只提供可追踪流程，不代表当前 seed 已被人工审核。当前 100 条食品添加剂仍全部为 `confidenceLevel: 'unverified'`、`isVerified: false`。
+
 ## 缺失数据范围
 
 - GB 2760 全量食品添加剂条目。

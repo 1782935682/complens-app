@@ -196,6 +196,7 @@
 | 批次 | 名称 | 完成日期 |
 |---|---|---|
 | Batch F-B | 历史列表与产品收藏管理 | ✅ 2026-06-12 |
+| Data Batch 1-C | 数据版本管理与审核状态后台化 | ✅ 2026-06-12 |
 | Batch F-A | 产品档案与 IndexedDB 图片存储 | ✅ 2026-06-12 |
 | Batch R-A | 食品配料分析报告页 | ✅ 2026-06-12 |
 | Batch P-B | 数据库批量成分匹配 | ✅ 2026-06-12 |
@@ -267,7 +268,7 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 
 ### Data Batch 1-C：数据版本管理与审核状态后台化 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 Data Batch 1-B 完成）
+**状态**：✅ 已完成 2026-06-12（Data Batch 1-B 人工来源审核仍保持 blocked_by_user）
 
 **目标**：建立数据版本追踪和审核状态的可持续流程。
 
@@ -282,11 +283,11 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 
 1. `ingredients` 表追加：`data_version VARCHAR`（批次标识，如 `"2026-06-v1"`）、`reviewed_by VARCHAR`（审核人，可为 `"system"` 或人名）、`reviewed_at TIMESTAMP`、`change_note TEXT`。
 2. seed 脚本支持版本号参数 `--version`，幂等导入，版本不同时写入 `change_note`。
-3. `GET /api/ingredients` 支持 `?confidenceLevel=unverified|reviewed|verified` 筛选。
+3. `GET /api/ingredients` 支持 `?confidenceLevel=high|medium|low|unverified` 筛选。
 4. 前端 `/data` 页新增：
    - 来源筛选下拉（按 `sourceName`）
-   - 可信等级筛选（unverified / reviewed / verified）
-   - 未验证数据比例进度条（如"100 条中 100 条待审核"）
+   - 可信等级筛选（high / medium / low / unverified）
+   - 未验证数据比例指标（如"100% 待审核"）
 5. 文档明确：本地开发数据库已完成，生产数据库属于人工阻塞项。
 
 **验收标准**：
@@ -298,6 +299,8 @@ curl "http://127.0.0.1:3000/api/ingredients?confidenceLevel=unverified&limit=5"
 ```
 
 **阻塞条件**：无。  **是否需要人工**：否。
+
+**2026-06-12 完成记录**：已新增 `reviewed_by`、`reviewed_at`、`change_note` 字段和 `confidence_level` / `data_version` 索引；seed 脚本支持 `--version`、`--reviewed-by`、`--change-note`，版本变更时写入变更说明；后端列表/search API 支持可信等级筛选；前端 `/data` 页支持来源和可信等级筛选，并展示可信等级统计和待审核比例。本批次没有把任何 seed 数据升级为 reviewed/verified。
 
 ---
 
@@ -2215,7 +2218,7 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 ```
 【已完成】Data 1-A, 0-A, 1-A, 1-B, 2-A~C, 3-A~D
 
-【数据主线】Data 1-B[人工+Codex] → Data 1-C → D-A[人工] → D-B[人工+Codex]
+【数据主线】Data 1-B[人工+Codex，blocked_by_user] → 【已完成】Data 1-C（数据版本/审核状态基础设施） → D-A[人工] → D-B[人工+Codex]
 
 【OCR 产品闭环（Codex 主线）】
 【已完成】O-A（拍照入口）→ O-D（图片预处理）→ O-B（OCR 抽象）→ O-C（文本确认）

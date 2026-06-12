@@ -28,6 +28,9 @@ export type FoodAdditiveInput = {
   sourceReferences: SourceReference[];
   reviewStatus: string;
   dataVersion: string;
+  reviewedBy?: string;
+  reviewedAt?: string;
+  changeNote?: string;
   updatedAt: string;
   sourceName: string;
   sourceType: string;
@@ -53,6 +56,7 @@ export type IngredientListParams = {
   q?: string;
   category?: string;
   riskLevel?: RiskLevel;
+  confidenceLevel?: ConfidenceLevel;
   sort?: SearchSort;
   page: number;
   limit: number;
@@ -109,6 +113,10 @@ let defaultService: IngredientService | null = null;
 
 export function isRiskLevel(value: string): value is RiskLevel {
   return validRiskLevels.includes(value as RiskLevel);
+}
+
+export function isConfidenceLevel(value: string): value is ConfidenceLevel {
+  return validConfidenceLevels.includes(value as ConfidenceLevel);
 }
 
 export function isSearchSort(value: string): value is SearchSort {
@@ -214,7 +222,20 @@ export function createLazyIngredientService(databaseUrl?: string): IngredientSer
   };
 }
 
-export function toIngredientRow(additive: FoodAdditiveInput): NewIngredientRow {
+export type IngredientUpsertOptions = {
+  dataVersion?: string;
+  reviewedBy?: string;
+  reviewedAt?: Date;
+  changeNote?: string;
+  updateAuditFields?: boolean;
+};
+
+export function toIngredientRow(additive: FoodAdditiveInput, options: IngredientUpsertOptions = {}): NewIngredientRow {
+  const dataVersion = normalizeAuditText(options.dataVersion) || additive.dataVersion;
+  const reviewedBy = normalizeAuditText(options.reviewedBy) || normalizeAuditText(additive.reviewedBy) || 'system';
+  const changeNote = normalizeAuditText(options.changeNote) || normalizeAuditText(additive.changeNote) || `Seed import for ${dataVersion}`;
+  const reviewedAt = options.reviewedAt ?? parseAuditDate(additive.reviewedAt || additive.lastReviewedAt || additive.updatedAt);
+
   return {
     id: additive.id,
     kind: additive.kind,
@@ -232,7 +253,10 @@ export function toIngredientRow(additive: FoodAdditiveInput): NewIngredientRow {
     sourceNote: additive.sourceNote,
     sourceReferences: additive.sourceReferences ?? [],
     reviewStatus: additive.reviewStatus,
-    dataVersion: additive.dataVersion,
+    dataVersion,
+    reviewedBy,
+    reviewedAt,
+    changeNote,
     updatedAt: additive.updatedAt,
     sourceName: additive.sourceName,
     sourceType: additive.sourceType,
@@ -269,10 +293,14 @@ export function toIngredientSourceRows(additive: FoodAdditiveInput): NewIngredie
   }));
 }
 
-export async function upsertIngredients(db: Database, additives: FoodAdditiveInput[]) {
+export async function upsertIngredients(db: Database, additives: FoodAdditiveInput[], options: IngredientUpsertOptions = {}) {
+  const auditUpdateCondition = options.updateAuditFields
+    ? sql`true`
+    : sql`${ingredients.dataVersion} is distinct from excluded.data_version`;
+
   await db.transaction(async (tx) => {
     for (const additive of additives) {
-      const row = toIngredientRow(additive);
+      const row = toIngredientRow(additive, options);
       await tx
         .insert(ingredients)
         .values(row)
@@ -280,6 +308,9 @@ export async function upsertIngredients(db: Database, additives: FoodAdditiveInp
           target: ingredients.id,
           set: {
             ...row,
+            reviewedBy: sql`case when ${auditUpdateCondition} then excluded.reviewed_by else ${ingredients.reviewedBy} end`,
+            reviewedAt: sql`case when ${auditUpdateCondition} then excluded.reviewed_at else ${ingredients.reviewedAt} end`,
+            changeNote: sql`case when ${auditUpdateCondition} then excluded.change_note else ${ingredients.changeNote} end`,
             createdAt: sql`${ingredients.createdAt}`
           }
         });
@@ -350,6 +381,10 @@ function buildIngredientWhere(params: IngredientListParams): SQL | undefined {
     filters.push(eq(ingredients.riskLevel, params.riskLevel));
   }
 
+  if (params.confidenceLevel) {
+    filters.push(eq(ingredients.confidenceLevel, params.confidenceLevel));
+  }
+
   return filters.length > 0 ? and(...filters) : undefined;
 }
 
@@ -375,6 +410,21 @@ export function escapeLikePattern(value: string) {
 
 function ilikeEscaped(column: AnyColumn, pattern: string): SQL {
   return sql`${column} ILIKE ${pattern} ESCAPE '\\'`;
+}
+
+function normalizeAuditText(value: string | undefined) {
+  const normalized = value?.trim();
+  return normalized ? normalized : '';
+}
+
+function parseAuditDate(value: string | undefined) {
+  const normalized = normalizeAuditText(value);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
+    return new Date(`${normalized}T00:00:00.000Z`);
+  }
+
+  const parsed = normalized ? new Date(normalized) : null;
+  return parsed && !Number.isNaN(parsed.getTime()) ? parsed : new Date();
 }
 
 async function searchOneIngredient(db: Database, term: string, includeENumbers: boolean): Promise<BatchSearchResult> {

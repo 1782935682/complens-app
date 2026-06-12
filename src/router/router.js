@@ -153,7 +153,11 @@ export function resolveRoute(hash) {
   if (route.path === '/data') {
     return {
       view: 'data',
-      category: route.category
+      category: route.category,
+      filters: {
+        source: params.get('source') || '',
+        confidenceLevel: params.get('confidenceLevel') || ''
+      }
     };
   }
 
@@ -278,7 +282,7 @@ export function renderRoute(route, asyncState = null) {
   if (route.view === 'compare') return renderComparePage(route.category);
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'ocr-confirm') return renderOcrConfirmPage(route.category);
-  if (route.view === 'data') return renderDataPage(route.category);
+  if (route.view === 'data') return renderDataPage(route.category, route.filters);
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
   if (route.view === 'legal') return renderLegalPage(route.category, route.documentId);
   if (route.view === 'membership') return renderMembershipPage(route.category);

@@ -295,6 +295,27 @@ function bindPageEvents(route) {
     });
   });
 
+  document.querySelectorAll('[data-data-filter-form]').forEach((form) => {
+    const applyDataFilters = () => {
+      const formData = new FormData(form);
+      const source = String(formData.get('source') || '').trim();
+      const confidenceLevel = String(formData.get('confidenceLevel') || '').trim();
+      const params = new URLSearchParams();
+      if (source) params.set('source', source);
+      if (confidenceLevel) params.set('confidenceLevel', confidenceLevel);
+      const suffix = params.toString();
+      navigate(`#${categoryPath(route.category, '/data')}${suffix ? `?${suffix}` : ''}`);
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      applyDataFilters();
+    });
+    form.querySelectorAll('select').forEach((select) => {
+      select.addEventListener('change', applyDataFilters);
+    });
+  });
+
   bindScanPageEvents(route);
   bindOcrConfirmEvents(route);
 

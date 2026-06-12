@@ -19,6 +19,9 @@ export const ingredients = pgTable('ingredients', {
   sourceReferences: jsonb('source_references').$type<SourceReference[]>().notNull().default(sql`'[]'::jsonb`),
   reviewStatus: text('review_status').notNull(),
   dataVersion: text('data_version').notNull(),
+  reviewedBy: text('reviewed_by').notNull().default('system'),
+  reviewedAt: timestamp('reviewed_at', { withTimezone: true }).notNull().defaultNow(),
+  changeNote: text('change_note').notNull().default('seed import'),
   updatedAt: text('updated_at').notNull(),
   sourceName: text('source_name').notNull(),
   sourceType: text('source_type').notNull(),
@@ -43,6 +46,8 @@ export const ingredients = pgTable('ingredients', {
 }, (table) => [
   index('ingredients_category_idx').on(table.category),
   index('ingredients_risk_level_idx').on(table.riskLevel),
+  index('ingredients_confidence_level_idx').on(table.confidenceLevel),
+  index('ingredients_data_version_idx').on(table.dataVersion),
   index('ingredients_gb_code_idx').on(table.gbCode),
   index('ingredients_e_number_idx').on(table.eNumber),
   index('ingredients_name_cn_trgm_idx').using('gin', table.nameCn.op('gin_trgm_ops')),
