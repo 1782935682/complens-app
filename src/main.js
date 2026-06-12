@@ -18,6 +18,16 @@ import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
 const API_SEARCH_PAGE_SIZE = 6;
+const SAFE_PREVIEW_IMAGE_TYPES = new Set([
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+  'image/gif',
+  'image/bmp',
+  'image/avif',
+  'image/heic',
+  'image/heif'
+]);
 let scanPreviewObjectUrl = '';
 let scanPreviewRotation = 0;
 let routeRenderVersion = 0;
@@ -637,7 +647,7 @@ function bindScanPageEvents(route) {
   if (tips) {
     tips.addEventListener('toggle', () => {
       if (!tips.open) markScanTipsSeen();
-    }, { once: true });
+    });
   }
 
   if (route.view === 'scan') {
@@ -723,9 +733,7 @@ async function openScanSource(source) {
 
   const blob = dataUrlToBlob(result.dataUrl, result.mimeType);
   const fileName = `native-${source}.${result.format || 'jpeg'}`;
-  const scanFile = typeof File === 'function'
-    ? new File([blob], fileName, { type: blob.type || result.mimeType || 'image/jpeg' })
-    : Object.assign(blob, { name: fileName });
+  const scanFile = createScanFileFromBlob(blob, fileName, result.mimeType);
   await handleScanFile(scanFile, resolveRoute(window.location.hash).category);
 }
 
@@ -1078,6 +1086,12 @@ function updateScanPreviewWithBlob(preview, blob, alt = '已选择图片预览')
   if (!preview) return;
   revokeScanPreviewObjectUrl();
   preview.replaceChildren();
+  if (!isSafePreviewBlob(blob)) {
+    const placeholder = document.createElement('span');
+    placeholder.textContent = '图片格式暂不可预览，请重新选择 JPG、PNG 或 WebP 图片。';
+    preview.append(placeholder);
+    return;
+  }
   const image = document.createElement('img');
   image.alt = alt;
   if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
@@ -1117,15 +1131,32 @@ function updateScanImageActionState({ canRotate, canClear }) {
 
 function dataUrlToBlob(dataUrl, mimeType = 'image/jpeg') {
   const base64 = String(dataUrl || '').split(',')[1] || '';
-  if (typeof Buffer !== 'undefined') {
-    return new Blob([Buffer.from(base64, 'base64')], { type: mimeType });
-  }
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
   for (let index = 0; index < binary.length; index += 1) {
     bytes[index] = binary.charCodeAt(index);
   }
   return new Blob([bytes], { type: mimeType });
+}
+
+function createScanFileFromBlob(blob, fileName, mimeType = 'image/jpeg') {
+  const type = blob.type || mimeType || 'image/jpeg';
+  if (typeof File === 'function') {
+    try {
+      return new File([blob], fileName, { type });
+    } catch {
+      // Older WebViews can expose File without supporting the constructor.
+    }
+  }
+  return Object.assign(blob, { name: fileName });
+}
+
+function isSafePreviewBlob(blob) {
+  const type = String(blob?.type || '').toLowerCase();
+  return Boolean(blob)
+    && typeof URL !== 'undefined'
+    && typeof URL.createObjectURL === 'function'
+    && SAFE_PREVIEW_IMAGE_TYPES.has(type);
 }
 
 function registerServiceWorker() {

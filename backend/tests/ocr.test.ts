@@ -59,6 +59,25 @@ describe('POST /api/ocr', () => {
     expect(await response.json()).toEqual({ error: 'ocr_not_configured' });
   });
 
+  it('rejects oversized OCR payloads before provider access', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/ocr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer valid-token'
+      },
+      body: JSON.stringify({ imageBase64: 'a'.repeat(14 * 1024 * 1024), mimeType: 'image/jpeg' })
+    });
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'imageBase64',
+      message: 'imageBase64 must be no larger than 10 MB'
+    });
+  });
+
   it('does not return fake OCR text when provider implementation is pending', async () => {
     const app = createTestApp({ ocrApiKey: 'test-key' });
     const response = await app.request('/api/ocr', {
