@@ -443,6 +443,9 @@ function scoreIngredient(row: IngredientRow, normalized: string, eNumber: string
   const aliases = Array.isArray(row.aliases) ? row.aliases : [];
   const names = [row.nameCn, row.nameEn, row.gbCode, row.eNumber].filter(Boolean);
   const allFields = [...names, ...aliases];
+  const normalizedFields = allFields
+    .map((field) => normalizeTerm(field || ''))
+    .filter(Boolean);
 
   if (eNumber && normalizeTerm(row.eNumber || '') === normalizeTerm(eNumber)) {
     return { confidence: 0.99, matchType: 'eNumber' as const };
@@ -453,10 +456,10 @@ function scoreIngredient(row: IngredientRow, normalized: string, eNumber: string
   if (aliases.some((alias) => normalizeTerm(alias) === normalized)) {
     return { confidence: 0.92, matchType: 'alias' as const };
   }
-  if (allFields.some((field) => normalizeTerm(field || '').startsWith(normalized) || normalized.startsWith(normalizeTerm(field || '')))) {
+  if (normalized.length >= 2 && normalizedFields.some((field) => field.startsWith(normalized) || normalized.startsWith(field))) {
     return { confidence: 0.75, matchType: 'fuzzy' as const };
   }
-  if (normalized.length >= 2 && allFields.some((field) => normalizeTerm(field || '').includes(normalized) || normalized.includes(normalizeTerm(field || '')))) {
+  if (normalized.length >= 2 && normalizedFields.some((field) => field.includes(normalized) || normalized.includes(field))) {
     return { confidence: 0.55, matchType: 'fuzzy' as const };
   }
   return { confidence: 0, matchType: 'none' as const };

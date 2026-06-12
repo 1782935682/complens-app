@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import { escapeLikePattern, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
+import { createIngredientService as createRealIngredientService, escapeLikePattern, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
@@ -121,6 +121,18 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
     })),
     ...overrides
   };
+}
+
+function createBatchSearchDb(rows: unknown[]) {
+  return {
+    select: () => ({
+      from: () => ({
+        where: () => ({
+          limit: async () => rows
+        })
+      })
+    })
+  } as never;
 }
 
 describe('GET /api/ingredients', () => {
@@ -253,5 +265,26 @@ describe('GET /api/ingredients/:id', () => {
 describe('ingredient search helpers', () => {
   it('escapes SQL LIKE wildcards in user search terms', () => {
     expect(escapeLikePattern('%_\\E211')).toBe('\\%\\_\\\\E211');
+  });
+
+  it('requires at least two characters before server-side fuzzy prefix matches', async () => {
+    const service = createRealIngredientService(createBatchSearchDb([{
+      id: 'citric-acid',
+      nameCn: '柠檬酸',
+      nameEn: 'Citric acid',
+      aliases: [],
+      gbCode: '',
+      eNumber: ''
+    }]));
+
+    const [short, prefix, unrelated] = await service.batchSearch({ terms: ['柠', '柠檬', '葡萄'], includeENumbers: false });
+
+    expect(short.match).toBe(null);
+    expect(short.confidence).toBe(0);
+    expect(short.matchType).toBe('none');
+    expect(prefix.match?.id).toBe('citric-acid');
+    expect(prefix.matchType).toBe('fuzzy');
+    expect(unrelated.match).toBe(null);
+    expect(unrelated.matchType).toBe('none');
   });
 });
