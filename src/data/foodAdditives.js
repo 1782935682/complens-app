@@ -8,6 +8,8 @@ const gb2760OfficialSearchUrl = 'https://sppt.cfsa.net.cn:8086/db?task=indexSear
 const gb2760OfficialDownloadUrl = 'https://sppt.cfsa.net.cn:8086/cfsa_aiguo';
 const gb2760OfficialFileGuid = '43C9B75E-3D84-4577-80FC-0F7D77D36407';
 const gb2760OfficialFactName = '1747898473246.pdf';
+const gb2760OfficialPdfPath = '/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf';
+const gb2760OfficialPdfSha256 = '2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de';
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
 const seedSourceVersion = 'GB 2760-2024（发布日期 2024-02-08，实施日期 2025-02-08）';
 const gb2760OfficialRecordText = `食品安全国家标准数据检索平台标准文本记录：CODE=GB 2760-2024；TITLE=食品安全国家标准 食品添加剂使用标准；PDATE=2024-02-08；SSRQ=2025-02-08；ID=6CA1489A-9570-4906-8CE8-CC86FBFB1941；file_guid=${gb2760OfficialFileGuid}；FACT_NAME=${gb2760OfficialFactName}。同平台公告记录：关于发布《食品安全国家标准 食品添加剂使用标准》（GB 2760-2024）等47项食品安全国家标准和6项修改单的公告（2024年 第1号），PDATE=2024-02-08，ID=3D0601E8-A77C-4EC5-B148-30E2E7020822。`;
@@ -41,6 +43,102 @@ const gb2760Source = {
 };
 
 const gb2760OfficialSources = [gb2760AnnouncementSource, gb2760Source];
+
+const gb2760OfficialPdfNote = `官方 PDF：${gb2760OfficialPdfPath}；SHA-256=${gb2760OfficialPdfSha256}`;
+const gb2760RegulationBasisSuffix = `${gb2760OfficialRecordText} ${gb2760OfficialPdfNote}`;
+
+const gb2760RegulationOverrides = {
+  'citric-acid': {
+    foodCategories: ['各类食品（按表 A.2 例外排除）'],
+    usageLimits: [
+      {
+        foodCategory: '各类食品，表 A.2 中编号为 1~15、17~53、59~62、64~68 的食品类别除外',
+        limit: '按生产需要适量使用',
+        note: 'GB 2760-2024 表 A.1；PDF page 89 / 标准页 68'
+      }
+    ],
+    rawSourceText: 'GB 2760-2024 表 A.1：柠檬酸 citric acid；CNS号 01.101；INS号 330；功能 酸度调节剂、抗氧化剂；各类食品（表 A.2 中编号为 1~15、17~53、59~62、64~68 的食品类别除外）按生产需要适量使用。'
+  },
+  'sodium-citrate': {
+    foodCategories: ['各类食品（按表 A.2 例外排除）'],
+    usageLimits: [
+      {
+        foodCategory: '各类食品，表 A.2 中编号为 1~53、59~62、64~68 的食品类别除外',
+        limit: '按生产需要适量使用',
+        note: 'GB 2760-2024 表 A.1；PDF page 89 / 标准页 68'
+      }
+    ],
+    rawSourceText: 'GB 2760-2024 表 A.1：柠檬酸钠 trisodium citrate；CNS号 01.303；INS号 331(iii)；功能 酸度调节剂、稳定剂；各类食品（表 A.2 中编号为 1~53、59~62、64~68 的食品类别除外）按生产需要适量使用。'
+  },
+  'xanthan-gum': {
+    foodCategories: ['各类食品（按表 A.2 例外排除）', '黄油和浓缩黄油', '生湿面制品', '生干面制品', '糖浆', '特殊医学用途婴儿配方食品'],
+    usageLimits: [
+      {
+        foodCategory: '各类食品，表 A.2 中编号为 1~4、6~49、54~61、63~68 的食品类别除外',
+        limit: '按生产需要适量使用',
+        note: 'GB 2760-2024 表 A.1；PDF page 53 / 标准页 50'
+      },
+      {
+        foodCategory: '02.02.01.01 黄油和浓缩黄油',
+        limit: '5.0 g/kg',
+        note: 'GB 2760-2024 表 A.1；PDF page 53 / 标准页 50'
+      },
+      {
+        foodCategory: '06.03.02.01 生湿面制品（如面条、饺子皮、馄饨皮、烧麦皮）',
+        limit: '10.0 g/kg',
+        note: 'GB 2760-2024 表 A.1；PDF page 53 / 标准页 50'
+      },
+      {
+        foodCategory: '06.03.02.02 生干面制品',
+        limit: '4.0 g/kg',
+        note: 'GB 2760-2024 表 A.1；PDF page 53 / 标准页 50'
+      },
+      {
+        foodCategory: '11.01.02 赤砂糖、原糖、其他糖和糖浆',
+        limit: '5.0 g/kg',
+        note: 'GB 2760-2024 表 A.1；PDF page 53 / 标准页 50'
+      },
+      {
+        foodCategory: '13.01.03 特殊医学用途婴儿配方食品',
+        limit: '9.0 g/kg',
+        note: '使用量仅限粉状产品，液态产品按照稀释倍数折算；GB 2760-2024 表 A.1；PDF page 53 / 标准页 50'
+      }
+    ],
+    rawSourceText: 'GB 2760-2024 表 A.1：黄原胶（又名汉生胶）xanthan gum；CNS号 20.009；INS号 415；功能 稳定剂、增稠剂；含各类食品例外口径及 02.02.01.01、06.03.02.01、06.03.02.02、11.01.02、13.01.03 的最大使用量。'
+  },
+  'calcium-carbonate': {
+    foodCategories: ['各类食品（按表 A.2 例外排除）', '小麦粉'],
+    usageLimits: [
+      {
+        foodCategory: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+        limit: '按生产需要适量使用',
+        note: 'GB 2760-2024 表 A.1；PDF page 112 / 标准页 109'
+      },
+      {
+        foodCategory: '06.03.01 小麦粉',
+        limit: '0.03 g/kg',
+        note: 'GB 2760-2024 表 A.1；PDF page 112 / 标准页 109'
+      }
+    ],
+    rawSourceText: 'GB 2760-2024 表 A.1：碳酸钙（包括轻质碳酸钙，重质碳酸钙）calcium carbonate；CNS号 13.006；INS号 170(i)；功能 膨松剂、面粉处理剂、稳定剂；各类食品（表 A.2 中编号为 1~68 的食品类别除外）按生产需要适量使用；06.03.01 小麦粉 0.03 g/kg。'
+  },
+  'sodium-bicarbonate': {
+    foodCategories: ['各类食品（按表 A.2 例外排除）', '发酵大米制品'],
+    usageLimits: [
+      {
+        foodCategory: '各类食品，表 A.2 中编号为 1~56、58~68 的食品类别除外',
+        limit: '按生产需要适量使用',
+        note: 'GB 2760-2024 表 A.1；PDF page 114 / 标准页 111'
+      },
+      {
+        foodCategory: '06.02.02 大米制品（仅限发酵大米制品）',
+        limit: '按生产需要适量使用',
+        note: 'GB 2760-2024 表 A.1；PDF page 114 / 标准页 111'
+      }
+    ],
+    rawSourceText: 'GB 2760-2024 表 A.1：碳酸氢钠 sodium hydrogencarbonate；CNS号 06.001；INS号 500(ii)；功能 膨松剂、酸度调节剂、稳定剂；各类食品（表 A.2 中编号为 1~56、58~68 的食品类别除外）按生产需要适量使用；06.02.02 大米制品（仅限发酵大米制品）按生产需要适量使用。'
+  }
+};
 
 const codexInsSource = {
   title: 'Class Names and the International Numbering System for Food Additives',
@@ -3043,6 +3141,7 @@ export const foodIngredients = [...foodAdditives, ...commonFoodIngredients];
 
 function withSeedProvenance(additive) {
   const reviewedOverride = buildJecfaReviewOverride(additive);
+  const regulationOverride = buildGb2760RegulationOverride(additive);
 
   return {
     ...additive,
@@ -3060,7 +3159,40 @@ function withSeedProvenance(additive) {
     rawSourceText: `${gb2760OfficialRecordText} ${additive.sourceNote}`,
     isVerified: false,
     dataStatus: 'unverified',
-    ...reviewedOverride
+    ...reviewedOverride,
+    ...regulationOverride
+  };
+}
+
+function buildGb2760RegulationOverride(additive) {
+  const regulation = gb2760RegulationOverrides[additive.id];
+  if (!regulation) return {};
+
+  const review = jecfaReviewedAdditives[additive.id];
+  const sourceReferences = review
+    ? [...gb2760OfficialSources, { ...jecfaSource, url: `${jecfaDatabaseUrl}Home/Chemical/${review.jecfaId}` }]
+    : gb2760OfficialSources;
+
+  return {
+    reviewStatus: 'verified',
+    dataStatus: 'verified_regulation',
+    sourceName: seedSourceName,
+    sourceType: 'official_standard',
+    sourceScope: 'gb_2760_regulation',
+    sourceVersion: seedSourceVersion,
+    sourceUrl: gb2760Source.url,
+    effectiveDate: '2025-02-08',
+    confidenceLevel: 'high',
+    matchConfidence: 'high',
+    lastReviewedAt: gb2760OfficialRetrievedAt,
+    reviewNote: '已从 GB 2760-2024 官方 PDF 表 A.1 导入条款级使用范围和最大使用量；仅代表该食品添加剂的 GB 2760 使用规定已核对。',
+    regulatoryBasis: `${regulation.rawSourceText} ${gb2760RegulationBasisSuffix}`,
+    rawSourceText: regulation.rawSourceText,
+    sourceReferences,
+    usageLimits: regulation.usageLimits,
+    foodCategories: regulation.foodCategories,
+    isVerified: true,
+    updatedAt: gb2760OfficialRetrievedAt
   };
 }
 

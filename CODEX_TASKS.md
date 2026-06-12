@@ -227,7 +227,7 @@
 
 ### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
 
-**状态**：🔄 进行中（2026-06-12 已建立基础权威数据底座：32 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`、0 条 `verified_regulation`；GB 2760 条款级限量仍待人工审核）
+**状态**：🔄 进行中（2026-06-12 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 剩余条款级限量仍待人工审核）
 
 **目标**：不一次性补齐所有食品配料，先建立“基础权威库 + 持续扩充 + 人工校验队列”的可追溯数据导入流程。
 
@@ -244,20 +244,21 @@
 - [x] 确认本阶段先从官方来源导入（2026-06-12 用户确认“继续加官方数据”）
 - [x] 首批 10 条高频食品添加剂按已有字段格式补充 JECFA 可追溯条目（`sourceName`、`sourceVersion`、`effectiveDate`、`regulatoryBasis`、`rawSourceText`）
 - [x] 第二批 22 条食品添加剂按已有字段格式补充 JECFA 可追溯条目
-- [x] 确认已导入 32 条只能从 `'unverified'` 升级为 `'reviewed'` / `'medium'`，不能升级为 `'verified'` / `'high'`
+- [x] 确认 JECFA-only 数据只能从 `'unverified'` 升级为 `'reviewed'` / `'medium'`，不能升级为 `'verified'` / `'high'`
 - [x] 确认 JECFA 只作为安全评价来源，不作为 GB 2760 中国法规使用范围
 - [x] 确认 GB 2760-2024 官方来源：国家卫健委公告（2024 年第 1 号）和食品安全国家标准数据检索平台标准文本记录（发布日期 2024-02-08，实施日期 2025-02-08，附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`）
+- [x] 从官方 PDF 表 A.1 首批确认 5 条 GB 2760 条款级使用范围和限量：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`
 - [ ] 继续确认 GB 2760-2024 条款编号、逐食品类别限量和中国适用条件
 - [ ] 在此处标注完整来源清单人工完成：`[人工完成 ✅ YYYY-MM-DD]`
 
 **Codex 任务**：
 
 1. [x] 官方数据导入：为每条人工审核过的数据补全来源字段，未被确认的继续保留 `unverified`/`false`，不得随意升级。
-2. [x] JECFA 映射：已匹配 32 条 `verified_jecfa`，仅作为 `sourceScope: 'jecfa_safety_evaluation'`，不写 GB 2760 限量或中国使用范围。
+2. [x] JECFA 映射：已匹配 32 条 JECFA 安全评价条目，其中 27 条仍为 `verified_jecfa`；5 条在完成 GB 2760 官方 PDF 条款核验后升级为 `verified_regulation`，JECFA 仅保留为补充来源。
 3. [x] 常见配料词库：新增 12 条 `common_ingredient`，只用于普通食品配料识别，不作为法规或安全评价来源。
 4. [x] 数据可信等级展示：搜索、详情、数据页、分析报告和导出展示数据状态、来源、待确认和低置信提示。
 5. [x] 建立硬性规则：任何新增条目缺失来源字段、状态字段或误把 JECFA 标成法规验证时，`validate:data` 必须报错退出。
-6. [x] GB 2760 官方来源元数据导入：已导入 GB 2760-2024 官方标准文本基础字段和平台 `rawSourceText`；无法可靠结构化的逐项限量、条款编号和适用类别不得编造结构化结论。
+6. [x] GB 2760 官方来源导入：已导入 GB 2760-2024 官方标准文本基础字段、平台 `rawSourceText` 和首批 5 条官方 PDF 表 A.1 条款级限量；无法可靠结构化的其余逐项限量、条款编号和适用类别不得编造结构化结论。
 7. [x] OCR 未匹配收集：OCR 来源报告的未收录条目以 `unknown_from_ocr` / `ocr_unmatched` 汇总到数据治理页人工校验队列。
 8. [x] 人工校验队列：`/data` 页提供 OCR 未收录、低置信候选和静态未验证数据的只读审核入口，并通过数据纠错表单提交校验线索；真实升级仍需人工来源确认。
 9. [x] 继续输出数据质量报告：`validate:data` 和数据治理页继续展示总数、JECFA 匹配、普通配料、未验证、待确认、来源版本分布和复核清单。
@@ -278,11 +279,13 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 
 **2026-06-12 第二批官方数据导入记录**：PR #66 合并后继续从 WHO JECFA Food Additives and Contaminants Database 导入 22 条可直接映射的 JECFA 条目和 ADI 摘要：`pectin`、`calcium-carbonate`、`tartrazine`、`sunset-yellow-fcf`、`allura-red-ac`、`glycerol`、`calcium-chloride`、`sodium-alginate`、`acesulfame-potassium`、`carrageenan`、`guar-gum`、`polysorbate-80`、`sodium-nitrite`、`potassium-nitrate`、`potassium-citrate`、`calcium-citrate`、`lactic-acid`、`sodium-acetate`、`calcium-propionate`、`natamycin`、`propylene-glycol-alginate`、`sodium-carboxymethyl-cellulose`。累计 32 条为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组。`npm run validate:data` 输出：reviewed=32、verified=0、unverified=68、missingSourceFields=0、missingUsageLimits=100。
 
-**2026-06-12 基础权威数据底座记录**：新增分层字段 `dataStatus`、`matchConfidence`、`sourceScope`、`reviewNote`，后端 schema/seed/API 同步；当前食品基础库 112 条，其中 `verified_regulation=0`、`verified_jecfa=32`、`mapped_candidate=0`、`common_ingredient=12`、`unverified=68`、`unknown_from_ocr=0`。分析报告已展示已匹配数量、待确认数量、暂未收录数量、每个配料的数据状态、数据来源和低置信度提示。本批次不新增 AI 编造数据，不把 JECFA 当成 GB 2760 使用范围，不强行补齐全部食品配料。
+**2026-06-12 基础权威数据底座记录**：新增分层字段 `dataStatus`、`matchConfidence`、`sourceScope`、`reviewNote`，后端 schema/seed/API 同步；当前食品基础库 112 条，其中 `verified_regulation=5`、`verified_jecfa=27`、`mapped_candidate=0`、`common_ingredient=12`、`unverified=68`、`unknown_from_ocr=0`。分析报告已展示已匹配数量、待确认数量、暂未收录数量、每个配料的数据状态、数据来源和低置信度提示。本批次不新增 AI 编造数据，不把 JECFA 当成 GB 2760 使用范围，不强行补齐全部食品配料。
 
 **2026-06-12 人工校验队列记录**：新增 `reviewQueueService` 和数据治理页“人工校验队列”，从本机报告聚合 OCR 未收录项、低置信候选项，并从静态数据聚合 `unverified` / `mapped_candidate` / `seed_reference` 记录。队列仅作为人工校验入口和数据纠错线索，不自动升级 `dataStatus`、`isVerified`、GB 2760 使用范围或限量。
 
-**2026-06-12 GB 2760-2024 官方来源记录**：用户确认 GB 2760-2024 官方来源以国家卫健委公告和食品安全国家标准数据检索平台为准。已从食品安全国家标准数据检索平台检索到标准文本记录：`CODE=GB 2760-2024`、`TITLE=食品安全国家标准 食品添加剂使用标准`、发布日期 `2024-02-08`、实施日期 `2025-02-08`、标准文本 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`、附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`、平台文件名 `1747898473246.pdf`。官方 PDF 已保存到 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`（`2600140` bytes，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`），不提交到应用仓库。已将未验证 seed 的主来源更新为“国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台”，并把平台记录写入 `rawSourceText`；仍不导入 `usageLimits`，不升级 `verified_regulation` 或 `isVerified`。
+**2026-06-12 GB 2760-2024 官方来源记录**：用户确认 GB 2760-2024 官方来源以国家卫健委公告和食品安全国家标准数据检索平台为准。已从食品安全国家标准数据检索平台检索到标准文本记录：`CODE=GB 2760-2024`、`TITLE=食品安全国家标准 食品添加剂使用标准`、发布日期 `2024-02-08`、实施日期 `2025-02-08`、标准文本 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`、附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`、平台文件名 `1747898473246.pdf`。官方 PDF 已保存到 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`（`2600140` bytes，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`），不提交到应用仓库。该步先将未验证 seed 的主来源更新为“国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台”，并把平台记录写入 `rawSourceText`；条款级结构化导入见下一条记录。
+
+**2026-06-12 GB 2760 首批官方 PDF 条款级导入记录**：基于 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`（SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`）和食品安全国家标准数据检索平台官方记录，首批导入 5 条可可靠结构化的表 A.1 数据：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`。这些条目升级为 `reviewStatus: 'verified'`、`dataStatus: 'verified_regulation'`、`sourceScope: 'gb_2760_regulation'`、`confidenceLevel: 'high'`、`isVerified: true`，并写入 `usageLimits`、适用食品类别、PDF 页码/标准页码和官方来源引用；其余记录继续保持未验证或 JECFA-only 状态。
 
 ---
 
