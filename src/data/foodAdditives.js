@@ -22,7 +22,7 @@ const gb2760AnnouncementSource = {
   region: 'CN',
   url: gb2760OfficialSearchUrl,
   retrievedAt: gb2760OfficialRetrievedAt,
-  publicationDate: '2024-02-08',
+  publishedAt: '2024-02-08',
   platformRecordId: '3D0601E8-A77C-4EC5-B148-30E2E7020822'
 };
 
@@ -32,7 +32,7 @@ const gb2760Source = {
   region: 'CN',
   url: gb2760OfficialSearchUrl,
   retrievedAt: gb2760OfficialRetrievedAt,
-  publicationDate: '2024-02-08',
+  publishedAt: '2024-02-08',
   effectiveDate: '2025-02-08',
   platformRecordId: '6CA1489A-9570-4906-8CE8-CC86FBFB1941',
   fileGuid: gb2760OfficialFileGuid,
