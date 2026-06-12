@@ -1,6 +1,7 @@
 import { isProductCategory } from '../data/categories.js';
 import { defaultSupportTopic, isSupportTopic } from '../data/supportTopics.js';
 import { getIngredientById } from '../services/ingredientService.js';
+import { AVOID_INGREDIENTS_KEY, WATCH_INGREDIENTS_KEY, normalizePersonalIngredientIds } from '../services/personalProfileService.js';
 import { clearProductArchives, getProductArchives, normalizeProductArchives, PRODUCT_ARCHIVES_KEY } from '../services/productArchiveService.js';
 import { buildIngredientReport, normalizeIngredientReport } from '../services/reportService.js';
 import { readJson, writeJson } from '../services/storageService.js';
@@ -378,17 +379,21 @@ export function getLocalDataSummary() {
   const favorites = getFavoriteItems();
   const history = getHistory();
   const allergens = getUserAllergens();
+  const watchIngredients = normalizePersonalIngredientIds(readJson(WATCH_INGREDIENTS_KEY, []));
+  const avoidIngredients = normalizePersonalIngredientIds(readJson(AVOID_INGREDIENTS_KEY, []));
   const reports = getAnalysisReports();
   const products = getProductArchives();
   const compareItems = getCompareItems();
   const supportRequests = getSupportRequests();
   const scanDraftCount = Object.keys(scanDrafts).length;
-  const totalItems = favorites.length + history.length + allergens.length + reports.length + products.length + compareItems.length + supportRequests.length + scanDraftCount;
+  const totalItems = favorites.length + history.length + allergens.length + watchIngredients.length + avoidIngredients.length + reports.length + products.length + compareItems.length + supportRequests.length + scanDraftCount;
 
   return {
     favorites: favorites.length,
     history: history.length,
     allergens: allergens.length,
+    watchIngredients: watchIngredients.length,
+    avoidIngredients: avoidIngredients.length,
     reports: reports.length,
     products: products.length,
     compareItems: compareItems.length,
@@ -412,6 +417,8 @@ export function getLocalDataSnapshot() {
     compareItems: getCompareItems(),
     history: getHistory(),
     allergens: getUserAllergens(),
+    watchIngredients: normalizePersonalIngredientIds(readJson(WATCH_INGREDIENTS_KEY, [])),
+    avoidIngredients: normalizePersonalIngredientIds(readJson(AVOID_INGREDIENTS_KEY, [])),
     analysisReports: getAnalysisReports(),
     products: getProductArchives(),
     supportRequests: getSupportRequests(),
@@ -428,6 +435,8 @@ export function importLocalDataSnapshot(snapshot) {
   writeJson(HISTORY_KEY, normalized.data.history);
   writeJson(HISTORY_RECORDING_KEY, normalized.data.preferences.historyRecordingEnabled);
   writeJson(ALLERGENS_KEY, normalized.data.allergens);
+  writeJson(WATCH_INGREDIENTS_KEY, normalized.data.watchIngredients);
+  writeJson(AVOID_INGREDIENTS_KEY, normalized.data.avoidIngredients);
   writeJson(ANALYSIS_REPORTS_KEY, normalized.data.analysisReports);
   writeJson(PRODUCT_ARCHIVES_KEY, normalized.data.products);
   writeJson(SUPPORT_REQUESTS_KEY, normalized.data.supportRequests);
@@ -446,6 +455,8 @@ export function clearLocalUserData() {
   writeJson(COMPARE_ITEMS_KEY, []);
   writeJson(HISTORY_KEY, []);
   writeJson(ALLERGENS_KEY, []);
+  writeJson(WATCH_INGREDIENTS_KEY, []);
+  writeJson(AVOID_INGREDIENTS_KEY, []);
   writeJson(ANALYSIS_REPORTS_KEY, []);
   clearProductArchives();
   writeJson(SUPPORT_REQUESTS_KEY, []);
@@ -516,6 +527,8 @@ function normalizeLocalDataSnapshot(snapshot) {
       history: normalizeStringList(snapshot.history).slice(0, MAX_HISTORY),
       preferences: normalizeLocalDataPreferences(snapshot.preferences),
       allergens: uniqueStrings(snapshot.allergens),
+      watchIngredients: normalizePersonalIngredientIds(snapshot.watchIngredients),
+      avoidIngredients: normalizePersonalIngredientIds(snapshot.avoidIngredients),
       analysisReports: normalizeAnalysisReports(snapshot.analysisReports),
       products: normalizeProductArchives(snapshot.products),
       supportRequests: normalizeSupportRequests(snapshot.supportRequests),

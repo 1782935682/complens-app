@@ -1640,7 +1640,7 @@ cd backend && npm run typecheck && npm test
 
 ### Batch U-A：关注成分、忌口项、过敏原与全局高亮 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 Q-A 完成）
+**状态**：✅ 已完成（2026-06-12）
 
 **目标**：整合现有过敏原设置，新增关注成分和忌口项，在报告/搜索/详情中全局高亮，所有提示谨慎表达。
 
@@ -1719,8 +1719,9 @@ onboardingPage 在已有步骤后新增一步：
 
 #### 6. 存储策略
 
-- localStorage 优先
-- 登录后，`syncLocalDataToServer()` 自动同步到后端（已在 Q-A 建立）
+- 过敏原沿用 `compcheck:allergens`，登录后仍通过既有 `/api/user/allergens` 同步
+- 关注成分和忌口项使用本机 `localStorage`，并按当前登录 token 做本机账号隔离
+- 关注成分和忌口项会随本机 JSON 快照导出/导入/清空；跨设备恢复需后续新增后端 profile schema/API
 
 #### 7. 测试覆盖
 
@@ -2171,8 +2172,9 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 → P-A（配料解析）→ P-B（数据库匹配）
 【已完成】R-A（分析报告）→ F-A（产品档案）→ F-B（历史收藏）
 【已完成】Q-A（登录 UI）
-【下一步】U-A（个性化）
-→ M-A（首页重构）→ M-B（PWA 优化）
+【已完成】U-A（个性化）
+【下一步】M-A（首页重构）
+→ M-B（PWA 优化）
 → A-A[人工+Codex，需 AI Key]
 
 【后置：订阅支付上架（等核心稳定）】

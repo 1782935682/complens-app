@@ -45,7 +45,7 @@ const VIEW_TITLES = {
   'report-detail': '报告详情',
   scan: '扫描识别',
   search: '搜索',
-  settings: '过敏原档案',
+  settings: '个人成分档案',
   support: '支持中心',
   'not-found': '页面不存在'
 };

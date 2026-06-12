@@ -739,17 +739,32 @@ button.danger-button:hover {
   background: #eef1f3;
 }
 
-.allergen-badge {
+.allergen-badge,
+.personal-badge {
   display: inline-flex;
   align-items: center;
   min-height: 28px;
   margin-left: 8px;
   border-radius: 999px;
   padding: 4px 10px;
-  color: var(--high);
-  background: #fee8e5;
   font-size: 13px;
   font-weight: 800;
+}
+
+.allergen-badge,
+.personal-badge--allergen {
+  color: var(--color-allergen);
+  background: #fee8e5;
+}
+
+.personal-badge--avoid {
+  color: var(--color-avoid);
+  background: #fff0e6;
+}
+
+.personal-badge--watch {
+  color: var(--color-watch);
+  background: #e8f0ff;
 }
 
 .data-badge {
@@ -778,6 +793,32 @@ button.danger-button:hover {
   color: var(--high);
   background: #fff1ef;
   font-weight: 800;
+}
+
+.personal-alert {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-weight: 800;
+}
+
+.personal-alert--allergen {
+  border-color: #f1b8b2;
+  color: var(--color-allergen);
+  background: #fff1ef;
+}
+
+.personal-alert--avoid {
+  border-color: #fdba74;
+  color: var(--color-avoid);
+  background: #fff7ed;
+}
+
+.personal-alert--watch {
+  border-color: #bfdbfe;
+  color: var(--color-watch);
+  background: #eff6ff;
 }
 
 .data-warning {
@@ -2775,6 +2816,34 @@ button.danger-button:hover {
   padding-left: 20px;
 }
 
+.personal-hit-summary {
+  border-color: rgba(37, 99, 235, 0.22);
+  background: #fbfdff;
+}
+
+.personal-hit-list {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.personal-hit-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.personal-hit-list .personal-badge {
+  margin-left: 0;
+}
+
+.personal-hit-list span:last-child {
+  color: var(--muted);
+}
+
 .report-category-chips {
   margin-bottom: 12px;
 }
@@ -3037,6 +3106,128 @@ button.danger-button:hover {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
+}
+
+.profile-settings-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.personal-settings-panel summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.personal-settings-panel summary::marker {
+  color: var(--muted);
+}
+
+.personal-settings-panel form {
+  display: grid;
+  gap: 18px;
+}
+
+.profile-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  width: auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  color: var(--text);
+  background: #fbfcfb;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.profile-chip span {
+  margin-left: 8px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.profile-chip--watch {
+  border-color: rgba(37, 99, 235, 0.28);
+  background: #eff6ff;
+}
+
+.profile-chip--avoid {
+  border-color: rgba(234, 88, 12, 0.28);
+  background: #fff7ed;
+}
+
+.personal-ingredient-search {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.personal-candidate-list {
+  display: grid;
+  max-height: 340px;
+  gap: 8px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.personal-candidate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  background: #fbfcfb;
+  text-align: left;
+  cursor: pointer;
+}
+
+.personal-candidate:hover {
+  border-color: rgba(17, 106, 91, 0.35);
+  background: #f5faf7;
+}
+
+.personal-candidate.is-selected,
+.personal-candidate:disabled {
+  color: var(--muted);
+  background: #f1f4f2;
+  cursor: default;
+}
+
+.personal-candidate span {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.personal-candidate small {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.personal-candidate em {
+  flex: 0 0 auto;
+  color: var(--primary);
+  font-style: normal;
+  font-weight: 900;
 }
 
 .onboarding-flow {
@@ -3438,6 +3629,10 @@ button.danger-button:hover {
   button,
   .button-link {
     width: 100%;
+  }
+
+  .profile-chip {
+    width: auto;
   }
 
   .text-button {

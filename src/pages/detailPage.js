@@ -1,9 +1,9 @@
 import { escapeHtml, html, riskClass, riskLabel } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
-import { formatAllergenNames, getMatchingUserAllergens } from '../services/allergenService.js';
 import { getIngredientById, getRelatedIngredients } from '../services/ingredientService.js';
+import { getPersonalIngredientHit, getPersonalProfile } from '../services/personalProfileService.js';
 import { buildSupportPrefillUrl } from '../services/supportService.js';
-import { getUserAllergens, isFavorite, isInCompare } from '../store/userStore.js';
+import { isFavorite, isInCompare } from '../store/userStore.js';
 
 const GB_STATUS_LABELS = {
   permitted: '允许使用',
@@ -31,7 +31,7 @@ export function renderDetailPage(id, category = 'cosmetics', apiState = null) {
 
   const favorite = isFavorite(ingredient.id, category);
   const compared = isInCompare(ingredient.id, category);
-  const allergenMatches = getMatchingUserAllergens(ingredient, getUserAllergens());
+  const personalHit = getPersonalIngredientHit(ingredient, category, getPersonalProfile(category));
   const relatedIngredients = getRelatedIngredients(ingredient.id, category, 4);
   return html`
     <section class="detail">
@@ -55,11 +55,7 @@ export function renderDetailPage(id, category = 'cosmetics', apiState = null) {
       <span class="save-status" data-compare-status role="status" aria-live="polite"></span>
       <span class="save-status" data-share-status role="status" aria-live="polite"></span>
       ${apiState?.status === 'error' ? renderApiFallbackNotice() : ''}
-      ${allergenMatches.length ? html`
-        <div class="allergen-alert">
-          此成分含您关注的过敏原：${escapeHtml(formatAllergenNames(allergenMatches))}
-        </div>
-      ` : ''}
+      ${personalHit ? renderPersonalHitAlert(personalHit) : ''}
       <p class="lead">${escapeHtml(ingredient.description)}</p>
       <div class="info-grid">
         ${renderInfoBlock('别名', ingredient.aliases)}
@@ -78,6 +74,17 @@ export function renderDetailPage(id, category = 'cosmetics', apiState = null) {
       </section>
       ${renderRelatedIngredients(relatedIngredients, category)}
     </section>
+  `;
+}
+
+function renderPersonalHitAlert(hit) {
+  const message = hit.type === 'allergen'
+    ? `此成分含您关注的过敏原：${hit.allergenNames}`
+    : `${hit.badgeLabel}：${hit.detail}`;
+  return html`
+    <div class="personal-alert personal-alert--${escapeHtml(hit.type)}">
+      ${escapeHtml(message)}
+    </div>
   `;
 }
 

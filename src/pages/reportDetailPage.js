@@ -2,6 +2,7 @@ import { escapeHtml, html } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getAllergensByIds } from '../services/allergenService.js';
 import { getIngredientById } from '../services/ingredientService.js';
+import { getPersonalIngredientHit, getPersonalProfile, getReportPersonalHits } from '../services/personalProfileService.js';
 import { buildReportFileName, buildReportMarkdown } from '../services/reportExportService.js';
 import { getProductArchiveByReportId } from '../services/productArchiveService.js';
 import {
@@ -80,6 +81,7 @@ export function renderReportDetailPage(id, category = 'food') {
     </section>
 
     ${renderConcernSummary(report)}
+    ${renderPersonalHitSummary(report)}
     ${renderIngredientOrder(report)}
     ${renderAdditiveSection(report, currentCategory)}
     ${renderUnmatchedSection(report)}
@@ -138,6 +140,34 @@ function renderConcernSummary(report) {
   `;
 }
 
+function renderPersonalHitSummary(report) {
+  const hits = getReportPersonalHits(report, getPersonalProfile(report.category));
+  if (!hits.length) return '';
+
+  return html`
+    <section class="section">
+      <div class="report-panel personal-hit-summary">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">个人命中摘要</p>
+            <h2>你的个人设置命中了 ${hits.length} 种成分</h2>
+          </div>
+        </div>
+        <ul class="personal-hit-list">
+          ${hits.map((hit) => html`
+            <li>
+              ${renderPersonalHitBadge(hit)}
+              <strong>${escapeHtml(hit.name)}</strong>
+              <span>${escapeHtml(hit.detail)}</span>
+            </li>
+          `).join('')}
+        </ul>
+        <p class="helper-text">不构成医疗建议。如有疑虑请咨询专业人士，并以包装原文为准。</p>
+      </div>
+    </section>
+  `;
+}
+
 function renderIngredientOrder(report) {
   const topItems = getTopIngredientNames(report);
   return html`
@@ -177,6 +207,7 @@ function renderMatchedIngredient(item, category) {
   const match = item.match;
   const fullIngredient = getIngredientById(match.id, category);
   const detailHref = fullIngredient ? `#${categoryPath(category, `/ingredient/${match.id}`)}` : '';
+  const personalHit = getPersonalIngredientHit(fullIngredient || match, category);
   return html`
     <details class="report-ingredient-item">
       <summary>
@@ -185,6 +216,7 @@ function renderMatchedIngredient(item, category) {
         <span class="chip">${escapeHtml(match.category || '未分类')}</span>
         <span>${escapeHtml(riskLevelLabel(match.riskLevel))}</span>
         ${match.confidenceLevel === 'unverified' || match.isVerified === false ? '<span class="data-badge data-badge--unverified">待审核</span>' : ''}
+        ${personalHit ? renderPersonalHitBadge(personalHit) : ''}
       </summary>
       <div class="report-ingredient-item__body">
         <p>${escapeHtml(match.riskSummary || fullIngredient?.description || '暂无补充说明。')}</p>
@@ -198,6 +230,10 @@ function renderMatchedIngredient(item, category) {
       </div>
     </details>
   `;
+}
+
+function renderPersonalHitBadge(hit) {
+  return `<span class="personal-badge personal-badge--${escapeHtml(hit.type)}">${escapeHtml(hit.badgeLabel)}</span>`;
 }
 
 function renderUnmatchedSection(report) {
