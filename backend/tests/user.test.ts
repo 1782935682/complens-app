@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createApp } from '../src/app.js';
 import type { AuthService, AuthenticatedUser } from '../src/services/authService.js';
-import type { UserFavoriteItem, UserReportItem, UserService } from '../src/services/userService.js';
+import type { UserFavoriteItem, UserProductItem, UserProductListParams, UserReportItem, UserService } from '../src/services/userService.js';
 
 const testUser: AuthenticatedUser = {
   id: 'user-1',
@@ -46,6 +46,7 @@ function createInMemoryUserService(): UserService {
   let history: string[] = [];
   let allergens: string[] = [];
   let reports: UserReportItem[] = [];
+  let products: UserProductItem[] = [];
 
   return {
     async listFavorites() {
@@ -101,8 +102,65 @@ function createInMemoryUserService(): UserService {
     async deleteReport(_userId, reportId) {
       reports = reportId ? reports.filter((report) => report.id !== reportId) : [];
       return reports;
+    },
+    async listProducts(_userId, params = {}) {
+      const filtered = filterProducts(products, params);
+      const limit = Math.min(100, Math.max(1, Number(params.limit) || 20));
+      const page = Math.max(1, Number(params.page) || 1);
+      const total = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(total / limit));
+      const safePage = Math.min(page, totalPages);
+      const start = (safePage - 1) * limit;
+      return {
+        items: filtered.slice(start, start + limit),
+        total,
+        page: safePage,
+        limit,
+        totalPages
+      };
+    },
+    async getProduct(_userId, productId) {
+      return products.find((product) => product.id === productId) ?? null;
+    },
+    async addProduct(_userId, product) {
+      products = [product, ...products.filter((current) => current.id !== product.id)];
+      return products;
+    },
+    async replaceProducts(_userId, nextProducts) {
+      products = nextProducts;
+      return products;
+    },
+    async updateProduct(_userId, productId, patch) {
+      const existing = products.find((product) => product.id === productId);
+      if (!existing) return null;
+      const next = {
+        ...existing,
+        ...patch,
+        updatedAt: '2026-06-11T00:02:00.000Z'
+      };
+      products = products.map((product) => product.id === productId ? next : product);
+      return next;
+    },
+    async deleteProduct(_userId, productId) {
+      products = productId ? products.filter((product) => product.id !== productId) : [];
+      return products;
     }
   };
+}
+
+function filterProducts(products: UserProductItem[], params: UserProductListParams) {
+  const search = String(params.search || '').toLowerCase();
+  return products.filter((product) => {
+    if (params.isFavorite !== undefined && product.isFavorite !== params.isFavorite) return false;
+    if (params.riskGrade && product.riskGrade !== params.riskGrade) return false;
+    if (!search) return true;
+    return [
+      product.productName,
+      product.brandName,
+      product.originalText,
+      ...(Array.isArray(product.tags) ? product.tags : [])
+    ].join(' ').toLowerCase().includes(search);
+  });
 }
 
 async function json(response: Response) {
@@ -327,6 +385,139 @@ describe('GET/POST/DELETE /api/user/reports', () => {
       error: 'invalid_parameter',
       field: 'items',
       message: 'report items must include id'
+    });
+  });
+});
+
+describe('GET/POST/PATCH/DELETE /api/user/products', () => {
+  it('adds, lists, filters, updates, and deletes product archives', async () => {
+    const app = createTestApp();
+    const firstProduct = {
+      id: 'product-1',
+      category: 'food',
+      productName: '测试饼干',
+      brandName: '测试品牌',
+      imageId: 'scan-image-1',
+      thumbnailDataUrl: 'data:image/jpeg;base64,AAA=',
+      originalText: '配料：小麦粉，卵磷脂',
+      parsedIngredients: [{ normalizedText: '小麦粉' }],
+      matchResults: [],
+      reportId: 'report-1',
+      riskGrade: 'B',
+      isFavorite: false,
+      tags: ['饼干'],
+      createdAt: '2026-06-11T00:00:00.000Z',
+      updatedAt: '2026-06-11T00:00:00.000Z'
+    };
+    const secondProduct = {
+      id: 'product-2',
+      category: 'food',
+      productName: '测试饮料',
+      originalText: '配料：水，柠檬酸',
+      parsedIngredients: [],
+      matchResults: [],
+      reportId: 'report-2',
+      riskGrade: 'A',
+      isFavorite: true,
+      tags: ['饮料'],
+      createdAt: '2026-06-11T00:01:00.000Z',
+      updatedAt: '2026-06-11T00:01:00.000Z'
+    };
+
+    const add = await app.request('/api/user/products', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ product: firstProduct })
+    });
+    const replace = await app.request('/api/user/products', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ items: [firstProduct, secondProduct] })
+    });
+    const search = await app.request('/api/user/products?search=%E9%A5%AE%E6%96%99&limit=20', {
+      headers: authHeaders()
+    });
+    const favorite = await app.request('/api/user/products?isFavorite=true', {
+      headers: authHeaders()
+    });
+    const detail = await app.request('/api/user/products/product-2', {
+      headers: authHeaders()
+    });
+    const patch = await app.request('/api/user/products/product-1', {
+      method: 'PATCH',
+      headers: authHeaders(),
+      body: JSON.stringify({ isFavorite: true, tags: ['常买'] })
+    });
+    const remove = await app.request('/api/user/products/product-2', {
+      method: 'DELETE',
+      headers: authHeaders()
+    });
+
+    expect(add.status).toBe(201);
+    expect((await json(add)).item).toEqual(firstProduct);
+    expect(replace.status).toBe(200);
+    expect((await json(replace)).items).toEqual([firstProduct, secondProduct]);
+    expect(await json(search)).toMatchObject({
+      items: [secondProduct],
+      total: 1,
+      page: 1,
+      limit: 20,
+      totalPages: 1
+    });
+    expect(await json(favorite)).toMatchObject({ items: [secondProduct], total: 1 });
+    expect(await json(detail)).toEqual({ item: secondProduct });
+    expect(await json(patch)).toMatchObject({ item: { id: 'product-1', isFavorite: true, tags: ['常买'] } });
+    expect(await json(remove)).toMatchObject({ items: [expect.objectContaining({ id: 'product-1' })] });
+  });
+
+  it('rejects invalid product archive payloads and returns 404 for missing items', async () => {
+    const app = createTestApp();
+
+    const invalid = await app.request('/api/user/products', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ product: { id: 'product-1', productName: '缺少原文' } })
+    });
+    const missing = await app.request('/api/user/products/missing-product', {
+      headers: authHeaders()
+    });
+
+    expect(invalid.status).toBe(400);
+    expect(await json(invalid)).toEqual({
+      error: 'invalid_parameter',
+      field: 'id',
+      message: 'product id, productName, originalText, and reportId are required'
+    });
+    expect(missing.status).toBe(404);
+    expect(await json(missing)).toEqual({ error: 'not_found' });
+  });
+
+  it('rejects product archive bulk payloads over the local sync limit', async () => {
+    const app = createTestApp();
+    const product = {
+      id: 'product-template',
+      productName: '测试产品',
+      originalText: '配料：水',
+      reportId: 'report-template'
+    };
+
+    const response = await app.request('/api/user/products', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({
+        items: Array.from({ length: 101 }, (_, index) => ({
+          ...product,
+          id: `product-${index}`,
+          reportId: `report-${index}`
+        }))
+      })
+    });
+
+    expect(response.status).toBe(400);
+    expect(await json(response)).toEqual({
+      error: 'invalid_parameter',
+      field: 'items',
+      message: 'product items cannot exceed 100'
     });
   });
 });

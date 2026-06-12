@@ -11,6 +11,7 @@ import { renderMembershipPage } from '../pages/membershipPage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
 import { renderOnboardingPage } from '../pages/onboardingPage.js';
 import { renderOcrConfirmPage } from '../pages/ocrConfirmPage.js';
+import { renderProductArchiveListPage, renderProductArchivePage } from '../pages/productArchivePage.js';
 import { renderReportDetailPage } from '../pages/reportDetailPage.js';
 import { renderReportsPage } from '../pages/reportsPage.js';
 import { renderScanPage } from '../pages/scanPage.js';
@@ -18,6 +19,7 @@ import { renderSearchPage } from '../pages/searchPage.js';
 import { renderSettingsPage } from '../pages/settingsPage.js';
 import { renderSupportPage } from '../pages/supportPage.js';
 import { getIngredientById } from '../services/ingredientService.js';
+import { getProductArchiveById } from '../services/productArchiveService.js';
 import { buildSupportPrefillFromParams } from '../services/supportService.js';
 
 const APP_TITLE = 'CompCheck 成分小查';
@@ -32,6 +34,8 @@ const VIEW_TITLES = {
   membership: '会员中心',
   'ocr-confirm': '确认配料表',
   onboarding: '首次设置',
+  'product-detail': '产品档案',
+  products: '产品档案',
   reports: '分析报告',
   'report-detail': '报告详情',
   scan: '扫描识别',
@@ -205,6 +209,25 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/products') {
+    return {
+      view: 'products',
+      category: route.category,
+      query: params.get('q') || '',
+      page: parsePageParam(params.get('page'))
+    };
+  }
+
+  if (route.path.startsWith('/product/')) {
+    const id = decodePathValue(route.path.replace('/product/', ''));
+    if (!id) return notFoundRoute(route, path);
+    return {
+      view: 'product-detail',
+      category: route.hasCategoryPrefix ? route.category : defaultCategory,
+      id
+    };
+  }
+
   if (route.path === '/favorites') {
     return {
       view: 'favorites',
@@ -234,6 +257,8 @@ export function renderRoute(route, asyncState = null) {
   if (route.view === 'membership') return renderMembershipPage(route.category);
   if (route.view === 'support') return renderSupportPage(route.category, route.prefill);
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category, route.productName);
+  if (route.view === 'products') return renderProductArchiveListPage(route.category, route.query, route.page);
+  if (route.view === 'product-detail') return renderProductArchivePage(route.id, route.category);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);
@@ -247,6 +272,7 @@ export function getRouteTitle(route) {
   if (route.view === 'home') return `${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'detail') return `${detailTitleFor(route)} - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'report-detail') return `${reportTitleFor(route)} - ${categoryLabel} - ${APP_TITLE}`;
+  if (route.view === 'product-detail') return `${productTitleFor(route)} - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && route.query) return `${route.query} 搜索结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'search' && hasActiveSearchFilters(route.filters)) return `筛选结果 - ${categoryLabel} - ${APP_TITLE}`;
   if (route.view === 'reports' && route.query) return `${route.query} 报告检索 - ${categoryLabel} - ${APP_TITLE}`;
@@ -263,6 +289,7 @@ export function getNavigationLinks(route) {
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
       || (item.key === 'reports' && route?.view === 'report-detail')
+      || (item.key === 'reports' && ['products', 'product-detail'].includes(route?.view))
       || (item.key === 'settings' && ['legal', 'onboarding', 'support'].includes(route?.view))
   }));
 }
@@ -328,6 +355,10 @@ function detailTitleFor(route) {
 
 function reportTitleFor(route) {
   return route.id ? VIEW_TITLES['report-detail'] : VIEW_TITLES.reports;
+}
+
+function productTitleFor(route) {
+  return getProductArchiveById(route.id)?.productName || VIEW_TITLES['product-detail'];
 }
 
 function hasActiveSearchFilters(filters = {}) {

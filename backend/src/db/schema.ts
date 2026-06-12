@@ -125,6 +125,31 @@ export const userReports = pgTable('user_reports', {
   index('user_reports_category_idx').on(table.category)
 ]);
 
+export const productArchives = pgTable('product_archives', {
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  id: text('id').notNull(),
+  category: text('category').notNull().default('food'),
+  productName: text('product_name').notNull(),
+  brandName: text('brand_name'),
+  thumbnailUrl: text('thumbnail_url'),
+  originalText: text('original_text').notNull(),
+  parsedIngredients: jsonb('parsed_ingredients').$type<Record<string, unknown>[]>().notNull().default(sql`'[]'::jsonb`),
+  matchResults: jsonb('match_results').$type<Record<string, unknown>[]>().notNull().default(sql`'[]'::jsonb`),
+  reportId: text('report_id'),
+  riskGrade: text('risk_grade'),
+  isFavorite: boolean('is_favorite').notNull().default(false),
+  tags: jsonb('tags').$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  data: jsonb('data').$type<Record<string, unknown>>().notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.id] }),
+  index('product_archives_user_id_idx').on(table.userId),
+  index('product_archives_category_idx').on(table.category),
+  index('product_archives_product_name_idx').on(table.productName),
+  index('product_archives_is_favorite_idx').on(table.isFavorite)
+]);
+
 export type SourceReference = {
   title: string;
   standard: string;
@@ -155,3 +180,5 @@ export type UserAllergenRow = typeof userAllergens.$inferSelect;
 export type NewUserAllergenRow = typeof userAllergens.$inferInsert;
 export type UserReportRow = typeof userReports.$inferSelect;
 export type NewUserReportRow = typeof userReports.$inferInsert;
+export type ProductArchiveRow = typeof productArchives.$inferSelect;
+export type NewProductArchiveRow = typeof productArchives.$inferInsert;

@@ -6,6 +6,7 @@ import { fetchIngredientById, fetchIngredientSearch } from './services/ingredien
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { getCompareOverview } from './services/compareService.js';
+import { deleteProductArchive, getProductArchiveById, saveProductArchiveFromReport, toggleProductArchiveFavorite } from './services/productArchiveService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, sharePayloadWithFallback } from './services/shareService.js';
 import { getNativePhoto, isNativePlatform } from './services/nativeBridgeService.js';
@@ -21,6 +22,7 @@ import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 const app = document.querySelector('#app');
 const API_SEARCH_PAGE_SIZE = 6;
 let scanPreviewObjectUrl = '';
+let productImageObjectUrl = '';
 let scanPreviewRotation = 0;
 let routeRenderVersion = 0;
 
@@ -35,6 +37,7 @@ function render() {
   routeRenderVersion = renderVersion;
   const route = resolveRoute(window.location.hash);
   revokeScanPreviewObjectUrl();
+  revokeProductImageObjectUrl();
   scanPreviewRotation = 0;
   document.title = getRouteTitle(route);
   updateShellNavigation(route);
@@ -46,6 +49,7 @@ function render() {
   }
   hydrateIngredientApiRoute(route, renderVersion);
   hydrateAnalyzeMatchRoute(route, renderVersion);
+  hydrateProductArchiveImage(route, renderVersion);
 }
 
 function getInitialApiState(route) {
@@ -81,6 +85,33 @@ async function hydrateAnalyzeMatchRoute(route, renderVersion) {
     if (section) section.outerHTML = renderDatabaseMatchSummary(summary);
   } catch {
     // The initial local summary is already rendered; leave it in place on API failure.
+  }
+}
+
+async function hydrateProductArchiveImage(route, renderVersion) {
+  if (route?.view !== 'product-detail') return;
+  const product = getProductArchiveById(route.id);
+  if (!product?.imageId || typeof URL === 'undefined' || typeof URL.createObjectURL !== 'function') return;
+  const imageNode = document.querySelector('[data-product-image]');
+  if (!imageNode) return;
+
+  try {
+    const image = await getImage(product.imageId);
+    if (renderVersion !== routeRenderVersion || !image?.blob) return;
+    revokeProductImageObjectUrl();
+    productImageObjectUrl = URL.createObjectURL(image.blob);
+    if (imageNode.tagName === 'IMG') {
+      imageNode.src = productImageObjectUrl;
+      return;
+    }
+
+    const img = document.createElement('img');
+    img.alt = `${product.productName}包装图`;
+    img.dataset.productImage = product.id;
+    img.src = productImageObjectUrl;
+    imageNode.replaceWith(img);
+  } catch {
+    // Thumbnail and metadata remain usable if the IndexedDB image cannot be read.
   }
 }
 
@@ -212,6 +243,20 @@ function bindPageEvents(route) {
     });
   });
 
+  document.querySelectorAll('[data-product-search-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const query = String(formData.get('q') || '').trim();
+      if (!query) {
+        navigate(`#${categoryPath(route.category, '/products')}`);
+        return;
+      }
+      const params = new URLSearchParams({ q: query });
+      navigate(`#${categoryPath(route.category, '/products')}?${params.toString()}`);
+    });
+  });
+
   bindScanPageEvents(route);
   bindOcrConfirmEvents(route);
 
@@ -277,10 +322,55 @@ function bindPageEvents(route) {
   const saveReportButton = document.querySelector('[data-save-report]');
   if (saveReportButton) {
     saveReportButton.addEventListener('click', () => {
-      const report = saveAnalysisReport(route.input, route.category, { productName: route.productName });
-      if (report) navigate(`#${categoryPath(report.category, `/reports/${report.id}`)}`);
+      const pending = getPendingScanForReport(route);
+      const report = saveAnalysisReport(route.input, route.category, {
+        productName: route.productName,
+        imageId: pending?.pendingImageId,
+        source: pending?.pendingSource
+      });
+      if (!report) return;
+      if (pending?.pendingImageId) clearPendingScan();
+      navigate(`#${categoryPath(report.category, `/reports/${report.id}`)}`);
     });
   }
+
+  document.querySelectorAll('[data-save-product-archive]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const report = getAnalysisReportById(button.dataset.saveProductArchive);
+      if (!report) {
+        updateExportStatus('报告不存在，无法保存产品档案。');
+        return;
+      }
+
+      button.disabled = true;
+      updateExportStatus('正在保存产品档案...');
+      const product = await saveProductArchiveFromReport(report);
+      if (!product) {
+        button.disabled = false;
+        updateExportStatus('产品档案保存失败，请稍后重试。');
+        return;
+      }
+      navigate(`#${categoryPath(product.category, `/product/${product.id}`)}`);
+    });
+  });
+
+  document.querySelectorAll('[data-toggle-product-favorite]').forEach((button) => {
+    button.addEventListener('click', () => {
+      toggleProductArchiveFavorite(button.dataset.toggleProductFavorite);
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-delete-product-archive]').forEach((button) => {
+    button.addEventListener('click', () => {
+      deleteProductArchive(button.dataset.deleteProductArchive);
+      if (route.view === 'product-detail') {
+        navigate(`#${categoryPath(route.category, '/products')}`);
+      } else {
+        render();
+      }
+    });
+  });
 
   document.querySelectorAll('[data-delete-report]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -433,7 +523,7 @@ function bindPageEvents(route) {
       }
 
       const confirmed = typeof window.confirm === 'function'
-        ? window.confirm('导入会覆盖当前本机收藏、历史、过敏原、报告和扫描草稿，继续？')
+        ? window.confirm('导入会覆盖当前本机收藏、历史、过敏原、报告、产品档案和扫描草稿，继续？')
         : true;
       if (!confirmed) return;
 
@@ -459,7 +549,7 @@ function bindPageEvents(route) {
   if (clearLocalDataButton) {
     clearLocalDataButton.addEventListener('click', async () => {
       const confirmed = typeof window.confirm === 'function'
-        ? window.confirm('清空本机收藏、历史、过敏原、报告和扫描草稿？')
+        ? window.confirm('清空本机收藏、历史、过敏原、报告、产品档案和扫描草稿？')
         : true;
       if (!confirmed) return;
 
@@ -719,15 +809,26 @@ function bindOcrConfirmEvents(route) {
     saveScanDraft(text, route.category);
     const params = new URLSearchParams({ text });
     if (productName) params.set('productName', productName);
-    try {
-      await clearPendingScanImage();
-    } catch {
-      // The analysis URL is already self-contained; do not block navigation on best-effort cleanup.
-    }
+    setPendingScan({
+      category: route.category,
+      status: 'success',
+      pendingText: text,
+      pendingProductName: productName
+    });
     navigate(`#${categoryPath(route.category, '/analyze')}?${params.toString()}`);
   });
 
   void hydrateOcrConfirmImage(route.category);
+}
+
+function getPendingScanForReport(route) {
+  const pending = getPendingScan();
+  const routeInput = String(route?.input || '').trim();
+  const pendingText = String(pending.pendingText || '').trim();
+  if (!pending.pendingImageId || pending.category !== route.category || !routeInput || routeInput !== pendingText) {
+    return null;
+  }
+  return pending;
 }
 
 async function openScanSource(source) {
@@ -1140,6 +1241,12 @@ function revokeScanPreviewObjectUrl() {
   if (!scanPreviewObjectUrl || typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
   URL.revokeObjectURL(scanPreviewObjectUrl);
   scanPreviewObjectUrl = '';
+}
+
+function revokeProductImageObjectUrl() {
+  if (!productImageObjectUrl || typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
+  URL.revokeObjectURL(productImageObjectUrl);
+  productImageObjectUrl = '';
 }
 
 function updateScanImageActionState({ canRotate, canClear }) {

@@ -1,37 +1,35 @@
-# AI Review - 2026-06-12 R-A 食品配料分析报告页
+# AI Review - 2026-06-12 F-A 产品档案与 IndexedDB 图片存储
 
 ## 本轮目标
 
 按 `CODEX_TASKS.md` 当前最早可执行的 Codex 批次推进：
 
-- Batch R-A：食品配料分析报告页
+- Batch F-A：产品档案与 IndexedDB 图片存储
 
-本批次不处理等待人工确认的官方数据导入、生产数据库、真实 OCR Key、真实 AI Key、商店账号、支付和法务材料。
+本批次不处理等待人工确认的官方数据导入、生产数据库、真实 OCR Key、真实 AI Key、生产 CDN 图片存储、商店账号、支付和法务材料。
 
 ## 本轮完成
 
-1. 新增 `src/services/reportService.js`，集中生成和归一化食品配料分析报告。
-2. 报告模型升级到 `schemaVersion: 3`，保留旧报告兼容字段，并新增 `originalText`、`parsedIngredients`、`matchResults`、`riskGrade`、`riskSummary`、`unmatchedTerms`、`lowConfidenceTerms` 和 `matchRate`。
-3. 新增整体评级 A/B/C/D/F，按高关注和中等关注成分数量计算，报告页用大号评级卡展示。
-4. 新增关注摘要、配料顺序说明、食品添加剂分类统计、未收录/普通原料区、特殊人群提示、过敏原命中和数据来源说明。
-5. 新增 `src/pages/reportDetailPage.js`，报告详情支持删除、分享、重新分析、返回报告列表、复制 Markdown、下载 Markdown 和下载 JSON。
-6. `src/router/router.js` 增加 `/report/:id` 别名，保留 `/reports/:id` 兼容。
-7. `src/services/shareService.js` 改为分享报告摘要链接，指向可打开的报告详情页。
-8. `src/services/reportExportService.js` 的 Markdown/JSON 导出同步输出整体评级、关注摘要、配料顺序和结构化匹配数据。
-9. `src/store/userStore.js` 保存报告时统一走报告服务，单类别报告保留上限从 20 条提升到 50 条。
-10. `scripts/lint.mjs` 增加更严格的绝对化和恐吓式表达禁用词，避免报告文案越过医疗/安全边界。
-11. `scripts/test.mjs` 补充报告评级、详情渲染、路由别名、导出、分享和 50 条保留上限断言。
+1. 新增 `src/services/productArchiveService.js`，提供产品档案建档、归一化、搜索过滤、分页、收藏切换、删除、清空和 100 条本地容量控制。
+2. 产品档案 localStorage key 为 `compcheck:products`，只保存元数据、`imageId` 和小缩略图；完整图片仍通过现有 `imageStoreService` 保存在 IndexedDB。
+3. 新增 `src/pages/productArchivePage.js`，支持 `/products` 列表和 `/product/:id` 详情页，展示产品名、品牌、缩略图、评级、分析日期、原文预览、收藏状态和完整报告链接。
+4. 报告详情页新增“保存为产品档案 / 查看产品档案”入口，报告和产品通过 `reportId` 关联。
+5. OCR 确认进入分析时不再提前删除图片；保存报告时把 pending scan 的 `imageId` 写入报告，建档时可读取 IndexedDB 图片生成缩略图。
+6. 本机数据摘要、导出、导入和清空流程纳入产品档案，设置页展示产品档案数量。
+7. storageService 新增 `compcheck:products` 登录态同步配置，按 `id` 合并 pending writes。
+8. 后端新增 `product_archives` Drizzle schema、migration 和 `/api/user/products` API：列表搜索/过滤/分页、详情、创建、批量替换、PATCH 更新和删除。
+9. `scripts/test.mjs` 和 `backend/tests/user.test.ts` 补充产品档案服务、路由、页面、localStorage 边界和后端 API 回归断言。
 
-## 人工阻塞
+## 人工接入点
 
 | 阻塞项 | 状态 | 需要用户提供 |
 |---|---|---|
-| Data Batch 1-B 官方来源导入 | blocked_by_user | 官方来源清单、10-20 条逐条审核样例、可升级为 reviewed/verified 的条目 |
+| 本地数据库迁移 | blocked_by_environment | 当前 Docker `postgres-data` volume 的 `postgres` 密码与 `backend/.env` 的 `postgres:password` 不一致；需人工决定是否重建本地 volume 或提供正确 `DATABASE_URL` |
 | 生产 DATABASE_URL | blocked_by_user | 生产 PostgreSQL 平台、连接串、备份和发布策略 |
+| 生产图片/CDN 存储 | blocked_by_user | 对象存储/CDN 方案、上传 API、安全策略和缩略图 URL 策略 |
+| Data Batch 1-B 官方来源导入 | blocked_by_user | 官方来源清单、10-20 条逐条审核样例、可升级为 reviewed/verified 的条目 |
 | OCR API Key | blocked_by_user | 选定 OCR 供应商、服务端 API Key、额度和错误策略 |
 | AI API Key | blocked_by_user | 选定 AI 供应商、服务端 API Key、成本上限和提示边界 |
-| Apple / Google 开发者账号 | blocked_by_user | App Store / Google Play 账号、签名证书和测试设备 |
-| 支付与合规材料 | blocked_by_user | IAP/Billing 商品、正式隐私政策、服务条款和法务复核 |
 
 ## 验证结果
 
@@ -40,18 +38,24 @@ npm run validate:data
 npm run lint
 npm run test
 npm run build
+cd backend && npm run typecheck
+cd backend && npm test
+cd backend && npm run build
 git diff --check
 ```
 
 全部通过。
 
+`cd backend && npm run db:migrate` 已尝试执行，但因本地 Postgres 密码认证失败未能应用迁移。容器存在且 `backend/.env` 为 `postgres://postgres:password@localhost:15432/compcheck`，Postgres 日志显示 `password authentication failed for user "postgres"`。
+
 ## 当前风险
 
-1. 100 条食品添加剂 seed 仍全部是 `confidenceLevel: "unverified"`、`isVerified: false`，报告只透明展示草稿状态，不把数据写成已审核结论。
-2. 真实 OCR 尚未接入；当前报告可以从手动/确认文本生成，但不能视为真实拍照自动识别完成。
-3. 真实 AI 尚未接入；报告总结来自本地规则和现有数据，不是模型生成的个性化建议。
-4. 尚未做浏览器 E2E、PDF/图片导出、真机相机/分享验收和跨设备报告同步验收。
+1. 产品档案基础链路已完成，但 F-B 的历史列表、收藏管理和批量管理仍未完成。
+2. 完整图片目前只在本机 IndexedDB，生产 CDN/对象存储仍未接入，跨设备只能同步元数据和缩略图。
+3. 100 条食品添加剂 seed 仍全部是 `confidenceLevel: "unverified"`、`isVerified: false`，产品档案和报告都不能视为已审核结论。
+4. 真实 OCR 尚未接入；当前图片链路能保留图片和手动/确认文本，但不能视为真实自动识别完成。
+5. 尚未做真机相机、图片缩略图质量、离线同步队列和生产迁移验收。
 
 ## 下一步
 
-当前最早可继续执行的 Codex 任务：`Batch F-A：产品档案与 IndexedDB 图片存储`。
+当前最早可继续执行的 Codex 任务：`Batch F-B：历史列表与产品收藏管理`。

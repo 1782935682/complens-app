@@ -19,6 +19,7 @@ import { renderMembershipPage } from '../src/pages/membershipPage.js';
 import { renderOnboardingPage } from '../src/pages/onboardingPage.js';
 import { renderScanPage } from '../src/pages/scanPage.js';
 import { renderOcrConfirmPage } from '../src/pages/ocrConfirmPage.js';
+import { renderProductArchiveListPage, renderProductArchivePage } from '../src/pages/productArchivePage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { renderSupportPage } from '../src/pages/supportPage.js';
@@ -29,6 +30,7 @@ import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src
 import { compressImage } from '../src/utils/imageProcessor.js';
 import { AUTH_TOKEN_KEY, isLoggedIn, readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
+import { clearProductArchives, createProductArchiveFromReport, getProductArchiveById, getProductArchiveByReportId, getProductArchives, MAX_PRODUCT_ARCHIVES, PRODUCT_ARCHIVES_KEY, saveProductArchiveFromReport, toggleProductArchiveFavorite } from '../src/services/productArchiveService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sanitizeNativeSharePayload, sharePayloadWithFallback } from '../src/services/shareService.js';
 import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
@@ -105,6 +107,10 @@ assert.deepEqual(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'), {
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/food/report/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
 assert.deepEqual(resolveRoute('#/report/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
+assert.deepEqual(resolveRoute('#/food/products'), { view: 'products', category: 'food', query: '', page: 1 });
+assert.deepEqual(resolveRoute('#/food/products?q=%E9%A5%BC%E5%B9%B2&page=2'), { view: 'products', category: 'food', query: '饼干', page: 2 });
+assert.deepEqual(resolveRoute('#/food/product/product-123'), { view: 'product-detail', category: 'food', id: 'product-123' });
+assert.deepEqual(resolveRoute('#/product/product-123'), { view: 'product-detail', category: 'food', id: 'product-123' });
 assert.deepEqual(resolveRoute('#/cosmetics/ingredient/niacinamide'), { view: 'detail', category: 'cosmetics', id: 'niacinamide' });
 assert.deepEqual(resolveRoute('#/search?q=BHA'), {
   view: 'search',
@@ -132,6 +138,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/support')), '支持中心 - 食�
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82')), '卵磷脂 报告检索 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/products')), '产品档案 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/not-a-real-page')), '页面不存在 - 食品添加剂 - CompCheck 成分小查');
 assert.deepEqual(getNavigationLinks(resolveRoute('#/food/search?q=E330')), [
   { key: 'search', href: '#/food/search', active: true },
@@ -166,6 +173,8 @@ assert.deepEqual(getNavigationLinks(resolveRoute('#/food/reports/report-123')), 
   { key: 'membership', href: '#/food/membership', active: false },
   { key: 'settings', href: '#/food/settings', active: false }
 ]);
+assert.equal(getNavigationLinks(resolveRoute('#/food/products')).find((item) => item.key === 'reports').active, true);
+assert.equal(getNavigationLinks(resolveRoute('#/food/product/product-123')).find((item) => item.key === 'reports').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/onboarding')).find((item) => item.key === 'settings').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/legal')).find((item) => item.key === 'settings').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'membership').active, true);
@@ -294,6 +303,9 @@ assert.match(backendDbSchema, /export const userFavorites = pgTable\('user_favor
 assert.match(backendDbSchema, /export const userHistory = pgTable\('user_history'/);
 assert.match(backendDbSchema, /export const userAllergens = pgTable\('user_allergens'/);
 assert.match(backendDbSchema, /export const userReports = pgTable\('user_reports'/);
+assert.match(backendDbSchema, /export const productArchives = pgTable\('product_archives'/);
+assert.match(backendDbSchema, /thumbnailUrl: text\('thumbnail_url'\)/);
+assert.match(backendDbSchema, /primaryKey\(\{ columns: \[table\.userId, table\.id\] \}\)/);
 assert.match(backendDbSchema, /ingredients_description_trgm_idx/);
 assert.match(backendDbSchema, /ingredients_aliases_gin_idx/);
 assert.match(backendDbSchema, /sourceName: text\('source_name'\)\.notNull\(\)/);
@@ -350,11 +362,16 @@ assert.match(backendUserRoute, /route\.get\('\/user\/favorites'/);
 assert.match(backendUserRoute, /route\.post\('\/user\/history'/);
 assert.match(backendUserRoute, /route\.put\('\/user\/allergens'/);
 assert.match(backendUserRoute, /route\.delete\('\/user\/reports'/);
+assert.match(backendUserRoute, /route\.get\('\/user\/products'/);
+assert.match(backendUserRoute, /route\.get\('\/user\/products\/:id'/);
+assert.match(backendUserRoute, /route\.patch\('\/user\/products\/:id'/);
 const backendUserServiceSource = await readFile(new URL('../backend/src/services/userService.ts', import.meta.url), 'utf8');
 assert.match(backendUserServiceSource, /userFavorites/);
 assert.match(backendUserServiceSource, /replaceFavorites/);
 assert.match(backendUserServiceSource, /replaceAllergens/);
 assert.match(backendUserServiceSource, /replaceReports/);
+assert.match(backendUserServiceSource, /productArchives/);
+assert.match(backendUserServiceSource, /replaceProducts/);
 const backendSeedScript = await readFile(new URL('../backend/scripts/seed.ts', import.meta.url), 'utf8');
 assert.match(backendSeedScript, /src\/data\/foodAdditives\.js/);
 assert.match(backendSeedScript, /Seeded \$\{foodAdditives\.length\} ingredients/);
@@ -376,6 +393,10 @@ assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_favorites"/);
 assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_history"/);
 assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_allergens"/);
 assert.match(backendUserDataMigrationSql, /CREATE TABLE "user_reports"/);
+const backendProductArchiveMigrationSql = await readFile(new URL('../backend/src/db/migrations/0005_wooden_kid_colt.sql', import.meta.url), 'utf8');
+assert.match(backendProductArchiveMigrationSql, /CREATE TABLE "product_archives"/);
+assert.match(backendProductArchiveMigrationSql, /"thumbnail_url" text/);
+assert.match(backendProductArchiveMigrationSql, /CONSTRAINT "product_archives_user_id_id_pk" PRIMARY KEY\("user_id","id"\)/);
 const backendVitestConfig = await readFile(new URL('../backend/vitest.config.ts', import.meta.url), 'utf8');
 assert.match(backendVitestConfig, /include: \['tests\/\*\*\/\*\.test\.ts'\]/);
 const viteConfigJs = await readFile(new URL('../vite.config.js', import.meta.url), 'utf8');
@@ -431,6 +452,11 @@ assert.match(mainJs, /async function clearPendingScanImage\(\)[\s\S]*clearPendin
 assert.match(mainJs, /previousPending\.pendingImageId[\s\S]*deleteImage\(previousPending\.pendingImageId\)/);
 assert.match(mainJs, /pendingImageId: imageId[\s\S]*pendingImageMeta: meta[\s\S]*pendingText: ''[\s\S]*pendingProductName: ''[\s\S]*pendingOcrErrorCode: ''[\s\S]*pendingOcrErrorMsg: ''/);
 assert.match(mainJs, /getImage\(pending\.pendingImageId\)/);
+assert.match(mainJs, /saveProductArchiveFromReport\(report\)/);
+assert.match(mainJs, /getPendingScanForReport\(route\)/);
+assert.match(mainJs, /imageId: pending\?\.pendingImageId/);
+assert.match(mainJs, /clearPendingScan\(\)/);
+assert.match(mainJs, /hydrateProductArchiveImage\(route, renderVersion\)/);
 assert.match(mainJs, /\['cancelled', 'empty'\]\.includes\(result\.reason\)/);
 assert.match(mainJs, /dataUrlToBlob\(result\.dataUrl, result\.mimeType\)/);
 assert.match(mainJs, /new File\(\[blob\], fileName/);
@@ -1386,6 +1412,7 @@ assert.match(settingsHtml, /data-clear-local-data/);
 assert.match(settingsHtml, /data-local-data-count="favorites">2</);
 assert.match(settingsHtml, /data-local-data-count="compareItems">0</);
 assert.match(settingsHtml, /data-local-data-count="history">1</);
+assert.match(settingsHtml, /data-local-data-count="products">0</);
 assert.match(settingsHtml, /data-local-data-count="supportRequests">0</);
 assert.match(settingsHtml, /data-local-data-count="allergens">2</);
 assert.match(settingsHtml, /data-history-recording-toggle checked/);
@@ -1546,6 +1573,7 @@ assert.equal(localDataSummary.favorites, 2);
 assert.equal(localDataSummary.compareItems, 4);
 assert.equal(localDataSummary.history, 1);
 assert.equal(localDataSummary.allergens, 2);
+assert.equal(localDataSummary.products, 0);
 assert.equal(localDataSummary.supportRequests, 1);
 assert.equal(localDataSummary.scanDrafts, 1);
 assert.equal(localDataSummary.totalItems, 11);
@@ -1555,6 +1583,7 @@ assert.equal(localDataSnapshot.preferences.historyRecordingEnabled, true);
 assert.equal(localDataSnapshot.favorites.some((item) => item.id === 'citric-acid' && item.category === 'food'), true);
 assert.equal(localDataSnapshot.compareItems.some((item) => item.id === 'citric-acid' && item.category === 'food'), true);
 assert.equal(localDataSnapshot.supportRequests.some((item) => item.subject === '扫描草稿反馈'), true);
+assert.deepEqual(localDataSnapshot.products, []);
 assert.equal(localDataSnapshot.history[0], '烟酰胺');
 assert.equal(localDataSnapshot.scanDrafts.food, '柠檬酸，山梨酸钾');
 setHistoryRecordingEnabled(false);
@@ -1564,6 +1593,7 @@ assert.deepEqual(clearLocalUserData(), {
   history: 0,
   allergens: 0,
   reports: 0,
+  products: 0,
   supportRequests: 0,
   scanDrafts: 0,
   totalItems: 0
@@ -1827,6 +1857,57 @@ assert.match(reportDetailHtml, /全脂奶粉/);
 assert.match(reportDetailHtml, /href="#\/food\/analyze\?text=/);
 assert.match(reportDetailHtml, /productName=/);
 assert.deepEqual(resolveRoute(`#/food/report/${savedReport.id}`), { view: 'report-detail', category: 'food', id: savedReport.id });
+writeJson(PRODUCT_ARCHIVES_KEY, []);
+const productDraft = createProductArchiveFromReport(savedReport, {
+  thumbnailDataUrl: 'data:image/jpeg;base64,AAA='
+});
+assert.equal(productDraft.productName, '测试饼干');
+assert.equal(productDraft.reportId, savedReport.id);
+assert.equal(productDraft.originalText, savedReport.originalText);
+assert.equal(productDraft.imageId, null);
+assert.equal(productDraft.thumbnailDataUrl, 'data:image/jpeg;base64,AAA=');
+assert.equal(Object.hasOwn(productDraft, 'imageDataUrl'), false);
+const archivedProduct = await saveProductArchiveFromReport(savedReport, {
+  thumbnailDataUrl: 'data:image/jpeg;base64,AAA='
+});
+assert.equal(getProductArchives('food').length, 1);
+assert.equal(getProductArchiveById(archivedProduct.id).id, archivedProduct.id);
+assert.equal(getProductArchiveByReportId(savedReport.id).id, archivedProduct.id);
+assert.equal(readJson(PRODUCT_ARCHIVES_KEY, [])[0].imageId, null);
+assert.equal(Object.hasOwn(readJson(PRODUCT_ARCHIVES_KEY, [])[0], 'blob'), false);
+const productListHtml = renderProductArchiveListPage('food');
+assert.match(productListHtml, /产品档案/);
+assert.match(productListHtml, /data-product-card/);
+assert.match(productListHtml, /data:image\/jpeg;base64,AAA=/);
+assert.match(productListHtml, /href="#\/food\/product\//);
+assert.match(renderRoute(resolveRoute('#/food/products?q=%E9%A5%BC%E5%B9%B2')), /1 条匹配/);
+const productDetailHtml = renderProductArchivePage(archivedProduct.id, 'food');
+assert.match(productDetailHtml, /测试饼干/);
+assert.match(productDetailHtml, /data-product-image=/);
+assert.match(productDetailHtml, new RegExp(`href="#/food/reports/${savedReport.id}"`));
+assert.match(productDetailHtml, /完整图片仅保存在本机 IndexedDB/);
+assert.match(getRouteTitle(resolveRoute(`#/food/product/${archivedProduct.id}`)), /测试饼干 - 食品添加剂 - CompCheck 成分小查/);
+const reportDetailWithProductHtml = renderRoute(resolveRoute(`#/food/reports/${savedReport.id}`));
+assert.match(reportDetailWithProductHtml, /查看产品档案/);
+assert.doesNotMatch(reportDetailWithProductHtml, /保存为产品档案/);
+assert.equal(toggleProductArchiveFavorite(archivedProduct.id).isFavorite, true);
+assert.equal(getProductArchives({ category: 'food', isFavorite: true }).length, 1);
+clearProductArchives();
+const overLimitProducts = Array.from({ length: MAX_PRODUCT_ARCHIVES + 2 }, (_, index) => ({
+  ...archivedProduct,
+  id: `product-limit-${index}`,
+  reportId: `report-limit-${index}`,
+  productName: `产品 ${index}`,
+  isFavorite: index === 0,
+  createdAt: new Date(2026, 0, index + 1).toISOString(),
+  updatedAt: new Date(2026, 0, index + 1).toISOString()
+}));
+writeJson(PRODUCT_ARCHIVES_KEY, overLimitProducts);
+const cappedProducts = getProductArchives();
+assert.equal(cappedProducts.length, MAX_PRODUCT_ARCHIVES);
+assert.equal(cappedProducts.some((item) => item.id === 'product-limit-0' && item.isFavorite), true);
+assert.equal(cappedProducts.some((item) => item.id === 'product-limit-1'), false);
+clearProductArchives();
 const cosmeticReport = saveAnalysisReport(SAMPLES['cosmetic-1'], 'cosmetics', { productName: '测试面霜' });
 const cosmeticReportHtml = renderRoute(resolveRoute(`#/cosmetics/reports/${cosmeticReport.id}`));
 assert.match(cosmeticReportHtml, /化妆品成分/);

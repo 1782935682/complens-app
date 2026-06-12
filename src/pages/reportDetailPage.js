@@ -3,6 +3,7 @@ import { categoryPath, getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getAllergensByIds } from '../services/allergenService.js';
 import { getIngredientById } from '../services/ingredientService.js';
 import { buildReportFileName, buildReportMarkdown } from '../services/reportExportService.js';
+import { getProductArchiveByReportId } from '../services/productArchiveService.js';
 import {
   cautionGroupLabel,
   getCategoryBreakdownEntries,
@@ -42,6 +43,7 @@ export function renderReportDetailPage(id, category = 'food') {
   const sourceEvidence = buildReportSourceEvidence(report);
   const allergenHitCount = (report.ingredientAllergenHits || []).length + (report.textAllergenHits || []).length;
   const markdown = buildReportMarkdown(report);
+  const archivedProduct = getProductArchiveByReportId(report.id);
 
   return html`
     <section class="section report-detail-hero">
@@ -70,6 +72,9 @@ export function renderReportDetailPage(id, category = 'food') {
       <div class="form-actions report-toolbar">
         <a class="button-link" href="${buildReportAnalyzeHref(report)}" data-route>重新分析</a>
         <a class="button-link secondary-link" href="#${categoryPath(report.category, '/reports')}" data-route>返回报告列表</a>
+        ${archivedProduct
+          ? html`<a class="button-link secondary-link" href="#${categoryPath(report.category, `/product/${archivedProduct.id}`)}" data-route>查看产品档案</a>`
+          : html`<button type="button" class="secondary" data-save-product-archive="${escapeHtml(report.id)}">保存为产品档案</button>`}
         <button type="button" class="secondary" data-share-report="${escapeHtml(report.id)}">分享报告</button>
       </div>
     </section>
