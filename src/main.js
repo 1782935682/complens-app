@@ -44,6 +44,7 @@ function render() {
   document.title = getRouteTitle(route);
   updateShellNavigation(route);
   app.innerHTML = renderRoute(route, getInitialApiState(route));
+  playPageEnterAnimation();
   bindPageEvents(route);
   window.scrollTo({ top: 0, behavior: 'auto' });
   if (typeof app.focus === 'function') {
@@ -192,8 +193,21 @@ function updateNavigationGroup(selector, datasetKey, items) {
   });
 }
 
+function playPageEnterAnimation() {
+  app.classList.remove('page-enter');
+  if (typeof app.offsetWidth !== 'number') return;
+  void app.offsetWidth;
+  app.classList.add('page-enter');
+}
+
 function bindPageEvents(route) {
   bindAuthEvents(route);
+
+  document.querySelectorAll('[data-route-retry]').forEach((button) => {
+    button.addEventListener('click', () => {
+      render();
+    });
+  });
 
   document.querySelectorAll('[data-search-form]').forEach((form) => {
     form.addEventListener('submit', (event) => {

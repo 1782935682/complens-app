@@ -55,7 +55,9 @@ function renderFavoriteProducts(category, products) {
     ? html`<div class="product-grid favorite-product-grid">${products.map(favoriteProductCard).join('')}</div>`
     : html`
       <div class="empty-state" data-empty-favorite-products>
-        <p class="empty">暂无收藏产品，可在分析历史或产品档案中收藏。</p>
+        <div class="empty-state-icon" aria-hidden="true">藏</div>
+        <p class="empty-state-title">暂无收藏产品</p>
+        <p class="empty-state-desc">可在分析历史或产品档案中收藏常看的产品。</p>
         <a class="button-link" href="#${categoryPath(category, '/history')}" data-route>查看分析历史</a>
       </div>
     `;
@@ -64,7 +66,9 @@ function renderFavoriteProducts(category, products) {
 function renderEmptyFavorites(category) {
   return html`
     <div class="empty-state" data-empty-favorites>
-      <p class="empty">暂无收藏，去搜索成分并收藏</p>
+      <div class="empty-state-icon" aria-hidden="true">藏</div>
+      <p class="empty-state-title">暂无收藏成分</p>
+      <p class="empty-state-desc">去搜索成分后，可以把常查成分加入收藏。</p>
       <a class="button-link" href="#${categoryPath(category, '/search')}" data-route>去搜索成分</a>
     </div>
   `;

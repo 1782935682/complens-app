@@ -137,8 +137,10 @@ function renderSupportRequest(request) {
 
 function renderEmptyState(category) {
   return html`
-    <div class="info-block">
-      <p class="empty">还没有本机反馈记录。</p>
+    <div class="empty-state">
+      <div class="empty-state-icon" aria-hidden="true">助</div>
+      <p class="empty-state-title">还没有本机反馈记录</p>
+      <p class="empty-state-desc">提交数据纠错、功能问题或订阅咨询后，会在这里保留本机记录。</p>
       <div class="form-actions">
         <a class="button-link secondary-link" href="#${categoryPath(category, '/membership')}" data-route>查看会员中心</a>
         <a class="button-link secondary-link" href="#${categoryPath(category, '/data')}" data-route>查看数据来源</a>

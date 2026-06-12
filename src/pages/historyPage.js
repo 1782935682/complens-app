@@ -135,7 +135,9 @@ function renderEmptyHistory(category, query, filter) {
     : '还没有分析历史，拍照识别后会在这里生成产品记录。';
   return html`
     <div class="empty-state" data-empty-history>
-      <p class="empty">${emptyText}</p>
+      <div class="empty-state-icon" aria-hidden="true">史</div>
+      <p class="empty-state-title">${query || filter !== 'all' ? '没有符合条件的分析历史' : '还没有分析历史'}</p>
+      <p class="empty-state-desc">${emptyText}</p>
       <a class="button-link" href="#${categoryPath(category, '/scan')}" data-route>去拍照识别</a>
     </div>
   `;

@@ -100,6 +100,11 @@ function renderLoadingIngredientPage(id, category, categoryLabel) {
       <p class="eyebrow">${escapeHtml(categoryLabel)} / 后端数据库</p>
       <h1>正在加载成分详情</h1>
       <p class="lead">正在优先请求后端成分 API。若后端不可用，会自动降级到本地草稿数据。</p>
+      <div class="loading-state" aria-busy="true">
+        <div class="skeleton skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton skeleton-text skeleton-text--wide" aria-hidden="true"></div>
+        <div class="skeleton skeleton-text" aria-hidden="true"></div>
+      </div>
       <div class="form-actions">
         <a class="button-link secondary-link" href="${escapeHtml(searchHref)}" data-route>返回搜索</a>
       </div>
@@ -109,8 +114,10 @@ function renderLoadingIngredientPage(id, category, categoryLabel) {
 
 function renderApiFallbackNotice() {
   return html`
-    <div class="data-warning" data-api-error>
-      后端成分 API 暂不可用，当前展示本地草稿数据。未验证数据不能视为权威结论。
+    <div class="error-state" data-api-error>
+      <p class="error-state-title">后端成分 API 暂不可用</p>
+      <p class="error-desc">当前展示本地草稿数据。未验证数据不能视为权威结论。</p>
+      <button type="button" class="secondary" data-route-retry>重试</button>
     </div>
   `;
 }

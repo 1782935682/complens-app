@@ -69,7 +69,7 @@ export function renderDataPage(category = 'food') {
               </div>
             `).join('')}
           </div>
-        ` : '<p class="empty">当前类别还没有版本信息。</p>'}
+        ` : renderDataEmptyState('版', '当前类别还没有版本信息', '需要补充数据版本和更新记录，方便追踪数据来源。', buildDatasetCorrectionUrl(category, audit))}
       </div>
     </section>
 
@@ -82,7 +82,7 @@ export function renderDataPage(category = 'food') {
         <div class="source-card-grid">
           ${sources.map(renderSourceCard).join('')}
         </div>
-      ` : '<p class="empty">当前类别还没有逐条来源引用，后续需要补充来源表和审核记录。</p>'}
+      ` : renderDataEmptyState('源', '当前类别还没有逐条来源引用', '后续需要补充来源表和审核记录。', buildDatasetCorrectionUrl(category, audit))}
     </section>
 
     <section class="section two-column">
@@ -97,7 +97,7 @@ export function renderDataPage(category = 'food') {
               </a>
             `).join('')}
           </div>
-        ` : '<p class="empty">当前类别还没有分类数据。</p>'}
+        ` : renderDataEmptyState('类', '当前类别还没有分类数据', '可以反馈需要优先补充的分类、法规来源或适用范围。', buildDatasetCorrectionUrl(category, audit))}
       </div>
       <div class="note muted">
         <h2>上线前缺口</h2>
@@ -112,6 +112,17 @@ export function renderDataPage(category = 'food') {
         </div>
       </div>
     </section>
+  `;
+}
+
+function renderDataEmptyState(icon, title, desc, href) {
+  return html`
+    <div class="empty-state empty-state--inline">
+      <div class="empty-state-icon" aria-hidden="true">${escapeHtml(icon)}</div>
+      <p class="empty-state-title">${escapeHtml(title)}</p>
+      <p class="empty-state-desc">${escapeHtml(desc)}</p>
+      <a class="button-link secondary-link" href="${escapeHtml(href)}" data-route>反馈数据问题</a>
+    </div>
   `;
 }
 
