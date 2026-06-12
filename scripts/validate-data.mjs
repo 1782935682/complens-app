@@ -19,6 +19,15 @@ const absoluteMedicalClaims = [
   '治疗疾病',
   '治愈疾病'
 ];
+const requiredSourceFields = [
+  'sourceName',
+  'sourceVersion',
+  'sourceUrl',
+  'effectiveDate',
+  'lastReviewedAt',
+  'regulatoryBasis',
+  'rawSourceText'
+];
 
 export function validateFoodAdditives(items = foodAdditives) {
   const errors = [];
@@ -115,6 +124,43 @@ export function validateFoodAdditives(items = foodAdditives) {
   return errors;
 }
 
+export function getFoodAdditiveQualityReport(items = foodAdditives) {
+  const safeItems = Array.isArray(items) ? items : [];
+  const reviewStatusCounts = countBy(safeItems, (item) => item?.reviewStatus || 'missing');
+  const confidenceCounts = countBy(safeItems, (item) => item?.confidenceLevel || 'missing');
+  const sourceVersionCounts = countBy(safeItems, (item) => item?.sourceVersion || 'missing');
+  const missingSourceFieldCount = safeItems.reduce((count, item) => (
+    count + requiredSourceFields.filter((field) => !hasText(item?.[field])).length
+  ), 0);
+  const missingUsageLimitsCount = safeItems.filter((item) => !Array.isArray(item?.usageLimits) || item.usageLimits.length === 0).length;
+  const reviewQueue = safeItems
+    .filter((item) => item?.reviewStatus === 'draft' || item?.confidenceLevel === 'unverified' || item?.isVerified !== true)
+    .map((item) => item.id)
+    .filter(Boolean);
+
+  return {
+    totalCount: safeItems.length,
+    reviewStatusCounts,
+    confidenceCounts,
+    reviewedCount: reviewStatusCounts.reviewed || 0,
+    verifiedCount: reviewStatusCounts.verified || 0,
+    unverifiedCount: confidenceCounts.unverified || 0,
+    missingSourceFieldCount,
+    missingUsageLimitsCount,
+    sourceVersionCounts,
+    reviewQueue
+  };
+}
+
+function countBy(items, getKey) {
+  const counts = new Map();
+  for (const item of items) {
+    const key = String(getKey(item) || 'missing');
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return Object.fromEntries([...counts.entries()].sort(([a], [b]) => a.localeCompare(b, 'en')));
+}
+
 function requireString(item, field, label, errors) {
   if (typeof item?.[field] !== 'string' || !item[field].trim()) {
     errors.push(`${label}.${field} is required`);
@@ -201,10 +247,20 @@ function formatAllowed(values) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const errors = validateFoodAdditives();
+  const report = getFoodAdditiveQualityReport();
   if (errors.length) {
     console.error(`Data validation failed with ${errors.length} error(s):`);
     for (const error of errors) console.error(`- ${error}`);
     process.exit(1);
   }
   console.log(`Data validation passed: ${foodAdditives.length} food additive records checked.`);
+  console.log(`Data quality report: reviewed=${report.reviewedCount}, verified=${report.verifiedCount}, unverified=${report.unverifiedCount}, missingSourceFields=${report.missingSourceFieldCount}, missingUsageLimits=${report.missingUsageLimitsCount}.`);
+  console.log(`Data source versions: ${formatCounts(report.sourceVersionCounts)}.`);
+  console.log(`Review queue sample: ${report.reviewQueue.slice(0, 10).join(', ') || 'none'}.`);
+}
+
+function formatCounts(counts) {
+  return Object.entries(counts)
+    .map(([key, count]) => `${key}=${count}`)
+    .join('; ');
 }

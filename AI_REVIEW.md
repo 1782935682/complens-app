@@ -1,28 +1,28 @@
-# AI Review - 2026-06-12 Batch U-B 关注/忌口云同步
+# AI Review - 2026-06-12 Data Batch 1-B 首批官方来源导入
 
 ## 本轮目标
 
-在 `CODEX_TASKS.md` 当前无立即可执行批次、A-A 仍等待 AI API Key 的情况下，补齐 `PROJECT_PLAN.md` 已列出的 P1 缺口：
+按用户确认“继续加官方数据”，先从官方公开来源导入一批可追溯的食品添加剂审核样例，不继续扩展 OCR、AI、订阅、支付或上架空壳功能。
 
-- Batch U-B：关注成分与忌口项跨设备同步
-
-本批次不处理真实 AI Key、真实 OCR Key、生产数据库、官方来源逐条审核、自动部署、远程服务器操作、支付订阅、商店上架、iOS/Android 签名或生产图片/CDN 存储。
+本批次只使用 WHO JECFA Food Additives and Contaminants Database 的精确名称查询和条目页，不使用 AI 生成权威结论。
 
 ## 本轮完成
 
-1. `backend/src/db/schema.ts` 新增 `user_profile_ingredients` 表，按 `user_id + kind(watch/avoid) + ingredient_id` 存储登录用户个人关注/忌口成分。
-2. 新增 Drizzle migration `backend/src/db/migrations/0007_tricky_marvel_zombies.sql` 和对应 meta snapshot。
-3. `backend/src/services/userService.ts` 新增 `listProfileIngredients` / `replaceProfileIngredients`，保持 whole-set replace 语义并保留用户设置顺序。
-4. `backend/src/routes/user.ts` 新增 `GET/PUT /api/user/profile/:kind`，仅接受 `watch` 和 `avoid`，非法 kind 或非字符串条目返回 `400 invalid_parameter`。
-5. `src/services/storageService.js` 将 `compcheck:watch-ingredients`、`compcheck:avoid-ingredients` 接入现有 hydrate-before-write 云同步流程；未登录时仍保持本机 localStorage 行为。
-6. `backend/tests/user.test.ts` 补充 profile API route 测试；`scripts/test.mjs` 补充 schema、migration、route、service 和前端同步路径断言。
-7. `CODEX_TASKS.md`、`PROJECT_PLAN.md`、`COMMANDS.md` 已同步，整体产品进度更新为 48%。
+1. `src/data/foodAdditives.js` 新增 JECFA 首批复核覆盖表，数据版本更新为 `food-additives-official-review-v1`。
+2. 10 条高频食品添加剂升级为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，并写入 JECFA 条目 URL、来源版本、ADI 摘要、审核日期和原始来源片段。
+3. 首批条目：`citric-acid`、`sodium-citrate`、`potassium-sorbate`、`sodium-benzoate`、`ascorbic-acid`、`xanthan-gum`、`aspartame`、`sucralose`、`sodium-bicarbonate`、`sodium-cyclamate`。
+4. 其余 90 条继续保持 `confidenceLevel: 'unverified'`；全部 100 条仍保持 `isVerified: false`。
+5. `usageLimits` 仍全部为空数组，因为 GB 2760 逐食品类别限量尚未完成条款级核验。
+6. `npm run validate:data` 新增数据质量报告，输出 reviewed、verified、unverified、缺来源字段、缺限量和来源版本分布。
+7. 首页、搜索页、详情页和分析页文案调整为“当前记录 / 审核中”，避免把已 reviewed 的条目继续笼统称为全量草稿。
+8. `DATA_SOURCES.md`、`CODEX_TASKS.md`、`PROJECT_PLAN.md` 和测试断言已同步，整体产品进度更新为 49%。
 
 ## 人工接入点
 
 | 阻塞项 | 状态 | 需要用户提供 |
 |---|---|---|
-| Data Batch 1-B 官方来源导入 | blocked_by_user | 官方来源清单、10-20 条逐条审核样例、可升级为 reviewed/verified 的条目 |
+| GB 2760 条款级限量 | blocked_by_user | 官方标准版本、条款编号、适用食品类别和最大使用量 |
+| Data Batch 1-B 后续 90 条审核 | in_progress | 下一批优先条目或完整官方来源样例 |
 | 生产 DATABASE_URL | blocked_by_user | 生产 PostgreSQL 平台、连接串、备份和发布策略 |
 | OCR API Key | blocked_by_user | 选定 OCR 供应商、服务端 API Key、额度和错误策略 |
 | AI API Key | blocked_by_user | 选定 AI 供应商、服务端 API Key、成本上限和提示边界 |
@@ -38,17 +38,19 @@ cd backend && npm run typecheck
 cd backend && npm test
 cd backend && npm run build
 cd backend && npm run db:migrate
+cd backend && npm run db:seed -- --version food-additives-official-review-v1 --reviewed-by codex --change-note "JECFA official review batch 1"
 git diff --check
 ```
 
-以上已通过。`npm run db:migrate` 已成功应用 `0007_tricky_marvel_zombies.sql`，创建 `user_profile_ingredients` 表。
+以上已通过。本地 PostgreSQL 汇总确认：90 条 `draft / unverified / is_verified=false`，10 条 `reviewed / medium / is_verified=false`。
 
 ## 当前风险
 
-1. 本批次只补云同步 API 和前端自动同步触发，不等同于完成真实跨设备验收；仍需用两个浏览器 profile 或两台设备登录同一账号验证恢复。
-2. 关注/忌口同步当前按成分 id 存储，依赖前端继续过滤未知或已下线成分 id。
-3. 离线写入队列仍未完成；当前网络失败时保持本机可用，下一次登录态读写再尝试同步。
+1. JECFA reviewed 只代表条目和 ADI 摘要已从官方数据库核对，不代表中国 GB 2760 使用范围和限量已核验。
+2. `isVerified` 仍全部为 false；不能在产品文案里展示为权威或已验证结论。
+3. `sodium-benzoate` 的 JECFA ADI 摘要已按当前 JECFA 查询结果改为 `0-20 mg/kg bw`，后续需要和 GB 2760、Codex、EU 条款一起做冲突核验。
+4. 焦糖色当前 seed 是汇总项，而 JECFA 按 Class I-IV 分项评价，本批次未升级，避免混淆不同类别。
 
 ## 下一步
 
-当前按 `CODEX_TASKS.md` 仍没有无阻塞的下一批次。下一项 `Batch A-A：AI 解释层集成` 需要先人工提供 AI API Key 和成本边界；真实 OCR 供应商接入仍等待 OCR API Key。
+继续 Data Batch 1-B：按同样规则导入下一批官方来源条目，优先补 GB 2760 条款级限量和高频防腐剂、甜味剂、着色剂。

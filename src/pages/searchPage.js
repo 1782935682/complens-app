@@ -112,7 +112,7 @@ function renderDatasetAuditNotice(category, summary) {
   if (category !== 'food') return '';
   return html`
     <p class="data-disclaimer" data-dataset-audit-note>
-      当前食品添加剂库含 ${summary.totalCount} 条草稿数据，${summary.reviewedOrVerifiedCount} 条已复核/验证；使用限量和 ADI 原文仍在审核中。
+      当前食品添加剂库含 ${summary.totalCount} 条记录，${summary.reviewedOrVerifiedCount} 条已复核/验证；使用限量和 ADI 原文仍在审核中。
     </p>
   `;
 }

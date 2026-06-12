@@ -197,10 +197,11 @@ function renderFoodAuditNotice(ingredient) {
   const isDraft = !ingredient.reviewStatus || ingredient.reviewStatus === 'draft';
   const hasUsageLimits = Array.isArray(ingredient.usageLimits) && ingredient.usageLimits.length > 0;
   if (!isDraft && hasUsageLimits) return '';
+  const label = isDraft ? '草稿数据' : '复核中数据';
 
   return html`
     <div class="data-warning" data-food-audit-note>
-      草稿数据：逐食品类别限量、ADI 原文和来源条款仍需审核。
+      ${label}：逐食品类别限量、ADI 原文和来源条款仍需审核。
     </div>
   `;
 }

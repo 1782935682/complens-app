@@ -186,12 +186,12 @@ function renderDatasetAuditSummary(summary) {
         <a class="filter-clear" href="#${categoryPath(summary.category, '/data')}" data-route>查看来源与审核</a>
       </div>
       <div class="audit-grid">
-        ${renderAuditMetric(`${summary.totalCount} 条`, '草稿数据')}
+        ${renderAuditMetric(`${summary.totalCount} 条`, '当前记录')}
         ${renderAuditMetric(`${summary.categoryCount} 类`, '覆盖分类')}
         ${renderAuditMetric(`${summary.reviewedOrVerifiedCount} 条`, '已复核/验证')}
         ${renderAuditMetric(`${summary.usageLimitCoveragePercent}%`, '限量覆盖')}
       </div>
-      <p class="audit-note">当前食品添加剂库仍为草稿数据，逐食品类别限量、ADI 原文和来源条款需要继续审核。</p>
+      <p class="audit-note">当前食品添加剂库仍在审核中，逐食品类别限量、ADI 原文和来源条款需要继续补齐。</p>
     </section>
   `;
 }

@@ -1,8 +1,12 @@
 const retrievedAt = '2026-06-10';
-const dataVersion = 'food-additives-seed-v5';
+const officialReviewRetrievedAt = '2026-06-12';
+const dataVersion = 'food-additives-official-review-v1';
 const seedSourceName = 'GB 2760 / Codex INS / JECFA / EU Food Additives Database seed references';
 const seedSourceVersion = 'food-additives-seed-v5';
 const seedRegulatoryBasis = '当前为食品添加剂种子数据，依据 GB 2760、Codex INS、JECFA 和 EU 食品添加剂数据库的公开入口整理；逐食品类别限量、条款编号和 ADI 原文仍需人工核验。';
+const jecfaSourceName = 'WHO JECFA Food Additives and Contaminants Database';
+const jecfaSourceVersion = 'JECFA database updates through 101st JECFA meeting (October 2025)';
+const jecfaDatabaseUrl = 'https://apps.who.int/food-additives-contaminants-jecfa-database/';
 
 const gb2760Source = {
   title: '食品安全国家标准 食品添加剂使用标准',
@@ -21,11 +25,11 @@ const codexInsSource = {
 };
 
 const jecfaSource = {
-  title: 'JECFA Food Additive Index',
+  title: 'JECFA Food Additives and Contaminants Database',
   standard: 'FAO/WHO JECFA',
   region: 'International',
-  url: 'https://www.fao.org/food/food-safety-quality/scientific-advice/jecfa/jecfa-additives/browse-alphabetically/en/',
-  retrievedAt
+  url: jecfaDatabaseUrl,
+  retrievedAt: officialReviewRetrievedAt
 };
 
 const euSource = {
@@ -34,6 +38,61 @@ const euSource = {
   region: 'EU',
   url: 'https://ec.europa.eu/food/food-feed-portal/screen/food-additives/search',
   retrievedAt
+};
+
+const jecfaReviewBasisSuffix = '本批次只核对 JECFA 条目和 ADI 摘要；GB 2760 逐食品类别限量、条款编号和中国适用条件仍待人工审核。';
+
+const jecfaReviewedAdditives = {
+  'citric-acid': {
+    jecfaId: 3594,
+    jecfaName: 'CITRIC ACID',
+    adi: 'NOT LIMITED'
+  },
+  'sodium-citrate': {
+    jecfaId: 1649,
+    jecfaName: 'SODIUM CITRATE',
+    adi: 'NOT LIMITED (Not specified)'
+  },
+  'potassium-sorbate': {
+    jecfaId: 2724,
+    jecfaName: 'POTASSIUM SORBATE',
+    adi: '0-25 mg/kg bw'
+  },
+  'sodium-benzoate': {
+    jecfaId: 1098,
+    jecfaName: 'SODIUM BENZOATE',
+    adi: '0-20 mg/kg bw'
+  },
+  'ascorbic-acid': {
+    jecfaId: 59,
+    jecfaName: 'ASCORBIC ACID',
+    adi: 'NOT SPECIFIED'
+  },
+  'xanthan-gum': {
+    jecfaId: 802,
+    jecfaName: 'XANTHAN GUM',
+    adi: 'NOT SPECIFIED'
+  },
+  aspartame: {
+    jecfaId: 62,
+    jecfaName: 'ASPARTAME',
+    adi: '0-40 mg/kg bw'
+  },
+  sucralose: {
+    jecfaId: 2340,
+    jecfaName: 'SUCRALOSE',
+    adi: '0-15 mg/kg bw'
+  },
+  'sodium-bicarbonate': {
+    jecfaId: 1099,
+    jecfaName: 'SODIUM BICARBONATE',
+    adi: 'NOT LIMITED'
+  },
+  'sodium-cyclamate': {
+    jecfaId: 1653,
+    jecfaName: 'SODIUM CYCLAMATE',
+    adi: '0-11 mg/kg bw'
+  }
 };
 
 /**
@@ -2844,6 +2903,8 @@ const rawFoodAdditives = [
 export const foodAdditives = rawFoodAdditives.map(withSeedProvenance);
 
 function withSeedProvenance(additive) {
+  const reviewedOverride = buildJecfaReviewOverride(additive);
+
   return {
     ...additive,
     sourceName: seedSourceName,
@@ -2855,7 +2916,30 @@ function withSeedProvenance(additive) {
     lastReviewedAt: additive.updatedAt || retrievedAt,
     regulatoryBasis: seedRegulatoryBasis,
     rawSourceText: additive.sourceNote,
-    isVerified: false
+    isVerified: false,
+    ...reviewedOverride
+  };
+}
+
+function buildJecfaReviewOverride(additive) {
+  const review = jecfaReviewedAdditives[additive.id];
+  if (!review) return {};
+
+  const jecfaUrl = `${jecfaDatabaseUrl}Home/Chemical/${review.jecfaId}`;
+  return {
+    reviewStatus: 'reviewed',
+    sourceName: jecfaSourceName,
+    sourceType: 'public_database',
+    sourceVersion: jecfaSourceVersion,
+    sourceUrl: jecfaUrl,
+    effectiveDate: 'JECFA updated through 2025-10; GB 2760 effective date pending',
+    confidenceLevel: 'medium',
+    lastReviewedAt: officialReviewRetrievedAt,
+    regulatoryBasis: `${jecfaSourceName} exact-name entry ${review.jecfaName} (ID ${review.jecfaId}) lists ADI: ${review.adi}. ${jecfaReviewBasisSuffix}`,
+    rawSourceText: `JECFA entry ${review.jecfaId}: ${review.jecfaName}; ADI: ${review.adi}.`,
+    isVerified: false,
+    adi: `${review.adi}（JECFA ${review.jecfaId}，${officialReviewRetrievedAt} 核对；GB 2760 限量未导入）`,
+    updatedAt: officialReviewRetrievedAt
   };
 }
 
