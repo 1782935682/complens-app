@@ -1,6 +1,6 @@
 const retrievedAt = '2026-06-10';
 const officialReviewRetrievedAt = '2026-06-12';
-const dataVersion = 'food-additives-official-review-v1';
+const dataVersion = 'food-additives-official-review-v2';
 const seedSourceName = 'GB 2760 / Codex INS / JECFA / EU Food Additives Database seed references';
 const seedSourceVersion = 'food-additives-seed-v5';
 const seedRegulatoryBasis = '当前为食品添加剂种子数据，依据 GB 2760、Codex INS、JECFA 和 EU 食品添加剂数据库的公开入口整理；逐食品类别限量、条款编号和 ADI 原文仍需人工核验。';
@@ -92,6 +92,116 @@ const jecfaReviewedAdditives = {
     jecfaId: 1653,
     jecfaName: 'SODIUM CYCLAMATE',
     adi: '0-11 mg/kg bw'
+  },
+  pectin: {
+    jecfaId: 3043,
+    jecfaName: 'PECTINS',
+    adi: 'NOT SPECIFIED'
+  },
+  'calcium-carbonate': {
+    jecfaId: 457,
+    jecfaName: 'CALCIUM CARBONATE',
+    adi: 'NOT LIMITED'
+  },
+  tartrazine: {
+    jecfaId: 3885,
+    jecfaName: 'TARTRAZINE',
+    adi: '0-10 mg/kg bw'
+  },
+  'sunset-yellow-fcf': {
+    jecfaId: 2703,
+    jecfaName: 'SUNSET YELLOW FCF',
+    adi: '0-4 mg/kg bw'
+  },
+  'allura-red-ac': {
+    jecfaId: 2361,
+    jecfaName: 'ALLURA RED AC',
+    adi: '0-7 mg/kg bw'
+  },
+  glycerol: {
+    jecfaId: 1565,
+    jecfaName: 'GLYCEROL',
+    adi: 'NOT SPECIFIED (1976)'
+  },
+  'calcium-chloride': {
+    jecfaId: 458,
+    jecfaName: 'CALCIUM CHLORIDE',
+    adi: 'NOT LIMITED'
+  },
+  'sodium-alginate': {
+    jecfaId: 1823,
+    jecfaName: 'SODIUM ALGINATE',
+    adi: 'NOT SPECIFIED'
+  },
+  'acesulfame-potassium': {
+    jecfaId: 926,
+    jecfaName: 'ACESULFAME POTASSIUM',
+    adi: '0-15 mg/kg bw'
+  },
+  carrageenan: {
+    jecfaId: 377,
+    jecfaName: 'CARRAGEENAN',
+    adi: 'NOT SPECIFIED'
+  },
+  'guar-gum': {
+    jecfaId: 863,
+    jecfaName: 'GUAR GUM',
+    adi: 'NOT SPECIFIED'
+  },
+  'polysorbate-80': {
+    jecfaId: 3735,
+    jecfaName: 'POLYSORBATE 80',
+    adi: '0-25 mg/kg bw'
+  },
+  'sodium-nitrite': {
+    jecfaId: 4792,
+    jecfaName: 'SODIUM NITRITE',
+    adi: '0-0.07 mg/kg bw as nitrite ion; does not apply to infants below 3 months'
+  },
+  'potassium-nitrate': {
+    jecfaId: 390,
+    jecfaName: 'POTASSIUM NITRATE',
+    adi: '0-3.7 mg/kg bw as nitrate ion; does not apply to infants below 3 months'
+  },
+  'potassium-citrate': {
+    jecfaId: 1875,
+    jecfaName: 'POTASSIUM CITRATE',
+    adi: 'NOT LIMITED'
+  },
+  'calcium-citrate': {
+    jecfaId: 2938,
+    jecfaName: 'CALCIUM CITRATE',
+    adi: 'NOT LIMITED (not specified)'
+  },
+  'lactic-acid': {
+    jecfaId: 3367,
+    jecfaName: 'LACTIC ACID',
+    adi: 'NOT LIMITED (1973)'
+  },
+  'sodium-acetate': {
+    jecfaId: 2970,
+    jecfaName: 'SODIUM ACETATE',
+    adi: 'NOT LIMITED'
+  },
+  'calcium-propionate': {
+    jecfaId: 2163,
+    jecfaName: 'CALCIUM PROPIONATE',
+    adi: 'NOT LIMITED'
+  },
+  natamycin: {
+    jecfaId: 3255,
+    jecfaName: 'NATAMYCIN',
+    adi: '0-0.3 mg/kg bw'
+  },
+  'propylene-glycol-alginate': {
+    jecfaId: 585,
+    jecfaName: 'PROPYLENE GLYCOL ALGINATE',
+    adi: '0-70 mg/kg bw'
+  },
+  'sodium-carboxymethyl-cellulose': {
+    jecfaId: 3773,
+    jecfaName: 'SODIUM CARBOXYMETHYL CELLULOSE',
+    adi: 'NOT SPECIFIED'
   }
 };
 
