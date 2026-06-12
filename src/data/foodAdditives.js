@@ -1,6 +1,8 @@
+import { commonFoodIngredients } from './commonFoodIngredients.js';
+
 const retrievedAt = '2026-06-10';
 const officialReviewRetrievedAt = '2026-06-12';
-const dataVersion = 'food-additives-official-review-v2';
+const dataVersion = 'food-authority-foundation-v1';
 const seedSourceName = 'GB 2760 / Codex INS / JECFA / EU Food Additives Database seed references';
 const seedSourceVersion = 'food-additives-seed-v5';
 const seedRegulatoryBasis = '当前为食品添加剂种子数据，依据 GB 2760、Codex INS、JECFA 和 EU 食品添加剂数据库的公开入口整理；逐食品类别限量、条款编号和 ADI 原文仍需人工核验。';
@@ -209,7 +211,7 @@ const jecfaReviewedAdditives = {
  * Seed data for the food-additive MVP. Records are intentionally marked as draft
  * until the full GB 2760 category-level limits are audited and imported.
  *
- * @type {Omit<import('../types/ingredient.js').FoodAdditive, 'sourceName' | 'sourceType' | 'sourceVersion' | 'sourceUrl' | 'effectiveDate' | 'confidenceLevel' | 'lastReviewedAt' | 'regulatoryBasis' | 'rawSourceText' | 'isVerified'>[]}
+ * @type {Omit<import('../types/ingredient.js').FoodAdditive, 'dataStatus' | 'sourceName' | 'sourceType' | 'sourceScope' | 'sourceVersion' | 'sourceUrl' | 'effectiveDate' | 'confidenceLevel' | 'matchConfidence' | 'lastReviewedAt' | 'reviewNote' | 'regulatoryBasis' | 'rawSourceText' | 'isVerified'>[]}
  */
 const rawFoodAdditives = [
   {
@@ -3012,6 +3014,9 @@ const rawFoodAdditives = [
 /** @type {import('../types/ingredient.js').FoodAdditive[]} */
 export const foodAdditives = rawFoodAdditives.map(withSeedProvenance);
 
+/** @type {import('../types/ingredient.js').FoodAdditive[]} */
+export const foodIngredients = [...foodAdditives, ...commonFoodIngredients];
+
 function withSeedProvenance(additive) {
   const reviewedOverride = buildJecfaReviewOverride(additive);
 
@@ -3019,14 +3024,18 @@ function withSeedProvenance(additive) {
     ...additive,
     sourceName: seedSourceName,
     sourceType: 'official_standard',
+    sourceScope: 'seed_reference',
     sourceVersion: seedSourceVersion,
     sourceUrl: gb2760Source.url,
     effectiveDate: '待人工核验',
     confidenceLevel: 'unverified',
+    matchConfidence: 'low',
     lastReviewedAt: additive.updatedAt || retrievedAt,
+    reviewNote: '种子参考数据，只能用于候选识别；GB 2760 条款级使用范围、限量和中国适用条件仍待人工核验。',
     regulatoryBasis: seedRegulatoryBasis,
     rawSourceText: additive.sourceNote,
     isVerified: false,
+    dataStatus: 'unverified',
     ...reviewedOverride
   };
 }
@@ -3038,15 +3047,20 @@ function buildJecfaReviewOverride(additive) {
   const jecfaUrl = `${jecfaDatabaseUrl}Home/Chemical/${review.jecfaId}`;
   return {
     reviewStatus: 'reviewed',
+    dataStatus: 'verified_jecfa',
     sourceName: jecfaSourceName,
     sourceType: 'public_database',
+    sourceScope: 'jecfa_safety_evaluation',
     sourceVersion: jecfaSourceVersion,
     sourceUrl: jecfaUrl,
     effectiveDate: 'JECFA updated through 2025-10; GB 2760 effective date pending',
     confidenceLevel: 'medium',
+    matchConfidence: 'high',
     lastReviewedAt: officialReviewRetrievedAt,
+    reviewNote: '已匹配 JECFA 安全评价条目；该状态不代表已导入 GB 2760 中国法规使用范围或逐食品类别限量。',
     regulatoryBasis: `${jecfaSourceName} exact-name entry ${review.jecfaName} (ID ${review.jecfaId}) lists ADI: ${review.adi}. ${jecfaReviewBasisSuffix}`,
     rawSourceText: `JECFA entry ${review.jecfaId}: ${review.jecfaName}; ADI: ${review.adi}.`,
+    sourceReferences: [{ ...jecfaSource, url: jecfaUrl }],
     isVerified: false,
     adi: `${review.adi}（JECFA ${review.jecfaId}，${officialReviewRetrievedAt} 核对；GB 2760 限量未导入）`,
     updatedAt: officialReviewRetrievedAt

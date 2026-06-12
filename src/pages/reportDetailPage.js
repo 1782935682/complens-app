@@ -65,6 +65,7 @@ export function renderReportDetailPage(id, category = 'food') {
           <div class="report-grade-card__meta">
             <span>共识别 ${Number(report.parsedIngredients?.length) || 0} 种配料</span>
             <span>匹配率 ${Math.round((Number(report.matchRate) || 0) * 100)}%</span>
+            <span>待确认 ${Number(report.pendingCount) || 0} 项</span>
             <span>${allergenHitCount} 项过敏原命中</span>
           </div>
         </div>
@@ -215,7 +216,7 @@ function renderMatchedIngredient(item, category) {
         <strong>${escapeHtml(match.nameCn || item.parsedIngredient.normalizedText)}</strong>
         <span class="chip">${escapeHtml(match.category || '未分类')}</span>
         <span>${escapeHtml(riskLevelLabel(match.riskLevel))}</span>
-        ${match.confidenceLevel === 'unverified' || match.isVerified === false ? '<span class="data-badge data-badge--unverified">待审核</span>' : ''}
+        <span class="data-badge data-badge--unverified">${escapeHtml(dataStatusLabel(getReportMatchDataStatus(item)))}</span>
         ${personalHit ? renderPersonalHitBadge(personalHit) : ''}
       </summary>
       <div class="report-ingredient-item__body">
@@ -224,7 +225,10 @@ function renderMatchedIngredient(item, category) {
           ${match.eNumber ? html`<span>E-number：${escapeHtml(match.eNumber)}</span>` : ''}
           ${match.gbCode ? html`<span>GB/INS：${escapeHtml(match.gbCode)}</span>` : ''}
           <span>匹配置信度：${Math.round((Number(item.confidence) || 0) * 100)}%</span>
+          <span>来源范围：${escapeHtml(sourceScopeLabel(match.sourceScope || fullIngredient?.sourceScope))}</span>
+          <span>数据来源：${escapeHtml(match.sourceName || fullIngredient?.sourceName || '暂无')}</span>
           <span>审核状态：${escapeHtml(reviewStatusLabel(match.reviewStatus || fullIngredient?.reviewStatus))}</span>
+          ${match.reviewNote || fullIngredient?.reviewNote ? html`<span>备注：${escapeHtml(match.reviewNote || fullIngredient.reviewNote)}</span>` : ''}
           ${detailHref ? html`<a class="inline-link" href="${detailHref}" data-route>查看成分详情</a>` : ''}
         </div>
       </div>
@@ -237,7 +241,13 @@ function renderPersonalHitBadge(hit) {
 }
 
 function renderUnmatchedSection(report) {
-  const unmatched = report.unmatchedTerms || report.unknownItems || [];
+  const unmatchedRecords = Array.isArray(report.unknownItemRecords) && report.unknownItemRecords.length
+    ? report.unknownItemRecords
+    : (report.unmatchedTerms || report.unknownItems || []).map((item) => ({
+      item,
+      dataStatus: report.source === 'ocr' ? 'unknown_from_ocr' : 'unverified'
+    }));
+  const unmatched = unmatchedRecords.map((record) => record.item).filter(Boolean);
   if (!unmatched.length) return '';
   return html`
     <section class="section">
@@ -247,8 +257,8 @@ function renderUnmatchedSection(report) {
           <h2>${unmatched.length} 种需人工核对</h2>
         </div>
       </div>
-      <p class="helper-text">这些条目可能是普通食品原料、复合配料、OCR 误识别文本或当前数据库尚未覆盖的添加剂。</p>
-      <div class="chip-list">${unmatched.map((item) => html`<span class="chip chip--muted">${escapeHtml(item)}</span>`).join('')}</div>
+      <p class="helper-text">这些条目可能是普通食品原料、复合配料、OCR 误识别文本或当前数据库尚未覆盖的添加剂；不会由 AI 编造成法规结论。</p>
+      <div class="chip-list">${unmatchedRecords.map((record) => html`<span class="chip chip--muted">${escapeHtml(record.item)} / ${escapeHtml(dataStatusLabel(record.dataStatus))}</span>`).join('')}</div>
     </section>
   `;
 }
@@ -289,6 +299,8 @@ function renderSourceEvidence(evidence, currentCategory) {
         ${metricItem('当前匹配', `${evidence.totalIngredients} 项`)}
         ${metricItem('数据来源', `${evidence.sources.length} 个`)}
         ${metricItem('待审核', `${evidence.reviewCounts.draft} 项`)}
+        ${metricItem('JECFA 已匹配', `${evidence.dataStatusCounts.verified_jecfa || 0} 项`)}
+        ${metricItem('普通配料', `${evidence.dataStatusCounts.common_ingredient || 0} 项`)}
         ${metricItem('数据变更', `${evidence.missingIds.length} 项`)}
       </div>
       ${evidence.sources.length
@@ -366,6 +378,14 @@ function reportInsightCard(insight) {
 
 function buildReportSourceEvidence(report) {
   const reviewCounts = { draft: 0, reviewed: 0, verified: 0 };
+  const dataStatusCounts = {
+    verified_regulation: 0,
+    verified_jecfa: 0,
+    mapped_candidate: 0,
+    common_ingredient: 0,
+    unverified: 0,
+    unknown_from_ocr: 0
+  };
   const sourceMap = new Map();
   const missingIds = [];
 
@@ -377,6 +397,8 @@ function buildReportSourceEvidence(report) {
     }
     const reviewStatus = normalizeReviewStatus(ingredient.reviewStatus);
     reviewCounts[reviewStatus] += 1;
+    const dataStatus = normalizeDataStatus(ingredient.dataStatus);
+    dataStatusCounts[dataStatus] += 1;
 
     for (const source of ingredient.sourceReferences || []) {
       if (!source || typeof source !== 'object') continue;
@@ -402,9 +424,46 @@ function buildReportSourceEvidence(report) {
     totalIngredients: (report.matchedIngredientIds || []).length - missingIds.length,
     missingIds,
     reviewCounts,
+    dataStatusCounts,
     sources: [...sourceMap.values()]
       .sort((a, b) => b.ingredientNames.length - a.ingredientNames.length || a.title.localeCompare(b.title, 'zh-Hans-CN'))
   };
+}
+
+function getReportMatchDataStatus(item) {
+  if (!item?.match || item.confidence <= 0) return 'unknown_from_ocr';
+  if (item.confidence < 0.9) return 'mapped_candidate';
+  return normalizeDataStatus(item.match.dataStatus);
+}
+
+function normalizeDataStatus(status) {
+  const allowed = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'];
+  return allowed.includes(status) ? status : 'unverified';
+}
+
+function dataStatusLabel(status) {
+  const labels = {
+    verified_regulation: 'verified_regulation / GB 2760 已验证',
+    verified_jecfa: 'verified_jecfa / JECFA 安全评价',
+    mapped_candidate: 'mapped_candidate / 候选待确认',
+    common_ingredient: 'common_ingredient / 普通配料',
+    unverified: 'unverified / 未验证',
+    unknown_from_ocr: 'unknown_from_ocr / OCR 未收录'
+  };
+  return labels[status] || labels.unverified;
+}
+
+function sourceScopeLabel(scope) {
+  const labels = {
+    gb_2760_regulation: 'GB 2760 法规依据',
+    jecfa_safety_evaluation: 'JECFA 安全评价',
+    candidate_mapping: '候选映射',
+    common_ingredient_lexicon: '普通配料词库',
+    ocr_unmatched: 'OCR 未匹配',
+    seed_reference: '种子参考',
+    unknown: '未知'
+  };
+  return labels[scope] || labels.unknown;
 }
 
 function renderReportSourceCard(source) {

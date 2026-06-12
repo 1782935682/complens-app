@@ -220,9 +220,17 @@ function toIngredientSummary(ingredient) {
     gbCode: ingredient.gbCode || '',
     eNumber: ingredient.eNumber || null,
     confidenceLevel: ingredient.confidenceLevel || 'unverified',
+    matchConfidence: ingredient.matchConfidence || 'unverified',
+    dataStatus: ingredient.dataStatus || 'unverified',
+    sourceScope: ingredient.sourceScope || 'unknown',
     isVerified: ingredient.isVerified === true,
     sourceName: ingredient.sourceName || '',
+    sourceVersion: ingredient.sourceVersion || '',
+    sourceUrl: ingredient.sourceUrl || '',
+    regulatoryBasis: ingredient.regulatoryBasis || '',
+    rawSourceText: ingredient.rawSourceText || '',
     reviewStatus: ingredient.reviewStatus || 'draft',
+    reviewNote: ingredient.reviewNote || '',
     allergenTypes: ingredient.allergenTypes || [],
     cautionGroups: ingredient.cautionGroups || []
   };

@@ -156,7 +156,8 @@ export function resolveRoute(hash) {
       category: route.category,
       filters: {
         source: params.get('source') || '',
-        confidenceLevel: params.get('confidenceLevel') || ''
+        confidenceLevel: params.get('confidenceLevel') || '',
+        dataStatus: params.get('dataStatus') || ''
       }
     };
   }

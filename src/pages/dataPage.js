@@ -18,6 +18,16 @@ const confidenceLabels = {
   unknown: '未知'
 };
 
+const dataStatusLabels = {
+  verified_regulation: 'GB 2760 已验证',
+  verified_jecfa: 'JECFA 已匹配',
+  mapped_candidate: '候选待确认',
+  common_ingredient: '普通配料',
+  unverified: '未验证',
+  unknown_from_ocr: 'OCR 未收录',
+  unknown: '未知'
+};
+
 const regionLabels = {
   CN: '中国',
   EU: '欧盟',
@@ -35,6 +45,7 @@ export function renderDataPage(category = 'food', filters = {}) {
   const categorySummaries = getIngredientCategorySummaries(category, filteredItems);
   const sourceOptions = getSourceFilterOptions(allItems);
   const confidenceOptions = getConfidenceFilterOptions(allItems);
+  const dataStatusOptions = getDataStatusFilterOptions(allItems);
 
   return html`
     <section class="section data-head">
@@ -62,6 +73,15 @@ export function renderDataPage(category = 'food', filters = {}) {
             <option value="">全部等级</option>
             ${confidenceOptions.map((option) => html`
               <option value="${escapeHtml(option.level)}"${option.level === activeFilters.confidenceLevel ? ' selected' : ''}>${escapeHtml(confidenceLabels[option.level] || option.level)}（${option.count}）</option>
+            `).join('')}
+          </select>
+        </label>
+        <label class="filter-field">
+          <span>数据状态</span>
+          <select name="dataStatus">
+            <option value="">全部状态</option>
+            ${dataStatusOptions.map((option) => html`
+              <option value="${escapeHtml(option.status)}"${option.status === activeFilters.dataStatus ? ' selected' : ''}>${escapeHtml(dataStatusLabels[option.status] || option.status)}（${option.count}）</option>
             `).join('')}
           </select>
         </label>
@@ -105,6 +125,17 @@ export function renderDataPage(category = 'food', filters = {}) {
             <div class="review-status-item">
               <strong>${count}</strong>
               <span>${escapeHtml(confidenceLabels[key] || key)}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="info-block">
+        <h2>数据状态</h2>
+        <div class="review-status-grid">
+          ${Object.entries(audit.dataStatusCounts).filter(([, count]) => count > 0).map(([key, count]) => html`
+            <div class="review-status-item">
+              <strong>${count}</strong>
+              <span>${escapeHtml(dataStatusLabels[key] || key)}</span>
             </div>
           `).join('')}
         </div>
@@ -169,11 +200,14 @@ export function renderDataPage(category = 'food', filters = {}) {
 function normalizeDataFilters(filters, items) {
   const sourceNames = new Set(items.map((item) => String(item.sourceName || '').trim()).filter(Boolean));
   const confidenceLevels = new Set(['high', 'medium', 'low', 'unverified']);
+  const dataStatuses = new Set(Object.keys(dataStatusLabels));
   const source = String(filters?.source || '').trim();
   const confidenceLevel = String(filters?.confidenceLevel || '').trim();
+  const dataStatus = String(filters?.dataStatus || '').trim();
   return {
     source: sourceNames.has(source) ? source : '',
-    confidenceLevel: confidenceLevels.has(confidenceLevel) ? confidenceLevel : ''
+    confidenceLevel: confidenceLevels.has(confidenceLevel) ? confidenceLevel : '',
+    dataStatus: dataStatuses.has(dataStatus) ? dataStatus : ''
   };
 }
 
@@ -181,6 +215,7 @@ function filterDataItems(items, filters) {
   return items.filter((item) => {
     if (filters.source && item.sourceName !== filters.source) return false;
     if (filters.confidenceLevel && item.confidenceLevel !== filters.confidenceLevel) return false;
+    if (filters.dataStatus && item.dataStatus !== filters.dataStatus) return false;
     return true;
   });
 }
@@ -209,8 +244,20 @@ function getConfidenceFilterOptions(items) {
     .map((level) => ({ level, count: counts.get(level) }));
 }
 
+function getDataStatusFilterOptions(items) {
+  const counts = new Map();
+  for (const item of items) {
+    const status = String(item.dataStatus || '').trim();
+    if (!status || !dataStatusLabels[status]) continue;
+    counts.set(status, (counts.get(status) || 0) + 1);
+  }
+  return ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr']
+    .filter((status) => counts.has(status))
+    .map((status) => ({ status, count: counts.get(status) }));
+}
+
 function hasActiveDataFilters(filters) {
-  return Boolean(filters.source || filters.confidenceLevel);
+  return Boolean(filters.source || filters.confidenceLevel || filters.dataStatus);
 }
 
 function renderDataFilterSummary(filters, filteredCount, totalCount) {
@@ -220,7 +267,8 @@ function renderDataFilterSummary(filters, filteredCount, totalCount) {
 
   const parts = [
     filters.source ? `来源：${filters.source}` : '',
-    filters.confidenceLevel ? `可信等级：${confidenceLabels[filters.confidenceLevel] || filters.confidenceLevel}` : ''
+    filters.confidenceLevel ? `可信等级：${confidenceLabels[filters.confidenceLevel] || filters.confidenceLevel}` : '',
+    filters.dataStatus ? `数据状态：${dataStatusLabels[filters.dataStatus] || filters.dataStatus}` : ''
   ].filter(Boolean);
   return `当前筛选 ${filteredCount} / ${totalCount} 条记录（${parts.join('，')}）。`;
 }

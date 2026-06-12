@@ -300,9 +300,11 @@ function bindPageEvents(route) {
       const formData = new FormData(form);
       const source = String(formData.get('source') || '').trim();
       const confidenceLevel = String(formData.get('confidenceLevel') || '').trim();
+      const dataStatus = String(formData.get('dataStatus') || '').trim();
       const params = new URLSearchParams();
       if (source) params.set('source', source);
       if (confidenceLevel) params.set('confidenceLevel', confidenceLevel);
+      if (dataStatus) params.set('dataStatus', dataStatus);
       const suffix = params.toString();
       navigate(`#${categoryPath(route.category, '/data')}${suffix ? `?${suffix}` : ''}`);
     };

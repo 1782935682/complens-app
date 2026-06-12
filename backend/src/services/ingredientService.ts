@@ -4,10 +4,12 @@ import { ingredientSources, ingredients, type IngredientRow, type NewIngredientR
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
 export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
+export const validDataStatuses = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'] as const;
 export const validSearchSorts = ['relevance', 'risk', 'name'] as const;
 
 export type RiskLevel = typeof validRiskLevels[number];
 export type ConfidenceLevel = typeof validConfidenceLevels[number];
+export type DataStatus = typeof validDataStatuses[number];
 export type SearchSort = typeof validSearchSorts[number];
 
 export type FoodAdditiveInput = {
@@ -27,6 +29,7 @@ export type FoodAdditiveInput = {
   sourceNote: string;
   sourceReferences: SourceReference[];
   reviewStatus: string;
+  dataStatus: DataStatus;
   dataVersion: string;
   reviewedBy?: string;
   reviewedAt?: string;
@@ -34,11 +37,14 @@ export type FoodAdditiveInput = {
   updatedAt: string;
   sourceName: string;
   sourceType: string;
+  sourceScope: string;
   sourceVersion: string;
   sourceUrl: string;
   effectiveDate: string;
   confidenceLevel: ConfidenceLevel;
+  matchConfidence: ConfidenceLevel;
   lastReviewedAt: string;
+  reviewNote: string;
   regulatoryBasis: string;
   rawSourceText: string;
   isVerified: boolean;
@@ -57,6 +63,7 @@ export type IngredientListParams = {
   category?: string;
   riskLevel?: RiskLevel;
   confidenceLevel?: ConfidenceLevel;
+  dataStatus?: DataStatus;
   sort?: SearchSort;
   page: number;
   limit: number;
@@ -117,6 +124,10 @@ export function isRiskLevel(value: string): value is RiskLevel {
 
 export function isConfidenceLevel(value: string): value is ConfidenceLevel {
   return validConfidenceLevels.includes(value as ConfidenceLevel);
+}
+
+export function isDataStatus(value: string): value is DataStatus {
+  return validDataStatuses.includes(value as DataStatus);
 }
 
 export function isSearchSort(value: string): value is SearchSort {
@@ -253,6 +264,7 @@ export function toIngredientRow(additive: FoodAdditiveInput, options: Ingredient
     sourceNote: additive.sourceNote,
     sourceReferences: additive.sourceReferences ?? [],
     reviewStatus: additive.reviewStatus,
+    dataStatus: additive.dataStatus,
     dataVersion,
     reviewedBy,
     reviewedAt,
@@ -260,11 +272,14 @@ export function toIngredientRow(additive: FoodAdditiveInput, options: Ingredient
     updatedAt: additive.updatedAt,
     sourceName: additive.sourceName,
     sourceType: additive.sourceType,
+    sourceScope: additive.sourceScope,
     sourceVersion: additive.sourceVersion,
     sourceUrl: additive.sourceUrl,
     effectiveDate: additive.effectiveDate,
     confidenceLevel: additive.confidenceLevel,
+    matchConfidence: additive.matchConfidence,
     lastReviewedAt: additive.lastReviewedAt,
+    reviewNote: additive.reviewNote,
     regulatoryBasis: additive.regulatoryBasis,
     rawSourceText: additive.rawSourceText,
     isVerified: additive.isVerified,
@@ -383,6 +398,10 @@ function buildIngredientWhere(params: IngredientListParams): SQL | undefined {
 
   if (params.confidenceLevel) {
     filters.push(eq(ingredients.confidenceLevel, params.confidenceLevel));
+  }
+
+  if (params.dataStatus) {
+    filters.push(eq(ingredients.dataStatus, params.dataStatus));
   }
 
   return filters.length > 0 ? and(...filters) : undefined;

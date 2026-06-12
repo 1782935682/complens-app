@@ -163,7 +163,7 @@ export function renderDatabaseMatchSummary(summary) {
   const results = Array.isArray(summary?.results) ? summary.results : [];
   if (!results.length) return '';
   const matchedCount = results.filter((item) => item.match && item.confidence > 0).length;
-  const lowConfidenceCount = summary.lowConfidenceTerms.length;
+  const pendingCount = results.filter((item) => item.match && item.confidence > 0 && isPendingMatch(item)).length;
   const unmatchedCount = summary.unmatchedTerms.length;
 
   return html`
@@ -178,7 +178,7 @@ export function renderDatabaseMatchSummary(summary) {
         </div>
         <div class="analysis-quality__metrics">
           ${qualityMetric('已匹配', matchedCount)}
-          ${qualityMetric('待确认', lowConfidenceCount)}
+          ${qualityMetric('待确认', pendingCount)}
           ${qualityMetric('未收录', unmatchedCount)}
         </div>
         <div class="analysis-match-list">
@@ -197,9 +197,10 @@ function databaseMatchItem(item) {
       <span class="analysis-match-item__status">${escapeHtml(status)}</span>
       <h3>${escapeHtml(item.parsedIngredient.normalizedText)}</h3>
       <p>${match
-        ? escapeHtml(`${match.nameCn} / ${match.category || '未分类'} / ${matchTypeLabel(item.matchType)}${item.confidence < 0.9 ? '，请确认' : ''}`)
+        ? escapeHtml(`${match.nameCn} / ${match.category || '未分类'} / ${matchTypeLabel(item.matchType)}${isPendingMatch(item) ? '，请确认' : ''}`)
         : '数据库暂未收录此配料，已保留原文。'}</p>
-      ${match && match.isVerified === false ? `<span class="data-badge data-badge--unverified">${escapeHtml(match.confidenceLevel || 'unverified')} / isVerified false</span>` : ''}
+      ${match ? `<span class="data-badge data-badge--unverified">${escapeHtml(dataStatusLabel(getResultDataStatus(item)))}</span>` : '<span class="data-badge data-badge--unverified">unverified / 暂未收录</span>'}
+      ${match?.sourceName ? `<p class="empty small">来源：${escapeHtml(match.sourceName)} / ${escapeHtml(sourceScopeLabel(match.sourceScope))}</p>` : ''}
     </article>
   `;
 }
@@ -238,6 +239,7 @@ function renderAnalysisQuality(result) {
         <div class="analysis-quality__metrics">
           ${qualityMetric('解析条目', quality.totalCount)}
           ${qualityMetric('本地匹配', quality.matchedCount)}
+          ${qualityMetric('待确认', quality.pendingCount)}
           ${qualityMetric('暂未收录', quality.unknownCount)}
           ${qualityMetric('低置信', quality.lowConfidenceCount)}
         </div>
@@ -267,8 +269,45 @@ function analysisMatchItem(item) {
       <p>${isMatched
         ? escapeHtml(`${item.note || '本地库匹配'}，识别为 ${item.nameCn || item.matchedText || '本地成分'}`)
         : escapeHtml(item.note || '本地数据库暂未收录该条目')}</p>
+      <p class="empty small">数据状态：${escapeHtml(dataStatusLabel(item.dataStatus || 'unverified'))}${item.sourceName ? ` / 来源：${escapeHtml(item.sourceName)}` : ''}</p>
     </article>
   `;
+}
+
+function isPendingMatch(item) {
+  const status = getResultDataStatus(item);
+  return item.confidence < 0.9 || status === 'mapped_candidate' || status === 'unverified';
+}
+
+function getResultDataStatus(item) {
+  if (!item?.match || item.confidence <= 0) return 'unverified';
+  if (item.confidence < 0.9) return 'mapped_candidate';
+  return item.match.dataStatus || 'unverified';
+}
+
+function dataStatusLabel(status) {
+  const labels = {
+    verified_regulation: 'verified_regulation / GB 2760 已验证',
+    verified_jecfa: 'verified_jecfa / JECFA 安全评价',
+    mapped_candidate: 'mapped_candidate / 候选待确认',
+    common_ingredient: 'common_ingredient / 普通配料',
+    unverified: 'unverified / 未验证',
+    unknown_from_ocr: 'unknown_from_ocr / OCR 未收录'
+  };
+  return labels[status] || labels.unverified;
+}
+
+function sourceScopeLabel(scope) {
+  const labels = {
+    gb_2760_regulation: 'GB 2760 法规依据',
+    jecfa_safety_evaluation: 'JECFA 安全评价',
+    candidate_mapping: '候选映射',
+    common_ingredient_lexicon: '普通配料词库',
+    ocr_unmatched: 'OCR 未匹配',
+    seed_reference: '种子参考',
+    unknown: '未知'
+  };
+  return labels[scope] || labels.unknown;
 }
 
 function renderAIFallbackPreview(aiFallback, aiRequest) {

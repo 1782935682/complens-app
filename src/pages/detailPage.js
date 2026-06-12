@@ -161,7 +161,8 @@ export function renderFoodAdditiveDetails(ingredient, category = 'food') {
         ${renderField('GB / INS 编号', ingredient.gbCode)}
         ${renderField('GB 2760 状态', gbStatusLabel(ingredient.gbStatus))}
         ${renderField('ADI', ingredient.adi)}
-        ${renderField('数据状态', reviewStatusLabel(ingredient.reviewStatus))}
+        ${renderField('数据状态', dataStatusLabel(ingredient.dataStatus))}
+        ${renderField('审核状态', reviewStatusLabel(ingredient.reviewStatus))}
       </div>
       ${renderProvenanceDetails(ingredient)}
       ${renderFoodAuditNotice(ingredient)}
@@ -180,12 +181,15 @@ function renderProvenanceDetails(ingredient) {
       <div class="food-detail-grid">
         ${renderField('来源名称', ingredient.sourceName)}
         ${renderField('来源类型', sourceTypeLabel(ingredient.sourceType))}
+        ${renderField('来源范围', sourceScopeLabel(ingredient.sourceScope))}
         ${renderField('来源版本', ingredient.sourceVersion)}
         ${renderField('生效日期', ingredient.effectiveDate)}
         ${renderField('可信等级', confidenceLabel(ingredient.confidenceLevel))}
+        ${renderField('匹配置信', confidenceLabel(ingredient.matchConfidence))}
         ${renderField('最后校验', ingredient.lastReviewedAt)}
         ${renderField('可信来源确认', ingredient.isVerified ? '是' : '否')}
       </div>
+      <p class="data-disclaimer">${escapeHtml(ingredient.reviewNote || '暂无审核备注。')}</p>
       <p class="data-disclaimer">${escapeHtml(ingredient.regulatoryBasis || '暂无法规依据说明。')}</p>
       ${ingredient.sourceUrl ? `<p><a href="${escapeHtml(getSafeHttpUrl(ingredient.sourceUrl) || '#')}" target="_blank" rel="noreferrer">查看来源入口</a></p>` : ''}
       <p class="empty small">原始来源片段：${escapeHtml(ingredient.rawSourceText || '暂无')}</p>
@@ -196,6 +200,13 @@ function renderProvenanceDetails(ingredient) {
 function renderFoodAuditNotice(ingredient) {
   const isDraft = !ingredient.reviewStatus || ingredient.reviewStatus === 'draft';
   const hasUsageLimits = Array.isArray(ingredient.usageLimits) && ingredient.usageLimits.length > 0;
+  if (ingredient.dataStatus === 'common_ingredient') {
+    return html`
+      <div class="data-warning" data-food-audit-note>
+        普通配料词库：仅用于标签文本识别，不提供 GB 2760 使用范围、限量或 JECFA 安全评价结论。
+      </div>
+    `;
+  }
   if (!isDraft && hasUsageLimits) return '';
   const label = isDraft ? '草稿数据' : '复核中数据';
 
@@ -204,6 +215,31 @@ function renderFoodAuditNotice(ingredient) {
       ${label}：逐食品类别限量、ADI 原文和来源条款仍需审核。
     </div>
   `;
+}
+
+function dataStatusLabel(status) {
+  const labels = {
+    verified_regulation: 'GB 2760 已验证',
+    verified_jecfa: 'JECFA 已匹配',
+    mapped_candidate: '候选待确认',
+    common_ingredient: '普通配料',
+    unverified: '未验证',
+    unknown_from_ocr: 'OCR 未收录'
+  };
+  return labels[status] || '未验证';
+}
+
+function sourceScopeLabel(scope) {
+  const labels = {
+    gb_2760_regulation: 'GB 2760 法规依据',
+    jecfa_safety_evaluation: 'JECFA 安全评价',
+    candidate_mapping: '候选映射',
+    common_ingredient_lexicon: '普通配料词库',
+    ocr_unmatched: 'OCR 未匹配',
+    seed_reference: '种子参考',
+    unknown: '未知'
+  };
+  return labels[scope] || labels.unknown;
 }
 
 function renderInfoBlock(title, values = []) {

@@ -9,6 +9,14 @@ const REVIEW_STATUS_LABELS = {
   reviewed: '已复核',
   verified: '已验证'
 };
+const DATA_STATUS_LABELS = {
+  verified_regulation: 'GB 2760 已验证',
+  verified_jecfa: 'JECFA 安全评价',
+  mapped_candidate: '候选待确认',
+  common_ingredient: '普通配料',
+  unverified: '未验证',
+  unknown_from_ocr: 'OCR 未收录'
+};
 
 export function buildReportExportPayload(report) {
   if (!report) return null;
@@ -41,8 +49,11 @@ export function buildReportExportPayload(report) {
       parsedIngredients: report.parsedIngredients || [],
       matchResults: report.matchResults || [],
       matchedCount: report.matchedCount,
+      pendingCount: Number(report.pendingCount) || 0,
+      dataStatusCounts: report.dataStatusCounts || {},
       riskCounts: report.riskCounts,
       unknownItems: report.unknownItems,
+      unknownItemRecords: report.unknownItemRecords || [],
       unmatchedTerms: report.unmatchedTerms || report.unknownItems,
       lowConfidenceTerms: report.lowConfidenceTerms || [],
       missingIngredientIds,
@@ -80,6 +91,7 @@ export function buildReportMarkdown(report) {
       `- 整体评级：${payload.report.riskGrade}（${payload.report.riskGradeLabel}）`,
       `- 匹配率：${Math.round(payload.report.matchRate * 100)}%`,
       `- 已匹配：${payload.report.matchedCount} 项`,
+      `- 待确认：${payload.report.pendingCount} 项`,
       `- 重点关注：${payload.highlightIngredients.length} 项`,
       `- 暂未收录：${payload.report.unknownItems.length + payload.report.missingIngredientIds.length} 项`,
       `- 过敏原命中：${allergenHitCount} 项`
@@ -126,7 +138,11 @@ function resolveIngredientSummaries(ids, category) {
       description: ingredient.description || '',
       reviewStatus: normalizeReviewStatus(ingredient.reviewStatus),
       reviewStatusLabel: reviewStatusLabel(ingredient.reviewStatus),
+      dataStatus: normalizeDataStatus(ingredient.dataStatus),
+      dataStatusLabel: dataStatusLabel(ingredient.dataStatus),
       dataVersion: ingredient.dataVersion || '',
+      sourceName: ingredient.sourceName || '',
+      sourceScope: ingredient.sourceScope || '',
       sourceReferenceCount: Array.isArray(ingredient.sourceReferences) ? ingredient.sourceReferences.length : 0
     }));
 }
@@ -174,7 +190,7 @@ function buildIngredientSection(title, ingredients) {
   if (!ingredients.length) return '';
   const lines = ingredients.map((ingredient) => {
     const name = ingredient.nameEn ? `${ingredient.nameCn} / ${ingredient.nameEn}` : ingredient.nameCn;
-    return `- ${name}：${riskLabelText(ingredient.riskLevel)}，${ingredient.category}。${ingredient.description}`;
+    return `- ${name}：${riskLabelText(ingredient.riskLevel)}，${ingredient.category}，数据状态：${ingredient.dataStatusLabel}。${ingredient.description}`;
   });
   return `${title}\n${lines.join('\n')}`;
 }
@@ -199,6 +215,9 @@ function buildSourceSection(payload) {
   const statusLines = Object.entries(payload.reviewStatusSummary)
     .filter(([, count]) => count > 0)
     .map(([status, count]) => `- ${reviewStatusLabel(status)}：${count} 项`);
+  const dataStatusLines = Object.entries(payload.report.dataStatusCounts || {})
+    .filter(([, count]) => Number(count) > 0)
+    .map(([status, count]) => `- ${dataStatusLabel(status)}：${count} 项`);
   const sourceLines = payload.sourceReferences.map((source) => {
     const sourceMeta = [
       source.standard,
@@ -213,6 +232,7 @@ function buildSourceSection(payload) {
   return [
     '## 数据来源与审核状态',
     statusLines.join('\n'),
+    dataStatusLines.length ? `### 数据状态\n${dataStatusLines.join('\n')}` : '',
     sourceLines.length ? `### 来源引用\n${sourceLines.join('\n')}` : '### 来源引用\n- 当前匹配成分暂无来源信息'
   ].filter(Boolean).join('\n\n');
 }
@@ -227,7 +247,9 @@ function buildAllergenSection(payload) {
 
 function buildUnknownSection(payload) {
   const unknownItems = [
-    ...payload.report.unknownItems,
+    ...(payload.report.unknownItemRecords.length
+      ? payload.report.unknownItemRecords.map((record) => `${record.item} / ${dataStatusLabel(record.dataStatus)}`)
+      : payload.report.unknownItems),
     ...payload.report.missingIngredientIds.map((id) => `已保存成分 ID：${id}`)
   ];
   return unknownItems.length ? `## 暂未收录 / 数据已变更\n${unknownItems.map((item) => `- ${item}`).join('\n')}` : '';
@@ -284,6 +306,14 @@ function normalizeReviewStatus(status) {
 
 function reviewStatusLabel(status) {
   return REVIEW_STATUS_LABELS[normalizeReviewStatus(status)];
+}
+
+function normalizeDataStatus(status) {
+  return Object.hasOwn(DATA_STATUS_LABELS, status) ? status : 'unverified';
+}
+
+function dataStatusLabel(status) {
+  return DATA_STATUS_LABELS[normalizeDataStatus(status)];
 }
 
 function valueOrFallback(value, fallback) {

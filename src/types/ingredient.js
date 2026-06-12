@@ -1,10 +1,12 @@
 /**
  * @typedef {'low' | 'medium' | 'high' | 'unknown'} RiskLevel
  * @typedef {'food' | 'cosmetics'} DataCategory
- * @typedef {'cosmetic' | 'food-additive'} IngredientKind
+ * @typedef {'cosmetic' | 'food-additive' | 'common-food-ingredient'} IngredientKind
  * @typedef {'permitted' | 'restricted' | 'prohibited' | 'unknown'} GBStatus
  * @typedef {'draft' | 'reviewed' | 'verified'} DataReviewStatus
+ * @typedef {'verified_regulation' | 'verified_jecfa' | 'mapped_candidate' | 'common_ingredient' | 'unverified' | 'unknown_from_ocr'} DataStatus
  * @typedef {'official_standard' | 'regulation' | 'public_database' | 'manual_verified' | 'unknown'} SourceType
+ * @typedef {'gb_2760_regulation' | 'jecfa_safety_evaluation' | 'candidate_mapping' | 'common_ingredient_lexicon' | 'ocr_unmatched' | 'seed_reference' | 'unknown'} SourceScope
  * @typedef {'high' | 'medium' | 'low' | 'unverified'} ConfidenceLevel
  * @typedef {'pregnant' | 'infant' | 'child' | 'diabetic' | 'renal' | 'sensitive'} ConsumerGroup
  * @typedef {'celery' | 'cereals-gluten' | 'crustaceans' | 'eggs' | 'fish' | 'lupin' | 'milk' | 'molluscs' | 'mustard' | 'peanuts' | 'sesame' | 'soybeans' | 'sulphites' | 'tree-nuts'} AllergenType
@@ -38,6 +40,7 @@
  * @property {string=} sourceNote
  * @property {SourceReference[]=} sourceReferences
  * @property {DataReviewStatus=} reviewStatus
+ * @property {DataStatus=} dataStatus
  * @property {string=} dataVersion
  * @property {string=} reviewedBy
  * @property {string=} reviewedAt
@@ -45,17 +48,20 @@
  * @property {string=} updatedAt
  * @property {string=} sourceName
  * @property {SourceType=} sourceType
+ * @property {SourceScope=} sourceScope
  * @property {string=} sourceVersion
  * @property {string=} sourceUrl
  * @property {string=} effectiveDate
  * @property {ConfidenceLevel=} confidenceLevel
+ * @property {ConfidenceLevel=} matchConfidence
  * @property {string=} lastReviewedAt
+ * @property {string=} reviewNote
  * @property {string=} regulatoryBasis
  * @property {string=} rawSourceText
  * @property {boolean=} isVerified
  *
  * @typedef {Ingredient & {
- *   kind: 'food-additive',
+ *   kind: 'food-additive' | 'common-food-ingredient',
  *   dataCategory: 'food',
  *   gbCode: string,
  *   gbStatus: GBStatus,
@@ -68,6 +74,7 @@
  *   sourceNote: string,
  *   sourceReferences: SourceReference[],
  *   reviewStatus: DataReviewStatus,
+ *   dataStatus: DataStatus,
  *   dataVersion: string,
  *   reviewedBy?: string,
  *   reviewedAt?: string,
@@ -75,11 +82,14 @@
  *   updatedAt: string,
  *   sourceName: string,
  *   sourceType: SourceType,
+ *   sourceScope: SourceScope,
  *   sourceVersion: string,
  *   sourceUrl: string,
  *   effectiveDate: string,
  *   confidenceLevel: ConfidenceLevel,
+ *   matchConfidence: ConfidenceLevel,
  *   lastReviewedAt: string,
+ *   reviewNote: string,
  *   regulatoryBasis: string,
  *   rawSourceText: string,
  *   isVerified: boolean
@@ -96,6 +106,9 @@
  * @property {string=} eNumber
  * @property {AllergenType[]=} allergenTypes
  * @property {ConfidenceLevel=} confidenceLevel
+ * @property {ConfidenceLevel=} matchConfidence
+ * @property {DataStatus=} dataStatus
+ * @property {SourceScope=} sourceScope
  * @property {boolean=} isVerified
  * @property {string=} sourceName
  *

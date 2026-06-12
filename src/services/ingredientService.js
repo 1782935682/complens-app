@@ -1,5 +1,5 @@
 import { ingredients, popularIngredientIds } from '../data/ingredients.js';
-import { foodAdditives, popularFoodAdditiveIds } from '../data/foodAdditives.js';
+import { foodIngredients, popularFoodAdditiveIds } from '../data/foodAdditives.js';
 import { searchAssistAliases } from '../data/searchAliases.js';
 import { normalizeIngredientItem, normalizeText, splitIngredientInput, uniqueBy } from '../utils/text.js';
 
@@ -11,6 +11,7 @@ const riskOrder = {
 };
 
 const riskFilterOrder = ['high', 'medium', 'low', 'unknown'];
+const dataStatuses = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'];
 const datasetAuditTargets = {
   food: {
     minimum: 50,
@@ -74,8 +75,10 @@ export function getDatasetAuditSummary(category = 'cosmetics', itemsOverride = n
   const categoryNames = new Set();
   const reviewCounts = { draft: 0, reviewed: 0, verified: 0, unknown: 0 };
   const confidenceCounts = { high: 0, medium: 0, low: 0, unverified: 0, unknown: 0 };
+  const dataStatusCounts = Object.fromEntries([...dataStatuses, 'unknown'].map((status) => [status, 0]));
   let withSourcesCount = 0;
   let withUsageLimitsCount = 0;
+  let usageLimitApplicableCount = 0;
   let restrictedCount = 0;
 
   for (const ingredient of items) {
@@ -84,8 +87,13 @@ export function getDatasetAuditSummary(category = 'cosmetics', itemsOverride = n
     reviewCounts[reviewStatus] += 1;
     const confidenceLevel = ['high', 'medium', 'low', 'unverified'].includes(ingredient.confidenceLevel) ? ingredient.confidenceLevel : 'unknown';
     confidenceCounts[confidenceLevel] += 1;
+    const dataStatus = dataStatuses.includes(ingredient.dataStatus) ? ingredient.dataStatus : 'unknown';
+    dataStatusCounts[dataStatus] += 1;
     if (Array.isArray(ingredient.sourceReferences) && ingredient.sourceReferences.length) withSourcesCount += 1;
-    if (Array.isArray(ingredient.usageLimits) && ingredient.usageLimits.length) withUsageLimitsCount += 1;
+    if (ingredient.kind === 'food-additive') {
+      usageLimitApplicableCount += 1;
+      if (Array.isArray(ingredient.usageLimits) && ingredient.usageLimits.length) withUsageLimitsCount += 1;
+    }
     if (ingredient.gbStatus === 'restricted') restrictedCount += 1;
   }
 
@@ -101,16 +109,22 @@ export function getDatasetAuditSummary(category = 'cosmetics', itemsOverride = n
     verifiedCount: reviewCounts.verified,
     reviewedOrVerifiedCount: reviewCounts.reviewed + reviewCounts.verified,
     confidenceCounts,
+    dataStatusCounts,
+    verifiedRegulationCount: dataStatusCounts.verified_regulation,
+    verifiedJecfaCount: dataStatusCounts.verified_jecfa,
+    mappedCandidateCount: dataStatusCounts.mapped_candidate,
+    commonIngredientCount: dataStatusCounts.common_ingredient,
     unverifiedCount: confidenceCounts.unverified,
     withSourcesCount,
     withUsageLimitsCount,
-    missingUsageLimitsCount: Math.max(0, totalCount - withUsageLimitsCount),
+    usageLimitApplicableCount,
+    missingUsageLimitsCount: Math.max(0, usageLimitApplicableCount - withUsageLimitsCount),
     restrictedCount,
     mvpMinimum: target.minimum,
     mvpTarget: target.target,
     mvpMinimumReached: target.minimum ? totalCount >= target.minimum : false,
     sourceCoveragePercent: getPercent(withSourcesCount, totalCount),
-    usageLimitCoveragePercent: getPercent(withUsageLimitsCount, totalCount),
+    usageLimitCoveragePercent: getPercent(withUsageLimitsCount, usageLimitApplicableCount),
     unverifiedPercent: getPercent(confidenceCounts.unverified, totalCount)
   };
 }
@@ -236,6 +250,9 @@ export function analyzeIngredientText(input, category = 'cosmetics') {
       analysisItems.push({
         type: 'unknown',
         inputText: item,
+        dataStatus: 'unverified',
+        sourceName: 'Not collected in local dataset',
+        sourceScope: 'unknown',
         confidence: 'low',
         confidenceLabel: '待核对',
         note: '本地数据库暂未收录该条目'
@@ -566,7 +583,7 @@ function getPercent(count, total) {
 function getDatasetByCategory(category) {
   if (category === 'food') {
     return {
-      items: foodAdditives,
+      items: foodIngredients,
       popularIds: popularFoodAdditiveIds
     };
   }
@@ -588,9 +605,17 @@ function toSearchResult(ingredient) {
     eNumber: ingredient.eNumber,
     allergenTypes: ingredient.allergenTypes || [],
     confidenceLevel: ingredient.confidenceLevel,
+    matchConfidence: ingredient.matchConfidence,
+    dataStatus: ingredient.dataStatus,
+    sourceScope: ingredient.sourceScope,
     isVerified: ingredient.isVerified,
     sourceName: ingredient.sourceName,
-    reviewStatus: ingredient.reviewStatus
+    sourceVersion: ingredient.sourceVersion,
+    sourceUrl: ingredient.sourceUrl,
+    regulatoryBasis: ingredient.regulatoryBasis,
+    rawSourceText: ingredient.rawSourceText,
+    reviewStatus: ingredient.reviewStatus,
+    reviewNote: ingredient.reviewNote
   };
 }
 
@@ -609,6 +634,7 @@ function toAnalysisIngredient(match) {
     matchedText: match.matchedText,
     matchLabel: match.matchLabel,
     matchConfidence: match.confidence,
+    dataStatus: getMatchDataStatus(match),
     confidenceLabel: match.confidenceLabel
   };
 }
@@ -625,6 +651,10 @@ function toMatchedAnalysisItem(match) {
     matchLabel,
     confidence: match.confidence,
     confidenceLabel: match.confidenceLabel,
+    dataStatus: getMatchDataStatus(match),
+    sourceName: match.ingredient.sourceName,
+    sourceScope: match.ingredient.sourceScope,
+    reviewNote: match.ingredient.reviewNote,
     note: `${matchLabel}匹配：${matchedText}`
   };
 }
@@ -635,6 +665,7 @@ function buildAnalysisQuality(analysisItems, totalCount) {
   const lowConfidenceItems = matchedItems.filter((item) => item.confidence === 'low');
   const mediumConfidenceItems = matchedItems.filter((item) => item.confidence === 'medium');
   const highConfidenceItems = matchedItems.filter((item) => item.confidence === 'high');
+  const pendingItems = matchedItems.filter((item) => item.confidence !== 'high' || ['mapped_candidate', 'unverified'].includes(item.dataStatus));
 
   return {
     totalCount,
@@ -643,9 +674,15 @@ function buildAnalysisQuality(analysisItems, totalCount) {
     highConfidenceCount: highConfidenceItems.length,
     mediumConfidenceCount: mediumConfidenceItems.length,
     lowConfidenceCount: lowConfidenceItems.length,
+    pendingCount: pendingItems.length,
     coveragePercent: getPercent(matchedItems.length, totalCount),
-    needsReview: Boolean(unknownItems.length || mediumConfidenceItems.length || lowConfidenceItems.length)
+    needsReview: Boolean(unknownItems.length || pendingItems.length)
   };
+}
+
+function getMatchDataStatus(match) {
+  if (match.confidence !== 'high') return 'mapped_candidate';
+  return dataStatuses.includes(match.ingredient.dataStatus) ? match.ingredient.dataStatus : 'unverified';
 }
 
 function getAnalysisConfidence(score) {
