@@ -9,13 +9,12 @@ const SYNC_CONFIGS = {
   'compcheck:favorites': { path: '/user/favorites', method: 'POST' },
   'compcheck:history': { path: '/user/history', method: 'POST' },
   'compcheck:allergens': { path: '/user/allergens', method: 'PUT' },
+  'compcheck:watch-ingredients': { path: '/user/profile/watch', method: 'PUT' },
+  'compcheck:avoid-ingredients': { path: '/user/profile/avoid', method: 'PUT' },
   'compcheck:analysis-reports': { path: '/user/reports', method: 'POST' },
   'compcheck:products': { path: '/user/products?limit=100', method: 'POST' }
 };
-const LOCAL_ACCOUNT_SCOPED_KEYS = new Set([
-  'compcheck:watch-ingredients',
-  'compcheck:avoid-ingredients'
-]);
+const LOCAL_ACCOUNT_SCOPED_KEYS = new Set();
 
 function getStorage() {
   try {
@@ -218,7 +217,12 @@ function getSyncItemKeyFactory(key) {
   if (key === 'compcheck:favorites') {
     return (item) => `${item?.category || ''}:${item?.id || ''}`;
   }
-  if (key === 'compcheck:history' || key === 'compcheck:allergens') {
+  if (
+    key === 'compcheck:history'
+    || key === 'compcheck:allergens'
+    || key === 'compcheck:watch-ingredients'
+    || key === 'compcheck:avoid-ingredients'
+  ) {
     return (item) => String(item || '').trim();
   }
   if (key === 'compcheck:analysis-reports' || key === 'compcheck:products') {

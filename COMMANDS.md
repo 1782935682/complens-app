@@ -174,6 +174,25 @@ curl -i -X POST "http://127.0.0.1:3000/api/ocr" \
   -d '{"imageBase64":"AA==","mimeType":"image/jpeg","category":"food"}'
 ```
 
+用户个人档案同步 API 验收（需要先登录取得 JWT）：
+
+```bash
+curl -X PUT "http://127.0.0.1:3000/api/user/profile/watch" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <jwt>" \
+  -d '{"items":["sodium-bicarbonate","citric-acid"]}'
+
+curl "http://127.0.0.1:3000/api/user/profile/watch" \
+  -H "Authorization: Bearer <jwt>"
+
+curl -X PUT "http://127.0.0.1:3000/api/user/profile/avoid" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <jwt>" \
+  -d '{"items":["sodium-metabisulfite"]}'
+```
+
+`profile` 当前仅支持 `watch` 和 `avoid` 两类，分别对应前端 `compcheck:watch-ingredients` 和 `compcheck:avoid-ingredients`。未登录时前端仍保持本机 localStorage 行为；登录后通过现有云同步流程自动恢复和写回。
+
 Docker 本地栈：
 
 ```bash

@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { createAuthMiddleware, type AuthVariables } from '../middleware/auth.js';
 import type { AuthService } from '../services/authService.js';
-import { UserServiceValidationError, type UserFavoriteItem, type UserProductItem, type UserProductListParams, type UserReportItem, type UserService } from '../services/userService.js';
+import { UserServiceValidationError, type UserFavoriteItem, type UserProductItem, type UserProductListParams, type UserProfileIngredientKind, type UserReportItem, type UserService } from '../services/userService.js';
 
 type UserRouteBody = {
   id?: unknown;
@@ -102,6 +102,35 @@ export function createUserRoute(authService: AuthService, userService: UserServi
     }
 
     return context.json({ items: await userService.replaceAllergens(context.get('userId'), items) });
+  });
+
+  route.get('/user/profile/:kind', async (context) => {
+    const kind = toProfileIngredientKind(context.req.param('kind'));
+    if (!kind) {
+      return invalidParameter(context, 'kind', 'profile kind must be watch or avoid');
+    }
+
+    return context.json({
+      items: await userService.listProfileIngredients(context.get('userId'), kind)
+    });
+  });
+
+  route.put('/user/profile/:kind', async (context) => {
+    const kind = toProfileIngredientKind(context.req.param('kind'));
+    if (!kind) {
+      return invalidParameter(context, 'kind', 'profile kind must be watch or avoid');
+    }
+    const body = await readJsonBody(context);
+    if (!Array.isArray(body?.items)) {
+      return invalidParameter(context, 'items', 'profile ingredient items must be an array');
+    }
+
+    const items = toStringItems(body.items);
+    if (!items) {
+      return invalidParameter(context, 'items', 'profile ingredient items must be non-empty strings');
+    }
+
+    return context.json({ items: await userService.replaceProfileIngredients(context.get('userId'), kind, items) });
   });
 
   route.get('/user/reports', async (context) => context.json({
@@ -279,6 +308,11 @@ function toProductListParams(value: Record<string, unknown>): UserProductListPar
 function toStringItems(values: unknown[]) {
   const items = values.map((value) => typeof value === 'string' ? value.trim() : '');
   return items.every(Boolean) ? items : null;
+}
+
+function toProfileIngredientKind(value: unknown): UserProfileIngredientKind | null {
+  const kind = normalizeText(value);
+  return kind === 'watch' || kind === 'avoid' ? kind : null;
 }
 
 function normalizeText(value: unknown) {

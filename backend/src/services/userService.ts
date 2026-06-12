@@ -1,6 +1,6 @@
 import { and, count, desc, eq, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { productArchives, userAllergens, userFavorites, userHistory, userReports } from '../db/schema.js';
+import { productArchives, userAllergens, userFavorites, userHistory, userProfileIngredients, userReports } from '../db/schema.js';
 
 export type UserFavoriteItem = {
   id: string;
@@ -33,6 +33,8 @@ export type UserProductItem = Record<string, unknown> & {
   updatedAt?: string;
 };
 
+export type UserProfileIngredientKind = 'watch' | 'avoid';
+
 export type UserProductListParams = {
   search?: string;
   isFavorite?: boolean;
@@ -60,6 +62,8 @@ export type UserService = {
   deleteHistory(userId: string, query?: string): Promise<string[]>;
   listAllergens(userId: string): Promise<string[]>;
   replaceAllergens(userId: string, allergenIds: string[]): Promise<string[]>;
+  listProfileIngredients(userId: string, kind: UserProfileIngredientKind): Promise<string[]>;
+  replaceProfileIngredients(userId: string, kind: UserProfileIngredientKind, ingredientIds: string[]): Promise<string[]>;
   listReports(userId: string): Promise<UserReportItem[]>;
   addReport(userId: string, report: UserReportItem): Promise<UserReportItem[]>;
   replaceReports(userId: string, reports: UserReportItem[]): Promise<UserReportItem[]>;
@@ -233,6 +237,41 @@ export function createUserService(db: Database, now = () => new Date()): UserSer
       });
 
       return service.listAllergens(userId);
+    },
+
+    async listProfileIngredients(userId, kind) {
+      const normalizedKind = normalizeProfileIngredientKind(kind);
+      const rows = await db
+        .select()
+        .from(userProfileIngredients)
+        .where(and(
+          eq(userProfileIngredients.userId, userId),
+          eq(userProfileIngredients.kind, normalizedKind)
+        ))
+        .orderBy(desc(userProfileIngredients.updatedAt));
+
+      return rows.map((row) => row.ingredientId);
+    },
+
+    async replaceProfileIngredients(userId, kind, ingredientIds) {
+      const normalizedKind = normalizeProfileIngredientKind(kind);
+      await db.transaction(async (tx) => {
+        await tx.delete(userProfileIngredients).where(and(
+          eq(userProfileIngredients.userId, userId),
+          eq(userProfileIngredients.kind, normalizedKind)
+        ));
+        const rows = uniqueStrings(ingredientIds).map((ingredientId, index) => ({
+          userId,
+          kind: normalizedKind,
+          ingredientId,
+          updatedAt: offsetDate(now(), index)
+        }));
+        if (rows.length > 0) {
+          await tx.insert(userProfileIngredients).values(rows);
+        }
+      });
+
+      return service.listProfileIngredients(userId, normalizedKind);
     },
 
     async listReports(userId) {
@@ -474,6 +513,12 @@ export function createLazyUserService(databaseUrl?: string): UserService {
     },
     replaceAllergens(userId, allergenIds) {
       return getLazyService().replaceAllergens(userId, allergenIds);
+    },
+    listProfileIngredients(userId, kind) {
+      return getLazyService().listProfileIngredients(userId, kind);
+    },
+    replaceProfileIngredients(userId, kind, ingredientIds) {
+      return getLazyService().replaceProfileIngredients(userId, kind, ingredientIds);
     },
     listReports(userId) {
       return getLazyService().listReports(userId);
@@ -742,6 +787,11 @@ function uniqueStrings(values: unknown[]) {
     .filter(Boolean))];
 }
 
+function normalizeProfileIngredientKind(value: unknown): UserProfileIngredientKind {
+  if (value === 'watch' || value === 'avoid') return value;
+  throw new UserServiceValidationError('invalid_profile_kind');
+}
+
 function normalizeText(value: unknown) {
   return String(value || '').trim();
 }
@@ -765,9 +815,9 @@ function parseDate(value: unknown) {
 }
 
 export class UserServiceValidationError extends Error {
-  code: 'invalid_item' | 'invalid_report' | 'invalid_product';
+  code: 'invalid_item' | 'invalid_report' | 'invalid_product' | 'invalid_profile_kind';
 
-  constructor(code: 'invalid_item' | 'invalid_report' | 'invalid_product') {
+  constructor(code: 'invalid_item' | 'invalid_report' | 'invalid_product' | 'invalid_profile_kind') {
     super(code);
     this.code = code;
   }
