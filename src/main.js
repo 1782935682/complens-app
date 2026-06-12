@@ -9,7 +9,7 @@ import { getCompareOverview } from './services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, sharePayloadWithFallback } from './services/shareService.js';
 import { getNativePhoto, isNativePlatform } from './services/nativeBridgeService.js';
-import { getImage, saveImage } from './services/imageStoreService.js';
+import { deleteImage, getImage, saveImage } from './services/imageStoreService.js';
 import { compressImage } from './utils/imageProcessor.js';
 import { buildSupportRequestMarkdown } from './services/supportService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, markScanTipsSeen, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
@@ -565,8 +565,8 @@ function bindScanPageEvents(route) {
 
   const clearScanImageButton = document.querySelector('[data-clear-scan-image]');
   if (clearScanImageButton) {
-    clearScanImageButton.addEventListener('click', () => {
-      clearPendingScan();
+    clearScanImageButton.addEventListener('click', async () => {
+      await clearPendingScanImage();
       revokeScanPreviewObjectUrl();
       updateScanPreview(document.querySelector('[data-scan-preview]'), null);
       updateScanMeta(`支持 JPG、PNG、WebP、HEIC/HEIF，单张不超过 8 MB。`);
@@ -730,7 +730,7 @@ async function openScanSource(source) {
 async function handleScanFile(file, category) {
   const validation = validateScanImageFile(file);
   if (!validation.ok) {
-    clearPendingScan();
+    await clearPendingScanImage();
     updateScanPreview(document.querySelector('[data-scan-preview]'), null, validation);
     updateScanMeta(validation.message);
     updateScanConfirmState(false);
@@ -740,6 +740,7 @@ async function handleScanFile(file, category) {
 
   updateScanFeedback('正在预处理图片...');
   updateScanPreview(document.querySelector('[data-scan-preview]'), file, validation);
+  const previousPending = getPendingScan();
   try {
     const processed = await compressImage(file, { maxWidth: 1200, maxBytes: 800_000 });
     const meta = {
@@ -765,15 +766,26 @@ async function handleScanFile(file, category) {
       pendingOcrErrorCode: '',
       pendingOcrErrorMsg: ''
     });
+    if (previousPending.pendingImageId && previousPending.pendingImageId !== imageId) {
+      await deleteImage(previousPending.pendingImageId);
+    }
     updateScanMeta(`图片大小：${formatBytes(processed.compressedSize)}${processed.originalSize !== processed.compressedSize ? `（原图 ${formatBytes(processed.originalSize)}）` : ''}`);
     updateScanConfirmState(true);
     updateScanFeedback(processed.fallback === 'canvas_unavailable'
       ? '图片已保存；当前环境无法压缩，仍可进入确认页。'
       : '图片已预处理并保存到本机 IndexedDB。');
   } catch {
-    clearPendingScan();
+    await clearPendingScanImage();
     updateScanConfirmState(false);
     updateScanFeedback('图片预处理失败，请更换更清晰的图片或手动输入。');
+  }
+}
+
+async function clearPendingScanImage() {
+  const pending = getPendingScan();
+  clearPendingScan();
+  if (pending.pendingImageId) {
+    await deleteImage(pending.pendingImageId);
   }
 }
 
