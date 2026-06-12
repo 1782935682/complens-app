@@ -49,6 +49,8 @@ const gb2760RegulationBasisSuffix = `${gb2760OfficialRecordText} ${gb2760Officia
 
 const gb2760RegulationOverrides = {
   'citric-acid': {
+    category: '酸度调节剂',
+    functions: ['酸度调节剂', '抗氧化剂'],
     foodCategories: ['各类食品（按表 A.2 例外排除）'],
     usageLimits: [
       {
@@ -60,6 +62,8 @@ const gb2760RegulationOverrides = {
     rawSourceText: 'GB 2760-2024 表 A.1：柠檬酸 citric acid；CNS号 01.101；INS号 330；功能 酸度调节剂、抗氧化剂；各类食品（表 A.2 中编号为 1~15、17~53、59~62、64~68 的食品类别除外）按生产需要适量使用。'
   },
   'sodium-citrate': {
+    category: '酸度调节剂',
+    functions: ['酸度调节剂', '稳定剂'],
     foodCategories: ['各类食品（按表 A.2 例外排除）'],
     usageLimits: [
       {
@@ -71,6 +75,8 @@ const gb2760RegulationOverrides = {
     rawSourceText: 'GB 2760-2024 表 A.1：柠檬酸钠 trisodium citrate；CNS号 01.303；INS号 331(iii)；功能 酸度调节剂、稳定剂；各类食品（表 A.2 中编号为 1~53、59~62、64~68 的食品类别除外）按生产需要适量使用。'
   },
   'xanthan-gum': {
+    category: '稳定剂',
+    functions: ['稳定剂', '增稠剂'],
     foodCategories: ['各类食品（按表 A.2 例外排除）', '黄油和浓缩黄油', '生湿面制品', '生干面制品', '糖浆', '特殊医学用途婴儿配方食品'],
     usageLimits: [
       {
@@ -107,6 +113,8 @@ const gb2760RegulationOverrides = {
     rawSourceText: 'GB 2760-2024 表 A.1：黄原胶（又名汉生胶）xanthan gum；CNS号 20.009；INS号 415；功能 稳定剂、增稠剂；含各类食品例外口径及 02.02.01.01、06.03.02.01、06.03.02.02、11.01.02、13.01.03 的最大使用量。'
   },
   'calcium-carbonate': {
+    category: '膨松剂',
+    functions: ['膨松剂', '面粉处理剂', '稳定剂'],
     foodCategories: ['各类食品（按表 A.2 例外排除）', '小麦粉', '饼干'],
     usageLimits: [
       {
@@ -128,6 +136,8 @@ const gb2760RegulationOverrides = {
     rawSourceText: 'GB 2760-2024 表 A.1：碳酸钙（包括轻质碳酸钙，重质碳酸钙）calcium carbonate；CNS号 13.006；INS号 170(i)；功能 膨松剂、面粉处理剂、稳定剂；各类食品（表 A.2 中编号为 1~68 的食品类别除外）按生产需要适量使用；06.03.01 小麦粉 0.03 g/kg；07.03 饼干按生产需要适量使用。'
   },
   'sodium-bicarbonate': {
+    category: '膨松剂',
+    functions: ['膨松剂', '酸度调节剂', '稳定剂'],
     foodCategories: ['各类食品（按表 A.2 例外排除）', '发酵大米制品'],
     usageLimits: [
       {
@@ -3197,6 +3207,8 @@ function buildGb2760RegulationOverride(additive) {
     adi: review ? `${review.adi}（JECFA ${review.jecfaId}，${officialReviewRetrievedAt} 核对；GB 2760 使用规定已按官方 PDF 表 A.1 导入）` : additive.adi,
     usageLimits: regulation.usageLimits,
     foodCategories: regulation.foodCategories,
+    category: regulation.category,
+    functions: regulation.functions,
     isVerified: true,
     updatedAt: gb2760OfficialRetrievedAt
   };
