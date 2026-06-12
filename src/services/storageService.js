@@ -248,12 +248,12 @@ function uniqueBy(items, getKey) {
   return result;
 }
 
-function getAuthToken() {
+export function getAuthToken() {
   const token = String(readRaw(AUTH_TOKEN_KEY) || '').trim();
   return isValidJwt(token) ? token : '';
 }
 
-function getApiBaseUrl() {
+export function getApiBaseUrl() {
   const configured = String(readRaw(API_BASE_URL_KEY) || '').trim();
   return (configured || '/api').replace(/\/$/, '');
 }

@@ -29,7 +29,18 @@ export async function fetchIngredientCategories() {
   return requestIngredientJson('/ingredients/categories');
 }
 
-async function requestIngredientJson(path) {
+export async function fetchIngredientBatchSearch(terms = []) {
+  const normalizedTerms = Array.isArray(terms)
+    ? terms.map((term) => String(term || '').trim()).filter(Boolean).slice(0, 200)
+    : [];
+  if (!normalizedTerms.length) return { results: [] };
+  return requestIngredientJson('/ingredients/batch-search', {
+    method: 'POST',
+    body: JSON.stringify({ terms: normalizedTerms, includeENumbers: true })
+  });
+}
+
+async function requestIngredientJson(path, options = {}) {
   if (typeof fetch !== 'function') {
     throw new Error('Ingredient API unavailable: fetch is not supported');
   }
@@ -41,7 +52,9 @@ async function requestIngredientJson(path) {
 
   try {
     const response = await fetch(`${getApiBaseUrl()}${path}`, {
+      ...options,
       headers: { Accept: 'application/json' },
+      ...(options.body ? { headers: { Accept: 'application/json', 'Content-Type': 'application/json', ...options.headers } } : {}),
       signal: controller?.signal
     });
     if (!response.ok) {

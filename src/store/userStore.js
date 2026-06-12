@@ -10,6 +10,8 @@ const HISTORY_RECORDING_KEY = 'compcheck:history-recording-enabled';
 const ALLERGENS_KEY = 'compcheck:allergens';
 const ANALYSIS_REPORTS_KEY = 'compcheck:analysis-reports';
 const SCAN_DRAFTS_KEY = 'compcheck:scan-drafts';
+const SCAN_PENDING_KEY = 'compcheck:scan-pending';
+const SCAN_TIPS_SEEN_KEY = 'compcheck:scan-tips-seen';
 const ONBOARDING_KEY = 'compcheck:onboarding';
 const COMPARE_ITEMS_KEY = 'compcheck:compare-items';
 const SUPPORT_REQUESTS_KEY = 'compcheck:support-requests';
@@ -25,6 +27,8 @@ const REPORT_SCHEMA_VERSION = 2;
 const ONBOARDING_STATUSES = ['pending', 'completed', 'skipped'];
 const ONBOARDING_CATEGORIES = ['food', 'cosmetics'];
 const SUPPORT_STATUSES = ['local', 'copied', 'closed'];
+const SCAN_STATUSES = ['idle', 'loading', 'success', 'empty', 'error', 'manual'];
+const OCR_MODES = ['real', 'manual', 'fallback'];
 
 export function getFavoriteItems() {
   return readJson(FAVORITES_KEY, [])
@@ -228,6 +232,35 @@ export function clearScanDraft(category = DEFAULT_CATEGORY) {
   return drafts;
 }
 
+export function getPendingScan() {
+  return normalizePendingScan(readJson(SCAN_PENDING_KEY, null));
+}
+
+export function setPendingScan(input = {}) {
+  const next = normalizePendingScan({
+    ...getPendingScan(),
+    ...input,
+    updatedAt: new Date().toISOString()
+  });
+  writeJson(SCAN_PENDING_KEY, next);
+  return next;
+}
+
+export function clearPendingScan() {
+  const next = createDefaultPendingScan();
+  writeJson(SCAN_PENDING_KEY, next);
+  return next;
+}
+
+export function hasSeenScanTips() {
+  return readJson(SCAN_TIPS_SEEN_KEY, false) === true;
+}
+
+export function markScanTipsSeen() {
+  writeJson(SCAN_TIPS_SEEN_KEY, true);
+  return true;
+}
+
 export function getAnalysisReports(category) {
   const reports = readJson(ANALYSIS_REPORTS_KEY, [])
     .map(normalizeAnalysisReport)
@@ -397,6 +430,7 @@ export function clearLocalUserData() {
   writeJson(ANALYSIS_REPORTS_KEY, []);
   writeJson(SUPPORT_REQUESTS_KEY, []);
   writeJson(SCAN_DRAFTS_KEY, {});
+  writeJson(SCAN_PENDING_KEY, createDefaultPendingScan());
   resetOnboarding();
   return getLocalDataSummary();
 }
@@ -514,6 +548,58 @@ function createDefaultOnboardingState() {
     completedAt: '',
     skippedAt: '',
     updatedAt: ''
+  };
+}
+
+function createDefaultPendingScan() {
+  return {
+    status: 'idle',
+    category: DEFAULT_ONBOARDING_CATEGORY,
+    pendingImageId: null,
+    pendingText: '',
+    pendingProductName: '',
+    pendingSource: 'manual',
+    pendingOcrMode: 'manual',
+    pendingOcrConfidence: 1,
+    pendingOcrProvider: 'manual',
+    pendingOcrErrorCode: '',
+    pendingOcrErrorMsg: '',
+    updatedAt: ''
+  };
+}
+
+function normalizePendingScan(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return createDefaultPendingScan();
+  }
+
+  return {
+    status: SCAN_STATUSES.includes(value.status) ? value.status : 'idle',
+    category: isProductCategory(value.category) ? value.category : DEFAULT_ONBOARDING_CATEGORY,
+    pendingImageId: value.pendingImageId ? String(value.pendingImageId).trim() : null,
+    pendingImageMeta: normalizePendingImageMeta(value.pendingImageMeta),
+    pendingText: String(value.pendingText || ''),
+    pendingProductName: truncateText(value.pendingProductName, 50),
+    pendingSource: value.pendingSource === 'ocr' ? 'ocr' : 'manual',
+    pendingOcrMode: OCR_MODES.includes(value.pendingOcrMode) ? value.pendingOcrMode : 'manual',
+    pendingOcrConfidence: clampConfidence(value.pendingOcrConfidence),
+    pendingOcrProvider: String(value.pendingOcrProvider || 'manual').trim() || 'manual',
+    pendingOcrErrorCode: String(value.pendingOcrErrorCode || '').trim(),
+    pendingOcrErrorMsg: String(value.pendingOcrErrorMsg || '').trim(),
+    updatedAt: typeof value.updatedAt === 'string' ? value.updatedAt : ''
+  };
+}
+
+function normalizePendingImageMeta(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  return {
+    originalName: truncateText(value.originalName, 120),
+    mimeType: String(value.mimeType || '').trim(),
+    width: Number(value.width) || 0,
+    height: Number(value.height) || 0,
+    originalSize: Number(value.originalSize) || 0,
+    compressedSize: Number(value.compressedSize) || 0,
+    createdAt: typeof value.createdAt === 'string' ? value.createdAt : ''
   };
 }
 
@@ -745,6 +831,12 @@ function normalizeScanDrafts(value) {
       .map(([category, input]) => [String(category || '').trim(), String(input || '').trim()])
       .filter(([category, input]) => category && input)
   );
+}
+
+function clampConfidence(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 0;
+  return Math.max(0, Math.min(1, number));
 }
 
 function normalizeIngredientAllergenHits(value) {

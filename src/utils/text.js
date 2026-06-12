@@ -32,7 +32,10 @@ export const SAMPLE_OPTIONS = [
 ];
 
 const protectedDelimiter = '\uE000';
-const labelPrefixPattern = /(?:配料表?|成分表?|原料|ingredients?)\s*[:：]/gi;
+const labelPrefixPattern = /^\s*(?:配\s*料\s*表?|原\s*料|原\s*材\s*料|食品添加剂|配方|成\s*分\s*表?|ingredients?)\s*[:：-]\s*/gi;
+const splitDelimiterPattern = /[,，、;；\n\r]+/;
+const eNumberPattern = /\bE\s*\d{3,4}[a-z]?\b/i;
+const percentOnlyPattern = /^\s*\d+(?:\.\d+)?\s*%\s*$/;
 const genericBracketPrefixes = [
   '食品添加剂',
   '添加剂',
@@ -56,28 +59,97 @@ const genericBracketPrefixes = [
 ];
 
 export function splitIngredientInput(value) {
-  return normalizeIngredientInput(value)
-    .replace(/单\s*[,，、]\s*双/g, `单${protectedDelimiter}双`)
-    .split(/[,，、;；\n\r]+/)
-    .map((item) => normalizeIngredientItem(item).replaceAll(protectedDelimiter, '，').trim())
-    .filter(Boolean);
+  return parseIngredientList(value).map((item) => item.normalizedText).filter(Boolean);
+}
+
+export function parseIngredientList(rawInput) {
+  const prepared = normalizeIngredientInput(rawInput).replace(/单\s*[,，、]\s*双/g, `单${protectedDelimiter}双`);
+  const parsed = [];
+
+  for (const segment of splitTopLevel(prepared)) {
+    parsed.push(...parseIngredientSegment(segment));
+  }
+
+  const seen = new Set();
+  return parsed.map((item, index) => {
+    const normalizedText = item.normalizedText.replaceAll(protectedDelimiter, '，').trim();
+    const duplicateKey = normalizeText(normalizedText).replace(/\s+/g, '');
+    const isDuplicate = duplicateKey ? seen.has(duplicateKey) : false;
+    if (duplicateKey) seen.add(duplicateKey);
+    return {
+      index,
+      rawText: item.rawText.replaceAll(protectedDelimiter, '，').trim(),
+      normalizedText,
+      eNumber: item.eNumber || extractENumber(normalizedText),
+      isSubIngredient: Boolean(item.isSubIngredient),
+      parentLabel: item.parentLabel || undefined,
+      isUnknown: isUnknownIngredientText(normalizedText),
+      isDuplicate
+    };
+  }).filter((item) => item.normalizedText);
+}
+
+export function applyOcrCorrections(text) {
+  return String(text || '')
+    .normalize('NFKC')
+    .replace(/\r?\n/g, '，')
+    .replace(/([^\x00-\x7F])[ \t]+([^\x00-\x7F])/g, '$1$2')
+    .replace(/[,，、]{2,}/g, '，')
+    .replace(/\s+([,，、;；:：])/g, '$1')
+    .replace(/([,，、;；:：])\s+/g, '$1');
+}
+
+export function extractENumber(text) {
+  const match = String(text || '').match(eNumberPattern);
+  return match ? match[0].replace(/\s+/g, '').toUpperCase() : null;
 }
 
 function normalizeIngredientInput(value) {
-  return expandBracketGroups(String(value || '').replace(labelPrefixPattern, ''));
+  return applyOcrCorrections(value).replace(labelPrefixPattern, '');
 }
 
-function expandBracketGroups(value) {
-  return String(value || '').replace(/([^,，、;；\n\r()（）]*)[\(（]([^()（）]+)[\)）]/g, (match, prefix, content) => {
-    const rawPrefix = String(prefix || '').trim();
-    const cleanPrefix = normalizeIngredientItem(prefix);
-    const cleanContent = String(content || '').trim();
-    if (!cleanContent) return cleanPrefix;
-    if (!cleanPrefix && !rawPrefix) return '';
+function parseIngredientSegment(segment) {
+  const rawSegment = String(segment || '').trim();
+  if (!rawSegment) return [];
 
-    if (isGenericBracketPrefix(cleanPrefix || rawPrefix)) return `，${cleanContent}`;
-    return cleanPrefix;
-  });
+  const bracket = rawSegment.match(/^([^()（）]*?)[(（]([^()（）]+)[)）]\s*$/);
+  if (bracket) {
+    const rawPrefix = String(bracket[1] || '').trim();
+    const cleanPrefix = normalizeIngredientItem(rawPrefix);
+    const cleanContent = String(bracket[2] || '').trim();
+    if (!cleanContent) return cleanPrefix ? [buildParsedItem(rawSegment, cleanPrefix)] : [];
+    if (!cleanPrefix && !rawPrefix) return [];
+
+    if (isGenericBracketPrefix(cleanPrefix || rawPrefix) && !percentOnlyPattern.test(cleanContent)) {
+      return splitTopLevel(cleanContent)
+        .map((child) => normalizeIngredientItem(child))
+        .filter(Boolean)
+        .map((child) => buildParsedItem(child, child, {
+          isSubIngredient: true,
+          parentLabel: cleanPrefix || rawPrefix
+        }));
+    }
+
+    if (percentOnlyPattern.test(cleanContent)) {
+      return cleanPrefix ? [buildParsedItem(rawSegment, cleanPrefix)] : [];
+    }
+
+    const bracketENumber = extractENumber(cleanContent);
+    return cleanPrefix ? [buildParsedItem(rawSegment, cleanPrefix, { eNumber: bracketENumber })] : [];
+  }
+
+  const normalized = normalizeIngredientItem(rawSegment);
+  return normalized ? [buildParsedItem(rawSegment, normalized)] : [];
+}
+
+function buildParsedItem(rawText, normalizedText, overrides = {}) {
+  return {
+    rawText,
+    normalizedText,
+    eNumber: overrides.eNumber || extractENumber(rawText) || extractENumber(normalizedText),
+    isSubIngredient: Boolean(overrides.isSubIngredient),
+    parentLabel: overrides.parentLabel
+  };
 }
 
 export function normalizeIngredientItem(value) {
@@ -87,6 +159,24 @@ export function normalizeIngredientItem(value) {
     .replace(/^\s*(?:食品添加剂|添加剂)\s*[:：-]\s*/, '')
     .replace(/^\s*(?:食品添加剂|添加剂)\s*[:：-]?\s*$/, '')
     .trim();
+}
+
+function splitTopLevel(value) {
+  const parts = [];
+  let current = '';
+  let depth = 0;
+  for (const char of String(value || '')) {
+    if (char === '(' || char === '（') depth += 1;
+    if (char === ')' || char === '）') depth = Math.max(0, depth - 1);
+    if (depth === 0 && splitDelimiterPattern.test(char)) {
+      if (current.trim()) parts.push(current.trim());
+      current = '';
+      continue;
+    }
+    current += char;
+  }
+  if (current.trim()) parts.push(current.trim());
+  return parts;
 }
 
 function stripBracketNotes(value) {
@@ -109,6 +199,12 @@ function isGenericBracketPrefix(value) {
   const compact = normalizeText(value).replace(/\s+/g, '');
   if (!compact) return false;
   return genericBracketPrefixes.some((prefix) => compact === normalizeText(prefix).replace(/\s+/g, '') || compact.endsWith(normalizeText(prefix).replace(/\s+/g, '')));
+}
+
+function isUnknownIngredientText(value) {
+  const text = String(value || '').trim();
+  if (!text) return true;
+  return /unknown|未识别|无法识别/i.test(text);
 }
 
 export function uniqueBy(items, getKey) {

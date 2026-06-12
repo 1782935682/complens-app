@@ -24,6 +24,16 @@ export function createIngredientsRoute(ingredientService: IngredientService) {
     return context.json({ items });
   });
 
+  route.post('/ingredients/batch-search', async (context) => {
+    const parsed = await parseBatchSearchBody(context);
+    if (!parsed.ok) {
+      return context.json(parsed.error, 400);
+    }
+
+    const results = await ingredientService.batchSearch(parsed.value);
+    return context.json({ results });
+  });
+
   // Keep the explicit search endpoint before /ingredients/:id so "search" is
   // never interpreted as an ingredient id by routers with ordered matching.
   route.get('/ingredients/search', async (context) => {
@@ -46,6 +56,32 @@ export function createIngredientsRoute(ingredientService: IngredientService) {
   });
 
   return route;
+}
+
+async function parseBatchSearchBody(context: { req: { json(): Promise<unknown> } }) {
+  try {
+    const body = await context.req.json();
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return invalidParameter('body', 'request body must be an object');
+    }
+    const terms = (body as { terms?: unknown }).terms;
+    if (!Array.isArray(terms)) {
+      return invalidParameter('terms', 'terms must be an array');
+    }
+    const normalizedTerms = terms.map((term) => String(term || '').trim()).filter(Boolean);
+    if (normalizedTerms.length > 200) {
+      return invalidParameter('terms', 'terms must include no more than 200 items');
+    }
+    return {
+      ok: true as const,
+      value: {
+        terms: normalizedTerms,
+        includeENumbers: (body as { includeENumbers?: unknown }).includeENumbers !== false
+      }
+    };
+  } catch {
+    return invalidParameter('body', 'request body must be valid JSON');
+  }
 }
 
 function parseListQuery(query: Record<string, string>) {

@@ -83,10 +83,25 @@ export type IngredientCategorySummary = {
   count: number;
 };
 
+export type BatchSearchParams = {
+  terms: string[];
+  includeENumbers?: boolean;
+};
+
+export type BatchSearchResult = {
+  term: string;
+  eNumber: string | null;
+  match: IngredientRow | null;
+  confidence: number;
+  matchType: 'exact' | 'alias' | 'eNumber' | 'fuzzy' | 'none';
+  alternates: IngredientRow[];
+};
+
 export type IngredientService = {
   listIngredients(params: IngredientListParams): Promise<IngredientListResult>;
   getIngredientById(id: string): Promise<IngredientRow | null>;
   getCategorySummaries(): Promise<IngredientCategorySummary[]>;
+  batchSearch(params: BatchSearchParams): Promise<BatchSearchResult[]>;
 };
 
 let defaultClient: DatabaseClient | null = null;
@@ -148,6 +163,15 @@ export function createIngredientService(db: Database): IngredientService {
         .orderBy(desc(count()), asc(ingredients.category));
 
       return rows;
+    },
+
+    async batchSearch(params) {
+      const terms = normalizeBatchTerms(params.terms);
+      const results: BatchSearchResult[] = [];
+      for (const term of terms) {
+        results.push(await searchOneIngredient(db, term, params.includeENumbers !== false));
+      }
+      return results;
     }
   };
 }
@@ -183,6 +207,9 @@ export function createLazyIngredientService(databaseUrl?: string): IngredientSer
     },
     getCategorySummaries() {
       return getLazyService().getCategorySummaries();
+    },
+    batchSearch(params) {
+      return getLazyService().batchSearch(params);
     }
   };
 }
@@ -348,4 +375,98 @@ export function escapeLikePattern(value: string) {
 
 function ilikeEscaped(column: AnyColumn, pattern: string): SQL {
   return sql`${column} ILIKE ${pattern} ESCAPE '\\'`;
+}
+
+async function searchOneIngredient(db: Database, term: string, includeENumbers: boolean): Promise<BatchSearchResult> {
+  const normalized = normalizeTerm(term);
+  const eNumber = includeENumbers ? extractENumber(term) : null;
+  const pattern = `%${escapeLikePattern(term)}%`;
+  const rows = await db
+    .select()
+    .from(ingredients)
+    .where(or(
+      ilikeEscaped(ingredients.nameCn, pattern),
+      ilikeEscaped(ingredients.nameEn, pattern),
+      ilikeEscaped(ingredients.gbCode, pattern),
+      ilikeEscaped(ingredients.eNumber, pattern),
+      sql`exists (
+        select 1
+        from jsonb_array_elements_text(${ingredients.aliases}) as alias(value)
+        where alias.value ILIKE ${pattern} ESCAPE '\\'
+      )`
+    ) as SQL)
+    .limit(8);
+
+  let best: BatchSearchResult = {
+    term,
+    eNumber,
+    match: null,
+    confidence: 0,
+    matchType: 'none',
+    alternates: []
+  };
+
+  const scored = rows
+    .map((row) => ({ row, score: scoreIngredient(row, normalized, eNumber) }))
+    .filter((item) => item.score.confidence > 0)
+    .sort((a, b) => b.score.confidence - a.score.confidence);
+
+  const first = scored[0];
+  if (first) {
+    best = {
+      term,
+      eNumber,
+      match: first.row,
+      confidence: first.score.confidence,
+      matchType: first.score.matchType,
+      alternates: scored.slice(1, 3).map((item) => item.row)
+    };
+  }
+
+  return best;
+}
+
+function scoreIngredient(row: IngredientRow, normalized: string, eNumber: string | null) {
+  const aliases = Array.isArray(row.aliases) ? row.aliases : [];
+  const names = [row.nameCn, row.nameEn, row.gbCode, row.eNumber].filter(Boolean);
+  const allFields = [...names, ...aliases];
+
+  if (eNumber && normalizeTerm(row.eNumber || '') === normalizeTerm(eNumber)) {
+    return { confidence: 0.99, matchType: 'eNumber' as const };
+  }
+  if (names.some((name) => normalizeTerm(name || '') === normalized)) {
+    return { confidence: 1, matchType: 'exact' as const };
+  }
+  if (aliases.some((alias) => normalizeTerm(alias) === normalized)) {
+    return { confidence: 0.92, matchType: 'alias' as const };
+  }
+  if (allFields.some((field) => normalizeTerm(field || '').startsWith(normalized) || normalized.startsWith(normalizeTerm(field || '')))) {
+    return { confidence: 0.75, matchType: 'fuzzy' as const };
+  }
+  if (normalized.length >= 2 && allFields.some((field) => normalizeTerm(field || '').includes(normalized) || normalized.includes(normalizeTerm(field || '')))) {
+    return { confidence: 0.55, matchType: 'fuzzy' as const };
+  }
+  return { confidence: 0, matchType: 'none' as const };
+}
+
+function normalizeBatchTerms(value: string[]) {
+  return [...new Set((Array.isArray(value) ? value : [])
+    .map((term) => term.trim())
+    .filter(Boolean))]
+    .slice(0, 200);
+}
+
+function normalizeTerm(value: string) {
+  return String(value || '')
+    .normalize('NFKC')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/[·•・]/g, '')
+    .replace(/^(?:食品添加剂|添加剂)\s*[:：]?\s*/, '');
+}
+
+function extractENumber(value: string) {
+  const match = String(value || '').match(/\bE\s*\d{3,4}[a-z]?\b/i);
+  return match ? match[0].replace(/\s+/g, '').toUpperCase() : null;
 }

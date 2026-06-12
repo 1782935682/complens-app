@@ -4,7 +4,7 @@ import { AI_ANALYSIS_ENDPOINT_PATH, AI_ANALYSIS_PROTOCOL_VERSION, buildAIAnalysi
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getCategoryStats, getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
-import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, validateOCRResponse } from '../src/services/ocrService.js';
+import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
@@ -17,6 +17,7 @@ import { renderLegalPage } from '../src/pages/legalPage.js';
 import { renderMembershipPage } from '../src/pages/membershipPage.js';
 import { renderOnboardingPage } from '../src/pages/onboardingPage.js';
 import { renderScanPage } from '../src/pages/scanPage.js';
+import { renderOcrConfirmPage } from '../src/pages/ocrConfirmPage.js';
 import { renderSearchPage } from '../src/pages/searchPage.js';
 import { renderSettingsPage } from '../src/pages/settingsPage.js';
 import { renderSupportPage } from '../src/pages/supportPage.js';
@@ -27,9 +28,10 @@ import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src
 import { AUTH_TOKEN_KEY, isLoggedIn, readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sanitizeNativeSharePayload, sharePayloadWithFallback } from '../src/services/shareService.js';
-import { getBase64ByteSize, getNativeCameraPhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
-import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
-import { normalizeText, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
+import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
+import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
+import { matchIngredientsLocal } from '../src/services/ingredientMatchService.js';
+import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
@@ -73,6 +75,7 @@ assert.deepEqual(resolveRoute('#/food'), { view: 'home', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/compare'), { view: 'compare', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
+assert.deepEqual(resolveRoute('#/food/ocr-confirm'), { view: 'ocr-confirm', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/onboarding'), { view: 'onboarding', category: 'food' });
 assert.deepEqual(resolveRoute('#/food/legal'), { view: 'legal', category: 'food', documentId: '' });
@@ -109,6 +112,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/search?q=E330')), 'E330 搜索�
 assert.equal(getRouteTitle(resolveRoute('#/food/search?risk=medium')), '筛选结果 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/compare')), '成分对比 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/scan')), '扫描识别 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/ocr-confirm')), '确认配料表 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/data')), '数据来源 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/onboarding')), '首次设置 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/legal')), '隐私与条款 - 食品添加剂 - CompCheck 成分小查');
@@ -288,6 +292,7 @@ assert.match(backendDbSchema, /isVerified: boolean\('is_verified'\)\.notNull\(\)
 const backendIngredientsRoute = await readFile(new URL('../backend/src/routes/ingredients.ts', import.meta.url), 'utf8');
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/categories'/);
+assert.match(backendIngredientsRoute, /route\.post\('\/ingredients\/batch-search'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/search'/);
 assert.match(backendIngredientsRoute, /route\.get\('\/ingredients\/:id'/);
 assert.equal(backendIngredientsRoute.indexOf("route.get('/ingredients/search'") < backendIngredientsRoute.indexOf("route.get('/ingredients/:id'"), true);
@@ -295,8 +300,9 @@ assert.match(backendIngredientsRoute, /never interpreted as an ingredient id/);
 assert.match(backendIngredientsRoute, /invalid_parameter/);
 assert.match(backendIngredientsRoute, /sort must be one of relevance, risk, name/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
-assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 2);
+assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 3);
 assert.match(backendIngredientServiceSource, /validSearchSorts = \['relevance', 'risk', 'name'\]/);
+assert.match(backendIngredientServiceSource, /batchSearch\(params\)/);
 assert.match(backendIngredientServiceSource, /\.orderBy\(\.\.\.buildIngredientOrderBy\(params\.sort\)\)[\s\S]*\.limit\(params\.limit\)/);
 assert.match(backendIngredientServiceSource, /when 'high' then 0[\s\S]*when 'medium' then 1[\s\S]*when 'low' then 2/);
 assert.match(backendIngredientServiceSource, /riskFacets,/);
@@ -388,7 +394,7 @@ assert.match(indexHtml, /href="#\/food\/legal"/);
 assert.match(indexHtml, /data-shell-legal-link/);
 const stylesCss = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
 assert.match(stylesCss, /padding-bottom: max\(env\(safe-area-inset-bottom, 0px\), 1rem\)/);
-assert.match(stylesCss, /\.scan-source-actions/);
+assert.match(stylesCss, /\.scan-source-button/);
 const appManifest = JSON.parse(await readFile(new URL('../public/manifest.webmanifest', import.meta.url), 'utf8'));
 assert.equal(appManifest.display, 'standalone');
 assert.equal(appManifest.start_url, './#/food');
@@ -405,13 +411,20 @@ assert.match(mainJs, /if \(requestedPage > totalPages\)/);
 assert.match(mainJs, /requestIngredientSearchPage\(route, totalPages\)/);
 assert.match(mainJs, /page: responsePage/);
 assert.match(mainJs, /sharePayloadWithFallback\(payload, \{ copyText, updateStatus \}\)/);
-assert.match(mainJs, /getNativeCameraPhoto\(\)/);
+assert.match(mainJs, /getNativePhoto\(source\)/);
 assert.match(mainJs, /isNativePlatform\(\)/);
-assert.match(mainJs, /data-native-scan-image/);
-assert.match(mainJs, /result\.reason === 'cancelled' \|\| result\.reason === 'empty'/);
-assert.match(mainJs, /validateScanImageFile\(\{ type: result\.mimeType, size: result\.size \}\)/);
+assert.match(mainJs, /compressImage\(file, \{ maxWidth: 1200, maxBytes: 800_000 \}\)/);
+assert.match(mainJs, /saveImage\(processed\.blob, meta\)/);
+assert.match(mainJs, /getImage\(pending\.pendingImageId\)/);
+assert.match(mainJs, /\['cancelled', 'empty'\]\.includes\(result\.reason\)/);
+assert.match(mainJs, /dataUrlToBlob\(result\.dataUrl, result\.mimeType\)/);
+assert.match(mainJs, /new File\(\[blob\], fileName/);
+assert.match(mainJs, /validateScanImageFile\(file\)/);
 assert.match(mainJs, /openScanFilePicker\(fileInput\)/);
-assert.match(mainJs, /updateScanPreviewWithDataUrl\(preview, result\.dataUrl\)/);
+assert.match(mainJs, /recognizeImage\(image\?\.blob, \{ category: route\.category \}\)/);
+assert.match(mainJs, /categoryPath\(route\.category, '\/ocr-confirm'\)/);
+assert.match(mainJs, /function updateOcrIngredientCount\(text\)/);
+assert.match(mainJs, /parseIngredientList\(text\)\.length/);
 assert.match(mainJs, /请先输入成分表文字/);
 assert.match(mainJs, /function updateAnalyzeStatus\(message\)/);
 const shareServiceJs = await readFile(new URL('../src/services/shareService.js', import.meta.url), 'utf8');
@@ -427,11 +440,13 @@ assert.match(nativeBridgeServiceJs, /Capacitor\?\.isNativePlatform\?\.\(\)/);
 assert.match(nativeBridgeServiceJs, /Camera\.getPhoto/);
 assert.match(nativeBridgeServiceJs, /CameraResultType\.Base64/);
 assert.match(nativeBridgeServiceJs, /CameraSource\.Prompt/);
+assert.match(nativeBridgeServiceJs, /CameraSource\.Camera/);
+assert.match(nativeBridgeServiceJs, /CameraSource\.Photos/);
 assert.match(nativeBridgeServiceJs, /getBase64ByteSize\(photo\.base64String\)/);
 assert.match(nativeBridgeServiceJs, /Share\.share/);
 assert.match(nativeBridgeServiceJs, /if \(payload\.url\) shareOptions\.url = payload\.url/);
 const serviceWorkerJs = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v17'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v18'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/manifest\.webmanifest/);
 assert.match(serviceWorkerJs, /\.\/app-icon\.svg/);
@@ -447,29 +462,49 @@ assert.match(notFoundHtml, /href="#\/food\/search"/);
 assert.equal(categoryPath('food', '/search'), '/food/search');
 
 const scanHtml = renderRoute(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'));
-assert.match(scanHtml, /扫描成分表/);
-assert.match(scanHtml, /data-scan-form/);
-assert.match(scanHtml, /data-scan-image-input/);
-assert.match(scanHtml, /data-native-scan-image/);
-assert.match(scanHtml, /系统相机\/相册/);
-assert.match(scanHtml, /accept="image\/png,image\/jpeg,image\/webp,image\/gif,image\/bmp,image\/avif"/);
+assert.match(scanHtml, /拍照识别配料表/);
+assert.match(scanHtml, /data-open-scan-camera/);
+assert.match(scanHtml, /data-open-scan-photos/);
+assert.match(scanHtml, /data-scan-camera-input/);
+assert.match(scanHtml, /data-scan-photos-input/);
 assert.match(scanHtml, /capture="environment"/);
+assert.match(scanHtml, /accept="image\/\*"/);
 assert.match(scanHtml, /data-scan-preview/);
-assert.match(scanHtml, /data-rotate-scan-image/);
 assert.match(scanHtml, /data-clear-scan-image/);
-assert.match(scanHtml, /旋转预览/);
-assert.match(scanHtml, /移除图片/);
-assert.match(scanHtml, /data-scan-draft-status/);
-assert.match(scanHtml, /协议 v1 已固定/);
-assert.match(scanHtml, /OCR 服务端代理 \/ 待接入/);
-assert.match(scanHtml, /识别协议已就绪/);
-assert.match(scanHtml, /OCR 服务未接入，请手动输入文字/);
+assert.match(scanHtml, /data-confirm-scan-image/);
+assert.match(scanHtml, /data-start-manual-confirm/);
+assert.match(scanHtml, /确认并识别/);
+assert.match(scanHtml, /手动输入配料表/);
+assert.match(scanHtml, /OCR 协议 v2 已就绪/);
+assert.match(scanHtml, /未配置 OCR Key 时会进入手动确认模式/);
 assert.doesNotMatch(scanHtml, /\/api\/ocr\/extract-ingredients/);
 assert.match(scanHtml, /单张不超过 8 MB/);
 assert.match(scanHtml, /柠檬酸/);
-assert.match(scanHtml, /已从链接带入待分析文本/);
-assert.match(scanHtml, /href="#\/food\/analyze"/);
+assert.match(scanHtml, /链接带入文本/);
+assert.match(scanHtml, /href="#\/food\/ocr-confirm"/);
 assert.match(renderScanPage('', 'cosmetics'), /化妆品成分/);
+setPendingScan({
+  status: 'success',
+  category: 'food',
+  pendingImageId: 'scan-test-image',
+  pendingImageMeta: { compressedSize: 2048, width: 1200, height: 900 },
+  pendingText: '配料：水、食品添加剂（柠檬酸、山梨酸钾）',
+  pendingProductName: '测试饼干',
+  pendingSource: 'ocr',
+  pendingOcrMode: 'fallback',
+  pendingOcrConfidence: 0,
+  pendingOcrProvider: 'none'
+});
+const confirmHtml = renderOcrConfirmPage('food');
+assert.match(confirmHtml, /确认配料表内容/);
+assert.match(confirmHtml, /data-ocr-confirm-image/);
+assert.match(confirmHtml, /data-ocr-confirm-form/);
+assert.match(confirmHtml, /配料：水、食品添加剂/);
+assert.match(confirmHtml, /测试饼干/);
+assert.match(confirmHtml, /OCR 降级/);
+assert.match(confirmHtml, /开始分析配料/);
+assert.match(confirmHtml, /3 项/);
+clearPendingScan();
 const iosPlistAdditions = await readFile(new URL('../docs/ios-plist-additions.md', import.meta.url), 'utf8');
 assert.match(iosPlistAdditions, /NSCameraUsageDescription = "用于扫描食品成分表"/);
 assert.match(iosPlistAdditions, /NSPhotoLibraryUsageDescription = "用于从相册选择食品包装图片"/);
@@ -477,8 +512,7 @@ writeJson('compcheck:scan-drafts', {});
 assert.equal(getScanDraft('food'), '');
 assert.equal(saveScanDraft(' 柠檬酸，山梨酸钾 ', 'food'), '柠檬酸，山梨酸钾');
 assert.equal(getScanDraft('food'), '柠檬酸，山梨酸钾');
-assert.match(renderScanPage('', 'food'), /已恢复本机保存的扫描草稿/);
-assert.match(renderScanPage('', 'food'), /柠檬酸，山梨酸钾/);
+assert.doesNotMatch(renderScanPage('', 'food'), /柠檬酸，山梨酸钾/);
 assert.deepEqual(clearScanDraft('food'), {});
 assert.equal(getScanDraft('food'), '');
 assert.equal(SCAN_IMAGE_MAX_BYTES, 8 * 1024 * 1024);
@@ -493,12 +527,12 @@ assert.deepEqual(validateScanImageFile(null), {
 assert.deepEqual(validateScanImageFile({ type: 'image/svg+xml', size: 100 }), {
   ok: false,
   reason: 'type',
-  message: '当前仅支持 PNG、JPEG、WebP、GIF、BMP 或 AVIF 图片。'
+  message: '请选择图片文件（JPG/PNG/WebP/HEIC）。'
 });
 assert.deepEqual(validateScanImageFile({ type: 'image/png', size: SCAN_IMAGE_MAX_BYTES + 1 }), {
   ok: false,
   reason: 'size',
-  message: '图片超过 8 MB，请压缩后再上传。'
+  message: '图片过大，请选择 8 MB 以内的图片或重新拍摄。'
 });
 assert.deepEqual(validateScanImageFile({ type: 'image/jpeg', size: 2048 }), {
   ok: true,
@@ -525,6 +559,7 @@ assert.equal(getBase64ByteSize('TWFu'), 3);
 const nativePhotoResult = await getNativeCameraPhoto();
 assert.equal(nativePhotoResult.ok, false);
 assert.equal(nativePhotoResult.reason, 'web');
+assert.deepEqual(await getNativePhoto('photos'), nativePhotoResult);
 const copiedShareTexts = [];
 const shareStatuses = [];
 assert.deepEqual(
@@ -1026,23 +1061,21 @@ assert.equal(ocrRequest.image.name, 'ingredient-list.png');
 assert.equal(ocrRequest.image.sizeLabel, '4 KB');
 assert.equal(ocrRequest.processingHints.requireUserCorrectionBeforeAnalysis, true);
 assert.equal(ocrRequest.outputContract.schemaVersion, OCR_PROTOCOL_VERSION);
-assert.equal(ocrRequest.safetyRules.some((rule) => /可编辑文本区/.test(rule)), true);
+assert.equal(ocrRequest.safetyRules.some((rule) => /可编辑确认页/.test(rule)), true);
 const ocrFallback = buildOCRFallback(ocrRequest);
 assert.equal(ocrFallback.schemaVersion, OCR_PROTOCOL_VERSION);
 assert.equal(ocrFallback.text, '');
 assert.equal(ocrFallback.confidence, 0);
-assert.equal(ocrFallback.warnings.some((warning) => /未连接服务端 OCR 代理/.test(warning)), true);
-assert.equal(ocrFallback.nextSteps.some((step) => /校正文本区/.test(step)), true);
+assert.equal(ocrFallback.provider, 'manual');
+assert.equal(ocrFallback.warnings.some((warning) => /未连接真实 OCR 服务/.test(warning)), true);
+assert.equal(ocrFallback.nextSteps.some((step) => /确认页/.test(step)), true);
 const validOCRResponse = {
-  schemaVersion: OCR_PROTOCOL_VERSION,
   text: '水，柠檬酸，山梨酸钾',
   confidence: 0.88,
-  language: 'zh-CN',
-  candidates: [
-    { text: '水，柠檬酸，山梨酸钾', confidence: 0.88, source: 'line-1' }
-  ],
-  warnings: ['示例低置信区域'],
-  nextSteps: ['请核对包装原文后再分析。']
+  provider: 'aliyun',
+  blocks: [
+    { text: '水，柠檬酸，山梨酸钾', confidence: 0.88, bounds: { x: 0, y: 0, width: 10, height: 10 } }
+  ]
 };
 assert.deepEqual(validateOCRResponse(validOCRResponse), {
   ok: true,
@@ -1050,18 +1083,16 @@ assert.deepEqual(validateOCRResponse(validOCRResponse), {
   value: validOCRResponse
 });
 const invalidOCRResponse = validateOCRResponse({
-  schemaVersion: 999,
   text: 123,
   confidence: 2,
-  language: '',
-  candidates: [{ text: '', confidence: -1 }],
-  warnings: 'bad',
-  nextSteps: []
+  provider: '',
+  blocks: [{ text: '', confidence: -1 }]
 });
 assert.equal(invalidOCRResponse.ok, false);
 assert.equal(invalidOCRResponse.value, null);
 assert.equal(invalidOCRResponse.errors.some((error) => /confidence/.test(error)), true);
-assert.equal(invalidOCRResponse.errors.some((error) => /warnings/.test(error)), true);
+assert.equal(invalidOCRResponse.errors.some((error) => /provider/.test(error)), true);
+assert.equal(invalidOCRResponse.errors.some((error) => /blocks\[0\]\.text/.test(error)), true);
 const emptyOcrResult = await extractIngredientsFromImage(null);
 assert.equal(emptyOcrResult.enabled, false);
 assert.equal(emptyOcrResult.text, '');
@@ -1074,7 +1105,16 @@ assert.equal(ocrResult.text, '');
 assert.equal(ocrResult.endpoint, OCR_ENDPOINT_PATH);
 assert.equal(ocrResult.request.image.name, 'ingredient-list.png');
 assert.equal(ocrResult.fallback.schemaVersion, OCR_PROTOCOL_VERSION);
-assert.match(ocrResult.message, /图片识别接口已预留/);
+assert.equal(ocrResult.result.mode, 'manual');
+assert.match(ocrResult.message, /手动输入模式/);
+assert.deepEqual(await recognizeImage(ocrFile, { category: 'food' }), {
+  mode: 'manual',
+  rawText: '',
+  confidence: 1,
+  provider: 'manual',
+  requiresConfirm: true,
+  blocks: []
+});
 
 assert.equal(standardAllergenTypes.length, 14);
 assert.deepEqual(validateFoodAdditives(), []);

@@ -7,7 +7,8 @@ function createMockIngredientService(): IngredientService {
   return {
     listIngredients: vi.fn(),
     getIngredientById: vi.fn(),
-    getCategorySummaries: vi.fn()
+    getCategorySummaries: vi.fn(),
+    batchSearch: vi.fn()
   };
 }
 
@@ -31,6 +32,8 @@ describe('createApp configuration', () => {
       corsOrigin: 'http://localhost:5173',
       databaseUrl: customDatabaseUrl,
       jwtSecret: 'test-only-compcheck-jwt-secret',
+      ocrApiKey: '',
+      ocrProvider: 'aliyun',
       port: 3000
     });
 
@@ -54,6 +57,8 @@ describe('createApp configuration', () => {
       corsOrigin: 'http://localhost:5173',
       databaseUrl: customDatabaseUrl,
       jwtSecret: 'custom-jwt-secret-for-tests',
+      ocrApiKey: '',
+      ocrProvider: 'aliyun',
       port: 3000
     });
 
@@ -86,6 +91,8 @@ describe('createApp configuration', () => {
       corsOrigin: 'http://localhost:5173',
       databaseUrl: customDatabaseUrl,
       jwtSecret: 'test-only-compcheck-jwt-secret',
+      ocrApiKey: '',
+      ocrProvider: 'aliyun',
       port: 3000
     });
 

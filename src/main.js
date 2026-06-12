@@ -1,18 +1,20 @@
 import { riskClass, riskLabel } from './components/render.js';
 import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
-import { extractIngredientsFromImage } from './services/ocrService.js';
+import { recognizeImage } from './services/ocrService.js';
 import { fetchIngredientById, fetchIngredientSearch } from './services/ingredientApiService.js';
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { getCompareOverview } from './services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, sharePayloadWithFallback } from './services/shareService.js';
-import { getNativeCameraPhoto, isNativePlatform } from './services/nativeBridgeService.js';
+import { getNativePhoto, isNativePlatform } from './services/nativeBridgeService.js';
+import { getImage, saveImage } from './services/imageStoreService.js';
+import { compressImage } from './utils/imageProcessor.js';
 import { buildSupportRequestMarkdown } from './services/supportService.js';
-import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
-import { validateScanImageFile } from './utils/imageFile.js';
-import { SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
+import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, markScanTipsSeen, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
+import { formatBytes, validateScanImageFile } from './utils/imageFile.js';
+import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
 const API_SEARCH_PAGE_SIZE = 6;
@@ -192,28 +194,8 @@ function bindPageEvents(route) {
     });
   });
 
-  document.querySelectorAll('[data-scan-form]').forEach((form) => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const formData = new FormData(form);
-      const input = String(formData.get('scanText') || '').trim();
-      if (!input) {
-        updateScanFeedback('请输入或粘贴成分表文本后再分析。');
-        return;
-      }
-      saveScanDraft(input, route.category);
-      updateScanDraftStatus('草稿已保存。');
-      navigate(`#${categoryPath(route.category, '/analyze')}?text=${encodeURIComponent(input)}`);
-    });
-  });
-
-  const scanTextInput = document.querySelector('#scan-text');
-  if (scanTextInput) {
-    scanTextInput.addEventListener('input', () => {
-      const saved = saveScanDraft(scanTextInput.value, route.category);
-      updateScanDraftStatus(saved ? '草稿已自动保存。' : '草稿已清空。');
-    });
-  }
+  bindScanPageEvents(route);
+  bindOcrConfirmEvents(route);
 
   document.querySelectorAll('[data-favorite-id]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -378,128 +360,6 @@ function bindPageEvents(route) {
     });
   }
 
-  const scanImageInput = document.querySelector('[data-scan-image-input]');
-  if (scanImageInput) {
-    scanImageInput.addEventListener('change', async () => {
-      const feedback = document.querySelector('[data-scan-feedback]');
-      const preview = document.querySelector('[data-scan-preview]');
-      const textInput = document.querySelector('#scan-text');
-      const file = scanImageInput.files?.[0];
-      scanPreviewRotation = 0;
-      const validation = validateScanImageFile(file);
-      updateScanPreview(preview, file, validation);
-      updateScanImageActionState({ canRotate: validation.ok, canClear: Boolean(file) });
-      if (!validation.ok) {
-        if (feedback) feedback.textContent = validation.message;
-        return;
-      }
-      try {
-        if (feedback) feedback.textContent = '正在检查图片识别能力...';
-        const result = await extractIngredientsFromImage(file);
-        if (result.text && textInput && !textInput.value.trim()) {
-          textInput.value = result.text;
-        }
-        if (feedback) feedback.textContent = result.message;
-      } catch {
-        if (feedback) feedback.textContent = '识别失败，请换一张更清晰的图片或直接录入成分表文本。';
-      }
-    });
-  }
-
-  const nativeScanImageButton = document.querySelector('[data-native-scan-image]');
-  if (nativeScanImageButton) {
-    nativeScanImageButton.addEventListener('click', async () => {
-      const fileInput = document.querySelector('[data-scan-image-input]');
-      const preview = document.querySelector('[data-scan-preview]');
-      scanPreviewRotation = 0;
-
-      if (!isNativePlatform()) {
-        updateScanFeedback('当前为 Web 环境，已打开文件选择。');
-        openScanFilePicker(fileInput);
-        return;
-      }
-
-      nativeScanImageButton.disabled = true;
-      updateScanFeedback('正在打开系统相机或相册...');
-      try {
-        const result = await getNativeCameraPhoto();
-        if (!result.ok) {
-          if (result.reason === 'cancelled' || result.reason === 'empty') {
-            updateScanFeedback(result.message || '已取消系统相机或相册选择。');
-            return;
-          }
-          updateScanFeedback(result.message || '系统相机或相册不可用，已打开文件选择。');
-          openScanFilePicker(fileInput);
-          return;
-        }
-
-        const validation = validateScanImageFile({ type: result.mimeType, size: result.size });
-        if (!validation.ok) {
-          updateScanPreview(preview, null, validation);
-          updateScanImageActionState({ canRotate: false, canClear: false });
-          updateScanFeedback(validation.message);
-          return;
-        }
-
-        scanPreviewRotation = 0;
-        updateScanPreviewWithDataUrl(preview, result.dataUrl);
-        updateScanImageActionState({ canRotate: true, canClear: true });
-        updateScanFeedback(result.message);
-      } catch {
-        updateScanFeedback('系统相机或相册不可用，已打开文件选择。');
-        openScanFilePicker(fileInput);
-      } finally {
-        nativeScanImageButton.disabled = false;
-      }
-    });
-  }
-
-  const rotateScanImageButton = document.querySelector('[data-rotate-scan-image]');
-  if (rotateScanImageButton) {
-    rotateScanImageButton.addEventListener('click', () => {
-      const image = document.querySelector('[data-scan-preview] img');
-      if (!image) {
-        const selectedFile = document.querySelector('[data-scan-image-input]')?.files?.[0];
-        updateScanImageActionState({ canRotate: false, canClear: Boolean(selectedFile) });
-        updateScanFeedback('请先选择一张可预览图片。');
-        return;
-      }
-
-      scanPreviewRotation = (scanPreviewRotation + 90) % 360;
-      applyScanPreviewRotation(image);
-      updateScanFeedback(scanPreviewRotation ? `已旋转预览 ${scanPreviewRotation} 度。` : '图片预览已回到原始方向。');
-    });
-  }
-
-  const clearScanImageButton = document.querySelector('[data-clear-scan-image]');
-  if (clearScanImageButton) {
-    clearScanImageButton.addEventListener('click', () => {
-      const imageInput = document.querySelector('[data-scan-image-input]');
-      const preview = document.querySelector('[data-scan-preview]');
-      if (imageInput) {
-        imageInput.value = '';
-        imageInput.focus();
-      }
-      scanPreviewRotation = 0;
-      updateScanPreview(preview, null);
-      updateScanImageActionState({ canRotate: false, canClear: false });
-      updateScanFeedback('图片已移除，可重新选择。');
-    });
-  }
-
-  const clearScanTextButton = document.querySelector('[data-clear-scan-text]');
-  if (clearScanTextButton) {
-    clearScanTextButton.addEventListener('click', () => {
-      const textInput = document.querySelector('#scan-text');
-      if (textInput) {
-        textInput.value = '';
-        textInput.focus();
-      }
-      clearScanDraft(route.category);
-      updateScanFeedback('文本已清空。');
-      updateScanDraftStatus('草稿已清空。');
-    });
-  }
 
   const allergenForm = document.querySelector('[data-allergen-form]');
   if (allergenForm) {
@@ -684,6 +544,264 @@ function bindPageEvents(route) {
       navigate(`#${categoryPath(state.preferredCategory)}`);
     });
   }
+}
+
+function bindScanPageEvents(route) {
+  document.querySelectorAll('[data-open-scan-camera]').forEach((button) => {
+    button.addEventListener('click', () => openScanSource('camera'));
+  });
+
+  document.querySelectorAll('[data-open-scan-photos]').forEach((button) => {
+    button.addEventListener('click', () => openScanSource('photos'));
+  });
+
+  document.querySelectorAll('[data-scan-camera-input], [data-scan-photos-input]').forEach((input) => {
+    input.addEventListener('change', async () => {
+      const file = input.files?.[0];
+      await handleScanFile(file, route.category);
+      input.value = '';
+    });
+  });
+
+  const clearScanImageButton = document.querySelector('[data-clear-scan-image]');
+  if (clearScanImageButton) {
+    clearScanImageButton.addEventListener('click', () => {
+      clearPendingScan();
+      revokeScanPreviewObjectUrl();
+      updateScanPreview(document.querySelector('[data-scan-preview]'), null);
+      updateScanMeta(`支持 JPG、PNG、WebP、HEIC/HEIF，单张不超过 8 MB。`);
+      updateScanConfirmState(false);
+      updateScanFeedback('图片已移除，可重新选择。');
+    });
+  }
+
+  const confirmButton = document.querySelector('[data-confirm-scan-image]');
+  if (confirmButton) {
+    confirmButton.addEventListener('click', async () => {
+      const pending = getPendingScan();
+      if (!pending.pendingImageId) {
+        updateScanFeedback('请先选择一张食品配料表照片。');
+        return;
+      }
+
+      confirmButton.disabled = true;
+      setPendingScan({ status: 'loading', category: route.category });
+      updateScanFeedback('正在准备识别，未配置 OCR 时会进入手动确认模式...');
+      try {
+        const image = await getImage(pending.pendingImageId);
+        const result = await recognizeImage(image?.blob, { category: route.category });
+        setPendingScan({
+          category: route.category,
+          status: statusFromOcrResult(result),
+          pendingText: result.rawText || pending.pendingText || '',
+          pendingSource: result.mode === 'real' ? 'ocr' : 'manual',
+          pendingOcrMode: result.mode,
+          pendingOcrConfidence: result.confidence,
+          pendingOcrProvider: result.provider,
+          pendingOcrErrorCode: result.errorCode || '',
+          pendingOcrErrorMsg: result.errorMsg || ''
+        });
+        navigate(`#${categoryPath(route.category, '/ocr-confirm')}`);
+      } catch {
+        setPendingScan({
+          category: route.category,
+          status: 'error',
+          pendingSource: 'manual',
+          pendingOcrMode: 'fallback',
+          pendingOcrConfidence: 0,
+          pendingOcrErrorCode: 'scan_prepare_failed',
+          pendingOcrErrorMsg: '图片读取失败，请手动输入配料表。'
+        });
+        navigate(`#${categoryPath(route.category, '/ocr-confirm')}`);
+      }
+    });
+  }
+
+  document.querySelectorAll('[data-start-manual-confirm]').forEach((link) => {
+    link.addEventListener('click', () => {
+      setPendingScan({
+        category: route.category,
+        status: 'manual',
+        pendingText: link.dataset.startManualConfirm || '',
+        pendingSource: 'manual',
+        pendingOcrMode: 'manual',
+        pendingOcrConfidence: 1,
+        pendingOcrProvider: 'manual',
+        pendingOcrErrorCode: '',
+        pendingOcrErrorMsg: ''
+      });
+    });
+  });
+
+  const tips = document.querySelector('[data-scan-tips]');
+  if (tips) {
+    tips.addEventListener('toggle', () => {
+      if (!tips.open) markScanTipsSeen();
+    }, { once: true });
+  }
+
+  if (route.view === 'scan') {
+    void hydrateStoredScanPreview();
+  }
+}
+
+function bindOcrConfirmEvents(route) {
+  const form = document.querySelector('[data-ocr-confirm-form]');
+  if (!form) {
+    if (route.view === 'ocr-confirm') void hydrateOcrConfirmImage();
+    return;
+  }
+
+  const textarea = form.querySelector('#ocr-confirm-text');
+  const productInput = form.querySelector('#ocr-product-name');
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  const syncPending = () => {
+    const text = textarea?.value || '';
+    setPendingScan({
+      category: route.category,
+      status: text.trim() ? 'success' : 'manual',
+      pendingText: text,
+      pendingProductName: productInput?.value || ''
+    });
+    updateOcrIngredientCount(text);
+    if (submitButton) submitButton.disabled = !text.trim();
+  };
+
+  textarea?.addEventListener('input', syncPending);
+  textarea?.addEventListener('focus', () => {
+    textarea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+  productInput?.addEventListener('input', syncPending);
+
+  const clearButton = form.querySelector('[data-clear-ocr-text]');
+  clearButton?.addEventListener('click', () => {
+    if (textarea) textarea.value = '';
+    syncPending();
+    textarea?.focus();
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const text = String(textarea?.value || '').trim();
+    const productName = String(productInput?.value || '').trim();
+    if (!text) {
+      updateOcrConfirmStatus('请先输入配料表内容。');
+      textarea?.focus();
+      return;
+    }
+    saveScanDraft(text, route.category);
+    setPendingScan({
+      category: route.category,
+      status: 'success',
+      pendingText: text,
+      pendingProductName: productName
+    });
+    const params = new URLSearchParams({ text });
+    if (productName) params.set('productName', productName);
+    navigate(`#${categoryPath(route.category, '/analyze')}?${params.toString()}`);
+  });
+
+  void hydrateOcrConfirmImage();
+}
+
+async function openScanSource(source) {
+  const fallbackInput = document.querySelector(source === 'camera' ? '[data-scan-camera-input]' : '[data-scan-photos-input]');
+  if (!isNativePlatform()) {
+    updateScanFeedback('当前为 Web 环境，已打开文件选择。');
+    openScanFilePicker(fallbackInput);
+    return;
+  }
+
+  updateScanFeedback(source === 'camera' ? '正在打开系统相机...' : '正在打开系统相册...');
+  const result = await getNativePhoto(source);
+  if (!result.ok) {
+    updateScanFeedback(result.message || '系统相机或相册不可用，已切换到文件选择。');
+    if (!['cancelled', 'empty'].includes(result.reason)) openScanFilePicker(fallbackInput);
+    return;
+  }
+
+  const blob = dataUrlToBlob(result.dataUrl, result.mimeType);
+  const fileName = `native-${source}.${result.format || 'jpeg'}`;
+  const scanFile = typeof File === 'function'
+    ? new File([blob], fileName, { type: blob.type || result.mimeType || 'image/jpeg' })
+    : Object.assign(blob, { name: fileName });
+  await handleScanFile(scanFile, resolveRoute(window.location.hash).category);
+}
+
+async function handleScanFile(file, category) {
+  const validation = validateScanImageFile(file);
+  if (!validation.ok) {
+    clearPendingScan();
+    updateScanPreview(document.querySelector('[data-scan-preview]'), null, validation);
+    updateScanMeta(validation.message);
+    updateScanConfirmState(false);
+    updateScanFeedback(validation.message);
+    return;
+  }
+
+  updateScanFeedback('正在预处理图片...');
+  try {
+    const processed = await compressImage(file, { maxWidth: 1200, maxBytes: 800_000 });
+    const meta = {
+      originalName: file.name || 'ingredient-image',
+      mimeType: processed.blob.type || file.type || 'image/jpeg',
+      width: processed.width,
+      height: processed.height,
+      originalSize: processed.originalSize,
+      compressedSize: processed.compressedSize
+    };
+    const imageId = await saveImage(processed.blob, meta);
+    setPendingScan({
+      category,
+      status: 'manual',
+      pendingImageId: imageId,
+      pendingImageMeta: meta,
+      pendingText: '',
+      pendingSource: 'manual',
+      pendingOcrMode: 'manual',
+      pendingOcrConfidence: 1,
+      pendingOcrProvider: 'manual'
+    });
+    updateScanPreviewWithBlob(document.querySelector('[data-scan-preview]'), processed.blob);
+    updateScanMeta(`图片大小：${formatBytes(processed.compressedSize)}${processed.originalSize !== processed.compressedSize ? `（原图 ${formatBytes(processed.originalSize)}）` : ''}`);
+    updateScanConfirmState(true);
+    updateScanFeedback(processed.fallback === 'canvas_unavailable'
+      ? '图片已保存；当前环境无法压缩，仍可进入确认页。'
+      : '图片已预处理并保存到本机 IndexedDB。');
+  } catch {
+    clearPendingScan();
+    updateScanConfirmState(false);
+    updateScanFeedback('图片预处理失败，请更换更清晰的图片或手动输入。');
+  }
+}
+
+async function hydrateStoredScanPreview() {
+  const pending = getPendingScan();
+  if (!pending.pendingImageId) return;
+  const image = await getImage(pending.pendingImageId);
+  if (!image?.blob) return;
+  updateScanPreviewWithBlob(document.querySelector('[data-scan-preview]'), image.blob);
+  updateScanConfirmState(true);
+}
+
+async function hydrateOcrConfirmImage() {
+  const pending = getPendingScan();
+  const container = document.querySelector('[data-ocr-confirm-image]');
+  if (!container || !pending.pendingImageId) return;
+  const image = await getImage(pending.pendingImageId);
+  if (!image?.blob) {
+    container.textContent = '图片暂不可用';
+    return;
+  }
+  updateScanPreviewWithBlob(container, image.blob, '配料表图片缩略图');
+}
+
+function statusFromOcrResult(result) {
+  if (result.mode === 'real' && result.rawText) return 'success';
+  if (result.mode === 'real') return 'empty';
+  if (result.mode === 'fallback') return 'error';
+  return 'manual';
 }
 
 function updateAllergenSettingsFeedback(count, message) {
@@ -879,6 +997,31 @@ function updateScanDraftStatus(message) {
   if (statusNode) statusNode.textContent = message;
 }
 
+function updateOcrConfirmStatus(message) {
+  const statusNode = document.querySelector('[data-ocr-confirm-status]');
+  if (statusNode) statusNode.textContent = message;
+}
+
+function updateOcrIngredientCount(text) {
+  const count = parseIngredientList(text).length;
+  const countNode = document.querySelector('[data-ocr-ingredient-count]');
+  if (countNode) countNode.textContent = count ? `${count} 项` : '未识别到配料';
+  const helpNode = document.querySelector('[data-ocr-confirm-help]');
+  if (helpNode) helpNode.textContent = count ? '识别有误？直接在上方修改文字。' : '未识别到文字，请手动输入配料表。';
+}
+
+function updateScanMeta(message) {
+  const metaNode = document.querySelector('[data-scan-image-meta]');
+  if (metaNode) metaNode.textContent = message;
+}
+
+function updateScanConfirmState(enabled) {
+  const button = document.querySelector('[data-confirm-scan-image]');
+  if (button) button.disabled = !enabled;
+  const clearButton = document.querySelector('[data-clear-scan-image]');
+  if (clearButton) clearButton.disabled = !enabled;
+}
+
 function updateScanPreview(preview, file, validation = validateScanImageFile(file)) {
   if (!preview) return;
   revokeScanPreviewObjectUrl();
@@ -931,6 +1074,19 @@ function updateScanPreviewWithDataUrl(preview, dataUrl) {
   preview.append(image);
 }
 
+function updateScanPreviewWithBlob(preview, blob, alt = '已选择图片预览') {
+  if (!preview) return;
+  revokeScanPreviewObjectUrl();
+  preview.replaceChildren();
+  const image = document.createElement('img');
+  image.alt = alt;
+  if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+    scanPreviewObjectUrl = URL.createObjectURL(blob);
+    image.src = scanPreviewObjectUrl;
+  }
+  preview.append(image);
+}
+
 function openScanFilePicker(fileInput) {
   try {
     if (fileInput && typeof fileInput.click === 'function') fileInput.click();
@@ -957,6 +1113,19 @@ function updateScanImageActionState({ canRotate, canClear }) {
   if (rotateButton) rotateButton.disabled = !canRotate;
   const clearButton = document.querySelector('[data-clear-scan-image]');
   if (clearButton) clearButton.disabled = !canClear;
+}
+
+function dataUrlToBlob(dataUrl, mimeType = 'image/jpeg') {
+  const base64 = String(dataUrl || '').split(',')[1] || '';
+  if (typeof Buffer !== 'undefined') {
+    return new Blob([Buffer.from(base64, 'base64')], { type: mimeType });
+  }
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return new Blob([bytes], { type: mimeType });
 }
 
 function registerServiceWorker() {

@@ -5,6 +5,7 @@ import { requestLogger } from './middleware/requestLogger.js';
 import { createAuthRoute } from './routes/auth.js';
 import { healthRoute } from './routes/health.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
+import { createOcrRoute } from './routes/ocr.js';
 import { createUserRoute } from './routes/user.js';
 import { createLazyAuthService, type AuthService } from './services/authService.js';
 import { createLazyIngredientService, type IngredientService } from './services/ingredientService.js';
@@ -29,6 +30,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.route('/', healthRoute);
   const authService = services.authService ?? createLazyAuthService(config.databaseUrl, config.jwtSecret);
   app.route('/api', createAuthRoute(authService));
+  app.route('/api', createOcrRoute(authService, config));
   app.route('/api', createUserRoute(authService, services.userService ?? createLazyUserService(config.databaseUrl)));
   app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService(config.databaseUrl)));
 

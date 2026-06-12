@@ -19,12 +19,19 @@ export function renderHomePage(category = 'food') {
     ${shouldShowOnboardingPrompt() ? renderOnboardingPrompt(category) : ''}
     <section class="hero">
       <div>
-        <p class="eyebrow">${currentCategory.label}</p>
-        <h1>${category === 'food' ? '看懂食品添加剂，少一点猜测。' : '看懂产品成分，少一点盲选。'}</h1>
-        <p class="hero__copy">${currentCategory.description}</p>
+        <p class="eyebrow">CompLens / 成分镜</p>
+        <h1>${category === 'food' ? '拍照识别食品配料表' : '看懂产品成分，少一点盲选。'}</h1>
+        <p class="hero__copy">${category === 'food' ? '上传或拍摄配料表图片，确认文字后匹配食品添加剂数据库。' : currentCategory.description}</p>
+        <div class="hero-primary-actions">
+          <a class="hero-scan-cta" href="#${categoryPath(category, '/scan')}" data-route>拍照识别配料表</a>
+          <div class="hero-secondary-links">
+            <a href="#${categoryPath(category, '/reports')}" data-route>最近分析</a>
+            <a href="#${categoryPath(category, '/search')}" data-route>成分搜索</a>
+          </div>
+        </div>
       </div>
       <form class="search-panel" data-search-form data-suggestion-category="${escapeHtml(category)}">
-        <label for="home-search">搜索成分</label>
+        <label for="home-search">辅助搜索成分</label>
         <div class="search-row">
           <input id="home-search" name="q" type="search" placeholder="${category === 'food' ? '如：柠檬酸 / E330 / INS 330' : '如：烟酰胺 / Niacinamide / BHA'}" autocomplete="off" aria-describedby="home-search-suggestions" />
           <button type="submit">搜索</button>

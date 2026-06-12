@@ -4,6 +4,8 @@ export const PREVIEWABLE_IMAGE_TYPES = new Set([
   'image/png',
   'image/jpeg',
   'image/webp',
+  'image/heic',
+  'image/heif',
   'image/gif',
   'image/bmp',
   'image/avif'
@@ -26,7 +28,7 @@ export function validateScanImageFile(file) {
     return {
       ok: false,
       reason: 'type',
-      message: '当前仅支持 PNG、JPEG、WebP、GIF、BMP 或 AVIF 图片。'
+      message: '请选择图片文件（JPG/PNG/WebP/HEIC）。'
     };
   }
 
@@ -34,7 +36,7 @@ export function validateScanImageFile(file) {
     return {
       ok: false,
       reason: 'size',
-      message: `图片超过 ${formatBytes(SCAN_IMAGE_MAX_BYTES)}，请压缩后再上传。`
+      message: `图片过大，请选择 ${formatBytes(SCAN_IMAGE_MAX_BYTES)} 以内的图片或重新拍摄。`
     };
   }
 

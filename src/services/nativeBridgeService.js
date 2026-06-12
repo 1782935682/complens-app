@@ -11,6 +11,10 @@ export function isNativePlatform() {
 }
 
 export async function getNativeCameraPhoto() {
+  return getNativePhoto('prompt');
+}
+
+export async function getNativePhoto(source = 'prompt') {
   if (!isNativePlatform()) {
     return {
       ok: false,
@@ -22,7 +26,7 @@ export async function getNativeCameraPhoto() {
   try {
     const photo = await Camera.getPhoto({
       resultType: CameraResultType.Base64,
-      source: CameraSource.Prompt,
+      source: resolveCameraSource(source),
       quality: 82,
       allowEditing: false,
       correctOrientation: true
@@ -56,6 +60,12 @@ export async function getNativeCameraPhoto() {
       message: cancelled ? '已取消系统相机或相册选择。' : '系统相机或相册不可用，已切换到文件选择。'
     };
   }
+}
+
+function resolveCameraSource(source) {
+  if (source === 'camera') return CameraSource.Camera;
+  if (source === 'photos') return CameraSource.Photos;
+  return CameraSource.Prompt;
 }
 
 export async function shareWithNative(payload) {
