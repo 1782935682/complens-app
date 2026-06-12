@@ -29,7 +29,12 @@ export async function readExifOrientation(file) {
 
 export async function fixImageOrientation(file) {
   const orientation = await readExifOrientation(file);
-  const bitmap = await decodeImage(file);
+  let bitmap = null;
+  try {
+    bitmap = await decodeImage(file);
+  } catch {
+    bitmap = null;
+  }
   if (!bitmap || !canUseCanvas()) {
     return {
       bitmap,

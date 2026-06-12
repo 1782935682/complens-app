@@ -25,12 +25,13 @@ import { ingredientCard } from '../src/components/render.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from '../src/router/router.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
+import { compressImage } from '../src/utils/imageProcessor.js';
 import { AUTH_TOKEN_KEY, isLoggedIn, readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sanitizeNativeSharePayload, sharePayloadWithFallback } from '../src/services/shareService.js';
 import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite } from '../src/store/userStore.js';
-import { matchIngredientsLocal } from '../src/services/ingredientMatchService.js';
+import { clearMatchCache, matchIngredients, matchIngredientsLocal } from '../src/services/ingredientMatchService.js';
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 import { validateFoodAdditives } from './validate-data.mjs';
 
@@ -554,6 +555,19 @@ assert.deepEqual(validateScanImageFile({ type: 'image/jpeg', size: 2048 }), {
   reason: '',
   message: '已选择图片，大小 2 KB。'
 });
+const originalCreateImageBitmap = globalThis.createImageBitmap;
+globalThis.createImageBitmap = async () => {
+  throw new Error('decode failed');
+};
+const unsupportedHeicBlob = new Blob(['heic bytes'], { type: 'image/heic' });
+const unsupportedHeicResult = await compressImage(unsupportedHeicBlob, { maxWidth: 1200, maxBytes: 800_000 });
+assert.equal(unsupportedHeicResult.blob, unsupportedHeicBlob);
+assert.equal(unsupportedHeicResult.fallback, 'canvas_unavailable');
+if (originalCreateImageBitmap) {
+  globalThis.createImageBitmap = originalCreateImageBitmap;
+} else {
+  delete globalThis.createImageBitmap;
+}
 
 const cnResults = searchIngredients('烟酰胺');
 assert.equal(cnResults[0].id, 'niacinamide');
@@ -977,6 +991,12 @@ assert.deepEqual(singleCharFoodMatch.unmatchedTerms, ['糖']);
 const singleCharCosmeticsMatch = matchIngredientsLocal(parseIngredientList('水'), 'cosmetics');
 assert.equal(singleCharCosmeticsMatch.results[0].match, null);
 assert.deepEqual(singleCharCosmeticsMatch.unmatchedTerms, ['水']);
+clearMatchCache();
+const foodCitricMatch = await matchIngredients(parseIngredientList('柠檬酸'), 'food');
+assert.equal(foodCitricMatch.results[0].match?.id, 'citric-acid');
+const cosmeticsCitricMatch = await matchIngredients(parseIngredientList('柠檬酸'), 'cosmetics');
+assert.equal(cosmeticsCitricMatch.results[0].match, null);
+assert.deepEqual(cosmeticsCitricMatch.unmatchedTerms, ['柠檬酸']);
 const embeddedNameAnalysis = analyzeIngredientText('脱氢乙酸钠', 'food');
 assert.equal(embeddedNameAnalysis.matchedCount, 0);
 assert.deepEqual(embeddedNameAnalysis.unknownItems, ['脱氢乙酸钠']);

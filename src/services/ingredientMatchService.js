@@ -9,23 +9,25 @@ const matchCache = new Map();
 export async function matchIngredients(parsedIngredients = [], category = 'food') {
   const parsed = normalizeParsedIngredients(parsedIngredients);
   const uniqueTerms = getQueryableTerms(parsed);
-  const uncachedTerms = uniqueTerms.filter((term) => !getCached(term));
+  const uncachedTerms = uniqueTerms.filter((term) => !getCached(term, category));
   const remoteResults = new Map();
 
-  try {
-    for (const batch of chunk(uncachedTerms, API_BATCH_SIZE)) {
-      const response = await fetchIngredientBatchSearch(batch);
-      for (const result of response.results || []) {
-        remoteResults.set(normalizeTerm(result.term), normalizeRemoteResult(result));
+  if (category === 'food') {
+    try {
+      for (const batch of chunk(uncachedTerms, API_BATCH_SIZE)) {
+        const response = await fetchIngredientBatchSearch(batch);
+        for (const result of response.results || []) {
+          remoteResults.set(normalizeTerm(result.term), normalizeRemoteResult(result));
+        }
       }
+    } catch {
+      // API failure is expected in local-only mode; fallback below keeps analysis usable.
     }
-  } catch {
-    // API failure is expected in local-only mode; fallback below keeps analysis usable.
   }
 
   for (const term of uncachedTerms) {
     const remote = remoteResults.get(normalizeTerm(term));
-    setCached(term, remote || findLocalMatch(term, category));
+    setCached(term, remote || findLocalMatch(term, category), category);
   }
 
   return buildMatchSummary(parsed.map((item) => {
@@ -33,7 +35,7 @@ export async function matchIngredients(parsedIngredients = [], category = 'food'
     return {
       parsedIngredient: item,
       term: item.normalizedText,
-      ...getCached(key)
+      ...getCached(key, category)
     };
   }));
 }
@@ -61,8 +63,8 @@ export function clearMatchCache() {
   matchCache.clear();
 }
 
-function getCached(term) {
-  const key = normalizeTerm(term);
+function getCached(term, category) {
+  const key = getCacheKey(term, category);
   const cached = matchCache.get(key);
   if (!cached || cached.expiry < Date.now()) {
     matchCache.delete(key);
@@ -71,11 +73,15 @@ function getCached(term) {
   return cached.result;
 }
 
-function setCached(term, result) {
-  matchCache.set(normalizeTerm(term), {
+function setCached(term, result, category) {
+  matchCache.set(getCacheKey(term, category), {
     result,
     expiry: Date.now() + CACHE_TTL_MS
   });
+}
+
+function getCacheKey(term, category) {
+  return `${category || 'food'}:${normalizeTerm(term)}`;
 }
 
 function findLocalMatch(term, category) {
