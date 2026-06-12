@@ -6,14 +6,18 @@
     <meta name="description" content="CompCheck 成分小查，成分查询与成分表分析应用" />
     <meta name="theme-color" content="#116a5b" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="CompCheck" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="成分镜" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>CompCheck 成分小查</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./app-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div class="connection-banner" data-connection-banner hidden role="status" aria-live="polite">
+      当前离线，部分功能不可用
+    </div>
     <header class="app-header">
       <a class="brand" href="#/food" data-route data-brand-link>
         <span class="brand-mark">CC</span>
@@ -47,6 +51,13 @@
       <a href="#/food/history" data-route data-mobile-nav-key="history">历史</a>
       <a href="#/food/settings" data-route data-mobile-nav-key="settings">我的</a>
     </nav>
+    <aside class="install-prompt" data-install-prompt hidden aria-label="添加到主屏幕提示">
+      <p data-install-prompt-message>添加到主屏幕，离线也能打开本机历史和收藏。</p>
+      <div class="install-prompt__actions">
+        <button type="button" data-install-prompt-action>添加</button>
+        <button type="button" class="secondary" data-install-prompt-dismiss>稍后</button>
+      </div>
+    </aside>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

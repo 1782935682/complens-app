@@ -26,6 +26,7 @@
   --color-skeleton-base: #eef2ef;
   --color-skeleton-highlight: #f8faf8;
   --shadow-raised-tab: 0 10px 24px rgba(17, 106, 91, 0.24);
+  --connection-banner-height: 0px;
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 12px;
@@ -52,12 +53,22 @@
   box-sizing: border-box;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
+  min-height: 100%;
   font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
   color: var(--text);
   background: var(--bg);
   line-height: 1.5;
+}
+
+.full-height {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 a {
@@ -70,17 +81,60 @@ input,
 textarea,
 select {
   font: inherit;
+  font-size: max(16px, 1rem);
+}
+
+.connection-banner {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) clamp(16px, 4vw, 48px) 10px;
+  color: #5c4039;
+  background: #fff7ed;
+  border-bottom: 1px solid rgba(234, 88, 12, 0.24);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  text-align: center;
+}
+
+.install-prompt {
+  position: fixed;
+  right: clamp(16px, 4vw, 32px);
+  bottom: clamp(16px, 4vw, 32px);
+  z-index: 35;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-md);
+  align-items: center;
+  width: min(520px, calc(100vw - 32px));
+  border: 1px solid rgba(17, 106, 91, 0.2);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  background: var(--surface);
+  box-shadow: 0 16px 40px rgba(23, 39, 35, 0.16);
+}
+
+.install-prompt p {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+}
+
+.install-prompt__actions {
+  display: flex;
+  gap: var(--space-sm);
 }
 
 .app-header {
   position: sticky;
-  top: 0;
+  top: var(--connection-banner-height);
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px clamp(16px, 4vw, 48px);
+  padding: calc(14px + env(safe-area-inset-top, 0px)) clamp(16px, 4vw, 48px) 14px;
   border-bottom: 1px solid rgba(220, 227, 223, 0.8);
   background: rgba(246, 247, 244, 0.94);
   backdrop-filter: blur(14px);
@@ -793,6 +847,22 @@ button.danger-button:hover {
 .skeleton-card {
   height: 80px;
   border-radius: var(--radius-card);
+}
+
+.offline-capability-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-sm);
+}
+
+.offline-capability-list span {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 10px 12px;
+  background: var(--color-surface-subtle);
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
 }
 
 .section {
@@ -3654,6 +3724,19 @@ button.danger-button:hover {
 
   .app-shell {
     padding-bottom: calc(92px + max(env(safe-area-inset-bottom, 0px), 1rem));
+  }
+
+  .install-prompt {
+    right: max(10px, env(safe-area-inset-right));
+    bottom: calc(92px + max(env(safe-area-inset-bottom, 0px), 1rem));
+    left: max(10px, env(safe-area-inset-left));
+    grid-template-columns: 1fr;
+    width: auto;
+  }
+
+  .install-prompt__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 
   .app-footer {

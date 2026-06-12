@@ -60,6 +60,25 @@ export function renderSettingsPage(category = 'food') {
     </section>
 
     <section class="section">
+      <div class="info-block" data-pwa-offline-settings>
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">PWA</p>
+            <h2>离线与安装</h2>
+          </div>
+          <span class="count">低成本验证</span>
+        </div>
+        <p class="helper-text">添加到主屏幕后，本机历史、报告、收藏和已缓存页面可离线打开；OCR、登录注册和云同步仍需要网络。</p>
+        <div class="offline-capability-list" aria-label="离线能力摘要">
+          <span>可离线：本机历史报告</span>
+          <span>可离线：收藏与本机档案</span>
+          <span>需联网：OCR 识别</span>
+          <span>需联网：账号与云同步</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="profile-settings-grid">
         <details class="settings-panel personal-settings-panel" open>
           <summary>
