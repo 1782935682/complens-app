@@ -43,7 +43,7 @@ import { clearMatchCache, matchIngredients, matchIngredientsLocal } from '../src
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
-import { validateFoodAdditives } from './validate-data.mjs';
+import { getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialStaging } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
 assert.deepEqual(resolveRoute('#/food/search?q=E330'), {
@@ -986,10 +986,10 @@ assert.match(reviewedPotassiumNitrate.adi, /does not apply to infants below 3 mo
 assert.match(reviewedPotassiumNitrate.regulatoryBasis, /as nitrate ion/);
 assert.match(reviewedPotassiumNitrate.rawSourceText, /infants below 3 months/);
 const gb2760StagingSummary = getGb2760OfficialStagingSummary();
-assert.equal(gb2760StagingSummary.totalCount, 20);
-assert.equal(gb2760StagingSummary.ingredientCount, 9);
+assert.equal(gb2760StagingSummary.totalCount, 128);
+assert.equal(gb2760StagingSummary.ingredientCount, 23);
 assert.equal(gb2760StagingSummary.statusCounts.verified, 13);
-assert.equal(gb2760StagingSummary.statusCounts.needs_review, 7);
+assert.equal(gb2760StagingSummary.statusCounts.needs_review, 115);
 assert.deepEqual(gb2760StagingSummary.sourceNames, [seedSourceName]);
 assert.equal(gb2760OfficialStagingRecords.every((record) => record.sourceType === 'official_standard'), true);
 assert.equal(gb2760OfficialStagingRecords.every((record) => /sppt\.cfsa\.net\.cn/.test(record.sourceUrl)), true);
@@ -997,6 +997,24 @@ assert.equal(gb2760OfficialStagingRecords.every((record) => record.pdfSha256 ===
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-pectin-juice' && record.reviewStatus === 'needs_review' && record.pdfPage === 45 && record.maxUseLevel === '3.0'), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-potassium-citrate-general' && record.ingredientId === 'potassium-citrate'), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sodium-carboxymethyl-cellulose-general' && record.foodCategoryName.includes('表 A.2')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-calcium-silicate-solid-beverage' && record.ingredientId === 'calcium-silicate'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-gellan-gum-general' && record.foodCategoryName.includes('各类食品')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-propylene-glycol-alginate-wet-noodles' && record.maxUseLevel === '5.0'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sodium-alginate-medical-formula-child' && record.maxUseLevel === '按生产需要适量使用'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-carrageenan-infant-formula' && record.unit === 'g/L'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-calcium-chloride-other-drinking-water' && record.note.includes('Ca 计')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-natamycin-fermented-wine' && record.unit === 'g/L'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-nisin-beverages' && record.note.includes('即饮状态')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-calcium-disodium-edta-compound-seasoning' && record.maxUseLevel === '0.075'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sodium-acetate-compound-seasoning' && record.maxUseLevel === '10.0'), true);
+assert.deepEqual(validateGb2760OfficialStaging(), []);
+const gb2760StagingQualityReport = getGb2760OfficialStagingQualityReport();
+assert.equal(gb2760StagingQualityReport.totalCount, 128);
+assert.equal(gb2760StagingQualityReport.linkedIngredientCount, 23);
+assert.equal(gb2760StagingQualityReport.unlinkedCount, 0);
+assert.equal(gb2760StagingQualityReport.pdfPageCount, 19);
+assert.match(validateGb2760OfficialStaging([{ ...gb2760OfficialStagingRecords[0], sourceName: '第三方镜像站' }]).join('\n'), /sourceName must be the official/);
+assert.match(validateGb2760OfficialStaging([{ ...gb2760OfficialStagingRecords[0], reviewStatus: 'verified', extractionStatus: 'extracted' }]).join('\n'), /verified reviewStatus requires extractionStatus/);
 const foodAuditSummary = getDatasetAuditSummary('food');
 assert.equal(foodAuditSummary.totalCount, 112);
 assert.equal(foodAuditSummary.categoryCount, 16);
