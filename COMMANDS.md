@@ -6,7 +6,7 @@
 
 - Node.js >= 20.19
 - 当前前端使用 Vite，首次拉取后需要执行 `npm install` 安装开发依赖并校验 lockfile。
-- 当前阶段优先级为数据源准确性、数据完整度和数据库真实对接；订阅、支付、OCR、AI、上架、iOS/Android 签名暂停推进。
+- 当前阶段优先级为数据源准确性、数据完整度、数据库真实对接和 OCR 拍照识别主路径；订阅、支付、AI、上架、iOS/Android 签名后置。
 
 ## 环境变量
 
@@ -16,9 +16,13 @@
 
 食品搜索和详情默认请求同源 `/api`；如需指向独立后端，可在浏览器本地设置 `compcheck:api-base-url`。后端不可用时，前端食品搜索/详情会降级到本地 `src/data/foodAdditives.js` seed，并展示错误提示和未验证状态。
 
+OCR 真实供应商调用仍未接入。后端 `OCR_API_KEY` 未配置时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
+
 ## 本地存储调试 Key
 
 `compcheck:api-base-url` 仅用于本地或测试环境覆盖后端 API 地址，例如把前端指向独立运行的后端服务。该 key 不保存用户数据、不参与过敏原/收藏/历史/报告同步，也不得复用为业务数据存储 key。清空该 key 后，前端会回到默认同源 `/api`。
+
+扫描图片和大 blob 存入 IndexedDB（`compcheck-images` / `scan-images`），localStorage 只保存 pending 图片 id、元数据、确认文本和用户设置。禁止把图片 base64 写入 localStorage。
 
 ## 安装依赖
 
@@ -143,6 +147,23 @@ curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"
 curl -i "http://127.0.0.1:3000/api/ingredients/not-exist"
 ```
 
+批量成分匹配 API 验收：
+
+```bash
+curl -X POST "http://127.0.0.1:3000/api/ingredients/batch-search" \
+  -H "Content-Type: application/json" \
+  -d '{"terms":["E211","柠檬酸","未知配料"]}'
+```
+
+OCR 代理占位验收（需要先登录取得 JWT；无 `OCR_API_KEY` 时预期返回 503）：
+
+```bash
+curl -i -X POST "http://127.0.0.1:3000/api/ocr" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <jwt>" \
+  -d '{"imageBase64":"AA==","mimeType":"image/jpeg","category":"food"}'
+```
+
 Docker 本地栈：
 
 ```bash
@@ -231,6 +252,9 @@ npm run test
 - 成分中文、英文、别名、拼音、首字母和常见误写搜索
 - 食品添加剂 E-number / INS 编码搜索
 - 成分表文本拆分与匹配
+- OCR 拍照入口、确认页、manual/fallback 降级和响应格式校验
+- 图片预处理与 IndexedDB 图片存储 fallback
+- 数据库批量成分匹配和低置信/未匹配保留
 - 真实包装成分表前缀、复配括号、剂量后缀解析和分析置信度
 - 食品添加剂成分表匹配和重点关注项输出
 - 未知成分输出

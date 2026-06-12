@@ -3,17 +3,22 @@ import { categoryPath, getProductCategory, isProductCategory } from '../data/cat
 import { AI_ANALYSIS_ENDPOINT_PATH, AI_ANALYSIS_PROTOCOL_VERSION, buildAIAnalysisFallback, buildAIAnalysisRequest } from '../services/aiAnalysisService.js';
 import { formatAllergenNames, getMatchingTextAllergens, getMatchingUserAllergens } from '../services/allergenService.js';
 import { analyzeIngredientText } from '../services/ingredientService.js';
+import { matchIngredientsLocal } from '../services/ingredientMatchService.js';
 import { getAnalysisReports, getUserAllergens } from '../store/userStore.js';
-import { SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
+import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
 
 /**
  * @param {string} input Raw ingredient-list text from the route query or form.
  * @param {import('../types/ingredient.js').DataCategory} category Active product category.
+ * @param {string} productName Optional product name carried from OCR confirmation.
  */
-export function renderAnalyzePage(input = '', category = 'cosmetics') {
+export function renderAnalyzePage(input = '', category = 'cosmetics', productName = '') {
   const categoryId = isProductCategory(category) ? category : 'food';
   const currentCategory = getProductCategory(categoryId);
+  const normalizedProductName = String(productName || '').trim();
   const result = analyzeIngredientText(input, categoryId);
+  const parsedIngredients = parseIngredientList(input);
+  const matchSummary = matchIngredientsLocal(parsedIngredients, categoryId);
   const resultIngredients = result.ingredients
     .filter(hasDisplayId)
     .map((ingredient) => withDisplayDefaults(ingredient, categoryId));
@@ -57,6 +62,7 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
         <div>
           <p class="eyebrow">${currentCategory.label} / 文本识别版</p>
           <h1>成分表分析</h1>
+          ${normalizedProductName ? html`<p class="helper-text">产品名称：${escapeHtml(normalizedProductName)}</p>` : ''}
           ${allergenStatusHtml}
         </div>
       </div>
@@ -96,6 +102,8 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
     </section>
 
     ${renderAnalysisQuality(result)}
+
+    ${renderDatabaseMatchSummary(matchSummary)}
 
     ${aiFallback ? renderAIFallbackPreview(aiFallback, aiRequest) : ''}
 
@@ -149,6 +157,66 @@ export function renderAnalyzePage(input = '', category = 'cosmetics') {
 
     ${renderDisclaimer()}
   `;
+}
+
+export function renderDatabaseMatchSummary(summary) {
+  const results = Array.isArray(summary?.results) ? summary.results : [];
+  if (!results.length) return '';
+  const matchedCount = results.filter((item) => item.match && item.confidence > 0).length;
+  const lowConfidenceCount = summary.lowConfidenceTerms.length;
+  const unmatchedCount = summary.unmatchedTerms.length;
+
+  return html`
+    <section class="section">
+      <div class="match-summary-panel" data-ingredient-match-summary>
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">数据库批量匹配</p>
+            <h2>匹配覆盖 ${Math.round(summary.matchRate * 100)}%</h2>
+            <p class="helper-text">配料分析先经过食品添加剂数据库匹配；低置信度和未收录项会保留给用户确认。</p>
+          </div>
+        </div>
+        <div class="analysis-quality__metrics">
+          ${qualityMetric('已匹配', matchedCount)}
+          ${qualityMetric('待确认', lowConfidenceCount)}
+          ${qualityMetric('未收录', unmatchedCount)}
+        </div>
+        <div class="analysis-match-list">
+          ${results.map(databaseMatchItem).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function databaseMatchItem(item) {
+  const match = item.match;
+  const status = getMatchStatus(item.confidence);
+  return html`
+    <article class="analysis-match-item analysis-match-item--${match ? 'matched' : 'unknown'}">
+      <span class="analysis-match-item__status">${escapeHtml(status)}</span>
+      <h3>${escapeHtml(item.parsedIngredient.normalizedText)}</h3>
+      <p>${match
+        ? escapeHtml(`${match.nameCn} / ${match.category || '未分类'} / ${matchTypeLabel(item.matchType)}${item.confidence < 0.9 ? '，请确认' : ''}`)
+        : '数据库暂未收录此配料，已保留原文。'}</p>
+      ${match && match.confidenceLevel === 'unverified' ? '<span class="data-badge data-badge--unverified">unverified / isVerified false</span>' : ''}
+    </article>
+  `;
+}
+
+function getMatchStatus(confidence) {
+  if (confidence >= 0.9) return '确定匹配';
+  if (confidence >= 0.6) return '请确认';
+  if (confidence > 0) return '候选匹配';
+  return '未收录';
+}
+
+function matchTypeLabel(type) {
+  if (type === 'eNumber') return 'E-number 直查';
+  if (type === 'exact') return '精确匹配';
+  if (type === 'alias') return '别名匹配';
+  if (type === 'fuzzy') return '模糊匹配';
+  return '无匹配';
 }
 
 function renderAnalysisQuality(result) {

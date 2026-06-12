@@ -1,12 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import { escapeLikePattern, type IngredientService } from '../src/services/ingredientService.js';
+import { createIngredientService as createRealIngredientService, escapeLikePattern, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
     corsOrigin: 'http://localhost:5173',
     databaseUrl: 'postgres://postgres:password@localhost:15432/compcheck',
     jwtSecret: 'test-only-compcheck-jwt-secret',
+    ocrApiKey: '',
+    ocrProvider: 'aliyun',
     port: 3000
   }, {
     ingredientService: service
@@ -106,8 +108,31 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
         }
       : null)),
     getCategorySummaries: vi.fn(async () => [{ name: '防腐剂', count: 12 }]),
+    batchSearch: vi.fn(async (params: BatchSearchParams): Promise<BatchSearchResult[]> => params.terms.map((term: string) => {
+      const matched = term.toUpperCase() === 'E211';
+      return {
+        term,
+        eNumber: matched ? 'E211' : null,
+        match: matched ? { id: 'sodium-benzoate' } as never : null,
+        confidence: matched ? 0.99 : 0,
+        matchType: matched ? 'eNumber' : 'none',
+        alternates: []
+      };
+    })),
     ...overrides
   };
+}
+
+function createBatchSearchDb(rows: unknown[]) {
+  return {
+    select: () => ({
+      from: () => ({
+        where: () => ({
+          limit: async () => rows
+        })
+      })
+    })
+  } as never;
 }
 
 describe('GET /api/ingredients', () => {
@@ -183,6 +208,46 @@ describe('GET /api/ingredients/categories', () => {
   });
 });
 
+describe('POST /api/ingredients/batch-search', () => {
+  it('returns batch match results', async () => {
+    const service = createIngredientService();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/ingredients/batch-search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ terms: ['E211', 'XYZ-UNKNOWN'], includeENumbers: true })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.results[0].match.id).toBe('sodium-benzoate');
+    expect(body.results[0].matchType).toBe('eNumber');
+    expect(body.results[1].match).toBe(null);
+    expect(service.batchSearch).toHaveBeenCalledWith({
+      terms: ['E211', 'XYZ-UNKNOWN'],
+      includeENumbers: true
+    });
+  });
+
+  it('rejects invalid batch request bodies', async () => {
+    const app = createTestApp(createIngredientService());
+
+    const response = await app.request('/api/ingredients/batch-search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ terms: 'E211' })
+    });
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'terms',
+      message: 'terms must be an array'
+    });
+  });
+});
+
 describe('GET /api/ingredients/:id', () => {
   it('returns a single ingredient or JSON 404', async () => {
     const app = createTestApp(createIngredientService());
@@ -200,5 +265,26 @@ describe('GET /api/ingredients/:id', () => {
 describe('ingredient search helpers', () => {
   it('escapes SQL LIKE wildcards in user search terms', () => {
     expect(escapeLikePattern('%_\\E211')).toBe('\\%\\_\\\\E211');
+  });
+
+  it('requires at least two characters before server-side fuzzy prefix matches', async () => {
+    const service = createRealIngredientService(createBatchSearchDb([{
+      id: 'citric-acid',
+      nameCn: '柠檬酸',
+      nameEn: 'Citric acid',
+      aliases: [],
+      gbCode: '',
+      eNumber: ''
+    }]));
+
+    const [short, prefix, unrelated] = await service.batchSearch({ terms: ['柠', '柠檬', '葡萄'], includeENumbers: false });
+
+    expect(short.match).toBe(null);
+    expect(short.confidence).toBe(0);
+    expect(short.matchType).toBe('none');
+    expect(prefix.match?.id).toBe('citric-acid');
+    expect(prefix.matchType).toBe('fuzzy');
+    expect(unrelated.match).toBe(null);
+    expect(unrelated.matchType).toBe('none');
   });
 });

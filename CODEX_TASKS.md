@@ -150,6 +150,12 @@
 
 | 批次 | 名称 | 完成日期 |
 |---|---|---|
+| Batch P-B | 数据库批量成分匹配 | ✅ 2026-06-12 |
+| Batch P-A | 配料表文本解析增强 | ✅ 2026-06-12 |
+| Batch O-C | 识别文本确认与修正页 | ✅ 2026-06-12 |
+| Batch O-B | OCR 服务抽象层与模式切换 | ✅ 2026-06-12 |
+| Batch O-D | 图片预处理服务（EXIF 修正 + 压缩 + IndexedDB） | ✅ 2026-06-12 |
+| Batch O-A | 拍照/上传入口与产品质量体验 | ✅ 2026-06-12 |
 | Data Batch 1-A | 来源字段、数据库 API 和前端降级闭环 | ✅ 2026-06-12 |
 | Batch 0-A | 修复测试失败（阿斯巴甜/三氯蔗糖风险等级） | ✅ 2026-06-11 |
 | Batch 1-A | 食品数据扩充确认（100 条 seed） | ✅ 2026-06-11 |
@@ -171,7 +177,7 @@
 
 ### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
 
-**状态**：⏳ 未开始
+**状态**：⏸ blocked_by_user（等待人工确认官方来源清单和逐条审核样例）
 
 **目标**：将现有 100 条 seed 样本与官方来源对齐，建立可追溯的数据导入流程。
 
@@ -206,6 +212,8 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 ```
 
 **阻塞条件**：人工完成来源清单确认。  **是否需要人工**：是，人工先行。
+
+**2026-06-12 自动化处理记录**：已识别为人工前置任务；未新增或伪造任何官方来源数据，跳过 Codex 部分并继续执行后续不依赖该人工项的 OCR/解析/匹配任务。
 
 ---
 
@@ -293,7 +301,7 @@ cd backend && npm run db:migrate && npm run db:seed && npm test
 
 ### Batch O-A：拍照/上传入口与产品质量体验 `[Codex]`
 
-**状态**：⏳ 未开始
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：把扫描页从"占位壳子"升级为真正可用的产品拍照入口，覆盖相机、相册、权限异常、图片预览、质量引导全链路。
 
@@ -420,7 +428,7 @@ npm run lint && npm run test && npm run build
 
 ### Batch O-D：图片预处理服务（EXIF修正 + 压缩 + IndexedDB） `[Codex]`
 
-**状态**：⏳ 未开始（依赖 O-A 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：在 OCR 之前对图片进行客户端预处理，修正手机拍照方向、压缩体积、存储到 IndexedDB，提升 OCR 识别质量，同时不占满 localStorage。
 
@@ -572,7 +580,7 @@ npm run lint && npm run test && npm run build
 
 ### Batch O-B：OCR 服务抽象层与模式切换 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 O-D 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：重构现有 `ocrService.js`，建立三模式（real/manual/fallback）抽象，处理超时/重试/错误分类，未配置 Key 时不崩溃。
 
@@ -717,7 +725,7 @@ cd backend && npm run typecheck && npm test
 
 ### Batch O-C：识别文本确认与修正页 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 O-B 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：OCR 完成后进入专属确认页，用户可编辑文本、填写产品名、确认后进入解析流程。这是 OCR 到分析之间的关键中间页，不能省略。
 
@@ -842,7 +850,7 @@ npm run lint && npm run test && npm run build
 
 ### Batch P-A：配料表文本解析增强 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 O-C 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：在现有 `splitIngredientInput` 基础上大幅增强，覆盖 OCR 噪声、E-number 识别、配料顺序保留、去重，输出结构化 `ParsedIngredient[]`。
 
@@ -1012,7 +1020,7 @@ npm run lint && npm run test && npm run build
 
 ### Batch P-B：数据库批量成分匹配 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 P-A 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：将解析后的 `ParsedIngredient[]` 与数据库进行高效批量匹配，支持 E-number 直查、别名匹配、模糊匹配，有客户端缓存，低置信度需用户确认。
 
@@ -2135,12 +2143,13 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 
 ```
 → 无阻塞，Codex 可立即执行（按顺序）：
-  Batch O-A → O-D → O-B → O-C → P-A → P-B → R-A
-  → F-A → F-B → Q-A → U-A → M-A → M-B → A-A（等 Key）
+  Batch R-A → F-A → F-B → Q-A → U-A → M-A → M-B
+  → A-A（等 AI Key，只能做解释层）
 
 → 当前需要人工并行处理：
-  Data Batch 1-B：官方来源清单确认（不阻塞 OCR 流程）
+  Data Batch 1-B：官方来源清单确认和 10-20 条逐条审核样例（不阻塞 OCR 流程）
   Batch D-A：生产数据库选型（不阻塞 OCR 流程）
+  OCR API Key：解锁真实 OCR 供应商调用（不阻塞 manual/fallback 闭环）
 ```
 
 ---
@@ -2152,9 +2161,10 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 
 【数据主线】Data 1-B[人工+Codex] → Data 1-C → D-A[人工] → D-B[人工+Codex]
 
-【OCR 产品闭环（Codex 主线，立即开始）】
-O-A（拍照入口）→ O-D（图片预处理）→ O-B（OCR 抽象）→ O-C（文本确认）
-→ P-A（配料解析）→ P-B（数据库匹配）→ R-A（分析报告）
+【OCR 产品闭环（Codex 主线）】
+【已完成】O-A（拍照入口）→ O-D（图片预处理）→ O-B（OCR 抽象）→ O-C（文本确认）
+→ P-A（配料解析）→ P-B（数据库匹配）
+【下一步】R-A（分析报告）
 → F-A（产品档案）→ F-B（历史收藏）→ Q-A（登录 UI）→ U-A（个性化）
 → M-A（首页重构）→ M-B（PWA 优化）
 → A-A[人工+Codex，需 AI Key]

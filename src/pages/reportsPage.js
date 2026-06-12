@@ -82,13 +82,14 @@ export function renderReportDetailPage(id, category = 'food') {
         <button type="button" class="secondary" data-delete-report="${escapeHtml(report.id)}">删除报告</button>
       </div>
       <div class="report-metrics" aria-label="报告指标">
+        ${report.productName ? metricItem('产品名称', report.productName) : ''}
         ${metricItem('已匹配', `${report.matchedCount} 项`)}
         ${metricItem('重点关注', `${report.highlightIngredientIds.length} 项`)}
         ${metricItem('暂未收录', `${report.unknownItems.length + missingIds.length} 项`)}
         ${metricItem('过敏原命中', `${allergenHitCount} 项`)}
       </div>
       <div class="form-actions report-toolbar">
-        <a class="button-link" href="#${categoryPath(report.category, '/analyze')}?text=${encodeURIComponent(report.input)}" data-route>重新分析</a>
+        <a class="button-link" href="${buildReportAnalyzeHref(report)}" data-route>重新分析</a>
         <a class="button-link secondary-link" href="#${categoryPath(report.category, '/reports')}" data-route>返回报告列表</a>
         <button type="button" class="secondary" data-share-report="${escapeHtml(report.id)}">分享报告</button>
       </div>
@@ -189,7 +190,7 @@ function reportCard(report) {
         </div>
       </a>
       <div class="report-card__actions">
-        <a class="secondary-link button-link" href="#${categoryPath(report.category, '/analyze')}?text=${encodeURIComponent(report.input)}" data-route>重新分析</a>
+        <a class="secondary-link button-link" href="${buildReportAnalyzeHref(report)}" data-route>重新分析</a>
         <button type="button" class="secondary" data-delete-report="${escapeHtml(report.id)}">删除</button>
       </div>
     </article>
@@ -222,6 +223,7 @@ function buildReportSearchText(report, category) {
 
   return [
     report.title,
+    report.productName,
     report.summary,
     report.input,
     ...unknownItems,
@@ -246,6 +248,13 @@ function buildReportSearchText(report, category) {
       formatAllergenNames(getAllergensByIds(ingredient.allergenTypes || []))
     ])
   ].filter(Boolean).join(' ');
+}
+
+function buildReportAnalyzeHref(report) {
+  const params = new URLSearchParams();
+  params.set('text', String(report.input || ''));
+  if (report.productName) params.set('productName', report.productName);
+  return `#${categoryPath(report.category, '/analyze')}?${params.toString()}`;
 }
 
 function resolveIngredients(ids, category) {

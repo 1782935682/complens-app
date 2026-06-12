@@ -10,6 +10,7 @@ import { getLegalDocument } from '../data/legalContent.js';
 import { renderMembershipPage } from '../pages/membershipPage.js';
 import { renderNotFoundPage } from '../pages/notFoundPage.js';
 import { renderOnboardingPage } from '../pages/onboardingPage.js';
+import { renderOcrConfirmPage } from '../pages/ocrConfirmPage.js';
 import { renderReportDetailPage, renderReportsPage } from '../pages/reportsPage.js';
 import { renderScanPage } from '../pages/scanPage.js';
 import { renderSearchPage } from '../pages/searchPage.js';
@@ -28,6 +29,7 @@ const VIEW_TITLES = {
   home: '',
   legal: '隐私与条款',
   membership: '会员中心',
+  'ocr-confirm': '确认配料表',
   onboarding: '首次设置',
   reports: '分析报告',
   'report-detail': '报告详情',
@@ -107,7 +109,8 @@ export function resolveRoute(hash) {
     return {
       view: 'analyze',
       category: route.category,
-      input: params.get('text') || ''
+      input: params.get('text') || '',
+      productName: params.get('productName') || ''
     };
   }
 
@@ -116,6 +119,13 @@ export function resolveRoute(hash) {
       view: 'scan',
       category: route.category,
       input: params.get('text') || ''
+    };
+  }
+
+  if (route.path === '/ocr-confirm') {
+    return {
+      view: 'ocr-confirm',
+      category: route.category
     };
   }
 
@@ -206,12 +216,13 @@ export function renderRoute(route, asyncState = null) {
   if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort, asyncState);
   if (route.view === 'compare') return renderComparePage(route.category);
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
+  if (route.view === 'ocr-confirm') return renderOcrConfirmPage(route.category);
   if (route.view === 'data') return renderDataPage(route.category);
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
   if (route.view === 'legal') return renderLegalPage(route.category, route.documentId);
   if (route.view === 'membership') return renderMembershipPage(route.category);
   if (route.view === 'support') return renderSupportPage(route.category, route.prefill);
-  if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category);
+  if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category, route.productName);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
   if (route.view === 'favorites') return renderFavoritesPage(route.category);

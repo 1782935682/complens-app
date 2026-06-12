@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'compcheck-shell-v17';
+const CACHE_VERSION = 'compcheck-shell-v18';
 const CACHE_PREFIX = 'compcheck-';
 
 const APP_SHELL_ASSETS = [
