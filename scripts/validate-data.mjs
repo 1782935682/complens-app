@@ -1,11 +1,13 @@
 import { fileURLToPath } from 'node:url';
-import { foodAdditives } from '../src/data/foodAdditives.js';
+import { foodIngredients } from '../src/data/foodAdditives.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 
 const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);
 const reviewStatuses = new Set(['draft', 'reviewed', 'verified']);
+const dataStatuses = new Set(['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr']);
 const sourceTypes = new Set(['official_standard', 'regulation', 'public_database', 'manual_verified', 'unknown']);
+const sourceScopes = new Set(['gb_2760_regulation', 'jecfa_safety_evaluation', 'candidate_mapping', 'common_ingredient_lexicon', 'ocr_unmatched', 'seed_reference', 'unknown']);
 const confidenceLevels = new Set(['high', 'medium', 'low', 'unverified']);
 const consumerGroups = new Set(['pregnant', 'infant', 'child', 'diabetic', 'renal', 'sensitive']);
 const allergenTypes = new Set(standardAllergenTypes);
@@ -21,15 +23,17 @@ const absoluteMedicalClaims = [
 ];
 const requiredSourceFields = [
   'sourceName',
+  'sourceScope',
   'sourceVersion',
   'sourceUrl',
   'effectiveDate',
   'lastReviewedAt',
+  'reviewNote',
   'regulatoryBasis',
   'rawSourceText'
 ];
 
-export function validateFoodAdditives(items = foodAdditives) {
+export function validateFoodAdditives(items = foodIngredients) {
   const errors = [];
   const ids = new Set();
   const namePairs = new Set();
@@ -50,6 +54,7 @@ export function validateFoodAdditives(items = foodAdditives) {
     requireString(item, 'dataVersion', label, errors);
     requireIsoDate(item, 'updatedAt', label, errors);
     requireString(item, 'sourceName', label, errors);
+    requireString(item, 'reviewNote', label, errors);
     requireString(item, 'sourceVersion', label, errors);
     requireString(item, 'sourceUrl', label, errors);
     requireString(item, 'effectiveDate', label, errors);
@@ -66,8 +71,8 @@ export function validateFoodAdditives(items = foodAdditives) {
     requireArray(item, 'cautionGroups', label, errors);
     requireArray(item, 'sourceReferences', label, errors);
 
-    if (item?.kind !== 'food-additive') {
-      errors.push(`${label}.kind must be "food-additive"`);
+    if (!['food-additive', 'common-food-ingredient'].includes(item?.kind)) {
+      errors.push(`${label}.kind must be "food-additive" or "common-food-ingredient"`);
     }
 
     if (item?.dataCategory !== 'food') {
@@ -97,16 +102,44 @@ export function validateFoodAdditives(items = foodAdditives) {
       errors.push(`${label}.reviewStatus must be one of ${formatAllowed(reviewStatuses)}`);
     }
 
+    if (!dataStatuses.has(item?.dataStatus)) {
+      errors.push(`${label}.dataStatus must be one of ${formatAllowed(dataStatuses)}`);
+    }
+
     if (!sourceTypes.has(item?.sourceType)) {
       errors.push(`${label}.sourceType must be one of ${formatAllowed(sourceTypes)}`);
+    }
+
+    if (!sourceScopes.has(item?.sourceScope)) {
+      errors.push(`${label}.sourceScope must be one of ${formatAllowed(sourceScopes)}`);
     }
 
     if (!confidenceLevels.has(item?.confidenceLevel)) {
       errors.push(`${label}.confidenceLevel must be one of ${formatAllowed(confidenceLevels)}`);
     }
 
+    if (!confidenceLevels.has(item?.matchConfidence)) {
+      errors.push(`${label}.matchConfidence must be one of ${formatAllowed(confidenceLevels)}`);
+    }
+
     if (typeof item?.isVerified !== 'boolean') {
       errors.push(`${label}.isVerified must be a boolean`);
+    }
+
+    if (item?.dataStatus === 'verified_jecfa' && item?.sourceScope !== 'jecfa_safety_evaluation') {
+      errors.push(`${label}.verified_jecfa data must use sourceScope "jecfa_safety_evaluation"`);
+    }
+
+    if (item?.dataStatus === 'verified_jecfa' && item?.isVerified === true) {
+      errors.push(`${label}.verified_jecfa data must not set isVerified true until GB 2760 regulation limits are verified`);
+    }
+
+    if (item?.dataStatus === 'verified_regulation' && item?.sourceScope !== 'gb_2760_regulation') {
+      errors.push(`${label}.verified_regulation data must use sourceScope "gb_2760_regulation"`);
+    }
+
+    if (item?.dataStatus === 'common_ingredient' && item?.kind !== 'common-food-ingredient') {
+      errors.push(`${label}.common_ingredient data must use kind "common-food-ingredient"`);
     }
 
     if (item?.isVerified && !(hasText(item.sourceName) && hasText(item.sourceVersion) && hasText(item.sourceUrl) || hasText(item.regulatoryBasis))) {
@@ -124,23 +157,25 @@ export function validateFoodAdditives(items = foodAdditives) {
   return errors;
 }
 
-export function getFoodAdditiveQualityReport(items = foodAdditives) {
+export function getFoodAdditiveQualityReport(items = foodIngredients) {
   const safeItems = Array.isArray(items) ? items : [];
   const reviewStatusCounts = countBy(safeItems, (item) => item?.reviewStatus || 'missing');
+  const dataStatusCounts = countBy(safeItems, (item) => item?.dataStatus || 'missing');
   const confidenceCounts = countBy(safeItems, (item) => item?.confidenceLevel || 'missing');
   const sourceVersionCounts = countBy(safeItems, (item) => item?.sourceVersion || 'missing');
   const missingSourceFieldCount = safeItems.reduce((count, item) => (
     count + requiredSourceFields.filter((field) => !hasText(item?.[field])).length
   ), 0);
-  const missingUsageLimitsCount = safeItems.filter((item) => !Array.isArray(item?.usageLimits) || item.usageLimits.length === 0).length;
+  const missingUsageLimitsCount = safeItems.filter((item) => item?.kind === 'food-additive' && (!Array.isArray(item?.usageLimits) || item.usageLimits.length === 0)).length;
   const reviewQueue = safeItems
-    .filter((item) => item?.reviewStatus === 'draft' || item?.confidenceLevel === 'unverified' || item?.isVerified !== true)
+    .filter((item) => item?.dataStatus === 'unverified' || item?.dataStatus === 'mapped_candidate' || item?.sourceScope === 'seed_reference')
     .map((item) => item.id)
     .filter(Boolean);
 
   return {
     totalCount: safeItems.length,
     reviewStatusCounts,
+    dataStatusCounts,
     confidenceCounts,
     reviewedCount: reviewStatusCounts.reviewed || 0,
     verifiedCount: reviewStatusCounts.verified || 0,
@@ -253,8 +288,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     for (const error of errors) console.error(`- ${error}`);
     process.exit(1);
   }
-  console.log(`Data validation passed: ${foodAdditives.length} food additive records checked.`);
-  console.log(`Data quality report: reviewed=${report.reviewedCount}, verified=${report.verifiedCount}, unverified=${report.unverifiedCount}, missingSourceFields=${report.missingSourceFieldCount}, missingUsageLimits=${report.missingUsageLimitsCount}.`);
+  console.log(`Data validation passed: ${foodIngredients.length} food records checked.`);
+  console.log(`Data quality report: reviewed=${report.reviewedCount}, verified=${report.verifiedCount}, dataStatus=${formatCounts(report.dataStatusCounts)}, confidenceUnverified=${report.unverifiedCount}, missingSourceFields=${report.missingSourceFieldCount}, missingUsageLimits=${report.missingUsageLimitsCount}.`);
   console.log(`Data source versions: ${formatCounts(report.sourceVersionCounts)}.`);
   console.log(`Review queue sample: ${report.reviewQueue.slice(0, 10).join(', ') || 'none'}.`);
 }

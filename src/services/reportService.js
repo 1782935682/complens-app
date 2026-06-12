@@ -4,7 +4,7 @@ import { analyzeIngredientText, getIngredientById } from './ingredientService.js
 import { matchIngredientsLocal } from './ingredientMatchService.js';
 import { parseIngredientList } from '../utils/text.js';
 
-export const REPORT_SCHEMA_VERSION = 3;
+export const REPORT_SCHEMA_VERSION = 4;
 export const REPORT_RISK_GRADES = ['A', 'B', 'C', 'D', 'F'];
 
 const defaultCategory = 'food';
@@ -19,6 +19,7 @@ export function buildIngredientReport(input, category = defaultCategory, options
   const providedProductName = truncateText(options.productName, 50);
   const productName = providedProductName || defaultProductName;
   const parsedIngredients = parseIngredientList(originalText);
+  const reportSource = normalizeReportSource(options.source);
   const matchSummary = normalizeMatchSummary(matchIngredientsLocal(parsedIngredients, reportCategory));
   const matchResults = matchSummary.results;
   const analysis = analyzeIngredientText(originalText, reportCategory);
@@ -41,6 +42,9 @@ export function buildIngredientReport(input, category = defaultCategory, options
     high: riskSummary.highRisk,
     unknown: riskSummary.unmatched
   };
+  const pendingCount = countPendingMatches(matchResults);
+  const dataStatusCounts = buildDataStatusCounts(matchResults, unmatchedTerms, reportSource);
+  const unknownItemRecords = buildUnknownItemRecords(unmatchedTerms, reportSource);
 
   const report = {
     id: createReportId(),
@@ -51,7 +55,7 @@ export function buildIngredientReport(input, category = defaultCategory, options
     title: providedProductName || buildReportTitle(originalText),
     input: originalText,
     originalText,
-    source: normalizeReportSource(options.source),
+    source: reportSource,
     createdAt: new Date().toISOString(),
     parsedIngredients,
     matchResults,
@@ -61,10 +65,13 @@ export function buildIngredientReport(input, category = defaultCategory, options
     lowConfidenceTerms,
     matchRate: clampRate(matchSummary.matchRate),
     matchedCount: matchedIngredientIds.length,
+    pendingCount,
     summary: buildReportSummary(riskGrade, riskSummary, analysis.summary),
     matchedIngredientIds,
     highlightIngredientIds,
     unknownItems: unmatchedTerms,
+    unknownItemRecords,
+    dataStatusCounts,
     riskCounts,
     userAllergenIds,
     ingredientAllergenHits,
@@ -97,6 +104,7 @@ export function normalizeIngredientReport(value) {
     ? normalizeStringList(value.unmatchedTerms)
     : normalizeStringList(value.unknownItems || riskSummary.unmatchedTerms);
   const lowConfidenceTerms = normalizeStringList(value.lowConfidenceTerms);
+  const reportSource = normalizeReportSource(value.source);
   const matchedIngredientIds = normalizeStringList(value.matchedIngredientIds).length
     ? normalizeStringList(value.matchedIngredientIds)
     : uniqueStrings(matchResults.filter((result) => result.match && result.confidence > 0).map((result) => result.match.id));
@@ -114,7 +122,7 @@ export function normalizeIngredientReport(value) {
     title: typeof value.title === 'string' && value.title.trim() ? value.title : providedProductName || buildReportTitle(originalText),
     input: originalText,
     originalText,
-    source: normalizeReportSource(value.source),
+    source: reportSource,
     createdAt: normalizeIsoDate(value.createdAt),
     parsedIngredients,
     matchResults,
@@ -124,10 +132,13 @@ export function normalizeIngredientReport(value) {
     lowConfidenceTerms,
     matchRate: Number.isFinite(value.matchRate) ? clampRate(value.matchRate) : calculateMatchRate(matchResults),
     matchedCount: Number.isFinite(value.matchedCount) ? value.matchedCount : matchedIngredientIds.length,
+    pendingCount: Number.isFinite(value.pendingCount) ? value.pendingCount : countPendingMatches(matchResults),
     summary: typeof value.summary === 'string' && value.summary.trim() ? value.summary : buildReportSummary(riskGrade, riskSummary),
     matchedIngredientIds,
     highlightIngredientIds,
     unknownItems: normalizeStringList(value.unknownItems).length ? normalizeStringList(value.unknownItems) : unmatchedTerms,
+    unknownItemRecords: normalizeUnknownItemRecords(value.unknownItemRecords, unmatchedTerms, reportSource),
+    dataStatusCounts: normalizeDataStatusCounts(value.dataStatusCounts, matchResults, unmatchedTerms, reportSource),
     riskCounts: normalizeRiskCounts(value.riskCounts, riskSummary),
     userAllergenIds: normalizeStringList(value.userAllergenIds),
     ingredientAllergenHits: normalizeIngredientAllergenHits(value.ingredientAllergenHits),
@@ -176,7 +187,7 @@ export function buildRiskSummary(matchResults = []) {
     else if (match.riskLevel === 'medium') summary.mediumRisk += 1;
     else summary.lowRisk += 1;
 
-    if (match.confidenceLevel === 'unverified' || match.isVerified === false || match.reviewStatus === 'draft') {
+    if (['mapped_candidate', 'unverified'].includes(getResultDataStatus(result, 'manual'))) {
       summary.unverifiedData += 1;
     }
 
@@ -301,7 +312,7 @@ export function buildReportInsights(report) {
       items: [
         `低关注 ${riskSummary.lowRisk} 项`,
         `暂未收录 ${riskSummary.unmatched} 项`,
-        `待审核数据 ${riskSummary.unverifiedData} 项`
+        `待确认数据 ${Number(report.pendingCount) || riskSummary.unverifiedData} 项`
       ]
     },
     {
@@ -315,7 +326,7 @@ export function buildReportInsights(report) {
       key: 'coverage',
       title: '数据边界',
       tone: riskSummary.unmatched || riskSummary.unverifiedData ? 'watch' : 'neutral',
-      summary: `匹配率 ${Math.round((report.matchRate || 0) * 100)}%，${categoryLabel}数据仍处于草稿审核阶段。`,
+      summary: `匹配率 ${Math.round((report.matchRate || 0) * 100)}%，当前按 verified_regulation / verified_jecfa / common_ingredient / unverified 分层展示。`,
       items: riskSummary.unmatched
         ? ['暂未收录项可能是普通原料、复合配料、OCR 误识别文本或数据库尚未覆盖内容。']
         : ['当前输入项均有数据库匹配，但仍需按来源和审核状态理解。']
@@ -423,6 +434,7 @@ function normalizeReportMatchResult(value) {
     match: normalizeIngredientMatch(value.match),
     confidence: clampRate(value.confidence),
     matchType: String(value.matchType || 'none').trim() || 'none',
+    dataStatus: value?.dataStatus ? normalizeDataStatus(value.dataStatus) : undefined,
     alternates: Array.isArray(value.alternates) ? value.alternates.map(normalizeIngredientMatch).filter(Boolean).slice(0, 2) : []
   };
 }
@@ -442,9 +454,17 @@ function normalizeIngredientMatch(value) {
     gbCode: String(value.gbCode || '').trim(),
     eNumber: value.eNumber ? String(value.eNumber).trim() : null,
     confidenceLevel: value.confidenceLevel || 'unverified',
+    matchConfidence: value.matchConfidence || 'unverified',
+    dataStatus: normalizeDataStatus(value.dataStatus),
+    sourceScope: String(value.sourceScope || 'unknown').trim(),
     isVerified: value.isVerified === true,
     sourceName: String(value.sourceName || '').trim(),
+    sourceVersion: String(value.sourceVersion || '').trim(),
+    sourceUrl: String(value.sourceUrl || '').trim(),
+    regulatoryBasis: String(value.regulatoryBasis || '').trim(),
+    rawSourceText: String(value.rawSourceText || '').trim(),
     reviewStatus: ['draft', 'reviewed', 'verified'].includes(value.reviewStatus) ? value.reviewStatus : 'draft',
+    reviewNote: String(value.reviewNote || '').trim(),
     allergenTypes: normalizeStringList(value.allergenTypes),
     cautionGroups: normalizeStringList(value.cautionGroups)
   };
@@ -473,6 +493,89 @@ function normalizeRiskCounts(value, riskSummary) {
     high: numberOrFallback(value?.high, riskSummary.highRisk),
     unknown: numberOrFallback(value?.unknown, riskSummary.unmatched)
   };
+}
+
+function countPendingMatches(matchResults = []) {
+  return (Array.isArray(matchResults) ? matchResults : [])
+    .filter((result) => {
+      if (!result.match || result.confidence <= 0) return false;
+      const status = getResultDataStatus(result, 'manual');
+      return result.confidence < 0.9 || status === 'mapped_candidate' || status === 'unverified';
+    }).length;
+}
+
+function buildDataStatusCounts(matchResults = [], unmatchedTerms = [], source = 'manual') {
+  const counts = {
+    verified_regulation: 0,
+    verified_jecfa: 0,
+    mapped_candidate: 0,
+    common_ingredient: 0,
+    unverified: 0,
+    unknown_from_ocr: 0
+  };
+
+  for (const result of Array.isArray(matchResults) ? matchResults : []) {
+    const status = getResultDataStatus(result, source);
+    counts[status] = (counts[status] || 0) + 1;
+  }
+
+  if (!Array.isArray(matchResults) || !matchResults.length) {
+    const unknownStatus = source === 'ocr' ? 'unknown_from_ocr' : 'unverified';
+    counts[unknownStatus] += normalizeStringList(unmatchedTerms).length;
+  }
+
+  return counts;
+}
+
+function normalizeDataStatusCounts(value, matchResults = [], unmatchedTerms = [], source = 'manual') {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return buildDataStatusCounts(matchResults, unmatchedTerms, source);
+  }
+  const fallback = buildDataStatusCounts(matchResults, unmatchedTerms, source);
+  return Object.fromEntries(Object.entries(fallback).map(([status, fallbackCount]) => [
+    status,
+    numberOrFallback(value[status], fallbackCount)
+  ]));
+}
+
+function buildUnknownItemRecords(items = [], source = 'manual') {
+  const dataStatus = source === 'ocr' ? 'unknown_from_ocr' : 'unverified';
+  const sourceScope = source === 'ocr' ? 'ocr_unmatched' : 'unknown';
+  return normalizeStringList(items).map((item) => ({
+    item,
+    dataStatus,
+    sourceScope,
+    sourceName: source === 'ocr' ? 'OCR recognized text not collected in local dataset' : 'Text not collected in local dataset'
+  }));
+}
+
+function normalizeUnknownItemRecords(value, fallbackItems = [], source = 'manual') {
+  const records = Array.isArray(value)
+    ? value.map((item) => {
+      const text = String(item?.item || '').trim();
+      if (!text) return null;
+      return {
+        item: text,
+        dataStatus: normalizeDataStatus(item.dataStatus || (source === 'ocr' ? 'unknown_from_ocr' : 'unverified')),
+        sourceScope: String(item.sourceScope || (source === 'ocr' ? 'ocr_unmatched' : 'unknown')).trim(),
+        sourceName: String(item.sourceName || '').trim()
+      };
+    }).filter(Boolean)
+    : [];
+  return records.length ? records : buildUnknownItemRecords(fallbackItems, source);
+}
+
+function getResultDataStatus(result, source = 'manual') {
+  if (!result?.match || result.confidence <= 0) {
+    return source === 'ocr' ? 'unknown_from_ocr' : 'unverified';
+  }
+  if (result.confidence < 0.9) return 'mapped_candidate';
+  return normalizeDataStatus(result.dataStatus || result.match.dataStatus || 'unverified');
+}
+
+function normalizeDataStatus(status) {
+  const allowed = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'];
+  return allowed.includes(status) ? status : 'unverified';
 }
 
 function normalizeReportInsights(value) {

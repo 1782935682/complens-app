@@ -158,6 +158,10 @@ function toAIIngredientSummary(ingredient) {
     riskSummary: ingredient.riskSummary || '',
     gbCode: ingredient.gbCode || '',
     eNumber: ingredient.eNumber || '',
+    dataStatus: ingredient.dataStatus || 'unverified',
+    sourceScope: ingredient.sourceScope || 'unknown',
+    sourceName: ingredient.sourceName || '',
+    reviewNote: ingredient.reviewNote || '',
     allergenTypes: normalizeStringList(ingredient.allergenTypes),
     cautionGroups: normalizeStringList(ingredient.cautionGroups)
   };
@@ -166,6 +170,7 @@ function toAIIngredientSummary(ingredient) {
 function buildSafetyRules(category) {
   const baseRules = [
     '只基于传入的本地分析结果和用户输入生成解释，不新增未给出的法规限量数值。',
+    '不得编造成分、法规来源、GB 2760 使用范围、使用限量、JECFA ADI 或人工审核结论。',
     '必须保留不替代专业判断的边界说明。',
     '对过敏原命中、未知项和高关注项优先给出核对建议。',
     '输出必须符合 outputContract，不能返回 Markdown 字符串代替结构化 JSON。'
@@ -173,7 +178,7 @@ function buildSafetyRules(category) {
   if (category === 'food') {
     return [
       ...baseRules,
-      '食品添加剂结论需要区分添加剂匹配项、普通食品原料和暂未收录文本。'
+      '食品结论必须区分 verified_regulation、verified_jecfa、mapped_candidate、common_ingredient、unverified 和 unknown_from_ocr；JECFA 只能作为安全评价来源，不能当作中国 GB 2760 使用限制。'
     ];
   }
   return [

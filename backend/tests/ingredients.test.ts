@@ -33,21 +33,25 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
         suitableFor: ['饮料'],
         cautionFor: ['儿童和敏感人群建议关注摄入频率'],
         sourceNote: '种子数据。',
-        sourceReferences: [],
-        reviewStatus: 'draft',
-        dataVersion: 'test',
+	        sourceReferences: [],
+	        reviewStatus: 'draft',
+	        dataStatus: 'unverified',
+	        dataVersion: 'test',
         reviewedBy: 'system',
         reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
         changeNote: '测试导入',
         updatedAt: '2026-06-10',
-        sourceName: '测试来源',
-        sourceType: 'official_standard',
-        sourceVersion: 'test',
+	        sourceName: '测试来源',
+	        sourceType: 'official_standard',
+	        sourceScope: 'seed_reference',
+	        sourceVersion: 'test',
         sourceUrl: 'https://example.com/source',
-        effectiveDate: '待人工核验',
-        confidenceLevel: 'unverified',
-        lastReviewedAt: '2026-06-10',
-        regulatoryBasis: '测试法规依据',
+	        effectiveDate: '待人工核验',
+	        confidenceLevel: 'unverified',
+	        matchConfidence: 'low',
+	        lastReviewedAt: '2026-06-10',
+	        reviewNote: '测试审核备注',
+	        regulatoryBasis: '测试法规依据',
         rawSourceText: '测试原始来源片段',
         isVerified: false,
         gbCode: 'INS 211',
@@ -84,21 +88,25 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
           suitableFor: ['饮料'],
           cautionFor: ['儿童和敏感人群建议关注摄入频率'],
           sourceNote: '种子数据。',
-          sourceReferences: [],
-          reviewStatus: 'draft',
-          dataVersion: 'test',
+	          sourceReferences: [],
+	          reviewStatus: 'draft',
+	          dataStatus: 'unverified',
+	          dataVersion: 'test',
           reviewedBy: 'system',
           reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
           changeNote: '测试导入',
           updatedAt: '2026-06-10',
-          sourceName: '测试来源',
-          sourceType: 'official_standard',
-          sourceVersion: 'test',
+	          sourceName: '测试来源',
+	          sourceType: 'official_standard',
+	          sourceScope: 'seed_reference',
+	          sourceVersion: 'test',
           sourceUrl: 'https://example.com/source',
-          effectiveDate: '待人工核验',
-          confidenceLevel: 'unverified',
-          lastReviewedAt: '2026-06-10',
-          regulatoryBasis: '测试法规依据',
+	          effectiveDate: '待人工核验',
+	          confidenceLevel: 'unverified',
+	          matchConfidence: 'low',
+	          lastReviewedAt: '2026-06-10',
+	          reviewNote: '测试审核备注',
+	          regulatoryBasis: '测试法规依据',
           rawSourceText: '测试原始来源片段',
           isVerified: false,
           gbCode: 'INS 211',
@@ -146,7 +154,7 @@ describe('GET /api/ingredients', () => {
     const service = createIngredientService();
     const app = createTestApp(service);
 
-    const response = await app.request('/api/ingredients?q=苯甲酸&category=防腐剂&riskLevel=medium&confidenceLevel=unverified&page=2&limit=10');
+    const response = await app.request('/api/ingredients?q=苯甲酸&category=防腐剂&riskLevel=medium&confidenceLevel=unverified&dataStatus=unverified&page=2&limit=10');
     const body = await response.json();
 
     expect(response.status).toBe(200);
@@ -154,9 +162,10 @@ describe('GET /api/ingredients', () => {
     expect(service.listIngredients).toHaveBeenCalledWith({
       q: '苯甲酸',
       category: '防腐剂',
-      riskLevel: 'medium',
-      confidenceLevel: 'unverified',
-      sort: undefined,
+	      riskLevel: 'medium',
+	      confidenceLevel: 'unverified',
+	      dataStatus: 'unverified',
+	      sort: undefined,
       page: 2,
       limit: 10
     });
@@ -169,6 +178,7 @@ describe('GET /api/ingredients', () => {
     const invalidRisk = await app.request('/api/ingredients?riskLevel=critical');
     const invalidSort = await app.request('/api/ingredients?sort=createdAt');
     const invalidConfidence = await app.request('/api/ingredients?confidenceLevel=trusted');
+    const invalidDataStatus = await app.request('/api/ingredients?dataStatus=trusted');
 
     expect(invalidPage.status).toBe(400);
     expect(await invalidPage.json()).toEqual({
@@ -179,6 +189,7 @@ describe('GET /api/ingredients', () => {
     expect(invalidRisk.status).toBe(400);
     expect(invalidSort.status).toBe(400);
     expect(invalidConfidence.status).toBe(400);
+    expect(invalidDataStatus.status).toBe(400);
     expect(await invalidConfidence.json()).toEqual({
       error: 'invalid_parameter',
       field: 'confidenceLevel',
@@ -204,6 +215,7 @@ describe('GET /api/ingredients/search', () => {
       category: undefined,
       riskLevel: undefined,
       confidenceLevel: undefined,
+      dataStatus: undefined,
       sort: 'risk',
       page: 1,
       limit: 5
@@ -295,18 +307,22 @@ describe('ingredient search helpers', () => {
       description: '测试数据',
       riskLevel: 'low',
       sourceNote: '测试来源',
-      sourceReferences: [],
-      reviewStatus: 'draft',
-      dataVersion: 'food-additives-seed-v5',
+	    sourceReferences: [],
+	    reviewStatus: 'draft',
+	    dataStatus: 'unverified',
+	    dataVersion: 'food-additives-seed-v5',
       updatedAt: '2026-06-12',
-      sourceName: '测试来源',
-      sourceType: 'official_standard',
-      sourceVersion: '待人工核验',
+	    sourceName: '测试来源',
+	    sourceType: 'official_standard',
+	    sourceScope: 'seed_reference',
+	    sourceVersion: '待人工核验',
       sourceUrl: 'https://example.com/source',
-      effectiveDate: '待人工核验',
-      confidenceLevel: 'unverified',
-      lastReviewedAt: '2026-06-12',
-      regulatoryBasis: '待人工核验',
+	    effectiveDate: '待人工核验',
+	    confidenceLevel: 'unverified',
+	    matchConfidence: 'low',
+	    lastReviewedAt: '2026-06-12',
+	    reviewNote: '测试审核备注',
+	    regulatoryBasis: '待人工核验',
       rawSourceText: '待人工核验',
       isVerified: false,
       gbCode: 'INS 967',
@@ -327,6 +343,8 @@ describe('ingredient search helpers', () => {
     expect(row.reviewedAt).toEqual(new Date('2026-06-12T08:00:00.000Z'));
     expect(row.changeNote).toBe('seed version test');
     expect(row.confidenceLevel).toBe('unverified');
+    expect(row.dataStatus).toBe('unverified');
+    expect(row.sourceScope).toBe('seed_reference');
     expect(row.isVerified).toBe(false);
   });
 

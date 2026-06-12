@@ -227,13 +227,14 @@
 
 ### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
 
-**状态**：🔄 进行中（2026-06-12 已导入两批 JECFA 官方来源 32 条；剩余 68 条和 GB 2760 条款级限量仍待审核）
+**状态**：🔄 进行中（2026-06-12 已建立基础权威数据底座：32 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`、0 条 `verified_regulation`；GB 2760 条款级限量仍待人工审核）
 
-**目标**：将现有 100 条 seed 样本与官方来源对齐，建立可追溯的数据导入流程。
+**目标**：不一次性补齐所有食品配料，先建立“基础权威库 + 持续扩充 + 人工校验队列”的可追溯数据导入流程。
 
 **涉及文件**：
 - `DATA_SOURCES.md`
 - `src/data/foodAdditives.js`
+- `src/data/commonFoodIngredients.js`
 - `scripts/validate-data.mjs`
 - `backend/src/db/schema.ts`
 - `backend/scripts/seed.ts`
@@ -244,16 +245,21 @@
 - [x] 首批 10 条高频食品添加剂按已有字段格式补充 JECFA 可追溯条目（`sourceName`、`sourceVersion`、`effectiveDate`、`regulatoryBasis`、`rawSourceText`）
 - [x] 第二批 22 条食品添加剂按已有字段格式补充 JECFA 可追溯条目
 - [x] 确认已导入 32 条只能从 `'unverified'` 升级为 `'reviewed'` / `'medium'`，不能升级为 `'verified'` / `'high'`
+- [x] 确认 JECFA 只作为安全评价来源，不作为 GB 2760 中国法规使用范围
 - [ ] 继续确认 GB 2760 官方文件版本、条款编号、逐食品类别限量和中国适用条件
 - [ ] 在此处标注完整来源清单人工完成：`[人工完成 ✅ YYYY-MM-DD]`
 
 **Codex 任务**：
 
-1. 为每条人工审核过的数据补全五个来源字段，未被确认的继续保留 `'unverified'`/`false`，不得随意升级。
-2. 建立硬性规则：任何新增条目缺失来源字段时，`validate:data` 必须报错退出。
-3. 禁止 AI 编造限量值、ADI 原文或安全结论，所有此类字段只能由人工确认后写入。
-4. 输出数据质量报告：总数、未验证数量、缺失字段、来源版本分布、复核清单。
-5. 更新 `DATA_SOURCES.md`，记录本轮导入情况。
+1. [x] 官方数据导入：为每条人工审核过的数据补全来源字段，未被确认的继续保留 `unverified`/`false`，不得随意升级。
+2. [x] JECFA 映射：已匹配 32 条 `verified_jecfa`，仅作为 `sourceScope: 'jecfa_safety_evaluation'`，不写 GB 2760 限量或中国使用范围。
+3. [x] 常见配料词库：新增 12 条 `common_ingredient`，只用于普通食品配料识别，不作为法规或安全评价来源。
+4. [x] 数据可信等级展示：搜索、详情、数据页、分析报告和导出展示数据状态、来源、待确认和低置信提示。
+5. [x] 建立硬性规则：任何新增条目缺失来源字段、状态字段或误把 JECFA 标成法规验证时，`validate:data` 必须报错退出。
+6. [ ] GB 2760 官方数据导入：导入基础字段和 `rawSourceText`；无法可靠结构化的法规内容不得编造结构化结论。
+7. [ ] OCR 未匹配收集：将 OCR 识别但未收录的条目标为 `unknown_from_ocr`，进入后续人工校验队列。
+8. [ ] 人工校验队列：提供待确认、低置信、未验证、OCR 未收录条目的审核入口和升级流程。
+9. [ ] 继续输出数据质量报告：总数、已验证法规数、JECFA 匹配数、普通配料数、未验证数、待确认数、来源版本分布、复核清单。
 
 **验收标准**：
 
@@ -263,13 +269,15 @@ npm run lint && npm run test && npm run build
 cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm test
 ```
 
-**阻塞条件**：完整 GB 2760 条款级限量和 68 条未审核记录仍需人工来源核验。  **是否需要人工**：是，人工先行。
+**阻塞条件**：完整 GB 2760 条款级限量、68 条未审核记录和 OCR 未匹配人工校验仍需人工来源核验。  **是否需要人工**：是，人工先行。
 
 **2026-06-12 自动化处理记录**：已识别为人工前置任务；未新增或伪造任何官方来源数据，跳过 Codex 部分并继续执行后续不依赖该人工项的 OCR/解析/匹配任务。
 
 **2026-06-12 首批官方数据导入记录**：用户确认继续加官方数据后，已从 WHO JECFA Food Additives and Contaminants Database 导入 10 条高频添加剂精确名称条目和 ADI 摘要：`citric-acid`、`sodium-citrate`、`potassium-sorbate`、`sodium-benzoate`、`ascorbic-acid`、`xanthan-gum`、`aspartame`、`sucralose`、`sodium-bicarbonate`、`sodium-cyclamate`。这些条目升级为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组，避免伪造 GB 2760 逐食品类别限量。`npm run validate:data` 已输出数据质量报告：reviewed=10、verified=0、unverified=90、missingSourceFields=0、missingUsageLimits=100。
 
 **2026-06-12 第二批官方数据导入记录**：PR #66 合并后继续从 WHO JECFA Food Additives and Contaminants Database 导入 22 条可直接映射的 JECFA 条目和 ADI 摘要：`pectin`、`calcium-carbonate`、`tartrazine`、`sunset-yellow-fcf`、`allura-red-ac`、`glycerol`、`calcium-chloride`、`sodium-alginate`、`acesulfame-potassium`、`carrageenan`、`guar-gum`、`polysorbate-80`、`sodium-nitrite`、`potassium-nitrate`、`potassium-citrate`、`calcium-citrate`、`lactic-acid`、`sodium-acetate`、`calcium-propionate`、`natamycin`、`propylene-glycol-alginate`、`sodium-carboxymethyl-cellulose`。累计 32 条为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组。`npm run validate:data` 输出：reviewed=32、verified=0、unverified=68、missingSourceFields=0、missingUsageLimits=100。
+
+**2026-06-12 基础权威数据底座记录**：新增分层字段 `dataStatus`、`matchConfidence`、`sourceScope`、`reviewNote`，后端 schema/seed/API 同步；当前食品基础库 112 条，其中 `verified_regulation=0`、`verified_jecfa=32`、`mapped_candidate=0`、`common_ingredient=12`、`unverified=68`、`unknown_from_ocr=0`。分析报告已展示已匹配数量、待确认数量、暂未收录数量、每个配料的数据状态、数据来源和低置信度提示。本批次不新增 AI 编造数据，不把 JECFA 当成 GB 2760 使用范围，不强行补齐全部食品配料。
 
 ---
 
