@@ -121,7 +121,7 @@ function scoreIngredient(ingredient, normalized, eNumber) {
   if (fields.aliases.some((alias) => normalizeTerm(alias) === normalized)) {
     return { confidence: 0.92, matchType: 'alias' };
   }
-  if (fields.all.some((field) => normalizeTerm(field).startsWith(normalized) || normalized.startsWith(normalizeTerm(field)))) {
+  if (normalized.length >= 2 && fields.all.some((field) => normalizeTerm(field).startsWith(normalized) || normalized.startsWith(normalizeTerm(field)))) {
     return { confidence: 0.75, matchType: 'fuzzy' };
   }
   if (normalized.length >= 2 && fields.all.some((field) => normalizeTerm(field).includes(normalized) || normalized.includes(normalizeTerm(field)))) {
