@@ -227,6 +227,7 @@ export type IngredientUpsertOptions = {
   reviewedBy?: string;
   reviewedAt?: Date;
   changeNote?: string;
+  updateAuditFields?: boolean;
 };
 
 export function toIngredientRow(additive: FoodAdditiveInput, options: IngredientUpsertOptions = {}): NewIngredientRow {
@@ -293,6 +294,10 @@ export function toIngredientSourceRows(additive: FoodAdditiveInput): NewIngredie
 }
 
 export async function upsertIngredients(db: Database, additives: FoodAdditiveInput[], options: IngredientUpsertOptions = {}) {
+  const auditUpdateCondition = options.updateAuditFields
+    ? sql`true`
+    : sql`${ingredients.dataVersion} is distinct from excluded.data_version`;
+
   await db.transaction(async (tx) => {
     for (const additive of additives) {
       const row = toIngredientRow(additive, options);
@@ -303,9 +308,9 @@ export async function upsertIngredients(db: Database, additives: FoodAdditiveInp
           target: ingredients.id,
           set: {
             ...row,
-            reviewedBy: sql`case when ${ingredients.dataVersion} is distinct from excluded.data_version then excluded.reviewed_by else ${ingredients.reviewedBy} end`,
-            reviewedAt: sql`case when ${ingredients.dataVersion} is distinct from excluded.data_version then excluded.reviewed_at else ${ingredients.reviewedAt} end`,
-            changeNote: sql`case when ${ingredients.dataVersion} is distinct from excluded.data_version then excluded.change_note else ${ingredients.changeNote} end`,
+            reviewedBy: sql`case when ${auditUpdateCondition} then excluded.reviewed_by else ${ingredients.reviewedBy} end`,
+            reviewedAt: sql`case when ${auditUpdateCondition} then excluded.reviewed_at else ${ingredients.reviewedAt} end`,
+            changeNote: sql`case when ${auditUpdateCondition} then excluded.change_note else ${ingredients.changeNote} end`,
             createdAt: sql`${ingredients.createdAt}`
           }
         });
@@ -419,7 +424,7 @@ function parseAuditDate(value: string | undefined) {
   }
 
   const parsed = normalized ? new Date(normalized) : null;
-  return parsed && !Number.isNaN(parsed.getTime()) ? parsed : new Date('1970-01-01T00:00:00.000Z');
+  return parsed && !Number.isNaN(parsed.getTime()) ? parsed : new Date();
 }
 
 async function searchOneIngredient(db: Database, term: string, includeENumbers: boolean): Promise<BatchSearchResult> {

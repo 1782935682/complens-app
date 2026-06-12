@@ -16,14 +16,21 @@ try {
 
 function parseSeedOptions(args: string[]) {
   const dataVersion = readOption(args, '--version');
+  const hasReviewedBy = hasOption(args, '--reviewed-by');
+  const hasChangeNote = hasOption(args, '--change-note');
   const reviewedBy = readOption(args, '--reviewed-by') || 'system';
   const changeNote = readOption(args, '--change-note') || (dataVersion ? `Seed import for ${dataVersion}` : undefined);
   return {
     ...(dataVersion ? { dataVersion } : {}),
     reviewedBy,
     reviewedAt: new Date(),
-    ...(changeNote ? { changeNote } : {})
+    ...(changeNote ? { changeNote } : {}),
+    updateAuditFields: hasReviewedBy || hasChangeNote
   };
+}
+
+function hasOption(args: string[], name: string) {
+  return args.some((arg) => arg === name || arg.startsWith(`${name}=`));
 }
 
 function readOption(args: string[], name: string) {

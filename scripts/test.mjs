@@ -373,9 +373,14 @@ assert.match(backendIngredientsRoute, /sort must be one of relevance, risk, name
 assert.match(backendIngredientsRoute, /confidenceLevel must be one of high, medium, low, unverified/);
 const backendIngredientServiceSource = await readFile(new URL('../backend/src/services/ingredientService.ts', import.meta.url), 'utf8');
 assert.match(backendIngredientServiceSource, /eq\(ingredients\.confidenceLevel, params\.confidenceLevel\)/);
-assert.match(backendIngredientServiceSource, /reviewedBy: sql`case when \$\{ingredients\.dataVersion\} is distinct from excluded\.data_version then excluded\.reviewed_by else \$\{ingredients\.reviewedBy\} end`/);
-assert.match(backendIngredientServiceSource, /reviewedAt: sql`case when \$\{ingredients\.dataVersion\} is distinct from excluded\.data_version then excluded\.reviewed_at else \$\{ingredients\.reviewedAt\} end`/);
-assert.match(backendIngredientServiceSource, /changeNote: sql`case when \$\{ingredients\.dataVersion\} is distinct from excluded\.data_version then excluded\.change_note else \$\{ingredients\.changeNote\} end`/);
+assert.match(backendIngredientServiceSource, /updateAuditFields\?: boolean/);
+assert.match(backendIngredientServiceSource, /const auditUpdateCondition = options\.updateAuditFields/);
+assert.match(backendIngredientServiceSource, /reviewedBy: sql`case when \$\{auditUpdateCondition\} then excluded\.reviewed_by else \$\{ingredients\.reviewedBy\} end`/);
+assert.match(backendIngredientServiceSource, /reviewedAt: sql`case when \$\{auditUpdateCondition\} then excluded\.reviewed_at else \$\{ingredients\.reviewedAt\} end`/);
+assert.match(backendIngredientServiceSource, /changeNote: sql`case when \$\{auditUpdateCondition\} then excluded\.change_note else \$\{ingredients\.changeNote\} end`/);
+assert.doesNotMatch(backendIngredientServiceSource, /1970-01-01T00:00:00\.000Z/);
+const backendSeedScriptSource = await readFile(new URL('../backend/scripts/seed.ts', import.meta.url), 'utf8');
+assert.match(backendSeedScriptSource, /updateAuditFields: hasReviewedBy \|\| hasChangeNote/);
 assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 4);
 assert.match(backendIngredientServiceSource, /validSearchSorts = \['relevance', 'risk', 'name'\]/);
 assert.match(backendIngredientServiceSource, /batchSearch\(params\)/);
