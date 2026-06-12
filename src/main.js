@@ -579,7 +579,7 @@ function bindScanPageEvents(route) {
   if (confirmButton) {
     confirmButton.addEventListener('click', async () => {
       const pending = getPendingScan();
-      if (!pending.pendingImageId) {
+      if (pending.category !== route.category || !pending.pendingImageId) {
         updateScanFeedback('请先选择一张食品配料表照片。');
         return;
       }
@@ -641,7 +641,7 @@ function bindScanPageEvents(route) {
   }
 
   if (route.view === 'scan') {
-    void hydrateStoredScanPreview();
+    void hydrateStoredScanPreview(route.category);
   }
 }
 
@@ -788,9 +788,9 @@ async function clearPendingScanImage() {
   }
 }
 
-async function hydrateStoredScanPreview() {
+async function hydrateStoredScanPreview(category) {
   const pending = getPendingScan();
-  if (!pending.pendingImageId) return;
+  if (pending.category !== category || !pending.pendingImageId) return;
   const image = await getImage(pending.pendingImageId);
   if (!image?.blob) return;
   updateStoredScanPreview(document.querySelector('[data-scan-preview]'), '图片已保存，可继续识别或重选。');

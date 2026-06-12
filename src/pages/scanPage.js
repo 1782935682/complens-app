@@ -10,7 +10,7 @@ export function renderScanPage(input = '', category = 'food') {
   const pending = getPendingScan();
   const hasPendingImage = pending.category === categoryId && Boolean(pending.pendingImageId);
   const tipsSeen = hasSeenScanTips();
-  const pendingMeta = pending.pendingImageMeta;
+  const pendingMeta = hasPendingImage ? pending.pendingImageMeta : null;
   const inputText = String(input || '').trim();
 
   return html`
