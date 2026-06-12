@@ -4,6 +4,7 @@ import { renderComparePage } from '../pages/comparePage.js';
 import { renderDataPage } from '../pages/dataPage.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
+import { normalizeHistoryFilter, renderHistoryPage } from '../pages/historyPage.js';
 import { renderHomePage } from '../pages/homePage.js';
 import { getLegalPageDocumentTitle, renderLegalPage } from '../pages/legalPage.js';
 import { getLegalDocument } from '../data/legalContent.js';
@@ -29,6 +30,7 @@ const VIEW_TITLES = {
   data: '数据来源',
   detail: '成分详情',
   favorites: '收藏夹',
+  history: '分析历史',
   home: '',
   legal: '隐私与条款',
   membership: '会员中心',
@@ -52,6 +54,7 @@ const NAV_ITEMS = [
   { key: 'analyze', view: 'analyze', path: '/analyze' },
   { key: 'data', view: 'data', path: '/data' },
   { key: 'reports', view: 'reports', path: '/reports' },
+  { key: 'history', view: 'history', path: '/history' },
   { key: 'favorites', view: 'favorites', path: '/favorites' },
   { key: 'membership', view: 'membership', path: '/membership' },
   { key: 'settings', view: 'settings', path: '/settings' }
@@ -61,7 +64,7 @@ const MOBILE_NAV_ITEMS = [
   { key: 'home', view: 'home', path: '/' },
   { key: 'scan', view: 'scan', path: '/scan' },
   { key: 'search', view: 'search', path: '/search' },
-  { key: 'favorites', view: 'favorites', path: '/favorites' },
+  { key: 'history', view: 'history', path: '/history' },
   { key: 'settings', view: 'settings', path: '/settings' }
 ];
 
@@ -218,6 +221,15 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/history') {
+    return {
+      view: 'history',
+      category: route.hasCategoryPrefix ? route.category : defaultCategory,
+      query: params.get('q') || '',
+      filter: normalizeHistoryFilter(params.get('filter') || 'all')
+    };
+  }
+
   if (route.path.startsWith('/product/')) {
     const id = decodePathValue(route.path.replace('/product/', ''));
     if (!id) return notFoundRoute(route, path);
@@ -231,7 +243,8 @@ export function resolveRoute(hash) {
   if (route.path === '/favorites') {
     return {
       view: 'favorites',
-      category: route.category
+      category: route.category,
+      tab: params.get('tab') === 'products' ? 'products' : 'ingredients'
     };
   }
 
@@ -259,9 +272,10 @@ export function renderRoute(route, asyncState = null) {
   if (route.view === 'analyze') return renderAnalyzePage(route.input, route.category, route.productName);
   if (route.view === 'products') return renderProductArchiveListPage(route.category, route.query, route.page);
   if (route.view === 'product-detail') return renderProductArchivePage(route.id, route.category);
+  if (route.view === 'history') return renderHistoryPage(route.category, route.query, route.filter);
   if (route.view === 'reports') return renderReportsPage(route.category, route.query);
   if (route.view === 'report-detail') return renderReportDetailPage(route.id, route.category);
-  if (route.view === 'favorites') return renderFavoritesPage(route.category);
+  if (route.view === 'favorites') return renderFavoritesPage(route.category, route.tab);
   if (route.view === 'settings') return renderSettingsPage(route.category);
   if (route.view === 'not-found') return renderNotFoundPage(route.path, route.category);
   return renderHomePage(route.category);
@@ -289,7 +303,7 @@ export function getNavigationLinks(route) {
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
       || (item.key === 'reports' && route?.view === 'report-detail')
-      || (item.key === 'reports' && ['products', 'product-detail'].includes(route?.view))
+      || (item.key === 'history' && ['products', 'product-detail'].includes(route?.view))
       || (item.key === 'settings' && ['legal', 'onboarding', 'support'].includes(route?.view))
   }));
 }
@@ -300,7 +314,7 @@ export function getMobileNavigationLinks(route) {
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
-      || (item.key === 'favorites' && route?.view === 'compare')
+      || (item.key === 'history' && ['products', 'product-detail'].includes(route?.view))
       || (item.key === 'settings' && ['legal', 'membership', 'onboarding', 'support'].includes(route?.view))
   }));
 }
