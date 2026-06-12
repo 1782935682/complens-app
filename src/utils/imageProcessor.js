@@ -140,7 +140,11 @@ function parseExifOrientation(view, start, length) {
 
 async function decodeImage(file) {
   if (typeof createImageBitmap === 'function') {
-    return createImageBitmap(file);
+    try {
+      return await createImageBitmap(file, { imageOrientation: 'none' });
+    } catch {
+      return createImageBitmap(file);
+    }
   }
   if (typeof Image === 'undefined' || typeof URL === 'undefined') return null;
 

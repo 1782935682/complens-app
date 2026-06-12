@@ -381,20 +381,33 @@ async function searchOneIngredient(db: Database, term: string, includeENumbers: 
   const normalized = normalizeTerm(term);
   const eNumber = includeENumbers ? extractENumber(term) : null;
   const pattern = `%${escapeLikePattern(term)}%`;
-  const rows = await db
-    .select()
-    .from(ingredients)
-    .where(or(
-      ilikeEscaped(ingredients.nameCn, pattern),
-      ilikeEscaped(ingredients.nameEn, pattern),
-      ilikeEscaped(ingredients.gbCode, pattern),
-      ilikeEscaped(ingredients.eNumber, pattern),
+  const eNumberPattern = eNumber ? `%${escapeLikePattern(eNumber)}%` : null;
+  const filters: SQL[] = [
+    ilikeEscaped(ingredients.nameCn, pattern),
+    ilikeEscaped(ingredients.nameEn, pattern),
+    ilikeEscaped(ingredients.gbCode, pattern),
+    ilikeEscaped(ingredients.eNumber, pattern),
+    sql`exists (
+      select 1
+      from jsonb_array_elements_text(${ingredients.aliases}) as alias(value)
+      where alias.value ILIKE ${pattern} ESCAPE '\\'
+    )`
+  ];
+  if (eNumberPattern) {
+    filters.push(
+      ilikeEscaped(ingredients.gbCode, eNumberPattern),
+      ilikeEscaped(ingredients.eNumber, eNumberPattern),
       sql`exists (
         select 1
         from jsonb_array_elements_text(${ingredients.aliases}) as alias(value)
-        where alias.value ILIKE ${pattern} ESCAPE '\\'
+        where alias.value ILIKE ${eNumberPattern} ESCAPE '\\'
       )`
-    ) as SQL)
+    );
+  }
+  const rows = await db
+    .select()
+    .from(ingredients)
+    .where(or(...filters) as SQL)
     .limit(8);
 
   let best: BatchSearchResult = {
