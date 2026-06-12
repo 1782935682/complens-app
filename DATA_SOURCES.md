@@ -78,8 +78,8 @@ isVerified: false              // 100 条
 | `carrageenan` | 卡拉胶 | CARRAGEENAN | 377 | NOT SPECIFIED | reviewed / medium |
 | `guar-gum` | 瓜尔胶 | GUAR GUM | 863 | NOT SPECIFIED | reviewed / medium |
 | `polysorbate-80` | 聚山梨酯 80 | POLYSORBATE 80 | 3735 | 0-25 mg/kg bw | reviewed / medium |
-| `sodium-nitrite` | 亚硝酸钠 | SODIUM NITRITE | 4792 | 0-0.07 mg/kg bw | reviewed / medium |
-| `potassium-nitrate` | 硝酸钾 | POTASSIUM NITRATE | 390 | 0-3.7 mg/kg bw | reviewed / medium |
+| `sodium-nitrite` | 亚硝酸钠 | SODIUM NITRITE | 4792 | 0-0.07 mg/kg bw as nitrite ion; does not apply to infants below 3 months | reviewed / medium |
+| `potassium-nitrate` | 硝酸钾 | POTASSIUM NITRATE | 390 | 0-3.7 mg/kg bw as nitrate ion; does not apply to infants below 3 months | reviewed / medium |
 | `potassium-citrate` | 柠檬酸钾 | POTASSIUM CITRATE | 1875 | NOT LIMITED | reviewed / medium |
 | `calcium-citrate` | 柠檬酸钙 | CALCIUM CITRATE | 2938 | NOT LIMITED (not specified) | reviewed / medium |
 | `lactic-acid` | 乳酸 | LACTIC ACID | 3367 | NOT LIMITED (1973) | reviewed / medium |

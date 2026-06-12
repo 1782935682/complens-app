@@ -156,12 +156,12 @@ const jecfaReviewedAdditives = {
   'sodium-nitrite': {
     jecfaId: 4792,
     jecfaName: 'SODIUM NITRITE',
-    adi: '0-0.07 mg/kg bw'
+    adi: '0-0.07 mg/kg bw as nitrite ion; does not apply to infants below 3 months'
   },
   'potassium-nitrate': {
     jecfaId: 390,
     jecfaName: 'POTASSIUM NITRATE',
-    adi: '0-3.7 mg/kg bw'
+    adi: '0-3.7 mg/kg bw as nitrate ion; does not apply to infants below 3 months'
   },
   'potassium-citrate': {
     jecfaId: 1875,
