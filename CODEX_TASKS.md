@@ -227,7 +227,7 @@
 
 ### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
 
-**状态**：🔄 进行中（2026-06-12 已导入首批 JECFA 官方来源 10 条；剩余 90 条和 GB 2760 条款级限量仍待审核）
+**状态**：🔄 进行中（2026-06-12 已导入两批 JECFA 官方来源 32 条；剩余 68 条和 GB 2760 条款级限量仍待审核）
 
 **目标**：将现有 100 条 seed 样本与官方来源对齐，建立可追溯的数据导入流程。
 
@@ -242,7 +242,8 @@
 **人工操作（先做，阻塞 Codex 部分）**：
 - [x] 确认本阶段先从官方来源导入（2026-06-12 用户确认“继续加官方数据”）
 - [x] 首批 10 条高频食品添加剂按已有字段格式补充 JECFA 可追溯条目（`sourceName`、`sourceVersion`、`effectiveDate`、`regulatoryBasis`、`rawSourceText`）
-- [x] 确认首批 10 条只能从 `'unverified'` 升级为 `'reviewed'` / `'medium'`，不能升级为 `'verified'` / `'high'`
+- [x] 第二批 22 条食品添加剂按已有字段格式补充 JECFA 可追溯条目
+- [x] 确认已导入 32 条只能从 `'unverified'` 升级为 `'reviewed'` / `'medium'`，不能升级为 `'verified'` / `'high'`
 - [ ] 继续确认 GB 2760 官方文件版本、条款编号、逐食品类别限量和中国适用条件
 - [ ] 在此处标注完整来源清单人工完成：`[人工完成 ✅ YYYY-MM-DD]`
 
@@ -262,11 +263,13 @@ npm run lint && npm run test && npm run build
 cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm test
 ```
 
-**阻塞条件**：完整 GB 2760 条款级限量和 90 条未审核记录仍需人工来源核验。  **是否需要人工**：是，人工先行。
+**阻塞条件**：完整 GB 2760 条款级限量和 68 条未审核记录仍需人工来源核验。  **是否需要人工**：是，人工先行。
 
 **2026-06-12 自动化处理记录**：已识别为人工前置任务；未新增或伪造任何官方来源数据，跳过 Codex 部分并继续执行后续不依赖该人工项的 OCR/解析/匹配任务。
 
 **2026-06-12 首批官方数据导入记录**：用户确认继续加官方数据后，已从 WHO JECFA Food Additives and Contaminants Database 导入 10 条高频添加剂精确名称条目和 ADI 摘要：`citric-acid`、`sodium-citrate`、`potassium-sorbate`、`sodium-benzoate`、`ascorbic-acid`、`xanthan-gum`、`aspartame`、`sucralose`、`sodium-bicarbonate`、`sodium-cyclamate`。这些条目升级为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组，避免伪造 GB 2760 逐食品类别限量。`npm run validate:data` 已输出数据质量报告：reviewed=10、verified=0、unverified=90、missingSourceFields=0、missingUsageLimits=100。
+
+**2026-06-12 第二批官方数据导入记录**：PR #66 合并后继续从 WHO JECFA Food Additives and Contaminants Database 导入 22 条可直接映射的 JECFA 条目和 ADI 摘要：`pectin`、`calcium-carbonate`、`tartrazine`、`sunset-yellow-fcf`、`allura-red-ac`、`glycerol`、`calcium-chloride`、`sodium-alginate`、`acesulfame-potassium`、`carrageenan`、`guar-gum`、`polysorbate-80`、`sodium-nitrite`、`potassium-nitrate`、`potassium-citrate`、`calcium-citrate`、`lactic-acid`、`sodium-acetate`、`calcium-propionate`、`natamycin`、`propylene-glycol-alginate`、`sodium-carboxymethyl-cellulose`。累计 32 条为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组。`npm run validate:data` 输出：reviewed=32、verified=0、unverified=68、missingSourceFields=0、missingUsageLimits=100。
 
 ---
 
