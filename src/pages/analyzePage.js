@@ -199,7 +199,7 @@ function databaseMatchItem(item) {
       <p>${match
         ? escapeHtml(`${match.nameCn} / ${match.category || '未分类'} / ${matchTypeLabel(item.matchType)}${item.confidence < 0.9 ? '，请确认' : ''}`)
         : '数据库暂未收录此配料，已保留原文。'}</p>
-      ${match && match.confidenceLevel === 'unverified' ? '<span class="data-badge data-badge--unverified">unverified / isVerified false</span>' : ''}
+      ${match && match.isVerified === false ? `<span class="data-badge data-badge--unverified">${escapeHtml(match.confidenceLevel || 'unverified')} / isVerified false</span>` : ''}
     </article>
   `;
 }

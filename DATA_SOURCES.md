@@ -2,7 +2,7 @@
 
 ## 当前数据来源
 
-当前项目主线数据来自 `src/data/foodAdditives.js`，内容为食品添加剂 seed 样本。
+当前项目主线数据来自 `src/data/foodAdditives.js`，内容为食品添加剂 seed 样本和首批官方来源复核结果。
 
 当前 seed 记录统一保留以下公开来源入口作为后续人工核验线索：
 
@@ -10,35 +10,57 @@
 |---|---|---|---|
 | GB 2760 相关公开入口 | `official_standard` | 中国食品添加剂使用标准核验入口 | 待人工逐条确认标准版本、条款、适用食品类别和限量 |
 | Codex INS / CXG 36 | `official_standard` | INS 编码和国际编号对照入口 | 待人工逐条确认版本和编码 |
-| JECFA | `public_database` | ADI 和安全评估信息核验入口 | 待人工逐条确认原文和适用条件 |
+| WHO JECFA Food Additives and Contaminants Database | `public_database` | ADI 和安全评估信息核验入口 | 10 条高频添加剂已按精确名称条目完成 reviewed 级别初核；其余待人工逐条确认原文和适用条件 |
 | EU Food Additives Database | `public_database` | E-number 和欧盟法规状态核验入口 | 待人工逐条确认条款和状态 |
 
-本轮没有联网扩充官方数据，也没有用 AI 生成新的权威成分结论。
+2026-06-12 首批官方来源导入只使用 WHO JECFA 官方数据库查询结果，没有用 AI 生成新的权威成分结论。
 
-2026-06-12 本轮 OCR/解析/匹配开发没有新增任何食品添加剂数据源，也没有把 OCR 或 AI 输出写入权威数据字段。新增的批量匹配能力只消费现有 100 条 seed 数据；未匹配配料会保留为未收录/待确认，不会被自动补全为已验证数据。
+JECFA 数据库入口：https://apps.who.int/food-additives-contaminants-jecfa-database/
 
 ## 当前数据量
 
-- 食品添加剂：100 条 seed 样本。
+- 食品添加剂：100 条 seed 样本，其中 10 条已有 JECFA reviewed 级别初核。
 - 化妆品成分：仍是原型数据，不纳入本阶段可信食品添加剂数据底座。
 - 当前数据不能视为完整成分库，也不能视为完整食品添加剂库。
 
 ## 当前数据可信等级
 
-当前 100 条食品添加剂 seed 统一设置为：
+当前 100 条食品添加剂状态为：
 
 ```js
-confidenceLevel: 'unverified'
-isVerified: false
+reviewStatus: 'reviewed'       // 10 条
+confidenceLevel: 'medium'      // 10 条
+confidenceLevel: 'unverified'  // 90 条
+isVerified: false              // 100 条
 ```
 
 原因：
 
-- 未逐条核验官方标准版本。
-- 未逐条记录法规条款编号。
-- 未逐条摘录原始来源文本。
-- 未逐条确认生效日期。
-- 未逐条确认 ADI 原文、适用条件和逐食品类别限量。
+- 10 条 reviewed 仅确认 JECFA 精确名称条目和 ADI 摘要，尚未导入 GB 2760 逐食品类别限量。
+- 未逐条核验 GB 2760 标准版本、条款编号、生效日期和中国适用条件。
+- 未逐条确认 EU/Codex 编码冲突、过敏原、特殊人群提醒和风险文案。
+- 因此本批次不把任何条目标记为 `isVerified: true` 或 `confidenceLevel: 'high'`。
+
+## 2026-06-12 JECFA 首批导入
+
+数据版本：`food-additives-official-review-v1`
+
+来源版本：`JECFA database updates through 101st JECFA meeting (October 2025)`
+
+| ID | 中文名 | JECFA 条目 | JECFA ID | ADI 摘要 | 当前状态 |
+|---|---|---|---:|---|---|
+| `citric-acid` | 柠檬酸 | CITRIC ACID | 3594 | NOT LIMITED | reviewed / medium |
+| `sodium-citrate` | 柠檬酸钠 | SODIUM CITRATE | 1649 | NOT LIMITED (Not specified) | reviewed / medium |
+| `potassium-sorbate` | 山梨酸钾 | POTASSIUM SORBATE | 2724 | 0-25 mg/kg bw | reviewed / medium |
+| `sodium-benzoate` | 苯甲酸钠 | SODIUM BENZOATE | 1098 | 0-20 mg/kg bw | reviewed / medium |
+| `ascorbic-acid` | 抗坏血酸 | ASCORBIC ACID | 59 | NOT SPECIFIED | reviewed / medium |
+| `xanthan-gum` | 黄原胶 | XANTHAN GUM | 802 | NOT SPECIFIED | reviewed / medium |
+| `aspartame` | 阿斯巴甜 | ASPARTAME | 62 | 0-40 mg/kg bw | reviewed / medium |
+| `sucralose` | 三氯蔗糖 | SUCRALOSE | 2340 | 0-15 mg/kg bw | reviewed / medium |
+| `sodium-bicarbonate` | 碳酸氢钠 | SODIUM BICARBONATE | 1099 | NOT LIMITED | reviewed / medium |
+| `sodium-cyclamate` | 环己基氨基磺酸钠 | SODIUM CYCLAMATE | 1653 | 0-11 mg/kg bw | reviewed / medium |
+
+本批次仍不导入 `usageLimits`，因为逐食品类别限量必须来自 GB 2760 条款级核验。
 
 ## 数据版本与审核记录
 
@@ -49,7 +71,7 @@ isVerified: false
 - seed 脚本支持 `--version`、`--reviewed-by`、`--change-note` 参数；版本变化时才更新 `change_note` 和 `reviewed_at`。
 - 前端 `/data` 页支持按 `sourceName` 和 `confidenceLevel` 查看当前 seed 的来源、版本、分类和待审核比例。
 
-这些字段只提供可追踪流程，不代表当前 seed 已被人工审核。当前 100 条食品添加剂仍全部为 `confidenceLevel: 'unverified'`、`isVerified: false`。
+2026-06-12 已完成 Data Batch 1-B 的首批 JECFA 官方来源导入：10 条记录升级为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，其余 90 条仍为 `confidenceLevel: 'unverified'`。所有记录仍为 `isVerified: false`。
 
 ## 缺失数据范围
 

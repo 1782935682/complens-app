@@ -151,6 +151,7 @@ npm run db:seed -- --version 2026-06-v1 --reviewed-by system --change-note "seed
 ```bash
 curl "http://127.0.0.1:3000/api/ingredients?q=苯甲酸"
 curl "http://127.0.0.1:3000/api/ingredients/search?q=E211&limit=2"
+curl "http://127.0.0.1:3000/api/ingredients?confidenceLevel=medium&limit=5"
 curl "http://127.0.0.1:3000/api/ingredients?confidenceLevel=unverified&limit=5"
 curl "http://127.0.0.1:3000/api/ingredients/categories"
 curl "http://127.0.0.1:3000/api/ingredients/sodium-benzoate"
@@ -308,7 +309,7 @@ npm run test
 npm run validate:data
 ```
 
-当前校验食品添加剂数据的必填字段、枚举值、重复 id、重复中文名 + 英文名组合、来源字段、可信等级、已验证数据来源依据，以及风险说明中的绝对化医疗结论。
+当前校验食品添加剂数据的必填字段、枚举值、重复 id、重复中文名 + 英文名组合、来源字段、可信等级、已验证数据来源依据，以及风险说明中的绝对化医疗结论。命令通过后会额外输出数据质量报告，包括 reviewed / verified / unverified 数量、缺来源字段数、缺限量数和来源版本分布。
 
 ## 文档与差异检查
 
