@@ -713,6 +713,34 @@ button.danger-button:hover {
   gap: 16px;
 }
 
+.data-review-queue {
+  display: grid;
+  gap: 14px;
+}
+
+.review-queue-list {
+  display: grid;
+  gap: 12px;
+}
+
+.review-queue-item {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--surface);
+}
+
+.review-queue-item h3,
+.review-queue-item p {
+  margin: 0;
+}
+
+.review-queue-item > .form-actions {
+  margin-top: 0;
+}
+
 .category-tabs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

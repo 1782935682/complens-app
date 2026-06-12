@@ -1,7 +1,9 @@
 import { escapeHtml, html } from '../components/render.js';
 import { categoryPath, getProductCategory } from '../data/categories.js';
 import { getAllIngredients, getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientCategorySummaries } from '../services/ingredientService.js';
+import { buildManualReviewQueue } from '../services/reviewQueueService.js';
 import { buildSupportPrefillUrl } from '../services/supportService.js';
+import { getAnalysisReports } from '../store/userStore.js';
 
 const reviewStatusLabels = {
   draft: '草稿',
@@ -46,6 +48,11 @@ export function renderDataPage(category = 'food', filters = {}) {
   const sourceOptions = getSourceFilterOptions(allItems);
   const confidenceOptions = getConfidenceFilterOptions(allItems);
   const dataStatusOptions = getDataStatusFilterOptions(allItems);
+  const reviewQueue = buildManualReviewQueue({
+    ingredients: allItems,
+    reports: getAnalysisReports(category),
+    category
+  });
 
   return html`
     <section class="section data-head">
@@ -154,6 +161,8 @@ export function renderDataPage(category = 'food', filters = {}) {
         ` : renderDataEmptyState('版', '当前类别还没有版本信息', '需要补充数据版本和更新记录，方便追踪数据来源。', buildDatasetCorrectionUrl(category, audit))}
       </div>
     </section>
+
+    ${renderManualReviewQueue(category, reviewQueue)}
 
     <section class="section">
       <div class="section__head">
@@ -284,6 +293,68 @@ function renderDataEmptyState(icon, title, desc, href) {
   `;
 }
 
+function renderManualReviewQueue(category, queue) {
+  const summary = queue.summary || {};
+  return html`
+    <section class="section data-review-queue" data-review-queue>
+      <div class="section__head">
+        <div>
+          <h2>人工校验队列</h2>
+          <p class="helper-text">汇总本机报告里的 OCR 未收录项、低置信候选和仍未验证的静态数据；这里只提供审核入口，不自动升级状态。</p>
+        </div>
+        <span class="count">${summary.totalCount || 0} 项</span>
+      </div>
+      <div class="audit-grid">
+        ${renderAuditMetric(`${summary.ocrUnmatchedCount || 0} 项`, 'OCR 未收录')}
+        ${renderAuditMetric(`${summary.mappedCandidateCount || 0} 项`, '低置信候选')}
+        ${renderAuditMetric(`${summary.datasetReviewCount || 0} 项`, '静态待复核')}
+      </div>
+      ${queue.items?.length ? html`
+        <div class="review-queue-list">
+          ${queue.items.map((item) => renderReviewQueueItem(category, item)).join('')}
+        </div>
+      ` : renderDataEmptyState('队', '当前没有本机 OCR 未收录项', '保存 OCR 报告后，未匹配条目会进入这里等待人工校验。', buildDatasetCorrectionUrl(category, {
+        totalCount: 0,
+        sourceCoveragePercent: 0,
+        usageLimitCoveragePercent: 0,
+        missingUsageLimitsCount: 0
+      }))}
+    </section>
+  `;
+}
+
+function renderReviewQueueItem(category, item) {
+  const href = buildReviewQueueCorrectionUrl(category, item);
+  return html`
+    <article class="review-queue-item">
+      <div>
+        <p class="eyebrow">${escapeHtml(reviewQueueTypeLabel(item.type))} / ${escapeHtml(dataStatusLabels[item.dataStatus] || item.dataStatus)}</p>
+        <h3>${escapeHtml(item.label)}</h3>
+        <p>${escapeHtml(item.action)}</p>
+        <div class="chip-list">
+          ${item.ingredientId ? html`<span class="chip">ID：${escapeHtml(item.ingredientId)}</span>` : ''}
+          <span class="chip">来源范围：${escapeHtml(sourceScopeQueueLabel(item.sourceScope))}</span>
+          ${item.reportCount ? html`<span class="chip">报告命中 ${item.reportCount} 次</span>` : ''}
+          ${item.confidence ? html`<span class="chip">最高置信度 ${Math.round(item.confidence * 100)}%</span>` : ''}
+        </div>
+      </div>
+      ${item.reports?.length ? html`
+        <div class="data-list compact">
+          ${item.reports.map((report) => html`
+            <div>
+              <strong>${escapeHtml(report.title)}</strong>
+              <span>${escapeHtml(report.createdAt ? report.createdAt.slice(0, 10) : '待确认日期')}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      <div class="form-actions">
+        <a class="button-link secondary-link" href="${escapeHtml(href)}" data-route>提交校验线索</a>
+      </div>
+    </article>
+  `;
+}
+
 function buildDatasetCorrectionUrl(category, audit) {
   return buildSupportPrefillUrl(category, {
     topic: 'data-correction',
@@ -296,6 +367,43 @@ function buildDatasetCorrectionUrl(category, audit) {
       '请描述需要核对的来源、分类、使用限量或审核状态。'
     ].join('\n')
   });
+}
+
+function buildReviewQueueCorrectionUrl(category, item) {
+  return buildSupportPrefillUrl(category, {
+    topic: 'data-correction',
+    subject: `人工校验队列：${item.label}`,
+    message: [
+      `队列类型：${reviewQueueTypeLabel(item.type)}`,
+      `数据状态：${dataStatusLabels[item.dataStatus] || item.dataStatus}`,
+      `来源范围：${sourceScopeQueueLabel(item.sourceScope)}`,
+      item.ingredientId ? `成分 ID：${item.ingredientId}` : '',
+      item.reportCount ? `本机报告命中：${item.reportCount} 次` : '',
+      '请补充包装原文、官方来源链接、条款编号、适用范围或需要拆分/归并的说明。'
+    ].filter(Boolean).join('\n')
+  });
+}
+
+function reviewQueueTypeLabel(type) {
+  const labels = {
+    ocr_unmatched: 'OCR 未匹配',
+    mapped_candidate: '候选待确认',
+    dataset_review: '静态数据复核'
+  };
+  return labels[type] || '人工校验';
+}
+
+function sourceScopeQueueLabel(scope) {
+  const labels = {
+    gb_2760_regulation: 'GB 2760 法规依据',
+    jecfa_safety_evaluation: 'JECFA 安全评价',
+    candidate_mapping: '候选映射',
+    common_ingredient_lexicon: '普通配料词库',
+    ocr_unmatched: 'OCR 未匹配',
+    seed_reference: '种子参考',
+    unknown: '未知'
+  };
+  return labels[scope] || labels.unknown;
 }
 
 function renderAuditMetric(value, label) {
