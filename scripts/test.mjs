@@ -438,6 +438,8 @@ assert.match(backendUserServiceSource, /productArchives/);
 assert.match(backendUserServiceSource, /replaceProducts/);
 const backendSeedScript = await readFile(new URL('../backend/scripts/seed.ts', import.meta.url), 'utf8');
 assert.match(backendSeedScript, /src\/data\/foodAdditives\.js/);
+assert.match(backendSeedScript, /Array\.isArray\(module\.foodIngredients\)/);
+assert.match(backendSeedScript, /Array\.isArray\(module\.foodAdditives\)/);
 assert.match(backendSeedScript, /Seeded \$\{foodAdditives\.length\} ingredients/);
 const backendMigrationSql = await readFile(new URL('../backend/src/db/migrations/0000_thick_the_professor.sql', import.meta.url), 'utf8');
 assert.match(backendMigrationSql, /CREATE TABLE "ingredients"/);

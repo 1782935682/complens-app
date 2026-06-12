@@ -2,7 +2,7 @@ import { createDatabaseClient } from '../src/db/client.js';
 import { upsertIngredients, type FoodAdditiveInput } from '../src/services/ingredientService.js';
 
 const dataModule = await import(new URL('../../src/data/foodAdditives.js', import.meta.url).href);
-const foodAdditives = (dataModule.foodIngredients ?? dataModule.foodAdditives) as FoodAdditiveInput[];
+const foodAdditives = resolveFoodSeedItems(dataModule as unknown as FoodDataModule);
 const client = createDatabaseClient();
 const options = parseSeedOptions(process.argv.slice(2));
 
@@ -12,6 +12,18 @@ try {
   console.log(`Seeded ${foodAdditives.length} ingredients for data version ${version}`);
 } finally {
   await client.pool.end();
+}
+
+type FoodDataModule = {
+  foodIngredients?: unknown;
+  foodAdditives?: unknown;
+};
+
+function resolveFoodSeedItems(module: FoodDataModule): FoodAdditiveInput[] {
+  if (Array.isArray(module.foodIngredients)) return module.foodIngredients as FoodAdditiveInput[];
+  if (Array.isArray(module.foodAdditives)) return module.foodAdditives as FoodAdditiveInput[];
+
+  throw new Error('Expected src/data/foodAdditives.js to export foodIngredients or foodAdditives array');
 }
 
 function parseSeedOptions(args: string[]) {
