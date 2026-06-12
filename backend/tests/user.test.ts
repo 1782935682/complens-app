@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createApp } from '../src/app.js';
 import type { AuthService, AuthenticatedUser } from '../src/services/authService.js';
-import type { UserFavoriteItem, UserProductItem, UserProductListParams, UserReportItem, UserService } from '../src/services/userService.js';
+import type { UserFavoriteItem, UserProductItem, UserProductListParams, UserProfileIngredientKind, UserReportItem, UserService } from '../src/services/userService.js';
 
 const testUser: AuthenticatedUser = {
   id: 'user-1',
@@ -45,6 +45,10 @@ function createInMemoryUserService(): UserService {
   let favorites: UserFavoriteItem[] = [];
   let history: string[] = [];
   let allergens: string[] = [];
+  let profileIngredients: Record<UserProfileIngredientKind, string[]> = {
+    watch: [],
+    avoid: []
+  };
   let reports: UserReportItem[] = [];
   let products: UserProductItem[] = [];
 
@@ -87,6 +91,16 @@ function createInMemoryUserService(): UserService {
     async replaceAllergens(_userId, allergenIds) {
       allergens = [...new Set(allergenIds)];
       return allergens;
+    },
+    async listProfileIngredients(_userId, kind) {
+      return profileIngredients[kind];
+    },
+    async replaceProfileIngredients(_userId, kind, ingredientIds) {
+      profileIngredients = {
+        ...profileIngredients,
+        [kind]: [...new Set(ingredientIds)]
+      };
+      return profileIngredients[kind];
     },
     async listReports() {
       return reports;
@@ -328,6 +342,60 @@ describe('GET/PUT /api/user/allergens', () => {
       error: 'invalid_parameter',
       field: 'items',
       message: 'allergen items must be non-empty strings'
+    });
+  });
+});
+
+describe('GET/PUT /api/user/profile/:kind', () => {
+  it('replaces watch and avoid ingredient sets', async () => {
+    const app = createTestApp();
+
+    const replaceWatch = await app.request('/api/user/profile/watch', {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ items: ['sodium-bicarbonate', 'sodium-bicarbonate', 'citric-acid'] })
+    });
+    const replaceAvoid = await app.request('/api/user/profile/avoid', {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ items: ['sodium-metabisulfite'] })
+    });
+    const listWatch = await app.request('/api/user/profile/watch', {
+      headers: authHeaders()
+    });
+
+    expect(replaceWatch.status).toBe(200);
+    expect(await json(replaceWatch)).toEqual({ items: ['sodium-bicarbonate', 'citric-acid'] });
+    expect(replaceAvoid.status).toBe(200);
+    expect(await json(replaceAvoid)).toEqual({ items: ['sodium-metabisulfite'] });
+    expect(await json(listWatch)).toEqual({ items: ['sodium-bicarbonate', 'citric-acid'] });
+  });
+
+  it('rejects invalid profile kind and invalid bulk items', async () => {
+    const app = createTestApp();
+
+    const invalidKind = await app.request('/api/user/profile/other', {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ items: ['citric-acid'] })
+    });
+    const invalidItems = await app.request('/api/user/profile/watch', {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify({ items: ['citric-acid', ''] })
+    });
+
+    expect(invalidKind.status).toBe(400);
+    expect(await json(invalidKind)).toEqual({
+      error: 'invalid_parameter',
+      field: 'kind',
+      message: 'profile kind must be watch or avoid'
+    });
+    expect(invalidItems.status).toBe(400);
+    expect(await json(invalidItems)).toEqual({
+      error: 'invalid_parameter',
+      field: 'items',
+      message: 'profile ingredient items must be non-empty strings'
     });
   });
 });

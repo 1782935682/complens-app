@@ -348,6 +348,7 @@ assert.match(backendDbSchema, /references\(\(\) => users\.id, \{ onDelete: 'casc
 assert.match(backendDbSchema, /export const userFavorites = pgTable\('user_favorites'/);
 assert.match(backendDbSchema, /export const userHistory = pgTable\('user_history'/);
 assert.match(backendDbSchema, /export const userAllergens = pgTable\('user_allergens'/);
+assert.match(backendDbSchema, /export const userProfileIngredients = pgTable\('user_profile_ingredients'/);
 assert.match(backendDbSchema, /export const userReports = pgTable\('user_reports'/);
 assert.match(backendDbSchema, /export const productArchives = pgTable\('product_archives'/);
 assert.match(backendDbSchema, /thumbnailUrl: text\('thumbnail_url'\)/);
@@ -420,6 +421,8 @@ const backendUserRoute = await readFile(new URL('../backend/src/routes/user.ts',
 assert.match(backendUserRoute, /route\.get\('\/user\/favorites'/);
 assert.match(backendUserRoute, /route\.post\('\/user\/history'/);
 assert.match(backendUserRoute, /route\.put\('\/user\/allergens'/);
+assert.match(backendUserRoute, /route\.get\('\/user\/profile\/:kind'/);
+assert.match(backendUserRoute, /route\.put\('\/user\/profile\/:kind'/);
 assert.match(backendUserRoute, /route\.delete\('\/user\/reports'/);
 assert.match(backendUserRoute, /route\.get\('\/user\/products'/);
 assert.match(backendUserRoute, /route\.get\('\/user\/products\/:id'/);
@@ -428,6 +431,7 @@ const backendUserServiceSource = await readFile(new URL('../backend/src/services
 assert.match(backendUserServiceSource, /userFavorites/);
 assert.match(backendUserServiceSource, /replaceFavorites/);
 assert.match(backendUserServiceSource, /replaceAllergens/);
+assert.match(backendUserServiceSource, /replaceProfileIngredients/);
 assert.match(backendUserServiceSource, /replaceReports/);
 assert.match(backendUserServiceSource, /productArchives/);
 assert.match(backendUserServiceSource, /replaceProducts/);
@@ -456,6 +460,10 @@ const backendProductArchiveMigrationSql = await readFile(new URL('../backend/src
 assert.match(backendProductArchiveMigrationSql, /CREATE TABLE "product_archives"/);
 assert.match(backendProductArchiveMigrationSql, /"thumbnail_url" text/);
 assert.match(backendProductArchiveMigrationSql, /CONSTRAINT "product_archives_user_id_id_pk" PRIMARY KEY\("user_id","id"\)/);
+const backendProfileMigrationSql = await readFile(new URL('../backend/src/db/migrations/0007_tricky_marvel_zombies.sql', import.meta.url), 'utf8');
+assert.match(backendProfileMigrationSql, /CREATE TABLE "user_profile_ingredients"/);
+assert.match(backendProfileMigrationSql, /"kind" text NOT NULL/);
+assert.match(backendProfileMigrationSql, /user_profile_ingredients_kind_check/);
 const backendVitestConfig = await readFile(new URL('../backend/vitest.config.ts', import.meta.url), 'utf8');
 assert.match(backendVitestConfig, /include: \['tests\/\*\*\/\*\.test\.ts'\]/);
 const viteConfigJs = await readFile(new URL('../vite.config.js', import.meta.url), 'utf8');
@@ -1437,10 +1445,14 @@ globalThis.window = {
   }
 };
 const syncCalls = [];
-let serverSyncItems = [{ id: 'server-favorite', category: 'food' }];
+const serverSyncItemsByUrl = {
+  '/api/user/favorites': [{ id: 'server-favorite', category: 'food' }],
+  '/api/user/profile/watch': [],
+  '/api/user/profile/avoid': []
+};
 globalThis.fetch = async (url, options = {}) => {
   syncCalls.push({ url, options });
-  if (options.method === 'POST') {
+  if (options.method === 'POST' || options.method === 'PUT') {
     return {
       ok: true,
       json: async () => JSON.parse(options.body)
@@ -1450,7 +1462,7 @@ globalThis.fetch = async (url, options = {}) => {
   return {
     ok: true,
     json: async () => ({
-      items: serverSyncItems
+      items: serverSyncItemsByUrl[url] || []
     })
   };
 };
@@ -1469,6 +1481,15 @@ assert.deepEqual(readJson('compcheck:favorites', []), [
   { id: 'local-favorite', category: 'food' },
   { id: 'server-favorite', category: 'food' }
 ]);
+syncCalls.length = 0;
+writeJson('compcheck:watch-ingredients', ['sodium-bicarbonate']);
+writeJson('compcheck:avoid-ingredients', ['sodium-metabisulfite']);
+await new Promise((resolve) => setTimeout(resolve, 0));
+await new Promise((resolve) => setTimeout(resolve, 0));
+assert.deepEqual(JSON.parse(syncCalls.find((call) => call.url === '/api/user/profile/watch' && call.options.method === 'PUT').options.body).items, ['sodium-bicarbonate']);
+assert.deepEqual(JSON.parse(syncCalls.find((call) => call.url === '/api/user/profile/avoid' && call.options.method === 'PUT').options.body).items, ['sodium-metabisulfite']);
+assert.deepEqual(getWatchIngredientIds('food'), ['sodium-bicarbonate']);
+assert.deepEqual(getAvoidIngredientIds('food'), ['sodium-metabisulfite']);
 storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) + 120, { sub: 'sync-delete-user' }));
 const activeSyncFetch = globalThis.fetch;
 globalThis.fetch = undefined;
@@ -1477,7 +1498,7 @@ writeJson('compcheck:favorites', [
   { id: 'keep-me', category: 'food' }
 ]);
 globalThis.fetch = activeSyncFetch;
-serverSyncItems = [
+serverSyncItemsByUrl['/api/user/favorites'] = [
   { id: 'remove-me', category: 'food' },
   { id: 'keep-me', category: 'food' }
 ];
@@ -1504,7 +1525,9 @@ storageMap.set(AUTH_TOKEN_KEY, accountAToken);
 assert.deepEqual(getWatchIngredientIds('food'), ['sodium-bicarbonate']);
 assert.deepEqual(getAvoidIngredientIds('food'), ['sodium-metabisulfite']);
 storageMap.set('compcheck:favorites', JSON.stringify([{ id: 'stale-shared-favorite', category: 'food' }]));
-serverSyncItems = [{ id: 'account-b-server-favorite', category: 'food' }];
+serverSyncItemsByUrl['/api/user/favorites'] = [{ id: 'account-b-server-favorite', category: 'food' }];
+serverSyncItemsByUrl['/api/user/profile/watch'] = ['citric-acid'];
+serverSyncItemsByUrl['/api/user/profile/avoid'] = ['sodium-benzoate'];
 syncCalls.length = 0;
 storageMap.set(AUTH_TOKEN_KEY, accountBToken);
 assert.deepEqual(readJson('compcheck:favorites', []), []);
@@ -1515,6 +1538,8 @@ await new Promise((resolve) => setTimeout(resolve, 0));
 assert.equal(syncCalls[0].url, '/api/user/favorites');
 assert.equal(syncCalls[0].options.method, undefined);
 assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'account-b-server-favorite', category: 'food' }]);
+assert.deepEqual(readJson('compcheck:watch-ingredients', []), ['citric-acid']);
+assert.deepEqual(readJson('compcheck:avoid-ingredients', []), ['sodium-benzoate']);
 globalThis.fetch = undefined;
 storageMap.set(AUTH_TOKEN_KEY, accountAToken);
 assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'account-a-favorite', category: 'food' }]);

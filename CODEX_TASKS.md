@@ -195,6 +195,7 @@
 
 | 批次 | 名称 | 完成日期 |
 |---|---|---|
+| Batch U-B | 关注成分与忌口项跨设备同步 | ✅ 2026-06-12 |
 | Batch F-B | 历史列表与产品收藏管理 | ✅ 2026-06-12 |
 | Data Batch 1-C | 数据版本管理与审核状态后台化 | ✅ 2026-06-12 |
 | Batch F-A | 产品档案与 IndexedDB 图片存储 | ✅ 2026-06-12 |
@@ -1768,8 +1769,8 @@ onboardingPage 在已有步骤后新增一步：
 #### 6. 存储策略
 
 - 过敏原沿用 `compcheck:allergens`，登录后仍通过既有 `/api/user/allergens` 同步
-- 关注成分和忌口项使用本机 `localStorage`，并按当前登录 token 做本机账号隔离
-- 关注成分和忌口项会随本机 JSON 快照导出/导入/清空；跨设备恢复需后续新增后端 profile schema/API
+- 关注成分和忌口项使用 `compcheck:watch-ingredients`、`compcheck:avoid-ingredients`，未登录时保持本机 `localStorage`
+- Batch U-B 后，登录态会通过 `/api/user/profile/watch`、`/api/user/profile/avoid` 云同步；本机 JSON 快照导出/导入/清空仍保留
 
 #### 7. 测试覆盖
 
@@ -1790,6 +1791,42 @@ npm run lint && npm run test && npm run build
 # - 搜索结果命中项有角标
 # - 刷新后设置不丢失
 ```
+
+---
+
+### Batch U-B：关注成分与忌口项跨设备同步 `[Codex]`
+
+**状态**：✅ 已完成 2026-06-12
+
+**目标**：把 Batch U-A 的关注成分和忌口项从“本机账号隔离”升级为登录态云同步，补齐个人成分档案跨设备恢复基础。
+
+**涉及文件**：
+- `backend/src/db/schema.ts`
+- `backend/src/routes/user.ts`
+- `backend/src/services/userService.ts`
+- `src/services/storageService.js`
+- `backend/tests/user.test.ts`
+- `scripts/test.mjs`
+- `PROJECT_PLAN.md`、`COMMANDS.md`、`AI_REVIEW.md`
+
+**实现内容**：
+
+1. 新增 `user_profile_ingredients` 表，按 `user_id + kind(watch/avoid) + ingredient_id` 存储个人关注/忌口成分。
+2. 新增 `GET/PUT /api/user/profile/:kind`，支持 `watch` 和 `avoid` 两类 whole-set replace，同步语义与过敏原一致。
+3. 前端 `storageService` 将 `compcheck:watch-ingredients`、`compcheck:avoid-ingredients` 接入现有 hydrate-before-write 云同步流程。
+4. 未登录时继续使用本机 localStorage；登录后按当前 JWT 用户做本机缓存隔离并自动云端恢复。
+5. 补充后端 route 测试和前端同步结构测试。
+
+**验收标准**：
+
+```bash
+npm run lint && npm run test && npm run build
+cd backend && npm run typecheck && npm test && npm run build && npm run db:migrate
+```
+
+**阻塞条件**：无。  **是否需要人工**：否。
+
+**2026-06-12 完成记录**：已补齐关注成分与忌口项 profile 同步基础；仍需后续用两个真实设备或浏览器 profile 做端到端跨设备验收，并补离线队列。
 
 ---
 
@@ -2225,7 +2262,7 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 → P-A（配料解析）→ P-B（数据库匹配）
 【已完成】R-A（分析报告）→ F-A（产品档案）→ F-B（历史收藏）
 【已完成】Q-A（登录 UI）
-【已完成】U-A（个性化）
+【已完成】U-A（个性化）→ U-B（关注/忌口云同步）
 【已完成】M-A（首页重构）
 【已完成】M-B（PWA 优化）
 【下一步】A-A[人工+Codex，需 AI Key]

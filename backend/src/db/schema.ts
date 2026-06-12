@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { boolean, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
+import { boolean, check, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
 
 export const ingredients = pgTable('ingredients', {
   id: text('id').primaryKey(),
@@ -117,6 +117,18 @@ export const userAllergens = pgTable('user_allergens', {
   index('user_allergens_user_id_idx').on(table.userId)
 ]);
 
+export const userProfileIngredients = pgTable('user_profile_ingredients', {
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  kind: text('kind').notNull(),
+  ingredientId: text('ingredient_id').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.kind, table.ingredientId] }),
+  index('user_profile_ingredients_user_id_idx').on(table.userId),
+  index('user_profile_ingredients_kind_idx').on(table.kind),
+  check('user_profile_ingredients_kind_check', sql`${table.kind} in ('watch', 'avoid')`)
+]);
+
 export const userReports = pgTable('user_reports', {
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   reportId: text('report_id').notNull(),
@@ -183,6 +195,8 @@ export type UserHistoryRow = typeof userHistory.$inferSelect;
 export type NewUserHistoryRow = typeof userHistory.$inferInsert;
 export type UserAllergenRow = typeof userAllergens.$inferSelect;
 export type NewUserAllergenRow = typeof userAllergens.$inferInsert;
+export type UserProfileIngredientRow = typeof userProfileIngredients.$inferSelect;
+export type NewUserProfileIngredientRow = typeof userProfileIngredients.$inferInsert;
 export type UserReportRow = typeof userReports.$inferSelect;
 export type NewUserReportRow = typeof userReports.$inferInsert;
 export type ProductArchiveRow = typeof productArchives.$inferSelect;
