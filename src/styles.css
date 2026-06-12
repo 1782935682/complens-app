@@ -1395,6 +1395,82 @@ button.danger-button:hover {
   font-size: 12px;
 }
 
+.auth-shell {
+  max-width: 620px;
+}
+
+.auth-tabs {
+  display: inline-flex;
+  gap: 6px;
+  margin: 0 0 16px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f6f8f6;
+}
+
+.auth-tabs a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  min-height: 36px;
+  border-radius: 6px;
+  padding: 6px 14px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.auth-tabs a.is-active {
+  color: var(--primary-strong);
+  background: var(--surface);
+  box-shadow: 0 4px 14px rgba(23, 39, 35, 0.08);
+}
+
+.auth-form {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.auth-password-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.auth-password-field input {
+  min-width: 0;
+}
+
+.auth-password-field button {
+  width: 88px;
+  padding: 0 10px;
+}
+
+.auth-actions,
+.auth-settings-actions {
+  align-items: center;
+}
+
+.auth-current-user {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
+.auth-current-user h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 22px;
+}
+
 .recent-product-strip {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -3304,7 +3380,8 @@ button.danger-button:hover {
   }
 
   .history-filter-tabs,
-  .favorites-tabs {
+  .favorites-tabs,
+  .auth-tabs {
     display: grid;
     width: 100%;
   }
@@ -3313,13 +3390,20 @@ button.danger-button:hover {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .favorites-tabs {
+  .favorites-tabs,
+  .auth-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .history-filter-tabs a,
-  .favorites-tabs a {
+  .favorites-tabs a,
+  .auth-tabs a {
     justify-content: center;
+  }
+
+  .auth-current-user {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .history-card__surface {
@@ -3362,5 +3446,9 @@ button.danger-button:hover {
 
   .history-chip__delete {
     width: 28px;
+  }
+
+  .auth-password-field button {
+    width: 88px;
   }
 }

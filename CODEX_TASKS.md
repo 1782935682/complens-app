@@ -1530,7 +1530,7 @@ npm run lint && npm run test && npm run build
 
 ### Batch Q-A：前端登录/注册页面 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 F-B 完成）
+**状态**：✅ 已完成 2026-06-12
 
 **目标**：让用户能在前端完成注册、登录、退出；登录后启用云同步、跨设备历史。
 
@@ -2148,7 +2148,7 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 
 ```
 → 无阻塞，Codex 可立即执行（按顺序）：
-  Batch Q-A → U-A → M-A → M-B
+  Batch U-A → M-A → M-B
   → A-A（等 AI Key，只能做解释层）
 
 → 当前需要人工并行处理：
@@ -2170,7 +2170,8 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 【已完成】O-A（拍照入口）→ O-D（图片预处理）→ O-B（OCR 抽象）→ O-C（文本确认）
 → P-A（配料解析）→ P-B（数据库匹配）
 【已完成】R-A（分析报告）→ F-A（产品档案）→ F-B（历史收藏）
-【下一步】Q-A（登录 UI）→ U-A（个性化）
+【已完成】Q-A（登录 UI）
+【下一步】U-A（个性化）
 → M-A（首页重构）→ M-B（PWA 优化）
 → A-A[人工+Codex，需 AI Key]
 

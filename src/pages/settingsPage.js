@@ -1,12 +1,14 @@
 import { escapeHtml, html } from '../components/render.js';
 import { standardAllergens } from '../data/allergens.js';
 import { categoryPath } from '../data/categories.js';
+import { getCurrentUser } from '../services/authService.js';
 import { getLocalDataSummary, getUserAllergens, isHistoryRecordingEnabled } from '../store/userStore.js';
 
 export function renderSettingsPage(category = 'food') {
   const selected = new Set(getUserAllergens());
   const localDataSummary = getLocalDataSummary();
   const historyRecordingEnabled = isHistoryRecordingEnabled();
+  const currentUser = getCurrentUser();
   return html`
     <section class="section">
       <div class="section__head">
@@ -24,11 +26,11 @@ export function renderSettingsPage(category = 'food') {
         <div class="section__head">
           <div>
             <p class="eyebrow">会员与同步</p>
-            <h2>会员中心</h2>
+            <h2>账号与云同步</h2>
           </div>
-          <span class="count">Free</span>
+          <span class="count">${currentUser ? '已登录' : '访客模式'}</span>
         </div>
-        <p class="helper-text">查看当前套餐、本机用量、Pro 规划、恢复购买和管理订阅状态。真实订阅需要移动端支付、账号和服务端权益校验后开放。</p>
+        ${renderAuthEntry(category, currentUser)}
         <div class="form-actions">
           <a class="button-link" href="#${categoryPath(category, '/membership')}" data-route>查看会员中心</a>
           <a class="button-link secondary-link" href="#${categoryPath(category, '/support')}" data-route>联系支持</a>
@@ -105,6 +107,25 @@ export function renderSettingsPage(category = 'food') {
         </div>
       </div>
     </section>
+  `;
+}
+
+function renderAuthEntry(category, currentUser) {
+  if (currentUser) {
+    return html`
+      <p class="helper-text">当前账号：<strong>${escapeHtml(currentUser.email)}</strong>。收藏、历史、过敏原档案、分析报告和产品档案会在登录态接入云同步。</p>
+      <div class="form-actions auth-settings-actions">
+        <button type="button" class="secondary" data-auth-logout>退出登录</button>
+      </div>
+    `;
+  }
+
+  const redirect = encodeURIComponent(categoryPath(category, '/settings'));
+  return html`
+    <p class="helper-text">登录后可在支持的设备间同步收藏、历史、过敏原档案、分析报告和产品档案；不登录也可以继续使用本机模式。</p>
+    <div class="form-actions auth-settings-actions">
+      <a class="button-link" href="#${categoryPath(category, '/login')}?redirect=${redirect}" data-route>登录账号，开启云同步</a>
+    </div>
   `;
 }
 

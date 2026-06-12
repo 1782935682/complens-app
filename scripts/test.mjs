@@ -13,6 +13,7 @@ import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage } from '../src/pages/dataPage.js';
 import { renderDetailPage, renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
+import { renderAuthPage } from '../src/pages/authPage.js';
 import { renderHistoryPage } from '../src/pages/historyPage.js';
 import { renderHomePage } from '../src/pages/homePage.js';
 import { renderLegalPage } from '../src/pages/legalPage.js';
@@ -29,7 +30,8 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { compressImage } from '../src/utils/imageProcessor.js';
-import { AUTH_TOKEN_KEY, isLoggedIn, readJson, writeJson } from '../src/services/storageService.js';
+import { AUTH_ERROR_MESSAGES, USER_KEY, getCurrentUser as getAuthCurrentUser, isLoggedIn as isAuthLoggedIn, logout as authLogout, syncLocalDataToServer, validateAuthInput } from '../src/services/authService.js';
+import { AUTH_TOKEN_KEY, isLoggedIn as isStorageLoggedIn, readJson, writeJson } from '../src/services/storageService.js';
 import { getMembershipActionMessage, getMembershipOverview } from '../src/services/membershipService.js';
 import { clearProductArchives, createProductArchiveFromReport, getProductArchiveById, getProductArchiveByReportId, getProductArchives, MAX_PRODUCT_ARCHIVES, PRODUCT_ARCHIVES_KEY, saveProductArchiveFromReport, toggleProductArchiveFavorite } from '../src/services/productArchiveService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, buildShareUrl, formatShareText, isShareAbort, isShareTypeError, sanitizeNativeSharePayload, sharePayloadWithFallback } from '../src/services/shareService.js';
@@ -103,6 +105,18 @@ assert.deepEqual(resolveRoute('#/food/support?topic=data-correction&subject=%E6%
   category: 'food',
   prefill: { topic: 'data-correction', subject: '柠檬酸来源', message: '需要核对', contact: '', hasPrefill: true }
 });
+assert.deepEqual(resolveRoute('#/login?mode=register&redirect=%2Ffood%2Fsettings'), {
+  view: 'auth',
+  category: 'food',
+  mode: 'register',
+  redirect: '/food/settings'
+});
+assert.deepEqual(resolveRoute('#/food/login?mode=login&redirect=%2Ffood%2Fhistory'), {
+  view: 'auth',
+  category: 'food',
+  mode: 'login',
+  redirect: '/food/history'
+});
 assert.deepEqual(resolveRoute('#/food/reports'), { view: 'reports', category: 'food', query: '' });
 assert.deepEqual(resolveRoute('#/food/reports?q=%E5%8D%B5%E7%A3%B7%E8%84%82'), { view: 'reports', category: 'food', query: '卵磷脂' });
 assert.deepEqual(resolveRoute('#/food/reports/report-123'), { view: 'report-detail', category: 'food', id: 'report-123' });
@@ -139,6 +153,7 @@ assert.equal(getRouteTitle(resolveRoute('#/food/onboarding')), '首次设置 - �
 assert.equal(getRouteTitle(resolveRoute('#/food/legal')), '隐私与条款 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/legal/privacy')), '隐私 - 隐私与条款 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/membership')), '会员中心 - 食品添加剂 - CompCheck 成分小查');
+assert.equal(getRouteTitle(resolveRoute('#/food/login')), '账号登录 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/support')), '支持中心 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/ingredient/citric-acid')), '柠檬酸 - 食品添加剂 - CompCheck 成分小查');
 assert.equal(getRouteTitle(resolveRoute('#/food/reports/report-123')), '报告详情 - 食品添加剂 - CompCheck 成分小查');
@@ -189,6 +204,7 @@ assert.equal(getNavigationLinks(resolveRoute('#/food/onboarding')).find((item) =
 assert.equal(getNavigationLinks(resolveRoute('#/food/legal')).find((item) => item.key === 'settings').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'membership').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/support')).find((item) => item.key === 'settings').active, true);
+assert.equal(getNavigationLinks(resolveRoute('#/food/login')).find((item) => item.key === 'settings').active, true);
 assert.equal(getNavigationLinks(resolveRoute('#/food/compare')).find((item) => item.key === 'compare').active, true);
 assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/food')), [
   { key: 'home', href: '#/food', active: true },
@@ -207,6 +223,7 @@ assert.deepEqual(getMobileNavigationLinks(resolveRoute('#/cosmetics/settings')),
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/membership')).find((item) => item.key === 'settings').active, true);
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/legal/privacy')).find((item) => item.key === 'settings').active, true);
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/support')).find((item) => item.key === 'settings').active, true);
+assert.equal(getMobileNavigationLinks(resolveRoute('#/food/login')).find((item) => item.key === 'settings').active, true);
 assert.equal(getMobileNavigationLinks(resolveRoute('#/food/history')).find((item) => item.key === 'history').active, true);
 const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
 assert.equal(packageJson.scripts.dev, 'vite');
@@ -452,6 +469,10 @@ assert.match(mainJs, /function getInitialHash\(\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboarding'\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
+assert.match(mainJs, /bindAuthEvents\(route\)/);
+assert.match(mainJs, /validateAuthInput\(email, password\)/);
+assert.match(mainJs, /data-auth-password-toggle/);
+assert.match(mainJs, /data-auth-logout/);
 assert.match(mainJs, /history\.replaceState\(null, '', `#\$\{categoryPath\(route\.category, '\/support'\)\}`\)/);
 assert.match(mainJs, /if \(requestedPage > totalPages\)/);
 assert.match(mainJs, /requestIngredientSearchPage\(route, totalPages\)/);
@@ -505,7 +526,7 @@ assert.match(nativeBridgeServiceJs, /getBase64ByteSize\(photo\.base64String\)/);
 assert.match(nativeBridgeServiceJs, /Share\.share/);
 assert.match(nativeBridgeServiceJs, /if \(payload\.url\) shareOptions\.url = payload\.url/);
 const serviceWorkerJs = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
-assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v19'/);
+assert.match(serviceWorkerJs, /CACHE_VERSION = 'compcheck-shell-v20'/);
 assert.match(serviceWorkerJs, /\.\/index\.html/);
 assert.match(serviceWorkerJs, /\.\/manifest\.webmanifest/);
 assert.match(serviceWorkerJs, /\.\/app-icon\.svg/);
@@ -519,6 +540,27 @@ assert.match(notFoundHtml, /没有找到这个页面/);
 assert.match(notFoundHtml, /href="#\/food"/);
 assert.match(notFoundHtml, /href="#\/food\/search"/);
 assert.equal(categoryPath('food', '/search'), '/food/search');
+const authLoginHtml = renderAuthPage('food', 'login', '/food/settings');
+assert.match(authLoginHtml, /账号登录/);
+assert.match(authLoginHtml, /data-auth-form/);
+assert.match(authLoginHtml, /data-auth-mode="login"/);
+assert.match(authLoginHtml, /href="#\/food\/login\?mode=register&redirect=%2Ffood%2Fsettings"/);
+assert.match(authLoginHtml, /name="email"/);
+assert.match(authLoginHtml, /type="password"/);
+assert.match(authLoginHtml, /data-auth-password-toggle/);
+assert.match(authLoginHtml, /暂不登录，以访客模式继续/);
+assert.match(authLoginHtml, /href="#\/food\/settings"/);
+const authRegisterHtml = renderRoute(resolveRoute('#/food/login?mode=register&redirect=%2Ffood%2Fhistory'));
+assert.match(authRegisterHtml, /注册账号/);
+assert.match(authRegisterHtml, /data-auth-mode="register"/);
+assert.match(authRegisterHtml, /注册并登录/);
+assert.match(authRegisterHtml, /autocomplete="new-password"/);
+assert.equal(validateAuthInput('bad-email', 'strong-pass').message, AUTH_ERROR_MESSAGES.invalidEmail);
+assert.equal(validateAuthInput('test@example.com', 'short').message, AUTH_ERROR_MESSAGES.shortPassword);
+assert.deepEqual(validateAuthInput(' Test@Example.COM ', 'strong-pass').value, {
+  email: 'test@example.com',
+  password: 'strong-pass'
+});
 
 const scanHtml = renderRoute(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'));
 assert.match(scanHtml, /拍照识别配料表/);
@@ -1240,7 +1282,7 @@ globalThis.fetch = async () => {
   return { ok: true, json: async () => ({ items: [] }) };
 };
 writeJson('compcheck:favorites', [{ id: 'citric-acid', category: 'food' }]);
-assert.equal(isLoggedIn(), false);
+assert.equal(isStorageLoggedIn(), false);
 assert.equal(storageFetchCalls, 0);
 assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'citric-acid', category: 'food' }]);
 assert.equal(storageFetchCalls, 0);
@@ -1255,6 +1297,9 @@ globalThis.window = {
     },
     setItem(key, value) {
       storageMap.set(key, value);
+    },
+    removeItem(key) {
+      storageMap.delete(key);
     }
   }
 };
@@ -1276,7 +1321,7 @@ globalThis.fetch = async (url, options = {}) => {
     })
   };
 };
-assert.equal(isLoggedIn(), true);
+assert.equal(isStorageLoggedIn(), true);
 writeJson('compcheck:favorites', [{ id: 'local-favorite', category: 'food' }]);
 await new Promise((resolve) => setTimeout(resolve, 0));
 await new Promise((resolve) => setTimeout(resolve, 0));
@@ -1331,6 +1376,48 @@ globalThis.fetch = undefined;
 storageMap.set(AUTH_TOKEN_KEY, accountAToken);
 assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'account-a-favorite', category: 'food' }]);
 globalThis.fetch = activeSyncFetch;
+storageMap.set(AUTH_TOKEN_KEY, makeTestJwt(Math.floor(Date.now() / 1000) - 10, { sub: 'expired-auth-user' }));
+storageMap.set(USER_KEY, JSON.stringify({ id: 'expired-auth-user', email: 'expired@example.com', createdAt: '2026-06-12T00:00:00.000Z' }));
+assert.equal(isAuthLoggedIn(), false);
+assert.equal(storageMap.has(AUTH_TOKEN_KEY), false);
+assert.equal(storageMap.has(USER_KEY), false);
+assert.equal(getAuthCurrentUser(), null);
+const authSyncToken = makeTestJwt(Math.floor(Date.now() / 1000) + 240, { sub: 'auth-sync-user' });
+storageMap.set(AUTH_TOKEN_KEY, authSyncToken);
+storageMap.set(USER_KEY, JSON.stringify({ id: 'auth-sync-user', email: 'sync@example.com', createdAt: '2026-06-12T00:00:00.000Z' }));
+assert.equal(isAuthLoggedIn(), true);
+assert.equal(getAuthCurrentUser().email, 'sync@example.com');
+globalThis.fetch = undefined;
+const authSyncResult = await syncLocalDataToServer({
+  schemaVersion: 1,
+  favorites: [{ id: 'citric-acid', category: 'food' }],
+  compareItems: [],
+  history: ['柠檬酸'],
+  allergens: ['milk'],
+  analysisReports: [],
+  products: [],
+  supportRequests: [],
+  scanDrafts: {}
+});
+assert.equal(authSyncResult.ok, true);
+assert.deepEqual(readJson('compcheck:favorites', []), [{ id: 'citric-acid', category: 'food' }]);
+assert.deepEqual(readJson('compcheck:history', []), ['柠檬酸']);
+assert.deepEqual(readJson('compcheck:allergens', []), ['milk']);
+let authLogoutCalled = false;
+globalThis.fetch = async (url, options = {}) => {
+  if (url === '/api/auth/logout') {
+    authLogoutCalled = true;
+    assert.equal(options.method, 'POST');
+    assert.equal(options.headers.Authorization, `Bearer ${authSyncToken}`);
+    return { ok: true, json: async () => ({ ok: true }) };
+  }
+  return activeSyncFetch(url, options);
+};
+await authLogout();
+assert.equal(authLogoutCalled, true);
+assert.equal(storageMap.has(AUTH_TOKEN_KEY), false);
+assert.equal(storageMap.has(USER_KEY), false);
+assert.equal(isAuthLoggedIn(), false);
 globalThis.fetch = originalFetch;
 globalThis.window = originalWindow;
 
@@ -1413,6 +1500,10 @@ assert.match(settingsHtml, /2 项已关注/);
 assert.match(settingsHtml, /value="milk" checked/);
 assert.match(settingsHtml, /value="soybeans" checked/);
 assert.match(settingsHtml, /value="peanuts"/);
+assert.match(settingsHtml, /账号与云同步/);
+assert.match(settingsHtml, /访客模式/);
+assert.match(settingsHtml, /登录账号，开启云同步/);
+assert.match(settingsHtml, /href="#\/food\/login\?redirect=%2Ffood%2Fsettings"/);
 assert.match(settingsHtml, /会员中心/);
 assert.match(settingsHtml, /href="#\/food\/membership"/);
 assert.match(settingsHtml, /href="#\/food\/support"/);
@@ -1435,6 +1526,7 @@ assert.match(settingsHtml, /data-history-recording-toggle checked/);
 assert.match(renderSettingsPage('cosmetics'), /href="#\/cosmetics\/membership"/);
 assert.match(renderSettingsPage('cosmetics'), /href="#\/cosmetics\/support"/);
 assert.match(renderSettingsPage('cosmetics'), /href="#\/cosmetics\/legal"/);
+assert.match(renderSettingsPage('cosmetics'), /href="#\/cosmetics\/login\?redirect=%2Fcosmetics%2Fsettings"/);
 const membershipOverview = getMembershipOverview('food');
 assert.equal(membershipOverview.currentPlan.id, 'free');
 assert.equal(membershipOverview.proPlan.id, 'pro');

@@ -1,5 +1,6 @@
 import { renderAnalyzePage } from '../pages/analyzePage.js';
 import { categoryPath, defaultCategory, getProductCategory, isProductCategory, legacyCategory } from '../data/categories.js';
+import { renderAuthPage } from '../pages/authPage.js';
 import { renderComparePage } from '../pages/comparePage.js';
 import { renderDataPage } from '../pages/dataPage.js';
 import { renderDetailPage } from '../pages/detailPage.js';
@@ -21,11 +22,13 @@ import { renderSettingsPage } from '../pages/settingsPage.js';
 import { renderSupportPage } from '../pages/supportPage.js';
 import { getIngredientById } from '../services/ingredientService.js';
 import { getProductArchiveById } from '../services/productArchiveService.js';
+import { buildAuthRedirectTarget, normalizeAuthMode } from '../services/authService.js';
 import { buildSupportPrefillFromParams } from '../services/supportService.js';
 
 const APP_TITLE = 'CompCheck 成分小查';
 const VIEW_TITLES = {
   analyze: '成分表分析',
+  auth: '账号登录',
   compare: '成分对比',
   data: '数据来源',
   detail: '成分详情',
@@ -88,6 +91,16 @@ export function resolveRoute(hash) {
     return {
       view: 'home',
       category: route.category
+    };
+  }
+
+  if (route.path === '/login') {
+    const category = route.hasCategoryPrefix ? route.category : defaultCategory;
+    return {
+      view: 'auth',
+      category,
+      mode: normalizeAuthMode(params.get('mode')),
+      redirect: buildAuthRedirectTarget(params.get('redirect'), category)
     };
   }
 
@@ -259,6 +272,7 @@ export function resolveRoute(hash) {
 }
 
 export function renderRoute(route, asyncState = null) {
+  if (route.view === 'auth') return renderAuthPage(route.category, route.mode, route.redirect);
   if (route.view === 'detail') return renderDetailPage(route.id, route.category, asyncState);
   if (route.view === 'search') return renderSearchPage(route.query, route.category, route.filters, route.page, route.sort, asyncState);
   if (route.view === 'compare') return renderComparePage(route.category);
@@ -304,7 +318,7 @@ export function getNavigationLinks(route) {
     active: route?.view === item.view
       || (item.key === 'reports' && route?.view === 'report-detail')
       || (item.key === 'history' && ['products', 'product-detail'].includes(route?.view))
-      || (item.key === 'settings' && ['legal', 'onboarding', 'support'].includes(route?.view))
+      || (item.key === 'settings' && ['auth', 'legal', 'onboarding', 'support'].includes(route?.view))
   }));
 }
 
@@ -315,7 +329,7 @@ export function getMobileNavigationLinks(route) {
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
       || (item.key === 'history' && ['products', 'product-detail'].includes(route?.view))
-      || (item.key === 'settings' && ['legal', 'membership', 'onboarding', 'support'].includes(route?.view))
+      || (item.key === 'settings' && ['auth', 'legal', 'membership', 'onboarding', 'support'].includes(route?.view))
   }));
 }
 

@@ -283,13 +283,38 @@ function hashString(value) {
   return (hash >>> 0).toString(36);
 }
 
-function readRaw(key) {
+export function readRaw(key) {
   const storage = getStorage();
   try {
     return storage ? storage.getItem(key) ?? memoryStore.get(key) : memoryStore.get(key);
   } catch {
     return memoryStore.get(key);
   }
+}
+
+export function writeRaw(key, value) {
+  const storage = getStorage();
+  const serialized = String(value ?? '');
+  try {
+    if (storage) {
+      storage.setItem(key, serialized);
+      memoryStore.set(key, serialized);
+      return;
+    }
+  } catch {
+    // Keep the same in-memory fallback used by JSON storage.
+  }
+  memoryStore.set(key, serialized);
+}
+
+export function removeRaw(key) {
+  const storage = getStorage();
+  try {
+    if (storage) storage.removeItem(key);
+  } catch {
+    // Keep auth cleanup best-effort when localStorage is blocked.
+  }
+  memoryStore.delete(key);
 }
 
 function isValidJwt(token) {
