@@ -1921,15 +1921,17 @@ npm run lint && npm run test && npm run build
 
 ### Batch M-B：PWA 体验优化与离线能力 `[Codex]`
 
-**状态**：⏳ 未开始（可立即执行）
+**状态**：✅ 2026-06-12
 
 **目标**：优化 PWA 安装体验，明确离线能力边界，修复 iPhone Safari 常见问题。
 
 **涉及文件**：
 - `public/manifest.webmanifest`（优化）
 - `public/sw.js`（离线策略优化）
+- `src/main.js`（离线状态和安装提示）
 - `src/styles.css`（iOS 修复）
 - `src/index.html`
+- `src/pages/settingsPage.js`（离线能力说明）
 - `docs/pwa-offline-capability.md`（新建）
 
 **实现内容**：
@@ -1941,15 +1943,15 @@ npm run lint && npm run test && npm run build
   "name": "成分镜",
   "short_name": "成分镜",
   "description": "拍照识别食品配料表，了解每种成分",
-  "start_url": "./",
+  "start_url": "./#/food",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0ea5e9",
+  "theme_color": "#116a5b",
   "orientation": "portrait",
   "icons": [72,96,128,144,152,192,384,512 的各尺寸 PNG],
   "shortcuts": [{
     "name": "拍照识别",
-    "url": "./#/scan",
+    "url": "./#/food/scan",
     "icons": [...]
   }]
 }
@@ -1959,11 +1961,11 @@ npm run lint && npm run test && npm run build
 
 | 资源类型 | 策略 |
 |---|---|
-| App Shell（HTML/CSS/JS）| Cache First，版本更新时 Stale-While-Revalidate |
+| App Shell（HTML/CSS/JS）| Install 阶段预缓存 HTML/manifest/icons，并解析 `index.html` 预热 Vite JS/CSS bundles；运行时 Stale-While-Revalidate，替换 HTML 前先缓存新 HTML 引用的 bundles |
 | 成分 API `/api/ingredients` | Network First，失败时返回缓存 |
-| 图片（CDN）| Cache First，30 天 |
+| 图片和图标 | Cache First，图标首次离线可回退读取 App Shell 预缓存 |
 | OCR API `/api/ocr` | Network Only（不缓存） |
-| 用户数据 API `/api/user/*` | Network First，失败时提示离线 |
+| 登录态 API `/api/auth/*`、`/api/user/*` | Network Only（不缓存），失败时提示离线 |
 
 #### 3. 离线能力说明文档（`docs/pwa-offline-capability.md`）
 
@@ -1975,26 +1977,30 @@ npm run lint && npm run test && npm run build
 - ⚠️ 云同步（需要网络）
 - ❌ 登录/注册（需要网络）
 
-在 App 中（首页/设置页）展示离线状态提示：检测到 `!navigator.onLine` 时顶部显示 "📡 当前离线，部分功能不可用"。
+在 App 中展示全局离线状态提示：检测到 `!navigator.onLine` 时顶部显示“当前离线，部分功能不可用”，并在设置页展示“离线与安装”能力说明。
 
 #### 4. iPhone Safari 修复
 
 ```css
 /* 修复 100vh 问题 */
-.full-height { height: 100dvh; }  /* 使用 dvh，不用 vh */
+.full-height {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
 
 /* 输入框 zoom 防止 */
 input, textarea, select { font-size: max(16px, 1rem); }
 
 /* 状态栏处理（PWA 模式下） */
 /* meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" */
+/* 顶部使用 env(safe-area-inset-top) 避免状态栏遮挡 */
 ```
 
 #### 5. PWA 安装提示
 
 - 检测 `beforeinstallprompt` 事件（Android Chrome）
 - 用户第 3 次打开时在底部显示 "添加到主屏幕" 提示条
-- iOS Safari 提示："点击 ⬆️ → 添加到主屏幕"
+- iOS Safari 提示："点击分享，然后选择添加到主屏幕"
 
 **验收标准**：
 
@@ -2194,8 +2200,7 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 
 ```
 → 无阻塞，Codex 可立即执行（按顺序）：
-  Batch M-B
-  → A-A（等 AI Key，只能做解释层）
+  暂无（下一项 A-A 需要 AI Key 人工前置）
 
 → 当前需要人工并行处理：
   Data Batch 1-B：官方来源清单确认和 10-20 条逐条审核样例（不阻塞 OCR 流程）
@@ -2219,8 +2224,8 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 【已完成】Q-A（登录 UI）
 【已完成】U-A（个性化）
 【已完成】M-A（首页重构）
-【下一步】M-B（PWA 优化）
-→ A-A[人工+Codex，需 AI Key]
+【已完成】M-B（PWA 优化）
+【下一步】A-A[人工+Codex，需 AI Key]
 
 【后置：订阅支付上架（等核心稳定）】
 L-A[人工+Codex] → 2-D[人工] → 2-E[人工]

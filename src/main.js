@@ -23,12 +23,18 @@ import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
 const app = document.querySelector('#app');
 const API_SEARCH_PAGE_SIZE = 6;
+const PWA_OPEN_COUNT_KEY = 'compcheck:pwa-open-count';
+const PWA_INSTALL_DISMISSED_KEY = 'compcheck:pwa-install-dismissed';
+const PWA_INSTALLED_KEY = 'compcheck:pwa-installed';
 let scanPreviewObjectUrl = '';
 let productImageObjectUrl = '';
 let scanPreviewRotation = 0;
 let routeRenderVersion = 0;
+let deferredInstallPrompt = null;
 
 registerServiceWorker();
+setupConnectionStatus();
+setupPwaInstallPrompt();
 
 function navigate(hash) {
   window.location.hash = hash;
@@ -1479,6 +1485,126 @@ function registerServiceWorker() {
     register();
   } else {
     window.addEventListener('load', register, { once: true });
+  }
+}
+
+function setupConnectionStatus() {
+  const banner = document.querySelector('[data-connection-banner]');
+  if (!banner || !('onLine' in navigator)) return;
+
+  const update = () => {
+    const offline = navigator.onLine === false;
+    banner.hidden = !offline;
+    document.body.classList.toggle('is-offline', offline);
+    document.documentElement.style.setProperty(
+      '--connection-banner-height',
+      offline ? `${banner.offsetHeight}px` : '0px'
+    );
+  };
+
+  window.addEventListener('online', update);
+  window.addEventListener('offline', update);
+  window.addEventListener('resize', update);
+  update();
+}
+
+function setupPwaInstallPrompt() {
+  recordPwaOpen();
+  const promptNode = document.querySelector('[data-install-prompt]');
+  const messageNode = document.querySelector('[data-install-prompt-message]');
+  const actionButton = document.querySelector('[data-install-prompt-action]');
+  const dismissButton = document.querySelector('[data-install-prompt-dismiss]');
+  if (!promptNode || !messageNode || !actionButton || !dismissButton) return;
+
+  const refreshPrompt = () => {
+    if (!shouldShowPwaInstallPrompt()) {
+      promptNode.hidden = true;
+      return;
+    }
+
+    const ios = isIosSafari();
+    messageNode.textContent = ios
+      ? '点击浏览器分享按钮，然后选择“添加到主屏幕”。'
+      : '添加到主屏幕，离线也能打开本机历史和收藏。';
+    actionButton.textContent = ios ? '我知道了' : '添加';
+    promptNode.hidden = false;
+  };
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    refreshPrompt();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    writeLocalFlag(PWA_INSTALLED_KEY, 'true');
+    deferredInstallPrompt = null;
+    promptNode.hidden = true;
+  });
+
+  actionButton.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) {
+      writeLocalFlag(PWA_INSTALL_DISMISSED_KEY, 'true');
+      promptNode.hidden = true;
+      return;
+    }
+
+    deferredInstallPrompt.prompt();
+    const choice = await deferredInstallPrompt.userChoice.catch(() => null);
+    if (choice?.outcome === 'accepted') {
+      writeLocalFlag(PWA_INSTALLED_KEY, 'true');
+    }
+    deferredInstallPrompt = null;
+    promptNode.hidden = true;
+  });
+
+  dismissButton.addEventListener('click', () => {
+    writeLocalFlag(PWA_INSTALL_DISMISSED_KEY, 'true');
+    promptNode.hidden = true;
+  });
+
+  refreshPrompt();
+}
+
+function recordPwaOpen() {
+  const current = Number(readLocalValue(PWA_OPEN_COUNT_KEY) || '0') || 0;
+  writeLocalFlag(PWA_OPEN_COUNT_KEY, String(current + 1));
+}
+
+function shouldShowPwaInstallPrompt() {
+  const openCount = Number(readLocalValue(PWA_OPEN_COUNT_KEY) || '0') || 0;
+  return openCount >= 3
+    && readLocalValue(PWA_INSTALL_DISMISSED_KEY) !== 'true'
+    && readLocalValue(PWA_INSTALLED_KEY) !== 'true'
+    && !isStandalonePwa()
+    && (Boolean(deferredInstallPrompt) || isIosSafari());
+}
+
+function isStandalonePwa() {
+  return window.matchMedia?.('(display-mode: standalone)')?.matches
+    || window.navigator.standalone === true;
+}
+
+function isIosSafari() {
+  const userAgent = window.navigator.userAgent || '';
+  const isIos = /iphone|ipad|ipod/i.test(userAgent);
+  const isWebKit = /safari/i.test(userAgent) && !/crios|fxios|edgios/i.test(userAgent);
+  return isIos && isWebKit;
+}
+
+function readLocalValue(key) {
+  try {
+    return window.localStorage?.getItem(key) || '';
+  } catch {
+    return '';
+  }
+}
+
+function writeLocalFlag(key, value) {
+  try {
+    window.localStorage?.setItem(key, value);
+  } catch {
+    // Installation hints are optional; blocked storage should not affect app use.
   }
 }
 
