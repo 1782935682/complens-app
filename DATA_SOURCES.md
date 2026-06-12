@@ -8,8 +8,9 @@
 
 - 不允许 AI 编造食品成分数据、法规来源、ADI、限量、条款编号或安全结论。
 - 不允许把 JECFA 安全评价当成 GB 2760 中国法规使用范围。
+- GB 2760-2024 的权威来源只使用国家卫生健康委公告和食品安全国家标准数据检索平台；第三方网站只能作为辅助检索线索，不能作为 `sourceType: 'official_standard'` 或官方 `sourceName`。
 - 不强行补齐所有食品配料；无法可靠结构化的内容先保留 `rawSourceText` 和待确认状态。
-- `isVerified: true` 只能用于已完成法规依据、来源文本、版本和人工审核的记录；当前食品数据没有 `isVerified: true` 记录。
+- `isVerified: true` 只能用于已完成 GB 2760 官方法规依据、来源文本、版本和条款级核验的记录；JECFA 仅能作为安全评价来源。
 
 ## 分层数据状态
 
@@ -17,8 +18,8 @@
 
 | dataStatus | 含义 | 当前数量 | 当前说明 |
 |---|---:|---:|---|
-| `verified_regulation` | 已匹配 GB 2760 官方法规依据 | 0 | 尚未导入可条款级确认的 GB 2760 结构化数据 |
-| `verified_jecfa` | 已匹配 JECFA 安全评价依据 | 32 | 仅代表 JECFA 条目和 ADI 摘要已匹配，不代表中国法规使用限制 |
+| `verified_regulation` | 已匹配 GB 2760 官方法规依据 | 5 | 已从 GB 2760-2024 官方 PDF 表 A.1 导入条款级使用范围和限量 |
+| `verified_jecfa` | 已匹配 JECFA 安全评价依据 | 27 | 仅代表 JECFA 条目和 ADI 摘要已匹配，不代表中国法规使用限制 |
 | `mapped_candidate` | 疑似匹配，待确认 | 0 | 当前用于运行时低置信匹配，不写入权威结论 |
 | `common_ingredient` | 常见普通食品配料 | 12 | 来自项目样例标签词库，不是法规或安全评价来源 |
 | `unverified` | 未验证 | 68 | 原 100 条 seed 中尚未完成 JECFA/GB 2760 精确审核的添加剂 |
@@ -28,24 +29,35 @@
 
 ## GB 2760 当前状态
 
-当前没有任何记录被标记为 `verified_regulation`。
+当前 5 条记录已从 GB 2760-2024 官方 PDF 表 A.1 导入条款级使用范围和最大使用量，并标记为 `verified_regulation` / `isVerified: true`：
 
-现有 68 条未验证添加剂保留了 GB 2760 公开入口作为后续核验线索，但这些字段仍属于 seed reference，不代表已经完成：
+`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`。
 
-- 标准版本确认
+已确认的 GB 2760-2024 官方来源：
+
+- 公告来源：国家卫生健康委公告（2024 年第 1 号），食品安全国家标准数据检索平台记录标题为“关于发布《食品安全国家标准 食品添加剂使用标准》（GB 2760-2024）等47项食品安全国家标准和6项修改单的公告（2024年 第1号）”，发布日期 `2024-02-08`，平台记录 ID `3D0601E8-A77C-4EC5-B148-30E2E7020822`。
+- 标准文本：`GB 2760-2024 食品安全国家标准 食品添加剂使用标准`，食品安全国家标准数据检索平台记录 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`，发布日期 `2024-02-08`，实施日期 `2025-02-08`。
+- 官方附件：平台附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`，平台文件名 `1747898473246.pdf`，下载接口为 `https://sppt.cfsa.net.cn:8086/cfsa_aiguo`（POST `task=d_p` + `file_guid`）。
+- 本地保存：官方 PDF 已保存到 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`，文件大小 `2600140` bytes，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`；该文件不提交到应用仓库。
+- 平台提示：2026-06-12 抓取页面时，平台页面提示“系统维护中，暂时无法使用标准预览和下载功能。”下载接口可返回官方 PDF；不得改用第三方镜像作为官方来源。
+
+其余 68 条未验证添加剂已将 GB 2760-2024 官方标准文本记录作为后续核验来源，但这些字段仍属于 seed reference，不代表已经完成：
+
 - 条款编号确认
 - 适用食品类别确认
 - 最大使用量或残留量确认
 - 原始法规文本结构化
 - 人工审核签核
 
-因此当前不导入 `usageLimits`，也不把 `gbStatus`、`foodCategories` 或 seed 来源展示为已核验法规结论。
+因此除上述 5 条外，当前不导入 `usageLimits`，也不把 `gbStatus`、`foodCategories` 或 seed 来源展示为已核验法规结论。
 
 ## JECFA 当前状态
 
-当前 32 条添加剂为 `verified_jecfa`：
+当前 27 条添加剂为 `verified_jecfa`：
 
-`citric-acid`、`sodium-citrate`、`potassium-sorbate`、`sodium-benzoate`、`ascorbic-acid`、`xanthan-gum`、`aspartame`、`sucralose`、`sodium-bicarbonate`、`sodium-cyclamate`、`pectin`、`calcium-carbonate`、`tartrazine`、`sunset-yellow-fcf`、`allura-red-ac`、`glycerol`、`calcium-chloride`、`sodium-alginate`、`acesulfame-potassium`、`carrageenan`、`guar-gum`、`polysorbate-80`、`sodium-nitrite`、`potassium-nitrate`、`potassium-citrate`、`calcium-citrate`、`lactic-acid`、`sodium-acetate`、`calcium-propionate`、`natamycin`、`propylene-glycol-alginate`、`sodium-carboxymethyl-cellulose`。
+`potassium-sorbate`、`sodium-benzoate`、`ascorbic-acid`、`aspartame`、`sucralose`、`sodium-cyclamate`、`pectin`、`tartrazine`、`sunset-yellow-fcf`、`allura-red-ac`、`glycerol`、`calcium-chloride`、`sodium-alginate`、`acesulfame-potassium`、`carrageenan`、`guar-gum`、`polysorbate-80`、`sodium-nitrite`、`potassium-nitrate`、`potassium-citrate`、`calcium-citrate`、`lactic-acid`、`sodium-acetate`、`calcium-propionate`、`natamycin`、`propylene-glycol-alginate`、`sodium-carboxymethyl-cellulose`。
+
+另有 5 条已升级为 `verified_regulation`，但在 `sourceReferences` 中保留 JECFA 条目作为补充安全评价来源。
 
 来源版本：`JECFA database updates through 101st JECFA meeting (October 2025)`
 
@@ -55,7 +67,7 @@ JECFA 字段使用边界：
 
 - 可以作为安全评价来源：`sourceScope: 'jecfa_safety_evaluation'`、ADI 摘要、JECFA 条目 URL、`rawSourceText`。
 - 不能作为中国法规使用范围：不写入 GB 2760 使用类别、最大使用量或中国允许/限制结论。
-- `isVerified` 仍为 `false`，因为 GB 2760 条款级法规核验未完成。
+- JECFA-only 记录的 `isVerified` 仍为 `false`，因为 GB 2760 条款级法规核验未完成。
 
 ## Common Ingredient 当前状态
 
