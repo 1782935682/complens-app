@@ -124,7 +124,7 @@ function renderAuthEntry(category, currentUser) {
   return html`
     <p class="helper-text">登录后可在支持的设备间同步收藏、历史、过敏原档案、分析报告和产品档案；不登录也可以继续使用本机模式。</p>
     <div class="form-actions auth-settings-actions">
-      <a class="button-link" href="#/login?redirect=${redirect}" data-route>登录账号，开启云同步</a>
+      <a class="button-link" href="#${categoryPath(category, '/login')}?redirect=${redirect}" data-route>登录账号，开启云同步</a>
     </div>
   `;
 }
