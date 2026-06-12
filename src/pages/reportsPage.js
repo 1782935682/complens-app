@@ -42,9 +42,20 @@ export function renderReportsPage(category = 'food', query = '') {
       ${reports.length
         ? visibleReports.length
           ? html`<div class="report-list">${visibleReports.map((report) => reportCard(report)).join('')}</div>`
-          : html`<p class="empty">没有找到匹配的本地报告。可以换用成分名、过敏原、风险关键词或原始文本片段再试。</p>`
-        : html`<p class="empty">还没有保存的分析报告。完成一次成分表分析后，可以将结果保存到本地。</p>`}
+          : renderReportsEmptyState(category, true)
+        : renderReportsEmptyState(category, false)}
     </section>
+  `;
+}
+
+function renderReportsEmptyState(category, hasQuery) {
+  return html`
+    <div class="empty-state">
+      <div class="empty-state-icon" aria-hidden="true">报</div>
+      <p class="empty-state-title">${hasQuery ? '没有找到匹配的本地报告' : '还没有保存的分析报告'}</p>
+      <p class="empty-state-desc">${hasQuery ? '可以换用成分名、过敏原、风险关键词或原始文本片段再试。' : '完成一次成分表分析后，可以将结果保存到本地。'}</p>
+      <a class="button-link" href="#${categoryPath(category, hasQuery ? '/reports' : '/analyze')}" data-route>${hasQuery ? '查看全部报告' : '新建分析'}</a>
+    </div>
   `;
 }
 

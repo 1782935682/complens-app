@@ -324,13 +324,22 @@ export function getNavigationLinks(route) {
 
 export function getMobileNavigationLinks(route) {
   const category = route?.category || defaultCategory;
+  const activeKey = getMobileActiveKey(route);
   return MOBILE_NAV_ITEMS.map((item) => ({
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
-    active: route?.view === item.view
-      || (item.key === 'history' && ['products', 'product-detail'].includes(route?.view))
-      || (item.key === 'settings' && ['auth', 'legal', 'membership', 'onboarding', 'support'].includes(route?.view))
+    active: item.key === activeKey
   }));
+}
+
+function getMobileActiveKey(route) {
+  const view = route?.view || 'home';
+  if (view === 'home') return 'home';
+  if (['scan', 'ocr-confirm', 'analyze'].includes(view)) return 'scan';
+  if (['search', 'detail', 'compare', 'data'].includes(view)) return 'search';
+  if (['history', 'reports', 'report-detail', 'products', 'product-detail'].includes(view)) return 'history';
+  if (['settings', 'favorites', 'auth', 'legal', 'membership', 'onboarding', 'support'].includes(view)) return 'settings';
+  return null;
 }
 
 function resolveCategoryPath(path) {

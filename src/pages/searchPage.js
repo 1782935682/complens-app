@@ -85,15 +85,25 @@ function renderApiStateNotice(apiState) {
     return '<p class="data-disclaimer" data-api-success>当前结果来自后端数据库；未验证数据会单独标识。</p>';
   }
   if (apiState.status === 'error') {
-    return '<p class="data-warning" data-api-error>后端成分 API 暂不可用，已降级为本地草稿数据。请不要将未验证数据视为权威结论。</p>';
+    return html`
+      <div class="error-state" data-api-error>
+        <p class="error-state-title">后端成分 API 暂不可用</p>
+        <p class="error-desc">已降级为本地草稿数据。请不要将未验证数据视为权威结论。</p>
+        <button type="button" class="secondary" data-route-retry>重试</button>
+      </div>
+    `;
   }
   return '';
 }
 
 function renderLoadingState() {
   return html`
-    <div class="empty-state" data-search-loading>
-      <p class="empty">正在加载后端数据库结果...</p>
+    <div class="empty-state loading-state" data-search-loading aria-busy="true">
+      <div class="skeleton skeleton-card" aria-hidden="true"></div>
+      <div class="skeleton skeleton-text skeleton-text--wide" aria-hidden="true"></div>
+      <div class="skeleton skeleton-text" aria-hidden="true"></div>
+      <p class="empty-state-title">正在加载后端数据库结果</p>
+      <p class="empty-state-desc">优先读取服务端食品添加剂库，完成后会自动刷新结果列表。</p>
     </div>
   `;
 }
@@ -352,7 +362,10 @@ function renderEmpty(query, activeFilterCount, category) {
     : '未找到相关成分。可以尝试英文名、别名，或到扫描页/分析页录入完整成分表。';
   return html`
     <div class="empty-state" data-search-empty-state>
-      <p class="empty">${escapeHtml(message)}</p>
+      <div class="empty-state-icon" aria-hidden="true">搜</div>
+      <p class="empty-state-title">${activeFilterCount ? '没有符合筛选的成分' : '未找到相关成分'}</p>
+      <p class="empty-state-desc">${escapeHtml(message)}</p>
+      <a class="button-link" href="#${categoryPath(category, '/scan')}" data-route>去拍照识别</a>
       ${renderEmptyCategoryEntrances(category)}
     </div>
   `;

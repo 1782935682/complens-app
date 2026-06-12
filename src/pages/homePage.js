@@ -18,29 +18,68 @@ export function renderHomePage(category = 'food') {
   const auditSummary = getDatasetAuditSummary(category);
 
   return html`
-    ${renderCategoryTabs(category)}
-    ${shouldShowOnboardingPrompt() ? renderOnboardingPrompt(category) : ''}
-    <section class="hero">
+    <section class="home-appbar" aria-label="首页顶部">
       <div>
-        <p class="eyebrow">CompLens / 成分镜</p>
+        <p class="eyebrow">CompCheck</p>
+        <h1>成分镜</h1>
+      </div>
+      <a class="icon-button home-settings-button" href="#${categoryPath(category, '/settings')}" data-route aria-label="打开个人设置">设</a>
+    </section>
+
+    ${shouldShowOnboardingPrompt() ? renderOnboardingPrompt(category) : ''}
+    ${renderCategoryTabs(category)}
+
+    <section class="hero home-hero" data-home-hero>
+      <div>
+        <p class="eyebrow">${currentCategory.label}</p>
         <h1>${category === 'food' ? '拍照识别食品配料表' : '看懂产品成分，少一点盲选。'}</h1>
         <p class="hero__copy">${category === 'food' ? '上传或拍摄配料表图片，确认文字后匹配食品添加剂数据库。' : currentCategory.description}</p>
-        <div class="hero-primary-actions">
-          <a class="hero-scan-cta" href="#${categoryPath(category, '/scan')}" data-route>拍照识别配料表</a>
+        <div class="hero-primary-actions home-primary-actions">
+          <a class="hero-scan-cta home-scan-cta" href="#${categoryPath(category, '/scan')}" data-route data-home-primary-scan>拍照识别配料表</a>
           <div class="hero-secondary-links">
             <a href="#${categoryPath(category, '/reports')}" data-route>最近分析</a>
             <a href="#${categoryPath(category, '/search')}" data-route>成分搜索</a>
           </div>
         </div>
       </div>
-      <form class="search-panel" data-search-form data-suggestion-category="${escapeHtml(category)}">
-        <label for="home-search">辅助搜索成分</label>
+      <div class="home-hero-panel" aria-label="本机状态">
+        <span>本机档案</span>
+        <strong>${reports.length} 份分析报告</strong>
+        <p>${recentProducts.length ? `最近 ${recentProducts.length} 个产品可回看` : '拍照识别后会在首页展示最近分析产品。'}</p>
+        <a class="inline-link" href="#${categoryPath(category, '/history')}" data-route>查看分析历史</a>
+      </div>
+    </section>
+
+    ${recentProducts.length ? renderRecentProducts(category, recentProducts) : ''}
+
+    <section class="section home-search-section" data-home-search>
+      <div class="section__head">
+        <h2>成分搜索</h2>
+        <a class="inline-link" href="#${categoryPath(category, '/search')}" data-route>高级筛选</a>
+      </div>
+      <form class="search-panel compact" data-search-form data-suggestion-category="${escapeHtml(category)}">
+        <label for="home-search-secondary">搜索成分名称</label>
         <div class="search-row">
-          <input id="home-search" name="q" type="search" placeholder="${category === 'food' ? '如：柠檬酸 / E330 / INS 330' : '如：烟酰胺 / Niacinamide / BHA'}" autocomplete="off" aria-describedby="home-search-suggestions" />
+          <input id="home-search-secondary" name="q" type="search" placeholder="${category === 'food' ? '柠檬酸 / E330 / INS 330' : '烟酰胺 / Niacinamide / BHA'}" autocomplete="off" aria-describedby="home-search-secondary-suggestions" />
           <button type="submit">搜索</button>
         </div>
-        <div id="home-search-suggestions" class="search-suggestions" data-search-suggestions aria-live="polite"></div>
+        <div id="home-search-secondary-suggestions" class="search-suggestions" data-search-suggestions aria-live="polite"></div>
       </form>
+    </section>
+
+    <section class="section home-category-section" data-home-categories>
+      <div class="section__head">
+        <h2>热门类别</h2>
+      </div>
+      ${ingredientCategories.length
+        ? `<div class="chip-list home-category-list">${ingredientCategories.slice(0, 6).map((item) => renderCategoryChip(item, category)).join('')}</div>`
+        : renderEmptyState({
+          icon: '类',
+          title: '暂无分类数据',
+          desc: '当前类别还没有分类入口，可以先搜索成分名称。',
+          href: `#${categoryPath(category, '/search')}`,
+          actionLabel: '去搜索成分'
+        })}
     </section>
 
     <section class="quick-actions" aria-label="快捷入口">
@@ -58,8 +97,6 @@ export function renderHomePage(category = 'food') {
       </a>
     </section>
 
-    ${recentProducts.length ? renderRecentProducts(category, recentProducts) : ''}
-
     ${category === 'food' ? renderDatasetAuditSummary(auditSummary) : ''}
 
     <section class="section">
@@ -68,7 +105,13 @@ export function renderHomePage(category = 'food') {
       </div>
       ${popular.length
         ? `<div class="card-grid">${popular.map((item) => ingredientCard(item, { category })).join('')}</div>`
-        : '<p class="empty">当前类别还没有可展示的热门成分。</p>'}
+        : renderEmptyState({
+          icon: '搜',
+          title: '暂无热门成分',
+          desc: '当前类别还没有可展示的热门成分，可以先用搜索查看数据库。',
+          href: `#${categoryPath(category, '/search')}`,
+          actionLabel: '搜索成分'
+        })}
     </section>
 
     <section class="section two-column">
@@ -80,7 +123,13 @@ export function renderHomePage(category = 'food') {
         ${historyRecordingEnabled ? '' : html`<p class="helper-text history-privacy-note">已关闭自动记录查询历史。可在设置页重新开启。</p>`}
         ${history.length
           ? `<div class="history-list">${history.map((item) => renderHistoryItem(item, category)).join('')}</div>`
-          : '<p class="empty">还没有查询记录。</p>'}
+          : renderEmptyState({
+            icon: '查',
+            title: '还没有查询记录',
+            desc: '搜索成分或拍照识别后，这里会保留最近查询入口。',
+            href: `#${categoryPath(category, '/search')}`,
+            actionLabel: '去搜索成分'
+          })}
       </div>
       <div>
         <div class="section__head">
@@ -88,7 +137,13 @@ export function renderHomePage(category = 'food') {
         </div>
         ${ingredientCategories.length
           ? `<div class="chip-list">${ingredientCategories.map((item) => renderCategoryChip(item, category)).join('')}</div>`
-          : '<p class="empty">当前类别还没有分类数据。</p>'}
+          : renderEmptyState({
+            icon: '类',
+            title: '当前类别还没有分类数据',
+            desc: '可以先搜索具体成分，或切换到食品添加剂主线数据。',
+            href: `#${categoryPath(category, '/search')}`,
+            actionLabel: '去搜索成分'
+          })}
       </div>
     </section>
   `;
@@ -105,6 +160,17 @@ function renderRecentProducts(category, products) {
         ${products.map(recentProductCard).join('')}
       </div>
     </section>
+  `;
+}
+
+function renderEmptyState({ icon, title, desc, href, actionLabel }) {
+  return html`
+    <div class="empty-state">
+      <div class="empty-state-icon" aria-hidden="true">${escapeHtml(icon)}</div>
+      <p class="empty-state-title">${escapeHtml(title)}</p>
+      <p class="empty-state-desc">${escapeHtml(desc)}</p>
+      <a class="button-link" href="${escapeHtml(href)}" data-route>${escapeHtml(actionLabel)}</a>
+    </div>
   `;
 }
 

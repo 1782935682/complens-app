@@ -128,6 +128,51 @@
 
 ---
 
+## 部署资源、成本控制与人工部署原则
+
+当前阶段优先使用已有的 Oracle Cloud 服务器作为默认部署和验证环境。这里的 Oracle 指 Oracle Cloud 服务器，不是 Oracle 数据库。
+
+在 MVP 和内部测试阶段，项目中的后端服务、数据库、Redis、Nginx、OCR 服务、文件临时存储等组件，默认优先部署到现有 Oracle Cloud 机器上。除非明确必要，不要默认引入新的付费云服务器、RDS、OSS、云 Redis、GPU 服务器、CDN 或其他收费基础设施。
+
+如果某个组件因为架构限制、性能不足、系统兼容性、网络访问、备案合规或应用商店上架要求，确实需要购买服务器或云服务，必须先明确提示：
+
+- 为什么现有 Oracle Cloud 机器无法满足；
+- 需要购买什么资源；
+- 推荐的最低配置和生产配置；
+- 是否当前阶段必须购买；
+- 是否可以先用替代方案或临时方案继续推进；
+- 预计该资源用于哪些组件或场景。
+
+只有在产品进入正式上线、应用商店上架、真实用户访问，或现有 Oracle Cloud 机器无法承载时，才考虑购买新的阿里云、腾讯云等正式服务器。
+
+当前阶段不允许自动部署。Codex 可以生成部署文档、Dockerfile、docker-compose.yml、环境变量模板、初始化脚本和人工执行命令，但不得自动执行任何真实部署动作。
+
+未经明确授权，禁止执行以下操作：
+
+- 自动连接 Oracle Cloud、阿里云、腾讯云或其他远程服务器；
+- 自动执行 SSH、scp、rsync 等远程操作；
+- 自动执行 docker compose up、docker run、systemctl、nginx reload 等会改变服务器状态的命令；
+- 自动初始化或迁移生产/测试数据库；
+- 自动修改服务器防火墙、安全组、端口、域名解析、HTTPS 证书；
+- 自动创建、购买、开通或变更任何云资源；
+- 自动配置 CI/CD 部署流水线并触发上线。
+
+如果某个功能确实需要部署或服务器操作，Codex 只能输出人工操作步骤和命令，并说明：
+
+- 为什么需要部署；
+- 需要我在哪台机器执行；
+- 每条命令的作用；
+- 是否有风险；
+- 风险影响范围；
+- 如何回滚；
+- 是否会影响现有服务。
+
+除非我明确说“可以执行部署”或“现在帮我部署”，否则 Codex 只能修改代码、文档、配置模板和部署说明，不允许进行实际部署。
+
+当前阶段的优先目标是：低成本跑通完整业务链路，包括拍照上传、OCR 识别、成分解析、风险提示、历史记录和基础管理能力，而不是提前做高成本生产化部署。
+
+---
+
 ## 当前优先级（2026-06-12 重排）
 
 ```
@@ -1749,7 +1794,7 @@ npm run lint && npm run test && npm run build
 
 ### Batch M-A：首页与导航重构 + 设计系统落地 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 U-A 完成）
+**状态**：✅ 2026-06-12
 
 **目标**：以"拍照识别"为核心重构首页信息架构，落地全局设计系统（CSS 变量），统一 loading/empty/error 状态。
 
@@ -1856,7 +1901,7 @@ npm run lint && npm run test && npm run build
 #### 8. 无障碍（Accessibility）
 
 - 所有图标按钮必须有 `aria-label`
-- 底部导航 Tab 用 `role="tablist"` + `role="tab"` + `aria-selected`
+- 底部导航是视觉 Tab，但语义保留 `nav` + link；运行时用 `aria-current="page"` 标识当前入口，避免伪装成没有 tabpanel 的 tab widget
 - 图片预览 `alt` 属性不能为空
 - 主 CTA 按钮 font-size ≥ 16px（防止 iOS Safari 自动缩放表单）
 
@@ -1876,7 +1921,7 @@ npm run lint && npm run test && npm run build
 
 ### Batch M-B：PWA 体验优化与离线能力 `[Codex]`
 
-**状态**：⏳ 未开始（依赖 M-A 完成）
+**状态**：⏳ 未开始（可立即执行）
 
 **目标**：优化 PWA 安装体验，明确离线能力边界，修复 iPhone Safari 常见问题。
 
@@ -2149,7 +2194,7 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 
 ```
 → 无阻塞，Codex 可立即执行（按顺序）：
-  Batch U-A → M-A → M-B
+  Batch M-B
   → A-A（等 AI Key，只能做解释层）
 
 → 当前需要人工并行处理：
@@ -2173,8 +2218,8 @@ Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%
 【已完成】R-A（分析报告）→ F-A（产品档案）→ F-B（历史收藏）
 【已完成】Q-A（登录 UI）
 【已完成】U-A（个性化）
-【下一步】M-A（首页重构）
-→ M-B（PWA 优化）
+【已完成】M-A（首页重构）
+【下一步】M-B（PWA 优化）
 → A-A[人工+Codex，需 AI Key]
 
 【后置：订阅支付上架（等核心稳定）】

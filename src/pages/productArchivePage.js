@@ -43,8 +43,10 @@ export function renderProductArchiveListPage(category = 'food', query = '', page
           ${renderPagination(category, normalizedQuery, pagination)}
         `
         : html`
-          <div class="empty" data-empty-products>
-            <p>${normalizedQuery ? '没有找到匹配的产品档案。' : '还没有产品档案。保存分析报告后，可以在报告详情页建档。'}</p>
+          <div class="empty-state" data-empty-products>
+            <div class="empty-state-icon" aria-hidden="true">档</div>
+            <p class="empty-state-title">${normalizedQuery ? '没有找到匹配的产品档案' : '还没有产品档案'}</p>
+            <p class="empty-state-desc">${normalizedQuery ? '可以清除搜索条件查看全部本机档案。' : '保存分析报告后，可以在报告详情页建档。'}</p>
             <a class="button-link" href="#${categoryPath(category, normalizedQuery ? '/products' : '/analyze')}" data-route>${normalizedQuery ? '查看全部档案' : '新建分析'}</a>
           </div>
         `}
