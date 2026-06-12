@@ -12,14 +12,14 @@
 
 1. `public/manifest.webmanifest` 更新为“成分镜”安装信息，补 `id`、`display_override`、`orientation`、类别、语言方向、扫描/搜索快捷方式和 72-512 多尺寸 PNG 图标。
 2. 基于现有 SVG 图标生成 `public/icons/icon-72.png`、`icon-96.png`、`icon-128.png`、`icon-144.png`、`icon-152.png`、`icon-192.png`、`icon-384.png`、`icon-512.png`。
-3. `public/sw.js` 更新到 `compcheck-shell-v23`，区分 app shell、成分 API、用户 API、OCR API、图片/图标和其他请求策略，并在 install 阶段解析 `index.html` 预热 Vite 产物 JS/CSS；运行时刷新 HTML 前会先缓存新 HTML 引用的 Vite bundles，图片/图标请求可回退读取 shell 预缓存，避免首次离线启动只有 HTML、图标缺失或 hash bundle 缺失。
+3. `public/sw.js` 更新到 `compcheck-shell-v24`，区分 app shell、成分 API、用户 API、OCR API、图片/图标和其他请求策略，并在 install 阶段解析 `index.html` 预热 Vite 产物 JS/CSS；运行时刷新 HTML 前会先缓存新 HTML 引用的 Vite bundles，图片/图标请求可回退读取 shell 预缓存，避免首次离线启动只有 HTML、图标缺失或 hash bundle 缺失。
 4. OCR API 保持 `network-only`，避免缓存识别图片或识别结果；登录态 auth/user API 同样不写入 Cache Storage，避免共享设备串读账号数据；成分 API 采用 network-first，并在离线时返回缓存或明确离线响应。
 5. `src/index.html` 新增全局离线横幅、PWA 安装提示容器、iOS `black-translucent` 状态栏、`成分镜` Apple Web App 标题和 Apple touch icon。
-6. `src/main.js` 新增 `navigator.onLine` 离线状态监听、离线横幅高度变量、`beforeinstallprompt` 捕获、第三次打开后的安装提示、iOS 添加到主屏幕指引和安装/关闭状态持久化。
+6. `src/main.js` 新增 `navigator.onLine` 离线状态监听、离线横幅高度变量、banner `ResizeObserver` 重算、`beforeinstallprompt` 捕获、第三次打开后的安装提示、iOS 添加到主屏幕指引和安装/关闭状态持久化。
 7. `src/styles.css` 补 `100dvh` 高度兜底、顶部 safe-area 补偿、离线横幅/header sticky 遮挡修复、iOS 输入框 16px zoom 修复、安装提示和设置页离线能力列表样式。
 8. `src/pages/settingsPage.js` 新增“离线与安装”区块，列出本机历史报告、收藏与本机档案、OCR、账号与云同步的离线/联网边界。
 9. 新建 `docs/pwa-offline-capability.md`，说明离线能力矩阵、service worker 策略、安装提示和人工验收步骤。
-10. `scripts/test.mjs` 补 manifest、iOS meta、safe-area、离线横幅/header offset、安装提示、service worker v23 策略、Vite bundle 预缓存、HTML 更新前 bundle 缓存、图片/图标 shell cache 回退、登录态 API 不缓存、设置页离线说明和 PWA 文档断言。
+10. `scripts/test.mjs` 补 manifest、iOS meta、safe-area、离线横幅/header offset、安装提示、service worker v24 策略、Vite bundle 预缓存、HTML 更新前 bundle 缓存、图片/图标 shell cache 回退、登录态 API 不缓存、设置页离线说明和 PWA 文档断言。
 11. `CODEX_TASKS.md` 和 `PROJECT_PLAN.md` 已同步：M-B 标记完成，整体产品进度更新为 46%，下一项为等待 AI API Key 的 A-A。
 
 ## 人工接入点
@@ -46,7 +46,7 @@ git diff --check
 codex review --uncommitted
 ```
 
-以上已通过。`codex review --uncommitted` 已发现并推动修复登录态 API 缓存隔离、iOS 顶部 safe-area、Vite bundle 首次离线预缓存、运行时 HTML 更新前 bundle 缓存、图片/图标 shell cache 回退、离线横幅遮挡 header 和 iOS 安装标题不一致问题；最终复跑结果为未发现 actionable correctness issue。本轮未运行 Lighthouse、真机安装、浏览器截图、axe 或完整 E2E 验收；这些仍需要人工或后续专项环境接入。
+以上已通过。`codex review --uncommitted` 已发现并推动修复登录态 API 缓存隔离、iOS 顶部 safe-area、Vite bundle 首次离线预缓存、运行时 HTML 更新前 bundle 缓存、图片/图标 shell cache 回退、离线横幅遮挡 header 和 iOS 安装标题不一致问题；远端 DeepSeek/百炼 review 后补充修复了统一 cache suffix、导航 revalidate 固定拉取 `index.html`、离线横幅改用 banner `ResizeObserver` 重算和 iOS 安装提示持久 dismiss 争议。本轮未运行 Lighthouse、真机安装、浏览器截图、axe 或完整 E2E 验收；这些仍需要人工或后续专项环境接入。
 
 ## 当前风险
 

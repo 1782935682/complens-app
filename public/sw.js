@@ -1,6 +1,7 @@
-const CACHE_VERSION = 'compcheck-shell-v23';
-const RUNTIME_CACHE = 'compcheck-runtime-v23';
-const IMAGE_CACHE = 'compcheck-images-v23';
+const CACHE_VERSION_SUFFIX = 'v24';
+const CACHE_VERSION = `compcheck-shell-${CACHE_VERSION_SUFFIX}`;
+const RUNTIME_CACHE = `compcheck-runtime-${CACHE_VERSION_SUFFIX}`;
+const IMAGE_CACHE = `compcheck-images-${CACHE_VERSION_SUFFIX}`;
 const CACHE_PREFIX = 'compcheck-';
 const ACTIVE_CACHES = new Set([CACHE_VERSION, RUNTIME_CACHE, IMAGE_CACHE]);
 
@@ -49,7 +50,7 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(staleWhileRevalidate('./index.html', request, CACHE_VERSION));
+    event.respondWith(staleWhileRevalidate('./index.html', './index.html', CACHE_VERSION));
     return;
   }
 

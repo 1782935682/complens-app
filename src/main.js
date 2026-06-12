@@ -1504,7 +1504,9 @@ function setupConnectionStatus() {
 
   window.addEventListener('online', update);
   window.addEventListener('offline', update);
-  window.addEventListener('resize', update);
+  if (typeof ResizeObserver === 'function') {
+    new ResizeObserver(update).observe(banner);
+  }
   update();
 }
 
@@ -1544,8 +1546,10 @@ function setupPwaInstallPrompt() {
 
   actionButton.addEventListener('click', async () => {
     if (!deferredInstallPrompt) {
-      writeLocalFlag(PWA_INSTALL_DISMISSED_KEY, 'true');
       promptNode.hidden = true;
+      if (!isIosSafari()) {
+        writeLocalFlag(PWA_INSTALL_DISMISSED_KEY, 'true');
+      }
       return;
     }
 
