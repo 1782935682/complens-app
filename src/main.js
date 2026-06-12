@@ -757,10 +757,13 @@ async function handleScanFile(file, category) {
       pendingImageId: imageId,
       pendingImageMeta: meta,
       pendingText: '',
+      pendingProductName: '',
       pendingSource: 'manual',
       pendingOcrMode: 'manual',
       pendingOcrConfidence: 1,
-      pendingOcrProvider: 'manual'
+      pendingOcrProvider: 'manual',
+      pendingOcrErrorCode: '',
+      pendingOcrErrorMsg: ''
     });
     updateScanMeta(`图片大小：${formatBytes(processed.compressedSize)}${processed.originalSize !== processed.compressedSize ? `（原图 ${formatBytes(processed.originalSize)}）` : ''}`);
     updateScanConfirmState(true);

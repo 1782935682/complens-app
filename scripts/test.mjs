@@ -417,6 +417,7 @@ assert.match(mainJs, /getNativePhoto\(source\)/);
 assert.match(mainJs, /isNativePlatform\(\)/);
 assert.match(mainJs, /compressImage\(file, \{ maxWidth: 1200, maxBytes: 800_000 \}\)/);
 assert.match(mainJs, /saveImage\(processed\.blob, meta\)/);
+assert.match(mainJs, /pendingImageId: imageId[\s\S]*pendingImageMeta: meta[\s\S]*pendingText: ''[\s\S]*pendingProductName: ''[\s\S]*pendingOcrErrorCode: ''[\s\S]*pendingOcrErrorMsg: ''/);
 assert.match(mainJs, /getImage\(pending\.pendingImageId\)/);
 assert.match(mainJs, /\['cancelled', 'empty'\]\.includes\(result\.reason\)/);
 assert.match(mainJs, /dataUrlToBlob\(result\.dataUrl, result\.mimeType\)/);
