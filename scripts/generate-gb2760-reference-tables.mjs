@@ -164,6 +164,7 @@ const c3Rows = extractCoordinateTableRows({
   rowNumberMaxX: 90,
   mergeDuplicateRowNumbers: true,
   allowNoiseRowStarts: true,
+  segmentBoundaryStrategy: 'largest_gap',
   includeLine(line) {
     return (line.pdfPage === 233 && line.mid > 330)
       || (line.pdfPage > 233 && line.pdfPage < 242)
@@ -172,8 +173,8 @@ const c3Rows = extractCoordinateTableRows({
   buildRowData(row) {
     return {
       enzymeName: extractColumnText(row.lines, 90, 235, { excludeRowNumber: row.rowNumber }),
-      source: extractColumnText(row.lines, 235, 420),
-      donor: extractColumnText(row.lines, 420, 560)
+      source: extractColumnText(row.lines, 235, 380),
+      donor: extractColumnText(row.lines, 380, 560)
     };
   },
   getRowName(rowData) {
@@ -594,6 +595,7 @@ function extractCoordinateTableRows({
   includeLine,
   mergeDuplicateRowNumbers = false,
   allowNoiseRowStarts = false,
+  segmentBoundaryStrategy = 'midpoint',
   buildRowData,
   getRowName,
   getRowCode,
@@ -619,8 +621,12 @@ function extractCoordinateTableRows({
   const segmentRows = starts.map((start, index) => {
     const previousStart = starts[index - 1];
     const nextStart = starts[index + 1];
-    const lowerBound = previousStart ? (previousStart.center + start.center) / 2 : start.center - 30;
-    const upperBound = nextStart ? (start.center + nextStart.center) / 2 : start.center + 30;
+    const lowerBound = previousStart
+      ? getSegmentBoundary(lines, previousStart.center, start.center, segmentBoundaryStrategy)
+      : start.center - 30;
+    const upperBound = nextStart
+      ? getSegmentBoundary(lines, start.center, nextStart.center, segmentBoundaryStrategy)
+      : start.center + 30;
     return {
       rowNumber: start.rowNumber,
       lines: lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line))
@@ -665,14 +671,53 @@ function extractCoordinateTableRows({
 }
 
 function normalizeCoordinateRowData(tableName, row, rowData) {
-  if (tableName === '表 C.3' && row.rowNumber === 2) {
+  if (tableName !== '表 C.3') return rowData;
+
+  const normalizedRowData = {
+    ...rowData,
+    enzymeName: dedupeRepeatedText(rowData.enzymeName),
+    source: stripLeadingContinuationFragment(rowData.source),
+    donor: stripLeadingContinuationFragment(rowData.donor)
+  };
+
+  if (row.rowNumber === 2) {
     return {
-      ...rowData,
-      source: rowData.source.replace('Bacilluslichenifor-嗜热脂解misstearothermoph', 'Bacilluslichenifor-mis'),
+      ...normalizedRowData,
+      source: normalizedRowData.source.replace('Bacilluslichenifor-嗜热脂解misstearothermoph', 'Bacilluslichenifor-mis'),
       donor: '地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus'
     };
   }
-  return rowData;
+  return normalizedRowData;
+}
+
+function getSegmentBoundary(lines, lowerCenter, upperCenter, strategy) {
+  const midpoint = (lowerCenter + upperCenter) / 2;
+  if (strategy !== 'largest_gap') return midpoint;
+
+  const betweenLines = lines
+    .filter((line) => line.global > lowerCenter && line.global < upperCenter && !isCommonNoiseLine(line))
+    .sort((a, b) => a.global - b.global);
+  if (betweenLines.length < 2) return midpoint;
+
+  const largestGap = betweenLines.slice(1).reduce((best, line, index) => {
+    const previousLine = betweenLines[index];
+    const gap = line.global - previousLine.global;
+    return gap > best.gap ? { gap, boundary: (previousLine.global + line.global) / 2 } : best;
+  }, { gap: 0, boundary: midpoint });
+
+  return largestGap.gap >= 24 ? largestGap.boundary : midpoint;
+}
+
+function dedupeRepeatedText(value) {
+  const text = String(value || '');
+  if (text.length % 2 !== 0) return text;
+  const middle = text.length / 2;
+  const firstHalf = text.slice(0, middle);
+  return firstHalf === text.slice(middle) ? firstHalf : text;
+}
+
+function stripLeadingContinuationFragment(value) {
+  return String(value || '').replace(/^(?:misstearothermoph|uefaciens|tis|ilus|sisrum)/u, '');
 }
 
 function extractRowStartNumber(line, minX, maxX, expectedCount) {
@@ -843,14 +888,66 @@ function extractAdditiveIndexRows() {
     };
   });
 
-  assertRowCount('Appendix F', rows, 285);
-  for (const row of rows) {
+  const normalizedRows = normalizeAdditiveIndexRows(rows);
+
+  assertRowCount('Appendix F', normalizedRows, 286);
+  for (const row of normalizedRows) {
     if (!row.additiveNameCn) throw new Error(`Appendix F row ${row.rowNumber} has no additiveNameCn`);
     if (!Number.isInteger(row.a1PageNumber) || row.a1PageNumber <= 0) {
       throw new Error(`Appendix F row ${row.rowNumber} has invalid A.1 page number`);
     }
   }
-  return rows;
+  return normalizedRows;
+}
+
+function normalizeAdditiveIndexRows(rows) {
+  const normalizedRows = [];
+  for (let index = 0; index < rows.length; index += 1) {
+    const row = rows[index];
+    const nextRow = rows[index + 1];
+    if (row.additiveNameCn.includes('双乙酰酒石酸单双甘油酯') && row.additiveNameCn.includes('司盘类') && nextRow?.additiveNameCn.startsWith('60),')) {
+      normalizedRows.push(buildAdditiveIndexRow(row, {
+        additiveNameCn: '双乙酰酒石酸单双甘油酯(简称“DATEM”)',
+        insNumber: '472e',
+        a1PageNumber: 104,
+        rawRowText: '双乙酰酒石酸单双甘油酯(简称“DATEM”)472e104'
+      }));
+      normalizedRows.push(buildAdditiveIndexRow(row, {
+        additiveNameCn: '司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]',
+        insNumber: '493,495,491,492,494',
+        a1PageNumber: 107,
+        rawRowText: '司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]493,495,491,492,494107'
+      }));
+      normalizedRows.push(buildAdditiveIndexRow(nextRow, {
+        additiveNameCn: '松香季戊四醇酯',
+        insNumber: '—',
+        a1PageNumber: 108,
+        rawRowText: '松香季戊四醇酯—108'
+      }));
+      index += 1;
+      continue;
+    }
+    normalizedRows.push(row);
+  }
+
+  return normalizedRows.map((row, index) => ({
+    ...row,
+    id: `gb2760-2024-f-additive-index-${String(index + 1).padStart(3, '0')}`,
+    rowNumber: index + 1,
+    rowCode: String(index + 1)
+  }));
+}
+
+function buildAdditiveIndexRow(baseRow, overrides) {
+  const row = {
+    ...baseRow,
+    ...overrides,
+    rowName: overrides.additiveNameCn
+  };
+  return {
+    ...row,
+    rawSourceText: `GB 2760-2024 附录 F：食品添加剂中文名称 ${row.additiveNameCn}；INS 号 ${row.insNumber}；附录 A 页码 ${row.a1PageNumber}。`
+  };
 }
 
 function parsePdfPage(pdfPage) {

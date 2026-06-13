@@ -35050,15 +35050,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "1",
     "rowName": "D-阿洛酮糖-3-差向异构酶D-psicose3-epimerase",
     "enzymeName": "D-阿洛酮糖-3-差向异构酶D-psicose3-epimerase",
-    "source": "瘤胃球菌枯草芽孢杆菌BacillussubtilisRuminococ",
-    "donor": "CAG55cussp.CAG55",
+    "source": "枯草芽孢杆菌Bacillussubtilis",
+    "donor": "瘤胃球菌CAG55Ruminococcussp.CAG55",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233
     ],
     "rawRowText": "D-阿洛酮糖-3-差向异构酶瘤胃球菌CAG551枯草芽孢杆菌BacillussubtilisD-psicose3-epimeraseRuminococcussp.CAG55",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 1；酶 D-阿洛酮糖-3-差向异构酶D-psicose3-epimerase；来源 瘤胃球菌枯草芽孢杆菌BacillussubtilisRuminococ；供体 CAG55cussp.CAG55。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 1；酶 D-阿洛酮糖-3-差向异构酶D-psicose3-epimerase；来源 枯草芽孢杆菌Bacillussubtilis；供体 瘤胃球菌CAG55Ruminococcussp.CAG55。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-002",
@@ -35066,32 +35066,32 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "2",
     "rowName": "α-半乳糖苷酶Alpha-galactosidase",
     "enzymeName": "α-半乳糖苷酶Alpha-galactosidase",
-    "source": "黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解",
+    "source": "黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis",
     "donor": "地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233
     ],
-    "rawRowText": "2α-半乳糖苷酶Alpha-galactosidase黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌Geobacillus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶Alpha-galactosidase；来源 黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解；供体 地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus。"
+    "rawRowText": "2α-半乳糖苷酶Alpha-galactosidase黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌Geobacillusmisstearothermophilus",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶Alpha-galactosidase；来源 黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis；供体 地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-003",
     "rowNumber": 3,
     "rowCode": "3",
-    "rowName": "α-淀粉酶Alpha-amylaseα-淀粉酶Alpha-amylase",
-    "enzymeName": "α-淀粉酶Alpha-amylaseα-淀粉酶Alpha-amylase",
-    "source": "misstearothermoph黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis嗜热脂解枯草芽孢杆菌Bacillussubtilisstearothermoph米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌formis黑曲霉微小根毛霉AspergillusnigerRhizomuc李氏木霉Trichodermareesei白曲霉",
-    "donor": "ilus地芽孢杆菌GeobacillusilusCytophagasp.orpusillusAspergilluskawachii",
+    "rowName": "α-淀粉酶Alpha-amylase",
+    "enzymeName": "α-淀粉酶Alpha-amylase",
+    "source": "黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
+    "donor": "嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233,
       234
     ],
-    "rawRowText": "misstearothermophilus黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens3α-淀粉酶Alpha-amylase枯草芽孢杆菌Bacillussubtilis嗜热脂解地芽孢杆菌Geobacillus枯草芽孢杆菌Bacillussubtilisstearothermophilus米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌Cytophagasp.formis3α-淀粉酶Alpha-amylase黑曲霉微小根毛霉AspergillusnigerRhizomucorpusillus李氏木霉Trichodermareesei白曲霉Aspergilluskawachii",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶Alpha-amylaseα-淀粉酶Alpha-amylase；来源 misstearothermoph黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis嗜热脂解枯草芽孢杆菌Bacillussubtilisstearothermoph米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌formis黑曲霉微小根毛霉AspergillusnigerRhizomuc李氏木霉Trichodermareesei白曲霉；供体 ilus地芽孢杆菌GeobacillusilusCytophagasp.orpusillusAspergilluskawachii。"
+    "rawRowText": "黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens3α-淀粉酶Alpha-amylase枯草芽孢杆菌Bacillussubtilis嗜热脂解地芽孢杆菌Geobacillus枯草芽孢杆菌Bacillussubtilisstearothermophilus米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌Cytophagasp.formis3α-淀粉酶Alpha-amylase黑曲霉微小根毛霉AspergillusnigerRhizomucorpusillus李氏木霉Trichodermareesei白曲霉Aspergilluskawachii",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶Alpha-amylase；来源 黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-004",
@@ -35099,15 +35099,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "4",
     "rowName": "α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase",
     "enzymeName": "α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase",
-    "source": "枯草芽孢杆菌Bacillussubtilis短小芽孢杆菌大麦、山芋、大豆、小麦和麦芽",
-    "donor": "Bacillusbrevis",
+    "source": "枯草芽孢杆菌Bacillussubtilis大麦、山芋、大豆、小麦和麦芽",
+    "donor": "短小芽孢杆菌Bacillusbrevis",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "α-乙酰乳酸脱羧酶Alpha-acetolac-4枯草芽孢杆菌Bacillussubtilis短小芽孢杆菌Bacillusbrevistatedecarboxylase大麦、山芋、大豆、小麦和麦芽",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 4；酶 α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase；来源 枯草芽孢杆菌Bacillussubtilis短小芽孢杆菌大麦、山芋、大豆、小麦和麦芽；供体 Bacillusbrevis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 4；酶 α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase；来源 枯草芽孢杆菌Bacillussubtilis大麦、山芋、大豆、小麦和麦芽；供体 短小芽孢杆菌Bacillusbrevis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-005",
@@ -35115,15 +35115,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "5",
     "rowName": "β-淀粉酶beta-amylase",
     "enzymeName": "β-淀粉酶beta-amylase",
-    "source": "barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-弯曲芽孢杆菌mis",
-    "donor": "Bacillusflexus",
+    "source": "barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis",
+    "donor": "弯曲芽孢杆菌Bacillusflexus",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis5β-淀粉酶beta-amylase地衣芽孢杆菌Bacilluslichenifor-弯曲芽孢杆菌Bacillusflexusmis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 5；酶 β-淀粉酶beta-amylase；来源 barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-弯曲芽孢杆菌mis；供体 Bacillusflexus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 5；酶 β-淀粉酶beta-amylase；来源 barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis；供体 弯曲芽孢杆菌Bacillusflexus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-006",
@@ -35147,15 +35147,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "7",
     "rowName": "β-葡聚糖酶beta-glucanase",
     "enzymeName": "β-葡聚糖酶beta-glucanase",
-    "source": "黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillus解淀粉芽amyloliquefaciensuefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)",
-    "donor": "孢杆菌Bacillusamyloliq-",
+    "source": "黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)",
+    "donor": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillus解淀粉芽孢杆菌Bacillusamyloliq-amyloliquefaciensuefaciens7β-葡聚糖酶beta-glucanase两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 7；酶 β-葡聚糖酶beta-glucanase；来源 黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillus解淀粉芽amyloliquefaciensuefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)；供体 孢杆菌Bacillusamyloliq-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 7；酶 β-葡聚糖酶beta-glucanase；来源 黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)；供体 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-008",
@@ -35163,15 +35163,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "8",
     "rowName": "阿拉伯呋喃糖苷酶Arabinofurano-sidase",
     "enzymeName": "阿拉伯呋喃糖苷酶Arabinofurano-sidase",
-    "source": "绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌枯草芽孢杆菌BacillussubtilisBacilluss黑曲霉Aspergillusniger李氏木霉TrichodermareeseiTalaromyc",
-    "donor": "ubtilisespinophilus",
+    "source": "绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
+    "donor": "枯草芽孢杆菌BacillussubtilisTalaromycespinophilus",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌枯草芽孢杆菌BacillussubtilisBacillussubtilis阿拉伯呋喃糖苷酶Arabinofurano-黑曲霉Aspergillusnigersidase李氏木霉TrichodermareeseiTalaromycespinophilus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 8；酶 阿拉伯呋喃糖苷酶Arabinofurano-sidase；来源 绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌枯草芽孢杆菌BacillussubtilisBacilluss黑曲霉Aspergillusniger李氏木霉TrichodermareeseiTalaromyc；供体 ubtilisespinophilus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 8；酶 阿拉伯呋喃糖苷酶Arabinofurano-sidase；来源 绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 枯草芽孢杆菌BacillussubtilisTalaromycespinophilus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-009",
@@ -35179,15 +35179,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "9",
     "rowName": "氨基肽酶Aminopeptidase",
     "enzymeName": "氨基肽酶Aminopeptidase",
-    "source": "米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspe",
-    "donor": "rgillusoryzae",
+    "source": "米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
+    "donor": "米曲霉Aspergillusoryzae",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
     "rawRowText": "米曲霉Aspergillusoryzae9氨基肽酶Aminopeptidase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 9；酶 氨基肽酶Aminopeptidase；来源 米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspe；供体 rgillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 9；酶 氨基肽酶Aminopeptidase；来源 米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae；供体 米曲霉Aspergillusoryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-010",
@@ -35211,15 +35211,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "11",
     "rowName": "菠萝蛋白酶Bromelain",
     "enzymeName": "菠萝蛋白酶Bromelain",
-    "source": "菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectria寄生内座parasitica(Endothiaparasitica)parasitica地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspe解淀粉芽孢杆菌Bacillusamyloliq-",
-    "donor": "壳(栗疫菌)Cryphonectria(Endothiaparasitica)rgillusniger",
+    "source": "菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-",
+    "donor": "寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
     "rawRowText": "11菠萝蛋白酶Bromelain菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectria寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)parasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 11；酶 菠萝蛋白酶Bromelain；来源 菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectria寄生内座parasitica(Endothiaparasitica)parasitica地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspe解淀粉芽孢杆菌Bacillusamyloliq-；供体 壳(栗疫菌)Cryphonectria(Endothiaparasitica)rgillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 11；酶 菠萝蛋白酶Bromelain；来源 菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-；供体 寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-012",
@@ -35227,15 +35227,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "12",
     "rowName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
     "enzymeName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
-    "source": "uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis小牛胃Ca微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyl热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱Bacillussubtiliscillusclau李氏木霉Trichodermareesei樟绒枝霉李氏木霉Trichodermareesei李氏木霉",
-    "donor": "孢杆菌Bacillusamyloliq-lfstomachThermusAquaticusoliquefaciens性卤杆菌Alkalihaloba-siiMalbrancheasulfureaTrichodermareesei",
+    "source": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
+    "donor": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
     "rawRowText": "uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽孢杆菌Bacillusamyloliq-uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei蛋白酶(包括乳凝块酶)Protease12米曲霉Aspergillusoryzae(includingmilkclottingenzymes)乳克鲁维酵母Kluyveromyceslactis小牛胃Calfstomach微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌ThermusAquaticus枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyloliquefaciens热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱性卤杆菌Alkalihaloba-Bacillussubtiliscillusclausii李氏木霉Trichodermareesei樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)；来源 uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis小牛胃Ca微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyl热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱Bacillussubtiliscillusclau李氏木霉Trichodermareesei樟绒枝霉李氏木霉Trichodermareesei李氏木霉；供体 孢杆菌Bacillusamyloliq-lfstomachThermusAquaticusoliquefaciens性卤杆菌Alkalihaloba-siiMalbrancheasulfureaTrichodermareesei。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)；来源 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-013",
@@ -35275,15 +35275,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "15",
     "rowName": "多聚半乳糖醛酸酶Polygalacturo-nase",
     "enzymeName": "多聚半乳糖醛酸酶Polygalacturo-nase",
-    "source": "米根霉Rhizopusoryzae黑曲霉Aspergillusniger黑曲霉李氏木霉塔宾曲霉TrichodermareeseiAspergil",
-    "donor": "Aspergillusnigerlustubingensis",
+    "source": "米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
+    "donor": "黑曲霉Aspergillusniger塔宾曲霉Aspergillustubingensis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "米根霉Rhizopusoryzae多聚半乳糖醛酸酶Polygalacturo-15黑曲霉Aspergillusniger黑曲霉Aspergillusnigernase李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 15；酶 多聚半乳糖醛酸酶Polygalacturo-nase；来源 米根霉Rhizopusoryzae黑曲霉Aspergillusniger黑曲霉李氏木霉塔宾曲霉TrichodermareeseiAspergil；供体 Aspergillusnigerlustubingensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 15；酶 多聚半乳糖醛酸酶Polygalacturo-nase；来源 米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger塔宾曲霉Aspergillustubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-016",
@@ -35291,15 +35291,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "16",
     "rowName": "甘油磷脂胆固醇酰基转移酶GlycerophospholipidCholesterolAcyltransferase(GCAT)",
     "enzymeName": "甘油磷脂胆固醇酰基转移酶GlycerophospholipidCholesterolAcyltransferase(GCAT)",
-    "source": "杀鲑地衣芽孢杆菌Bacilluslichenifor-Aeromonamismonicida",
-    "donor": "气单胞菌杀鲑亚种ssalmonicidasubsp.Sal-",
+    "source": "地衣芽孢杆菌Bacilluslichenifor-mis",
+    "donor": "杀鲑气单胞菌杀鲑亚种Aeromonassalmonicidasubsp.Sal-monicida",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "甘油磷脂胆固醇酰基转移酶杀鲑气单胞菌杀鲑亚种地衣芽孢杆菌Bacilluslichenifor-16GlycerophospholipidCholesterolAeromonassalmonicidasubsp.Sal-misAcyltransferase(GCAT)monicida",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 16；酶 甘油磷脂胆固醇酰基转移酶GlycerophospholipidCholesterolAcyltransferase(GCAT)；来源 杀鲑地衣芽孢杆菌Bacilluslichenifor-Aeromonamismonicida；供体 气单胞菌杀鲑亚种ssalmonicidasubsp.Sal-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 16；酶 甘油磷脂胆固醇酰基转移酶GlycerophospholipidCholesterolAcyltransferase(GCAT)；来源 地衣芽孢杆菌Bacilluslichenifor-mis；供体 杀鲑气单胞菌杀鲑亚种Aeromonassalmonicidasubsp.Sal-monicida。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-017",
@@ -35307,15 +35307,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "17",
     "rowName": "谷氨酰胺酶Glutaminase",
     "enzymeName": "谷氨酰胺酶Glutaminase",
-    "source": "解淀粉芽孢杆菌Bacillusamyloliqueaciensf地衣芽孢杆菌地衣芽孢杆菌BacilluslicheniformisBacillusl",
-    "donor": "icheniformis",
+    "source": "解淀粉芽孢杆菌Bacillusamyloliqueaciensf地衣芽孢杆菌Bacilluslicheniformis",
+    "donor": "地衣芽孢杆菌Bacilluslicheniformis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "解淀粉芽孢杆菌Bacillusamyloliqueaciens谷氨酰胺酶fGlutaminase地衣芽孢杆菌地衣芽孢杆菌BacilluslicheniformisBacilluslicheniformis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 17；酶 谷氨酰胺酶Glutaminase；来源 解淀粉芽孢杆菌Bacillusamyloliqueaciensf地衣芽孢杆菌地衣芽孢杆菌BacilluslicheniformisBacillusl；供体 icheniformis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 17；酶 谷氨酰胺酶Glutaminase；来源 解淀粉芽孢杆菌Bacillusamyloliqueaciensf地衣芽孢杆菌Bacilluslicheniformis；供体 地衣芽孢杆菌Bacilluslicheniformis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-018",
@@ -35339,15 +35339,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "19",
     "rowName": "果胶裂解酶Pectinlyase",
     "enzymeName": "果胶裂解酶Pectinlyase",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉李氏木霉Trichodermareesei黑曲霉",
-    "donor": "AspergillusnigerAspergillusniger",
+    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
+    "donor": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "黑曲霉Aspergillusniger19果胶裂解酶Pectinlyase黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 19；酶 果胶裂解酶Pectinlyase；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉李氏木霉Trichodermareesei黑曲霉；供体 AspergillusnigerAspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 19；酶 果胶裂解酶Pectinlyase；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger黑曲霉Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-020",
@@ -35371,15 +35371,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "21",
     "rowName": "果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)",
     "enzymeName": "果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)",
-    "source": "黑曲霉Aspergillusniger黑曲霉米曲霉Aspergillusoryzae针尾曲霉李氏木霉塔宾曲霉TrichodermareeseiAspergil",
-    "donor": "AspergillusnigerAspergillusaculeatuslustubingensis",
+    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei",
+    "donor": "黑曲霉Aspergillusniger针尾曲霉Aspergillusaculeatus塔宾曲霉Aspergillustubingensis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger果胶酯酶(果胶甲基酯酶)Pectines-21米曲霉Aspergillusoryzae针尾曲霉Aspergillusaculeatusterase(Pectinmethylesterase)李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 21；酶 果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)；来源 黑曲霉Aspergillusniger黑曲霉米曲霉Aspergillusoryzae针尾曲霉李氏木霉塔宾曲霉TrichodermareeseiAspergil；供体 AspergillusnigerAspergillusaculeatuslustubingensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 21；酶 果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger针尾曲霉Aspergillusaculeatus塔宾曲霉Aspergillustubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-022",
@@ -35419,15 +35419,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "24",
     "rowName": "海藻糖酶Trehalase",
     "enzymeName": "海藻糖酶Trehalase",
-    "source": "李氏木霉李氏木霉TrichodermareeseiTrichodermar",
-    "donor": "eesei",
+    "source": "李氏木霉Trichodermareesei",
+    "donor": "李氏木霉Trichodermareesei",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "海藻糖酶李氏木霉李氏木霉TrehalaseTrichodermareeseiTrichodermareesei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 24；酶 海藻糖酶Trehalase；来源 李氏木霉李氏木霉TrichodermareeseiTrichodermar；供体 eesei。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 24；酶 海藻糖酶Trehalase；来源 李氏木霉Trichodermareesei；供体 李氏木霉Trichodermareesei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-025",
@@ -35435,15 +35435,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "25",
     "rowName": "环糊精葡萄糖苷转移酶Cyclomaltodextinglucanotransferase",
     "enzymeName": "环糊精葡萄糖苷转移酶Cyclomaltodextinglucanotransferase",
-    "source": "地衣芽孢杆菌Bacilluslichenifor-高温厌氧杆菌mis",
-    "donor": "Thermoanaerobactersp.",
+    "source": "地衣芽孢杆菌Bacilluslichenifor-mis",
+    "donor": "高温厌氧杆菌Thermoanaerobactersp.",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "环糊精葡萄糖苷转移酶地衣芽孢杆菌Bacilluslichenifor-25高温厌氧杆菌Thermoanaerobactersp.Cyclomaltodextinglucanotransferasemis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 25；酶 环糊精葡萄糖苷转移酶Cyclomaltodextinglucanotransferase；来源 地衣芽孢杆菌Bacilluslichenifor-高温厌氧杆菌mis；供体 Thermoanaerobactersp.。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 25；酶 环糊精葡萄糖苷转移酶Cyclomaltodextinglucanotransferase；来源 地衣芽孢杆菌Bacilluslichenifor-mis；供体 高温厌氧杆菌Thermoanaerobactersp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-026",
@@ -35451,15 +35451,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "26",
     "rowName": "己糖氧化酶Hexoseoxidase",
     "enzymeName": "己糖氧化酶Hexoseoxidase",
-    "source": "(多形)汉逊酵母Hansenulapoly-皱波角叉菜morpha",
-    "donor": "Chondruscrispus",
+    "source": "(多形)汉逊酵母Hansenulapoly-morpha",
+    "donor": "皱波角叉菜Chondruscrispus",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "(多形)汉逊酵母Hansenulapoly-26己糖氧化酶Hexoseoxidase皱波角叉菜Chondruscrispusmorpha",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 26；酶 己糖氧化酶Hexoseoxidase；来源 (多形)汉逊酵母Hansenulapoly-皱波角叉菜morpha；供体 Chondruscrispus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 26；酶 己糖氧化酶Hexoseoxidase；来源 (多形)汉逊酵母Hansenulapoly-morpha；供体 皱波角叉菜Chondruscrispus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-027",
@@ -35515,15 +35515,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "30",
     "rowName": "磷脂酶A1PhospholipaseA1",
     "enzymeName": "磷脂酶A1PhospholipaseA1",
-    "source": "米曲霉Aspergillusoryzae红聚颈腔菌黑曲霉AspergillusnigerTalaromyc",
-    "donor": "Valsariarubricosaesleycettanus",
+    "source": "米曲霉Aspergillusoryzae黑曲霉Aspergillusniger",
+    "donor": "红聚颈腔菌ValsariarubricosaTalaromycesleycettanus",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "米曲霉Aspergillusoryzae红聚颈腔菌Valsariarubricosa30磷脂酶A1PhospholipaseA1黑曲霉AspergillusnigerTalaromycesleycettanus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 30；酶 磷脂酶A1PhospholipaseA1；来源 米曲霉Aspergillusoryzae红聚颈腔菌黑曲霉AspergillusnigerTalaromyc；供体 Valsariarubricosaesleycettanus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 30；酶 磷脂酶A1PhospholipaseA1；来源 米曲霉Aspergillusoryzae黑曲霉Aspergillusniger；供体 红聚颈腔菌ValsariarubricosaTalaromycesleycettanus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-031",
@@ -35531,15 +35531,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "31",
     "rowName": "磷脂酶A2PhospholipaseA2",
     "enzymeName": "磷脂酶A2PhospholipaseA2",
-    "source": "猪胰腺组织porcinepancreas李氏木霉Trichodermareesei烟曲霉Aspe黑曲霉Aspergillusniger猪胰腺组织",
-    "donor": "rgillusfumigatusporcinepancreas",
+    "source": "猪胰腺组织porcinepancreas李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
+    "donor": "烟曲霉Aspergillusfumigatus猪胰腺组织porcinepancreas",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "猪胰腺组织porcinepancreas31磷脂酶A2PhospholipaseA2李氏木霉Trichodermareesei烟曲霉Aspergillusfumigatus黑曲霉Aspergillusniger猪胰腺组织porcinepancreas",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 31；酶 磷脂酶A2PhospholipaseA2；来源 猪胰腺组织porcinepancreas李氏木霉Trichodermareesei烟曲霉Aspe黑曲霉Aspergillusniger猪胰腺组织；供体 rgillusfumigatusporcinepancreas。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 31；酶 磷脂酶A2PhospholipaseA2；来源 猪胰腺组织porcinepancreas李氏木霉Trichodermareesei黑曲霉Aspergillusniger；供体 烟曲霉Aspergillusfumigatus猪胰腺组织porcinepancreas。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-032",
@@ -35547,15 +35547,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "32",
     "rowName": "磷脂酶CPhospholipaseC",
     "enzymeName": "磷脂酶CPhospholipaseC",
-    "source": "从土壤中巴斯德毕赤酵母Pichiapastoris因的微生物地衣芽孢杆菌苏云金芽孢杆菌BacilluslicheniformisBacillusthur",
-    "donor": "分离的编码磷脂酶C基ingiensis",
+    "source": "巴斯德毕赤酵母Pichiapastoris地衣芽孢杆菌Bacilluslicheniformis",
+    "donor": "从土壤中分离的编码磷脂酶C基因的微生物苏云金芽孢杆菌Bacillusthuringiensis",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "从土壤中分离的编码磷脂酶C基巴斯德毕赤酵母Pichiapastoris因的微生物32磷脂酶CPhospholipaseC地衣芽孢杆菌苏云金芽孢杆菌BacilluslicheniformisBacillusthuringiensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 32；酶 磷脂酶CPhospholipaseC；来源 从土壤中巴斯德毕赤酵母Pichiapastoris因的微生物地衣芽孢杆菌苏云金芽孢杆菌BacilluslicheniformisBacillusthur；供体 分离的编码磷脂酶C基ingiensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 32；酶 磷脂酶CPhospholipaseC；来源 巴斯德毕赤酵母Pichiapastoris地衣芽孢杆菌Bacilluslicheniformis；供体 从土壤中分离的编码磷脂酶C基因的微生物苏云金芽孢杆菌Bacillusthuringiensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-033",
@@ -35563,15 +35563,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "33",
     "rowName": "磷酸肌醇磷脂酶CPhosphoinositidephospholipaseC",
     "enzymeName": "磷酸肌醇磷脂酶CPhosphoinositidephospholipaseC",
-    "source": "荧光假单胞菌从土壤中Pseudomonasfluorescens脂酶基因的微生物C地衣芽孢杆菌假单胞菌BacilluslicheniformisPseudomona",
-    "donor": "分离的编码磷酸肌醇磷ssp.",
+    "source": "荧光假单胞菌Pseudomonasfluorescens地衣芽孢杆菌Bacilluslicheniformis",
+    "donor": "从土壤中分离的编码磷酸肌醇磷脂酶基因的微生物C假单胞菌Pseudomonassp.",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "荧光假单胞菌从土壤中分离的编码磷酸肌醇磷Pseudomonasfluorescens脂酶基因的微生物磷酸肌醇磷脂酶CCPhosphoinositidephospholipaseC地衣芽孢杆菌假单胞菌BacilluslicheniformisPseudomonassp.",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 33；酶 磷酸肌醇磷脂酶CPhosphoinositidephospholipaseC；来源 荧光假单胞菌从土壤中Pseudomonasfluorescens脂酶基因的微生物C地衣芽孢杆菌假单胞菌BacilluslicheniformisPseudomona；供体 分离的编码磷酸肌醇磷ssp.。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 33；酶 磷酸肌醇磷脂酶CPhosphoinositidephospholipaseC；来源 荧光假单胞菌Pseudomonasfluorescens地衣芽孢杆菌Bacilluslicheniformis；供体 从土壤中分离的编码磷酸肌醇磷脂酶基因的微生物C假单胞菌Pseudomonassp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-034",
@@ -35579,15 +35579,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "34",
     "rowName": "麦芽碳水化合物水解酶(α-,β-淀粉酶)Maltcarbohydrases(alpha-andbeta-amylase)",
     "enzymeName": "麦芽碳水化合物水解酶(α-,β-淀粉酶)Maltcarbohydrases(alpha-andbeta-amylase)",
-    "source": "麦芽和大麦maltedbarleyandbar-ley嗜热脂解地芽孢杆菌",
+    "source": "麦芽和大麦maltedbarleyandbar-ley",
     "donor": "",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
-    "rawRowText": "麦芽碳水化合物水解酶(α-,β-淀粉麦芽和大麦maltedbarleyandbar-34酶)Maltcarbohydrasesley(alpha-andbeta-amylase)嗜热脂解地芽孢杆菌",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 34；酶 麦芽碳水化合物水解酶(α-,β-淀粉酶)Maltcarbohydrases(alpha-andbeta-amylase)；来源 麦芽和大麦maltedbarleyandbar-ley嗜热脂解地芽孢杆菌。"
+    "rawRowText": "麦芽碳水化合物水解酶(α-,β-淀粉麦芽和大麦maltedbarleyandbar-34酶)Maltcarbohydrasesley(alpha-andbeta-amylase)",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 34；酶 麦芽碳水化合物水解酶(α-,β-淀粉酶)Maltcarbohydrases(alpha-andbeta-amylase)；来源 麦芽和大麦maltedbarleyandbar-ley。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-035",
@@ -35595,15 +35595,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "35",
     "rowName": "麦芽糖淀粉酶Maltogenicamylase",
     "enzymeName": "麦芽糖淀粉酶Maltogenicamylase",
-    "source": "枯草芽孢杆菌BacillussubtilisGeobacillu酿酒酵母Saccharomycescerevisi-嗜热脂解地芽孢杆菌aeGeobacillu地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌misGeobacillu",
-    "donor": "sstearothermophilussstearotheilusrmophsstearothermophilus",
+    "source": "枯草芽孢杆菌Bacillussubtilis酿酒酵母Saccharomycescerevisi-ae地衣芽孢杆菌Bacilluslichenifor-mis",
+    "donor": "嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearotheilusrmoph嗜热脂解地芽孢杆菌Geobacillusstearothermophilus",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
-    "rawRowText": "枯草芽孢杆菌BacillussubtilisGeobacillusstearothermophilus酿酒酵母Saccharomycescerevisi-嗜热脂解地芽孢杆菌35麦芽糖淀粉酶MaltogenicamylaseaeGeobacillusstearotheilusrmoph地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌misGeobacillusstearothermophilus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 35；酶 麦芽糖淀粉酶Maltogenicamylase；来源 枯草芽孢杆菌BacillussubtilisGeobacillu酿酒酵母Saccharomycescerevisi-嗜热脂解地芽孢杆菌aeGeobacillu地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌misGeobacillu；供体 sstearothermophilussstearotheilusrmophsstearothermophilus。"
+    "rawRowText": "嗜热脂解地芽孢杆菌枯草芽孢杆菌BacillussubtilisGeobacillusstearothermophilus酿酒酵母Saccharomycescerevisi-嗜热脂解地芽孢杆菌35麦芽糖淀粉酶MaltogenicamylaseaeGeobacillusstearotheilusrmoph地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌misGeobacillusstearothermophilus",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 35；酶 麦芽糖淀粉酶Maltogenicamylase；来源 枯草芽孢杆菌Bacillussubtilis酿酒酵母Saccharomycescerevisi-ae地衣芽孢杆菌Bacilluslichenifor-mis；供体 嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearotheilusrmoph嗜热脂解地芽孢杆菌Geobacillusstearothermophilus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-036",
@@ -35611,15 +35611,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "36",
     "rowName": "麦芽四糖水解酶Maltotetrao-hydrolase",
     "enzymeName": "麦芽四糖水解酶Maltotetrao-hydrolase",
-    "source": "地衣芽孢杆菌Bacilluslichenifor-施氏假单miseri",
-    "donor": "胞菌Pseudomonasstutz-",
+    "source": "地衣芽孢杆菌Bacilluslichenifor-mis",
+    "donor": "施氏假单胞菌Pseudomonasstutz-eri",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "麦芽四糖水解酶Maltotetrao-地衣芽孢杆菌Bacilluslichenifor-施氏假单胞菌Pseudomonasstutz-hydrolasemiseri",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 36；酶 麦芽四糖水解酶Maltotetrao-hydrolase；来源 地衣芽孢杆菌Bacilluslichenifor-施氏假单miseri；供体 胞菌Pseudomonasstutz-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 36；酶 麦芽四糖水解酶Maltotetrao-hydrolase；来源 地衣芽孢杆菌Bacilluslichenifor-mis；供体 施氏假单胞菌Pseudomonasstutz-eri。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-037",
@@ -35627,15 +35627,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "37",
     "rowName": "木瓜蛋白酶Papain",
     "enzymeName": "木瓜蛋白酶Papain",
-    "source": "木瓜Caricapapaya棉状嗜Fusariumvenenatumlanuginos巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger",
-    "donor": "热丝孢菌Thermomycesus",
+    "source": "木瓜CaricapapayaFusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger",
+    "donor": "棉状嗜热丝孢菌Thermomyceslanuginosus",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "37木瓜蛋白酶Papain木瓜Caricapapaya棉状嗜热丝孢菌ThermomycesFusariumvenenatumlanuginosus巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 37；酶 木瓜蛋白酶Papain；来源 木瓜Caricapapaya棉状嗜Fusariumvenenatumlanuginos巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger；供体 热丝孢菌Thermomycesus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 37；酶 木瓜蛋白酶Papain；来源 木瓜CaricapapayaFusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger；供体 棉状嗜热丝孢菌Thermomyceslanuginosus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-038",
@@ -35643,15 +35643,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "38",
     "rowName": "木聚糖酶Xylanase",
     "enzymeName": "木聚糖酶Xylanase",
-    "source": "黑曲霉Aspergillusniger黑曲霉李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌棉状嗜米曲霉Aspergillusoryzaelanugino米曲霉Aspergillusoryzae黑曲霉c李氏木霉TrichodermareeseiTalaromyc李氏木霉黑曲霉塔宾变种TrichodermareeseiAspergil",
-    "donor": "AspergillusnigerBacillussubtilis热丝孢菌ThermomycessusAspergillusnigeresleycettanuslusnigervart.ubingensis",
+    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
+    "donor": "黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervart.ubingensis",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis38木聚糖酶Xylanase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus米曲霉Aspergillusoryzae黑曲霉cAspergillusniger李氏木霉TrichodermareeseiTalaromycesleycettanus李氏木霉黑曲霉塔宾变种TrichodermareeseiAspergillusnigervart.ubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 38；酶 木聚糖酶Xylanase；来源 黑曲霉Aspergillusniger黑曲霉李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌棉状嗜米曲霉Aspergillusoryzaelanugino米曲霉Aspergillusoryzae黑曲霉c李氏木霉TrichodermareeseiTalaromyc李氏木霉黑曲霉塔宾变种TrichodermareeseiAspergil；供体 AspergillusnigerBacillussubtilis热丝孢菌ThermomycessusAspergillusnigeresleycettanuslusnigervart.ubingensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 38；酶 木聚糖酶Xylanase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervart.ubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-039",
@@ -35659,15 +35659,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "39",
     "rowName": "凝乳酶AChymosinA",
     "enzymeName": "凝乳酶AChymosinA",
-    "source": "李氏木霉柔曲高温多孢菌TrichodermareeseiThermopo地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis大肠杆菌K-12EscherichiaColi小牛前凝K-12mosinAgene黑曲霉泡盛变种Aspergillusniger小牛前凝",
-    "donor": "lysporaflexuosa杆菌Bacilluslichenifor-乳酶A基因calfprochy-乳酶B基因calfprochy-",
+    "source": "李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis大肠杆菌K-12EscherichiaColiK-12黑曲霉泡盛变种Aspergillusniger",
+    "donor": "柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis小牛前凝乳酶A基因calfprochy-mosinAgene小牛前凝乳酶B基因calfprochy-",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "李氏木霉柔曲高温多孢菌TrichodermareeseiThermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis大肠杆菌K-12EscherichiaColi小牛前凝乳酶A基因calfprochy-39凝乳酶AChymosinAK-12mosinAgene黑曲霉泡盛变种Aspergillusniger小牛前凝乳酶B基因calfprochy-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 39；酶 凝乳酶AChymosinA；来源 李氏木霉柔曲高温多孢菌TrichodermareeseiThermopo地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis大肠杆菌K-12EscherichiaColi小牛前凝K-12mosinAgene黑曲霉泡盛变种Aspergillusniger小牛前凝；供体 lysporaflexuosa杆菌Bacilluslichenifor-乳酶A基因calfprochy-乳酶B基因calfprochy-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 39；酶 凝乳酶AChymosinA；来源 李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis大肠杆菌K-12EscherichiaColiK-12黑曲霉泡盛变种Aspergillusniger；供体 柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis小牛前凝乳酶A基因calfprochy-mosinAgene小牛前凝乳酶B基因calfprochy-。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-040",
@@ -35675,15 +35675,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "40",
     "rowName": "凝乳酶BChymosinB",
     "enzymeName": "凝乳酶BChymosinB",
-    "source": "var.awamorimosinBgene乳克鲁维酵母Kluyveromyceslac-小牛前凝tismosinBgene",
-    "donor": "乳酶B基因calfprochy-",
+    "source": "var.awamori乳克鲁维酵母Kluyveromyceslac-tis",
+    "donor": "mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "var.awamorimosinBgene40凝乳酶BChymosinB乳克鲁维酵母Kluyveromyceslac-小牛前凝乳酶B基因calfprochy-tismosinBgene",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶BChymosinB；来源 var.awamorimosinBgene乳克鲁维酵母Kluyveromyceslac-小牛前凝tismosinBgene；供体 乳酶B基因calfprochy-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶BChymosinB；来源 var.awamori乳克鲁维酵母Kluyveromyceslac-tis；供体 mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-041",
@@ -35705,10 +35705,10 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "id": "gb2760-2024-c3-enzyme-preparation-042",
     "rowNumber": 42,
     "rowCode": "42",
-    "rowName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
-    "enzymeName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Rasamson黑曲霉Aspergillusniger森篮状菌米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei李氏木霉黑曲霉密粘褶菌AspergillusnigerGloeophyl黑曲霉Aspergillusniger",
-    "donor": "Aspergillusnigeriaemersonii(原名为埃默Talaromycesemersonii)Trichodermareeseilumtrabeum",
+    "rowName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
+    "enzymeName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
+    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
+    "donor": "黑曲霉AspergillusnigerRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)李氏木霉Trichodermareesei密粘褶菌Gloeophyllumtrabeum",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
@@ -35716,7 +35716,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       239
     ],
     "rawRowText": "黑曲霉Aspergillusniger葡糖淀粉酶(淀粉葡糖苷酶)Glu-黑曲霉Aspergillusniger黑曲霉Aspergillusnigercoamylase(amyloglucosidase)Rasamsoniaemersonii(原名为埃默黑曲霉Aspergillusniger森篮状菌Talaromycesemersonii)米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus葡糖淀粉酶(淀粉葡糖苷酶)Glu-42李氏木霉Trichodermareesei李氏木霉Trichodermareeseicoamylase(amyloglucosidase)黑曲霉密粘褶菌AspergillusnigerGloeophyllumtrabeum黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 42；酶 葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Rasamson黑曲霉Aspergillusniger森篮状菌米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei李氏木霉黑曲霉密粘褶菌AspergillusnigerGloeophyl黑曲霉Aspergillusniger；供体 Aspergillusnigeriaemersonii(原名为埃默Talaromycesemersonii)Trichodermareeseilumtrabeum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 42；酶 葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger黑曲霉Aspergillusniger；供体 黑曲霉AspergillusnigerRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)李氏木霉Trichodermareesei密粘褶菌Gloeophyllumtrabeum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-043",
@@ -35724,15 +35724,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "43",
     "rowName": "葡糖氧化酶Glucoseoxidase",
     "enzymeName": "葡糖氧化酶Glucoseoxidase",
-    "source": "米曲霉Aspergillusoryzae黑曲霉Aspe产黄青霉Penicilliumchrysoge-num黑曲霉产黄青霉AspergillusnigerPenicilliumchrys尼崎青霉李氏木霉Trichodermareeseigasakiense橄榄产色链霉菌Streptomycesolivochromogenes",
-    "donor": "rgillusnigerogenum菌Penicilliumama-",
+    "source": "米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei橄榄产色链霉菌Streptomycesolivochromogenes",
+    "donor": "黑曲霉Aspergillusniger产黄青霉Penicilliumchrysogenum尼崎青霉菌Penicilliumama-gasakiense",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
     "rawRowText": "米曲霉Aspergillusoryzae黑曲霉Aspergillusniger产黄青霉Penicilliumchrysoge-num43葡糖氧化酶Glucoseoxidase黑曲霉产黄青霉AspergillusnigerPenicilliumchrysogenum尼崎青霉菌Penicilliumama-李氏木霉Trichodermareeseigasakiense橄榄产色链霉菌Streptomycesolivochromogenes",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 43；酶 葡糖氧化酶Glucoseoxidase；来源 米曲霉Aspergillusoryzae黑曲霉Aspe产黄青霉Penicilliumchrysoge-num黑曲霉产黄青霉AspergillusnigerPenicilliumchrys尼崎青霉李氏木霉Trichodermareeseigasakiense橄榄产色链霉菌Streptomycesolivochromogenes；供体 rgillusnigerogenum菌Penicilliumama-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 43；酶 葡糖氧化酶Glucoseoxidase；来源 米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei橄榄产色链霉菌Streptomycesolivochromogenes；供体 黑曲霉Aspergillusniger产黄青霉Penicilliumchrysogenum尼崎青霉菌Penicilliumama-gasakiense。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-044",
@@ -35756,15 +35756,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "45",
     "rowName": "β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)",
     "enzymeName": "β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)",
-    "source": "鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-锈棕色链霉菌ginosusinosus黑曲霉Aspergillusniger",
-    "donor": "Streptomycesrubig-",
+    "source": "鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus黑曲霉Aspergillusniger",
+    "donor": "锈棕色链霉菌Streptomycesrubig-inosus",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
     "rawRowText": "鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-锈棕色链霉菌Streptomycesrubig-ginosusinosusβ-葡萄糖苷酶beta-glucosidase(又45黑曲霉Aspergillusniger名纤维二糖酶Cellobiase)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 45；酶 β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)；来源 鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-锈棕色链霉菌ginosusinosus黑曲霉Aspergillusniger；供体 Streptomycesrubig-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 45；酶 β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)；来源 鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus黑曲霉Aspergillusniger；供体 锈棕色链霉菌Streptomycesrubig-inosus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-046",
@@ -35772,24 +35772,24 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "46",
     "rowName": "α-葡萄糖苷酶Alpha-glucosidase",
     "enzymeName": "α-葡萄糖苷酶Alpha-glucosidase",
-    "source": "李氏木霉Trichodermareesei黑曲霉Aspe产气克雷伯氏菌Klebsiellaaero-genes",
-    "donor": "rgillusniger",
+    "source": "李氏木霉Trichodermareesei产气克雷伯氏菌Klebsiellaaero-genes",
+    "donor": "黑曲霉Aspergillusniger",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
     "rawRowText": "46α-葡萄糖苷酶Alpha-glucosidase李氏木霉Trichodermareesei黑曲霉Aspergillusniger产气克雷伯氏菌Klebsiellaaero-genes",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 46；酶 α-葡萄糖苷酶Alpha-glucosidase；来源 李氏木霉Trichodermareesei黑曲霉Aspe产气克雷伯氏菌Klebsiellaaero-genes；供体 rgillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 46；酶 α-葡萄糖苷酶Alpha-glucosidase；来源 李氏木霉Trichodermareesei产气克雷伯氏菌Klebsiellaaero-genes；供体 黑曲霉Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-047",
     "rowNumber": 47,
     "rowCode": "47",
-    "rowName": "普鲁兰酶Pullulanase普鲁兰酶Pullulanase",
-    "enzymeName": "普鲁兰酶Pullulanase普鲁兰酶Pullulanase",
-    "source": "枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽枯草芽孢杆菌Bacillussubtilisdopullulyt嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusde地衣芽孢杆菌Bacilluslichenifor-Bacillusdemis长野解普鲁兰杆菌Pullulanibacil-",
-    "donor": "孢杆菌Bacillusaci-icusramificansramificans",
+    "rowName": "普鲁兰酶Pullulanase",
+    "enzymeName": "普鲁兰酶Pullulanase",
+    "source": "枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-",
+    "donor": "嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
@@ -35797,7 +35797,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       240
     ],
     "rawRowText": "枯草芽孢杆菌Bacillussubtilis47普鲁兰酶Pullulanase嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌Bacillussubtilisdopullulyticus嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusderamificans地衣芽孢杆菌Bacilluslichenifor-Bacillusderamificans47普鲁兰酶Pullulanasemis长野解普鲁兰杆菌Pullulanibacil-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase普鲁兰酶Pullulanase；来源 枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽枯草芽孢杆菌Bacillussubtilisdopullulyt嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusde地衣芽孢杆菌Bacilluslichenifor-Bacillusdemis长野解普鲁兰杆菌Pullulanibacil-；供体 孢杆菌Bacillusaci-icusramificansramificans。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase；来源 枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-；供体 嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-048",
@@ -35805,15 +35805,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "48",
     "rowName": "漆酶Laccase",
     "enzymeName": "漆酶Laccase",
-    "source": "lusnaganoensis嗜热毁丝霉米曲霉AspergillusoryzaeMycelioph",
-    "donor": "thorathermophila",
+    "source": "lusnaganoensis米曲霉Aspergillusoryzae",
+    "donor": "嗜热毁丝霉Myceliophthorathermophila",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "lusnaganoensis嗜热毁丝霉48漆酶Laccase米曲霉AspergillusoryzaeMyceliophthorathermophila",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 48；酶 漆酶Laccase；来源 lusnaganoensis嗜热毁丝霉米曲霉AspergillusoryzaeMycelioph；供体 thorathermophila。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 48；酶 漆酶Laccase；来源 lusnaganoensis米曲霉Aspergillusoryzae；供体 嗜热毁丝霉Myceliophthorathermophila。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-049",
@@ -35821,15 +35821,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "49",
     "rowName": "溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)",
     "enzymeName": "溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉李氏木霉TrichodermareeseiAspergil脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-",
-    "donor": "Aspergillusnigerlusnishimurae",
+    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-",
+    "donor": "黑曲霉AspergillusnigerAspergillusnishimurae",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "黑曲霉Aspergillusniger溶血磷脂酶(磷脂酶B)Lysophos-49黑曲霉Aspergillusniger黑曲霉Aspergillusnigerpholipase(lecithinaseB)李氏木霉TrichodermareeseiAspergillusnishimurae脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 49；酶 溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉李氏木霉TrichodermareeseiAspergil脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-；供体 Aspergillusnigerlusnishimurae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 49；酶 溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-；供体 黑曲霉AspergillusnigerAspergillusnishimurae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-050",
@@ -35837,15 +35837,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "50",
     "rowName": "乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)",
     "enzymeName": "乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)",
-    "source": "tis乳克鲁维酵母Kluyveromyceslac-乳克鲁维tistis巴斯德毕赤酵母Pichiapastoris米曲霉两歧双歧杆菌Bifidobacteriumbifidum两歧双枯草芽孢杆菌Bacillussubtilisbifidum德氏乳杆菌保加利亚亚种枯草芽孢杆菌LactobaciBacillussubtilisgaricus",
-    "donor": "酵母Kluyveromyceslac-Aspergillusoryzae歧杆菌Bifidobacteriumllusdelbrueckiisubsp.bul-",
+    "source": "乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis",
+    "donor": "乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "tis乳克鲁维酵母Kluyveromyceslac-乳克鲁维酵母Kluyveromyceslac-tistis巴斯德毕赤酵母Pichiapastoris米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacterium乳糖酶(β-半乳糖苷酶)Lactasebifidum(beta-galactosidase)两歧双歧杆菌Bifidobacterium枯草芽孢杆菌Bacillussubtilisbifidum德氏乳杆菌保加利亚亚种枯草芽孢杆菌Lactobacillusdelbrueckiisubsp.bul-Bacillussubtilisgaricus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 50；酶 乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)；来源 tis乳克鲁维酵母Kluyveromyceslac-乳克鲁维tistis巴斯德毕赤酵母Pichiapastoris米曲霉两歧双歧杆菌Bifidobacteriumbifidum两歧双枯草芽孢杆菌Bacillussubtilisbifidum德氏乳杆菌保加利亚亚种枯草芽孢杆菌LactobaciBacillussubtilisgaricus；供体 酵母Kluyveromyceslac-Aspergillusoryzae歧杆菌Bifidobacteriumllusdelbrueckiisubsp.bul-。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 50；酶 乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)；来源 乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis；供体 乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-051",
@@ -35853,15 +35853,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "51",
     "rowName": "羧肽酶Carboxypeptidase",
     "enzymeName": "羧肽酶Carboxypeptidase",
-    "source": "黑曲霉米曲霉AspergillusnigerAspergilPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-两歧双misbifidum黑曲霉Aspergillusniger黑曲霉米曲霉Aspergillusoryzae米曲霉",
-    "donor": "lusoryzae歧杆菌BifidobacteriumAspergillusnigerAspergillusoryzae",
+    "source": "黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
+    "donor": "米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "黑曲霉米曲霉AspergillusnigerAspergillusoryzaePapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-两歧双歧杆菌Bifidobacteriummisbifidum黑曲霉Aspergillusniger黑曲霉Aspergillusniger51羧肽酶Carboxypeptidase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 51；酶 羧肽酶Carboxypeptidase；来源 黑曲霉米曲霉AspergillusnigerAspergilPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-两歧双misbifidum黑曲霉Aspergillusniger黑曲霉米曲霉Aspergillusoryzae米曲霉；供体 lusoryzae歧杆菌BifidobacteriumAspergillusnigerAspergillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 51；酶 羧肽酶Carboxypeptidase；来源 黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae；供体 米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum黑曲霉Aspergillusniger米曲霉Aspergillusoryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-052",
@@ -35885,15 +35885,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "53",
     "rowName": "天门冬酰胺酶Asparaginase",
     "enzymeName": "天门冬酰胺酶Asparaginase",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspe米曲霉Aspergillusoryzae米曲霉Aspe",
-    "donor": "rgillusnigerrgillusoryzae",
+    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
+    "donor": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
       241
     ],
     "rawRowText": "天门冬酰胺酶黑曲霉Aspergillusniger黑曲霉AspergillusnigerAsparaginase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 53；酶 天门冬酰胺酶Asparaginase；来源 黑曲霉Aspergillusniger黑曲霉Aspe米曲霉Aspergillusoryzae米曲霉Aspe；供体 rgillusnigerrgillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 53；酶 天门冬酰胺酶Asparaginase；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae；供体 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-054",
@@ -36013,24 +36013,24 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "61",
     "rowName": "蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase",
     "enzymeName": "蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase",
-    "source": "米曲霉Aspergillusoryzae黑曲霉Aspergillusniger黑曲霉Aspergillusniger南极假丝酵母",
-    "donor": "Candidaantarctica",
+    "source": "米曲霉Aspergillusoryzae黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
+    "donor": "南极假丝酵母Candidaantarctica",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
       241
     ],
     "rawRowText": "蔗糖1-果糖转移酶(又名果糖基转61移酶)Sucrose1-fructosyltrans-米曲霉Aspergillusoryzaeferase黑曲霉Aspergillusniger黑曲霉Aspergillusniger南极假丝酵母Candidaantarctica",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 61；酶 蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase；来源 米曲霉Aspergillusoryzae黑曲霉Aspergillusniger黑曲霉Aspergillusniger南极假丝酵母；供体 Candidaantarctica。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 61；酶 蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase；来源 米曲霉Aspergillusoryzae黑曲霉Aspergillusniger黑曲霉Aspergillusniger；供体 南极假丝酵母Candidaantarctica。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-062",
     "rowNumber": 62,
     "rowCode": "62",
-    "rowName": "脂肪酶Lipase脂肪酶Lipase",
-    "enzymeName": "脂肪酶Lipase脂肪酶Lipase",
-    "source": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌棉状嗜热米曲霉Aspergillusoryzaelanuginosu小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger黄色镰刀菌多形汉逊酵母Hansenulapoly-异孢镰morpharum李氏木霉黑曲霉塔宾变种",
-    "donor": "Fusariumoxysporum丝孢菌ThermomycessRhizomucormieheiFusariumculmorum刀菌Fusariumhetreospo-Aspergillusniger",
+    "rowName": "脂肪酶Lipase",
+    "enzymeName": "脂肪酶Lipase",
+    "source": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉",
+    "donor": "尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusniger",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
@@ -36038,7 +36038,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       242
     ],
     "rawRowText": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌Fusariumoxysporum62脂肪酶Lipase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉Rhizomucormiehei柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus62脂肪酶Lipase)黑曲霉Aspergillusniger黄色镰刀菌Fusariumculmorum多形汉逊酵母Hansenulapoly-异孢镰刀菌Fusariumhetreospo-morpharum李氏木霉黑曲霉塔宾变种Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶Lipase脂肪酶Lipase；来源 米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌棉状嗜热米曲霉Aspergillusoryzaelanuginosu小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger黄色镰刀菌多形汉逊酵母Hansenulapoly-异孢镰morpharum李氏木霉黑曲霉塔宾变种；供体 Fusariumoxysporum丝孢菌ThermomycessRhizomucormieheiFusariumculmorum刀菌Fusariumhetreospo-Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶Lipase；来源 米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉；供体 尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-063",
@@ -36046,15 +36046,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "63",
     "rowName": "酯酶Esterase",
     "enzymeName": "酯酶Esterase",
-    "source": "Trichodermareeseivart.ubingen李氏木霉尖孢镰刀菌TrichodermareeseiFusariumoxyspo黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
-    "donor": "sisrum",
+    "source": "Trichodermareesei李氏木霉Trichodermareesei黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
+    "donor": "vart.ubingensis尖孢镰刀菌Fusariumoxysporum",
     "pdfPage": 242,
     "standardPage": 239,
     "pdfPages": [
       242
     ],
     "rawRowText": "Trichodermareeseivart.ubingensis李氏木霉尖孢镰刀菌TrichodermareeseiFusariumoxysporum黑曲霉Aspergillusniger63酯酶Esterase李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶Esterase；来源 Trichodermareeseivart.ubingen李氏木霉尖孢镰刀菌TrichodermareeseiFusariumoxyspo黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei；供体 sisrum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶Esterase；来源 Trichodermareesei李氏木霉Trichodermareesei黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei；供体 vart.ubingensis尖孢镰刀菌Fusariumoxysporum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-064",
@@ -36062,15 +36062,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "64",
     "rowName": "植酸酶phytase",
     "enzymeName": "植酸酶phytase",
-    "source": "黑曲霉Aspergillusniger黑曲霉塔宾曲霉AspergillusnigerAspergil",
-    "donor": "lustubingensis",
+    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
+    "donor": "塔宾曲霉Aspergillustubingensis",
     "pdfPage": 242,
     "standardPage": 239,
     "pdfPages": [
       242
     ],
     "rawRowText": "黑曲霉Aspergillusniger64植酸酶phytase黑曲霉塔宾曲霉AspergillusnigerAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 64；酶 植酸酶phytase；来源 黑曲霉Aspergillusniger黑曲霉塔宾曲霉AspergillusnigerAspergil；供体 lustubingensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 64；酶 植酸酶phytase；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger；供体 塔宾曲霉Aspergillustubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-065",
@@ -44411,38 +44411,54 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "id": "gb2760-2024-f-additive-index-204",
     "rowNumber": 204,
     "rowCode": "204",
-    "rowName": "双乙酰酒石酸单双甘油酯(简称“DATEM”)司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DATEM”)司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘",
-    "insNumber": "472e493,495,491,",
+    "rowName": "双乙酰酒石酸单双甘油酯(简称“DATEM”)",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DATEM”)",
+    "insNumber": "472e",
     "a1PageNumber": 104,
     "pdfPage": 262,
     "standardPage": 259,
     "pdfPages": [
       262
     ],
-    "rawRowText": "双乙酰酒石酸单双甘油酯(简称“DATEM”)472e104司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘493,495,491,",
-    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 双乙酰酒石酸单双甘油酯(简称“DATEM”)司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘；INS 号 472e493,495,491,；附录 A 页码 104。"
+    "rawRowText": "双乙酰酒石酸单双甘油酯(简称“DATEM”)472e104",
+    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 双乙酰酒石酸单双甘油酯(简称“DATEM”)；INS 号 472e；附录 A 页码 104。"
   },
   {
     "id": "gb2760-2024-f-additive-index-205",
     "rowNumber": 205,
     "rowCode": "205",
-    "rowName": "60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]松香季戊四醇酯",
-    "additiveNameCn": "60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]松香季戊四醇酯",
-    "insNumber": "492,494—",
+    "rowName": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
+    "insNumber": "493,495,491,492,494",
+    "a1PageNumber": 107,
+    "pdfPage": 262,
+    "standardPage": 259,
+    "pdfPages": [
+      262
+    ],
+    "rawRowText": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]493,495,491,492,494107",
+    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；INS 号 493,495,491,492,494；附录 A 页码 107。"
+  },
+  {
+    "id": "gb2760-2024-f-additive-index-206",
+    "rowNumber": 206,
+    "rowCode": "206",
+    "rowName": "松香季戊四醇酯",
+    "additiveNameCn": "松香季戊四醇酯",
+    "insNumber": "—",
     "a1PageNumber": 108,
     "pdfPage": 262,
     "standardPage": 259,
     "pdfPages": [
       262
     ],
-    "rawRowText": "60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯492,494(又名司盘80)]松香季戊四醇酯—108",
-    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]松香季戊四醇酯；INS 号 492,494—；附录 A 页码 108。"
+    "rawRowText": "松香季戊四醇酯—108",
+    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 松香季戊四醇酯；INS 号 —；附录 A 页码 108。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-206",
-    "rowNumber": 206,
-    "rowCode": "206",
+    "id": "gb2760-2024-f-additive-index-207",
+    "rowNumber": 207,
+    "rowCode": "207",
     "rowName": "酸处理淀粉",
     "additiveNameCn": "酸处理淀粉",
     "insNumber": "1401",
@@ -44456,9 +44472,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 酸处理淀粉；INS 号 1401；附录 A 页码 108。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-207",
-    "rowNumber": 207,
-    "rowCode": "207",
+    "id": "gb2760-2024-f-additive-index-208",
+    "rowNumber": 208,
+    "rowCode": "208",
     "rowName": "酸性红(又名偶氮玉红)",
     "additiveNameCn": "酸性红(又名偶氮玉红)",
     "insNumber": "122",
@@ -44472,9 +44488,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 酸性红(又名偶氮玉红)；INS 号 122；附录 A 页码 108。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-208",
-    "rowNumber": 208,
-    "rowCode": "208",
+    "id": "gb2760-2024-f-additive-index-209",
+    "rowNumber": 209,
+    "rowCode": "209",
     "rowName": "羧甲基淀粉钠",
     "additiveNameCn": "羧甲基淀粉钠",
     "insNumber": "—",
@@ -44488,9 +44504,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 羧甲基淀粉钠；INS 号 —；附录 A 页码 108。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-209",
-    "rowNumber": 209,
-    "rowCode": "209",
+    "id": "gb2760-2024-f-additive-index-210",
+    "rowNumber": 210,
+    "rowCode": "210",
     "rowName": "羧甲基纤维素钠",
     "additiveNameCn": "羧甲基纤维素钠",
     "insNumber": "466",
@@ -44504,9 +44520,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 羧甲基纤维素钠；INS 号 466；附录 A 页码 109。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-210",
-    "rowNumber": 210,
-    "rowCode": "210",
+    "id": "gb2760-2024-f-additive-index-211",
+    "rowNumber": 211,
+    "rowCode": "211",
     "rowName": "索马甜",
     "additiveNameCn": "索马甜",
     "insNumber": "957",
@@ -44520,9 +44536,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 索马甜；INS 号 957；附录 A 页码 109。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-211",
-    "rowNumber": 211,
-    "rowCode": "211",
+    "id": "gb2760-2024-f-additive-index-212",
+    "rowNumber": 212,
+    "rowCode": "212",
     "rowName": "碳酸铵",
     "additiveNameCn": "碳酸铵",
     "insNumber": "503(i)",
@@ -44536,9 +44552,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸铵；INS 号 503(i)；附录 A 页码 109。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-212",
-    "rowNumber": 212,
-    "rowCode": "212",
+    "id": "gb2760-2024-f-additive-index-213",
+    "rowNumber": 213,
+    "rowCode": "213",
     "rowName": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)",
     "additiveNameCn": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)",
     "insNumber": "170(i)",
@@ -44552,9 +44568,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸钙(包括轻质碳酸钙,重质碳酸钙)；INS 号 170(i)；附录 A 页码 109。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-213",
-    "rowNumber": 213,
-    "rowCode": "213",
+    "id": "gb2760-2024-f-additive-index-214",
+    "rowNumber": 214,
+    "rowCode": "214",
     "rowName": "碳酸钾",
     "additiveNameCn": "碳酸钾",
     "insNumber": "501(i)",
@@ -44568,9 +44584,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸钾；INS 号 501(i)；附录 A 页码 110。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-214",
-    "rowNumber": 214,
-    "rowCode": "214",
+    "id": "gb2760-2024-f-additive-index-215",
+    "rowNumber": 215,
+    "rowCode": "215",
     "rowName": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)",
     "additiveNameCn": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)",
     "insNumber": "504(i)",
@@ -44584,9 +44600,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸镁(包括轻质碳酸镁,重质碳酸镁)；INS 号 504(i)；附录 A 页码 110。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-215",
-    "rowNumber": 215,
-    "rowCode": "215",
+    "id": "gb2760-2024-f-additive-index-216",
+    "rowNumber": 216,
+    "rowCode": "216",
     "rowName": "碳酸钠",
     "additiveNameCn": "碳酸钠",
     "insNumber": "500(i)",
@@ -44600,9 +44616,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸钠；INS 号 500(i)；附录 A 页码 110。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-216",
-    "rowNumber": 216,
-    "rowCode": "216",
+    "id": "gb2760-2024-f-additive-index-217",
+    "rowNumber": 217,
+    "rowCode": "217",
     "rowName": "碳酸氢铵",
     "additiveNameCn": "碳酸氢铵",
     "insNumber": "503(ii)",
@@ -44616,9 +44632,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸氢铵；INS 号 503(ii)；附录 A 页码 110。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-217",
-    "rowNumber": 217,
-    "rowCode": "217",
+    "id": "gb2760-2024-f-additive-index-218",
+    "rowNumber": 218,
+    "rowCode": "218",
     "rowName": "碳酸氢钾",
     "additiveNameCn": "碳酸氢钾",
     "insNumber": "501(ii)",
@@ -44632,9 +44648,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸氢钾；INS 号 501(ii)；附录 A 页码 110。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-218",
-    "rowNumber": 218,
-    "rowCode": "218",
+    "id": "gb2760-2024-f-additive-index-219",
+    "rowNumber": 219,
+    "rowCode": "219",
     "rowName": "碳酸氢钠",
     "additiveNameCn": "碳酸氢钠",
     "insNumber": "500(ii)",
@@ -44648,9 +44664,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸氢钠；INS 号 500(ii)；附录 A 页码 111。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-219",
-    "rowNumber": 219,
-    "rowCode": "219",
+    "id": "gb2760-2024-f-additive-index-220",
+    "rowNumber": 220,
+    "rowCode": "220",
     "rowName": "碳酸氢三钠(又名倍半碳酸钠)",
     "additiveNameCn": "碳酸氢三钠(又名倍半碳酸钠)",
     "insNumber": "500(iii)",
@@ -44664,9 +44680,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 碳酸氢三钠(又名倍半碳酸钠)；INS 号 500(iii)；附录 A 页码 111。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-220",
-    "rowNumber": 220,
-    "rowCode": "220",
+    "id": "gb2760-2024-f-additive-index-221",
+    "rowNumber": 221,
+    "rowCode": "221",
     "rowName": "糖精钠",
     "additiveNameCn": "糖精钠",
     "insNumber": "954(iv)",
@@ -44680,9 +44696,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 糖精钠；INS 号 954(iv)；附录 A 页码 111。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-221",
-    "rowNumber": 221,
-    "rowCode": "221",
+    "id": "gb2760-2024-f-additive-index-222",
+    "rowNumber": 222,
+    "rowCode": "222",
     "rowName": "特丁基对苯二酚(简称“TBHQ”)",
     "additiveNameCn": "特丁基对苯二酚(简称“TBHQ”)",
     "insNumber": "319",
@@ -44696,9 +44712,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 特丁基对苯二酚(简称“TBHQ”)；INS 号 319；附录 A 页码 112。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-222",
-    "rowNumber": 222,
-    "rowCode": "222",
+    "id": "gb2760-2024-f-additive-index-223",
+    "rowNumber": 223,
+    "rowCode": "223",
     "rowName": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "insNumber": "962",
@@ -44712,9 +44728,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 天门冬酰苯丙氨酸甲酯乙酰磺胺酸；INS 号 962；附录 A 页码 112。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-223",
-    "rowNumber": 223,
-    "rowCode": "223",
+    "id": "gb2760-2024-f-additive-index-224",
+    "rowNumber": 224,
+    "rowCode": "224",
     "rowName": "天然胡萝卜素",
     "additiveNameCn": "天然胡萝卜素",
     "insNumber": "160a(ii)",
@@ -44728,9 +44744,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 天然胡萝卜素；INS 号 160a(ii)；附录 A 页码 113。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-224",
-    "rowNumber": 224,
-    "rowCode": "224",
+    "id": "gb2760-2024-f-additive-index-225",
+    "rowNumber": 225,
+    "rowCode": "225",
     "rowName": "天然苋菜红",
     "additiveNameCn": "天然苋菜红",
     "insNumber": "—",
@@ -44744,9 +44760,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 天然苋菜红；INS 号 —；附录 A 页码 113。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-225",
-    "rowNumber": 225,
-    "rowCode": "225",
+    "id": "gb2760-2024-f-additive-index-226",
+    "rowNumber": 226,
+    "rowCode": "226",
     "rowName": "田菁胶",
     "additiveNameCn": "田菁胶",
     "insNumber": "—",
@@ -44760,9 +44776,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 田菁胶；INS 号 —；附录 A 页码 114。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-226",
-    "rowNumber": 226,
-    "rowCode": "226",
+    "id": "gb2760-2024-f-additive-index-227",
+    "rowNumber": 227,
+    "rowCode": "227",
     "rowName": "甜菜红",
     "additiveNameCn": "甜菜红",
     "insNumber": "162",
@@ -44776,9 +44792,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 甜菜红；INS 号 162；附录 A 页码 114。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-227",
-    "rowNumber": 227,
-    "rowCode": "227",
+    "id": "gb2760-2024-f-additive-index-228",
+    "rowNumber": 228,
+    "rowCode": "228",
     "rowName": "甜菊糖苷",
     "additiveNameCn": "甜菊糖苷",
     "insNumber": "960",
@@ -44792,9 +44808,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 甜菊糖苷；INS 号 960；附录 A 页码 114。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-228",
-    "rowNumber": 228,
-    "rowCode": "228",
+    "id": "gb2760-2024-f-additive-index-229",
+    "rowNumber": 229,
+    "rowCode": "229",
     "rowName": "甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯",
     "additiveNameCn": "甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯",
     "insNumber": "952(iv),952(ii)432,434,",
@@ -44808,9 +44824,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯；INS 号 952(iv),952(ii)432,434,；附录 A 页码 116。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-229",
-    "rowNumber": 229,
-    "rowCode": "229",
+    "id": "gb2760-2024-f-additive-index-230",
+    "rowNumber": 230,
+    "rowCode": "230",
     "rowName": "(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)",
     "additiveNameCn": "(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)",
     "insNumber": "435,433265,266",
@@ -44824,9 +44840,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 (20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)；INS 号 435,433265,266；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-230",
-    "rowNumber": 230,
-    "rowCode": "230",
+    "id": "gb2760-2024-f-additive-index-231",
+    "rowNumber": 231,
+    "rowCode": "231",
     "rowName": "脱乙酰甲壳素(又名壳聚糖)",
     "additiveNameCn": "脱乙酰甲壳素(又名壳聚糖)",
     "insNumber": "—",
@@ -44840,9 +44856,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 脱乙酰甲壳素(又名壳聚糖)；INS 号 —；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-231",
-    "rowNumber": 231,
-    "rowCode": "231",
+    "id": "gb2760-2024-f-additive-index-232",
+    "rowNumber": 232,
+    "rowCode": "232",
     "rowName": "微晶纤维素",
     "additiveNameCn": "微晶纤维素",
     "insNumber": "460(i)",
@@ -44856,9 +44872,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 微晶纤维素；INS 号 460(i)；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-232",
-    "rowNumber": 232,
-    "rowCode": "232",
+    "id": "gb2760-2024-f-additive-index-233",
+    "rowNumber": 233,
+    "rowCode": "233",
     "rowName": "维生素E(包括dl-а-生育酚,d-а-生育酚,混合生育酚浓缩物)",
     "additiveNameCn": "维生素E(包括dl-а-生育酚,d-а-生育酚,混合生育酚浓缩物)",
     "insNumber": "307",
@@ -44872,9 +44888,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 维生素E(包括dl-а-生育酚,d-а-生育酚,混合生育酚浓缩物)；INS 号 307；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-233",
-    "rowNumber": 233,
-    "rowCode": "233",
+    "id": "gb2760-2024-f-additive-index-234",
+    "rowNumber": 234,
+    "rowCode": "234",
     "rowName": "稳定态二氧化氯",
     "additiveNameCn": "稳定态二氧化氯",
     "insNumber": "926",
@@ -44888,9 +44904,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 稳定态二氧化氯；INS 号 926；附录 A 页码 119。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-234",
-    "rowNumber": 234,
-    "rowCode": "234",
+    "id": "gb2760-2024-f-additive-index-235",
+    "rowNumber": 235,
+    "rowCode": "235",
     "rowName": "纤维素",
     "additiveNameCn": "纤维素",
     "insNumber": "460",
@@ -44904,9 +44920,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 纤维素；INS 号 460；附录 A 页码 120。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-235",
-    "rowNumber": 235,
-    "rowCode": "235",
+    "id": "gb2760-2024-f-additive-index-236",
+    "rowNumber": 236,
+    "rowCode": "236",
     "rowName": "苋菜红及其铝色淀(包括苋菜红,苋菜红铝色淀)",
     "additiveNameCn": "苋菜红及其铝色淀(包括苋菜红,苋菜红铝色淀)",
     "insNumber": "123",
@@ -44920,9 +44936,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 苋菜红及其铝色淀(包括苋菜红,苋菜红铝色淀)；INS 号 123；附录 A 页码 120。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-236",
-    "rowNumber": 236,
-    "rowCode": "236",
+    "id": "gb2760-2024-f-additive-index-237",
+    "rowNumber": 237,
+    "rowCode": "237",
     "rowName": "橡子壳棕",
     "additiveNameCn": "橡子壳棕",
     "insNumber": "—",
@@ -44936,9 +44952,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 橡子壳棕；INS 号 —；附录 A 页码 121。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-237",
-    "rowNumber": 237,
-    "rowCode": "237",
+    "id": "gb2760-2024-f-additive-index-238",
+    "rowNumber": 238,
+    "rowCode": "238",
     "rowName": "硝酸钠,硝酸钾",
     "additiveNameCn": "硝酸钠,硝酸钾",
     "insNumber": "251,252",
@@ -44952,9 +44968,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硝酸钠,硝酸钾；INS 号 251,252；附录 A 页码 121。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-238",
-    "rowNumber": 238,
-    "rowCode": "238",
+    "id": "gb2760-2024-f-additive-index-239",
+    "rowNumber": 239,
+    "rowCode": "239",
     "rowName": "辛,癸酸甘油酯",
     "additiveNameCn": "辛,癸酸甘油酯",
     "insNumber": "—",
@@ -44968,9 +44984,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 辛,癸酸甘油酯；INS 号 —；附录 A 页码 122。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-239",
-    "rowNumber": 239,
-    "rowCode": "239",
+    "id": "gb2760-2024-f-additive-index-240",
+    "rowNumber": 240,
+    "rowCode": "240",
     "rowName": "辛烯基琥珀酸淀粉钠",
     "additiveNameCn": "辛烯基琥珀酸淀粉钠",
     "insNumber": "1450",
@@ -44984,9 +45000,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 辛烯基琥珀酸淀粉钠；INS 号 1450；附录 A 页码 122。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-240",
-    "rowNumber": 240,
-    "rowCode": "240",
+    "id": "gb2760-2024-f-additive-index-241",
+    "rowNumber": 241,
+    "rowCode": "241",
     "rowName": "新红及其铝色淀(包括新红,新红铝色淀)",
     "additiveNameCn": "新红及其铝色淀(包括新红,新红铝色淀)",
     "insNumber": "—",
@@ -45000,9 +45016,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 新红及其铝色淀(包括新红,新红铝色淀)；INS 号 —；附录 A 页码 122。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-241",
-    "rowNumber": 241,
-    "rowCode": "241",
+    "id": "gb2760-2024-f-additive-index-242",
+    "rowNumber": 242,
+    "rowCode": "242",
     "rowName": "亚麻籽胶(又名富兰克胶)",
     "additiveNameCn": "亚麻籽胶(又名富兰克胶)",
     "insNumber": "—",
@@ -45016,9 +45032,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 亚麻籽胶(又名富兰克胶)；INS 号 —；附录 A 页码 123。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-242",
-    "rowNumber": 242,
-    "rowCode": "242",
+    "id": "gb2760-2024-f-additive-index-243",
+    "rowNumber": 243,
+    "rowCode": "243",
     "rowName": "亚铁氰化钾,亚铁氰化钠",
     "additiveNameCn": "亚铁氰化钾,亚铁氰化钠",
     "insNumber": "536,535",
@@ -45032,9 +45048,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 亚铁氰化钾,亚铁氰化钠；INS 号 536,535；附录 A 页码 123。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-243",
-    "rowNumber": 243,
-    "rowCode": "243",
+    "id": "gb2760-2024-f-additive-index-244",
+    "rowNumber": 244,
+    "rowCode": "244",
     "rowName": "亚硝酸钠,亚硝酸钾",
     "additiveNameCn": "亚硝酸钠,亚硝酸钾",
     "insNumber": "250,249",
@@ -45048,9 +45064,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 亚硝酸钠,亚硝酸钾；INS 号 250,249；附录 A 页码 123。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-244",
-    "rowNumber": 244,
-    "rowCode": "244",
+    "id": "gb2760-2024-f-additive-index-245",
+    "rowNumber": 245,
+    "rowCode": "245",
     "rowName": "胭脂虫红及其铝色淀(包括胭脂虫红,胭脂虫红铝色淀)",
     "additiveNameCn": "胭脂虫红及其铝色淀(包括胭脂虫红,胭脂虫红铝色淀)",
     "insNumber": "120",
@@ -45064,9 +45080,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 胭脂虫红及其铝色淀(包括胭脂虫红,胭脂虫红铝色淀)；INS 号 120；附录 A 页码 124。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-245",
-    "rowNumber": 245,
-    "rowCode": "245",
+    "id": "gb2760-2024-f-additive-index-246",
+    "rowNumber": 246,
+    "rowCode": "246",
     "rowName": "胭脂红及其铝色淀(包括胭脂红,胭脂红铝色淀)",
     "additiveNameCn": "胭脂红及其铝色淀(包括胭脂红,胭脂红铝色淀)",
     "insNumber": "124",
@@ -45080,9 +45096,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 胭脂红及其铝色淀(包括胭脂红,胭脂红铝色淀)；INS 号 124；附录 A 页码 125。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-246",
-    "rowNumber": 246,
-    "rowCode": "246",
+    "id": "gb2760-2024-f-additive-index-247",
+    "rowNumber": 247,
+    "rowCode": "247",
     "rowName": "胭脂树橙(又名红木素,降红木素)",
     "additiveNameCn": "胭脂树橙(又名红木素,降红木素)",
     "insNumber": "160b",
@@ -45096,9 +45112,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 胭脂树橙(又名红木素,降红木素)；INS 号 160b；附录 A 页码 127。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-247",
-    "rowNumber": 247,
-    "rowCode": "247",
+    "id": "gb2760-2024-f-additive-index-248",
+    "rowNumber": 248,
+    "rowCode": "248",
     "rowName": "盐酸",
     "additiveNameCn": "盐酸",
     "insNumber": "507",
@@ -45112,9 +45128,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 盐酸；INS 号 507；附录 A 页码 128。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-248",
-    "rowNumber": 248,
-    "rowCode": "248",
+    "id": "gb2760-2024-f-additive-index-249",
+    "rowNumber": 249,
+    "rowCode": "249",
     "rowName": "杨梅红",
     "additiveNameCn": "杨梅红",
     "insNumber": "—",
@@ -45128,9 +45144,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 杨梅红；INS 号 —；附录 A 页码 128。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-249",
-    "rowNumber": 249,
-    "rowCode": "249",
+    "id": "gb2760-2024-f-additive-index-250",
+    "rowNumber": 250,
+    "rowCode": "250",
     "rowName": "氧化淀粉",
     "additiveNameCn": "氧化淀粉",
     "insNumber": "1404",
@@ -45144,9 +45160,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 氧化淀粉；INS 号 1404；附录 A 页码 128。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-250",
-    "rowNumber": 250,
-    "rowCode": "250",
+    "id": "gb2760-2024-f-additive-index-251",
+    "rowNumber": 251,
+    "rowCode": "251",
     "rowName": "氧化羟丙基淀粉",
     "additiveNameCn": "氧化羟丙基淀粉",
     "insNumber": "—",
@@ -45160,9 +45176,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 氧化羟丙基淀粉；INS 号 —；附录 A 页码 129。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-251",
-    "rowNumber": 251,
-    "rowCode": "251",
+    "id": "gb2760-2024-f-additive-index-252",
+    "rowNumber": 252,
+    "rowCode": "252",
     "rowName": "氧化铁黑,氧化铁红",
     "additiveNameCn": "氧化铁黑,氧化铁红",
     "insNumber": "172(i),172(ii)",
@@ -45176,9 +45192,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 氧化铁黑,氧化铁红；INS 号 172(i),172(ii)；附录 A 页码 129。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-252",
-    "rowNumber": 252,
-    "rowCode": "252",
+    "id": "gb2760-2024-f-additive-index-253",
+    "rowNumber": 253,
+    "rowCode": "253",
     "rowName": "叶黄素",
     "additiveNameCn": "叶黄素",
     "insNumber": "161b(i)",
@@ -45192,9 +45208,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 叶黄素；INS 号 161b(i)；附录 A 页码 129。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-253",
-    "rowNumber": 253,
-    "rowCode": "253",
+    "id": "gb2760-2024-f-additive-index-254",
+    "rowNumber": 254,
+    "rowCode": "254",
     "rowName": "叶绿素铜",
     "additiveNameCn": "叶绿素铜",
     "insNumber": "141(i)",
@@ -45208,9 +45224,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 叶绿素铜；INS 号 141(i)；附录 A 页码 130。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-254",
-    "rowNumber": 254,
-    "rowCode": "254",
+    "id": "gb2760-2024-f-additive-index-255",
+    "rowNumber": 255,
+    "rowCode": "255",
     "rowName": "叶绿素铜钠盐,叶绿素铜钾盐",
     "additiveNameCn": "叶绿素铜钠盐,叶绿素铜钾盐",
     "insNumber": "141(ii)",
@@ -45224,9 +45240,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 叶绿素铜钠盐,叶绿素铜钾盐；INS 号 141(ii)；附录 A 页码 130。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-255",
-    "rowNumber": 255,
-    "rowCode": "255",
+    "id": "gb2760-2024-f-additive-index-256",
+    "rowNumber": 256,
+    "rowCode": "256",
     "rowName": "液体二氧化碳(煤气化法)",
     "additiveNameCn": "液体二氧化碳(煤气化法)",
     "insNumber": "—",
@@ -45240,9 +45256,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 液体二氧化碳(煤气化法)；INS 号 —；附录 A 页码 130。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-256",
-    "rowNumber": 256,
-    "rowCode": "256",
+    "id": "gb2760-2024-f-additive-index-257",
+    "rowNumber": 257,
+    "rowCode": "257",
     "rowName": "乙二胺四乙酸二钠",
     "additiveNameCn": "乙二胺四乙酸二钠",
     "insNumber": "386",
@@ -45256,9 +45272,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙二胺四乙酸二钠；INS 号 386；附录 A 页码 131。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-257",
-    "rowNumber": 257,
-    "rowCode": "257",
+    "id": "gb2760-2024-f-additive-index-258",
+    "rowNumber": 258,
+    "rowCode": "258",
     "rowName": "乙二胺四乙酸二钠钙",
     "additiveNameCn": "乙二胺四乙酸二钠钙",
     "insNumber": "385",
@@ -45272,9 +45288,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙二胺四乙酸二钠钙；INS 号 385；附录 A 页码 131。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-258",
-    "rowNumber": 258,
-    "rowCode": "258",
+    "id": "gb2760-2024-f-additive-index-259",
+    "rowNumber": 259,
+    "rowCode": "259",
     "rowName": "乙酸钠(又名醋酸钠)",
     "additiveNameCn": "乙酸钠(又名醋酸钠)",
     "insNumber": "262(i)",
@@ -45288,9 +45304,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酸钠(又名醋酸钠)；INS 号 262(i)；附录 A 页码 131。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-259",
-    "rowNumber": 259,
-    "rowCode": "259",
+    "id": "gb2760-2024-f-additive-index-260",
+    "rowNumber": 260,
+    "rowCode": "260",
     "rowName": "乙酰化单,双甘油脂肪酸酯",
     "additiveNameCn": "乙酰化单,双甘油脂肪酸酯",
     "insNumber": "472a",
@@ -45304,9 +45320,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酰化单,双甘油脂肪酸酯；INS 号 472a；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-260",
-    "rowNumber": 260,
-    "rowCode": "260",
+    "id": "gb2760-2024-f-additive-index-261",
+    "rowNumber": 261,
+    "rowCode": "261",
     "rowName": "乙酰化二淀粉磷酸酯",
     "additiveNameCn": "乙酰化二淀粉磷酸酯",
     "insNumber": "1414",
@@ -45320,9 +45336,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酰化二淀粉磷酸酯；INS 号 1414；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-261",
-    "rowNumber": 261,
-    "rowCode": "261",
+    "id": "gb2760-2024-f-additive-index-262",
+    "rowNumber": 262,
+    "rowCode": "262",
     "rowName": "乙酰化双淀粉己二酸酯",
     "additiveNameCn": "乙酰化双淀粉己二酸酯",
     "insNumber": "1422",
@@ -45336,9 +45352,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酰化双淀粉己二酸酯；INS 号 1422；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-262",
-    "rowNumber": 262,
-    "rowCode": "262",
+    "id": "gb2760-2024-f-additive-index-263",
+    "rowNumber": 263,
+    "rowCode": "263",
     "rowName": "乙氧基喹",
     "additiveNameCn": "乙氧基喹",
     "insNumber": "324",
@@ -45352,9 +45368,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙氧基喹；INS 号 324；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-263",
-    "rowNumber": 263,
-    "rowCode": "263",
+    "id": "gb2760-2024-f-additive-index-264",
+    "rowNumber": 264,
+    "rowCode": "264",
     "rowName": "异构化乳糖",
     "additiveNameCn": "异构化乳糖",
     "insNumber": "—",
@@ -45368,9 +45384,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 异构化乳糖；INS 号 —；附录 A 页码 133。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-264",
-    "rowNumber": 264,
-    "rowCode": "264",
+    "id": "gb2760-2024-f-additive-index-265",
+    "rowNumber": 265,
+    "rowCode": "265",
     "rowName": "异麦芽酮糖",
     "additiveNameCn": "异麦芽酮糖",
     "insNumber": "—",
@@ -45384,9 +45400,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 异麦芽酮糖；INS 号 —；附录 A 页码 133。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-265",
-    "rowNumber": 265,
-    "rowCode": "265",
+    "id": "gb2760-2024-f-additive-index-266",
+    "rowNumber": 266,
+    "rowCode": "266",
     "rowName": "硬脂酸(又名十八烷酸)",
     "additiveNameCn": "硬脂酸(又名十八烷酸)",
     "insNumber": "570",
@@ -45400,9 +45416,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸(又名十八烷酸)；INS 号 570；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-266",
-    "rowNumber": 266,
-    "rowCode": "266",
+    "id": "gb2760-2024-f-additive-index-267",
+    "rowNumber": 267,
+    "rowCode": "267",
     "rowName": "硬脂酸钙",
     "additiveNameCn": "硬脂酸钙",
     "insNumber": "—",
@@ -45416,9 +45432,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸钙；INS 号 —；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-267",
-    "rowNumber": 267,
-    "rowCode": "267",
+    "id": "gb2760-2024-f-additive-index-268",
+    "rowNumber": 268,
+    "rowCode": "268",
     "rowName": "硬脂酸钾",
     "additiveNameCn": "硬脂酸钾",
     "insNumber": "—",
@@ -45432,9 +45448,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸钾；INS 号 —；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-268",
-    "rowNumber": 268,
-    "rowCode": "268",
+    "id": "gb2760-2024-f-additive-index-269",
+    "rowNumber": 269,
+    "rowCode": "269",
     "rowName": "硬脂酸镁",
     "additiveNameCn": "硬脂酸镁",
     "insNumber": "470(iii)",
@@ -45448,9 +45464,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸镁；INS 号 470(iii)；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-269",
-    "rowNumber": 269,
-    "rowCode": "269",
+    "id": "gb2760-2024-f-additive-index-270",
+    "rowNumber": 270,
+    "rowCode": "270",
     "rowName": "硬脂酰乳酸钠,硬脂酰乳酸钙",
     "additiveNameCn": "硬脂酰乳酸钠,硬脂酰乳酸钙",
     "insNumber": "481(i),482(i)",
@@ -45464,9 +45480,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酰乳酸钠,硬脂酰乳酸钙；INS 号 481(i),482(i)；附录 A 页码 135。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-270",
-    "rowNumber": 270,
-    "rowCode": "270",
+    "id": "gb2760-2024-f-additive-index-271",
+    "rowNumber": 271,
+    "rowCode": "271",
     "rowName": "诱惑红及其铝色淀(包括诱惑红,诱惑红铝色淀)",
     "additiveNameCn": "诱惑红及其铝色淀(包括诱惑红,诱惑红铝色淀)",
     "insNumber": "129",
@@ -45480,9 +45496,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 诱惑红及其铝色淀(包括诱惑红,诱惑红铝色淀)；INS 号 129；附录 A 页码 136。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-271",
-    "rowNumber": 271,
-    "rowCode": "271",
+    "id": "gb2760-2024-f-additive-index-272",
+    "rowNumber": 272,
+    "rowCode": "272",
     "rowName": "玉米黄",
     "additiveNameCn": "玉米黄",
     "insNumber": "—",
@@ -45496,9 +45512,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 玉米黄；INS 号 —；附录 A 页码 137。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-272",
-    "rowNumber": 272,
-    "rowCode": "272",
+    "id": "gb2760-2024-f-additive-index-273",
+    "rowNumber": 273,
+    "rowCode": "273",
     "rowName": "越橘红",
     "additiveNameCn": "越橘红",
     "insNumber": "—",
@@ -45512,9 +45528,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 越橘红；INS 号 —；附录 A 页码 137。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-273",
-    "rowNumber": 273,
-    "rowCode": "273",
+    "id": "gb2760-2024-f-additive-index-274",
+    "rowNumber": 274,
+    "rowCode": "274",
     "rowName": "藻蓝",
     "additiveNameCn": "藻蓝",
     "insNumber": "—",
@@ -45528,9 +45544,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 藻蓝；INS 号 —；附录 A 页码 137。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-274",
-    "rowNumber": 274,
-    "rowCode": "274",
+    "id": "gb2760-2024-f-additive-index-275",
+    "rowNumber": 275,
+    "rowCode": "275",
     "rowName": "皂荚糖胶",
     "additiveNameCn": "皂荚糖胶",
     "insNumber": "—",
@@ -45544,9 +45560,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 皂荚糖胶；INS 号 —；附录 A 页码 138。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-275",
-    "rowNumber": 275,
-    "rowCode": "275",
+    "id": "gb2760-2024-f-additive-index-276",
+    "rowNumber": 276,
+    "rowCode": "276",
     "rowName": "皂树皮提取物",
     "additiveNameCn": "皂树皮提取物",
     "insNumber": "999",
@@ -45560,9 +45576,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 皂树皮提取物；INS 号 999；附录 A 页码 138。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-276",
-    "rowNumber": 276,
-    "rowCode": "276",
+    "id": "gb2760-2024-f-additive-index-277",
+    "rowNumber": 277,
+    "rowCode": "277",
     "rowName": "蔗糖脂肪酸酯",
     "additiveNameCn": "蔗糖脂肪酸酯",
     "insNumber": "473",
@@ -45576,9 +45592,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 蔗糖脂肪酸酯；INS 号 473；附录 A 页码 139。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-277",
-    "rowNumber": 277,
-    "rowCode": "277",
+    "id": "gb2760-2024-f-additive-index-278",
+    "rowNumber": 278,
+    "rowCode": "278",
     "rowName": "栀子黄",
     "additiveNameCn": "栀子黄",
     "insNumber": "164",
@@ -45592,9 +45608,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 栀子黄；INS 号 164；附录 A 页码 140。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-278",
-    "rowNumber": 278,
-    "rowCode": "278",
+    "id": "gb2760-2024-f-additive-index-279",
+    "rowNumber": 279,
+    "rowCode": "279",
     "rowName": "栀子蓝",
     "additiveNameCn": "栀子蓝",
     "insNumber": "165",
@@ -45608,9 +45624,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 栀子蓝；INS 号 165；附录 A 页码 141。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-279",
-    "rowNumber": 279,
-    "rowCode": "279",
+    "id": "gb2760-2024-f-additive-index-280",
+    "rowNumber": 280,
+    "rowCode": "280",
     "rowName": "植酸(又名肌醇六磷酸),植酸钠",
     "additiveNameCn": "植酸(又名肌醇六磷酸),植酸钠",
     "insNumber": "391,—",
@@ -45624,9 +45640,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 植酸(又名肌醇六磷酸),植酸钠；INS 号 391,—；附录 A 页码 142。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-280",
-    "rowNumber": 280,
-    "rowCode": "280",
+    "id": "gb2760-2024-f-additive-index-281",
+    "rowNumber": 281,
+    "rowCode": "281",
     "rowName": "植物炭黑",
     "additiveNameCn": "植物炭黑",
     "insNumber": "153",
@@ -45640,9 +45656,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 植物炭黑；INS 号 153；附录 A 页码 142。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-281",
-    "rowNumber": 281,
-    "rowCode": "281",
+    "id": "gb2760-2024-f-additive-index-282",
+    "rowNumber": 282,
+    "rowCode": "282",
     "rowName": "竹叶抗氧化物",
     "additiveNameCn": "竹叶抗氧化物",
     "insNumber": "—",
@@ -45656,9 +45672,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 竹叶抗氧化物；INS 号 —；附录 A 页码 143。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-282",
-    "rowNumber": 282,
-    "rowCode": "282",
+    "id": "gb2760-2024-f-additive-index-283",
+    "rowNumber": 283,
+    "rowCode": "283",
     "rowName": "紫草红",
     "additiveNameCn": "紫草红",
     "insNumber": "—",
@@ -45672,9 +45688,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 紫草红；INS 号 —；附录 A 页码 144。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-283",
-    "rowNumber": 283,
-    "rowCode": "283",
+    "id": "gb2760-2024-f-additive-index-284",
+    "rowNumber": 284,
+    "rowCode": "284",
     "rowName": "紫甘薯色素",
     "additiveNameCn": "紫甘薯色素",
     "insNumber": "—",
@@ -45688,9 +45704,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 紫甘薯色素；INS 号 —；附录 A 页码 144。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-284",
-    "rowNumber": 284,
-    "rowCode": "284",
+    "id": "gb2760-2024-f-additive-index-285",
+    "rowNumber": 285,
+    "rowCode": "285",
     "rowName": "紫胶(又名虫胶)",
     "additiveNameCn": "紫胶(又名虫胶)",
     "insNumber": "904",
@@ -45704,9 +45720,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 紫胶(又名虫胶)；INS 号 904；附录 A 页码 145。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-285",
-    "rowNumber": 285,
-    "rowCode": "285",
+    "id": "gb2760-2024-f-additive-index-286",
+    "rowNumber": 286,
+    "rowCode": "286",
     "rowName": "紫胶红(又名虫胶红)",
     "additiveNameCn": "紫胶红(又名虫胶红)",
     "insNumber": "—",
