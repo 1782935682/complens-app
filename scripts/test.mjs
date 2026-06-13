@@ -30,7 +30,7 @@ import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRout
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { gb2760OfficialStagingGenerationCoverage, gb2760OfficialStagingRecords, getGb2760OfficialStagingSummary } from '../src/data/gb2760OfficialStaging.js';
 import { gb2760OfficialFullTextPages, getGb2760OfficialFullTextSummary } from '../src/data/gb2760OfficialFullText.js';
-import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialReferenceRows, getGb2760OfficialReferenceTableSummary } from '../src/data/gb2760OfficialReferenceTables.js';
+import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialReferenceRows, getGb2760OfficialReferenceTableSummary } from '../src/data/gb2760OfficialReferenceTables.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { compressImage } from '../src/utils/imageProcessor.js';
 import { AUTH_ERROR_MESSAGES, USER_KEY, getCurrentUser as getAuthCurrentUser, isLoggedIn as isAuthLoggedIn, logout as authLogout, syncLocalDataToServer, validateAuthInput } from '../src/services/authService.js';
@@ -1110,7 +1110,8 @@ assert.equal(gb2760FullTextQualityReport.textSha256Count, 264);
 assert.deepEqual(gb2760FullTextQualityReport.emptyTextPages, []);
 assert.deepEqual(validateGb2760OfficialReferenceTables(), []);
 assert.equal(gb2760OfficialA2ExceptionFoodCategories.length, 68);
-assert.equal(gb2760OfficialReferenceRows.length, 68);
+assert.equal(gb2760OfficialB1NoFlavorFoodCategories.length, 29);
+assert.equal(gb2760OfficialReferenceRows.length, 97);
 assert.equal(gb2760OfficialA2ExceptionFoodCategories[0].exceptionNumber, 1);
 assert.equal(gb2760OfficialA2ExceptionFoodCategories[0].foodCategoryCode, '01.01.01');
 assert.equal(gb2760OfficialA2ExceptionFoodCategories[0].foodCategoryName, '巴氏杀菌乳');
@@ -1118,17 +1119,46 @@ assert.equal(gb2760OfficialA2ExceptionFoodCategories.at(-1).exceptionNumber, 68)
 assert.equal(gb2760OfficialA2ExceptionFoodCategories.at(-1).foodCategoryCode, '16.02.01');
 assert.equal(gb2760OfficialA2ExceptionFoodCategories.at(-1).foodCategoryName, '茶叶、咖啡');
 assert.equal(gb2760OfficialA2ExceptionFoodCategories.some((row) => row.exceptionNumber === 67 && row.foodCategoryCode === '15.03.01.04' && row.foodCategoryName.includes('浓缩葡萄汁')), true);
-assert.equal(gb2760OfficialReferenceRows.every((row) => row.tableName === '表 A.2' && row.reviewStatus === 'needs_review'), true);
+assert.equal(gb2760OfficialB1NoFlavorFoodCategories[0].foodCategoryCode, '01.01.01');
+assert.equal(gb2760OfficialB1NoFlavorFoodCategories[0].foodCategoryName, '巴氏杀菌乳');
+assert.equal(gb2760OfficialB1NoFlavorFoodCategories.at(-1).foodCategoryCode, '16.02.01');
+assert.equal(gb2760OfficialB1NoFlavorFoodCategories.at(-1).foodCategoryName, '茶叶、咖啡');
+assert.equal(gb2760OfficialB1NoFlavorFoodCategories.some((row) => row.foodCategoryCode === '13.01' && row.footnoteMarker === 'a'), true);
+const b1FootnotedSourceRow = gb2760OfficialB1NoFlavorFoodCategories.find((row) => row.foodCategoryCode === '13.01');
+assert.match(b1FootnotedSourceRow.rawSourceText, /5 mg\/100 mL/);
+assert.match(b1FootnotedSourceRow.rawSourceText, /7 mg\/100g/);
+assert.match(b1FootnotedSourceRow.rawSourceText, /0~6个月婴幼儿配方食品不得添加任何食用香料/);
+assert.doesNotMatch(b1FootnotedSourceRow.rawSourceText, /。。/);
+assert.equal(gb2760OfficialB1Footnotes.a.exceptionUses.length, 4);
+assert.equal(gb2760OfficialB1Footnotes.a.exceptionUses.some((item) => item.foodCategoryCode === '13.02.01' && item.maxUseLevel === '7 mg/100g'), true);
+assert.equal(gb2760OfficialReferenceRows.every((row) => ['表 A.2', '表 B.1'].includes(row.tableName) && row.reviewStatus === 'needs_review'), true);
 assert.equal(gb2760OfficialReferenceRows.some((row) => row.rowCode === '67' && row.rowData.foodCategoryCode === '15.03.01.04'), true);
+const b1FootnotedReferenceRow = gb2760OfficialReferenceRows.find((row) => row.tableName === '表 B.1' && row.rowCode === '13.02');
+assert.equal(b1FootnotedReferenceRow.rowData.flavorUseRestriction, 'no_added_food_flavor_with_footnote_exceptions');
+assert.equal(b1FootnotedReferenceRow.rowData.footnote.text, gb2760OfficialB1Footnotes.a.text);
+assert.equal(b1FootnotedReferenceRow.rowData.footnote.exceptionUses.some((item) => item.flavorName === '乙基香兰素' && item.maxUseLevel === '5 mg/100 mL'), true);
 assert.match(validateGb2760OfficialReferenceTables(gb2760OfficialReferenceRows.slice(1), gb2760OfficialA2ExceptionFoodCategories).join('\n'), /must cover all A\.2 rows/);
+assert.match(validateGb2760OfficialReferenceTables(gb2760OfficialReferenceRows.filter((row) => row.id !== 'gb2760-2024-b1-no-flavor-001'), gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1NoFlavorFoodCategories).join('\n'), /must cover all B\.1 rows/);
+assert.match(validateGb2760OfficialReferenceTables(gb2760OfficialReferenceRows.map((row) => (
+  row.id === 'gb2760-2024-b1-no-flavor-025'
+    ? { ...row, rowData: { ...row.rowData, footnote: undefined } }
+    : row
+)), gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1NoFlavorFoodCategories).join('\n'), /footnote\.text must preserve B\.1 footnote a/);
+assert.match(validateGb2760OfficialReferenceTables(gb2760OfficialReferenceRows.map((row) => (
+  row.id === 'gb2760-2024-b1-no-flavor-025'
+    ? { ...row, rowData: { ...row.rowData, flavorUseRestriction: 'no_added_food_flavor', footnoteMarker: '', footnote: undefined } }
+    : row
+)), gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1NoFlavorFoodCategories).join('\n'), /footnoteMarker must match the B\.1 source footnote marker/);
 const gb2760ReferenceSummary = getGb2760OfficialReferenceTableSummary();
-assert.equal(gb2760ReferenceSummary.totalRows, 68);
-assert.deepEqual(gb2760ReferenceSummary.tableNames, ['表 A.2']);
-assert.deepEqual(gb2760ReferenceSummary.pdfPages, [149, 150]);
+assert.equal(gb2760ReferenceSummary.totalRows, 97);
+assert.equal(gb2760ReferenceSummary.b1NoFlavorFoodCategoryCount, 29);
+assert.deepEqual(gb2760ReferenceSummary.tableNames, ['表 A.2', '表 B.1']);
+assert.deepEqual(gb2760ReferenceSummary.pdfPages, [149, 150, 152]);
 const gb2760ReferenceQualityReport = getGb2760OfficialReferenceTableQualityReport();
-assert.equal(gb2760ReferenceQualityReport.totalRows, 68);
+assert.equal(gb2760ReferenceQualityReport.totalRows, 97);
 assert.equal(gb2760ReferenceQualityReport.a2ExceptionFoodCategoryCount, 68);
-assert.equal(gb2760ReferenceQualityReport.pdfPageCount, 2);
+assert.equal(gb2760ReferenceQualityReport.b1NoFlavorFoodCategoryCount, 29);
+assert.equal(gb2760ReferenceQualityReport.pdfPageCount, 3);
 assert.match(validateGb2760OfficialStaging([{ ...gb2760OfficialStagingRecords[0], sourceName: '第三方镜像站' }]).join('\n'), /sourceName must be the official/);
 assert.match(validateGb2760OfficialStaging([{ ...gb2760OfficialStagingRecords[0], reviewStatus: 'verified', extractionStatus: 'extracted' }]).join('\n'), /verified reviewStatus requires extractionStatus/);
 const foodAuditSummary = getDatasetAuditSummary('food');
