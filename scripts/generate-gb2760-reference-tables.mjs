@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { writeFileSync } from 'node:fs';
+import { readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const defaultPdfPath = '/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf';
@@ -9,7 +9,7 @@ const outputPath = process.argv[3]
   : resolve('src/data/gb2760OfficialReferenceTables.js');
 
 const generatedAt = '2026-06-13';
-const extractionTool = 'pdftotext -bbox-layout (poppler-utils)';
+const extractionTool = 'pdftotext -bbox-layout + pdftocairo -svg (poppler-utils)';
 const a2PdfPageStart = 149;
 const a2PdfPageEnd = 150;
 const a2TableTitle = '表 A.1 中例外食品编号对应的食品类别';
@@ -23,6 +23,7 @@ const c3TableTitle = '食品用酶制剂及其来源名单';
 const dTableTitle = '食品添加剂功能类别';
 const e1TableTitle = '食品分类系统';
 const fIndexTableTitle = '附录 A 中食品添加剂使用规定索引';
+const tableGridHorizontalBoundsCache = new Map();
 const b1Footnotes = {
   a: {
     text: '较大婴儿和幼儿配方食品中可以使用香兰素、乙基香兰素和香荚兰豆浸膏(提取物),最大使用量分别为5 mg/100 mL、5 mg/100 mL和按照生产需要适量使用,其中100 mL以即食食品计,生产企业应按照冲调比例折算成配方食品中的使用量;婴幼儿谷类辅助食品中可以使用香兰素,最大使用量为7 mg/100g,其中100g以即食食品计,生产企业应按照冲调比例折算成谷类食品中的使用量;凡使用范围涵盖0~6个月婴幼儿配方食品不得添加任何食用香料。',
@@ -164,7 +165,7 @@ const c3Rows = extractCoordinateTableRows({
   rowNumberMaxX: 90,
   mergeDuplicateRowNumbers: true,
   allowNoiseRowStarts: true,
-  segmentBoundaryStrategy: 'largest_gap',
+  segmentBoundaryStrategy: 'table_grid',
   includeLine(line) {
     return (line.pdfPage === 233 && line.mid > 330)
       || (line.pdfPage > 233 && line.pdfPage < 242)
@@ -618,20 +619,22 @@ function extractCoordinateTableRows({
     .filter((start) => start && start.rowNumber >= 1 && start.rowNumber <= expectedCount)
     .sort((a, b) => a.center - b.center);
 
-  const segmentRows = starts.map((start, index) => {
-    const previousStart = starts[index - 1];
-    const nextStart = starts[index + 1];
-    const lowerBound = previousStart
-      ? getSegmentBoundary(lines, previousStart.center, start.center, segmentBoundaryStrategy)
-      : start.center - 30;
-    const upperBound = nextStart
-      ? getSegmentBoundary(lines, start.center, nextStart.center, segmentBoundaryStrategy)
-      : start.center + 30;
-    return {
-      rowNumber: start.rowNumber,
-      lines: lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line))
-    };
-  });
+  const segmentRows = segmentBoundaryStrategy === 'table_grid'
+    ? buildTableGridSegmentRows(lines, starts, pdfPages)
+    : starts.map((start, index) => {
+        const previousStart = starts[index - 1];
+        const nextStart = starts[index + 1];
+        const lowerBound = previousStart
+          ? getSegmentBoundary(lines, previousStart.center, start.center, segmentBoundaryStrategy)
+          : start.center - 30;
+        const upperBound = nextStart
+          ? getSegmentBoundary(lines, start.center, nextStart.center, segmentBoundaryStrategy)
+          : start.center + 30;
+        return {
+          rowNumber: start.rowNumber,
+          lines: lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line))
+        };
+      });
 
   const groupedRows = mergeDuplicateRowNumbers
     ? mergeAdjacentDuplicateRows(segmentRows)
@@ -670,6 +673,75 @@ function extractCoordinateTableRows({
   return rows;
 }
 
+function buildTableGridSegmentRows(lines, starts, pdfPages) {
+  const sortedPages = [...pdfPages].sort((a, b) => a - b);
+  const boundsByPage = new Map(sortedPages.map((pdfPage) => [pdfPage, getTableGridHorizontalBounds(pdfPage)]));
+
+  const getContentTop = (pdfPage) => {
+    const bounds = boundsByPage.get(pdfPage) || [];
+    return bounds[1] ?? bounds[0] ?? 0;
+  };
+  const getContentBottom = (pdfPage) => {
+    const bounds = boundsByPage.get(pdfPage) || [];
+    return bounds.at(-1) ?? 1000;
+  };
+  const getRowLowerBound = (start) => {
+    const bounds = boundsByPage.get(start.line.pdfPage) || [];
+    return bounds.filter((bound) => bound < start.line.mid - 0.5).at(-1) ?? getContentTop(start.line.pdfPage);
+  };
+
+  return starts.map((start, index) => {
+    const nextStart = starts[index + 1];
+    const startPage = start.line.pdfPage;
+    const rowRanges = [];
+    const startPageIndex = sortedPages.indexOf(startPage);
+    const lowerBound = getRowLowerBound(start);
+
+    if (!nextStart) {
+      rowRanges.push({
+        pdfPage: startPage,
+        lowerBound,
+        upperBound: getContentBottom(startPage)
+      });
+    } else if (nextStart.line.pdfPage === startPage) {
+      rowRanges.push({
+        pdfPage: startPage,
+        lowerBound,
+        upperBound: getRowLowerBound(nextStart)
+      });
+    } else {
+      const nextPageIndex = sortedPages.indexOf(nextStart.line.pdfPage);
+      rowRanges.push({
+        pdfPage: startPage,
+        lowerBound,
+        upperBound: getContentBottom(startPage)
+      });
+      for (const pdfPage of sortedPages.slice(startPageIndex + 1, nextPageIndex)) {
+        rowRanges.push({
+          pdfPage,
+          lowerBound: getContentTop(pdfPage),
+          upperBound: getContentBottom(pdfPage)
+        });
+      }
+      rowRanges.push({
+        pdfPage: nextStart.line.pdfPage,
+        lowerBound: getContentTop(nextStart.line.pdfPage),
+        upperBound: getRowLowerBound(nextStart)
+      });
+    }
+
+    return {
+      rowNumber: start.rowNumber,
+      lines: lines.filter((line) => rowRanges.some((range) => (
+        line.pdfPage === range.pdfPage
+          && line.mid >= range.lowerBound - 0.5
+          && line.mid < range.upperBound - 0.5
+          && !isCommonNoiseLine(line)
+      )))
+    };
+  });
+}
+
 function normalizeCoordinateRowData(tableName, row, rowData) {
   if (tableName === '表 C.2') return normalizeC2ProcessingAidRowData(row, rowData);
   if (tableName !== '表 C.3') return rowData;
@@ -677,47 +749,14 @@ function normalizeCoordinateRowData(tableName, row, rowData) {
   const normalizedRowData = {
     ...rowData,
     enzymeName: dedupeRepeatedText(rowData.enzymeName),
-    source: stripLeadingContinuationFragment(rowData.source),
-    donor: stripLeadingContinuationFragment(rowData.donor)
+    source: normalizeC3FieldText(rowData.source),
+    donor: normalizeC3FieldText(rowData.donor)
   };
 
-  if (row.rowNumber === 2) {
-    return {
-      ...normalizedRowData,
-      source: normalizedRowData.source.replace('Bacilluslichenifor-嗜热脂解misstearothermoph', 'Bacilluslichenifor-mis'),
-      donor: '地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus'
-    };
-  }
   if (row.rowNumber === 23) {
     return {
       ...normalizedRowData,
       source: '橘青霉penicilliumcitrinum'
-    };
-  }
-  if (row.rowNumber === 40) {
-    return {
-      ...normalizedRowData,
-      source: '乳克鲁维酵母Kluyveromyceslac-tis',
-      donor: '小牛前凝乳酶B基因calfprochy-mosinBgene'
-    };
-  }
-  if (row.rowNumber === 47) {
-    return {
-      ...normalizedRowData,
-      source: '枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacillusnaganoensis'
-    };
-  }
-  if (row.rowNumber === 48) {
-    return {
-      ...normalizedRowData,
-      source: '米曲霉Aspergillusoryzae'
-    };
-  }
-  if (row.rowNumber === 63) {
-    return {
-      ...normalizedRowData,
-      source: '李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei黑曲霉Aspergillusniger',
-      donor: ''
     };
   }
   return normalizedRowData;
@@ -808,12 +847,87 @@ function getSegmentBoundary(lines, lowerCenter, upperCenter, strategy) {
   return largestGap.gap >= 24 ? largestGap.boundary : midpoint;
 }
 
+function getTableGridHorizontalBounds(pdfPage) {
+  if (tableGridHorizontalBoundsCache.has(pdfPage)) {
+    return tableGridHorizontalBoundsCache.get(pdfPage);
+  }
+
+  const svgPath = `/tmp/gb2760-reference-table-${process.pid}-${pdfPage}.svg`;
+  const result = spawnSync('pdftocairo', [
+    '-f',
+    String(pdfPage),
+    '-l',
+    String(pdfPage),
+    '-svg',
+    pdfPath,
+    svgPath
+  ], {
+    encoding: 'utf8',
+    maxBuffer: 20 * 1024 * 1024
+  });
+
+  try {
+    const svg = readFileSync(svgPath, 'utf8');
+    const bounds = [...svg.matchAll(/<path\b(?=[^>]*\btransform="matrix\(([^"]+)\)")(?=[^>]*\bd="M ([\d.-]+) ([\d.-]+) L ([\d.-]+) ([\d.-]+) ")[^>]*>/g)]
+      .map((match) => {
+        const matrix = match[1].split(',').map(Number);
+        const [x1, y1, x2, y2] = match.slice(2).map(Number);
+        const [a, b, c, d, e, f] = matrix;
+        const start = {
+          x: a * x1 + c * y1 + e,
+          y: b * x1 + d * y1 + f
+        };
+        const end = {
+          x: a * x2 + c * y2 + e,
+          y: b * x2 + d * y2 + f
+        };
+        return { start, end };
+      })
+      .filter((line) => Math.abs(line.start.y - line.end.y) < 0.25)
+      .filter((line) => {
+        const minX = Math.min(line.start.x, line.end.x);
+        const maxX = Math.max(line.start.x, line.end.x);
+        return minX < 80 && maxX > 520 && maxX - minX > 430;
+      })
+      .map((line) => (line.start.y + line.end.y) / 2)
+      .sort((a, b) => a - b)
+      .reduce((uniqueBounds, bound) => {
+        if (!uniqueBounds.some((existingBound) => Math.abs(existingBound - bound) < 0.5)) {
+          uniqueBounds.push(bound);
+        }
+        return uniqueBounds;
+      }, []);
+
+    if (bounds.length < 3) {
+      if (result.error || result.status !== 0) {
+        throw result.error || new Error(result.stderr || `pdftocairo exited with status ${result.status}`);
+      }
+      throw new Error(`Unable to extract table grid bounds from PDF page ${pdfPage}`);
+    }
+
+    tableGridHorizontalBoundsCache.set(pdfPage, bounds);
+    return bounds;
+  } catch (error) {
+    if (result.error || result.status !== 0) {
+      throw result.error || new Error(result.stderr || `pdftocairo exited with status ${result.status}`);
+    }
+    throw error;
+  } finally {
+    rmSync(svgPath, { force: true });
+  }
+}
+
 function dedupeRepeatedText(value) {
   const text = String(value || '');
   if (text.length % 2 !== 0) return text;
   const middle = text.length / 2;
   const firstHalf = text.slice(0, middle);
   return firstHalf === text.slice(middle) ? firstHalf : text;
+}
+
+function normalizeC3FieldText(value) {
+  return stripLeadingContinuationFragment(value)
+    .replace(/vart\.ubingensis/gu, 'var.tubingensis');
 }
 
 function stripLeadingContinuationFragment(value) {

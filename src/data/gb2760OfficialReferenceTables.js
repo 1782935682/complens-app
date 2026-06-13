@@ -2,7 +2,7 @@ import { gb2760OfficialStagingSource } from './gb2760OfficialStaging.js';
 
 export const gb2760OfficialReferenceTableSource = {
   ...gb2760OfficialStagingSource,
-  extractionTool: "pdftotext -bbox-layout (poppler-utils)",
+  extractionTool: "pdftotext -bbox-layout + pdftocairo -svg (poppler-utils)",
   extractionScope: 'official_reference_tables_structured',
   generatedAt: "2026-06-13"
 };
@@ -35066,15 +35066,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "2",
     "rowName": "α-半乳糖苷酶Alpha-galactosidase",
     "enzymeName": "α-半乳糖苷酶Alpha-galactosidase",
-    "source": "黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis",
-    "donor": "地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus",
+    "source": "黑曲霉Aspergillusniger",
+    "donor": "",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233
     ],
-    "rawRowText": "2α-半乳糖苷酶Alpha-galactosidase黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌Geobacillusmisstearothermophilus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶Alpha-galactosidase；来源 黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis；供体 地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus。"
+    "rawRowText": "2α-半乳糖苷酶Alpha-galactosidase黑曲霉Aspergillusniger",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶Alpha-galactosidase；来源 黑曲霉Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-003",
@@ -35082,16 +35082,16 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "3",
     "rowName": "α-淀粉酶Alpha-amylase",
     "enzymeName": "α-淀粉酶Alpha-amylase",
-    "source": "黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii",
+    "source": "地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
+    "donor": "地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233,
       234
     ],
-    "rawRowText": "黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens3α-淀粉酶Alpha-amylase枯草芽孢杆菌Bacillussubtilis嗜热脂解地芽孢杆菌Geobacillus枯草芽孢杆菌Bacillussubtilisstearothermophilus米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌Cytophagasp.formis3α-淀粉酶Alpha-amylase黑曲霉微小根毛霉AspergillusnigerRhizomucorpusillus李氏木霉Trichodermareesei白曲霉Aspergilluskawachii",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶Alpha-amylase；来源 黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii。"
+    "rawRowText": "地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌Geobacillusmisstearothermophilus黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens3α-淀粉酶Alpha-amylase枯草芽孢杆菌Bacillussubtilis嗜热脂解地芽孢杆菌Geobacillus枯草芽孢杆菌Bacillussubtilisstearothermophilus米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌Cytophagasp.formis3α-淀粉酶Alpha-amylase黑曲霉微小根毛霉AspergillusnigerRhizomucorpusillus李氏木霉Trichodermareesei白曲霉Aspergilluskawachii",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶Alpha-amylase；来源 地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-004",
@@ -35099,15 +35099,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "4",
     "rowName": "α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase",
     "enzymeName": "α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase",
-    "source": "枯草芽孢杆菌Bacillussubtilis大麦、山芋、大豆、小麦和麦芽",
+    "source": "枯草芽孢杆菌Bacillussubtilis",
     "donor": "短小芽孢杆菌Bacillusbrevis",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
-    "rawRowText": "α-乙酰乳酸脱羧酶Alpha-acetolac-4枯草芽孢杆菌Bacillussubtilis短小芽孢杆菌Bacillusbrevistatedecarboxylase大麦、山芋、大豆、小麦和麦芽",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 4；酶 α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase；来源 枯草芽孢杆菌Bacillussubtilis大麦、山芋、大豆、小麦和麦芽；供体 短小芽孢杆菌Bacillusbrevis。"
+    "rawRowText": "α-乙酰乳酸脱羧酶Alpha-acetolac-4枯草芽孢杆菌Bacillussubtilis短小芽孢杆菌Bacillusbrevistatedecarboxylase",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 4；酶 α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase；来源 枯草芽孢杆菌Bacillussubtilis；供体 短小芽孢杆菌Bacillusbrevis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-005",
@@ -35115,15 +35115,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "5",
     "rowName": "β-淀粉酶beta-amylase",
     "enzymeName": "β-淀粉酶beta-amylase",
-    "source": "barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis",
+    "source": "大麦、山芋、大豆、小麦和麦芽barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis弯曲芽孢杆菌Bacillusflexus",
     "donor": "弯曲芽孢杆菌Bacillusflexus",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
-    "rawRowText": "barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis5β-淀粉酶beta-amylase地衣芽孢杆菌Bacilluslichenifor-弯曲芽孢杆菌Bacillusflexusmis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 5；酶 β-淀粉酶beta-amylase；来源 barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis；供体 弯曲芽孢杆菌Bacillusflexus。"
+    "rawRowText": "大麦、山芋、大豆、小麦和麦芽barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis5β-淀粉酶beta-amylase地衣芽孢杆菌Bacilluslichenifor-弯曲芽孢杆菌Bacillusflexusmis弯曲芽孢杆菌Bacillusflexus",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 5；酶 β-淀粉酶beta-amylase；来源 大麦、山芋、大豆、小麦和麦芽barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis弯曲芽孢杆菌Bacillusflexus；供体 弯曲芽孢杆菌Bacillusflexus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-006",
@@ -35131,15 +35131,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "6",
     "rowName": "β-果糖基转移酶beta-fructofuranosidase",
     "enzymeName": "β-果糖基转移酶beta-fructofuranosidase",
-    "source": "弯曲芽孢杆菌BacillusflexusAspergillusfijiensis地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum",
+    "source": "Aspergillusfijiensis",
     "donor": "",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
-    "rawRowText": "弯曲芽孢杆菌Bacillusflexusβ-果糖基转移酶6Aspergillusfijiensisbeta-fructofuranosidase地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 6；酶 β-果糖基转移酶beta-fructofuranosidase；来源 弯曲芽孢杆菌BacillusflexusAspergillusfijiensis地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum。"
+    "rawRowText": "β-果糖基转移酶6Aspergillusfijiensisbeta-fructofuranosidase",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 6；酶 β-果糖基转移酶beta-fructofuranosidase；来源 Aspergillusfijiensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-007",
@@ -35147,15 +35147,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "7",
     "rowName": "β-葡聚糖酶beta-glucanase",
     "enzymeName": "β-葡聚糖酶beta-glucanase",
-    "source": "黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)",
-    "donor": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens",
+    "source": "地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis",
+    "donor": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
-    "rawRowText": "黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillus解淀粉芽孢杆菌Bacillusamyloliq-amyloliquefaciensuefaciens7β-葡聚糖酶beta-glucanase两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 7；酶 β-葡聚糖酶beta-glucanase；来源 黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)；供体 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens。"
+    "rawRowText": "地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillus解淀粉芽孢杆菌Bacillusamyloliq-amyloliquefaciensuefaciens7β-葡聚糖酶beta-glucanase两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌枯草芽孢杆菌BacillussubtilisBacillussubtilis",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 7；酶 β-葡聚糖酶beta-glucanase；来源 地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis；供体 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-008",
@@ -35163,15 +35163,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "8",
     "rowName": "阿拉伯呋喃糖苷酶Arabinofurano-sidase",
     "enzymeName": "阿拉伯呋喃糖苷酶Arabinofurano-sidase",
-    "source": "绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "枯草芽孢杆菌BacillussubtilisTalaromycespinophilus",
+    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
+    "donor": "Talaromycespinophilus",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
-    "rawRowText": "绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌枯草芽孢杆菌BacillussubtilisBacillussubtilis阿拉伯呋喃糖苷酶Arabinofurano-黑曲霉Aspergillusnigersidase李氏木霉TrichodermareeseiTalaromycespinophilus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 8；酶 阿拉伯呋喃糖苷酶Arabinofurano-sidase；来源 绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 枯草芽孢杆菌BacillussubtilisTalaromycespinophilus。"
+    "rawRowText": "阿拉伯呋喃糖苷酶Arabinofurano-黑曲霉Aspergillusnigersidase李氏木霉TrichodermareeseiTalaromycespinophilus",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 8；酶 阿拉伯呋喃糖苷酶Arabinofurano-sidase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 Talaromycespinophilus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-009",
@@ -35211,15 +35211,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "11",
     "rowName": "菠萝蛋白酶Bromelain",
     "enzymeName": "菠萝蛋白酶Bromelain",
-    "source": "菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-",
-    "donor": "寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger",
+    "source": "菠萝Ananasspp.",
+    "donor": "",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
-    "rawRowText": "11菠萝蛋白酶Bromelain菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectria寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)parasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 11；酶 菠萝蛋白酶Bromelain；来源 菠萝Ananasspp.寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-；供体 寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger。"
+    "rawRowText": "11菠萝蛋白酶Bromelain菠萝Ananasspp.",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 11；酶 菠萝蛋白酶Bromelain；来源 菠萝Ananasspp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-012",
@@ -35227,15 +35227,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "12",
     "rowName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
     "enzymeName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
-    "source": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
-    "donor": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei",
+    "source": "寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
+    "donor": "寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
-    "rawRowText": "uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽孢杆菌Bacillusamyloliq-uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei蛋白酶(包括乳凝块酶)Protease12米曲霉Aspergillusoryzae(includingmilkclottingenzymes)乳克鲁维酵母Kluyveromyceslactis小牛胃Calfstomach微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌ThermusAquaticus枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyloliquefaciens热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱性卤杆菌Alkalihaloba-Bacillussubtiliscillusclausii李氏木霉Trichodermareesei樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)；来源 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei。"
+    "rawRowText": "寄生内座壳(栗疫菌)Cryphonectria寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)parasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽孢杆菌Bacillusamyloliq-uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei蛋白酶(包括乳凝块酶)Protease12米曲霉Aspergillusoryzae(includingmilkclottingenzymes)乳克鲁维酵母Kluyveromyceslactis小牛胃Calfstomach微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌ThermusAquaticus枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyloliquefaciens热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱性卤杆菌Alkalihaloba-Bacillussubtiliscillusclausii李氏木霉Trichodermareesei樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)；来源 寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-013",
@@ -35259,15 +35259,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "14",
     "rowName": "单宁酶Tannase",
     "enzymeName": "单宁酶Tannase",
-    "source": "米曲霉Aspergillusoryzae黑曲霉cAspergillusniger",
+    "source": "米曲霉Aspergillusoryzae",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
-    "rawRowText": "单宁酶14米曲霉AspergillusoryzaeTannase黑曲霉cAspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 14；酶 单宁酶Tannase；来源 米曲霉Aspergillusoryzae黑曲霉cAspergillusniger。"
+    "rawRowText": "单宁酶14米曲霉AspergillusoryzaeTannase",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 14；酶 单宁酶Tannase；来源 米曲霉Aspergillusoryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-015",
@@ -35275,15 +35275,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "15",
     "rowName": "多聚半乳糖醛酸酶Polygalacturo-nase",
     "enzymeName": "多聚半乳糖醛酸酶Polygalacturo-nase",
-    "source": "米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
+    "source": "黑曲霉cAspergillusniger米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
     "donor": "黑曲霉Aspergillusniger塔宾曲霉Aspergillustubingensis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
-    "rawRowText": "米根霉Rhizopusoryzae多聚半乳糖醛酸酶Polygalacturo-15黑曲霉Aspergillusniger黑曲霉Aspergillusnigernase李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 15；酶 多聚半乳糖醛酸酶Polygalacturo-nase；来源 米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger塔宾曲霉Aspergillustubingensis。"
+    "rawRowText": "黑曲霉cAspergillusniger米根霉Rhizopusoryzae多聚半乳糖醛酸酶Polygalacturo-15黑曲霉Aspergillusniger黑曲霉Aspergillusnigernase李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 15；酶 多聚半乳糖醛酸酶Polygalacturo-nase；来源 黑曲霉cAspergillusniger米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger塔宾曲霉Aspergillustubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-016",
@@ -35355,15 +35355,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "20",
     "rowName": "果胶酶Pectinase",
     "enzymeName": "果胶酶Pectinase",
-    "source": "黑曲霉Aspergillusniger米根霉Rhizopusoryzae黑曲霉Aspergillusniger",
+    "source": "黑曲霉Aspergillusniger米根霉Rhizopusoryzae",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
-    "rawRowText": "黑曲霉Aspergillusniger20果胶酶Pectinase米根霉Rhizopusoryzae黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 20；酶 果胶酶Pectinase；来源 黑曲霉Aspergillusniger米根霉Rhizopusoryzae黑曲霉Aspergillusniger。"
+    "rawRowText": "黑曲霉Aspergillusniger20果胶酶Pectinase米根霉Rhizopusoryzae",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 20；酶 果胶酶Pectinase；来源 黑曲霉Aspergillusniger米根霉Rhizopusoryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-021",
@@ -35371,15 +35371,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "21",
     "rowName": "果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)",
     "enzymeName": "果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)",
-    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei",
+    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei",
     "donor": "黑曲霉Aspergillusniger针尾曲霉Aspergillusaculeatus塔宾曲霉Aspergillustubingensis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
-    "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger果胶酯酶(果胶甲基酯酶)Pectines-21米曲霉Aspergillusoryzae针尾曲霉Aspergillusaculeatusterase(Pectinmethylesterase)李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 21；酶 果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger针尾曲霉Aspergillusaculeatus塔宾曲霉Aspergillustubingensis。"
+    "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger果胶酯酶(果胶甲基酯酶)Pectines-21米曲霉Aspergillusoryzae针尾曲霉Aspergillusaculeatusterase(Pectinmethylesterase)李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 21；酶 果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger针尾曲霉Aspergillusaculeatus塔宾曲霉Aspergillustubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-022",
@@ -35387,15 +35387,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "22",
     "rowName": "过氧化氢酶Catalase",
     "enzymeName": "过氧化氢酶Catalase",
-    "source": "黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigorhorseliver溶壁微球菌Micrococcuslysode-",
+    "source": "黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigorhorseliver溶壁微球菌Micrococcuslysode-icticus",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
-    "rawRowText": "黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigor22过氧化氢酶Catalasehorseliver溶壁微球菌Micrococcuslysode-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 22；酶 过氧化氢酶Catalase；来源 黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigorhorseliver溶壁微球菌Micrococcuslysode-。"
+    "rawRowText": "黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigor22过氧化氢酶Catalasehorseliver溶壁微球菌Micrococcuslysode-icticus",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 22；酶 过氧化氢酶Catalase；来源 黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigorhorseliver溶壁微球菌Micrococcuslysode-icticus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-023",
@@ -35410,7 +35410,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "pdfPages": [
       236
     ],
-    "rawRowText": "icticus23核酸酶Nuclease橘青霉penicilliumcitrinum",
+    "rawRowText": "23核酸酶Nuclease橘青霉penicilliumcitrinum",
     "rawSourceText": "GB 2760-2024 表 C.3：序号 23；酶 核酸酶Nuclease；来源 橘青霉penicilliumcitrinum。"
   },
   {
@@ -35627,15 +35627,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "37",
     "rowName": "木瓜蛋白酶Papain",
     "enzymeName": "木瓜蛋白酶Papain",
-    "source": "木瓜CaricapapayaFusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger",
-    "donor": "棉状嗜热丝孢菌Thermomyceslanuginosus",
+    "source": "木瓜Caricapapaya",
+    "donor": "",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
-    "rawRowText": "37木瓜蛋白酶Papain木瓜Caricapapaya棉状嗜热丝孢菌ThermomycesFusariumvenenatumlanuginosus巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 37；酶 木瓜蛋白酶Papain；来源 木瓜CaricapapayaFusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger；供体 棉状嗜热丝孢菌Thermomyceslanuginosus。"
+    "rawRowText": "37木瓜蛋白酶Papain木瓜Caricapapaya",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 37；酶 木瓜蛋白酶Papain；来源 木瓜Caricapapaya。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-038",
@@ -35643,15 +35643,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "38",
     "rowName": "木聚糖酶Xylanase",
     "enzymeName": "木聚糖酶Xylanase",
-    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
-    "donor": "黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervart.ubingensis",
+    "source": "Fusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis",
+    "donor": "棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervar.tubingensis柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
-    "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis38木聚糖酶Xylanase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus米曲霉Aspergillusoryzae黑曲霉cAspergillusniger李氏木霉TrichodermareeseiTalaromycesleycettanus李氏木霉黑曲霉塔宾变种TrichodermareeseiAspergillusnigervart.ubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 38；酶 木聚糖酶Xylanase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervart.ubingensis。"
+    "rawRowText": "棉状嗜热丝孢菌ThermomycesFusariumvenenatumlanuginosus巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis38木聚糖酶Xylanase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus米曲霉Aspergillusoryzae黑曲霉cAspergillusniger李氏木霉TrichodermareeseiTalaromycesleycettanus李氏木霉黑曲霉塔宾变种TrichodermareeseiAspergillusnigervart.ubingensis李氏木霉柔曲高温多孢菌TrichodermareeseiThermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 38；酶 木聚糖酶Xylanase；来源 Fusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis；供体 棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervar.tubingensis柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-039",
@@ -35659,15 +35659,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "39",
     "rowName": "凝乳酶AChymosinA",
     "enzymeName": "凝乳酶AChymosinA",
-    "source": "李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis大肠杆菌K-12EscherichiaColiK-12黑曲霉泡盛变种Aspergillusniger",
-    "donor": "柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis小牛前凝乳酶A基因calfprochy-mosinAgene小牛前凝乳酶B基因calfprochy-",
+    "source": "大肠杆菌K-12EscherichiaColiK-12",
+    "donor": "小牛前凝乳酶A基因calfprochy-mosinAgene",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
-    "rawRowText": "李氏木霉柔曲高温多孢菌TrichodermareeseiThermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis大肠杆菌K-12EscherichiaColi小牛前凝乳酶A基因calfprochy-39凝乳酶AChymosinAK-12mosinAgene黑曲霉泡盛变种Aspergillusniger小牛前凝乳酶B基因calfprochy-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 39；酶 凝乳酶AChymosinA；来源 李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis大肠杆菌K-12EscherichiaColiK-12黑曲霉泡盛变种Aspergillusniger；供体 柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis小牛前凝乳酶A基因calfprochy-mosinAgene小牛前凝乳酶B基因calfprochy-。"
+    "rawRowText": "大肠杆菌K-12EscherichiaColi小牛前凝乳酶A基因calfprochy-39凝乳酶AChymosinAK-12mosinAgene",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 39；酶 凝乳酶AChymosinA；来源 大肠杆菌K-12EscherichiaColiK-12；供体 小牛前凝乳酶A基因calfprochy-mosinAgene。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-040",
@@ -35675,15 +35675,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "40",
     "rowName": "凝乳酶BChymosinB",
     "enzymeName": "凝乳酶BChymosinB",
-    "source": "乳克鲁维酵母Kluyveromyceslac-tis",
-    "donor": "小牛前凝乳酶B基因calfprochy-mosinBgene",
+    "source": "黑曲霉泡盛变种Aspergillusnigervar.awamori乳克鲁维酵母Kluyveromyceslac-tis",
+    "donor": "小牛前凝乳酶B基因calfprochy-mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
-    "rawRowText": "var.awamorimosinBgene40凝乳酶BChymosinB乳克鲁维酵母Kluyveromyceslac-小牛前凝乳酶B基因calfprochy-tismosinBgene",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶BChymosinB；来源 乳克鲁维酵母Kluyveromyceslac-tis；供体 小牛前凝乳酶B基因calfprochy-mosinBgene。"
+    "rawRowText": "黑曲霉泡盛变种Aspergillusniger小牛前凝乳酶B基因calfprochy-var.awamorimosinBgene40凝乳酶BChymosinB乳克鲁维酵母Kluyveromyceslac-小牛前凝乳酶B基因calfprochy-tismosinBgene",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶BChymosinB；来源 黑曲霉泡盛变种Aspergillusnigervar.awamori乳克鲁维酵母Kluyveromyceslac-tis；供体 小牛前凝乳酶B基因calfprochy-mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-041",
@@ -35691,15 +35691,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "41",
     "rowName": "凝乳酶或粗制凝乳酶ChymosinorRennet",
     "enzymeName": "凝乳酶或粗制凝乳酶ChymosinorRennet",
-    "source": "小牛、山羊或羔羊的皱胃calf,kid,orlambabomasum戴尔根霉Rhizopusdelemar",
+    "source": "小牛、山羊或羔羊的皱胃calf,kid,orlambabomasum",
     "donor": "",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
-    "rawRowText": "凝乳酶或粗制凝乳酶Chymosin小牛、山羊或羔羊的皱胃calf,orRennetkid,orlambabomasum戴尔根霉Rhizopusdelemar",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 41；酶 凝乳酶或粗制凝乳酶ChymosinorRennet；来源 小牛、山羊或羔羊的皱胃calf,kid,orlambabomasum戴尔根霉Rhizopusdelemar。"
+    "rawRowText": "凝乳酶或粗制凝乳酶Chymosin小牛、山羊或羔羊的皱胃calf,orRennetkid,orlambabomasum",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 41；酶 凝乳酶或粗制凝乳酶ChymosinorRennet；来源 小牛、山羊或羔羊的皱胃calf,kid,orlambabomasum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-042",
@@ -35707,7 +35707,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "42",
     "rowName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
     "enzymeName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
+    "source": "戴尔根霉Rhizopusdelemar黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
     "donor": "黑曲霉AspergillusnigerRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)李氏木霉Trichodermareesei密粘褶菌Gloeophyllumtrabeum",
     "pdfPage": 238,
     "standardPage": 235,
@@ -35715,8 +35715,8 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       238,
       239
     ],
-    "rawRowText": "黑曲霉Aspergillusniger葡糖淀粉酶(淀粉葡糖苷酶)Glu-黑曲霉Aspergillusniger黑曲霉Aspergillusnigercoamylase(amyloglucosidase)Rasamsoniaemersonii(原名为埃默黑曲霉Aspergillusniger森篮状菌Talaromycesemersonii)米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus葡糖淀粉酶(淀粉葡糖苷酶)Glu-42李氏木霉Trichodermareesei李氏木霉Trichodermareeseicoamylase(amyloglucosidase)黑曲霉密粘褶菌AspergillusnigerGloeophyllumtrabeum黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 42；酶 葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger黑曲霉Aspergillusniger；供体 黑曲霉AspergillusnigerRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)李氏木霉Trichodermareesei密粘褶菌Gloeophyllumtrabeum。"
+    "rawRowText": "戴尔根霉Rhizopusdelemar黑曲霉Aspergillusniger葡糖淀粉酶(淀粉葡糖苷酶)Glu-黑曲霉Aspergillusniger黑曲霉Aspergillusnigercoamylase(amyloglucosidase)Rasamsoniaemersonii(原名为埃默黑曲霉Aspergillusniger森篮状菌Talaromycesemersonii)米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus葡糖淀粉酶(淀粉葡糖苷酶)Glu-42李氏木霉Trichodermareesei李氏木霉Trichodermareeseicoamylase(amyloglucosidase)黑曲霉密粘褶菌AspergillusnigerGloeophyllumtrabeum",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 42；酶 葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)；来源 戴尔根霉Rhizopusdelemar黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger；供体 黑曲霉AspergillusnigerRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)李氏木霉Trichodermareesei密粘褶菌Gloeophyllumtrabeum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-043",
@@ -35724,15 +35724,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "43",
     "rowName": "葡糖氧化酶Glucoseoxidase",
     "enzymeName": "葡糖氧化酶Glucoseoxidase",
-    "source": "米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei橄榄产色链霉菌Streptomycesolivochromogenes",
+    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
     "donor": "黑曲霉Aspergillusniger产黄青霉Penicilliumchrysogenum尼崎青霉菌Penicilliumama-gasakiense",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
-    "rawRowText": "米曲霉Aspergillusoryzae黑曲霉Aspergillusniger产黄青霉Penicilliumchrysoge-num43葡糖氧化酶Glucoseoxidase黑曲霉产黄青霉AspergillusnigerPenicilliumchrysogenum尼崎青霉菌Penicilliumama-李氏木霉Trichodermareeseigasakiense橄榄产色链霉菌Streptomycesolivochromogenes",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 43；酶 葡糖氧化酶Glucoseoxidase；来源 米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei橄榄产色链霉菌Streptomycesolivochromogenes；供体 黑曲霉Aspergillusniger产黄青霉Penicilliumchrysogenum尼崎青霉菌Penicilliumama-gasakiense。"
+    "rawRowText": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae黑曲霉Aspergillusniger产黄青霉Penicilliumchrysoge-num43葡糖氧化酶Glucoseoxidase黑曲霉产黄青霉AspergillusnigerPenicilliumchrysogenum尼崎青霉菌Penicilliumama-李氏木霉Trichodermareeseigasakiense",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 43；酶 葡糖氧化酶Glucoseoxidase；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger产黄青霉Penicilliumchrysogenum尼崎青霉菌Penicilliumama-gasakiense。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-044",
@@ -35740,15 +35740,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "44",
     "rowName": "葡糖异构酶(木糖异构酶)Glucoseisomerase(xyloseisomer-ase)",
     "enzymeName": "葡糖异构酶(木糖异构酶)Glucoseisomerase(xyloseisomer-ase)",
-    "source": "橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis凝结芽孢杆菌Bacilluscoagulans锈棕色链霉菌Streptomycesrubi-ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger",
-    "donor": "",
+    "source": "橄榄产色链霉菌Streptomycesolivochromogenes橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis凝结芽孢杆菌Bacilluscoagulans锈棕色链霉菌Streptomycesrubi-ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus",
+    "donor": "锈棕色链霉菌Streptomycesrubig-inosus",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
-    "rawRowText": "橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis葡糖异构酶(木糖异构酶)凝结芽孢杆菌Bacilluscoagulans44Glucoseisomerase(xyloseisomer-锈棕色链霉菌Streptomycesrubi-ase)ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 44；酶 葡糖异构酶(木糖异构酶)Glucoseisomerase(xyloseisomer-ase)；来源 橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis凝结芽孢杆菌Bacilluscoagulans锈棕色链霉菌Streptomycesrubi-ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger。"
+    "rawRowText": "橄榄产色链霉菌Streptomycesolivochromogenes橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis葡糖异构酶(木糖异构酶)凝结芽孢杆菌Bacilluscoagulans44Glucoseisomerase(xyloseisomer-锈棕色链霉菌Streptomycesrubi-ase)ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-锈棕色链霉菌Streptomycesrubig-ginosusinosus",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 44；酶 葡糖异构酶(木糖异构酶)Glucoseisomerase(xyloseisomer-ase)；来源 橄榄产色链霉菌Streptomycesolivochromogenes橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis凝结芽孢杆菌Bacilluscoagulans锈棕色链霉菌Streptomycesrubi-ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus；供体 锈棕色链霉菌Streptomycesrubig-inosus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-045",
@@ -35756,15 +35756,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "45",
     "rowName": "β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)",
     "enzymeName": "β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)",
-    "source": "鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus黑曲霉Aspergillusniger",
-    "donor": "锈棕色链霉菌Streptomycesrubig-inosus",
+    "source": "黑曲霉Aspergillusniger",
+    "donor": "",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
-    "rawRowText": "鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-锈棕色链霉菌Streptomycesrubig-ginosusinosusβ-葡萄糖苷酶beta-glucosidase(又45黑曲霉Aspergillusniger名纤维二糖酶Cellobiase)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 45；酶 β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)；来源 鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus黑曲霉Aspergillusniger；供体 锈棕色链霉菌Streptomycesrubig-inosus。"
+    "rawRowText": "β-葡萄糖苷酶beta-glucosidase(又45黑曲霉Aspergillusniger名纤维二糖酶Cellobiase)",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 45；酶 β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)；来源 黑曲霉Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-046",
@@ -35772,15 +35772,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "46",
     "rowName": "α-葡萄糖苷酶Alpha-glucosidase",
     "enzymeName": "α-葡萄糖苷酶Alpha-glucosidase",
-    "source": "李氏木霉Trichodermareesei产气克雷伯氏菌Klebsiellaaero-genes",
+    "source": "李氏木霉Trichodermareesei",
     "donor": "黑曲霉Aspergillusniger",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
-    "rawRowText": "46α-葡萄糖苷酶Alpha-glucosidase李氏木霉Trichodermareesei黑曲霉Aspergillusniger产气克雷伯氏菌Klebsiellaaero-genes",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 46；酶 α-葡萄糖苷酶Alpha-glucosidase；来源 李氏木霉Trichodermareesei产气克雷伯氏菌Klebsiellaaero-genes；供体 黑曲霉Aspergillusniger。"
+    "rawRowText": "46α-葡萄糖苷酶Alpha-glucosidase李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 46；酶 α-葡萄糖苷酶Alpha-glucosidase；来源 李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-047",
@@ -35788,7 +35788,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "47",
     "rowName": "普鲁兰酶Pullulanase",
     "enzymeName": "普鲁兰酶Pullulanase",
-    "source": "枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacillusnaganoensis",
+    "source": "产气克雷伯氏菌Klebsiellaaero-genes枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-lusnaganoensis",
     "donor": "嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans",
     "pdfPage": 239,
     "standardPage": 236,
@@ -35796,8 +35796,8 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       239,
       240
     ],
-    "rawRowText": "枯草芽孢杆菌Bacillussubtilis47普鲁兰酶Pullulanase嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌Bacillussubtilisdopullulyticus嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusderamificans地衣芽孢杆菌Bacilluslichenifor-Bacillusderamificans47普鲁兰酶Pullulanasemis长野解普鲁兰杆菌Pullulanibacil-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase；来源 枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacillusnaganoensis；供体 嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans。"
+    "rawRowText": "产气克雷伯氏菌Klebsiellaaero-genes枯草芽孢杆菌Bacillussubtilis47普鲁兰酶Pullulanase嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌Bacillussubtilisdopullulyticus嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusderamificans地衣芽孢杆菌Bacilluslichenifor-Bacillusderamificans47普鲁兰酶Pullulanasemis长野解普鲁兰杆菌Pullulanibacil-lusnaganoensis",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase；来源 产气克雷伯氏菌Klebsiellaaero-genes枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-lusnaganoensis；供体 嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-048",
@@ -35812,7 +35812,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "pdfPages": [
       240
     ],
-    "rawRowText": "lusnaganoensis嗜热毁丝霉48漆酶Laccase米曲霉AspergillusoryzaeMyceliophthorathermophila",
+    "rawRowText": "嗜热毁丝霉48漆酶Laccase米曲霉AspergillusoryzaeMyceliophthorathermophila",
     "rawSourceText": "GB 2760-2024 表 C.3：序号 48；酶 漆酶Laccase；来源 米曲霉Aspergillusoryzae；供体 嗜热毁丝霉Myceliophthorathermophila。"
   },
   {
@@ -35821,15 +35821,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "49",
     "rowName": "溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)",
     "enzymeName": "溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-",
+    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
     "donor": "黑曲霉AspergillusnigerAspergillusnishimurae",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
-    "rawRowText": "黑曲霉Aspergillusniger溶血磷脂酶(磷脂酶B)Lysophos-49黑曲霉Aspergillusniger黑曲霉Aspergillusnigerpholipase(lecithinaseB)李氏木霉TrichodermareeseiAspergillusnishimurae脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 49；酶 溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-；供体 黑曲霉AspergillusnigerAspergillusnishimurae。"
+    "rawRowText": "黑曲霉Aspergillusniger溶血磷脂酶(磷脂酶B)Lysophos-49黑曲霉Aspergillusniger黑曲霉Aspergillusnigerpholipase(lecithinaseB)李氏木霉TrichodermareeseiAspergillusnishimurae",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 49；酶 溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉AspergillusnigerAspergillusnishimurae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-050",
@@ -35837,15 +35837,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "50",
     "rowName": "乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)",
     "enzymeName": "乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)",
-    "source": "乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis",
-    "donor": "乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus",
+    "source": "脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-tis乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis",
+    "donor": "乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
-    "rawRowText": "tis乳克鲁维酵母Kluyveromyceslac-乳克鲁维酵母Kluyveromyceslac-tistis巴斯德毕赤酵母Pichiapastoris米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacterium乳糖酶(β-半乳糖苷酶)Lactasebifidum(beta-galactosidase)两歧双歧杆菌Bifidobacterium枯草芽孢杆菌Bacillussubtilisbifidum德氏乳杆菌保加利亚亚种枯草芽孢杆菌Lactobacillusdelbrueckiisubsp.bul-Bacillussubtilisgaricus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 50；酶 乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)；来源 乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis；供体 乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus。"
+    "rawRowText": "脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-tis乳克鲁维酵母Kluyveromyceslac-乳克鲁维酵母Kluyveromyceslac-tistis巴斯德毕赤酵母Pichiapastoris米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacterium乳糖酶(β-半乳糖苷酶)Lactasebifidum(beta-galactosidase)两歧双歧杆菌Bifidobacterium枯草芽孢杆菌Bacillussubtilisbifidum德氏乳杆菌保加利亚亚种枯草芽孢杆菌Lactobacillusdelbrueckiisubsp.bul-Bacillussubtilisgaricus黑曲霉米曲霉AspergillusnigerAspergillusoryzaePapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-两歧双歧杆菌Bifidobacteriummisbifidum",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 50；酶 乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)；来源 脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-tis乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis；供体 乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-051",
@@ -35853,15 +35853,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "51",
     "rowName": "羧肽酶Carboxypeptidase",
     "enzymeName": "羧肽酶Carboxypeptidase",
-    "source": "黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
-    "donor": "米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
+    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
+    "donor": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
-    "rawRowText": "黑曲霉米曲霉AspergillusnigerAspergillusoryzaePapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-两歧双歧杆菌Bifidobacteriummisbifidum黑曲霉Aspergillusniger黑曲霉Aspergillusniger51羧肽酶Carboxypeptidase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 51；酶 羧肽酶Carboxypeptidase；来源 黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae；供体 米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum黑曲霉Aspergillusniger米曲霉Aspergillusoryzae。"
+    "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger51羧肽酶Carboxypeptidase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 51；酶 羧肽酶Carboxypeptidase；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae；供体 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-052",
@@ -35933,15 +35933,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "56",
     "rowName": "无花果蛋白酶Ficin",
     "enzymeName": "无花果蛋白酶Ficin",
-    "source": "无花果Ficusspp.黑曲霉Aspergillusniger",
+    "source": "无花果Ficusspp.",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
       241
     ],
-    "rawRowText": "56无花果蛋白酶Ficin无花果Ficusspp.黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 56；酶 无花果蛋白酶Ficin；来源 无花果Ficusspp.黑曲霉Aspergillusniger。"
+    "rawRowText": "56无花果蛋白酶Ficin无花果Ficusspp.",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 56；酶 无花果蛋白酶Ficin；来源 无花果Ficusspp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-057",
@@ -35949,15 +35949,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "57",
     "rowName": "纤维素酶Cellulase",
     "enzymeName": "纤维素酶Cellulase",
-    "source": "李氏木霉Trichodermareesei绿色木霉Trichodermaviride",
+    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
       241
     ],
-    "rawRowText": "57纤维素酶Cellulase李氏木霉Trichodermareesei绿色木霉Trichodermaviride",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 57；酶 纤维素酶Cellulase；来源 李氏木霉Trichodermareesei绿色木霉Trichodermaviride。"
+    "rawRowText": "黑曲霉Aspergillusniger57纤维素酶Cellulase李氏木霉Trichodermareesei绿色木霉Trichodermaviride",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 57；酶 纤维素酶Cellulase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-058",
@@ -36013,15 +36013,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "61",
     "rowName": "蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase",
     "enzymeName": "蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase",
-    "source": "米曲霉Aspergillusoryzae黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
-    "donor": "南极假丝酵母Candidaantarctica",
+    "source": "米曲霉Aspergillusoryzae",
+    "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
       241
     ],
-    "rawRowText": "蔗糖1-果糖转移酶(又名果糖基转61移酶)Sucrose1-fructosyltrans-米曲霉Aspergillusoryzaeferase黑曲霉Aspergillusniger黑曲霉Aspergillusniger南极假丝酵母Candidaantarctica",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 61；酶 蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase；来源 米曲霉Aspergillusoryzae黑曲霉Aspergillusniger黑曲霉Aspergillusniger；供体 南极假丝酵母Candidaantarctica。"
+    "rawRowText": "蔗糖1-果糖转移酶(又名果糖基转61移酶)Sucrose1-fructosyltrans-米曲霉Aspergillusoryzaeferase",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 61；酶 蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase；来源 米曲霉Aspergillusoryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-062",
@@ -36029,16 +36029,16 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "62",
     "rowName": "脂肪酶Lipase",
     "enzymeName": "脂肪酶Lipase",
-    "source": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉",
-    "donor": "尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusniger",
+    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
+    "donor": "南极假丝酵母Candidaantarctica尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusnigervar.tubingensis尖孢镰刀菌Fusariumoxysporum",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
       241,
       242
     ],
-    "rawRowText": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌Fusariumoxysporum62脂肪酶Lipase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉Rhizomucormiehei柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus62脂肪酶Lipase)黑曲霉Aspergillusniger黄色镰刀菌Fusariumculmorum多形汉逊酵母Hansenulapoly-异孢镰刀菌Fusariumhetreospo-morpharum李氏木霉黑曲霉塔宾变种Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶Lipase；来源 米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉；供体 尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusniger。"
+    "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger南极假丝酵母Candidaantarctica米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌Fusariumoxysporum62脂肪酶Lipase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉Rhizomucormiehei柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus62脂肪酶Lipase)黑曲霉Aspergillusniger黄色镰刀菌Fusariumculmorum多形汉逊酵母Hansenulapoly-异孢镰刀菌Fusariumhetreospo-morpharum李氏木霉黑曲霉塔宾变种AspergillusnigerTrichodermareeseivart.ubingensis李氏木霉尖孢镰刀菌TrichodermareeseiFusariumoxysporum",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶Lipase；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 南极假丝酵母Candidaantarctica尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusnigervar.tubingensis尖孢镰刀菌Fusariumoxysporum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-063",
@@ -36046,15 +36046,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "63",
     "rowName": "酯酶Esterase",
     "enzymeName": "酯酶Esterase",
-    "source": "李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei黑曲霉Aspergillusniger",
+    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
     "donor": "",
     "pdfPage": 242,
     "standardPage": 239,
     "pdfPages": [
       242
     ],
-    "rawRowText": "Trichodermareeseivart.ubingensis李氏木霉尖孢镰刀菌TrichodermareeseiFusariumoxysporum黑曲霉Aspergillusniger63酯酶Esterase李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶Esterase；来源 李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei黑曲霉Aspergillusniger。"
+    "rawRowText": "黑曲霉Aspergillusniger63酯酶Esterase李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶Esterase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-064",

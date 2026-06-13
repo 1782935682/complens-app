@@ -18,10 +18,12 @@ const gb2760StagingReviewStatuses = new Set(['verified', 'needs_review']);
 const gb2760ReferenceExtractionStatuses = new Set(['extracted']);
 const gb2760ReferenceReviewStatuses = new Set(['needs_review']);
 const c3OrphanContinuationFragments = [
+  /-$/u,
   /^icticus/u,
   /^mosinBgene/u,
   /^lusnaganoensis/u,
   /^vart\.ubingensis/u,
+  /vart\.ubingensis/u,
   /^tis/u,
   /misstearothermoph/u,
   /Pullulanibacil-$/u
