@@ -1186,9 +1186,14 @@ const c3EnzymeRow2 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.row
 assert.deepEqual(c3EnzymeRow2.pdfPages, [233]);
 assert.doesNotMatch(c3EnzymeRow2.rawSourceText, /热解蛋白无氧芽孢杆菌|雪白根霉|calf,kid,orlamb/u);
 assert.match(c3EnzymeRow2.rawSourceText, /Geobacillusstearothermophilus/u);
+assert.doesNotMatch(c3EnzymeRow2.rawSourceText, /Cytophagasp/u);
 const c3EnzymeRow3 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 3);
+assert.deepEqual(c3EnzymeRow3.pdfPages, [233, 234]);
 assert.equal(c3EnzymeRow3.enzymeName, 'α-淀粉酶Alpha-amylase');
 assert.doesNotMatch(c3EnzymeRow3.source, /^misstearothermoph/u);
+assert.match(c3EnzymeRow3.donor, /Cytophagasp/u);
+assert.match(c3EnzymeRow3.donor, /Rhizomucorpusillus/u);
+assert.match(c3EnzymeRow3.donor, /Aspergilluskawachii/u);
 const c3EnzymeRow23 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 23);
 assert.equal(c3EnzymeRow23.source, '橘青霉penicilliumcitrinum');
 assert.doesNotMatch(c3EnzymeRow23.source, /^icticus/u);
