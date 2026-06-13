@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { foodIngredients } from '../src/data/foodAdditives.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
+import { gb2760OfficialStagingRecords, gb2760OfficialStagingSource } from '../src/data/gb2760OfficialStaging.js';
 
 const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);
@@ -9,6 +10,8 @@ const dataStatuses = new Set(['verified_regulation', 'verified_jecfa', 'mapped_c
 const sourceTypes = new Set(['official_standard', 'regulation', 'public_database', 'manual_verified', 'unknown']);
 const sourceScopes = new Set(['gb_2760_regulation', 'jecfa_safety_evaluation', 'candidate_mapping', 'common_ingredient_lexicon', 'ocr_unmatched', 'seed_reference', 'unknown']);
 const confidenceLevels = new Set(['high', 'medium', 'low', 'unverified']);
+const gb2760StagingExtractionStatuses = new Set(['verified', 'extracted']);
+const gb2760StagingReviewStatuses = new Set(['verified', 'needs_review']);
 const consumerGroups = new Set(['pregnant', 'infant', 'child', 'diabetic', 'renal', 'sensitive']);
 const allergenTypes = new Set(standardAllergenTypes);
 const absoluteMedicalClaims = [
@@ -187,6 +190,157 @@ export function getFoodAdditiveQualityReport(items = foodIngredients) {
   };
 }
 
+export function validateGb2760OfficialStaging(records = gb2760OfficialStagingRecords, ingredients = foodIngredients) {
+  const errors = [];
+  const ids = new Set();
+  const rowKeys = new Set();
+  const ingredientIds = new Set((Array.isArray(ingredients) ? ingredients : []).map((item) => item?.id).filter(Boolean));
+
+  if (!Array.isArray(records)) {
+    return ['gb2760OfficialStagingRecords must be an array'];
+  }
+
+  records.forEach((record, index) => {
+    const label = record?.id || `gb2760OfficialStagingRecords[${index}]`;
+    requireString(record, 'id', label, errors);
+    requireString(record, 'standardCode', label, errors);
+    requireString(record, 'standardTitle', label, errors);
+    requireString(record, 'tableName', label, errors);
+    requireString(record, 'additiveNameCn', label, errors);
+    requireString(record, 'functionText', label, errors);
+    requireString(record, 'foodCategoryCode', label, errors);
+    requireString(record, 'foodCategoryName', label, errors);
+    requireString(record, 'maxUseLevel', label, errors);
+    requireString(record, 'rawSourceText', label, errors);
+    requireString(record, 'sourceName', label, errors);
+    requireString(record, 'sourceType', label, errors);
+    requireString(record, 'sourceUrl', label, errors);
+    requireString(record, 'downloadEndpoint', label, errors);
+    requireString(record, 'platformRecordId', label, errors);
+    requireString(record, 'announcementRecordId', label, errors);
+    requireString(record, 'fileGuid', label, errors);
+    requireString(record, 'factName', label, errors);
+    requireString(record, 'pdfSha256', label, errors);
+    requireIsoDate(record, 'retrievedAt', label, errors);
+
+    if (typeof record?.id === 'string') {
+      if (ids.has(record.id)) errors.push(`Duplicate GB 2760 staging id "${record.id}"`);
+      ids.add(record.id);
+    }
+
+    if (hasText(record?.ingredientId) && !ingredientIds.has(record.ingredientId)) {
+      errors.push(`${label}.ingredientId must reference an existing food ingredient or be empty while unmatched`);
+    }
+
+    if (record?.sourceName !== gb2760OfficialStagingSource.sourceName) {
+      errors.push(`${label}.sourceName must be the official NHC/platform source`);
+    }
+
+    if (record?.sourceType !== 'official_standard') {
+      errors.push(`${label}.sourceType must be official_standard`);
+    }
+
+    if (record?.sourceUrl !== gb2760OfficialStagingSource.sourceUrl) {
+      errors.push(`${label}.sourceUrl must be the Food Safety National Standards Data Retrieval Platform search URL`);
+    }
+
+    if (record?.downloadEndpoint !== gb2760OfficialStagingSource.downloadEndpoint) {
+      errors.push(`${label}.downloadEndpoint must be the official platform download endpoint`);
+    }
+
+    if (record?.platformRecordId !== gb2760OfficialStagingSource.platformRecordId) {
+      errors.push(`${label}.platformRecordId must match the official GB 2760-2024 platform record`);
+    }
+
+    if (record?.announcementRecordId !== gb2760OfficialStagingSource.announcementRecordId) {
+      errors.push(`${label}.announcementRecordId must match the official NHC announcement platform record`);
+    }
+
+    if (record?.fileGuid !== gb2760OfficialStagingSource.fileGuid) {
+      errors.push(`${label}.fileGuid must match the official PDF attachment`);
+    }
+
+    if (record?.factName !== gb2760OfficialStagingSource.factName) {
+      errors.push(`${label}.factName must match the official platform file name`);
+    }
+
+    if (record?.pdfSha256 !== gb2760OfficialStagingSource.pdfSha256) {
+      errors.push(`${label}.pdfSha256 must match the local official PDF evidence`);
+    }
+
+    if (record?.standardCode !== 'GB 2760-2024') {
+      errors.push(`${label}.standardCode must be GB 2760-2024`);
+    }
+
+    if (record?.tableName !== '表 A.1') {
+      errors.push(`${label}.tableName must be 表 A.1`);
+    }
+
+    if (!Number.isInteger(record?.pdfPage) || record.pdfPage <= 0) {
+      errors.push(`${label}.pdfPage must be a positive integer`);
+    }
+
+    if (!Number.isInteger(record?.standardPage) || record.standardPage <= 0) {
+      errors.push(`${label}.standardPage must be a positive integer`);
+    }
+
+    if (!gb2760StagingExtractionStatuses.has(record?.extractionStatus)) {
+      errors.push(`${label}.extractionStatus must be one of ${formatAllowed(gb2760StagingExtractionStatuses)}`);
+    }
+
+    if (!gb2760StagingReviewStatuses.has(record?.reviewStatus)) {
+      errors.push(`${label}.reviewStatus must be one of ${formatAllowed(gb2760StagingReviewStatuses)}`);
+    }
+
+    if (record?.reviewStatus === 'verified' && record?.extractionStatus !== 'verified') {
+      errors.push(`${label}.verified reviewStatus requires extractionStatus "verified"`);
+    }
+
+    if (record?.maxUseLevel !== '按生产需要适量使用' && !hasText(record?.unit)) {
+      errors.push(`${label}.unit is required when maxUseLevel is numeric or residue-based`);
+    }
+
+    if (!String(record?.rawSourceText || '').includes('GB 2760-2024 表 A.1')) {
+      errors.push(`${label}.rawSourceText must cite GB 2760-2024 表 A.1`);
+    }
+
+    const rowKey = [
+      record?.ingredientId || '',
+      record?.additiveNameCn || '',
+      record?.foodCategoryCode || '',
+      record?.foodCategoryName || '',
+      record?.maxUseLevel || '',
+      record?.unit || '',
+      record?.note || ''
+    ].join('|');
+    if (rowKeys.has(rowKey)) {
+      errors.push(`${label} duplicates another staging row for the same additive/category/limit`);
+    }
+    rowKeys.add(rowKey);
+  });
+
+  return errors;
+}
+
+export function getGb2760OfficialStagingQualityReport(records = gb2760OfficialStagingRecords) {
+  const safeRecords = Array.isArray(records) ? records : [];
+  const reviewStatusCounts = countBy(safeRecords, (record) => record?.reviewStatus || 'missing');
+  const extractionStatusCounts = countBy(safeRecords, (record) => record?.extractionStatus || 'missing');
+  const linkedIngredientIds = new Set(safeRecords.map((record) => record?.ingredientId).filter(Boolean));
+  const pdfPageCount = new Set(safeRecords.map((record) => record?.pdfPage).filter(Boolean)).size;
+  const sourceNameCounts = countBy(safeRecords, (record) => record?.sourceName || 'missing');
+
+  return {
+    totalCount: safeRecords.length,
+    linkedIngredientCount: linkedIngredientIds.size,
+    unlinkedCount: safeRecords.filter((record) => !hasText(record?.ingredientId)).length,
+    pdfPageCount,
+    reviewStatusCounts,
+    extractionStatusCounts,
+    sourceNameCounts
+  };
+}
+
 function countBy(items, getKey) {
   const counts = new Map();
   for (const item of items) {
@@ -281,8 +435,12 @@ function formatAllowed(values) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const errors = validateFoodAdditives();
+  const errors = [
+    ...validateFoodAdditives(),
+    ...validateGb2760OfficialStaging()
+  ];
   const report = getFoodAdditiveQualityReport();
+  const stagingReport = getGb2760OfficialStagingQualityReport();
   if (errors.length) {
     console.error(`Data validation failed with ${errors.length} error(s):`);
     for (const error of errors) console.error(`- ${error}`);
@@ -290,6 +448,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   console.log(`Data validation passed: ${foodIngredients.length} food records checked.`);
   console.log(`Data quality report: reviewed=${report.reviewedCount}, verified=${report.verifiedCount}, dataStatus=${formatCounts(report.dataStatusCounts)}, confidenceUnverified=${report.unverifiedCount}, missingSourceFields=${report.missingSourceFieldCount}, missingUsageLimits=${report.missingUsageLimitsCount}.`);
+  console.log(`GB 2760 staging report: rows=${stagingReport.totalCount}, linkedIngredients=${stagingReport.linkedIngredientCount}, unlinked=${stagingReport.unlinkedCount}, pdfPages=${stagingReport.pdfPageCount}, reviewStatus=${formatCounts(stagingReport.reviewStatusCounts)}, extractionStatus=${formatCounts(stagingReport.extractionStatusCounts)}.`);
   console.log(`Data source versions: ${formatCounts(report.sourceVersionCounts)}.`);
   console.log(`Review queue sample: ${report.reviewQueue.slice(0, 10).join(', ') || 'none'}.`);
 }

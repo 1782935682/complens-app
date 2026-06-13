@@ -35,9 +35,9 @@
 
 为后续把官方文档持续导入数据库，已新增 GB 2760 行级 staging 数据集和后端表 `gb2760_official_records`：
 
-- 当前 staging 行数：20 行，覆盖 9 个现有食品添加剂 ID。
+- 当前 staging 行数：128 行，覆盖 23 个现有食品添加剂 ID。
 - 已与正式 `ingredients.usageLimits` 对齐的 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量。
-- 待审核 staging 行：7 行，来自官方 PDF 表 A.1 的 `guar-gum`、`pectin`、`potassium-citrate`、`sodium-carboxymethyl-cellulose`，状态为 `needs_review`，只代表官方 PDF 原文已抽取入库，不代表正式成分详情已升级。
+- 待审核 staging 行：115 行，来自官方 PDF 表 A.1 的 `guar-gum`、`pectin`、`potassium-citrate`、`sodium-carboxymethyl-cellulose`、`calcium-silicate`、`gellan-gum`、`magnesium-carbonate`、`propylene-glycol-alginate`、`sodium-alginate`、`carrageenan`、`calcium-chloride`、`natamycin`、`agar`、`lactic-acid`、`calcium-lactate`、`nisin`、`calcium-disodium-edta`、`sodium-acetate`，状态为 `needs_review`，只代表官方 PDF 原文已抽取入库，不代表正式成分详情已升级。
 - staging 表按“添加剂 × 食品类别 × 最大使用量/备注”逐行存储，保留 `pdfPage`、`standardPage`、`rawSourceText`、平台记录 ID、附件 ID 和 PDF SHA-256，供后续人工审核后再聚合进正式 `ingredients.usageLimits`。
 
 已确认的 GB 2760-2024 官方来源：
