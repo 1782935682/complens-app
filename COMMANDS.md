@@ -145,13 +145,13 @@ GB 2760-2024 官方 PDF 表 A.1 staging 转换：
 node scripts/generate-gb2760-a1-staging.mjs
 ```
 
-GB 2760-2024 官方 PDF 参考表转换（当前抽取表 A.2 例外食品类别和表 B.1 香料禁加食品名单）：
+GB 2760-2024 官方 PDF 参考表转换（当前抽取表 A.2、B.1、B.2、B.3、C.1、C.2、C.3、附录 D、E.1 和附录 F）：
 
 ```bash
 node scripts/generate-gb2760-reference-tables.mjs
 ```
 
-上述命令分别生成 `src/data/gb2760OfficialFullText.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和 `src/data/gb2760OfficialReferenceTables.js`，保存官方 PDF 全 264 页逐页文本、表 A.1 行级 staging、表 A.2 reference rows 和表 B.1 reference rows。后端 `npm run db:seed` 会同时导入：
+上述命令分别生成 `src/data/gb2760OfficialFullText.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和 `src/data/gb2760OfficialReferenceTables.js`，保存官方 PDF 全 264 页逐页文本、表 A.1 行级 staging，以及 2798 行官方参考表结构化数据。后端 `npm run db:seed` 会同时导入：
 
 - `ingredients`
 - `gb2760_official_records` 表 A.1 行级 staging

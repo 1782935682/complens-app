@@ -4,7 +4,7 @@ import { foodIngredients } from '../src/data/foodAdditives.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { gb2760OfficialStagingRecords, gb2760OfficialStagingSource } from '../src/data/gb2760OfficialStaging.js';
 import { gb2760OfficialFullTextPages, gb2760OfficialFullTextSource } from '../src/data/gb2760OfficialFullText.js';
-import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialReferenceRows, gb2760OfficialReferenceTableSource } from '../src/data/gb2760OfficialReferenceTables.js';
+import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialB2NaturalFlavorRows, gb2760OfficialB3SyntheticFlavorRows, gb2760OfficialC1ProcessingAidRows, gb2760OfficialC2ProcessingAidRows, gb2760OfficialC3EnzymePreparationRows, gb2760OfficialDFunctionCategoryRows, gb2760OfficialE1FoodCategoryRows, gb2760OfficialFAdditiveIndexRows, gb2760OfficialReferenceRows, gb2760OfficialReferenceTableSource } from '../src/data/gb2760OfficialReferenceTables.js';
 
 const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);
@@ -480,47 +480,64 @@ export function getGb2760OfficialFullTextQualityReport(pages = gb2760OfficialFul
 export function validateGb2760OfficialReferenceTables(
   rows = gb2760OfficialReferenceRows,
   a2Rows = gb2760OfficialA2ExceptionFoodCategories,
-  b1Rows = gb2760OfficialB1NoFlavorFoodCategories
+  b1Rows = gb2760OfficialB1NoFlavorFoodCategories,
+  b2Rows = gb2760OfficialB2NaturalFlavorRows,
+  b3Rows = gb2760OfficialB3SyntheticFlavorRows,
+  c1Rows = gb2760OfficialC1ProcessingAidRows,
+  c2Rows = gb2760OfficialC2ProcessingAidRows,
+  c3Rows = gb2760OfficialC3EnzymePreparationRows,
+  dRows = gb2760OfficialDFunctionCategoryRows,
+  e1Rows = gb2760OfficialE1FoodCategoryRows,
+  fRows = gb2760OfficialFAdditiveIndexRows
 ) {
   const errors = [];
   const ids = new Set();
   const a2Ids = new Set((Array.isArray(a2Rows) ? a2Rows : []).map((row) => row?.id).filter(Boolean));
   const b1Ids = new Set((Array.isArray(b1Rows) ? b1Rows : []).map((row) => row?.id).filter(Boolean));
   const b1RowsById = new Map((Array.isArray(b1Rows) ? b1Rows : []).map((row) => [row?.id, row]));
+  const referenceSourceSpecs = [
+    { rows: a2Rows, label: 'gb2760OfficialA2ExceptionFoodCategories', expectedCount: 68, tableName: '表 A.2' },
+    { rows: b1Rows, label: 'gb2760OfficialB1NoFlavorFoodCategories', expectedCount: 29, tableName: '表 B.1' },
+    { rows: b2Rows, label: 'gb2760OfficialB2NaturalFlavorRows', expectedCount: 388, tableName: '表 B.2' },
+    { rows: b3Rows, label: 'gb2760OfficialB3SyntheticFlavorRows', expectedCount: 1504, tableName: '表 B.3' },
+    { rows: c1Rows, label: 'gb2760OfficialC1ProcessingAidRows', expectedCount: 37, tableName: '表 C.1' },
+    { rows: c2Rows, label: 'gb2760OfficialC2ProcessingAidRows', expectedCount: 80, tableName: '表 C.2' },
+    { rows: c3Rows, label: 'gb2760OfficialC3EnzymePreparationRows', expectedCount: 66, tableName: '表 C.3' },
+    { rows: dRows, label: 'gb2760OfficialDFunctionCategoryRows', expectedCount: 23, tableName: '附录 D' },
+    { rows: e1Rows, label: 'gb2760OfficialE1FoodCategoryRows', expectedCount: 318, tableName: '表 E.1' },
+    { rows: fRows, label: 'gb2760OfficialFAdditiveIndexRows', expectedCount: 285, tableName: '附录 F' }
+  ];
+  const sourceIdsByTableName = new Map(referenceSourceSpecs.map((spec) => [
+    spec.tableName,
+    new Set((Array.isArray(spec.rows) ? spec.rows : []).map((row) => row?.id).filter(Boolean))
+  ]));
 
   if (!Array.isArray(rows)) {
     return ['gb2760OfficialReferenceRows must be an array'];
   }
 
-  if (!Array.isArray(a2Rows)) {
-    errors.push('gb2760OfficialA2ExceptionFoodCategories must be an array');
-  } else if (a2Rows.length !== 68) {
-    errors.push(`gb2760OfficialA2ExceptionFoodCategories must contain 68 rows, got ${a2Rows.length}`);
-  }
-
-  if (!Array.isArray(b1Rows)) {
-    errors.push('gb2760OfficialB1NoFlavorFoodCategories must be an array');
-  } else if (b1Rows.length !== 29) {
-    errors.push(`gb2760OfficialB1NoFlavorFoodCategories must contain 29 rows, got ${b1Rows.length}`);
-  }
-
-  if (Array.isArray(a2Rows) && Array.isArray(b1Rows) && rows.length !== a2Rows.length + b1Rows.length) {
-    errors.push(`gb2760OfficialReferenceRows must contain ${a2Rows.length + b1Rows.length} rows, got ${rows.length}`);
-  }
-
-  if (Array.isArray(a2Rows) || Array.isArray(b1Rows)) {
-    const rowIds = new Set(rows.map((row) => row?.id).filter(Boolean));
-    const missingA2Ids = (Array.isArray(a2Rows) ? a2Rows : [])
-      .map((row) => row?.id)
-      .filter((id) => id && !rowIds.has(id));
-    if (missingA2Ids.length > 0) {
-      errors.push(`gb2760OfficialReferenceRows must cover all A.2 rows; missing ids: ${missingA2Ids.join(', ')}`);
+  for (const spec of referenceSourceSpecs) {
+    if (!Array.isArray(spec.rows)) {
+      errors.push(`${spec.label} must be an array`);
+    } else if (spec.rows.length !== spec.expectedCount) {
+      errors.push(`${spec.label} must contain ${spec.expectedCount} rows, got ${spec.rows.length}`);
     }
-    const missingB1Ids = (Array.isArray(b1Rows) ? b1Rows : [])
-      .map((row) => row?.id)
-      .filter((id) => id && !rowIds.has(id));
-    if (missingB1Ids.length > 0) {
-      errors.push(`gb2760OfficialReferenceRows must cover all B.1 rows; missing ids: ${missingB1Ids.join(', ')}`);
+  }
+
+  const sourceRows = referenceSourceSpecs.flatMap((spec) => (Array.isArray(spec.rows) ? spec.rows : []));
+  if (referenceSourceSpecs.every((spec) => Array.isArray(spec.rows)) && rows.length !== sourceRows.length) {
+    errors.push(`gb2760OfficialReferenceRows must contain ${sourceRows.length} rows, got ${rows.length}`);
+  }
+
+  if (referenceSourceSpecs.some((spec) => Array.isArray(spec.rows))) {
+    const rowIds = new Set(rows.map((row) => row?.id).filter(Boolean));
+    for (const spec of referenceSourceSpecs) {
+      const missingIds = (Array.isArray(spec.rows) ? spec.rows : [])
+        .map((row) => row?.id)
+        .filter((id) => id && !rowIds.has(id));
+      if (missingIds.length > 0) {
+        errors.push(`gb2760OfficialReferenceRows must cover all ${spec.tableName} rows; missing ids: ${missingIds.join(', ')}`);
+      }
     }
   }
 
@@ -657,6 +674,44 @@ export function validateGb2760OfficialReferenceTables(
       } else if (row?.rowData?.flavorUseRestriction !== 'no_added_food_flavor') {
         errors.push(`${label}.rowData.flavorUseRestriction must be no_added_food_flavor`);
       }
+    } else {
+      const sourceIds = sourceIdsByTableName.get(row?.tableName);
+      if (!sourceIds) {
+        errors.push(`${label}.tableName must identify a supported GB 2760 reference table`);
+      } else if (!sourceIds.has(row.id)) {
+        errors.push(`${label} must map to a ${row.tableName} source row`);
+      }
+      if (!String(row?.rawSourceText || '').includes(`GB 2760-2024 ${row?.tableName || ''}`)) {
+        errors.push(`${label}.rawSourceText must cite GB 2760-2024 ${row?.tableName || ''}`);
+      }
+      if (['表 B.2', '表 B.3'].includes(row?.tableName)) {
+        if (row?.rowData?.flavorCode !== row?.rowCode) {
+          errors.push(`${label}.rowData.flavorCode must match rowCode`);
+        }
+        requireString(row.rowData, 'flavorNameCn', `${label}.rowData`, errors);
+        requireString(row.rowData, 'flavorNameEn', `${label}.rowData`, errors);
+        requireString(row.rowData, 'femaNumber', `${label}.rowData`, errors);
+      } else if (['表 C.1', '表 C.2'].includes(row?.tableName)) {
+        requireString(row.rowData, 'processingAidNameCn', `${label}.rowData`, errors);
+        requireString(row.rowData, 'processingAidNameEn', `${label}.rowData`, errors);
+      } else if (row?.tableName === '表 C.3') {
+        requireString(row.rowData, 'enzymeName', `${label}.rowData`, errors);
+        requireString(row.rowData, 'source', `${label}.rowData`, errors);
+      } else if (row?.tableName === '附录 D') {
+        requireString(row.rowData, 'functionCategoryName', `${label}.rowData`, errors);
+        requireString(row.rowData, 'definition', `${label}.rowData`, errors);
+      } else if (row?.tableName === '表 E.1') {
+        if (row?.rowData?.foodCategoryCode !== row?.rowCode) {
+          errors.push(`${label}.rowData.foodCategoryCode must match rowCode`);
+        }
+        requireString(row.rowData, 'foodCategoryName', `${label}.rowData`, errors);
+      } else if (row?.tableName === '附录 F') {
+        requireString(row.rowData, 'additiveNameCn', `${label}.rowData`, errors);
+        requireString(row.rowData, 'insNumber', `${label}.rowData`, errors);
+        if (!Number.isInteger(row?.rowData?.a1PageNumber) || row.rowData.a1PageNumber <= 0) {
+          errors.push(`${label}.rowData.a1PageNumber must be a positive integer`);
+        }
+      }
     }
   });
 
@@ -721,7 +776,113 @@ export function validateGb2760OfficialReferenceTables(
     });
   }
 
+  validateGeneratedReferenceSourceRows(b2Rows, {
+    label: 'gb2760OfficialB2NaturalFlavorRows',
+    expectedCount: 388,
+    tableName: '表 B.2',
+    rowCodeField: 'flavorCode',
+    rowCodePattern: /^N\d{3}$/u,
+    requiredFields: ['flavorNameCn', 'flavorNameEn', 'femaNumber', 'rawRowText'],
+    pdfPageMin: 153,
+    pdfPageMax: 168
+  }, errors);
+  validateGeneratedReferenceSourceRows(b3Rows, {
+    label: 'gb2760OfficialB3SyntheticFlavorRows',
+    expectedCount: 1504,
+    tableName: '表 B.3',
+    rowCodeField: 'flavorCode',
+    rowCodePattern: /^S\d{4}$/u,
+    requiredFields: ['flavorNameCn', 'flavorNameEn', 'femaNumber', 'rawRowText'],
+    pdfPageMin: 168,
+    pdfPageMax: 225
+  }, errors);
+  validateGeneratedReferenceSourceRows(c1Rows, {
+    label: 'gb2760OfficialC1ProcessingAidRows',
+    expectedCount: 37,
+    tableName: '表 C.1',
+    requiredFields: ['processingAidNameCn', 'processingAidNameEn', 'rawRowText'],
+    pdfPageMin: 226,
+    pdfPageMax: 227
+  }, errors);
+  validateGeneratedReferenceSourceRows(c2Rows, {
+    label: 'gb2760OfficialC2ProcessingAidRows',
+    expectedCount: 80,
+    tableName: '表 C.2',
+    requiredFields: ['processingAidNameCn', 'processingAidNameEn', 'functionText', 'useScope', 'rawRowText'],
+    pdfPageMin: 227,
+    pdfPageMax: 233
+  }, errors);
+  validateGeneratedReferenceSourceRows(c3Rows, {
+    label: 'gb2760OfficialC3EnzymePreparationRows',
+    expectedCount: 66,
+    tableName: '表 C.3',
+    requiredFields: ['enzymeName', 'source', 'rawRowText'],
+    pdfPageMin: 233,
+    pdfPageMax: 242
+  }, errors);
+  validateGeneratedReferenceSourceRows(dRows, {
+    label: 'gb2760OfficialDFunctionCategoryRows',
+    expectedCount: 23,
+    tableName: '附录 D',
+    rowCodePattern: /^D\.\d{1,2}$/u,
+    requiredFields: ['functionCode', 'functionCategoryName', 'definition'],
+    pdfPageMin: 243,
+    pdfPageMax: 243
+  }, errors);
+  validateGeneratedReferenceSourceRows(e1Rows, {
+    label: 'gb2760OfficialE1FoodCategoryRows',
+    expectedCount: 318,
+    tableName: '表 E.1',
+    rowCodeField: 'foodCategoryCode',
+    rowCodePattern: /^\d{2}(?:\.\d{1,2})*$/u,
+    requiredFields: ['foodCategoryCode', 'foodCategoryName', 'rawRowText'],
+    pdfPageMin: 244,
+    pdfPageMax: 254
+  }, errors);
+  validateGeneratedReferenceSourceRows(fRows, {
+    label: 'gb2760OfficialFAdditiveIndexRows',
+    expectedCount: 285,
+    tableName: '附录 F',
+    requiredFields: ['additiveNameCn', 'insNumber', 'rawRowText'],
+    pdfPageMin: 255,
+    pdfPageMax: 264
+  }, errors);
+
   return errors;
+}
+
+function validateGeneratedReferenceSourceRows(rows, options, errors) {
+  if (!Array.isArray(rows)) return;
+
+  rows.forEach((row, index) => {
+    const label = row?.id || `${options.label}[${index}]`;
+    if (row?.rowNumber !== index + 1) {
+      errors.push(`${label}.rowNumber must be sequential, expected ${index + 1}`);
+    }
+    requireString(row, 'id', label, errors);
+    requireString(row, 'rowCode', label, errors);
+    requireString(row, 'rowName', label, errors);
+    requireString(row, 'rawSourceText', label, errors);
+    if (!Number.isInteger(row?.pdfPage) || row.pdfPage < options.pdfPageMin || row.pdfPage > options.pdfPageMax) {
+      errors.push(`${label}.pdfPage must point to the official ${options.tableName} PDF pages`);
+    }
+    if (!Number.isInteger(row?.standardPage) || row.standardPage <= 0) {
+      errors.push(`${label}.standardPage must be a positive integer`);
+    }
+    if (!String(row?.rawSourceText || '').includes(`GB 2760-2024 ${options.tableName}`)) {
+      errors.push(`${label}.rawSourceText must cite GB 2760-2024 ${options.tableName}`);
+    }
+    for (const field of options.requiredFields || []) {
+      requireString(row, field, label, errors);
+    }
+    const rowCodeValue = row?.[options.rowCodeField || 'rowCode'];
+    if (options.rowCodePattern && !options.rowCodePattern.test(String(rowCodeValue || ''))) {
+      errors.push(`${label}.${options.rowCodeField || 'rowCode'} must match ${options.rowCodePattern}`);
+    }
+    if (options.tableName === '附录 F' && (!Number.isInteger(row?.a1PageNumber) || row.a1PageNumber <= 0)) {
+      errors.push(`${label}.a1PageNumber must be a positive integer`);
+    }
+  });
 }
 
 export function getGb2760OfficialReferenceTableQualityReport(rows = gb2760OfficialReferenceRows) {
@@ -731,7 +892,15 @@ export function getGb2760OfficialReferenceTableQualityReport(rows = gb2760Offici
     tableCounts: countBy(safeRows, (row) => row?.tableName || 'missing'),
     pdfPageCount: new Set(safeRows.map((row) => row?.pdfPage).filter(Boolean)).size,
     a2ExceptionFoodCategoryCount: safeRows.filter((row) => row?.tableName === '表 A.2').length,
-    b1NoFlavorFoodCategoryCount: safeRows.filter((row) => row?.tableName === '表 B.1').length
+    b1NoFlavorFoodCategoryCount: safeRows.filter((row) => row?.tableName === '表 B.1').length,
+    b2NaturalFlavorCount: safeRows.filter((row) => row?.tableName === '表 B.2').length,
+    b3SyntheticFlavorCount: safeRows.filter((row) => row?.tableName === '表 B.3').length,
+    c1ProcessingAidCount: safeRows.filter((row) => row?.tableName === '表 C.1').length,
+    c2ProcessingAidCount: safeRows.filter((row) => row?.tableName === '表 C.2').length,
+    c3EnzymePreparationCount: safeRows.filter((row) => row?.tableName === '表 C.3').length,
+    dFunctionCategoryCount: safeRows.filter((row) => row?.tableName === '附录 D').length,
+    e1FoodCategoryCount: safeRows.filter((row) => row?.tableName === '表 E.1').length,
+    fAdditiveIndexCount: safeRows.filter((row) => row?.tableName === '附录 F').length
   };
 }
 

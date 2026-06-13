@@ -15,6 +15,14 @@ const a2PdfPageEnd = 150;
 const a2TableTitle = '表 A.1 中例外食品编号对应的食品类别';
 const b1PdfPage = 152;
 const b1TableTitle = '不得添加食品用香料、香精的食品名单';
+const b2TableTitle = '允许使用的食品用天然香料名单';
+const b3TableTitle = '允许使用的食品用合成香料名单';
+const c1TableTitle = '可在各类食品加工过程中使用,残留量不需限定的加工助剂名单(不含酶制剂)';
+const c2TableTitle = '需要规定功能和使用范围的加工助剂名单(不含酶制剂)';
+const c3TableTitle = '食品用酶制剂及其来源名单';
+const dTableTitle = '食品添加剂功能类别';
+const e1TableTitle = '食品分类系统';
+const fIndexTableTitle = '附录 A 中食品添加剂使用规定索引';
 const b1Footnotes = {
   a: {
     text: '较大婴儿和幼儿配方食品中可以使用香兰素、乙基香兰素和香荚兰豆浸膏(提取物),最大使用量分别为5 mg/100 mL、5 mg/100 mL和按照生产需要适量使用,其中100 mL以即食食品计,生产企业应按照冲调比例折算成配方食品中的使用量;婴幼儿谷类辅助食品中可以使用香兰素,最大使用量为7 mg/100g,其中100g以即食食品计,生产企业应按照冲调比例折算成谷类食品中的使用量;凡使用范围涵盖0~6个月婴幼儿配方食品不得添加任何食用香料。',
@@ -53,13 +61,138 @@ const b1Footnotes = {
 };
 
 const a2Rows = extractA2Rows();
-if (a2Rows.length !== 68) {
-  throw new Error(`Expected 68 Table A.2 rows, got ${a2Rows.length}`);
-}
+assertRowCount('Table A.2', a2Rows, 68);
 const b1Rows = extractB1Rows();
-if (b1Rows.length !== 29) {
-  throw new Error(`Expected 29 Table B.1 rows, got ${b1Rows.length}`);
-}
+assertRowCount('Table B.1', b1Rows, 29);
+const b2Rows = extractFlavorRows({
+  idPrefix: 'gb2760-2024-b2-natural-flavor',
+  tableName: '表 B.2',
+  tableTitle: b2TableTitle,
+  pdfPages: range(153, 168),
+  codePattern: /^N\d{3}$/u,
+  expectedCount: 388,
+  chineseNameMaxX: 245,
+  englishNameMinX: 245
+});
+const b3Rows = extractFlavorRows({
+  idPrefix: 'gb2760-2024-b3-synthetic-flavor',
+  tableName: '表 B.3',
+  tableTitle: b3TableTitle,
+  pdfPages: range(168, 225),
+  codePattern: /^S\d{4}$/u,
+  expectedCount: 1504,
+  chineseNameMaxX: 270,
+  englishNameMinX: 270
+});
+const c1Rows = extractCoordinateTableRows({
+  idPrefix: 'gb2760-2024-c1-processing-aid-no-residue-limit',
+  tableName: '表 C.1',
+  tableTitle: c1TableTitle,
+  pdfPages: [226, 227],
+  expectedCount: 37,
+  rowNumberMinX: 60,
+  rowNumberMaxX: 90,
+  includeLine(line) {
+    return (line.pdfPage === 226 && line.mid > 450) || (line.pdfPage === 227 && line.mid < 560);
+  },
+  buildRowData(row) {
+    return {
+      processingAidNameCn: extractColumnText(row.lines, 95, 350),
+      processingAidNameEn: extractColumnText(row.lines, 350, 530)
+    };
+  },
+  getRowName(rowData) {
+    return rowData.processingAidNameCn;
+  },
+  getRowCode(row) {
+    return String(row.rowNumber);
+  },
+  getRawSourceText(row, rowData) {
+    return formatSourceSentence([
+      `GB 2760-2024 表 C.1：序号 ${row.rowNumber}`,
+      `助剂中文名称 ${rowData.processingAidNameCn}`,
+      `助剂英文名称 ${rowData.processingAidNameEn}`,
+      '可在各类食品加工过程中使用,残留量不需限定'
+    ]);
+  }
+});
+const c2Rows = extractCoordinateTableRows({
+  idPrefix: 'gb2760-2024-c2-processing-aid-function-scope',
+  tableName: '表 C.2',
+  tableTitle: c2TableTitle,
+  pdfPages: range(227, 233),
+  expectedCount: 80,
+  rowNumberMinX: 60,
+  rowNumberMaxX: 90,
+  includeLine(line) {
+    return (line.pdfPage === 227 && line.mid > 590)
+      || (line.pdfPage > 227 && line.pdfPage < 233)
+      || (line.pdfPage === 233 && line.mid < 300);
+  },
+  buildRowData(row) {
+    return {
+      processingAidNameCn: extractColumnText(row.lines, 70, 185, { excludeRowNumber: row.rowNumber }),
+      processingAidNameEn: extractColumnText(row.lines, 185, 310),
+      functionText: extractColumnText(row.lines, 310, 400),
+      useScope: extractColumnText(row.lines, 400, 560)
+    };
+  },
+  getRowName(rowData) {
+    return rowData.processingAidNameCn;
+  },
+  getRowCode(row) {
+    return String(row.rowNumber);
+  },
+  getRawSourceText(row, rowData) {
+    return formatSourceSentence([
+      `GB 2760-2024 表 C.2：序号 ${row.rowNumber}`,
+      `助剂中文名称 ${rowData.processingAidNameCn}`,
+      `助剂英文名称 ${rowData.processingAidNameEn}`,
+      `功能 ${rowData.functionText}`,
+      `使用范围 ${rowData.useScope}`
+    ]);
+  }
+});
+const c3Rows = extractCoordinateTableRows({
+  idPrefix: 'gb2760-2024-c3-enzyme-preparation',
+  tableName: '表 C.3',
+  tableTitle: c3TableTitle,
+  pdfPages: range(233, 242),
+  expectedCount: 66,
+  rowNumberMinX: 60,
+  rowNumberMaxX: 90,
+  mergeDuplicateRowNumbers: true,
+  allowNoiseRowStarts: true,
+  includeLine(line) {
+    return (line.pdfPage === 233 && line.mid > 330)
+      || (line.pdfPage > 233 && line.pdfPage < 242)
+      || (line.pdfPage === 242 && line.mid < 620);
+  },
+  buildRowData(row) {
+    return {
+      enzymeName: extractColumnText(row.lines, 90, 235, { excludeRowNumber: row.rowNumber }),
+      source: extractColumnText(row.lines, 235, 420),
+      donor: extractColumnText(row.lines, 420, 560)
+    };
+  },
+  getRowName(rowData) {
+    return rowData.enzymeName;
+  },
+  getRowCode(row) {
+    return String(row.rowNumber);
+  },
+  getRawSourceText(row, rowData) {
+    return formatSourceSentence([
+      `GB 2760-2024 表 C.3：序号 ${row.rowNumber}`,
+      `酶 ${rowData.enzymeName}`,
+      `来源 ${rowData.source}`,
+      rowData.donor ? `供体 ${rowData.donor}` : ''
+    ]);
+  }
+});
+const dRows = extractFunctionCategoryRows();
+const e1Rows = extractFoodCategoryRows();
+const fRows = extractAdditiveIndexRows();
 
 const fileContent = `import { gb2760OfficialStagingSource } from './gb2760OfficialStaging.js';
 
@@ -75,6 +208,22 @@ export const gb2760OfficialA2ExceptionFoodCategories = ${JSON.stringify(a2Rows, 
 export const gb2760OfficialB1NoFlavorFoodCategories = ${JSON.stringify(b1Rows, null, 2)};
 
 export const gb2760OfficialB1Footnotes = ${JSON.stringify(b1Footnotes, null, 2)};
+
+export const gb2760OfficialB2NaturalFlavorRows = ${JSON.stringify(b2Rows, null, 2)};
+
+export const gb2760OfficialB3SyntheticFlavorRows = ${JSON.stringify(b3Rows, null, 2)};
+
+export const gb2760OfficialC1ProcessingAidRows = ${JSON.stringify(c1Rows, null, 2)};
+
+export const gb2760OfficialC2ProcessingAidRows = ${JSON.stringify(c2Rows, null, 2)};
+
+export const gb2760OfficialC3EnzymePreparationRows = ${JSON.stringify(c3Rows, null, 2)};
+
+export const gb2760OfficialDFunctionCategoryRows = ${JSON.stringify(dRows, null, 2)};
+
+export const gb2760OfficialE1FoodCategoryRows = ${JSON.stringify(e1Rows, null, 2)};
+
+export const gb2760OfficialFAdditiveIndexRows = ${JSON.stringify(fRows, null, 2)};
 
 const gb2760OfficialA2ReferenceRows = gb2760OfficialA2ExceptionFoodCategories.map((row) => ({
   ...gb2760OfficialReferenceTableSource,
@@ -121,9 +270,132 @@ const gb2760OfficialB1ReferenceRows = gb2760OfficialB1NoFlavorFoodCategories.map
   };
 });
 
+function mapReferenceRows(rows, tableName, tableTitle, getRowData) {
+  return rows.map((row) => ({
+    ...gb2760OfficialReferenceTableSource,
+    id: row.id,
+    tableName,
+    tableTitle,
+    rowNumber: row.rowNumber,
+    rowCode: row.rowCode,
+    rowName: row.rowName,
+    rowData: getRowData(row),
+    pdfPage: row.pdfPage,
+    standardPage: row.standardPage,
+    rawSourceText: row.rawSourceText,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }));
+}
+
+const gb2760OfficialB2ReferenceRows = mapReferenceRows(
+  gb2760OfficialB2NaturalFlavorRows,
+  '表 B.2',
+  ${JSON.stringify(b2TableTitle)},
+  (row) => ({
+    flavorCode: row.flavorCode,
+    flavorNameCn: row.flavorNameCn,
+    flavorNameEn: row.flavorNameEn,
+    femaNumber: row.femaNumber,
+    rawRowText: row.rawRowText
+  })
+);
+
+const gb2760OfficialB3ReferenceRows = mapReferenceRows(
+  gb2760OfficialB3SyntheticFlavorRows,
+  '表 B.3',
+  ${JSON.stringify(b3TableTitle)},
+  (row) => ({
+    flavorCode: row.flavorCode,
+    flavorNameCn: row.flavorNameCn,
+    flavorNameEn: row.flavorNameEn,
+    femaNumber: row.femaNumber,
+    rawRowText: row.rawRowText
+  })
+);
+
+const gb2760OfficialC1ReferenceRows = mapReferenceRows(
+  gb2760OfficialC1ProcessingAidRows,
+  '表 C.1',
+  ${JSON.stringify(c1TableTitle)},
+  (row) => ({
+    processingAidNameCn: row.processingAidNameCn,
+    processingAidNameEn: row.processingAidNameEn,
+    residueLimitRequirement: 'residue_limit_not_required',
+    rawRowText: row.rawRowText
+  })
+);
+
+const gb2760OfficialC2ReferenceRows = mapReferenceRows(
+  gb2760OfficialC2ProcessingAidRows,
+  '表 C.2',
+  ${JSON.stringify(c2TableTitle)},
+  (row) => ({
+    processingAidNameCn: row.processingAidNameCn,
+    processingAidNameEn: row.processingAidNameEn,
+    functionText: row.functionText,
+    useScope: row.useScope,
+    rawRowText: row.rawRowText
+  })
+);
+
+const gb2760OfficialC3ReferenceRows = mapReferenceRows(
+  gb2760OfficialC3EnzymePreparationRows,
+  '表 C.3',
+  ${JSON.stringify(c3TableTitle)},
+  (row) => ({
+    enzymeName: row.enzymeName,
+    source: row.source,
+    donor: row.donor,
+    rawRowText: row.rawRowText
+  })
+);
+
+const gb2760OfficialDReferenceRows = mapReferenceRows(
+  gb2760OfficialDFunctionCategoryRows,
+  '附录 D',
+  ${JSON.stringify(dTableTitle)},
+  (row) => ({
+    functionCode: row.functionCode,
+    functionCategoryName: row.functionCategoryName,
+    definition: row.definition
+  })
+);
+
+const gb2760OfficialE1ReferenceRows = mapReferenceRows(
+  gb2760OfficialE1FoodCategoryRows,
+  '表 E.1',
+  ${JSON.stringify(e1TableTitle)},
+  (row) => ({
+    foodCategoryCode: row.foodCategoryCode,
+    foodCategoryName: row.foodCategoryName,
+    rawRowText: row.rawRowText
+  })
+);
+
+const gb2760OfficialFReferenceRows = mapReferenceRows(
+  gb2760OfficialFAdditiveIndexRows,
+  '附录 F',
+  ${JSON.stringify(fIndexTableTitle)},
+  (row) => ({
+    additiveNameCn: row.additiveNameCn,
+    insNumber: row.insNumber,
+    a1PageNumber: row.a1PageNumber,
+    rawRowText: row.rawRowText
+  })
+);
+
 export const gb2760OfficialReferenceRows = [
   ...gb2760OfficialA2ReferenceRows,
-  ...gb2760OfficialB1ReferenceRows
+  ...gb2760OfficialB1ReferenceRows,
+  ...gb2760OfficialB2ReferenceRows,
+  ...gb2760OfficialB3ReferenceRows,
+  ...gb2760OfficialC1ReferenceRows,
+  ...gb2760OfficialC2ReferenceRows,
+  ...gb2760OfficialC3ReferenceRows,
+  ...gb2760OfficialDReferenceRows,
+  ...gb2760OfficialE1ReferenceRows,
+  ...gb2760OfficialFReferenceRows
 ];
 
 export function getGb2760OfficialReferenceTableSummary() {
@@ -131,14 +403,32 @@ export function getGb2760OfficialReferenceTableSummary() {
     totalRows: gb2760OfficialReferenceRows.length,
     a2ExceptionFoodCategoryCount: gb2760OfficialA2ExceptionFoodCategories.length,
     b1NoFlavorFoodCategoryCount: gb2760OfficialB1NoFlavorFoodCategories.length,
+    b2NaturalFlavorCount: gb2760OfficialB2NaturalFlavorRows.length,
+    b3SyntheticFlavorCount: gb2760OfficialB3SyntheticFlavorRows.length,
+    c1ProcessingAidCount: gb2760OfficialC1ProcessingAidRows.length,
+    c2ProcessingAidCount: gb2760OfficialC2ProcessingAidRows.length,
+    c3EnzymePreparationCount: gb2760OfficialC3EnzymePreparationRows.length,
+    dFunctionCategoryCount: gb2760OfficialDFunctionCategoryRows.length,
+    e1FoodCategoryCount: gb2760OfficialE1FoodCategoryRows.length,
+    fAdditiveIndexCount: gb2760OfficialFAdditiveIndexRows.length,
     tableNames: [...new Set(gb2760OfficialReferenceRows.map((row) => row.tableName))],
+    tableCounts: countBy(gb2760OfficialReferenceRows, (row) => row.tableName),
     pdfPages: [...new Set(gb2760OfficialReferenceRows.map((row) => row.pdfPage))].sort((a, b) => a - b)
   };
+}
+
+function countBy(items, getKey) {
+  const counts = new Map();
+  for (const item of items) {
+    const key = String(getKey(item) || 'missing');
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return Object.fromEntries([...counts.entries()].sort(([a], [b]) => a.localeCompare(b, 'en')));
 }
 `;
 
 writeFileSync(outputPath, fileContent, 'utf8');
-console.log(`Generated ${a2Rows.length + b1Rows.length} GB 2760 reference table rows at ${outputPath}`);
+console.log(`Generated ${a2Rows.length + b1Rows.length + b2Rows.length + b3Rows.length + c1Rows.length + c2Rows.length + c3Rows.length + dRows.length + e1Rows.length + fRows.length} GB 2760 reference table rows at ${outputPath}`);
 
 function extractA2Rows() {
   const rows = [];
@@ -171,7 +461,7 @@ function extractA2Rows() {
         foodCategoryCode: code,
         foodCategoryName,
         pdfPage,
-        standardPage: pdfPage - 3
+        standardPage: standardPageForPdfPage(pdfPage)
       };
       rows.push({
         ...row,
@@ -203,7 +493,7 @@ function extractB1Rows() {
       foodCategoryName,
       footnoteMarker,
       pdfPage: b1PdfPage,
-      standardPage: b1PdfPage - 3
+      standardPage: standardPageForPdfPage(b1PdfPage)
     };
     rows.push({
       ...row,
@@ -216,6 +506,311 @@ function extractB1Rows() {
     });
   }
 
+  return rows;
+}
+
+function extractFlavorRows({
+  idPrefix,
+  tableName,
+  tableTitle,
+  pdfPages,
+  codePattern,
+  expectedCount,
+  chineseNameMaxX,
+  englishNameMinX
+}) {
+  const lines = pdfPages
+    .flatMap((pdfPage) => parsePdfPage(pdfPage))
+    .filter((line) => !isCommonNoiseLine(line));
+  const starts = lines
+    .map((line) => {
+      const rowNumberWord = line.words.find((word) => /^\d+$/u.test(word.text) && word.x < 95);
+      const codeWord = line.words.find((word) => codePattern.test(word.text) && word.x < 135);
+      return rowNumberWord && codeWord
+        ? {
+            line,
+            rowNumber: Number(rowNumberWord.text),
+            flavorCode: codeWord.text,
+            center: line.global
+          }
+        : undefined;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.center - b.center);
+
+  assertRowCount(tableName, starts, expectedCount);
+
+  const rows = starts.map((start, index) => {
+    const lowerBound = index > 0 ? (starts[index - 1].center + start.center) / 2 : start.center - 30;
+    const upperBound = index < starts.length - 1 ? (start.center + starts[index + 1].center) / 2 : start.center + 30;
+    const rowLines = lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line));
+    const rowWords = rowLines.flatMap((line) => line.words);
+    const flavorNameCn = extractColumnText(rowLines, 135, chineseNameMaxX, {
+      excludeValues: [String(start.rowNumber), start.flavorCode]
+    });
+    const flavorNameEn = extractColumnText(rowLines, englishNameMinX, 455);
+    const femaNumber = (rowWords.filter((word) => word.x >= 455 && /^(?:\d{4}|—)$/u.test(word.text)).at(-1) || {}).text || '';
+    const pdfPagesForRow = uniqueSorted(rowLines.map((line) => line.pdfPage));
+    const pdfPage = pdfPagesForRow[0] || start.line.pdfPage;
+    const row = {
+      id: `${idPrefix}-${String(start.rowNumber).padStart(4, '0')}`,
+      rowNumber: start.rowNumber,
+      rowCode: start.flavorCode,
+      flavorCode: start.flavorCode,
+      flavorNameCn,
+      flavorNameEn,
+      femaNumber,
+      pdfPage,
+      standardPage: standardPageForPdfPage(pdfPage),
+      pdfPages: pdfPagesForRow,
+      rawRowText: joinWords(rowWords)
+    };
+    return {
+      ...row,
+      rowName: row.flavorNameCn,
+      rawSourceText: formatSourceSentence([
+        `GB 2760-2024 ${tableName}：序号 ${row.rowNumber}`,
+        `编码 ${row.flavorCode}`,
+        `香料中文名称 ${row.flavorNameCn}`,
+        `香料英文名称 ${row.flavorNameEn}`,
+        `FEMA 编号 ${row.femaNumber}`
+      ])
+    };
+  });
+
+  assertSequentialRows(tableName, rows);
+  return rows;
+}
+
+function extractCoordinateTableRows({
+  idPrefix,
+  tableName,
+  tableTitle,
+  pdfPages,
+  expectedCount,
+  rowNumberMinX,
+  rowNumberMaxX,
+  includeLine,
+  mergeDuplicateRowNumbers = false,
+  allowNoiseRowStarts = false,
+  buildRowData,
+  getRowName,
+  getRowCode,
+  getRawSourceText
+}) {
+  const lines = pdfPages
+    .flatMap((pdfPage) => parsePdfPage(pdfPage))
+    .filter((line) => includeLine(line));
+  const starts = lines
+    .map((line) => {
+      if (!allowNoiseRowStarts && isCommonNoiseLine(line)) return undefined;
+      const rowNumberWord = line.words.find((word) => /^\d+$/u.test(word.text) && word.x >= rowNumberMinX && word.x < rowNumberMaxX);
+      if (!rowNumberWord) return undefined;
+      return {
+        line,
+        rowNumber: Number(rowNumberWord.text),
+        center: line.global
+      };
+    })
+    .filter((start) => start && start.rowNumber >= 1 && start.rowNumber <= expectedCount)
+    .sort((a, b) => a.center - b.center);
+
+  const segmentRows = starts.map((start, index) => {
+    const lowerBound = index > 0 ? (starts[index - 1].center + start.center) / 2 : start.center - 30;
+    const upperBound = index < starts.length - 1 ? (start.center + starts[index + 1].center) / 2 : start.center + 30;
+    return {
+      rowNumber: start.rowNumber,
+      lines: lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line))
+    };
+  });
+
+  const groupedRows = mergeDuplicateRowNumbers
+    ? Object.values(segmentRows.reduce((groups, row) => {
+        groups[row.rowNumber] ||= { rowNumber: row.rowNumber, lines: [] };
+        groups[row.rowNumber].lines.push(...row.lines);
+        return groups;
+      }, {})).sort((a, b) => a.rowNumber - b.rowNumber)
+    : segmentRows;
+
+  assertRowCount(tableName, groupedRows, expectedCount);
+
+  const rows = groupedRows.map((row) => {
+    const rowData = buildRowData(row);
+    const rowName = getRowName(rowData);
+    const rowCode = getRowCode(row, rowData);
+    const rowWords = row.lines.flatMap((line) => line.words);
+    const pdfPagesForRow = uniqueSorted(row.lines.map((line) => line.pdfPage));
+    const pdfPage = pdfPagesForRow[0];
+    return {
+      id: `${idPrefix}-${String(row.rowNumber).padStart(3, '0')}`,
+      rowNumber: row.rowNumber,
+      rowCode,
+      rowName,
+      ...rowData,
+      pdfPage,
+      standardPage: standardPageForPdfPage(pdfPage),
+      pdfPages: pdfPagesForRow,
+      rawRowText: joinWords(rowWords),
+      rawSourceText: getRawSourceText(row, rowData)
+    };
+  });
+
+  assertSequentialRows(tableName, rows);
+  for (const row of rows) {
+    if (!row.rowName) throw new Error(`${tableName} row ${row.rowNumber} has no rowName`);
+    if (!row.rawSourceText.includes(`GB 2760-2024 ${tableName}`)) {
+      throw new Error(`${tableName} row ${row.rowNumber} rawSourceText must cite ${tableName}`);
+    }
+  }
+  return rows;
+}
+
+function extractFunctionCategoryRows() {
+  const lines = getLayoutPageText(243).split('\n').map((line) => line.trim()).filter(Boolean);
+  const entries = [];
+  let current = null;
+
+  for (const line of lines) {
+    if (line === 'GB 2760—2024' || line === '附   录   D' || line === '食品添加剂功能类别' || line.startsWith('注:') || /^\d{1,3}$/u.test(line)) {
+      continue;
+    }
+    if (line === 'D.') continue;
+
+    const normalizedLine = line.replace(/^D\.\s*/u, '');
+    const startMatch = normalizedLine.match(/^(\d{1,2})\s+(.+)$/u);
+    if (startMatch && Number(startMatch[1]) === entries.length + 1) {
+      current = {
+        functionNumber: Number(startMatch[1]),
+        text: startMatch[2]
+      };
+      entries.push(current);
+      continue;
+    }
+    if (current) current.text += normalizedLine;
+  }
+
+  const rows = entries.map((entry) => {
+    const match = entry.text.match(/^([^:：]+)[:：](.+)$/u);
+    if (!match) throw new Error(`Unable to parse Appendix D function category row ${entry.functionNumber}: ${entry.text}`);
+    const functionCategoryName = cleanText(match[1]);
+    const definition = cleanText(match[2]);
+    return {
+      id: `gb2760-2024-d-function-category-${String(entry.functionNumber).padStart(3, '0')}`,
+      rowNumber: entry.functionNumber,
+      rowCode: `D.${entry.functionNumber}`,
+      rowName: functionCategoryName,
+      functionCode: `D.${entry.functionNumber}`,
+      functionCategoryName,
+      definition,
+      pdfPage: 243,
+      standardPage: standardPageForPdfPage(243),
+      rawSourceText: formatSourceSentence([`GB 2760-2024 附录 D：${entry.functionNumber} ${functionCategoryName}：${definition}`])
+    };
+  });
+  assertRowCount('Appendix D', rows, 23);
+  assertSequentialRows('Appendix D', rows);
+  return rows;
+}
+
+function extractFoodCategoryRows() {
+  const lines = range(244, 254)
+    .flatMap((pdfPage) => parsePdfPage(pdfPage))
+    .filter((line) => line.mid >= 240 && line.mid < 770 && !isCommonNoiseLine(line));
+  const anchors = lines
+    .map((line) => {
+      const code = normalizeFoodCategoryCode(joinWords(line.words.filter((word) => word.x < 130)));
+      return /^\d{2}\.(?:\d{1,2}\.?)*(?:\d{1,2})?$/u.test(code)
+        ? {
+            code,
+            center: line.global
+          }
+        : undefined;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.center - b.center);
+
+  const rows = anchors.map((anchor, index) => {
+    const lowerBound = index > 0 ? (anchors[index - 1].center + anchor.center) / 2 : anchor.center - 25;
+    const upperBound = index < anchors.length - 1 ? (anchor.center + anchors[index + 1].center) / 2 : anchor.center + 25;
+    const rowLines = lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line));
+    const foodCategoryName = extractColumnText(rowLines, 150, 560);
+    const pdfPagesForRow = uniqueSorted(rowLines.map((line) => line.pdfPage));
+    const pdfPage = pdfPagesForRow[0];
+    const rowNumber = index + 1;
+    return {
+      id: `gb2760-2024-e1-food-category-${String(rowNumber).padStart(3, '0')}`,
+      rowNumber,
+      rowCode: anchor.code,
+      rowName: foodCategoryName,
+      foodCategoryCode: anchor.code,
+      foodCategoryName,
+      pdfPage,
+      standardPage: standardPageForPdfPage(pdfPage),
+      pdfPages: pdfPagesForRow,
+      rawRowText: joinWords(rowLines.flatMap((line) => line.words)),
+      rawSourceText: `GB 2760-2024 表 E.1：食品分类号 ${anchor.code}；食品类别/名称 ${foodCategoryName}。`
+    };
+  });
+
+  assertRowCount('Table E.1', rows, 318);
+  for (const row of rows) {
+    if (!/^\d{2}(?:\.\d{1,2})*$/u.test(row.foodCategoryCode)) {
+      throw new Error(`Table E.1 row ${row.rowNumber} has invalid food category code ${row.foodCategoryCode}`);
+    }
+    if (!row.foodCategoryName) throw new Error(`Table E.1 row ${row.rowNumber} has no food category name`);
+  }
+  return rows;
+}
+
+function extractAdditiveIndexRows() {
+  const lines = range(255, 264)
+    .flatMap((pdfPage) => parsePdfPage(pdfPage))
+    .filter((line) => line.mid > 100 && line.mid < 760 && !isCommonNoiseLine(line));
+  const anchors = lines
+    .map((line) => {
+      const pageNumberWord = line.words.filter((word) => word.x > 460 && /^\d{1,3}$/u.test(word.text)).at(-1);
+      return pageNumberWord
+        ? {
+            a1PageNumber: Number(pageNumberWord.text),
+            center: line.global
+          }
+        : undefined;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.center - b.center);
+
+  const rows = anchors.map((anchor, index) => {
+    const lowerBound = index > 0 ? (anchors[index - 1].center + anchor.center) / 2 : anchor.center - 35;
+    const upperBound = index < anchors.length - 1 ? (anchor.center + anchors[index + 1].center) / 2 : anchor.center + 35;
+    const rowLines = lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line));
+    const additiveNameCn = extractColumnText(rowLines, 55, 360);
+    const insNumber = extractColumnText(rowLines, 360, 460) || '—';
+    const pdfPagesForRow = uniqueSorted(rowLines.map((line) => line.pdfPage));
+    const pdfPage = pdfPagesForRow[0];
+    const rowNumber = index + 1;
+    return {
+      id: `gb2760-2024-f-additive-index-${String(rowNumber).padStart(3, '0')}`,
+      rowNumber,
+      rowCode: String(rowNumber),
+      rowName: additiveNameCn,
+      additiveNameCn,
+      insNumber,
+      a1PageNumber: anchor.a1PageNumber,
+      pdfPage,
+      standardPage: standardPageForPdfPage(pdfPage),
+      pdfPages: pdfPagesForRow,
+      rawRowText: joinWords(rowLines.flatMap((line) => line.words)),
+      rawSourceText: `GB 2760-2024 附录 F：食品添加剂中文名称 ${additiveNameCn}；INS 号 ${insNumber}；附录 A 页码 ${anchor.a1PageNumber}。`
+    };
+  });
+
+  assertRowCount('Appendix F', rows, 285);
+  for (const row of rows) {
+    if (!row.additiveNameCn) throw new Error(`Appendix F row ${row.rowNumber} has no additiveNameCn`);
+    if (!Number.isInteger(row.a1PageNumber) || row.a1PageNumber <= 0) {
+      throw new Error(`Appendix F row ${row.rowNumber} has invalid A.1 page number`);
+    }
+  }
   return rows;
 }
 
@@ -251,17 +846,75 @@ function parsePdfPage(pdfPage) {
     const mid = (word.y + word.yMax) / 2;
     let line = lines.find((item) => Math.abs(item.mid - mid) < 3.5);
     if (!line) {
-      line = { mid, words: [] };
+      line = { pdfPage, mid, global: pdfPage * 1000 + mid, words: [] };
       lines.push(line);
     }
+    word.lineGlobal = line.global;
     line.words.push(word);
   }
 
   lines.sort((a, b) => a.mid - b.mid);
   for (const line of lines) {
-    line.words.sort((a, b) => a.y - b.y || a.x - b.x);
+    line.words.sort((a, b) => a.x - b.x);
   }
   return lines;
+}
+
+function getLayoutPageText(pdfPage) {
+  const result = spawnSync('pdftotext', [
+    '-f',
+    String(pdfPage),
+    '-l',
+    String(pdfPage),
+    '-layout',
+    pdfPath,
+    '-'
+  ], {
+    encoding: 'utf8',
+    maxBuffer: 20 * 1024 * 1024
+  });
+
+  if ((!result.stdout || result.stdout.length === 0) && (result.error || result.status !== 0)) {
+    throw result.error || new Error(result.stderr || `pdftotext exited with status ${result.status}`);
+  }
+  return result.stdout;
+}
+
+function isCommonNoiseLine(line) {
+  const text = joinWords(line.words);
+  if (!text || text === 'GB2760—2024') return true;
+  if (/^\d{1,3}$/u.test(text) && (line.words.every((word) => word.x < 90) || line.words.every((word) => word.x > 450))) return true;
+  return text.includes('序号')
+    || text.includes('FEMA编号')
+    || text.includes('食品分类号')
+    || text.includes('食品添加剂中文名称')
+    || text.includes('INS号')
+    || text.startsWith('附录')
+    || text.startsWith('表B.')
+    || text.startsWith('表C.')
+    || text.startsWith('表E.')
+    || text.includes('允许使用的食品用天然香料名单')
+    || text.includes('允许使用的食品用合成香料名单')
+    || text.includes('食品用酶制剂及其来源名单')
+    || text.includes('食品分类系统')
+    || text.startsWith('注1:')
+    || text.startsWith('注2:')
+    || text.startsWith('注3:')
+    || text.startsWith('a用于提取酶制剂')
+    || text.startsWith('b为酶制剂')
+    || text.startsWith('c包括针尾曲霉');
+}
+
+function extractColumnText(lines, minX, maxX, options = {}) {
+  const excludeValues = new Set([
+    ...(options.excludeValues || []),
+    ...(options.excludeRowNumber ? [String(options.excludeRowNumber)] : [])
+  ]);
+  return joinWords(lines.flatMap((line) => line.words.filter((word) => (
+    word.x >= minX
+      && word.x < maxX
+      && !excludeValues.has(word.text)
+  ))));
 }
 
 function decodeXml(value) {
@@ -278,7 +931,7 @@ function decodeXml(value) {
 function joinWords(words) {
   return words
     .slice()
-    .sort((a, b) => a.y - b.y || a.x - b.x)
+    .sort((a, b) => (a.lineGlobal ?? a.y) - (b.lineGlobal ?? b.y) || a.x - b.x)
     .map((word) => word.text)
     .join('');
 }
@@ -288,10 +941,40 @@ function normalizeFoodCategoryCode(value) {
 }
 
 function cleanText(value) {
-  return String(value || '').replace(/\s+/gu, '').replace(/，/g, ',').trim();
+  return String(value || '')
+    .replace(/\s+/gu, '')
+    .replace(/，/g, ',')
+    .replace(/（/g, '(')
+    .replace(/）/g, ')')
+    .trim();
 }
 
 function formatSourceSentence(parts) {
-  const text = parts.filter(Boolean).join('；');
+  const text = parts.map((part) => String(part || '').trim()).filter(Boolean).join('；');
   return text.endsWith('。') ? text : `${text}。`;
+}
+
+function standardPageForPdfPage(pdfPage) {
+  return pdfPage - 3;
+}
+
+function range(start, end) {
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+}
+
+function uniqueSorted(values) {
+  return [...new Set(values.filter((value) => Number.isInteger(value)))].sort((a, b) => a - b);
+}
+
+function assertRowCount(label, rows, expectedCount) {
+  if (rows.length !== expectedCount) {
+    throw new Error(`Expected ${expectedCount} ${label} rows, got ${rows.length}`);
+  }
+}
+
+function assertSequentialRows(label, rows) {
+  const firstMismatch = rows.find((row, index) => row.rowNumber !== index + 1);
+  if (firstMismatch) {
+    throw new Error(`${label} rowNumber must be sequential; expected ${rows.indexOf(firstMismatch) + 1}, got ${firstMismatch.rowNumber}`);
+  }
 }
