@@ -33757,14 +33757,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "L-苹果酸",
     "processingAidNameEn": "L-malicacid",
     "functionText": "发酵用营养物质",
-    "useScope": "发酵工艺调制乳、发酵乳和风味发酵",
+    "useScope": "发酵工艺",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "5L-苹果酸L-malicacid发酵用营养物质发酵工艺调制乳、发酵乳和风味发酵",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 5；助剂中文名称 L-苹果酸；助剂英文名称 L-malicacid；功能 发酵用营养物质；使用范围 发酵工艺调制乳、发酵乳和风味发酵。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 5；助剂中文名称 L-苹果酸；助剂英文名称 L-malicacid；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-006",
@@ -33774,14 +33774,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "β-环状糊精",
     "processingAidNameEn": "β-cyclodextrin",
     "functionText": "胆固醇提取剂",
-    "useScope": "乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺",
+    "useScope": "调制乳、发酵乳和风味发酵乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "乳、稀奶油(淡奶油)及其类似6β-环状糊精β-cyclodextrin胆固醇提取剂品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 6；助剂中文名称 β-环状糊精；助剂英文名称 β-cyclodextrin；功能 胆固醇提取剂；使用范围 乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 6；助剂中文名称 β-环状糊精；助剂英文名称 β-cyclodextrin；功能 胆固醇提取剂；使用范围 调制乳、发酵乳和风味发酵乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-007",
@@ -33842,14 +33842,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "巴西棕榈蜡",
     "processingAidNameEn": "carnaubawax",
     "functionText": "脱模剂",
-    "useScope": "焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺薯类的加工工艺、油脂加工工",
+    "useScope": "焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺",
     "pdfPage": 228,
     "standardPage": 225,
     "pdfPages": [
       228
     ],
     "rawRowText": "焙烤食品加工工艺、膨化食品10巴西棕榈蜡carnaubawax脱模剂加工工艺、蜜饯果糕的加工工艺薯类的加工工艺、油脂加工工",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 10；助剂中文名称 巴西棕榈蜡；助剂英文名称 carnaubawax；功能 脱模剂；使用范围 焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺薯类的加工工艺、油脂加工工。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 10；助剂中文名称 巴西棕榈蜡；助剂英文名称 carnaubawax；功能 脱模剂；使用范围 焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-011",
@@ -33859,14 +33859,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "白油(液体石蜡)",
     "processingAidNameEn": "whitemineraloil",
     "functionText": "消泡剂、脱模剂、防黏剂、润滑剂",
-    "useScope": "艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工",
+    "useScope": "薯类的加工工艺、油脂加工工艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工艺(最大使用量为0.1g/kg)",
     "pdfPage": 228,
     "standardPage": 225,
     "pdfPages": [
       228
     ],
     "rawRowText": "艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品消泡剂、脱模剂、防11白油(液体石蜡)whitemineraloil加工工艺、粮食加工工艺(用黏剂、润滑剂于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 11；助剂中文名称 白油(液体石蜡)；助剂英文名称 whitemineraloil；功能 消泡剂、脱模剂、防黏剂、润滑剂；使用范围 艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 11；助剂中文名称 白油(液体石蜡)；助剂英文名称 whitemineraloil；功能 消泡剂、脱模剂、防黏剂、润滑剂；使用范围 薯类的加工工艺、油脂加工工艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工艺(最大使用量为0.1g/kg)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-012",
@@ -33876,14 +33876,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "不溶性聚乙烯聚吡咯烷酮",
     "processingAidNameEn": "insolublepolyvinylpolypyrroli-done(PVPP)",
     "functionText": "吸附剂",
-    "useScope": "艺(最大使用量为0.1g/kg)啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺",
+    "useScope": "啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺",
     "pdfPage": 228,
     "standardPage": 225,
     "pdfPages": [
       228
     ],
     "rawRowText": "艺(最大使用量为0.1g/kg)啤酒、葡萄酒、果酒、黄酒、配不溶性聚乙烯聚吡insolublepolyvinylpolypyrroli-12吸附剂制酒的加工工艺和发酵工咯烷酮done(PVPP)艺,茶(类)饮料加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 12；助剂中文名称 不溶性聚乙烯聚吡咯烷酮；助剂英文名称 insolublepolyvinylpolypyrroli-done(PVPP)；功能 吸附剂；使用范围 艺(最大使用量为0.1g/kg)啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 12；助剂中文名称 不溶性聚乙烯聚吡咯烷酮；助剂英文名称 insolublepolyvinylpolypyrroli-done(PVPP)；功能 吸附剂；使用范围 啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-013",
@@ -34012,14 +34012,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "硅酸钙",
     "processingAidNameEn": "calciumsilicate",
     "functionText": "助滤剂",
-    "useScope": "煎炸油加工工艺,最大使用量为40g/kg淀粉糖和淀粉加工工艺、油脂",
+    "useScope": "煎炸油加工工艺,最大使用量为40g/kg",
     "pdfPage": 228,
     "standardPage": 225,
     "pdfPages": [
       228
     ],
     "rawRowText": "煎炸油加工工艺,最大使用量20硅酸钙calciumsilicate助滤剂为40g/kg淀粉糖和淀粉加工工艺、油脂",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 20；助剂中文名称 硅酸钙；助剂英文名称 calciumsilicate；功能 助滤剂；使用范围 煎炸油加工工艺,最大使用量为40g/kg淀粉糖和淀粉加工工艺、油脂。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 20；助剂中文名称 硅酸钙；助剂英文名称 calciumsilicate；功能 助滤剂；使用范围 煎炸油加工工艺,最大使用量为40g/kg。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-021",
@@ -34029,14 +34029,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "过氧化氢",
     "processingAidNameEn": "hydrogenperoxide",
     "functionText": "脱硫剂、脱色剂、去碘剂",
-    "useScope": "加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺",
+    "useScope": "淀粉糖和淀粉加工工艺、油脂加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺",
     "pdfPage": 228,
     "standardPage": 225,
     "pdfPages": [
       228
     ],
     "rawRowText": "脱硫剂、脱色剂、去加工工艺、海藻加工工艺、胶21过氧化氢hydrogenperoxide碘剂原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 21；助剂中文名称 过氧化氢；助剂英文名称 hydrogenperoxide；功能 脱硫剂、脱色剂、去碘剂；使用范围 加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 21；助剂中文名称 过氧化氢；助剂英文名称 hydrogenperoxide；功能 脱硫剂、脱色剂、去碘剂；使用范围 淀粉糖和淀粉加工工艺、油脂加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-022",
@@ -34097,14 +34097,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "甲酸钠",
     "processingAidNameEn": "sodiumformate",
     "functionText": "发酵用营养物质",
-    "useScope": "发酵工艺大豆蛋白的加工工艺(仅限大",
+    "useScope": "发酵工艺",
     "pdfPage": 229,
     "standardPage": 226,
     "pdfPages": [
       229
     ],
     "rawRowText": "25甲酸钠sodiumformate发酵用营养物质发酵工艺大豆蛋白的加工工艺(仅限大",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 25；助剂中文名称 甲酸钠；助剂英文名称 sodiumformate；功能 发酵用营养物质；使用范围 发酵工艺大豆蛋白的加工工艺(仅限大。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 25；助剂中文名称 甲酸钠；助剂英文名称 sodiumformate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-026",
@@ -34114,14 +34114,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "焦亚硫酸钠",
     "processingAidNameEn": "sodiummetabisulphite",
     "functionText": "黏度调节剂",
-    "useScope": "豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg",
+    "useScope": "大豆蛋白的加工工艺(仅限大豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg(以二氧化硫残留量计)",
     "pdfPage": 229,
     "standardPage": 226,
     "pdfPages": [
       229
     ],
     "rawRowText": "豆分离蛋白、大豆浓缩蛋26焦亚硫酸钠sodiummetabisulphite黏度调节剂白),最大使用量为0.03g/kg",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 26；助剂中文名称 焦亚硫酸钠；助剂英文名称 sodiummetabisulphite；功能 黏度调节剂；使用范围 豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 26；助剂中文名称 焦亚硫酸钠；助剂英文名称 sodiummetabisulphite；功能 黏度调节剂；使用范围 大豆蛋白的加工工艺(仅限大豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg(以二氧化硫残留量计)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-027",
@@ -34131,14 +34131,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "酒石酸氢钾",
     "processingAidNameEn": "potassiumbitartrate",
     "functionText": "结晶剂",
-    "useScope": "(以二氧化硫残留量计)葡萄酒加工工艺",
+    "useScope": "葡萄酒加工工艺",
     "pdfPage": 229,
     "standardPage": 226,
     "pdfPages": [
       229
     ],
     "rawRowText": "(以二氧化硫残留量计)27酒石酸氢钾potassiumbitartrate结晶剂葡萄酒加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 27；助剂中文名称 酒石酸氢钾；助剂英文名称 potassiumbitartrate；功能 结晶剂；使用范围 (以二氧化硫残留量计)葡萄酒加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 27；助剂中文名称 酒石酸氢钾；助剂英文名称 potassiumbitartrate；功能 结晶剂；使用范围 葡萄酒加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-028",
@@ -34148,14 +34148,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "聚苯乙烯",
     "processingAidNameEn": "polytyrene",
     "functionText": "助滤剂",
-    "useScope": "啤酒加工工艺饮料加工工艺的水处理工艺、",
+    "useScope": "啤酒加工工艺",
     "pdfPage": 229,
     "standardPage": 226,
     "pdfPages": [
       229
     ],
     "rawRowText": "28聚苯乙烯polytyrene助滤剂啤酒加工工艺饮料加工工艺的水处理工艺、",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 28；助剂中文名称 聚苯乙烯；助剂英文名称 polytyrene；功能 助滤剂；使用范围 啤酒加工工艺饮料加工工艺的水处理工艺、。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 28；助剂中文名称 聚苯乙烯；助剂英文名称 polytyrene；功能 助滤剂；使用范围 啤酒加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-029",
@@ -34165,14 +34165,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "聚丙烯酰胺",
     "processingAidNameEn": "polyacrylamide",
     "functionText": "絮凝剂、助滤剂",
-    "useScope": "制糖工艺和发酵工艺、制盐工艺豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷",
+    "useScope": "饮料加工工艺的水处理工艺、制糖工艺和发酵工艺、制盐工艺",
     "pdfPage": 229,
     "standardPage": 226,
     "pdfPages": [
       229
     ],
     "rawRowText": "29聚丙烯酰胺polyacrylamide絮凝剂、助滤剂制糖工艺和发酵工艺、制盐工艺豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 29；助剂中文名称 聚丙烯酰胺；助剂英文名称 polyacrylamide；功能 絮凝剂、助滤剂；使用范围 制糖工艺和发酵工艺、制盐工艺豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 29；助剂中文名称 聚丙烯酰胺；助剂英文名称 polyacrylamide；功能 絮凝剂、助滤剂；使用范围 饮料加工工艺的水处理工艺、制糖工艺和发酵工艺、制盐工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-030",
@@ -34182,14 +34182,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "聚二甲基硅氧烷及其乳液(包括聚二甲基硅氧烷,聚二甲基硅氧烷乳液)",
     "processingAidNameEn": "polydimethylsiloxane",
     "functionText": "消泡剂、脱模剂",
-    "useScope": "计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺",
+    "useScope": "豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺",
     "pdfPage": 229,
     "standardPage": 226,
     "pdfPages": [
       229
     ],
     "rawRowText": "计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷聚二甲基硅氧烷及计),果冻、果汁、浓缩果汁粉、其乳液(包括聚二甲饮料、速溶食品、冰淇淋、果30polydimethylsiloxane消泡剂、脱模剂基硅氧烷,聚二甲基酱、调味品和蔬菜加工工艺硅氧烷乳液)(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 30；助剂中文名称 聚二甲基硅氧烷及其乳液(包括聚二甲基硅氧烷,聚二甲基硅氧烷乳液)；助剂英文名称 polydimethylsiloxane；功能 消泡剂、脱模剂；使用范围 计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 30；助剂中文名称 聚二甲基硅氧烷及其乳液(包括聚二甲基硅氧烷,聚二甲基硅氧烷乳液)；助剂英文名称 polydimethylsiloxane；功能 消泡剂、脱模剂；使用范围 豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-031",
@@ -34229,42 +34229,42 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-033",
     "rowNumber": 33,
     "rowCode": "33",
-    "rowName": "聚氧丙烯氧化乙烯甘油醚聚氧乙烯(20)山梨醇酐单月桂酸酯(又",
-    "processingAidNameCn": "聚氧丙烯氧化乙烯甘油醚聚氧乙烯(20)山梨醇酐单月桂酸酯(又",
+    "rowName": "聚氧丙烯氧化乙烯甘油醚",
+    "processingAidNameCn": "聚氧丙烯氧化乙烯甘油醚",
     "processingAidNameEn": "Polyoxypropyleneoxyethyleneglycerolether(GPE)",
     "functionText": "消泡剂",
-    "useScope": "发酵工艺制糖工艺、发酵工艺、提取工",
+    "useScope": "发酵工艺",
     "pdfPage": 230,
     "standardPage": 227,
     "pdfPages": [
       230
     ],
     "rawRowText": "聚氧丙烯氧化乙烯Polyoxypropyleneoxyethylene33消泡剂发酵工艺甘油醚glycerolether(GPE)聚氧乙烯(20)山梨醇酐单月桂酸酯(又制糖工艺、发酵工艺、提取工",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 33；助剂中文名称 聚氧丙烯氧化乙烯甘油醚聚氧乙烯(20)山梨醇酐单月桂酸酯(又；助剂英文名称 Polyoxypropyleneoxyethyleneglycerolether(GPE)；功能 消泡剂；使用范围 发酵工艺制糖工艺、发酵工艺、提取工。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 33；助剂中文名称 聚氧丙烯氧化乙烯甘油醚；助剂英文名称 Polyoxypropyleneoxyethyleneglycerolether(GPE)；功能 消泡剂；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-034",
     "rowNumber": 34,
     "rowCode": "34",
-    "rowName": "名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇",
-    "processingAidNameCn": "名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇",
+    "rowName": "聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)",
+    "processingAidNameCn": "聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)",
     "processingAidNameEn": "polyoxyethylene(20)sorbi-tanmonolaurate,polyoxyethylene(20)sorbitanmonopalmitate,polyoxyethylene(20)sorbi-tanmonostearate,polyoxyeth-ylene(20)sorbitanmo-nooleate",
     "functionText": "分散剂、提取溶剂、消泡剂",
-    "useScope": "艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)",
+    "useScope": "制糖工艺、发酵工艺、提取工艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)",
     "pdfPage": 230,
     "standardPage": 227,
     "pdfPages": [
       230
     ],
     "rawRowText": "名吐温20),聚氧乙polyoxyethylene(20)sorbi-艺、果蔬汁(浆)饮料加工工艺烯(20)山梨醇酐单tanmonolaurate,polyoxyethylene(最大使用量为0.75g/kg)、植棕榈酸酯(又名吐温(20)sorbitanmonopalmitate,分散剂、提取溶剂、物蛋白饮料加工工艺(最大使3440),聚氧乙烯(20)polyoxyethylene(20)sorbi-消泡剂用量为2.0g/kg)、豆类制品加山梨醇酐单硬脂酸tanmonostearate,polyoxyeth-工工艺(最大使用量为酯(又名吐温60),聚ylene(20)sorbitanmo-0.05g/kg,最大使用量以每千氧乙烯(20)山梨醇nooleate克豆类的使用量计)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 34；助剂中文名称 名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇；助剂英文名称 polyoxyethylene(20)sorbi-tanmonolaurate,polyoxyethylene(20)sorbitanmonopalmitate,polyoxyethylene(20)sorbi-tanmonostearate,polyoxyeth-ylene(20)sorbitanmo-nooleate；功能 分散剂、提取溶剂、消泡剂；使用范围 艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 34；助剂中文名称 聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)；助剂英文名称 polyoxyethylene(20)sorbi-tanmonolaurate,polyoxyethylene(20)sorbitanmonopalmitate,polyoxyethylene(20)sorbi-tanmonostearate,polyoxyeth-ylene(20)sorbitanmo-nooleate；功能 分散剂、提取溶剂、消泡剂；使用范围 制糖工艺、发酵工艺、提取工艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-035",
     "rowNumber": 35,
     "rowCode": "35",
-    "rowName": "酐单油酸酯(又名吐温80)聚氧乙烯聚氧丙烯胺醚",
-    "processingAidNameCn": "酐单油酸酯(又名吐温80)聚氧乙烯聚氧丙烯胺醚",
+    "rowName": "聚氧乙烯聚氧丙烯胺醚",
+    "processingAidNameCn": "聚氧乙烯聚氧丙烯胺醚",
     "processingAidNameEn": "polyoxyethylenepolyoxyprop-yleneamineether(BAPE)",
     "functionText": "消泡剂",
     "useScope": "发酵工艺",
@@ -34274,7 +34274,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "酐单油酸酯(又名吐温80)聚氧乙烯聚氧丙烯polyoxyethylenepolyoxyprop-35消泡剂发酵工艺胺醚yleneamineether(BAPE)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 35；助剂中文名称 酐单油酸酯(又名吐温80)聚氧乙烯聚氧丙烯胺醚；助剂英文名称 polyoxyethylenepolyoxyprop-yleneamineether(BAPE)；功能 消泡剂；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 35；助剂中文名称 聚氧乙烯聚氧丙烯胺醚；助剂英文名称 polyoxyethylenepolyoxyprop-yleneamineether(BAPE)；功能 消泡剂；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-036",
@@ -34301,14 +34301,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "卡拉胶",
     "processingAidNameEn": "carrageenan",
     "functionText": "澄清剂",
-    "useScope": "啤酒加工工艺啤酒、葡萄酒、果酒、配制酒、",
+    "useScope": "啤酒加工工艺",
     "pdfPage": 230,
     "standardPage": 227,
     "pdfPages": [
       230
     ],
     "rawRowText": "37卡拉胶carrageenan澄清剂啤酒加工工艺啤酒、葡萄酒、果酒、配制酒、",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 37；助剂中文名称 卡拉胶；助剂英文名称 carrageenan；功能 澄清剂；使用范围 啤酒加工工艺啤酒、葡萄酒、果酒、配制酒、。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 37；助剂中文名称 卡拉胶；助剂英文名称 carrageenan；功能 澄清剂；使用范围 啤酒加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-038",
@@ -34318,14 +34318,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "离子交换树脂",
     "processingAidNameEn": "ionexchangeresins",
     "functionText": "脱色剂、吸附剂",
-    "useScope": "黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺",
+    "useScope": "啤酒、葡萄酒、果酒、配制酒、黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺",
     "pdfPage": 230,
     "standardPage": 227,
     "pdfPages": [
       230
     ],
     "rawRowText": "黄酒、罐头食品的加工工艺、38离子交换树脂ionexchangeresins脱色剂、吸附剂水处理工艺、制糖工艺及糖处理工艺和发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 38；助剂中文名称 离子交换树脂；助剂英文名称 ionexchangeresins；功能 脱色剂、吸附剂；使用范围 黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 38；助剂中文名称 离子交换树脂；助剂英文名称 ionexchangeresins；功能 脱色剂、吸附剂；使用范围 啤酒、葡萄酒、果酒、配制酒、黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-039",
@@ -34811,14 +34811,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "辛烯基琥珀酸淀粉钠",
     "processingAidNameEn": "starchsodiumoctenylsuccinate",
     "functionText": "防黏剂",
-    "useScope": "胶基糖果加工工艺水油状脂肪乳化制品(仅限植",
+    "useScope": "胶基糖果加工工艺",
     "pdfPage": 232,
     "standardPage": 229,
     "pdfPages": [
       232
     ],
     "rawRowText": "辛烯基琥珀酸淀67starchsodiumoctenylsuccinate防黏剂胶基糖果加工工艺粉钠水油状脂肪乳化制品(仅限植",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 67；助剂中文名称 辛烯基琥珀酸淀粉钠；助剂英文名称 starchsodiumoctenylsuccinate；功能 防黏剂；使用范围 胶基糖果加工工艺水油状脂肪乳化制品(仅限植。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 67；助剂中文名称 辛烯基琥珀酸淀粉钠；助剂英文名称 starchsodiumoctenylsuccinate；功能 防黏剂；使用范围 胶基糖果加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-068",
@@ -34828,14 +34828,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "氧化亚氮",
     "processingAidNameEn": "nitrousoxide",
     "functionText": "推进剂、起泡剂",
-    "useScope": "脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工",
+    "useScope": "水油状脂肪乳化制品(仅限植脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工工艺",
     "pdfPage": 232,
     "standardPage": 229,
     "pdfPages": [
       232
     ],
     "rawRowText": "脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)68氧化亚氮nitrousoxide推进剂、起泡剂调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 68；助剂中文名称 氧化亚氮；助剂英文名称 nitrousoxide；功能 推进剂、起泡剂；使用范围 脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 68；助剂中文名称 氧化亚氮；助剂英文名称 nitrousoxide；功能 推进剂、起泡剂；使用范围 水油状脂肪乳化制品(仅限植脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-069",
@@ -34845,14 +34845,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "异丙醇",
     "processingAidNameEn": "isopropylalcohol",
     "functionText": "提取溶剂",
-    "useScope": "工艺提取工艺",
+    "useScope": "提取工艺",
     "pdfPage": 232,
     "standardPage": 229,
     "pdfPages": [
       232
     ],
     "rawRowText": "工艺69异丙醇isopropylalcohol提取溶剂提取工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 69；助剂中文名称 异丙醇；助剂英文名称 isopropylalcohol；功能 提取溶剂；使用范围 工艺提取工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 69；助剂中文名称 异丙醇；助剂英文名称 isopropylalcohol；功能 提取溶剂；使用范围 提取工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-070",
@@ -34981,14 +34981,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "蔗糖脂肪酸酯",
     "processingAidNameEn": "sucroseestersoffattyacid",
     "functionText": "消泡剂",
-    "useScope": "制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒",
+    "useScope": "制糖工艺、豆制品加工工艺",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233
     ],
     "rawRowText": "77蔗糖脂肪酸酯sucroseestersoffattyacid消泡剂制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 77；助剂中文名称 蔗糖脂肪酸酯；助剂英文名称 sucroseestersoffattyacid；功能 消泡剂；使用范围 制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 77；助剂中文名称 蔗糖脂肪酸酯；助剂英文名称 sucroseestersoffattyacid；功能 消泡剂；使用范围 制糖工艺、豆制品加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-078",
@@ -34998,14 +34998,14 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "processingAidNameCn": "珍珠岩",
     "processingAidNameEn": "pearlrock",
     "functionText": "助滤剂",
-    "useScope": "的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺",
+    "useScope": "啤酒、葡萄酒、果酒和配制酒的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233
     ],
     "rawRowText": "78珍珠岩pearlrock助滤剂的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 78；助剂中文名称 珍珠岩；助剂英文名称 pearlrock；功能 助滤剂；使用范围 的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 78；助剂中文名称 珍珠岩；助剂英文名称 pearlrock；功能 助滤剂；使用范围 啤酒、葡萄酒、果酒和配制酒的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-079",

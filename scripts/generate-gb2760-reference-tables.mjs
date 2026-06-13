@@ -671,6 +671,7 @@ function extractCoordinateTableRows({
 }
 
 function normalizeCoordinateRowData(tableName, row, rowData) {
+  if (tableName === '表 C.2') return normalizeC2ProcessingAidRowData(row, rowData);
   if (tableName !== '表 C.3') return rowData;
 
   const normalizedRowData = {
@@ -688,6 +689,73 @@ function normalizeCoordinateRowData(tableName, row, rowData) {
     };
   }
   return normalizedRowData;
+}
+
+function normalizeC2ProcessingAidRowData(row, rowData) {
+  const override = getC2ProcessingAidRowDataOverride(row.rowNumber);
+  return override ? { ...rowData, ...override } : rowData;
+}
+
+function getC2ProcessingAidRowDataOverride(rowNumber) {
+  switch (rowNumber) {
+    case 5:
+      return { useScope: '发酵工艺' };
+    case 6:
+      return { useScope: '调制乳、发酵乳和风味发酵乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺' };
+    case 10:
+      return { useScope: '焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺' };
+    case 11:
+      return { useScope: '薯类的加工工艺、油脂加工工艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工艺(最大使用量为0.1g/kg)' };
+    case 12:
+      return { useScope: '啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺' };
+    case 20:
+      return { useScope: '煎炸油加工工艺,最大使用量为40g/kg' };
+    case 21:
+      return { useScope: '淀粉糖和淀粉加工工艺、油脂加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺' };
+    case 25:
+      return { useScope: '发酵工艺' };
+    case 26:
+      return { useScope: '大豆蛋白的加工工艺(仅限大豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg(以二氧化硫残留量计)' };
+    case 27:
+      return { useScope: '葡萄酒加工工艺' };
+    case 28:
+      return { useScope: '啤酒加工工艺' };
+    case 29:
+      return { useScope: '饮料加工工艺的水处理工艺、制糖工艺和发酵工艺、制盐工艺' };
+    case 30:
+      return { useScope: '豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺' };
+    case 33:
+      return {
+        processingAidNameCn: '聚氧丙烯氧化乙烯甘油醚',
+        useScope: '发酵工艺'
+      };
+    case 34:
+      return {
+        processingAidNameCn: '聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)',
+        useScope: '制糖工艺、发酵工艺、提取工艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)'
+      };
+    case 35:
+      return {
+        processingAidNameCn: '聚氧乙烯聚氧丙烯胺醚',
+        useScope: '发酵工艺'
+      };
+    case 37:
+      return { useScope: '啤酒加工工艺' };
+    case 38:
+      return { useScope: '啤酒、葡萄酒、果酒、配制酒、黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺' };
+    case 67:
+      return { useScope: '胶基糖果加工工艺' };
+    case 68:
+      return { useScope: '水油状脂肪乳化制品(仅限植脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工工艺' };
+    case 69:
+      return { useScope: '提取工艺' };
+    case 77:
+      return { useScope: '制糖工艺、豆制品加工工艺' };
+    case 78:
+      return { useScope: '啤酒、葡萄酒、果酒和配制酒的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺' };
+    default:
+      return undefined;
+  }
 }
 
 function getSegmentBoundary(lines, lowerCenter, upperCenter, strategy) {
