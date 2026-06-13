@@ -958,7 +958,7 @@ function extractAdditiveIndexRows() {
 
   const normalizedRows = normalizeAdditiveIndexRows(rows);
 
-  assertRowCount('Appendix F', normalizedRows, 286);
+  assertRowCount('Appendix F', normalizedRows, 287);
   for (const row of normalizedRows) {
     if (!row.additiveNameCn) throw new Error(`Appendix F row ${row.rowNumber} has no additiveNameCn`);
     if (!Number.isInteger(row.a1PageNumber) || row.a1PageNumber <= 0) {
@@ -1007,6 +1007,28 @@ function normalizeAdditiveIndexRows(rows) {
         insNumber: '338,450(i),450(iii),341(i),340(i),342(ii),340(ii),341(ii),341(iii),340(iii),339(iii),452(i),451(i),339(i),339(ii),450(v),450(ii),452(ii),450(vii)',
         a1PageNumber: 71,
         rawRowText: '磷酸及磷酸盐[包括磷酸,焦磷酸二氢二钠,焦磷酸钠,磷酸二氢钙,磷酸二氢钾,磷酸氢二铵,磷酸氢二钾,磷酸氢钙,磷酸三钙,磷酸三钾,磷酸三钠,多聚磷酸钠(包括六偏磷酸钠),三聚磷酸钠,磷酸二氢钠,磷酸氢二钠,焦磷酸四钾,焦磷酸一氢三钠,聚偏磷酸钾,酸式焦磷酸钙]338,450(i),450(iii),341(i),340(i),342(ii),340(ii),341(ii),341(iii),340(iii),339(iii),452(i),451(i),339(i),339(ii),450(v),450(ii),452(ii),450(vii)71'
+      }));
+      index += 1;
+      continue;
+    }
+    if (row.additiveNameCn.includes('甜蜜素') && row.additiveNameCn.includes('吐温类') && nextRow?.additiveNameCn.includes('脱氢乙酸及其钠盐')) {
+      normalizedRows.push(buildAdditiveIndexRow(row, {
+        additiveNameCn: '甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙',
+        insNumber: '952(iv),952(ii)',
+        a1PageNumber: 116,
+        rawRowText: '甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙952(iv),952(ii)116'
+      }));
+      normalizedRows.push(buildAdditiveIndexRow(row, {
+        additiveNameCn: '吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]',
+        insNumber: '432,434,435,433',
+        a1PageNumber: 117,
+        rawRowText: '吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]432,434,435,433117'
+      }));
+      normalizedRows.push(buildAdditiveIndexRow(nextRow, {
+        additiveNameCn: '脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)',
+        insNumber: '265,266',
+        a1PageNumber: 118,
+        rawRowText: '脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)265,266118'
       }));
       index += 1;
       continue;

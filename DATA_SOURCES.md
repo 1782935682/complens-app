@@ -37,11 +37,11 @@
 
 - PDF 全文转换层：`src/data/gb2760OfficialFullText.js` 保存官方 PDF 全 264 页的 `pdftotext -layout` 逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段；后端表 `gb2760_official_pages` 可将全文页入库，确保不是只保存本地 PDF 文件。
 - 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取行保持 `needs_review`，不得直接当作正式 `usageLimits`。
-- 官方参考表结构化层：`src/data/gb2760OfficialReferenceTables.js` 和后端表 `gb2760_official_reference_rows` 保存表 A.2、B.1、B.2、B.3、C.1、C.2、C.3、附录 D、E.1 和附录 F 等非限量参考表；当前已结构化 2799 行，B.1 脚注 a 的香料例外和剂量条件已结构化到 `rowData.footnote`，用于解释 A.1 例外范围、食品用香料边界、加工助剂、功能类别、食品分类系统和附录 A 索引，仍保持 `needs_review`。
+- 官方参考表结构化层：`src/data/gb2760OfficialReferenceTables.js` 和后端表 `gb2760_official_reference_rows` 保存表 A.2、B.1、B.2、B.3、C.1、C.2、C.3、附录 D、E.1 和附录 F 等非限量参考表；当前已结构化 2800 行，B.1 脚注 a 的香料例外和剂量条件已结构化到 `rowData.footnote`，用于解释 A.1 例外范围、食品用香料边界、加工助剂、功能类别、食品分类系统和附录 A 索引，仍保持 `needs_review`。
 
 - 当前全文页数：264 页，覆盖 GB 2760-2024 官方 PDF 全文。
 - 当前表 A.1 行级 staging 行数：2404 行，覆盖表 A.1 的 PDF 第 8-148 页（标准页 5-145）；其中 957 行已关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient。
-- 当前参考表行数：2799 行，覆盖 PDF 第 149-264 页中的参考表区域：表 A.2=68、表 B.1=29、表 B.2=388、表 B.3=1504、表 C.1=37、表 C.2=80、表 C.3=66、附录 D=23、表 E.1=318、附录 F=286；保存例外食品类别、香料清单、加工助剂、酶制剂、功能类别、食品分类系统和附录 A 索引等结构化字段及原始行证据。
+- 当前参考表行数：2800 行，覆盖 PDF 第 149-264 页中的参考表区域：表 A.2=68、表 B.1=29、表 B.2=388、表 B.3=1504、表 C.1=37、表 C.2=80、表 C.3=66、附录 D=23、表 E.1=318、附录 F=287；保存例外食品类别、香料清单、加工助剂、酶制剂、功能类别、食品分类系统和附录 A 索引等结构化字段及原始行证据。
 - ingredient 自动关联只使用唯一中文名/别名匹配，或无名称匹配时的单一 INS 码精确匹配；INS 子码不折叠，多 INS、多盐类或多色淀组合默认保留空 `ingredientId`，等待人工归并。
 - 自动抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正，避免 `DATEM`、司盘类、吐温类等长标题截断，以及相邻食品分类文字串行；这些校正仍属于 staging 抽取质量控制，不代表人工审核完成。
 - 已与正式 `ingredients.usageLimits` 对齐的 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量。

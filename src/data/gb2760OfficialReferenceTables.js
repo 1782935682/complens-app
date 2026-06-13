@@ -44811,38 +44811,54 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "id": "gb2760-2024-f-additive-index-229",
     "rowNumber": 229,
     "rowCode": "229",
-    "rowName": "甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯",
-    "additiveNameCn": "甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯",
-    "insNumber": "952(iv),952(ii)432,434,",
+    "rowName": "甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙",
+    "additiveNameCn": "甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙",
+    "insNumber": "952(iv),952(ii)",
     "a1PageNumber": 116,
     "pdfPage": 263,
     "standardPage": 260,
     "pdfPages": [
       263
     ],
-    "rawRowText": "952(iv),甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙116952(ii)吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯432,434,",
-    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯；INS 号 952(iv),952(ii)432,434,；附录 A 页码 116。"
+    "rawRowText": "甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙952(iv),952(ii)116",
+    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 甜蜜素(又名环己基氨基磺酸钠),环己基氨基磺酸钙；INS 号 952(iv),952(ii)；附录 A 页码 116。"
   },
   {
     "id": "gb2760-2024-f-additive-index-230",
     "rowNumber": 230,
     "rowCode": "230",
-    "rowName": "(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)",
-    "additiveNameCn": "(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)",
-    "insNumber": "435,433265,266",
+    "rowName": "吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
+    "additiveNameCn": "吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
+    "insNumber": "432,434,435,433",
+    "a1PageNumber": 117,
+    "pdfPage": 263,
+    "standardPage": 260,
+    "pdfPages": [
+      263
+    ],
+    "rawRowText": "吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]432,434,435,433117",
+    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 吐温类[聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；INS 号 432,434,435,433；附录 A 页码 117。"
+  },
+  {
+    "id": "gb2760-2024-f-additive-index-231",
+    "rowNumber": 231,
+    "rowCode": "231",
+    "rowName": "脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)",
+    "additiveNameCn": "脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)",
+    "insNumber": "265,266",
     "a1PageNumber": 118,
     "pdfPage": 263,
     "standardPage": 260,
     "pdfPages": [
       263
     ],
-    "rawRowText": "(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨435,433醇酐单油酸酯(又名吐温80)]脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)265,266118",
-    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 (20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)；INS 号 435,433265,266；附录 A 页码 118。"
+    "rawRowText": "脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)265,266118",
+    "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 脱氢乙酸及其钠盐(包括脱氢乙酸,脱氢乙酸钠)；INS 号 265,266；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-231",
-    "rowNumber": 231,
-    "rowCode": "231",
+    "id": "gb2760-2024-f-additive-index-232",
+    "rowNumber": 232,
+    "rowCode": "232",
     "rowName": "脱乙酰甲壳素(又名壳聚糖)",
     "additiveNameCn": "脱乙酰甲壳素(又名壳聚糖)",
     "insNumber": "—",
@@ -44856,9 +44872,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 脱乙酰甲壳素(又名壳聚糖)；INS 号 —；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-232",
-    "rowNumber": 232,
-    "rowCode": "232",
+    "id": "gb2760-2024-f-additive-index-233",
+    "rowNumber": 233,
+    "rowCode": "233",
     "rowName": "微晶纤维素",
     "additiveNameCn": "微晶纤维素",
     "insNumber": "460(i)",
@@ -44872,9 +44888,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 微晶纤维素；INS 号 460(i)；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-233",
-    "rowNumber": 233,
-    "rowCode": "233",
+    "id": "gb2760-2024-f-additive-index-234",
+    "rowNumber": 234,
+    "rowCode": "234",
     "rowName": "维生素E(包括dl-а-生育酚,d-а-生育酚,混合生育酚浓缩物)",
     "additiveNameCn": "维生素E(包括dl-а-生育酚,d-а-生育酚,混合生育酚浓缩物)",
     "insNumber": "307",
@@ -44888,9 +44904,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 维生素E(包括dl-а-生育酚,d-а-生育酚,混合生育酚浓缩物)；INS 号 307；附录 A 页码 118。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-234",
-    "rowNumber": 234,
-    "rowCode": "234",
+    "id": "gb2760-2024-f-additive-index-235",
+    "rowNumber": 235,
+    "rowCode": "235",
     "rowName": "稳定态二氧化氯",
     "additiveNameCn": "稳定态二氧化氯",
     "insNumber": "926",
@@ -44904,9 +44920,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 稳定态二氧化氯；INS 号 926；附录 A 页码 119。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-235",
-    "rowNumber": 235,
-    "rowCode": "235",
+    "id": "gb2760-2024-f-additive-index-236",
+    "rowNumber": 236,
+    "rowCode": "236",
     "rowName": "纤维素",
     "additiveNameCn": "纤维素",
     "insNumber": "460",
@@ -44920,9 +44936,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 纤维素；INS 号 460；附录 A 页码 120。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-236",
-    "rowNumber": 236,
-    "rowCode": "236",
+    "id": "gb2760-2024-f-additive-index-237",
+    "rowNumber": 237,
+    "rowCode": "237",
     "rowName": "苋菜红及其铝色淀(包括苋菜红,苋菜红铝色淀)",
     "additiveNameCn": "苋菜红及其铝色淀(包括苋菜红,苋菜红铝色淀)",
     "insNumber": "123",
@@ -44936,9 +44952,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 苋菜红及其铝色淀(包括苋菜红,苋菜红铝色淀)；INS 号 123；附录 A 页码 120。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-237",
-    "rowNumber": 237,
-    "rowCode": "237",
+    "id": "gb2760-2024-f-additive-index-238",
+    "rowNumber": 238,
+    "rowCode": "238",
     "rowName": "橡子壳棕",
     "additiveNameCn": "橡子壳棕",
     "insNumber": "—",
@@ -44952,9 +44968,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 橡子壳棕；INS 号 —；附录 A 页码 121。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-238",
-    "rowNumber": 238,
-    "rowCode": "238",
+    "id": "gb2760-2024-f-additive-index-239",
+    "rowNumber": 239,
+    "rowCode": "239",
     "rowName": "硝酸钠,硝酸钾",
     "additiveNameCn": "硝酸钠,硝酸钾",
     "insNumber": "251,252",
@@ -44968,9 +44984,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硝酸钠,硝酸钾；INS 号 251,252；附录 A 页码 121。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-239",
-    "rowNumber": 239,
-    "rowCode": "239",
+    "id": "gb2760-2024-f-additive-index-240",
+    "rowNumber": 240,
+    "rowCode": "240",
     "rowName": "辛,癸酸甘油酯",
     "additiveNameCn": "辛,癸酸甘油酯",
     "insNumber": "—",
@@ -44984,9 +45000,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 辛,癸酸甘油酯；INS 号 —；附录 A 页码 122。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-240",
-    "rowNumber": 240,
-    "rowCode": "240",
+    "id": "gb2760-2024-f-additive-index-241",
+    "rowNumber": 241,
+    "rowCode": "241",
     "rowName": "辛烯基琥珀酸淀粉钠",
     "additiveNameCn": "辛烯基琥珀酸淀粉钠",
     "insNumber": "1450",
@@ -45000,9 +45016,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 辛烯基琥珀酸淀粉钠；INS 号 1450；附录 A 页码 122。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-241",
-    "rowNumber": 241,
-    "rowCode": "241",
+    "id": "gb2760-2024-f-additive-index-242",
+    "rowNumber": 242,
+    "rowCode": "242",
     "rowName": "新红及其铝色淀(包括新红,新红铝色淀)",
     "additiveNameCn": "新红及其铝色淀(包括新红,新红铝色淀)",
     "insNumber": "—",
@@ -45016,9 +45032,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 新红及其铝色淀(包括新红,新红铝色淀)；INS 号 —；附录 A 页码 122。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-242",
-    "rowNumber": 242,
-    "rowCode": "242",
+    "id": "gb2760-2024-f-additive-index-243",
+    "rowNumber": 243,
+    "rowCode": "243",
     "rowName": "亚麻籽胶(又名富兰克胶)",
     "additiveNameCn": "亚麻籽胶(又名富兰克胶)",
     "insNumber": "—",
@@ -45032,9 +45048,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 亚麻籽胶(又名富兰克胶)；INS 号 —；附录 A 页码 123。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-243",
-    "rowNumber": 243,
-    "rowCode": "243",
+    "id": "gb2760-2024-f-additive-index-244",
+    "rowNumber": 244,
+    "rowCode": "244",
     "rowName": "亚铁氰化钾,亚铁氰化钠",
     "additiveNameCn": "亚铁氰化钾,亚铁氰化钠",
     "insNumber": "536,535",
@@ -45048,9 +45064,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 亚铁氰化钾,亚铁氰化钠；INS 号 536,535；附录 A 页码 123。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-244",
-    "rowNumber": 244,
-    "rowCode": "244",
+    "id": "gb2760-2024-f-additive-index-245",
+    "rowNumber": 245,
+    "rowCode": "245",
     "rowName": "亚硝酸钠,亚硝酸钾",
     "additiveNameCn": "亚硝酸钠,亚硝酸钾",
     "insNumber": "250,249",
@@ -45064,9 +45080,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 亚硝酸钠,亚硝酸钾；INS 号 250,249；附录 A 页码 123。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-245",
-    "rowNumber": 245,
-    "rowCode": "245",
+    "id": "gb2760-2024-f-additive-index-246",
+    "rowNumber": 246,
+    "rowCode": "246",
     "rowName": "胭脂虫红及其铝色淀(包括胭脂虫红,胭脂虫红铝色淀)",
     "additiveNameCn": "胭脂虫红及其铝色淀(包括胭脂虫红,胭脂虫红铝色淀)",
     "insNumber": "120",
@@ -45080,9 +45096,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 胭脂虫红及其铝色淀(包括胭脂虫红,胭脂虫红铝色淀)；INS 号 120；附录 A 页码 124。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-246",
-    "rowNumber": 246,
-    "rowCode": "246",
+    "id": "gb2760-2024-f-additive-index-247",
+    "rowNumber": 247,
+    "rowCode": "247",
     "rowName": "胭脂红及其铝色淀(包括胭脂红,胭脂红铝色淀)",
     "additiveNameCn": "胭脂红及其铝色淀(包括胭脂红,胭脂红铝色淀)",
     "insNumber": "124",
@@ -45096,9 +45112,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 胭脂红及其铝色淀(包括胭脂红,胭脂红铝色淀)；INS 号 124；附录 A 页码 125。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-247",
-    "rowNumber": 247,
-    "rowCode": "247",
+    "id": "gb2760-2024-f-additive-index-248",
+    "rowNumber": 248,
+    "rowCode": "248",
     "rowName": "胭脂树橙(又名红木素,降红木素)",
     "additiveNameCn": "胭脂树橙(又名红木素,降红木素)",
     "insNumber": "160b",
@@ -45112,9 +45128,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 胭脂树橙(又名红木素,降红木素)；INS 号 160b；附录 A 页码 127。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-248",
-    "rowNumber": 248,
-    "rowCode": "248",
+    "id": "gb2760-2024-f-additive-index-249",
+    "rowNumber": 249,
+    "rowCode": "249",
     "rowName": "盐酸",
     "additiveNameCn": "盐酸",
     "insNumber": "507",
@@ -45128,9 +45144,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 盐酸；INS 号 507；附录 A 页码 128。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-249",
-    "rowNumber": 249,
-    "rowCode": "249",
+    "id": "gb2760-2024-f-additive-index-250",
+    "rowNumber": 250,
+    "rowCode": "250",
     "rowName": "杨梅红",
     "additiveNameCn": "杨梅红",
     "insNumber": "—",
@@ -45144,9 +45160,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 杨梅红；INS 号 —；附录 A 页码 128。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-250",
-    "rowNumber": 250,
-    "rowCode": "250",
+    "id": "gb2760-2024-f-additive-index-251",
+    "rowNumber": 251,
+    "rowCode": "251",
     "rowName": "氧化淀粉",
     "additiveNameCn": "氧化淀粉",
     "insNumber": "1404",
@@ -45160,9 +45176,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 氧化淀粉；INS 号 1404；附录 A 页码 128。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-251",
-    "rowNumber": 251,
-    "rowCode": "251",
+    "id": "gb2760-2024-f-additive-index-252",
+    "rowNumber": 252,
+    "rowCode": "252",
     "rowName": "氧化羟丙基淀粉",
     "additiveNameCn": "氧化羟丙基淀粉",
     "insNumber": "—",
@@ -45176,9 +45192,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 氧化羟丙基淀粉；INS 号 —；附录 A 页码 129。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-252",
-    "rowNumber": 252,
-    "rowCode": "252",
+    "id": "gb2760-2024-f-additive-index-253",
+    "rowNumber": 253,
+    "rowCode": "253",
     "rowName": "氧化铁黑,氧化铁红",
     "additiveNameCn": "氧化铁黑,氧化铁红",
     "insNumber": "172(i),172(ii)",
@@ -45192,9 +45208,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 氧化铁黑,氧化铁红；INS 号 172(i),172(ii)；附录 A 页码 129。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-253",
-    "rowNumber": 253,
-    "rowCode": "253",
+    "id": "gb2760-2024-f-additive-index-254",
+    "rowNumber": 254,
+    "rowCode": "254",
     "rowName": "叶黄素",
     "additiveNameCn": "叶黄素",
     "insNumber": "161b(i)",
@@ -45208,9 +45224,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 叶黄素；INS 号 161b(i)；附录 A 页码 129。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-254",
-    "rowNumber": 254,
-    "rowCode": "254",
+    "id": "gb2760-2024-f-additive-index-255",
+    "rowNumber": 255,
+    "rowCode": "255",
     "rowName": "叶绿素铜",
     "additiveNameCn": "叶绿素铜",
     "insNumber": "141(i)",
@@ -45224,9 +45240,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 叶绿素铜；INS 号 141(i)；附录 A 页码 130。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-255",
-    "rowNumber": 255,
-    "rowCode": "255",
+    "id": "gb2760-2024-f-additive-index-256",
+    "rowNumber": 256,
+    "rowCode": "256",
     "rowName": "叶绿素铜钠盐,叶绿素铜钾盐",
     "additiveNameCn": "叶绿素铜钠盐,叶绿素铜钾盐",
     "insNumber": "141(ii)",
@@ -45240,9 +45256,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 叶绿素铜钠盐,叶绿素铜钾盐；INS 号 141(ii)；附录 A 页码 130。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-256",
-    "rowNumber": 256,
-    "rowCode": "256",
+    "id": "gb2760-2024-f-additive-index-257",
+    "rowNumber": 257,
+    "rowCode": "257",
     "rowName": "液体二氧化碳(煤气化法)",
     "additiveNameCn": "液体二氧化碳(煤气化法)",
     "insNumber": "—",
@@ -45256,9 +45272,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 液体二氧化碳(煤气化法)；INS 号 —；附录 A 页码 130。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-257",
-    "rowNumber": 257,
-    "rowCode": "257",
+    "id": "gb2760-2024-f-additive-index-258",
+    "rowNumber": 258,
+    "rowCode": "258",
     "rowName": "乙二胺四乙酸二钠",
     "additiveNameCn": "乙二胺四乙酸二钠",
     "insNumber": "386",
@@ -45272,9 +45288,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙二胺四乙酸二钠；INS 号 386；附录 A 页码 131。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-258",
-    "rowNumber": 258,
-    "rowCode": "258",
+    "id": "gb2760-2024-f-additive-index-259",
+    "rowNumber": 259,
+    "rowCode": "259",
     "rowName": "乙二胺四乙酸二钠钙",
     "additiveNameCn": "乙二胺四乙酸二钠钙",
     "insNumber": "385",
@@ -45288,9 +45304,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙二胺四乙酸二钠钙；INS 号 385；附录 A 页码 131。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-259",
-    "rowNumber": 259,
-    "rowCode": "259",
+    "id": "gb2760-2024-f-additive-index-260",
+    "rowNumber": 260,
+    "rowCode": "260",
     "rowName": "乙酸钠(又名醋酸钠)",
     "additiveNameCn": "乙酸钠(又名醋酸钠)",
     "insNumber": "262(i)",
@@ -45304,9 +45320,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酸钠(又名醋酸钠)；INS 号 262(i)；附录 A 页码 131。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-260",
-    "rowNumber": 260,
-    "rowCode": "260",
+    "id": "gb2760-2024-f-additive-index-261",
+    "rowNumber": 261,
+    "rowCode": "261",
     "rowName": "乙酰化单,双甘油脂肪酸酯",
     "additiveNameCn": "乙酰化单,双甘油脂肪酸酯",
     "insNumber": "472a",
@@ -45320,9 +45336,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酰化单,双甘油脂肪酸酯；INS 号 472a；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-261",
-    "rowNumber": 261,
-    "rowCode": "261",
+    "id": "gb2760-2024-f-additive-index-262",
+    "rowNumber": 262,
+    "rowCode": "262",
     "rowName": "乙酰化二淀粉磷酸酯",
     "additiveNameCn": "乙酰化二淀粉磷酸酯",
     "insNumber": "1414",
@@ -45336,9 +45352,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酰化二淀粉磷酸酯；INS 号 1414；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-262",
-    "rowNumber": 262,
-    "rowCode": "262",
+    "id": "gb2760-2024-f-additive-index-263",
+    "rowNumber": 263,
+    "rowCode": "263",
     "rowName": "乙酰化双淀粉己二酸酯",
     "additiveNameCn": "乙酰化双淀粉己二酸酯",
     "insNumber": "1422",
@@ -45352,9 +45368,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙酰化双淀粉己二酸酯；INS 号 1422；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-263",
-    "rowNumber": 263,
-    "rowCode": "263",
+    "id": "gb2760-2024-f-additive-index-264",
+    "rowNumber": 264,
+    "rowCode": "264",
     "rowName": "乙氧基喹",
     "additiveNameCn": "乙氧基喹",
     "insNumber": "324",
@@ -45368,9 +45384,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 乙氧基喹；INS 号 324；附录 A 页码 132。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-264",
-    "rowNumber": 264,
-    "rowCode": "264",
+    "id": "gb2760-2024-f-additive-index-265",
+    "rowNumber": 265,
+    "rowCode": "265",
     "rowName": "异构化乳糖",
     "additiveNameCn": "异构化乳糖",
     "insNumber": "—",
@@ -45384,9 +45400,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 异构化乳糖；INS 号 —；附录 A 页码 133。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-265",
-    "rowNumber": 265,
-    "rowCode": "265",
+    "id": "gb2760-2024-f-additive-index-266",
+    "rowNumber": 266,
+    "rowCode": "266",
     "rowName": "异麦芽酮糖",
     "additiveNameCn": "异麦芽酮糖",
     "insNumber": "—",
@@ -45400,9 +45416,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 异麦芽酮糖；INS 号 —；附录 A 页码 133。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-266",
-    "rowNumber": 266,
-    "rowCode": "266",
+    "id": "gb2760-2024-f-additive-index-267",
+    "rowNumber": 267,
+    "rowCode": "267",
     "rowName": "硬脂酸(又名十八烷酸)",
     "additiveNameCn": "硬脂酸(又名十八烷酸)",
     "insNumber": "570",
@@ -45416,9 +45432,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸(又名十八烷酸)；INS 号 570；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-267",
-    "rowNumber": 267,
-    "rowCode": "267",
+    "id": "gb2760-2024-f-additive-index-268",
+    "rowNumber": 268,
+    "rowCode": "268",
     "rowName": "硬脂酸钙",
     "additiveNameCn": "硬脂酸钙",
     "insNumber": "—",
@@ -45432,9 +45448,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸钙；INS 号 —；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-268",
-    "rowNumber": 268,
-    "rowCode": "268",
+    "id": "gb2760-2024-f-additive-index-269",
+    "rowNumber": 269,
+    "rowCode": "269",
     "rowName": "硬脂酸钾",
     "additiveNameCn": "硬脂酸钾",
     "insNumber": "—",
@@ -45448,9 +45464,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸钾；INS 号 —；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-269",
-    "rowNumber": 269,
-    "rowCode": "269",
+    "id": "gb2760-2024-f-additive-index-270",
+    "rowNumber": 270,
+    "rowCode": "270",
     "rowName": "硬脂酸镁",
     "additiveNameCn": "硬脂酸镁",
     "insNumber": "470(iii)",
@@ -45464,9 +45480,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酸镁；INS 号 470(iii)；附录 A 页码 134。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-270",
-    "rowNumber": 270,
-    "rowCode": "270",
+    "id": "gb2760-2024-f-additive-index-271",
+    "rowNumber": 271,
+    "rowCode": "271",
     "rowName": "硬脂酰乳酸钠,硬脂酰乳酸钙",
     "additiveNameCn": "硬脂酰乳酸钠,硬脂酰乳酸钙",
     "insNumber": "481(i),482(i)",
@@ -45480,9 +45496,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 硬脂酰乳酸钠,硬脂酰乳酸钙；INS 号 481(i),482(i)；附录 A 页码 135。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-271",
-    "rowNumber": 271,
-    "rowCode": "271",
+    "id": "gb2760-2024-f-additive-index-272",
+    "rowNumber": 272,
+    "rowCode": "272",
     "rowName": "诱惑红及其铝色淀(包括诱惑红,诱惑红铝色淀)",
     "additiveNameCn": "诱惑红及其铝色淀(包括诱惑红,诱惑红铝色淀)",
     "insNumber": "129",
@@ -45496,9 +45512,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 诱惑红及其铝色淀(包括诱惑红,诱惑红铝色淀)；INS 号 129；附录 A 页码 136。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-272",
-    "rowNumber": 272,
-    "rowCode": "272",
+    "id": "gb2760-2024-f-additive-index-273",
+    "rowNumber": 273,
+    "rowCode": "273",
     "rowName": "玉米黄",
     "additiveNameCn": "玉米黄",
     "insNumber": "—",
@@ -45512,9 +45528,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 玉米黄；INS 号 —；附录 A 页码 137。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-273",
-    "rowNumber": 273,
-    "rowCode": "273",
+    "id": "gb2760-2024-f-additive-index-274",
+    "rowNumber": 274,
+    "rowCode": "274",
     "rowName": "越橘红",
     "additiveNameCn": "越橘红",
     "insNumber": "—",
@@ -45528,9 +45544,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 越橘红；INS 号 —；附录 A 页码 137。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-274",
-    "rowNumber": 274,
-    "rowCode": "274",
+    "id": "gb2760-2024-f-additive-index-275",
+    "rowNumber": 275,
+    "rowCode": "275",
     "rowName": "藻蓝",
     "additiveNameCn": "藻蓝",
     "insNumber": "—",
@@ -45544,9 +45560,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 藻蓝；INS 号 —；附录 A 页码 137。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-275",
-    "rowNumber": 275,
-    "rowCode": "275",
+    "id": "gb2760-2024-f-additive-index-276",
+    "rowNumber": 276,
+    "rowCode": "276",
     "rowName": "皂荚糖胶",
     "additiveNameCn": "皂荚糖胶",
     "insNumber": "—",
@@ -45560,9 +45576,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 皂荚糖胶；INS 号 —；附录 A 页码 138。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-276",
-    "rowNumber": 276,
-    "rowCode": "276",
+    "id": "gb2760-2024-f-additive-index-277",
+    "rowNumber": 277,
+    "rowCode": "277",
     "rowName": "皂树皮提取物",
     "additiveNameCn": "皂树皮提取物",
     "insNumber": "999",
@@ -45576,9 +45592,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 皂树皮提取物；INS 号 999；附录 A 页码 138。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-277",
-    "rowNumber": 277,
-    "rowCode": "277",
+    "id": "gb2760-2024-f-additive-index-278",
+    "rowNumber": 278,
+    "rowCode": "278",
     "rowName": "蔗糖脂肪酸酯",
     "additiveNameCn": "蔗糖脂肪酸酯",
     "insNumber": "473",
@@ -45592,9 +45608,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 蔗糖脂肪酸酯；INS 号 473；附录 A 页码 139。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-278",
-    "rowNumber": 278,
-    "rowCode": "278",
+    "id": "gb2760-2024-f-additive-index-279",
+    "rowNumber": 279,
+    "rowCode": "279",
     "rowName": "栀子黄",
     "additiveNameCn": "栀子黄",
     "insNumber": "164",
@@ -45608,9 +45624,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 栀子黄；INS 号 164；附录 A 页码 140。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-279",
-    "rowNumber": 279,
-    "rowCode": "279",
+    "id": "gb2760-2024-f-additive-index-280",
+    "rowNumber": 280,
+    "rowCode": "280",
     "rowName": "栀子蓝",
     "additiveNameCn": "栀子蓝",
     "insNumber": "165",
@@ -45624,9 +45640,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 栀子蓝；INS 号 165；附录 A 页码 141。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-280",
-    "rowNumber": 280,
-    "rowCode": "280",
+    "id": "gb2760-2024-f-additive-index-281",
+    "rowNumber": 281,
+    "rowCode": "281",
     "rowName": "植酸(又名肌醇六磷酸),植酸钠",
     "additiveNameCn": "植酸(又名肌醇六磷酸),植酸钠",
     "insNumber": "391,—",
@@ -45640,9 +45656,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 植酸(又名肌醇六磷酸),植酸钠；INS 号 391,—；附录 A 页码 142。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-281",
-    "rowNumber": 281,
-    "rowCode": "281",
+    "id": "gb2760-2024-f-additive-index-282",
+    "rowNumber": 282,
+    "rowCode": "282",
     "rowName": "植物炭黑",
     "additiveNameCn": "植物炭黑",
     "insNumber": "153",
@@ -45656,9 +45672,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 植物炭黑；INS 号 153；附录 A 页码 142。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-282",
-    "rowNumber": 282,
-    "rowCode": "282",
+    "id": "gb2760-2024-f-additive-index-283",
+    "rowNumber": 283,
+    "rowCode": "283",
     "rowName": "竹叶抗氧化物",
     "additiveNameCn": "竹叶抗氧化物",
     "insNumber": "—",
@@ -45672,9 +45688,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 竹叶抗氧化物；INS 号 —；附录 A 页码 143。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-283",
-    "rowNumber": 283,
-    "rowCode": "283",
+    "id": "gb2760-2024-f-additive-index-284",
+    "rowNumber": 284,
+    "rowCode": "284",
     "rowName": "紫草红",
     "additiveNameCn": "紫草红",
     "insNumber": "—",
@@ -45688,9 +45704,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 紫草红；INS 号 —；附录 A 页码 144。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-284",
-    "rowNumber": 284,
-    "rowCode": "284",
+    "id": "gb2760-2024-f-additive-index-285",
+    "rowNumber": 285,
+    "rowCode": "285",
     "rowName": "紫甘薯色素",
     "additiveNameCn": "紫甘薯色素",
     "insNumber": "—",
@@ -45704,9 +45720,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 紫甘薯色素；INS 号 —；附录 A 页码 144。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-285",
-    "rowNumber": 285,
-    "rowCode": "285",
+    "id": "gb2760-2024-f-additive-index-286",
+    "rowNumber": 286,
+    "rowCode": "286",
     "rowName": "紫胶(又名虫胶)",
     "additiveNameCn": "紫胶(又名虫胶)",
     "insNumber": "904",
@@ -45720,9 +45736,9 @@ export const gb2760OfficialFAdditiveIndexRows = [
     "rawSourceText": "GB 2760-2024 附录 F：食品添加剂中文名称 紫胶(又名虫胶)；INS 号 904；附录 A 页码 145。"
   },
   {
-    "id": "gb2760-2024-f-additive-index-286",
-    "rowNumber": 286,
-    "rowCode": "286",
+    "id": "gb2760-2024-f-additive-index-287",
+    "rowNumber": 287,
+    "rowCode": "287",
     "rowName": "紫胶红(又名虫胶红)",
     "additiveNameCn": "紫胶红(又名虫胶红)",
     "insNumber": "—",

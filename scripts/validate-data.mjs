@@ -505,7 +505,7 @@ export function validateGb2760OfficialReferenceTables(
     { rows: c3Rows, label: 'gb2760OfficialC3EnzymePreparationRows', expectedCount: 66, tableName: '表 C.3' },
     { rows: dRows, label: 'gb2760OfficialDFunctionCategoryRows', expectedCount: 23, tableName: '附录 D' },
     { rows: e1Rows, label: 'gb2760OfficialE1FoodCategoryRows', expectedCount: 318, tableName: '表 E.1' },
-    { rows: fRows, label: 'gb2760OfficialFAdditiveIndexRows', expectedCount: 286, tableName: '附录 F' }
+    { rows: fRows, label: 'gb2760OfficialFAdditiveIndexRows', expectedCount: 287, tableName: '附录 F' }
   ];
   const sourceIdsByTableName = new Map(referenceSourceSpecs.map((spec) => [
     spec.tableName,
@@ -841,7 +841,7 @@ export function validateGb2760OfficialReferenceTables(
   }, errors);
   validateGeneratedReferenceSourceRows(fRows, {
     label: 'gb2760OfficialFAdditiveIndexRows',
-    expectedCount: 286,
+    expectedCount: 287,
     tableName: '附录 F',
     requiredFields: ['additiveNameCn', 'insNumber', 'rawRowText'],
     pdfPageMin: 255,
