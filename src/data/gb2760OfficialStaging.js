@@ -7594,23 +7594,26 @@ export const gb2760OfficialStagingRecords = [
 function getGeneratedDedupeKey(record) {
   return [
     normalizeDedupeText(record?.additiveNameCn),
+    normalizeDedupeText(record?.cnsNumber || record?.insNumber),
     record?.foodCategoryCode || '',
-    normalizeDedupeText(record?.foodCategoryName),
     normalizeDedupeText(record?.maxUseLevel),
-    record?.unit || '',
-    normalizeDedupeText(record?.note)
+    record?.unit || ''
   ].join('|');
 }
 
 function normalizeDedupeText(value) {
-  return String(value || '')
+  return stripTrailingFootnoteMarkers(String(value || '')
     .replace(/\s+/g, '')
     .replace(/[，,]/g, ',')
     .replace(/[（]/g, '(')
     .replace(/[）]/g, ')')
     .replace(/[。；;]/g, '')
-    .trim()
+    .trim())
     .toLowerCase();
+}
+
+function stripTrailingFootnoteMarkers(value) {
+  return String(value || '').replace(/([)）\]】])\d+[)）]$/u, '$1');
 }
 
 export function getGb2760OfficialStagingSummary(records = gb2760OfficialStagingRecords) {

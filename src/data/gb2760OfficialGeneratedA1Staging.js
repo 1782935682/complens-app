@@ -2652,7 +2652,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
   {
     "id": "gb2760-2024-a1-generated-p017-r008",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2666,12 +2666,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 14,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；01.01.03 调制乳；最大使用量 0.6 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；01.01.03 调制乳；最大使用量 0.6 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p017-r009",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2685,12 +2685,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 14,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；01.02.02 风味发酵乳；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；01.02.02 风味发酵乳；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p017-r010",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2704,12 +2704,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 14,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；01.03.02 调制乳粉和调制奶油粉；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；01.03.02 调制乳粉和调制奶油粉；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p017-r011",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2723,12 +2723,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 14,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；01.05 稀奶油(淡奶油)及其类似品(01.05.01稀奶油除外)；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；01.05 稀奶油(淡奶油)及其类似品(01.05.01稀奶油除外)；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r001",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2742,12 +2742,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；01.06.01 非熟化干酪；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；01.06.01 非熟化干酪；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r002",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2761,12 +2761,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；01.06.05 干酪类似品；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；01.06.05 干酪类似品；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r003",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2780,12 +2780,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；01.07 以乳为主要配料的即食风味食品或其预制产品(不包括冰淇淋和风味发酵乳)；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；01.07 以乳为主要配料的即食风味食品或其预制产品(不包括冰淇淋和风味发酵乳)；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r004",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2799,12 +2799,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r005",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2818,12 +2818,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；02.04 脂肪类甜品；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；02.04 脂肪类甜品；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r006",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2837,12 +2837,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r007",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2856,12 +2856,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.01 冷冻水果；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.01 冷冻水果；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r008",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2875,12 +2875,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.02 水果干类；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.02 水果干类；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r009",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2894,12 +2894,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.03 醋、油或盐渍水果；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.03 醋、油或盐渍水果；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r010",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2913,12 +2913,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.04 水果罐头；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.04 水果罐头；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r011",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2932,12 +2932,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.05 果酱；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.05 果酱；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r012",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2951,12 +2951,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.06 果泥；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.06 果泥；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r013",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2970,12 +2970,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.07 除04.01.02.05以外的果酱(如印度酸辣酱)；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.07 除04.01.02.05以外的果酱(如印度酸辣酱)；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r014",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -2989,12 +2989,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.08 蜜饯；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.08 蜜饯；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r015",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3008,12 +3008,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.09 装饰性果蔬；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.09 装饰性果蔬；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r016",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3027,12 +3027,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.10 水果甜品,包括果味液体甜品；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.10 水果甜品,包括果味液体甜品；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r017",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3046,12 +3046,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.11 发酵的水果制品；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.11 发酵的水果制品；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r018",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3065,12 +3065,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.12 煮熟的或油炸的水果；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.01.02.12 煮熟的或油炸的水果；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r019",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3084,12 +3084,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.01 冷冻蔬菜；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.01 冷冻蔬菜；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r020",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3103,12 +3103,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.02 干制蔬菜；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.02 干制蔬菜；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r021",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3122,12 +3122,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.03 腌渍的蔬菜；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.03 腌渍的蔬菜；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r022",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3141,12 +3141,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.04 蔬菜罐头；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.04 蔬菜罐头；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r023",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3160,12 +3160,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.05 蔬菜泥(酱),番茄沙司除外；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.05 蔬菜泥(酱),番茄沙司除外；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r024",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3179,12 +3179,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.06 发酵蔬菜制品；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.06 发酵蔬菜制品；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r025",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3198,12 +3198,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.07 经水煮或油炸的蔬菜；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.07 经水煮或油炸的蔬菜；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p018-r026",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3217,12 +3217,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 15,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.08 其他加工蔬菜；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.02.02.08 其他加工蔬菜；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r001",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3236,12 +3236,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.03 腌渍的食用菌和藻类；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.03 腌渍的食用菌和藻类；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r002",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3255,12 +3255,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.04 食用菌和藻类罐头；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.04 食用菌和藻类罐头；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r003",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3274,12 +3274,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.05 经水煮或油炸的藻类；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.05 经水煮或油炸的藻类；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r004",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3293,12 +3293,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.06 其他加工食用菌和藻类；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.03.02.06 其他加工食用菌和藻类；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r005",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3312,12 +3312,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；04.05.02 加工坚果与籽类；最大使用量 0.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；04.05.02 加工坚果与籽类；最大使用量 0.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r006",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3331,12 +3331,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；05.01 可可制品、巧克力和巧克力制品,包括代可可脂巧克力及制品；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；05.01 可可制品、巧克力和巧克力制品,包括代可可脂巧克力及制品；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r007",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3350,12 +3350,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；05.02.01 胶基糖果；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；05.02.01 胶基糖果；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r008",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3369,12 +3369,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；05.02.02 除胶基糖果以外的其他糖果；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；05.02.02 除胶基糖果以外的其他糖果；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r009",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3388,12 +3388,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；05.04 装饰糖果(如工艺造型,或用于蛋糕装饰)、顶饰(非水果材料)和甜汁；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；05.04 装饰糖果(如工艺造型,或用于蛋糕装饰)、顶饰(非水果材料)和甜汁；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r010",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3407,12 +3407,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；06.06 即食谷物,包括碾轧燕麦(片)；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；06.06 即食谷物,包括碾轧燕麦(片)；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r011",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3426,12 +3426,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；06.09 谷类和淀粉类甜品(如米布丁、木薯布丁)；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；06.09 谷类和淀粉类甜品(如米布丁、木薯布丁)；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r012",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3445,12 +3445,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；07.01 面包；最大使用量 4.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；07.01 面包；最大使用量 4.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r013",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3464,12 +3464,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；07.02 糕点；最大使用量 1.7 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；07.02 糕点；最大使用量 1.7 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r014",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3483,12 +3483,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；07.03 饼干；最大使用量 1.7 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；07.03 饼干；最大使用量 1.7 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r015",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3502,12 +3502,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；07.04 焙烤食品馅料及表面用挂浆；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；07.04 焙烤食品馅料及表面用挂浆；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r016",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3521,12 +3521,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；07.05 其他焙烤食品；最大使用量 1.7 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；07.05 其他焙烤食品；最大使用量 1.7 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r017",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3540,12 +3540,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；09.02.02 冷冻挂浆制品；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；09.02.02 冷冻挂浆制品；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r018",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3559,12 +3559,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；09.02.03 冷冻水产糜及其制品(包括冷冻丸类产品等)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；09.02.03 冷冻水产糜及其制品(包括冷冻丸类产品等)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r019",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3578,12 +3578,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；09.03 预制水产品(半成品)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；09.03 预制水产品(半成品)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r020",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3597,12 +3597,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；09.04 熟制水产品(可直接食用)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；09.04 熟制水产品(可直接食用)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r021",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3616,12 +3616,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；09.05 水产品罐头；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；09.05 水产品罐头；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r022",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3635,12 +3635,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；10.04 其他蛋制品；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；10.04 其他蛋制品；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r023",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3654,12 +3654,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；11.04 餐桌甜味料；最大使用量 按生产需要适量使用。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；11.04 餐桌甜味料；最大使用量 按生产需要适量使用。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r024",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3673,12 +3673,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；11.05 调味糖浆；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；11.05 调味糖浆；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r025",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3692,12 +3692,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；12.03 食醋；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；12.03 食醋；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p019-r026",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3711,12 +3711,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 16,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；12.10.01 固体复合调味料；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；12.10.01 固体复合调味料；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r001",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3730,12 +3730,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；12.10.02 半固体复合调味料；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；12.10.02 半固体复合调味料；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r002",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3749,12 +3749,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；12.10.03 液体复合调味料；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；12.10.03 液体复合调味料；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r003",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3768,12 +3768,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r004",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3787,12 +3787,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；14.03 蛋白饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；14.03 蛋白饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r005",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3806,12 +3806,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；14.04 碳酸饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；14.04 碳酸饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r006",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3825,12 +3825,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；14.05 茶、咖啡、植物(类)饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；14.05 茶、咖啡、植物(类)饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r007",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3844,12 +3844,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；14.07 特殊用途饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；14.07 特殊用途饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r008",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3863,12 +3863,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；14.08 风味饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；14.08 风味饮料；最大使用量 0.6 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r009",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3882,12 +3882,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；16.01 果冻；最大使用量 1.0 g/kg；如用于果冻粉，按冲调倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；16.01 果冻；最大使用量 1.0 g/kg；如用于果冻粉，按冲调倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r010",
     "ingredientId": "",
-    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)",
+    "additiveNameCn": "阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)",
     "additiveNameEn": "",
     "cnsNumber": "19.004",
     "insNumber": "951",
@@ -3901,7 +3901,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 17,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)3)；CNS号 19.004；INS号 951；功能 甜味剂；16.06 膨化食品；最大使用量 0.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：阿斯巴甜(又名天门冬酰苯丙氨酸甲酯)；CNS号 19.004；INS号 951；功能 甜味剂；16.06 膨化食品；最大使用量 0.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p020-r011",
@@ -4153,7 +4153,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
   {
     "id": "gb2760-2024-a1-generated-p021-r007",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4167,12 +4167,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；01.02.02 风味发酵乳；最大使用量 0.35 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；01.02.02 风味发酵乳；最大使用量 0.35 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r008",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4186,12 +4186,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；01.07 以乳为主要配料的即食风味食品或其预制产品(不包括冰淇淋和风味发酵乳)(仅限乳基甜品罐头)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；01.07 以乳为主要配料的即食风味食品或其预制产品(不包括冰淇淋和风味发酵乳)(仅限乳基甜品罐头)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r009",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4205,12 +4205,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r010",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4224,12 +4224,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；04.01.02.04 水果罐头；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；04.01.02.04 水果罐头；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r011",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4243,12 +4243,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；04.01.02.05 果酱；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；04.01.02.05 果酱；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r012",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4262,12 +4262,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；04.01.02.08.01 蜜饯类、凉果类；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；04.01.02.08.01 蜜饯类、凉果类；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r013",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4281,12 +4281,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；04.02.02.03 腌渍的蔬菜；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；04.02.02.03 腌渍的蔬菜；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r014",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4300,12 +4300,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；04.03.02 加工食用菌和藻类(04.03.02.01冷冻食用菌和藻类除外)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；04.03.02 加工食用菌和藻类(04.03.02.01冷冻食用菌和藻类除外)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r015",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4319,12 +4319,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；04.04.01.02 豆干类；最大使用量 0.2 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；04.04.01.02 豆干类；最大使用量 0.2 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r016",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4338,12 +4338,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；04.05.02.01 熟制坚果与籽类；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；04.05.02.01 熟制坚果与籽类；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r017",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4357,12 +4357,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；05.02 糖果；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；05.02 糖果；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r018",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4376,12 +4376,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；05.02.01 胶基糖果；最大使用量 4.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；05.02.01 胶基糖果；最大使用量 4.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r019",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4395,12 +4395,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；06.04.02.01 杂粮罐头；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；06.04.02.01 杂粮罐头；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p021-r020",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4414,12 +4414,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 18,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；06.04.02.02 其他杂粮制品(仅限黑芝麻糊)；最大使用量 0.3 g/kg；0.44。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；06.04.02.02 其他杂粮制品(仅限黑芝麻糊)；最大使用量 0.3 g/kg；0.44。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r001",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4433,12 +4433,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；06.06 即食谷物,包括碾轧燕麦(片)；最大使用量 0.8 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；06.06 即食谷物,包括碾轧燕麦(片)；最大使用量 0.8 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r002",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4452,12 +4452,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；06.09 谷类和淀粉类甜品(仅限谷类甜品罐头)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；06.09 谷类和淀粉类甜品(仅限谷类甜品罐头)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r003",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4471,12 +4471,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；07.0 焙烤食品；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；07.0 焙烤食品；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r004",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4490,12 +4490,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；07.02 糕点；最大使用量 0.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；07.02 糕点；最大使用量 0.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r005",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4509,12 +4509,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；07.03 饼干；最大使用量 0.6 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；07.03 饼干；最大使用量 0.6 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r006",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4528,12 +4528,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；11.04 餐桌甜味料；最大使用量 按生产需要适量使用。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；11.04 餐桌甜味料；最大使用量 按生产需要适量使用。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r007",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4547,12 +4547,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；12.0 调味品(12.01盐及代盐制品、12.09香辛料类除外)；最大使用量 0.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；12.0 调味品(12.01盐及代盐制品、12.09香辛料类除外)；最大使用量 0.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r008",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4566,12 +4566,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；12.04 酱油；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；12.04 酱油；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r009",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4585,12 +4585,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；12.10.03 液体复合调味料饮料类[14.01包装饮用水、14.02.01果；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；12.10.03 液体复合调味料饮料类[14.01包装饮用水、14.02.01果；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r010",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4604,12 +4604,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；14.0 蔬汁(浆)、14.02.02浓缩果蔬汁(浆)除外]；最大使用量 0.3 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；14.0 蔬汁(浆)、14.02.02浓缩果蔬汁(浆)除外]；最大使用量 0.3 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r011",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4623,12 +4623,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；14.05.01 茶(类)饮料；最大使用量 0.58 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；14.05.01 茶(类)饮料；最大使用量 0.58 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r012",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4642,12 +4642,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；15.02 配制酒；最大使用量 0.35 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；15.02 配制酒；最大使用量 0.35 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r013",
     "ingredientId": "",
-    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)4)",
+    "additiveNameCn": "安赛蜜(又名乙酰磺胺酸钾)",
     "additiveNameEn": "",
     "cnsNumber": "19.011",
     "insNumber": "950",
@@ -4661,12 +4661,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)4)；CNS号 19.011；INS号 950；功能 甜味剂；16.01 果冻；最大使用量 0.3 g/kg；如用于果冻粉，按冲调倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：安赛蜜(又名乙酰磺胺酸钾)；CNS号 19.011；INS号 950；功能 甜味剂；16.01 果冻；最大使用量 0.3 g/kg；如用于果冻粉，按冲调倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r014",
     "ingredientId": "",
-    "additiveNameCn": "氨基乙酸(又名甘氨酸)5)",
+    "additiveNameCn": "氨基乙酸(又名甘氨酸)",
     "additiveNameEn": "",
     "cnsNumber": "12.007",
     "insNumber": "640",
@@ -4680,12 +4680,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)5)；CNS号 12.007；INS号 640；功能 增味剂；08.02 预制肉制品；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)；CNS号 12.007；INS号 640；功能 增味剂；08.02 预制肉制品；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r015",
     "ingredientId": "",
-    "additiveNameCn": "氨基乙酸(又名甘氨酸)5)",
+    "additiveNameCn": "氨基乙酸(又名甘氨酸)",
     "additiveNameEn": "",
     "cnsNumber": "12.007",
     "insNumber": "640",
@@ -4699,12 +4699,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)5)；CNS号 12.007；INS号 640；功能 增味剂；08.03 熟肉制品；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)；CNS号 12.007；INS号 640；功能 增味剂；08.03 熟肉制品；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r016",
     "ingredientId": "",
-    "additiveNameCn": "氨基乙酸(又名甘氨酸)5)",
+    "additiveNameCn": "氨基乙酸(又名甘氨酸)",
     "additiveNameEn": "",
     "cnsNumber": "12.007",
     "insNumber": "640",
@@ -4718,12 +4718,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)5)；CNS号 12.007；INS号 640；功能 增味剂；12.0 调味品(12.01盐及代盐制品、12.09香辛料类除外)；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)；CNS号 12.007；INS号 640；功能 增味剂；12.0 调味品(12.01盐及代盐制品、12.09香辛料类除外)；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r017",
     "ingredientId": "",
-    "additiveNameCn": "氨基乙酸(又名甘氨酸)5)",
+    "additiveNameCn": "氨基乙酸(又名甘氨酸)",
     "additiveNameEn": "",
     "cnsNumber": "12.007",
     "insNumber": "640",
@@ -4737,12 +4737,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)5)；CNS号 12.007；INS号 640；功能 增味剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 1.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)；CNS号 12.007；INS号 640；功能 增味剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 1.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p022-r018",
     "ingredientId": "",
-    "additiveNameCn": "氨基乙酸(又名甘氨酸)5)",
+    "additiveNameCn": "氨基乙酸(又名甘氨酸)",
     "additiveNameEn": "",
     "cnsNumber": "12.007",
     "insNumber": "640",
@@ -4756,7 +4756,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 19,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)5)；CNS号 12.007；INS号 640；功能 增味剂；14.03.02 植物蛋白饮料；最大使用量 1.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：氨基乙酸(又名甘氨酸)；CNS号 12.007；INS号 640；功能 增味剂；14.03.02 植物蛋白饮料；最大使用量 1.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p023-r001",
@@ -20365,7 +20365,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "cnsNumber": "08.007",
     "insNumber": "133",
     "functionText": "着色剂",
-    "foodCategoryCode": "06.05.0204",
+    "foodCategoryCode": "06.05.02.04",
     "foodCategoryName": "粉圆",
     "maxUseLevel": "0.1",
     "unit": "g/kg",
@@ -20374,7 +20374,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 70,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：亮蓝及其铝色淀(包括亮蓝,亮蓝铝色淀)；CNS号 08.007；INS号 133；功能 着色剂；06.05.0204 粉圆；最大使用量 0.1 g/kg；以亮蓝计。"
+    "rawSourceText": "GB 2760-2024 表 A.1：亮蓝及其铝色淀(包括亮蓝,亮蓝铝色淀)；CNS号 08.007；INS号 133；功能 着色剂；06.05.02.04 粉圆；最大使用量 0.1 g/kg；以亮蓝计。"
   },
   {
     "id": "gb2760-2024-a1-generated-p073-r015",

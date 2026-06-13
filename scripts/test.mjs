@@ -988,10 +988,10 @@ assert.match(reviewedPotassiumNitrate.adi, /does not apply to infants below 3 mo
 assert.match(reviewedPotassiumNitrate.regulatoryBasis, /as nitrate ion/);
 assert.match(reviewedPotassiumNitrate.rawSourceText, /infants below 3 months/);
 const gb2760StagingSummary = getGb2760OfficialStagingSummary();
-assert.equal(gb2760StagingSummary.totalCount, 2515);
+assert.equal(gb2760StagingSummary.totalCount, 2405);
 assert.equal(gb2760StagingSummary.ingredientCount, 91);
 assert.equal(gb2760StagingSummary.statusCounts.verified, 13);
-assert.equal(gb2760StagingSummary.statusCounts.needs_review, 2502);
+assert.equal(gb2760StagingSummary.statusCounts.needs_review, 2392);
 assert.deepEqual(gb2760StagingSummary.sourceNames, [seedSourceName]);
 assert.equal(gb2760OfficialStagingGenerationCoverage.pdfPageStart, 8);
 assert.equal(gb2760OfficialStagingGenerationCoverage.pdfPageEnd, 148);
@@ -1035,6 +1035,8 @@ assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-beta-carotene-jelly' && record.note.includes('果冻粉')), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-aspartame-bread' && record.pdfPage === 19 && record.note.includes('苯丙氨酸')), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-advantame-jelly' && !record.ingredientId && record.pdfPage === 21), true);
+assert.equal(gb2760OfficialStagingRecords.every((record) => !/[)）\]】]\d+[)）]$/u.test(record.additiveNameCn)), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p073-r014' && record.foodCategoryCode === '06.05.02.04' && record.foodCategoryName === '粉圆'), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-benzoic-acid-carbonated-beverages' && record.note.includes('苯甲酸计')), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-tea-polyphenols-puffed-foods' && record.note.includes('油脂中儿茶素')), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-butylated-hydroxyanisole-chewing-gum' && record.ingredientId === 'butylated-hydroxyanisole'), true);
@@ -1059,9 +1061,9 @@ assert.deepEqual(gb2760SeedCoverageReport.notApplicableSeedIds, [
   'vanillin'
 ]);
 const gb2760StagingQualityReport = getGb2760OfficialStagingQualityReport();
-assert.equal(gb2760StagingQualityReport.totalCount, 2515);
+assert.equal(gb2760StagingQualityReport.totalCount, 2405);
 assert.equal(gb2760StagingQualityReport.linkedIngredientCount, 91);
-assert.equal(gb2760StagingQualityReport.unlinkedCount, 1961);
+assert.equal(gb2760StagingQualityReport.unlinkedCount, 1851);
 assert.equal(gb2760StagingQualityReport.pdfPageCount, 141);
 const gb2760FullTextSummary = getGb2760OfficialFullTextSummary();
 assert.equal(gb2760FullTextSummary.totalPages, 264);

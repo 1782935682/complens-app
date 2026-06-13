@@ -239,12 +239,14 @@ function parsePdfPage(pdfPage) {
 }
 
 function decodeXml(value) {
-  return String(value)
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
+  const entities = {
+    lt: '<',
+    gt: '>',
+    amp: '&',
+    quot: '"',
+    apos: "'"
+  };
+  return String(value).replace(/&(lt|gt|amp|quot|apos);/g, (match, entity) => entities[entity] || match);
 }
 
 function joinWords(words) {
@@ -261,7 +263,13 @@ function columnText(lines, minX, maxX) {
 }
 
 function normalizeFoodCategoryCode(value) {
-  return cleanText(value).replace(/2\)$/u, '');
+  let code = cleanText(value).replace(/2\)$/u, '');
+  let previous;
+  do {
+    previous = code;
+    code = code.replace(/(\.\d{2})(\d{2})(?=\.|$)/gu, '$1.$2');
+  } while (code !== previous);
+  return code;
 }
 
 function isValidFoodCategoryCode(value) {
@@ -311,11 +319,11 @@ function extractAdditiveName(lines) {
 }
 
 function cleanAdditiveName(value) {
-  let name = cleanText(value).replace(/^表A\.1(?:\(续\))?/u, '');
+  let name = stripTrailingFootnoteMarkers(cleanText(value).replace(/^表A\.1(?:\(续\))?/u, ''));
   if (/[\u4e00-\u9fff]/u.test(name)) {
     name = name.replace(/([\u4e00-\u9fff）》）])(?:[a-z]{1,8}|[αβγδε])$/u, '$1');
   }
-  return name;
+  return stripTrailingFootnoteMarkers(name);
 }
 
 function parseCnsIns(line) {
@@ -363,12 +371,16 @@ function canonicalRecordKey(record) {
 }
 
 function canonicalText(value) {
-  return String(value || '')
+  return stripTrailingFootnoteMarkers(String(value || '')
     .replace(/\s+/g, '')
     .replace(/[，,]/g, ',')
     .replace(/[（]/g, '(')
     .replace(/[）]/g, ')')
     .replace(/[。；;]/g, '')
-    .trim()
+    .trim())
     .toLowerCase();
+}
+
+function stripTrailingFootnoteMarkers(value) {
+  return String(value || '').replace(/([)）\]】])\d+[)）]$/u, '$1');
 }
