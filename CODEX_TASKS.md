@@ -227,7 +227,7 @@
 
 ### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
 
-**状态**：🔄 进行中（2026-06-13 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 官方 PDF 已完成 264 页全文转换并接入 `gb2760_official_pages` seed 通路；表 A.1 第 8-148 页已转换为 2404 行 staging，其中 1017 行按唯一名称/别名或单一 INS 码关联 91 个现有食品添加剂 ID，1387 行尚未匹配本地 ingredient；100 条 seed 中有 A.1 证据的 91 条已全部覆盖，9 条无可结构化 A.1 证据；GB 2760 自动抽取行仍待人工审核、去重/归并和正式库升级）
+**状态**：🔄 进行中（2026-06-13 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 官方 PDF 已完成 264 页全文转换并接入 `gb2760_official_pages` seed 通路；表 A.1 第 8-148 页已转换为 2404 行 staging，其中 957 行按唯一名称/别名或单一 INS 码精确匹配关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient；100 条 seed 中有 A.1 证据的 91 条已全部覆盖，9 条无可结构化 A.1 证据；GB 2760 自动抽取行仍待人工审核、去重/归并和正式库升级）
 
 **目标**：不一次性补齐所有食品配料，先建立“基础权威库 + 持续扩充 + 人工校验队列”的可追溯数据导入流程。
 
@@ -300,7 +300,7 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 
 **2026-06-13 GB 2760 官方 PDF 第 15-35 页继续抽取检查点**：继续补入 `β-环状糊精`、`γ-环状糊精`、`ε-聚赖氨酸`、`ε-聚赖氨酸盐酸盐`、`阿拉伯胶`、`阿力甜`、`阿斯巴甜`、`爱德万甜`、`安赛蜜`、`氨基乙酸`、`铵磷脂`、`巴西棕榈蜡`、`白油`、`半乳甘露聚糖`、`苯甲酸及其钠盐`、`冰结构蛋白`、`冰乙酸（低压羰基化法）`、`丙二醇`、`丙二醇脂肪酸酯`、`茶多酚`、`茶多酚棕榈酸酯`、`茶黄素`、`赤藓红及其铝色淀`、`刺梧桐胶`、`刺云实胶`、`醋酸酯淀粉`、`达瓦树胶`、`单辛酸甘油酯`、`氮气`、`淀粉磷酸酯钠`、`靛蓝及其铝色淀`、`丁基羟基茴香醚（BHA）`、`二丁基羟基甲苯（BHT）`、`二甲基二碳酸盐` 等表 A.1 行。该检查点曾为 750 行，其中 737 行 `needs_review`；已被后续全页转换记录扩展。
 
-**2026-06-13 GB 2760 官方 PDF 表 A.1 全页转换记录**：新增 `scripts/generate-gb2760-a1-staging.mjs`，基于官方 PDF 和 `pdftotext -bbox-layout` 的坐标文本，将表 A.1 PDF 第 8-148 页（标准页 5-145）转换为 `src/data/gb2760OfficialGeneratedA1Staging.js`，再与人工校对过的 750 行合并、过滤重复，形成 2404 行 `gb2760_official_records` staging 数据。当前 13 行为 `verified`，2391 行为 `needs_review`，覆盖 141 个表 A.1 PDF 页；自动 ingredient 关联只使用唯一名称/别名或单一 INS 码，多 INS 组合继续留待人工归并；抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正；新增自动抽取行只作为原文、页码和限量进入 staging 的证据，不自动升级正式 `ingredients.usageLimits`。
+**2026-06-13 GB 2760 官方 PDF 表 A.1 全页转换记录**：新增 `scripts/generate-gb2760-a1-staging.mjs`，基于官方 PDF 和 `pdftotext -bbox-layout` 的坐标文本，将表 A.1 PDF 第 8-148 页（标准页 5-145）转换为 `src/data/gb2760OfficialGeneratedA1Staging.js`，再与人工校对过的 750 行合并、过滤重复，形成 2404 行 `gb2760_official_records` staging 数据。当前 13 行为 `verified`，2391 行为 `needs_review`，覆盖 141 个表 A.1 PDF 页；自动 ingredient 关联只使用唯一名称/别名或单一 INS 码精确匹配，INS 子码不折叠，多 INS 组合继续留待人工归并；抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正；新增自动抽取行只作为原文、页码和限量进入 staging 的证据，不自动升级正式 `ingredients.usageLimits`。
 
 **2026-06-13 GB 2760 官方 PDF 全文转换记录**：新增 `scripts/generate-gb2760-fulltext.mjs`、`src/data/gb2760OfficialFullText.js`、后端 `gb2760_official_pages` 表和 seed 通路，将官方 PDF 全 264 页按页转换为文本并保存页 SHA-256、PDF SHA-256、平台记录 ID、附件 ID、下载接口和提取工具信息。该全文层用于保证官方 PDF 全量可追溯；表 A.1 逐食品类别限量仍需从全文层继续拆分到 `gb2760_official_records`，不能把全文页自动当成正式 `usageLimits`。
 

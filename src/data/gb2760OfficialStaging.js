@@ -7701,7 +7701,7 @@ function normalizeInsCodeVariants(value) {
     .replace(/^e\s*/u, '')
     .replace(/[^0-9a-z()]+/gu, '');
   if (!code || code === '—') return [];
-  return [...new Set([code, code.replace(/\(.+\)$/u, '')].filter(Boolean))];
+  return [code];
 }
 
 function stripTrailingFootnoteMarkers(value) {

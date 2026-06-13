@@ -1055,6 +1055,9 @@ assert.equal(gb2760OfficialStagingRecords.some((record) => record.pdfPage === 20
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p107-r007' && record.additiveNameCn.includes('DA-TEM')), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p110-r001' && record.additiveNameCn.includes('司盘80')), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p120-r001' && record.additiveNameCn.includes('吐温60') && record.additiveNameCn.includes('吐温80')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p106-r015' && record.insNumber === '262(ii)' && !record.ingredientId), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p113-r005' && record.insNumber === '500(i)' && !record.ingredientId), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sodium-bicarbonate-general' && record.insNumber === '500(ii)' && record.ingredientId === 'sodium-bicarbonate'), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.pdfPage === 16 && record.foodCategoryCode === '04.0' && record.foodCategoryName.includes('食用菌和藻类罐头') && /除外[)）]$/u.test(record.foodCategoryName)), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p052-r002' && record.foodCategoryName.includes('脱水蛋制品') && record.foodCategoryName.endsWith('除外]')), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-generated-p063-r004' && record.foodCategoryName === '调味品(12.01盐及代盐制品、12.09香辛料类除外)(仅限用于膨化食品的调味料)'), true);
@@ -1087,7 +1090,7 @@ assert.deepEqual(gb2760SeedCoverageReport.notApplicableSeedIds, [
 const gb2760StagingQualityReport = getGb2760OfficialStagingQualityReport();
 assert.equal(gb2760StagingQualityReport.totalCount, 2404);
 assert.equal(gb2760StagingQualityReport.linkedIngredientCount, 91);
-assert.equal(gb2760StagingQualityReport.unlinkedCount, 1387);
+assert.equal(gb2760StagingQualityReport.unlinkedCount, 1447);
 assert.equal(gb2760StagingQualityReport.pdfPageCount, 141);
 const gb2760FullTextSummary = getGb2760OfficialFullTextSummary();
 assert.equal(gb2760FullTextSummary.totalPages, 264);
