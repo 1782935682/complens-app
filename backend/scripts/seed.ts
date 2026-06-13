@@ -1,19 +1,23 @@
 import { createDatabaseClient } from '../src/db/client.js';
-import { upsertGb2760OfficialRecords, upsertIngredients, type FoodAdditiveInput, type Gb2760OfficialRecordInput } from '../src/services/ingredientService.js';
+import { upsertGb2760OfficialPages, upsertGb2760OfficialRecords, upsertIngredients, type FoodAdditiveInput, type Gb2760OfficialPageInput, type Gb2760OfficialRecordInput } from '../src/services/ingredientService.js';
 
 const dataModule = await import(new URL('../../src/data/foodAdditives.js', import.meta.url).href);
 const gb2760StagingModule = await import(new URL('../../src/data/gb2760OfficialStaging.js', import.meta.url).href);
+const gb2760FullTextModule = await import(new URL('../../src/data/gb2760OfficialFullText.js', import.meta.url).href);
 const foodAdditives = resolveFoodSeedItems(dataModule as unknown as FoodDataModule);
 const gb2760OfficialRecords = resolveGb2760StagingRecords(gb2760StagingModule as unknown as Gb2760StagingModule);
+const gb2760OfficialPages = resolveGb2760FullTextPages(gb2760FullTextModule as unknown as Gb2760FullTextModule);
 const client = createDatabaseClient();
 const options = parseSeedOptions(process.argv.slice(2));
 
 try {
   await upsertIngredients(client.db, foodAdditives, options);
   await upsertGb2760OfficialRecords(client.db, gb2760OfficialRecords);
+  await upsertGb2760OfficialPages(client.db, gb2760OfficialPages);
   const version = options.dataVersion || foodAdditives[0]?.dataVersion || 'unknown';
   console.log(`Seeded ${foodAdditives.length} ingredients for data version ${version}`);
   console.log(`Seeded ${gb2760OfficialRecords.length} GB 2760 official staging records`);
+  console.log(`Seeded ${gb2760OfficialPages.length} GB 2760 official full-text pages`);
 } finally {
   await client.pool.end();
 }
@@ -25,6 +29,10 @@ type FoodDataModule = {
 
 type Gb2760StagingModule = {
   gb2760OfficialStagingRecords?: unknown;
+};
+
+type Gb2760FullTextModule = {
+  gb2760OfficialFullTextPages?: unknown;
 };
 
 function resolveFoodSeedItems(module: FoodDataModule): FoodAdditiveInput[] {
@@ -40,6 +48,14 @@ function resolveGb2760StagingRecords(module: Gb2760StagingModule): Gb2760Officia
   }
 
   throw new Error('Expected src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingRecords array');
+}
+
+function resolveGb2760FullTextPages(module: Gb2760FullTextModule): Gb2760OfficialPageInput[] {
+  if (Array.isArray(module.gb2760OfficialFullTextPages)) {
+    return module.gb2760OfficialFullTextPages as Gb2760OfficialPageInput[];
+  }
+
+  throw new Error('Expected src/data/gb2760OfficialFullText.js to export gb2760OfficialFullTextPages array');
 }
 
 function parseSeedOptions(args: string[]) {

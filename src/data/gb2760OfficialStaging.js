@@ -63,6 +63,16 @@ function officialUsageRows(common, rows) {
   }));
 }
 
+function officialGroupedUsageRows(common, ingredientVariants, rows) {
+  return ingredientVariants.flatMap((variant) => officialUsageRows({
+    ...common,
+    ...variant
+  }, rows.map((row) => ({
+    ...row,
+    id: row.id.replace('{ingredientId}', variant.ingredientId)
+  }))));
+}
+
 export const gb2760OfficialStagingRecords = [
   officialRecord({
     id: 'gb2760-2024-a1-citric-acid-general',
@@ -311,6 +321,732 @@ export const gb2760OfficialStagingRecords = [
     reviewStatus: 'verified',
     rawSourceText: 'GB 2760-2024 表 A.1：碳酸氢钠 sodium hydrogencarbonate；06.02.02 大米制品（仅限发酵大米制品）按生产需要适量使用。'
   }),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '苯甲酸及其钠盐（包括苯甲酸，苯甲酸钠）',
+    additiveNameEn: 'benzoic acid, sodium benzoate',
+    cnsNumber: '17.001, 17.002',
+    insNumber: '210, 211',
+    functionText: '防腐剂',
+    pdfPage: 23,
+    standardPage: 20,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'benzoic-acid' },
+    { ingredientId: 'sodium-benzoate' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-ice-pops',
+      foodCategoryCode: '03.03',
+      foodCategoryName: '风味冰、冰棍类',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以苯甲酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱（罐头除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以苯甲酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-preserved-fruit',
+      foodCategoryCode: '04.01.02.08',
+      foodCategoryName: '蜜饯',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以苯甲酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-pickled-vegetable',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以苯甲酸计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'aspartame',
+    additiveNameCn: '阿斯巴甜（又名天门冬酰苯丙氨酸甲酯）',
+    additiveNameEn: 'aspartame',
+    cnsNumber: '19.004',
+    insNumber: '951',
+    functionText: '甜味剂',
+    pdfPage: 17,
+    standardPage: 14,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-aspartame-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-modified-milk-powder',
+      foodCategoryCode: '01.03.02',
+      foodCategoryName: '调制乳粉和调制奶油粉',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cream-products',
+      foodCategoryCode: '01.05',
+      foodCategoryName: '稀奶油（淡奶油）及其类似品（01.05.01 稀奶油除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'tartrazine',
+    additiveNameCn: '柠檬黄及其铝色淀（包括柠檬黄，柠檬黄铝色淀）',
+    additiveNameEn: 'tartrazine, tartrazine aluminum lake',
+    cnsNumber: '08.005',
+    insNumber: '102',
+    functionText: '着色剂',
+    pdfPage: 87,
+    standardPage: 84,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-tartrazine-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-condensed-milk',
+      foodCategoryCode: '01.04.02',
+      foodCategoryName: '调制炼乳（包括加糖炼乳及使用了非乳原料的调制炼乳等）',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-preserved-fruit',
+      foodCategoryCode: '04.01.02.08',
+      foodCategoryName: '蜜饯',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-decorative-fruit-vegetable',
+      foodCategoryCode: '04.01.02.09',
+      foodCategoryName: '装饰性果蔬',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-pickled-vegetable',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-pickled-mushroom-algae',
+      foodCategoryCode: '04.03.02.03',
+      foodCategoryName: '腌渍的食用菌和藻类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-cooked-beans',
+      foodCategoryCode: '04.04.01.06',
+      foodCategoryName: '熟制豆类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartrazine-processed-nuts-seeds',
+      foodCategoryCode: '04.05.02',
+      foodCategoryName: '加工坚果与籽类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以柠檬黄计'
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '山梨酸及其钾盐（包括山梨酸，山梨酸钾）',
+    additiveNameEn: 'sorbic acid, potassium sorbate',
+    cnsNumber: '17.003, 17.004',
+    insNumber: '200, 202',
+    functionText: '防腐剂、抗氧化剂',
+    pdfPage: 103,
+    standardPage: 100,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'sorbic-acid' },
+    { ingredientId: 'potassium-sorbate' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-cheese-products',
+      foodCategoryCode: '01.06',
+      foodCategoryName: '干酪、再制干酪、干酪制品及干酪类似品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以山梨酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-hydrogenated-oil',
+      foodCategoryCode: '02.01.01.02',
+      foodCategoryName: '氢化植物油',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以山梨酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-margarine-products',
+      foodCategoryCode: '02.02.01.02',
+      foodCategoryName: '人造黄油（人造奶油）及其类似制品（如黄油和人造黄油混合品）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以山梨酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-fat-emulsion-under-80',
+      foodCategoryCode: '02.02.02',
+      foodCategoryName: '脂肪含量 80% 以下的乳化制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以山梨酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-ice-pops',
+      foodCategoryCode: '03.03',
+      foodCategoryName: '风味冰、冰棍类',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以山梨酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-surface-treated-fresh-fruit',
+      foodCategoryCode: '04.01.01.02',
+      foodCategoryName: '经表面处理的鲜水果',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以山梨酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱（罐头除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以山梨酸计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'acesulfame-potassium',
+    additiveNameCn: '安赛蜜（又名乙酰磺胺酸钾）',
+    additiveNameEn: 'acesulfame potassium',
+    cnsNumber: '19.011',
+    insNumber: '950',
+    functionText: '甜味剂',
+    pdfPage: 21,
+    standardPage: 18,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.35',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-milk-based-dessert-canned',
+      foodCategoryCode: '01.07',
+      foodCategoryName: '以乳为主要配料的即食风味食品或其预制产品（不包括冰淇淋和风味发酵乳，仅限乳基甜品罐头）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-canned-fruit',
+      foodCategoryCode: '04.01.02.04',
+      foodCategoryName: '水果罐头',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-candied-fruit',
+      foodCategoryCode: '04.01.02.08.01',
+      foodCategoryName: '蜜饯类、凉果类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-pickled-vegetable',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-processed-mushroom-algae',
+      foodCategoryCode: '04.03.02',
+      foodCategoryName: '加工食用菌和藻类（04.03.02.01 冷冻食用菌和藻类除外）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-dried-tofu',
+      foodCategoryCode: '04.04.01.02',
+      foodCategoryName: '豆干类',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-cooked-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-chewing-gum',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '4.0',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-canned-grains',
+      foodCategoryCode: '06.04.02.01',
+      foodCategoryName: '杂粮罐头',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-black-sesame-paste',
+      foodCategoryCode: '06.04.02.02',
+      foodCategoryName: '其他杂粮制品（仅限黑芝麻糊）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量'
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '二氧化硫及亚硫酸盐（包括二氧化硫，焦亚硫酸钾，焦亚硫酸钠，亚硫酸钠，亚硫酸氢钠，低亚硫酸钠）',
+    additiveNameEn: 'sulfur dioxide, potassium metabisulphite, sodium metabisulphite, sodium sulfite, sodium hydrogen sulfite, sodium hyposulfite',
+    cnsNumber: '05.001, 05.002, 05.003, 05.004, 05.005, 05.006',
+    insNumber: '220, 224, 223, 221, 222, —',
+    functionText: '漂白剂、防腐剂、抗氧化剂',
+    pdfPage: 36,
+    standardPage: 33,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'sulfur-dioxide' },
+    { ingredientId: 'potassium-metabisulfite' },
+    { ingredientId: 'sodium-metabisulfite' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-surface-treated-fresh-fruit',
+      foodCategoryCode: '04.01.01.02',
+      foodCategoryName: '经表面处理的鲜水果',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '最大使用量以二氧化硫残留量计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-dried-fruit',
+      foodCategoryCode: '04.01.02.02',
+      foodCategoryName: '水果干类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '最大使用量以二氧化硫残留量计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '最大使用量以二氧化硫残留量计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-preserved-fruit',
+      foodCategoryCode: '04.01.02.08',
+      foodCategoryName: '蜜饯',
+      maxUseLevel: '0.35',
+      unit: 'g/kg',
+      note: '最大使用量以二氧化硫残留量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'monosodium-glutamate',
+    additiveNameCn: '谷氨酸钠',
+    additiveNameEn: 'monosodium glutamate',
+    cnsNumber: '12.001',
+    insNumber: '621',
+    functionText: '增味剂',
+    pdfPage: 44,
+    standardPage: 41,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-monosodium-glutamate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'ascorbic-acid',
+    additiveNameCn: '抗坏血酸（又名维生素 C）',
+    additiveNameEn: 'ascorbic acid (vitamin C)',
+    cnsNumber: '04.014',
+    insNumber: '300',
+    functionText: '面粉处理剂、抗氧化剂',
+    pdfPage: 65,
+    standardPage: 62,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-ascorbic-acid-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~5、10~62、68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-ascorbic-acid-peeled-cut-fruit',
+      foodCategoryCode: '04.01.01.03',
+      foodCategoryName: '去皮或预切的鲜水果',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-ascorbic-acid-peeled-cut-vegetable',
+      foodCategoryCode: '04.02.01.03',
+      foodCategoryName: '去皮、切块或切丝的蔬菜',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-ascorbic-acid-wheat-flour',
+      foodCategoryCode: '06.03.01',
+      foodCategoryName: '小麦粉',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-ascorbic-acid-fruit-vegetable-juice',
+      foodCategoryCode: '14.02.01',
+      foodCategoryName: '果蔬汁（浆）',
+      maxUseLevel: '1.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sodium-ascorbate',
+    additiveNameCn: '抗坏血酸钠',
+    additiveNameEn: 'sodium ascorbate',
+    cnsNumber: '04.015',
+    insNumber: '301',
+    functionText: '抗氧化剂',
+    pdfPage: 66,
+    standardPage: 63,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sodium-ascorbate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~62、68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sunset-yellow-fcf',
+    additiveNameCn: '日落黄及其铝色淀（包括日落黄，日落黄铝色淀）',
+    additiveNameEn: 'sunset yellow, sunset yellow aluminum lake',
+    cnsNumber: '08.006',
+    insNumber: '110',
+    functionText: '着色剂',
+    pdfPage: 96,
+    standardPage: 93,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-condensed-milk',
+      foodCategoryCode: '01.04.02',
+      foodCategoryName: '调制炼乳（包括加糖炼乳及使用了非乳原料的调制炼乳等）',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.09',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-watermelon-sauce',
+      foodCategoryCode: '04.01.02.04',
+      foodCategoryName: '水果罐头（仅限西瓜酱罐头）',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-preserved-fruit',
+      foodCategoryCode: '04.01.02.08',
+      foodCategoryName: '蜜饯',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-decorative-fruit-vegetable',
+      foodCategoryCode: '04.01.02.09',
+      foodCategoryName: '装饰性果蔬',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-cooked-beans',
+      foodCategoryCode: '04.04.01.06',
+      foodCategoryName: '熟制豆类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    },
+    {
+      id: 'gb2760-2024-a1-sunset-yellow-fcf-processed-nuts-seeds',
+      foodCategoryCode: '04.05.02',
+      foodCategoryName: '加工坚果与籽类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以日落黄计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'allura-red-ac',
+    additiveNameCn: '诱惑红及其铝色淀（包括诱惑红，诱惑红铝色淀）',
+    additiveNameEn: 'allura red, allura aluminum lake',
+    cnsNumber: '08.012',
+    insNumber: '129',
+    functionText: '着色剂',
+    pdfPage: 139,
+    standardPage: 136,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.07',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-decorative-fruit-vegetable',
+      foodCategoryCode: '04.01.02.09',
+      foodCategoryName: '装饰性果蔬',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-cooked-beans',
+      foodCategoryCode: '04.04.01.06',
+      foodCategoryName: '熟制豆类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-processed-nuts-seeds',
+      foodCategoryCode: '04.05.02',
+      foodCategoryName: '加工坚果与籽类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-cocoa-chocolate-candy',
+      foodCategoryCode: '05.0',
+      foodCategoryName: '可可制品、巧克力和巧克力制品（包括代可可脂巧克力及制品）以及糖果',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-tapioca-pearls',
+      foodCategoryCode: '06.05.02.04',
+      foodCategoryName: '粉圆',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-ready-to-eat-cereal',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）（仅限可可玉米片）',
+      maxUseLevel: '0.07',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-pastry-decoration',
+      foodCategoryCode: '07.02.04',
+      foodCategoryName: '糕点上彩装',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-bakery-filling',
+      foodCategoryCode: '07.04',
+      foodCategoryName: '焙烤食品馅料及表面用挂浆（仅限饼干夹心）',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-western-ham',
+      foodCategoryCode: '08.03.04',
+      foodCategoryName: '西式火腿（熏烤、烟熏、蒸煮火腿）类',
+      maxUseLevel: '0.025',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-meat-sausage',
+      foodCategoryCode: '08.03.05',
+      foodCategoryName: '肉灌肠类',
+      maxUseLevel: '0.015',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    },
+    {
+      id: 'gb2760-2024-a1-allura-red-ac-edible-casing',
+      foodCategoryCode: '08.04',
+      foodCategoryName: '肉制品的可食用动物肠衣类',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以诱惑红计'
+    }
+  ]),
   officialRecord({
     id: 'gb2760-2024-a1-guar-gum-general',
     ingredientId: 'guar-gum',

@@ -1,6 +1,6 @@
 import { and, asc, count, desc, eq, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { gb2760OfficialRecords, ingredientSources, ingredients, type IngredientRow, type NewGb2760OfficialRecordRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
+import { gb2760OfficialPages, gb2760OfficialRecords, ingredientSources, ingredients, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
 export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
@@ -89,6 +89,29 @@ export type Gb2760OfficialRecordInput = {
   retrievedAt: string;
   extractionStatus: string;
   reviewStatus: string;
+};
+
+export type Gb2760OfficialPageInput = {
+  id: string;
+  standardCode: string;
+  standardTitle: string;
+  pdfPage: number;
+  standardPageLabel?: string;
+  text: string;
+  textSha256: string;
+  sourceName: string;
+  sourceType: string;
+  sourceUrl: string;
+  downloadEndpoint: string;
+  platformRecordId: string;
+  announcementRecordId: string;
+  fileGuid: string;
+  factName: string;
+  pdfSha256: string;
+  retrievedAt: string;
+  extractionTool: string;
+  extractionScope: string;
+  generatedAt: string;
 };
 
 export type IngredientListParams = {
@@ -377,6 +400,32 @@ export function toGb2760OfficialRecordRow(record: Gb2760OfficialRecordInput): Ne
   };
 }
 
+export function toGb2760OfficialPageRow(page: Gb2760OfficialPageInput): NewGb2760OfficialPageRow {
+  return {
+    id: page.id,
+    standardCode: page.standardCode,
+    standardTitle: page.standardTitle,
+    pdfPage: page.pdfPage,
+    standardPageLabel: page.standardPageLabel ?? '',
+    text: page.text,
+    textSha256: page.textSha256,
+    sourceName: page.sourceName,
+    sourceType: page.sourceType,
+    sourceUrl: page.sourceUrl,
+    downloadEndpoint: page.downloadEndpoint,
+    platformRecordId: page.platformRecordId,
+    announcementRecordId: page.announcementRecordId,
+    fileGuid: page.fileGuid,
+    factName: page.factName,
+    pdfSha256: page.pdfSha256,
+    retrievedAt: page.retrievedAt,
+    extractionTool: page.extractionTool,
+    extractionScope: page.extractionScope,
+    generatedAt: page.generatedAt,
+    syncedAt: new Date()
+  };
+}
+
 export async function upsertGb2760OfficialRecords(db: Database, records: Gb2760OfficialRecordInput[]) {
   if (records.length === 0) return;
 
@@ -391,6 +440,26 @@ export async function upsertGb2760OfficialRecords(db: Database, records: Gb2760O
           set: {
             ...row,
             createdAt: sql`${gb2760OfficialRecords.createdAt}`
+          }
+        });
+    }
+  });
+}
+
+export async function upsertGb2760OfficialPages(db: Database, pages: Gb2760OfficialPageInput[]) {
+  if (pages.length === 0) return;
+
+  await db.transaction(async (tx) => {
+    for (const page of pages) {
+      const row = toGb2760OfficialPageRow(page);
+      await tx
+        .insert(gb2760OfficialPages)
+        .values(row)
+        .onConflictDoUpdate({
+          target: gb2760OfficialPages.id,
+          set: {
+            ...row,
+            createdAt: sql`${gb2760OfficialPages.createdAt}`
           }
         });
     }

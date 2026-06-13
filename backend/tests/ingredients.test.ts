@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialRecordRow, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
+import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialPageRow, toGb2760OfficialRecordRow, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
@@ -389,6 +389,38 @@ describe('ingredient search helpers', () => {
     expect(row.pdfPage).toBe(45);
     expect(row.standardPage).toBe(42);
     expect(row.reviewStatus).toBe('needs_review');
+    expect(row.syncedAt).toBeInstanceOf(Date);
+  });
+
+  it('maps GB 2760 official full-text pages with source evidence intact', () => {
+    const row = toGb2760OfficialPageRow({
+      id: 'gb2760-2024-pdf-page-001',
+      standardCode: 'GB 2760-2024',
+      standardTitle: '食品安全国家标准 食品添加剂使用标准',
+      pdfPage: 1,
+      standardPageLabel: '',
+      text: '食品安全国家标准 食品添加剂使用标准',
+      textSha256: 'sample-page-hash',
+      sourceName: '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台',
+      sourceType: 'official_standard',
+      sourceUrl: 'https://sppt.cfsa.net.cn:8086/db?task=indexSearch',
+      downloadEndpoint: 'https://sppt.cfsa.net.cn:8086/cfsa_aiguo',
+      platformRecordId: '6CA1489A-9570-4906-8CE8-CC86FBFB1941',
+      announcementRecordId: '3D0601E8-A77C-4EC5-B148-30E2E7020822',
+      fileGuid: '43C9B75E-3D84-4577-80FC-0F7D77D36407',
+      factName: '1747898473246.pdf',
+      pdfSha256: '2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de',
+      retrievedAt: '2026-06-12',
+      extractionTool: 'pdftotext -layout (poppler-utils)',
+      extractionScope: 'full_pdf_text_by_page',
+      generatedAt: '2026-06-13'
+    });
+
+    expect(row.id).toBe('gb2760-2024-pdf-page-001');
+    expect(row.pdfPage).toBe(1);
+    expect(row.text).toContain('食品添加剂使用标准');
+    expect(row.pdfSha256).toBe('2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de');
+    expect(row.extractionScope).toBe('full_pdf_text_by_page');
     expect(row.syncedAt).toBeInstanceOf(Date);
   });
 
