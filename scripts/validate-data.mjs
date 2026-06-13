@@ -17,6 +17,15 @@ const gb2760StagingExtractionStatuses = new Set(['verified', 'extracted']);
 const gb2760StagingReviewStatuses = new Set(['verified', 'needs_review']);
 const gb2760ReferenceExtractionStatuses = new Set(['extracted']);
 const gb2760ReferenceReviewStatuses = new Set(['needs_review']);
+const c3OrphanContinuationFragments = [
+  /^icticus/u,
+  /^mosinBgene/u,
+  /^lusnaganoensis/u,
+  /^vart\.ubingensis/u,
+  /^tis/u,
+  /misstearothermoph/u,
+  /Pullulanibacil-$/u
+];
 const gb2760A1NoStagingRequiredSeedIds = new Set([
   'calcium-citrate',
   'citral',
@@ -697,6 +706,7 @@ export function validateGb2760OfficialReferenceTables(
       } else if (row?.tableName === '表 C.3') {
         requireString(row.rowData, 'enzymeName', `${label}.rowData`, errors);
         requireString(row.rowData, 'source', `${label}.rowData`, errors);
+        validateNoC3OrphanContinuationFragments(row.rowData, ['source', 'donor'], `${label}.rowData`, errors);
       } else if (row?.tableName === '附录 D') {
         requireString(row.rowData, 'functionCategoryName', `${label}.rowData`, errors);
         requireString(row.rowData, 'definition', `${label}.rowData`, errors);
@@ -882,7 +892,21 @@ function validateGeneratedReferenceSourceRows(rows, options, errors) {
     if (options.tableName === '附录 F' && (!Number.isInteger(row?.a1PageNumber) || row.a1PageNumber <= 0)) {
       errors.push(`${label}.a1PageNumber must be a positive integer`);
     }
+    if (options.tableName === '表 C.3') {
+      validateNoC3OrphanContinuationFragments(row, ['source', 'donor'], label, errors);
+    }
   });
+}
+
+function validateNoC3OrphanContinuationFragments(item, fields, label, errors) {
+  for (const field of fields) {
+    const value = item?.[field];
+    if (typeof value !== 'string' || !value) continue;
+    const badFragment = c3OrphanContinuationFragments.find((pattern) => pattern.test(value));
+    if (badFragment) {
+      errors.push(`${label}.${field} must not contain orphan C.3 continuation fragment ${badFragment}`);
+    }
+  }
 }
 
 export function getGb2760OfficialReferenceTableQualityReport(rows = gb2760OfficialReferenceRows) {

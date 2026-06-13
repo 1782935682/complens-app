@@ -688,6 +688,38 @@ function normalizeCoordinateRowData(tableName, row, rowData) {
       donor: '地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus'
     };
   }
+  if (row.rowNumber === 23) {
+    return {
+      ...normalizedRowData,
+      source: '橘青霉penicilliumcitrinum'
+    };
+  }
+  if (row.rowNumber === 40) {
+    return {
+      ...normalizedRowData,
+      source: '乳克鲁维酵母Kluyveromyceslac-tis',
+      donor: '小牛前凝乳酶B基因calfprochy-mosinBgene'
+    };
+  }
+  if (row.rowNumber === 47) {
+    return {
+      ...normalizedRowData,
+      source: '枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacillusnaganoensis'
+    };
+  }
+  if (row.rowNumber === 48) {
+    return {
+      ...normalizedRowData,
+      source: '米曲霉Aspergillusoryzae'
+    };
+  }
+  if (row.rowNumber === 63) {
+    return {
+      ...normalizedRowData,
+      source: '李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei黑曲霉Aspergillusniger',
+      donor: ''
+    };
+  }
   return normalizedRowData;
 }
 

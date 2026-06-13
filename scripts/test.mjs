@@ -1189,10 +1189,27 @@ assert.match(c3EnzymeRow2.rawSourceText, /Geobacillusstearothermophilus/u);
 const c3EnzymeRow3 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 3);
 assert.equal(c3EnzymeRow3.enzymeName, 'α-淀粉酶Alpha-amylase');
 assert.doesNotMatch(c3EnzymeRow3.source, /^misstearothermoph/u);
+const c3EnzymeRow23 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 23);
+assert.equal(c3EnzymeRow23.source, '橘青霉penicilliumcitrinum');
+assert.doesNotMatch(c3EnzymeRow23.source, /^icticus/u);
+const c3EnzymeRow40 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 40);
+assert.equal(c3EnzymeRow40.source, '乳克鲁维酵母Kluyveromyceslac-tis');
+assert.equal(c3EnzymeRow40.donor, '小牛前凝乳酶B基因calfprochy-mosinBgene');
+assert.doesNotMatch(c3EnzymeRow40.donor, /^mosinBgene/u);
+const c3EnzymeRow47 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 47);
+assert.match(c3EnzymeRow47.source, /长野解普鲁兰杆菌Pullulanibacillusnaganoensis/u);
+assert.doesNotMatch(c3EnzymeRow47.source, /Pullulanibacil-$/u);
+const c3EnzymeRow48 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 48);
+assert.equal(c3EnzymeRow48.source, '米曲霉Aspergillusoryzae');
+assert.doesNotMatch(c3EnzymeRow48.source, /^lusnaganoensis/u);
 const c3EnzymeRow50 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 50);
 assert.equal(c3EnzymeRow50.enzymeName, '乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)');
 assert.match(c3EnzymeRow50.source, /Bifidobacteriumbifidum/u);
 assert.doesNotMatch(c3EnzymeRow50.source, /^tis/u);
+const c3EnzymeRow63 = gb2760OfficialC3EnzymePreparationRows.find((row) => row.rowNumber === 63);
+assert.equal(c3EnzymeRow63.source, '李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei黑曲霉Aspergillusniger');
+assert.equal(c3EnzymeRow63.donor, '');
+assert.doesNotMatch(c3EnzymeRow63.donor, /^vart\.ubingensis/u);
 assert.equal(gb2760OfficialC3EnzymePreparationRows.at(-1).enzymeName, '转葡糖苷酶Transglucosidase');
 assert.equal(gb2760OfficialDFunctionCategoryRows.find((row) => row.rowNumber === 21).functionCategoryName, '食品用香料');
 assert.match(gb2760OfficialDFunctionCategoryRows.find((row) => row.rowNumber === 21).definition, /产生香味/);
@@ -1247,6 +1264,11 @@ assert.match(validateGb2760OfficialReferenceTables(gb2760OfficialReferenceRows.m
     ? { ...row, rowData: { ...row.rowData, flavorUseRestriction: 'no_added_food_flavor', footnoteMarker: '', footnote: undefined } }
     : row
 )), gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1NoFlavorFoodCategories).join('\n'), /footnoteMarker must match the B\.1 source footnote marker/);
+assert.match(validateGb2760OfficialReferenceTables(gb2760OfficialReferenceRows.map((row) => (
+  row.id === 'gb2760-2024-c3-enzyme-preparation-048'
+    ? { ...row, rowData: { ...row.rowData, source: 'lusnaganoensis米曲霉Aspergillusoryzae' } }
+    : row
+))).join('\n'), /orphan C\.3 continuation fragment/);
 const gb2760ReferenceSummary = getGb2760OfficialReferenceTableSummary();
 assert.equal(gb2760ReferenceSummary.totalRows, 2800);
 assert.equal(gb2760ReferenceSummary.b1NoFlavorFoodCategoryCount, 29);

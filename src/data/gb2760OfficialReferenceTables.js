@@ -35403,7 +35403,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "23",
     "rowName": "核酸酶Nuclease",
     "enzymeName": "核酸酶Nuclease",
-    "source": "icticus橘青霉penicilliumcitrinum",
+    "source": "橘青霉penicilliumcitrinum",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
@@ -35411,7 +35411,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       236
     ],
     "rawRowText": "icticus23核酸酶Nuclease橘青霉penicilliumcitrinum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 23；酶 核酸酶Nuclease；来源 icticus橘青霉penicilliumcitrinum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 23；酶 核酸酶Nuclease；来源 橘青霉penicilliumcitrinum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-024",
@@ -35675,15 +35675,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "40",
     "rowName": "凝乳酶BChymosinB",
     "enzymeName": "凝乳酶BChymosinB",
-    "source": "var.awamori乳克鲁维酵母Kluyveromyceslac-tis",
-    "donor": "mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene",
+    "source": "乳克鲁维酵母Kluyveromyceslac-tis",
+    "donor": "小牛前凝乳酶B基因calfprochy-mosinBgene",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "var.awamorimosinBgene40凝乳酶BChymosinB乳克鲁维酵母Kluyveromyceslac-小牛前凝乳酶B基因calfprochy-tismosinBgene",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶BChymosinB；来源 var.awamori乳克鲁维酵母Kluyveromyceslac-tis；供体 mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶BChymosinB；来源 乳克鲁维酵母Kluyveromyceslac-tis；供体 小牛前凝乳酶B基因calfprochy-mosinBgene。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-041",
@@ -35788,7 +35788,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "47",
     "rowName": "普鲁兰酶Pullulanase",
     "enzymeName": "普鲁兰酶Pullulanase",
-    "source": "枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-",
+    "source": "枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacillusnaganoensis",
     "donor": "嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans",
     "pdfPage": 239,
     "standardPage": 236,
@@ -35797,7 +35797,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       240
     ],
     "rawRowText": "枯草芽孢杆菌Bacillussubtilis47普鲁兰酶Pullulanase嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌Bacillussubtilisdopullulyticus嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusderamificans地衣芽孢杆菌Bacilluslichenifor-Bacillusderamificans47普鲁兰酶Pullulanasemis长野解普鲁兰杆菌Pullulanibacil-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase；来源 枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-；供体 嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase；来源 枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacillusnaganoensis；供体 嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-048",
@@ -35805,7 +35805,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "48",
     "rowName": "漆酶Laccase",
     "enzymeName": "漆酶Laccase",
-    "source": "lusnaganoensis米曲霉Aspergillusoryzae",
+    "source": "米曲霉Aspergillusoryzae",
     "donor": "嗜热毁丝霉Myceliophthorathermophila",
     "pdfPage": 240,
     "standardPage": 237,
@@ -35813,7 +35813,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       240
     ],
     "rawRowText": "lusnaganoensis嗜热毁丝霉48漆酶Laccase米曲霉AspergillusoryzaeMyceliophthorathermophila",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 48；酶 漆酶Laccase；来源 lusnaganoensis米曲霉Aspergillusoryzae；供体 嗜热毁丝霉Myceliophthorathermophila。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 48；酶 漆酶Laccase；来源 米曲霉Aspergillusoryzae；供体 嗜热毁丝霉Myceliophthorathermophila。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-049",
@@ -36046,15 +36046,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "63",
     "rowName": "酯酶Esterase",
     "enzymeName": "酯酶Esterase",
-    "source": "Trichodermareesei李氏木霉Trichodermareesei黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
-    "donor": "vart.ubingensis尖孢镰刀菌Fusariumoxysporum",
+    "source": "李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei黑曲霉Aspergillusniger",
+    "donor": "",
     "pdfPage": 242,
     "standardPage": 239,
     "pdfPages": [
       242
     ],
     "rawRowText": "Trichodermareeseivart.ubingensis李氏木霉尖孢镰刀菌TrichodermareeseiFusariumoxysporum黑曲霉Aspergillusniger63酯酶Esterase李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶Esterase；来源 Trichodermareesei李氏木霉Trichodermareesei黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei；供体 vart.ubingensis尖孢镰刀菌Fusariumoxysporum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶Esterase；来源 李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei黑曲霉Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-064",
