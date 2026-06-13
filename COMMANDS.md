@@ -133,6 +133,18 @@ cd backend
 npm run db:seed
 ```
 
+GB 2760-2024 官方 PDF 全文转换（需要本机已安装 `poppler-utils` / `pdftotext`，默认读取 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`）：
+
+```bash
+node scripts/generate-gb2760-fulltext.mjs
+```
+
+该命令生成 `src/data/gb2760OfficialFullText.js`，保存官方 PDF 全 264 页逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段。后端 `npm run db:seed` 会同时导入：
+
+- `ingredients`
+- `gb2760_official_records` 表 A.1 行级 staging
+- `gb2760_official_pages` PDF 全文页
+
 可选审计参数：
 
 ```bash

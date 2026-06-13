@@ -1,7 +1,9 @@
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { foodIngredients } from '../src/data/foodAdditives.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { gb2760OfficialStagingRecords, gb2760OfficialStagingSource } from '../src/data/gb2760OfficialStaging.js';
+import { gb2760OfficialFullTextPages, gb2760OfficialFullTextSource } from '../src/data/gb2760OfficialFullText.js';
 
 const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);
@@ -12,6 +14,17 @@ const sourceScopes = new Set(['gb_2760_regulation', 'jecfa_safety_evaluation', '
 const confidenceLevels = new Set(['high', 'medium', 'low', 'unverified']);
 const gb2760StagingExtractionStatuses = new Set(['verified', 'extracted']);
 const gb2760StagingReviewStatuses = new Set(['verified', 'needs_review']);
+const gb2760A1NoStagingRequiredSeedIds = new Set([
+  'calcium-citrate',
+  'citral',
+  'ethyl-maltol',
+  'ethyl-vanillin',
+  'isomalt',
+  'konjac-gum',
+  'menthol',
+  'potassium-benzoate',
+  'vanillin'
+]);
 const consumerGroups = new Set(['pregnant', 'infant', 'child', 'diabetic', 'renal', 'sensitive']);
 const allergenTypes = new Set(standardAllergenTypes);
 const absoluteMedicalClaims = [
@@ -322,6 +335,21 @@ export function validateGb2760OfficialStaging(records = gb2760OfficialStagingRec
   return errors;
 }
 
+export function validateGb2760OfficialSeedCoverage(records = gb2760OfficialStagingRecords, ingredients = foodIngredients) {
+  const report = getGb2760OfficialSeedCoverageReport(records, ingredients);
+  const errors = [];
+
+  if (report.unexpectedUncoveredSeedIds.length) {
+    errors.push(`GB 2760 staging is missing A.1 coverage for seed ids: ${report.unexpectedUncoveredSeedIds.join(', ')}`);
+  }
+
+  if (report.coveredNotApplicableSeedIds.length) {
+    errors.push(`GB 2760 staging has records for seed ids marked no-A.1-evidence: ${report.coveredNotApplicableSeedIds.join(', ')}`);
+  }
+
+  return errors;
+}
+
 export function getGb2760OfficialStagingQualityReport(records = gb2760OfficialStagingRecords) {
   const safeRecords = Array.isArray(records) ? records : [];
   const reviewStatusCounts = countBy(safeRecords, (record) => record?.reviewStatus || 'missing');
@@ -338,6 +366,111 @@ export function getGb2760OfficialStagingQualityReport(records = gb2760OfficialSt
     reviewStatusCounts,
     extractionStatusCounts,
     sourceNameCounts
+  };
+}
+
+export function getGb2760OfficialSeedCoverageReport(records = gb2760OfficialStagingRecords, ingredients = foodIngredients) {
+  const safeRecords = Array.isArray(records) ? records : [];
+  const seedIds = (Array.isArray(ingredients) ? ingredients : [])
+    .filter((item) => item?.kind === 'food-additive')
+    .map((item) => item.id)
+    .filter(Boolean)
+    .sort();
+  const coveredSeedIds = new Set(safeRecords.map((record) => record?.ingredientId).filter(Boolean));
+  const notApplicableSeedIds = seedIds.filter((id) => gb2760A1NoStagingRequiredSeedIds.has(id));
+  const coveredApplicableSeedIds = seedIds.filter((id) => coveredSeedIds.has(id) && !gb2760A1NoStagingRequiredSeedIds.has(id));
+  const uncoveredSeedIds = seedIds.filter((id) => !coveredSeedIds.has(id));
+  const unexpectedUncoveredSeedIds = uncoveredSeedIds.filter((id) => !gb2760A1NoStagingRequiredSeedIds.has(id));
+  const coveredNotApplicableSeedIds = seedIds.filter((id) => coveredSeedIds.has(id) && gb2760A1NoStagingRequiredSeedIds.has(id));
+
+  return {
+    seedCount: seedIds.length,
+    matchingSeedCount: seedIds.length - notApplicableSeedIds.length,
+    matchingCoveredSeedCount: coveredApplicableSeedIds.length,
+    notApplicableSeedCount: notApplicableSeedIds.length,
+    coveredSeedCount: seedIds.filter((id) => coveredSeedIds.has(id)).length,
+    uncoveredSeedIds,
+    unexpectedUncoveredSeedIds,
+    coveredNotApplicableSeedIds,
+    notApplicableSeedIds
+  };
+}
+
+export function validateGb2760OfficialFullText(pages = gb2760OfficialFullTextPages) {
+  const errors = [];
+  const ids = new Set();
+  const pdfPages = new Set();
+
+  if (!Array.isArray(pages)) {
+    return ['gb2760OfficialFullTextPages must be an array'];
+  }
+
+  if (pages.length !== 264) {
+    errors.push(`gb2760OfficialFullTextPages must contain 264 pages, got ${pages.length}`);
+  }
+
+  pages.forEach((page, index) => {
+    const label = page?.id || `gb2760OfficialFullTextPages[${index}]`;
+    requireString(page, 'id', label, errors);
+    requireString(page, 'standardCode', label, errors);
+    requireString(page, 'standardTitle', label, errors);
+    requireString(page, 'text', label, errors);
+    requireString(page, 'textSha256', label, errors);
+    requireString(page, 'sourceName', label, errors);
+    requireString(page, 'sourceType', label, errors);
+    requireString(page, 'sourceUrl', label, errors);
+    requireString(page, 'downloadEndpoint', label, errors);
+    requireString(page, 'platformRecordId', label, errors);
+    requireString(page, 'announcementRecordId', label, errors);
+    requireString(page, 'fileGuid', label, errors);
+    requireString(page, 'factName', label, errors);
+    requireString(page, 'pdfSha256', label, errors);
+    requireString(page, 'retrievedAt', label, errors);
+    requireString(page, 'extractionTool', label, errors);
+    requireString(page, 'extractionScope', label, errors);
+    requireIsoDate(page, 'generatedAt', label, errors);
+
+    if (typeof page?.id === 'string') {
+      if (ids.has(page.id)) errors.push(`Duplicate GB 2760 full-text page id "${page.id}"`);
+      ids.add(page.id);
+    }
+
+    if (!Number.isInteger(page?.pdfPage) || page.pdfPage <= 0) {
+      errors.push(`${label}.pdfPage must be a positive integer`);
+    } else {
+      if (pdfPages.has(page.pdfPage)) errors.push(`Duplicate GB 2760 full-text pdfPage "${page.pdfPage}"`);
+      pdfPages.add(page.pdfPage);
+      if (page.pdfPage !== index + 1) errors.push(`${label}.pdfPage must be sequential, expected ${index + 1}`);
+    }
+
+    if (page?.sourceName !== gb2760OfficialFullTextSource.sourceName) {
+      errors.push(`${label}.sourceName must be the official NHC/platform source`);
+    }
+
+    if (page?.sourceType !== 'official_standard') {
+      errors.push(`${label}.sourceType must be official_standard`);
+    }
+
+    if (page?.pdfSha256 !== gb2760OfficialFullTextSource.pdfSha256) {
+      errors.push(`${label}.pdfSha256 must match the official PDF SHA-256`);
+    }
+
+    const textHash = createHash('sha256').update(String(page?.text || ''), 'utf8').digest('hex');
+    if (page?.textSha256 !== textHash) {
+      errors.push(`${label}.textSha256 does not match page text`);
+    }
+  });
+
+  return errors;
+}
+
+export function getGb2760OfficialFullTextQualityReport(pages = gb2760OfficialFullTextPages) {
+  const safePages = Array.isArray(pages) ? pages : [];
+  return {
+    totalPages: safePages.length,
+    standardPageLabelCount: new Set(safePages.map((page) => page?.standardPageLabel).filter(Boolean)).size,
+    emptyTextPages: safePages.filter((page) => !hasText(page?.text)).map((page) => page.pdfPage),
+    textSha256Count: new Set(safePages.map((page) => page?.textSha256).filter(Boolean)).size
   };
 }
 
@@ -437,10 +570,14 @@ function formatAllowed(values) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const errors = [
     ...validateFoodAdditives(),
-    ...validateGb2760OfficialStaging()
+    ...validateGb2760OfficialStaging(),
+    ...validateGb2760OfficialSeedCoverage(),
+    ...validateGb2760OfficialFullText()
   ];
   const report = getFoodAdditiveQualityReport();
   const stagingReport = getGb2760OfficialStagingQualityReport();
+  const coverageReport = getGb2760OfficialSeedCoverageReport();
+  const fullTextReport = getGb2760OfficialFullTextQualityReport();
   if (errors.length) {
     console.error(`Data validation failed with ${errors.length} error(s):`);
     for (const error of errors) console.error(`- ${error}`);
@@ -449,6 +586,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.log(`Data validation passed: ${foodIngredients.length} food records checked.`);
   console.log(`Data quality report: reviewed=${report.reviewedCount}, verified=${report.verifiedCount}, dataStatus=${formatCounts(report.dataStatusCounts)}, confidenceUnverified=${report.unverifiedCount}, missingSourceFields=${report.missingSourceFieldCount}, missingUsageLimits=${report.missingUsageLimitsCount}.`);
   console.log(`GB 2760 staging report: rows=${stagingReport.totalCount}, linkedIngredients=${stagingReport.linkedIngredientCount}, unlinked=${stagingReport.unlinkedCount}, pdfPages=${stagingReport.pdfPageCount}, reviewStatus=${formatCounts(stagingReport.reviewStatusCounts)}, extractionStatus=${formatCounts(stagingReport.extractionStatusCounts)}.`);
+  console.log(`GB 2760 seed coverage report: matchingCovered=${coverageReport.matchingCoveredSeedCount}/${coverageReport.matchingSeedCount}, noA1Evidence=${coverageReport.notApplicableSeedCount}, unexpectedUncovered=${coverageReport.unexpectedUncoveredSeedIds.join(', ') || 'none'}.`);
+  console.log(`GB 2760 full-text report: pages=${fullTextReport.totalPages}, standardPageLabels=${fullTextReport.standardPageLabelCount}, textSha256=${fullTextReport.textSha256Count}, emptyTextPages=${fullTextReport.emptyTextPages.join(', ') || 'none'}.`);
   console.log(`Data source versions: ${formatCounts(report.sourceVersionCounts)}.`);
   console.log(`Review queue sample: ${report.reviewQueue.slice(0, 10).join(', ') || 'none'}.`);
 }

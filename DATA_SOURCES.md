@@ -33,11 +33,16 @@
 
 `citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`。
 
-为后续把官方文档持续导入数据库，已新增 GB 2760 行级 staging 数据集和后端表 `gb2760_official_records`：
+为后续把官方文档持续导入数据库，已新增两层 GB 2760 官方数据：
 
-- 当前 staging 行数：161 行，覆盖 24 个现有食品添加剂 ID。
+- PDF 全文转换层：`src/data/gb2760OfficialFullText.js` 保存官方 PDF 全 264 页的 `pdftotext -layout` 逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段；后端表 `gb2760_official_pages` 可将全文页入库，确保不是只保存本地 PDF 文件。
+- 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取行保持 `needs_review`，不得直接当作正式 `usageLimits`。
+
+- 当前全文页数：264 页，覆盖 GB 2760-2024 官方 PDF 全文。
+- 当前表 A.1 行级 staging 行数：2405 行，覆盖表 A.1 的 PDF 第 8-148 页（标准页 5-145）；其中 554 行已关联 91 个现有食品添加剂 ID，1851 行尚未匹配本地 ingredient。
 - 已与正式 `ingredients.usageLimits` 对齐的 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量。
-- 待审核 staging 行：148 行，来自官方 PDF 表 A.1 的 `guar-gum`、`pectin`、`potassium-citrate`、`sodium-carboxymethyl-cellulose`、`calcium-silicate`、`gellan-gum`、`magnesium-carbonate`、`propylene-glycol-alginate`、`sodium-alginate`、`carrageenan`、`calcium-chloride`、`natamycin`、`agar`、`lactic-acid`、`calcium-lactate`、`nisin`、`calcium-disodium-edta`、`sodium-acetate`、`sucralose`，状态为 `needs_review`，只代表官方 PDF 原文已抽取入库，不代表正式成分详情已升级。
+- 待审核 staging 行：2392 行，来自官方 PDF 表 A.1 的行级抽取结果，状态为 `needs_review`；这些行只代表官方 PDF 原文、页码和限量已进入 staging，不代表正式成分详情已升级。
+- 100 条食品添加剂 seed 的 A.1 覆盖审计：91 条在官方 PDF 表 A.1 中找到可匹配条目并已进入 staging；9 条未找到可结构化的 A.1 证据，当前不强行编造 staging 行：`calcium-citrate`、`citral`、`ethyl-maltol`、`ethyl-vanillin`、`isomalt`、`konjac-gum`、`menthol`、`potassium-benzoate`、`vanillin`。
 - staging 表按“添加剂 × 食品类别 × 最大使用量/备注”逐行存储，保留 `pdfPage`、`standardPage`、`rawSourceText`、平台记录 ID、附件 ID 和 PDF SHA-256，供后续人工审核后再聚合进正式 `ingredients.usageLimits`。
 
 已确认的 GB 2760-2024 官方来源：
@@ -120,7 +125,23 @@ OCR 未匹配数据不直接写入权威库。运行时只记录为 `unknown_fro
 - `reviewNote`
 - `isVerified`
 
-GB 2760 官方 PDF 抽取数据先进入后端 `gb2760_official_records` staging 表，核心字段包括：
+GB 2760 官方 PDF 全文先进入后端 `gb2760_official_pages` 表，核心字段包括：
+
+- `pdfPage`
+- `standardPageLabel`
+- `text`
+- `textSha256`
+- `pdfSha256`
+- `extractionTool`
+- `extractionScope`
+- `sourceName`
+- `sourceUrl`
+- `downloadEndpoint`
+- `platformRecordId`
+- `fileGuid`
+- `generatedAt`
+
+GB 2760 官方 PDF 表 A.1 结构化抽取数据再进入后端 `gb2760_official_records` staging 表，核心字段包括：
 
 - `ingredientId`
 - `standardCode`
@@ -150,7 +171,7 @@ GB 2760 官方 PDF 抽取数据先进入后端 `gb2760_official_records` staging
 
 ## 后续数据任务
 
-1. 官方 GB 2760 数据导入：优先把官方 PDF 表格逐行导入 `gb2760_official_records` staging 表，不能可靠结构化时保留 `rawSourceText` 和 `needs_review`。
+1. 官方 GB 2760 数据导入：先保证官方 PDF 全文逐页进入 `gb2760_official_pages`，再把可可靠拆分的表 A.1 行导入 `gb2760_official_records` staging 表；不能可靠结构化时保留全文页和 `needs_review`，不得编造食品类别或限量。
 2. JECFA 映射扩充：只扩充安全评价来源，不写中国法规使用限制。
 3. 常见配料词库：继续从真实标签样本和可信词表扩展，并保持 `common_ingredient` 状态。
 4. OCR 未匹配收集：保存未收录条目、来源上下文和置信度，进入人工校验队列。

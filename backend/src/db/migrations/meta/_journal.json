@@ -71,6 +71,13 @@
       "when": 1781281721199,
       "tag": "0009_magical_red_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1781316318928,
+      "tag": "0010_bent_boomerang",
+      "breakpoints": true
     }
   ]
 }

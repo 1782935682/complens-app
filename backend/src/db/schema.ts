@@ -115,6 +115,36 @@ export const gb2760OfficialRecords = pgTable('gb2760_official_records', {
   index('gb2760_official_records_pdf_sha256_idx').on(table.pdfSha256)
 ]);
 
+export const gb2760OfficialPages = pgTable('gb2760_official_pages', {
+  id: text('id').primaryKey(),
+  standardCode: text('standard_code').notNull(),
+  standardTitle: text('standard_title').notNull(),
+  pdfPage: integer('pdf_page').notNull(),
+  standardPageLabel: text('standard_page_label').notNull().default(''),
+  text: text('text').notNull(),
+  textSha256: text('text_sha256').notNull(),
+  sourceName: text('source_name').notNull(),
+  sourceType: text('source_type').notNull(),
+  sourceUrl: text('source_url').notNull(),
+  downloadEndpoint: text('download_endpoint').notNull(),
+  platformRecordId: text('platform_record_id').notNull(),
+  announcementRecordId: text('announcement_record_id').notNull(),
+  fileGuid: text('file_guid').notNull(),
+  factName: text('fact_name').notNull(),
+  pdfSha256: text('pdf_sha256').notNull(),
+  retrievedAt: text('retrieved_at').notNull(),
+  extractionTool: text('extraction_tool').notNull(),
+  extractionScope: text('extraction_scope').notNull(),
+  generatedAt: text('generated_at').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  syncedAt: timestamp('synced_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('gb2760_official_pages_pdf_page_unique_idx').on(table.pdfPage),
+  index('gb2760_official_pages_standard_page_label_idx').on(table.standardPageLabel),
+  index('gb2760_official_pages_text_sha256_idx').on(table.textSha256),
+  index('gb2760_official_pages_pdf_sha256_idx').on(table.pdfSha256)
+]);
+
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull(),
@@ -232,6 +262,8 @@ export type NewIngredientRow = typeof ingredients.$inferInsert;
 export type NewIngredientSourceRow = typeof ingredientSources.$inferInsert;
 export type Gb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferSelect;
 export type NewGb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferInsert;
+export type Gb2760OfficialPageRow = typeof gb2760OfficialPages.$inferSelect;
+export type NewGb2760OfficialPageRow = typeof gb2760OfficialPages.$inferInsert;
 export type UserRow = typeof users.$inferSelect;
 export type NewUserRow = typeof users.$inferInsert;
 export type SessionRow = typeof sessions.$inferSelect;
