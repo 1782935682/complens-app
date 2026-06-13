@@ -14,6 +14,17 @@ const sourceScopes = new Set(['gb_2760_regulation', 'jecfa_safety_evaluation', '
 const confidenceLevels = new Set(['high', 'medium', 'low', 'unverified']);
 const gb2760StagingExtractionStatuses = new Set(['verified', 'extracted']);
 const gb2760StagingReviewStatuses = new Set(['verified', 'needs_review']);
+const gb2760A1NoStagingRequiredSeedIds = new Set([
+  'calcium-citrate',
+  'citral',
+  'ethyl-maltol',
+  'ethyl-vanillin',
+  'isomalt',
+  'konjac-gum',
+  'menthol',
+  'potassium-benzoate',
+  'vanillin'
+]);
 const consumerGroups = new Set(['pregnant', 'infant', 'child', 'diabetic', 'renal', 'sensitive']);
 const allergenTypes = new Set(standardAllergenTypes);
 const absoluteMedicalClaims = [
@@ -324,6 +335,21 @@ export function validateGb2760OfficialStaging(records = gb2760OfficialStagingRec
   return errors;
 }
 
+export function validateGb2760OfficialSeedCoverage(records = gb2760OfficialStagingRecords, ingredients = foodIngredients) {
+  const report = getGb2760OfficialSeedCoverageReport(records, ingredients);
+  const errors = [];
+
+  if (report.unexpectedUncoveredSeedIds.length) {
+    errors.push(`GB 2760 staging is missing A.1 coverage for seed ids: ${report.unexpectedUncoveredSeedIds.join(', ')}`);
+  }
+
+  if (report.coveredNotApplicableSeedIds.length) {
+    errors.push(`GB 2760 staging has records for seed ids marked no-A.1-evidence: ${report.coveredNotApplicableSeedIds.join(', ')}`);
+  }
+
+  return errors;
+}
+
 export function getGb2760OfficialStagingQualityReport(records = gb2760OfficialStagingRecords) {
   const safeRecords = Array.isArray(records) ? records : [];
   const reviewStatusCounts = countBy(safeRecords, (record) => record?.reviewStatus || 'missing');
@@ -340,6 +366,33 @@ export function getGb2760OfficialStagingQualityReport(records = gb2760OfficialSt
     reviewStatusCounts,
     extractionStatusCounts,
     sourceNameCounts
+  };
+}
+
+export function getGb2760OfficialSeedCoverageReport(records = gb2760OfficialStagingRecords, ingredients = foodIngredients) {
+  const safeRecords = Array.isArray(records) ? records : [];
+  const seedIds = (Array.isArray(ingredients) ? ingredients : [])
+    .filter((item) => item?.kind === 'food-additive')
+    .map((item) => item.id)
+    .filter(Boolean)
+    .sort();
+  const coveredSeedIds = new Set(safeRecords.map((record) => record?.ingredientId).filter(Boolean));
+  const notApplicableSeedIds = seedIds.filter((id) => gb2760A1NoStagingRequiredSeedIds.has(id));
+  const coveredApplicableSeedIds = seedIds.filter((id) => coveredSeedIds.has(id) && !gb2760A1NoStagingRequiredSeedIds.has(id));
+  const uncoveredSeedIds = seedIds.filter((id) => !coveredSeedIds.has(id));
+  const unexpectedUncoveredSeedIds = uncoveredSeedIds.filter((id) => !gb2760A1NoStagingRequiredSeedIds.has(id));
+  const coveredNotApplicableSeedIds = seedIds.filter((id) => coveredSeedIds.has(id) && gb2760A1NoStagingRequiredSeedIds.has(id));
+
+  return {
+    seedCount: seedIds.length,
+    matchingSeedCount: seedIds.length - notApplicableSeedIds.length,
+    matchingCoveredSeedCount: coveredApplicableSeedIds.length,
+    notApplicableSeedCount: notApplicableSeedIds.length,
+    coveredSeedCount: seedIds.filter((id) => coveredSeedIds.has(id)).length,
+    uncoveredSeedIds,
+    unexpectedUncoveredSeedIds,
+    coveredNotApplicableSeedIds,
+    notApplicableSeedIds
   };
 }
 
@@ -518,10 +571,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const errors = [
     ...validateFoodAdditives(),
     ...validateGb2760OfficialStaging(),
+    ...validateGb2760OfficialSeedCoverage(),
     ...validateGb2760OfficialFullText()
   ];
   const report = getFoodAdditiveQualityReport();
   const stagingReport = getGb2760OfficialStagingQualityReport();
+  const coverageReport = getGb2760OfficialSeedCoverageReport();
   const fullTextReport = getGb2760OfficialFullTextQualityReport();
   if (errors.length) {
     console.error(`Data validation failed with ${errors.length} error(s):`);
@@ -531,6 +586,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.log(`Data validation passed: ${foodIngredients.length} food records checked.`);
   console.log(`Data quality report: reviewed=${report.reviewedCount}, verified=${report.verifiedCount}, dataStatus=${formatCounts(report.dataStatusCounts)}, confidenceUnverified=${report.unverifiedCount}, missingSourceFields=${report.missingSourceFieldCount}, missingUsageLimits=${report.missingUsageLimitsCount}.`);
   console.log(`GB 2760 staging report: rows=${stagingReport.totalCount}, linkedIngredients=${stagingReport.linkedIngredientCount}, unlinked=${stagingReport.unlinkedCount}, pdfPages=${stagingReport.pdfPageCount}, reviewStatus=${formatCounts(stagingReport.reviewStatusCounts)}, extractionStatus=${formatCounts(stagingReport.extractionStatusCounts)}.`);
+  console.log(`GB 2760 seed coverage report: matchingCovered=${coverageReport.matchingCoveredSeedCount}/${coverageReport.matchingSeedCount}, noA1Evidence=${coverageReport.notApplicableSeedCount}, unexpectedUncovered=${coverageReport.unexpectedUncoveredSeedIds.join(', ') || 'none'}.`);
   console.log(`GB 2760 full-text report: pages=${fullTextReport.totalPages}, standardPageLabels=${fullTextReport.standardPageLabelCount}, textSha256=${fullTextReport.textSha256Count}, emptyTextPages=${fullTextReport.emptyTextPages.join(', ') || 'none'}.`);
   console.log(`Data source versions: ${formatCounts(report.sourceVersionCounts)}.`);
   console.log(`Review queue sample: ${report.reviewQueue.slice(0, 10).join(', ') || 'none'}.`);

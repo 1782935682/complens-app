@@ -39,9 +39,10 @@
 - 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；未拆出的内容先从全文页追溯，不得伪造结构化限量。
 
 - 当前全文页数：264 页，覆盖 GB 2760-2024 官方 PDF 全文。
-- 当前表 A.1 行级 staging 行数：252 行，覆盖 39 个现有食品添加剂 ID。
+- 当前表 A.1 行级 staging 行数：348 行，覆盖 91 个现有食品添加剂 ID。
 - 已与正式 `ingredients.usageLimits` 对齐的 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量。
-- 待审核 staging 行：239 行，来自官方 PDF 表 A.1 的 `guar-gum`、`pectin`、`potassium-citrate`、`sodium-carboxymethyl-cellulose`、`calcium-silicate`、`gellan-gum`、`magnesium-carbonate`、`propylene-glycol-alginate`、`sodium-alginate`、`carrageenan`、`calcium-chloride`、`natamycin`、`agar`、`lactic-acid`、`calcium-lactate`、`nisin`、`calcium-disodium-edta`、`sodium-acetate`、`sucralose`、`benzoic-acid`、`sodium-benzoate`、`aspartame`、`tartrazine`、`sorbic-acid`、`potassium-sorbate`、`acesulfame-potassium`、`sulfur-dioxide`、`potassium-metabisulfite`、`sodium-metabisulfite`、`monosodium-glutamate`、`ascorbic-acid`、`sodium-ascorbate`、`sunset-yellow-fcf`、`allura-red-ac` 等，状态为 `needs_review`，只代表官方 PDF 原文、页码和限量已进入 staging，不代表正式成分详情已升级。
+- 待审核 staging 行：335 行，来自官方 PDF 表 A.1 的行级抽取结果，状态为 `needs_review`；这些行只代表官方 PDF 原文、页码和限量已进入 staging，不代表正式成分详情已升级。
+- 100 条食品添加剂 seed 的 A.1 覆盖审计：91 条在官方 PDF 表 A.1 中找到可匹配条目并已进入 staging；9 条未找到可结构化的 A.1 证据，当前不强行编造 staging 行：`calcium-citrate`、`citral`、`ethyl-maltol`、`ethyl-vanillin`、`isomalt`、`konjac-gum`、`menthol`、`potassium-benzoate`、`vanillin`。
 - staging 表按“添加剂 × 食品类别 × 最大使用量/备注”逐行存储，保留 `pdfPage`、`standardPage`、`rawSourceText`、平台记录 ID、附件 ID 和 PDF SHA-256，供后续人工审核后再聚合进正式 `ingredients.usageLimits`。
 
 已确认的 GB 2760-2024 官方来源：

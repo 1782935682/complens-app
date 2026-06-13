@@ -227,7 +227,7 @@
 
 ### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
 
-**状态**：🔄 进行中（2026-06-13 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 官方 PDF 已完成 264 页全文转换并接入 `gb2760_official_pages` seed 通路；表 A.1 行级 staging 已扩至 252 行、覆盖 39 个现有食品添加剂 ID；GB 2760 剩余条款级限量仍待人工审核）
+**状态**：🔄 进行中（2026-06-13 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 官方 PDF 已完成 264 页全文转换并接入 `gb2760_official_pages` seed 通路；表 A.1 行级 staging 已扩至 348 行、覆盖 91 个现有食品添加剂 ID；100 条 seed 中有 A.1 证据的 91 条已全部覆盖，9 条无可结构化 A.1 证据；GB 2760 剩余条款级限量仍待人工审核）
 
 **目标**：不一次性补齐所有食品配料，先建立“基础权威库 + 持续扩充 + 人工校验队列”的可追溯数据导入流程。
 
@@ -291,9 +291,11 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 
 **2026-06-12 GB 2760 首批官方 PDF 条款级导入记录**：基于 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`（SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`）和食品安全国家标准数据检索平台官方记录，首批导入 5 条可可靠结构化的表 A.1 数据：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`。这些条目升级为 `reviewStatus: 'verified'`、`dataStatus: 'verified_regulation'`、`sourceScope: 'gb_2760_regulation'`、`confidenceLevel: 'high'`、`isVerified: true`，并写入 `usageLimits`、适用食品类别、PDF 页码/标准页码和官方来源引用；其余记录继续保持未验证或 JECFA-only 状态。
 
-**2026-06-13 GB 2760 官方 PDF staging 入库记录**：新增 `src/data/gb2760OfficialStaging.js` 和后端 `gb2760_official_records` 表，将官方 PDF 表 A.1 抽取结果按行存入数据库 staging 层。当前行级 staging 数据 252 行、覆盖 39 个现有添加剂 ID：13 行与首批 5 条 `verified_regulation` 的正式 `usageLimits` 对齐，239 行为 `needs_review`，新增覆盖 `calcium-silicate`、`gellan-gum`、`magnesium-carbonate`、`propylene-glycol-alginate`、`sodium-alginate`、`carrageenan`、`calcium-chloride`、`natamycin`、`agar`、`lactic-acid`、`calcium-lactate`、`nisin`、`calcium-disodium-edta`、`sodium-acetate`、`sucralose`、`benzoic-acid`、`sodium-benzoate`、`aspartame`、`tartrazine`、`sorbic-acid`、`potassium-sorbate`、`acesulfame-potassium`、`sulfur-dioxide`、`potassium-metabisulfite`、`sodium-metabisulfite`、`monosodium-glutamate`、`ascorbic-acid`、`sodium-ascorbate`、`sunset-yellow-fcf`、`allura-red-ac` 等官方 PDF 表 A.1 行。这些 `needs_review` 行只代表官方 PDF 原文、页码和限量已进入 staging，不自动升级正式成分详情、不修改 `isVerified`。
+**2026-06-13 GB 2760 官方 PDF staging 入库记录**：新增 `src/data/gb2760OfficialStaging.js` 和后端 `gb2760_official_records` 表，将官方 PDF 表 A.1 抽取结果按行存入数据库 staging 层。当前行级 staging 数据 348 行、覆盖 91 个现有添加剂 ID：13 行与首批 5 条 `verified_regulation` 的正式 `usageLimits` 对齐，335 行为 `needs_review`。100 条食品添加剂 seed 中，91 条在官方 PDF 表 A.1 找到可匹配条目并已进入 staging；`calcium-citrate`、`citral`、`ethyl-maltol`、`ethyl-vanillin`、`isomalt`、`konjac-gum`、`menthol`、`potassium-benzoate`、`vanillin` 这 9 条未找到可结构化 A.1 证据，当前不强行编造 staging 行。这些 `needs_review` 行只代表官方 PDF 原文、页码和限量已进入 staging，不自动升级正式成分详情、不修改 `isVerified`。
 
 **2026-06-13 GB 2760 官方 PDF 全文转换记录**：新增 `scripts/generate-gb2760-fulltext.mjs`、`src/data/gb2760OfficialFullText.js`、后端 `gb2760_official_pages` 表和 seed 通路，将官方 PDF 全 264 页按页转换为文本并保存页 SHA-256、PDF SHA-256、平台记录 ID、附件 ID、下载接口和提取工具信息。该全文层用于保证官方 PDF 全量可追溯；表 A.1 逐食品类别限量仍需从全文层继续拆分到 `gb2760_official_records`，不能把全文页自动当成正式 `usageLimits`。
+
+**2026-06-13 GB 2760 seed 覆盖审计记录**：`scripts/validate-data.mjs` 新增 seed 覆盖报告，校验 `src/data/foodAdditives.js` 的 100 条食品添加剂 seed 与 `gb2760_official_records` staging 的覆盖关系。当前输出为 `matchingCovered=91/91`、`noA1Evidence=9`、`unexpectedUncovered=none`；这表示有 A.1 证据的 seed 已 100% 进入 staging，而不是 PDF 只有 100 条。官方 PDF 全 264 页仍由 `gb2760_official_pages` 全文层完整保存。
 
 ---
 

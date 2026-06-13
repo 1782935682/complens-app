@@ -44,7 +44,7 @@ import { clearMatchCache, matchIngredients, matchIngredientsLocal } from '../src
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
-import { getGb2760OfficialFullTextQualityReport, getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialFullText, validateGb2760OfficialStaging } from './validate-data.mjs';
+import { getGb2760OfficialFullTextQualityReport, getGb2760OfficialSeedCoverageReport, getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialFullText, validateGb2760OfficialSeedCoverage, validateGb2760OfficialStaging } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
 assert.deepEqual(resolveRoute('#/food/search?q=E330'), {
@@ -988,10 +988,10 @@ assert.match(reviewedPotassiumNitrate.adi, /does not apply to infants below 3 mo
 assert.match(reviewedPotassiumNitrate.regulatoryBasis, /as nitrate ion/);
 assert.match(reviewedPotassiumNitrate.rawSourceText, /infants below 3 months/);
 const gb2760StagingSummary = getGb2760OfficialStagingSummary();
-assert.equal(gb2760StagingSummary.totalCount, 252);
-assert.equal(gb2760StagingSummary.ingredientCount, 39);
+assert.equal(gb2760StagingSummary.totalCount, 348);
+assert.equal(gb2760StagingSummary.ingredientCount, 91);
 assert.equal(gb2760StagingSummary.statusCounts.verified, 13);
-assert.equal(gb2760StagingSummary.statusCounts.needs_review, 239);
+assert.equal(gb2760StagingSummary.statusCounts.needs_review, 335);
 assert.deepEqual(gb2760StagingSummary.sourceNames, [seedSourceName]);
 assert.equal(gb2760OfficialStagingRecords.every((record) => record.sourceType === 'official_standard'), true);
 assert.equal(gb2760OfficialStagingRecords.every((record) => /sppt\.cfsa\.net\.cn/.test(record.sourceUrl)), true);
@@ -1017,12 +1017,35 @@ assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sodium-acetate-compound-seasoning' && record.maxUseLevel === '10.0'), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sucralose-microwave-popcorn' && record.maxUseLevel === '5.0'), true);
 assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sucralose-beverages' && record.note.includes('即饮状态')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-disodium-ribonucleotides-general' && record.ingredientId === 'disodium-ribonucleotides'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-sodium-propionate-bread' && record.note.includes('丙酸计')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-lecithins-general' && record.additiveNameCn === '磷脂'), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-phosphoric-acid-milk-products' && record.note.includes('磷酸根')), true);
+assert.equal(gb2760OfficialStagingRecords.some((record) => record.id === 'gb2760-2024-a1-dimethylpolysiloxane-surface-treated-fresh-fruit' && record.maxUseLevel === '0.0009'), true);
 assert.deepEqual(validateGb2760OfficialStaging(), []);
+assert.deepEqual(validateGb2760OfficialSeedCoverage(), []);
+const gb2760SeedCoverageReport = getGb2760OfficialSeedCoverageReport();
+assert.equal(gb2760SeedCoverageReport.seedCount, 100);
+assert.equal(gb2760SeedCoverageReport.matchingSeedCount, 91);
+assert.equal(gb2760SeedCoverageReport.matchingCoveredSeedCount, 91);
+assert.equal(gb2760SeedCoverageReport.notApplicableSeedCount, 9);
+assert.deepEqual(gb2760SeedCoverageReport.unexpectedUncoveredSeedIds, []);
+assert.deepEqual(gb2760SeedCoverageReport.notApplicableSeedIds, [
+  'calcium-citrate',
+  'citral',
+  'ethyl-maltol',
+  'ethyl-vanillin',
+  'isomalt',
+  'konjac-gum',
+  'menthol',
+  'potassium-benzoate',
+  'vanillin'
+]);
 const gb2760StagingQualityReport = getGb2760OfficialStagingQualityReport();
-assert.equal(gb2760StagingQualityReport.totalCount, 252);
-assert.equal(gb2760StagingQualityReport.linkedIngredientCount, 39);
+assert.equal(gb2760StagingQualityReport.totalCount, 348);
+assert.equal(gb2760StagingQualityReport.linkedIngredientCount, 91);
 assert.equal(gb2760StagingQualityReport.unlinkedCount, 0);
-assert.equal(gb2760StagingQualityReport.pdfPageCount, 30);
+assert.equal(gb2760StagingQualityReport.pdfPageCount, 67);
 const gb2760FullTextSummary = getGb2760OfficialFullTextSummary();
 assert.equal(gb2760FullTextSummary.totalPages, 264);
 assert.equal(gb2760FullTextSummary.textSha256Count, 264);

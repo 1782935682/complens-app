@@ -2580,6 +2580,1250 @@ export const gb2760OfficialStagingRecords = [
       unit: 'g/kg',
       note: '如用于果冻粉，按冲调倍数增加使用量'
     }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'disodium-ribonucleotides',
+    additiveNameCn: "5'-呈味核苷酸二钠（又名呈味核苷酸二钠）",
+    additiveNameEn: "disodium 5'-ribonucleotide",
+    cnsNumber: '12.004',
+    insNumber: '635',
+    functionText: '增味剂',
+    pdfPage: 8,
+    standardPage: 5,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-disodium-ribonucleotides-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: 'D-异抗坏血酸及其钠盐（包括 D-异抗坏血酸，D-异抗坏血酸钠）',
+    additiveNameEn: 'D-isoascorbic acid (erythorbic acid), sodium D-isoascorbate',
+    cnsNumber: '04.004, 04.018',
+    insNumber: '315, 316',
+    functionText: '抗氧化剂、护色剂',
+    pdfPage: 9,
+    standardPage: 6,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'erythorbic-acid' },
+    { ingredientId: 'sodium-erythorbate' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~62、64~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-wine',
+      foodCategoryCode: '15.03.01',
+      foodCategoryName: '葡萄酒',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: '以抗坏血酸计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'malic-acid',
+    additiveNameCn: 'DL-苹果酸',
+    additiveNameEn: 'DL-malic acid',
+    cnsNumber: '01.309',
+    insNumber: '296',
+    functionText: '酸度调节剂',
+    pdfPage: 9,
+    standardPage: 6,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-malic-acid-dl-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'malic-acid',
+    additiveNameCn: 'L-苹果酸',
+    additiveNameEn: 'L-malic acid',
+    cnsNumber: '01.104',
+    insNumber: '—',
+    functionText: '酸度调节剂',
+    pdfPage: 11,
+    standardPage: 8,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-malic-acid-l-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'acetic-acid',
+    additiveNameCn: '冰乙酸（又名冰醋酸）',
+    additiveNameEn: 'acetic acid',
+    cnsNumber: '01.107',
+    insNumber: '260',
+    functionText: '酸度调节剂',
+    pdfPage: 25,
+    standardPage: 22,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-acetic-acid-glacial-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品（12.03 食醋除外），表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '丙酸及其钠盐、钙盐（包括丙酸，丙酸钠，丙酸钙）',
+    additiveNameEn: 'propionic acid, sodium propionate, calcium propionate',
+    cnsNumber: '17.029, 17.006, 17.005',
+    insNumber: '280, 281, 282',
+    functionText: '防腐剂',
+    pdfPage: 26,
+    standardPage: 23,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'sodium-propionate' },
+    { ingredientId: 'calcium-propionate' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-legume-products',
+      foodCategoryCode: '04.04',
+      foodCategoryName: '豆类制品',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-raw-grain',
+      foodCategoryCode: '06.01',
+      foodCategoryName: '原粮',
+      maxUseLevel: '1.8',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-wet-noodles',
+      foodCategoryCode: '06.03.02.01',
+      foodCategoryName: '生湿面制品（如面条、饺子皮、馄饨皮、烧麦皮）',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-bread',
+      foodCategoryCode: '07.01',
+      foodCategoryName: '面包',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-pastry',
+      foodCategoryCode: '07.02',
+      foodCategoryName: '糕点',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-prepared-meat',
+      foodCategoryCode: '08.02.01',
+      foodCategoryName: '调理肉制品（生肉添加调理料）',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-smoked-roasted-meat',
+      foodCategoryCode: '08.03.02',
+      foodCategoryName: '熏、烧、烤肉类',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-vinegar',
+      foodCategoryCode: '12.03',
+      foodCategoryName: '食醋',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-soy-sauce',
+      foodCategoryCode: '12.04',
+      foodCategoryName: '酱油',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-liquid-compound-seasoning',
+      foodCategoryCode: '12.10.03',
+      foodCategoryName: '液体复合调味料',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: '以丙酸计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'mono-and-diglycerides-fatty-acids',
+    additiveNameCn: '单，双甘油脂肪酸酯',
+    additiveNameEn: 'mono- and diglycerides of fatty acids',
+    cnsNumber: '10.006',
+    insNumber: '471',
+    functionText: '乳化剂、被膜剂',
+    pdfPage: 31,
+    standardPage: 28,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-mono-and-diglycerides-fatty-acids-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~4、6~11、13~14、16~30、32~53、59~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-mono-and-diglycerides-fatty-acids-butter-concentrated-butter',
+      foodCategoryCode: '02.02.01.01',
+      foodCategoryName: '黄油和浓缩黄油',
+      maxUseLevel: '20.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-mono-and-diglycerides-fatty-acids-dry-noodles',
+      foodCategoryCode: '06.03.02.02',
+      foodCategoryName: '生干面制品',
+      maxUseLevel: '30.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-mono-and-diglycerides-fatty-acids-syrup',
+      foodCategoryCode: '11.01.02',
+      foodCategoryName: '赤砂糖、原糖、其他糖和糖浆',
+      maxUseLevel: '6.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-mono-and-diglycerides-fatty-acids-spices',
+      foodCategoryCode: '12.09',
+      foodCategoryName: '香辛料类',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'silicon-dioxide',
+    additiveNameCn: '二氧化硅',
+    additiveNameEn: 'silicon dioxide',
+    cnsNumber: '02.004',
+    insNumber: '551',
+    functionText: '抗结剂',
+    pdfPage: 35,
+    standardPage: 32,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-silicon-dioxide-milk-powder-products',
+      foodCategoryCode: '01.03',
+      foodCategoryName: '乳粉和奶油粉及其调制产品（01.03.01 乳粉和奶油粉除外）',
+      maxUseLevel: '15.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-silicon-dioxide-milk-tablets',
+      foodCategoryCode: '01.08',
+      foodCategoryName: '其他乳制品（如乳清粉、酪蛋白粉等）（仅限奶片）',
+      maxUseLevel: '15.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'glycerol',
+    additiveNameCn: '甘油（又名丙三醇）',
+    additiveNameEn: 'glycerine (glycerol)',
+    cnsNumber: '15.014',
+    insNumber: '422',
+    functionText: '水分保持剂、乳化剂',
+    pdfPage: 43,
+    standardPage: 40,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-glycerol-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'erythritol',
+    additiveNameCn: '赤藓糖醇',
+    additiveNameEn: 'erythritol',
+    cnsNumber: '19.018',
+    insNumber: '968',
+    functionText: '甜味剂',
+    pdfPage: 30,
+    standardPage: 27,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-erythritol-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'maltitol',
+    additiveNameCn: '麦芽糖醇，麦芽糖醇液',
+    additiveNameEn: 'maltitol and maltitol syrup',
+    cnsNumber: '19.005, 19.022',
+    insNumber: '965(i), 965(ii)',
+    functionText: '甜味剂、稳定剂、水分保持剂、乳化剂、膨松剂、增稠剂',
+    pdfPage: 83,
+    standardPage: 80,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-maltitol-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-maltitol-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-maltitol-frozen-surimi-products',
+      foodCategoryCode: '09.02.03',
+      foodCategoryName: '冷冻水产糜及其制品（包括冷冻丸类产品等）',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'xylitol',
+    additiveNameCn: '木糖醇',
+    additiveNameEn: 'xylitol',
+    cnsNumber: '19.007',
+    insNumber: '967',
+    functionText: '甜味剂',
+    pdfPage: 86,
+    standardPage: 83,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-xylitol-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sorbitol',
+    additiveNameCn: '山梨糖醇，山梨糖醇液',
+    additiveNameEn: 'sorbitol and sorbitol syrup',
+    cnsNumber: '19.006, 19.023',
+    insNumber: '420(i), 420(ii)',
+    functionText: '甜味剂、膨松剂、乳化剂、水分保持剂、稳定剂、增稠剂',
+    pdfPage: 105,
+    standardPage: 102,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sorbitol-condensed-milk',
+      foodCategoryCode: '01.04',
+      foodCategoryName: '炼乳及其调制产品',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sorbitol-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sorbitol-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'ammonium-carbonate',
+    additiveNameCn: '碳酸铵',
+    additiveNameEn: 'ammonium carbonate',
+    cnsNumber: '06.009',
+    insNumber: '503(i)',
+    functionText: '膨松剂',
+    pdfPage: 112,
+    standardPage: 109,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-ammonium-carbonate-biscuit',
+      foodCategoryCode: '07.03',
+      foodCategoryName: '饼干',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'ammonium-bicarbonate',
+    additiveNameCn: '碳酸氢铵',
+    additiveNameEn: 'ammonium hydrogen carbonate',
+    cnsNumber: '06.002',
+    insNumber: '503(ii)',
+    functionText: '膨松剂',
+    pdfPage: 113,
+    standardPage: 110,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-ammonium-bicarbonate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~56、58~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '亚硝酸钠，亚硝酸钾',
+    additiveNameEn: 'sodium nitrite, potassium nitrite',
+    cnsNumber: '09.002, 09.004',
+    insNumber: '250, 249',
+    functionText: '护色剂、防腐剂',
+    pdfPage: 126,
+    standardPage: 123,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'sodium-nitrite' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-cured-meat',
+      foodCategoryCode: '08.02.02',
+      foodCategoryName: '腌腊肉制品类（如咸肉、腊肉、板鸭、中式火腿、腊肠等）',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: '以亚硝酸钠计，残留量 ≤30 mg/kg'
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-sauced-braised-meat',
+      foodCategoryCode: '08.03.01',
+      foodCategoryName: '酱卤肉制品类',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: '以亚硝酸钠计，残留量 ≤30 mg/kg'
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '亚铁氰化钾，亚铁氰化钠',
+    additiveNameEn: 'potassium ferrocyanide, sodium ferrocyanide',
+    cnsNumber: '02.001, 02.008',
+    insNumber: '536, 535',
+    functionText: '抗结剂',
+    pdfPage: 126,
+    standardPage: 123,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'potassium-ferrocyanide' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-salt-substitutes',
+      foodCategoryCode: '12.01',
+      foodCategoryName: '盐及代盐制品',
+      maxUseLevel: '0.01',
+      unit: 'g/kg',
+      note: '以亚铁氰根计'
+    }
+  ])
+  ,
+  ...officialUsageRows({
+    ingredientId: 'lecithins',
+    additiveNameCn: '磷脂',
+    additiveNameEn: 'phospholipid',
+    cnsNumber: '04.010',
+    insNumber: '322',
+    functionText: '抗氧化剂、乳化剂',
+    pdfPage: 78,
+    standardPage: 75,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-lecithins-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~4、6、8~53、59~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'beta-carotene',
+    additiveNameCn: 'β-胡萝卜素',
+    additiveNameEn: 'beta-carotene',
+    cnsNumber: '08.010',
+    insNumber: '160a(i), 160a(iii), 160a(iv)',
+    functionText: '着色剂',
+    pdfPage: 12,
+    standardPage: 9,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-beta-carotene-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'saccharins',
+    additiveNameCn: '糖精钠',
+    additiveNameEn: 'sodium saccharin',
+    cnsNumber: '19.001',
+    insNumber: '954(iv)',
+    functionText: '甜味剂、增味剂',
+    pdfPage: 114,
+    standardPage: 111,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-saccharins-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: '以糖精计'
+    },
+    {
+      id: 'gb2760-2024-a1-saccharins-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以糖精计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sodium-cyclamate',
+    additiveNameCn: '甜蜜素（又名环己基氨基磺酸钠），环己基氨基磺酸钙',
+    additiveNameEn: 'sodium cyclamate, calcium cyclamate',
+    cnsNumber: '19.002, 19.024',
+    insNumber: '952(iv), 952(ii)',
+    functionText: '甜味剂',
+    pdfPage: 119,
+    standardPage: 116,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sodium-cyclamate-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.65',
+      unit: 'g/kg',
+      note: '以环己基氨基磺酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-sodium-cyclamate-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以环己基氨基磺酸计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'polysorbate-80',
+    additiveNameCn: '吐温类（包括吐温 20，吐温 40，吐温 60，吐温 80）',
+    additiveNameEn: 'polysorbates',
+    cnsNumber: '10.025, 10.026, 10.015, 10.016',
+    insNumber: '432, 434, 435, 433',
+    functionText: '乳化剂、稳定剂',
+    pdfPage: 120,
+    standardPage: 117,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-polysorbate-80-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '1.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-polysorbate-80-cream',
+      foodCategoryCode: '01.05.01',
+      foodCategoryName: '稀奶油',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'potassium-nitrate',
+    additiveNameCn: '硝酸钠，硝酸钾',
+    additiveNameEn: 'sodium nitrate, potassium nitrate',
+    cnsNumber: '09.001, 09.003',
+    insNumber: '251, 252',
+    functionText: '护色剂、防腐剂',
+    pdfPage: 124,
+    standardPage: 121,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-potassium-nitrate-cured-meat',
+      foodCategoryCode: '08.02.02',
+      foodCategoryName: '腌腊肉制品类（如咸肉、腊肉、板鸭、中式火腿、腊肠等）',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以亚硝酸钠（钾）计，残留量 ≤30 mg/kg'
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '磷酸及磷酸盐类',
+    additiveNameEn: 'phosphoric acid and phosphates',
+    cnsNumber: '01.106, 15.008, 15.004, 15.007, 15.010, 06.008, 15.009, 06.006, 02.003, 01.308, 15.001, 15.002, 15.003, 15.005, 15.006, 15.017, 15.013, 15.015, 15.016',
+    insNumber: '338, 450(i), 450(ii), 341(i), 340(i), 342(i), 340(ii), 341(ii), 340(iii), 339(ii), 452(i), 451(i), 339(i), 339(iii), 450(v), 450(iii), 452(ii), 450(vii)',
+    functionText: '水分保持剂、膨松剂、酸度调节剂、稳定剂、凝固剂、抗结剂',
+    pdfPage: 75,
+    standardPage: 72,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'phosphoric-acid' },
+    { ingredientId: 'sodium-pyrophosphate' },
+    { ingredientId: 'monocalcium-phosphate' },
+    { ingredientId: 'sodium-tripolyphosphate' },
+    { ingredientId: 'sodium-hexametaphosphate' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-milk-products',
+      foodCategoryCode: '01.0',
+      foodCategoryName: '乳及乳制品（13.0 特殊膳食用食品涉及品种除外；01.01.01、01.01.02、01.02.01、01.03.01 除外）',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '可单独或混合使用，最大使用量以磷酸根（PO43-）计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'steviol-glycosides',
+    additiveNameCn: '甜菊糖苷',
+    additiveNameEn: 'steviol glycosides',
+    cnsNumber: '19.008',
+    insNumber: '960a',
+    functionText: '甜味剂',
+    pdfPage: 117,
+    standardPage: 114,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-steviol-glycosides-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '0.18',
+      unit: 'g/kg',
+      note: '以甜菊醇当量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'anthocyanins',
+    additiveNameCn: '葡萄皮红',
+    additiveNameEn: 'grape skin extract',
+    cnsNumber: '08.135',
+    insNumber: '163(ii)',
+    functionText: '着色剂',
+    pdfPage: 93,
+    standardPage: 90,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-anthocyanins-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'curcumin',
+    additiveNameCn: '姜黄素',
+    additiveNameEn: 'curcumin',
+    cnsNumber: '08.132',
+    insNumber: '100(i)',
+    functionText: '着色剂',
+    pdfPage: 55,
+    standardPage: 52,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-curcumin-modified-milk-powder',
+      foodCategoryCode: '01.03.02',
+      foodCategoryName: '调制乳粉和调制奶油粉',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: '以姜黄素计'
+    },
+    {
+      id: 'gb2760-2024-a1-curcumin-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'paprika-extract',
+    additiveNameCn: '辣椒红',
+    additiveNameEn: 'paprika red',
+    cnsNumber: '08.106',
+    insNumber: '160c(ii)',
+    functionText: '着色剂',
+    pdfPage: 70,
+    standardPage: 67,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-paprika-extract-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-paprika-extract-frozen-rice-noodle',
+      foodCategoryCode: '06.08',
+      foodCategoryName: '冷冻米面制品',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'amaranth',
+    additiveNameCn: '苋菜红及其铝色淀（包括苋菜红，苋菜红铝色淀）',
+    additiveNameEn: 'amaranth, amaranth aluminum lake',
+    cnsNumber: '08.001',
+    insNumber: '123',
+    functionText: '着色剂',
+    pdfPage: 123,
+    standardPage: 120,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-amaranth-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.025',
+      unit: 'g/kg',
+      note: '以苋菜红计'
+    },
+    {
+      id: 'gb2760-2024-a1-amaranth-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '以苋菜红计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'brilliant-blue-fcf',
+    additiveNameCn: '亮蓝及其铝色淀（包括亮蓝，亮蓝铝色淀）',
+    additiveNameEn: 'brilliant blue, brilliant blue aluminum lake',
+    cnsNumber: '08.007',
+    insNumber: '133',
+    functionText: '着色剂',
+    pdfPage: 73,
+    standardPage: 70,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-brilliant-blue-fcf-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.025',
+      unit: 'g/kg',
+      note: '以亮蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-brilliant-blue-fcf-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以亮蓝计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'carmines',
+    additiveNameCn: '胭脂虫红及其铝色淀（包括胭脂虫红，胭脂虫红铝色淀）',
+    additiveNameEn: 'carmines, carmine cochineal aluminum lake',
+    cnsNumber: '08.145',
+    insNumber: '120',
+    functionText: '着色剂',
+    pdfPage: 127,
+    standardPage: 124,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-carmines-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以胭脂红酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-carmines-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: '以胭脂红酸计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'chlorophylls',
+    additiveNameCn: '叶绿素铜',
+    additiveNameEn: 'copper chlorophyll',
+    cnsNumber: '08.153',
+    insNumber: '141(i)',
+    functionText: '着色剂',
+    pdfPage: 133,
+    standardPage: 130,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-chlorophylls-copper-cream',
+      foodCategoryCode: '01.05.01',
+      foodCategoryName: '稀奶油',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-chlorophylls-copper-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'caramel-colours',
+    additiveNameCn: '焦糖色（加氨生产）',
+    additiveNameEn: 'caramel colour class III - ammonia process',
+    cnsNumber: '08.110',
+    insNumber: '150c',
+    functionText: '着色剂',
+    pdfPage: 56,
+    standardPage: 53,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-caramel-colours-ammonia-condensed-milk',
+      foodCategoryCode: '01.04.02',
+      foodCategoryName: '调制炼乳（包括加糖炼乳及使用了非乳原料的调制炼乳等）',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-caramel-colours-ammonia-cocoa-chocolate-candy',
+      foodCategoryCode: '05.0',
+      foodCategoryName: '可可制品、巧克力和巧克力制品（包括代可可脂巧克力及制品）以及糖果',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'locust-bean-gum',
+    additiveNameCn: '槐豆胶（又名刺槐豆胶）',
+    additiveNameEn: 'carob bean gum',
+    cnsNumber: '20.023',
+    insNumber: '410',
+    functionText: '增稠剂',
+    pdfPage: 53,
+    standardPage: 50,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-locust-bean-gum-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-locust-bean-gum-infant-formula',
+      foodCategoryCode: '13.01',
+      foodCategoryName: '婴幼儿配方食品',
+      maxUseLevel: '7.0',
+      unit: 'g/L',
+      note: '以即食状态计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'tara-gum',
+    additiveNameCn: '刺云实胶',
+    additiveNameEn: 'tara gum',
+    cnsNumber: '20.041',
+    insNumber: '417',
+    functionText: '增稠剂',
+    pdfPage: 30,
+    standardPage: 27,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-tara-gum-cheese-products',
+      foodCategoryCode: '01.06',
+      foodCategoryName: '干酪、再制干酪、干酪制品及干酪类似品',
+      maxUseLevel: '8.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-tara-gum-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sucrose-esters-fatty-acids',
+    additiveNameCn: '蔗糖脂肪酸酯',
+    additiveNameEn: 'sucrose esters of fatty acids',
+    cnsNumber: '10.001',
+    insNumber: '473',
+    functionText: '乳化剂',
+    pdfPage: 142,
+    standardPage: 139,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sucrose-esters-fatty-acids-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sorbitan-monostearate',
+    additiveNameCn: '司盘类（包括山梨醇酐单硬脂酸酯等）',
+    additiveNameEn: 'sorbitan esters of fatty acids',
+    cnsNumber: '10.024, 10.008, 10.003, 10.004, 10.005',
+    insNumber: '493, 495, 491, 492, 494',
+    functionText: '乳化剂',
+    pdfPage: 110,
+    standardPage: 107,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sorbitan-monostearate-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'polyglycerol-esters-fatty-acids',
+    additiveNameCn: '聚甘油脂肪酸酯',
+    additiveNameEn: 'polyglycerol esters of fatty acids',
+    cnsNumber: '10.022',
+    insNumber: '475',
+    functionText: '乳化剂、稳定剂、增稠剂、抗结剂',
+    pdfPage: 62,
+    standardPage: 59,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-polyglycerol-esters-fatty-acids-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '硬脂酰乳酸钠，硬脂酰乳酸钙',
+    additiveNameEn: 'sodium stearoyl lactylate, calcium stearoyl lactylate',
+    cnsNumber: '10.011, 10.009',
+    insNumber: '481(i), 482(i)',
+    functionText: '乳化剂、稳定剂',
+    pdfPage: 138,
+    standardPage: 135,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'sodium-stearoyl-lactylate' },
+    { ingredientId: 'calcium-stearoyl-lactylate' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'potassium-bicarbonate',
+    additiveNameCn: '碳酸氢钾',
+    additiveNameEn: 'potassium hydrogen carbonate',
+    cnsNumber: '01.307',
+    insNumber: '501(ii)',
+    functionText: '酸度调节剂',
+    pdfPage: 113,
+    standardPage: 110,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-potassium-bicarbonate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~53、57~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'mixed-tocopherols',
+    additiveNameCn: '维生素 E（包括 dl-α-生育酚，d-α-生育酚，混合生育酚浓缩物）',
+    additiveNameEn: 'vitamin E',
+    cnsNumber: '04.016',
+    insNumber: '307',
+    functionText: '抗氧化剂',
+    pdfPage: 121,
+    standardPage: 118,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-mixed-tocopherols-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'propyl-gallate',
+    additiveNameCn: '没食子酸丙酯（简称 PG）',
+    additiveNameEn: 'propyl gallate',
+    cnsNumber: '04.003',
+    insNumber: '310',
+    functionText: '抗氧化剂',
+    pdfPage: 84,
+    standardPage: 81,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-propyl-gallate-fat-emulsion',
+      foodCategoryCode: '02.0',
+      foodCategoryName: '脂肪、油和乳化脂肪制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'tert-butylhydroquinone',
+    additiveNameCn: '特丁基对苯二酚（简称 TBHQ）',
+    additiveNameEn: 'tertiary butyl hydroquinone',
+    cnsNumber: '04.007',
+    insNumber: '319',
+    functionText: '抗氧化剂',
+    pdfPage: 115,
+    standardPage: 112,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-tert-butylhydroquinone-fat-emulsion',
+      foodCategoryCode: '02.0',
+      foodCategoryName: '脂肪、油和乳化脂肪制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'butylated-hydroxyanisole',
+    additiveNameCn: '丁基羟基茴香醚（简称 BHA）',
+    additiveNameEn: 'butylated hydroxyanisole',
+    cnsNumber: '04.001',
+    insNumber: '320',
+    functionText: '抗氧化剂',
+    pdfPage: 33,
+    standardPage: 30,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-fat-emulsion',
+      foodCategoryCode: '02.0',
+      foodCategoryName: '脂肪、油和乳化脂肪制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'butylated-hydroxytoluene',
+    additiveNameCn: '二丁基羟基甲苯（简称 BHT）',
+    additiveNameEn: 'butylated hydroxytoluene',
+    cnsNumber: '04.002',
+    insNumber: '321',
+    functionText: '抗氧化剂',
+    pdfPage: 34,
+    standardPage: 31,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-fat-emulsion',
+      foodCategoryCode: '02.0',
+      foodCategoryName: '脂肪、油和乳化脂肪制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'dimethylpolysiloxane',
+    additiveNameCn: '聚二甲基硅氧烷及其乳液（包括聚二甲基硅氧烷，聚二甲基硅氧烷乳液）',
+    additiveNameEn: 'polydimethylsiloxane and emulsion',
+    cnsNumber: '03.007',
+    insNumber: '900a',
+    functionText: '被膜剂',
+    pdfPage: 61,
+    standardPage: 58,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-dimethylpolysiloxane-surface-treated-fresh-fruit',
+      foodCategoryCode: '04.01.01.02',
+      foodCategoryName: '经表面处理的鲜水果',
+      maxUseLevel: '0.0009',
+      unit: 'g/kg',
+      note: '以聚二甲基硅氧烷计'
+    }
   ])
 ];
 
