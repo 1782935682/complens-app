@@ -1182,9 +1182,16 @@ assert.match(gb2760OfficialDFunctionCategoryRows.find((row) => row.rowNumber ===
 assert.equal(gb2760OfficialE1FoodCategoryRows[0].foodCategoryCode, '01.0');
 assert.equal(gb2760OfficialE1FoodCategoryRows.at(-1).foodCategoryCode, '16.07');
 assert.equal(gb2760OfficialFAdditiveIndexRows[0].additiveNameCn, '4-己基间苯二酚');
+const appendixFAdditiveIndexRow16 = gb2760OfficialFAdditiveIndexRows.find((row) => row.rowNumber === 16);
+assert.equal(appendixFAdditiveIndexRow16.additiveNameCn, 'β-胡萝卜素');
+assert.equal(appendixFAdditiveIndexRow16.insNumber, '160a(i),160a(iii),160a(iv)');
+const appendixFAdditiveIndexRow134 = gb2760OfficialFAdditiveIndexRows.find((row) => row.rowNumber === 134);
+assert.equal(appendixFAdditiveIndexRow134.additiveNameCn, '磷酸化二淀粉磷酸酯');
+assert.equal(appendixFAdditiveIndexRow134.insNumber, '1413');
 const appendixFAdditiveIndexRow135 = gb2760OfficialFAdditiveIndexRows.find((row) => row.rowNumber === 135);
 assert.match(appendixFAdditiveIndexRow135.additiveNameCn, /磷酸及磷酸盐\[包括磷酸/u);
-assert.doesNotMatch(appendixFAdditiveIndexRow135.additiveNameCn, /^340\(340\(/u);
+assert.doesNotMatch(appendixFAdditiveIndexRow135.additiveNameCn, /(?:338|339|340|341|342|450|451|452)\(/u);
+assert.equal(appendixFAdditiveIndexRow135.insNumber, '338,450(i),450(iii),341(i),340(i),342(ii),340(ii),341(ii),341(iii),340(iii),339(iii),452(i),451(i),339(i),339(ii),450(v),450(ii),452(ii),450(vii)');
 const appendixFAdditiveIndexRow205 = gb2760OfficialFAdditiveIndexRows.find((row) => row.rowNumber === 205);
 assert.match(appendixFAdditiveIndexRow205.additiveNameCn, /^司盘类\[包括/u);
 assert.equal(appendixFAdditiveIndexRow205.insNumber, '493,495,491,492,494');

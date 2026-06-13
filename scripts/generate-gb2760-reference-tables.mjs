@@ -867,8 +867,8 @@ function extractAdditiveIndexRows() {
     const lowerBound = index > 0 ? (anchors[index - 1].center + anchor.center) / 2 : anchor.center - 35;
     const upperBound = index < anchors.length - 1 ? (anchor.center + anchors[index + 1].center) / 2 : anchor.center + 35;
     const rowLines = lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line));
-    const additiveNameCn = extractColumnText(rowLines, 55, 360);
-    const insNumber = extractColumnText(rowLines, 360, 460) || '—';
+    const additiveNameCn = extractColumnText(rowLines, 55, 350, { wordPosition: 'center' });
+    const insNumber = extractColumnText(rowLines, 350, 460, { wordPosition: 'center' }) || '—';
     const pdfPagesForRow = uniqueSorted(rowLines.map((line) => line.pdfPage));
     const pdfPage = pdfPagesForRow[0];
     const rowNumber = index + 1;
@@ -923,6 +923,22 @@ function normalizeAdditiveIndexRows(rows) {
         insNumber: '—',
         a1PageNumber: 108,
         rawRowText: '松香季戊四醇酯—108'
+      }));
+      index += 1;
+      continue;
+    }
+    if (row.additiveNameCn === '磷酸化二淀粉磷酸酯' && row.insNumber.includes('338') && nextRow?.additiveNameCn.includes('磷酸及磷酸盐')) {
+      normalizedRows.push(buildAdditiveIndexRow(row, {
+        additiveNameCn: '磷酸化二淀粉磷酸酯',
+        insNumber: '1413',
+        a1PageNumber: 71,
+        rawRowText: '磷酸化二淀粉磷酸酯141371'
+      }));
+      normalizedRows.push(buildAdditiveIndexRow(nextRow, {
+        additiveNameCn: '磷酸及磷酸盐[包括磷酸,焦磷酸二氢二钠,焦磷酸钠,磷酸二氢钙,磷酸二氢钾,磷酸氢二铵,磷酸氢二钾,磷酸氢钙,磷酸三钙,磷酸三钾,磷酸三钠,多聚磷酸钠(包括六偏磷酸钠),三聚磷酸钠,磷酸二氢钠,磷酸氢二钠,焦磷酸四钾,焦磷酸一氢三钠,聚偏磷酸钾,酸式焦磷酸钙]',
+        insNumber: '338,450(i),450(iii),341(i),340(i),342(ii),340(ii),341(ii),341(iii),340(iii),339(iii),452(i),451(i),339(i),339(ii),450(v),450(ii),452(ii),450(vii)',
+        a1PageNumber: 71,
+        rawRowText: '磷酸及磷酸盐[包括磷酸,焦磷酸二氢二钠,焦磷酸钠,磷酸二氢钙,磷酸二氢钾,磷酸氢二铵,磷酸氢二钾,磷酸氢钙,磷酸三钙,磷酸三钾,磷酸三钠,多聚磷酸钠(包括六偏磷酸钠),三聚磷酸钠,磷酸二氢钠,磷酸氢二钠,焦磷酸四钾,焦磷酸一氢三钠,聚偏磷酸钾,酸式焦磷酸钙]338,450(i),450(iii),341(i),340(i),342(ii),340(ii),341(ii),341(iii),340(iii),339(iii),452(i),451(i),339(i),339(ii),450(v),450(ii),452(ii),450(vii)71'
       }));
       index += 1;
       continue;
