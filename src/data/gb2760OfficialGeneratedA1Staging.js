@@ -2373,7 +2373,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "insNumber": "—",
     "functionText": "防腐剂",
     "foodCategoryCode": "04.0",
-    "foodCategoryName": "鲜水果、04.01.02.04水果罐头、04.02.01新鲜蔬菜、04.02.02.01冷冻蔬菜、04.02.02.04蔬菜罐头、04.02.02.06发酵蔬菜制品、04.03.01新鲜食用菌和藻类、04.03.02.01冷冻食用菌和藻类、",
+    "foodCategoryName": "水果、蔬菜(包括块根类)、豆类、食用菌、藻类、坚果以及籽类等(04.01.01鲜水果、04.01.02.04水果罐头、04.02.01新鲜蔬菜、04.02.02.01冷冻蔬菜、04.02.02.04蔬菜罐头、04.02.02.06发酵蔬菜制品、04.03.01新鲜食用菌和藻类、04.03.02.01冷冻食用菌和藻类、04.03.02.04食用菌和藻类罐头、04.05.02.03坚果与籽类罐头除外)",
     "maxUseLevel": "0.30",
     "unit": "g/kg",
     "note": "",
@@ -2381,7 +2381,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 13,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：ε-聚赖氨酸盐酸盐；CNS号 17.038；INS号 —；功能 防腐剂；04.0 鲜水果、04.01.02.04水果罐头、04.02.01新鲜蔬菜、04.02.02.01冷冻蔬菜、04.02.02.04蔬菜罐头、04.02.02.06发酵蔬菜制品、04.03.01新鲜食用菌和藻类、04.03.02.01冷冻食用菌和藻类、；最大使用量 0.30 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：ε-聚赖氨酸盐酸盐；CNS号 17.038；INS号 —；功能 防腐剂；04.0 水果、蔬菜(包括块根类)、豆类、食用菌、藻类、坚果以及籽类等(04.01.01鲜水果、04.01.02.04水果罐头、04.02.01新鲜蔬菜、04.02.02.01冷冻蔬菜、04.02.02.04蔬菜罐头、04.02.02.06发酵蔬菜制品、04.03.01新鲜食用菌和藻类、04.03.02.01冷冻食用菌和藻类、04.03.02.04食用菌和藻类罐头、04.05.02.03坚果与籽类罐头除外)；最大使用量 0.30 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p016-r005",
@@ -2392,7 +2392,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "insNumber": "—",
     "functionText": "防腐剂",
     "foodCategoryCode": "06.02",
-    "foodCategoryName": "04.03.02.04食用菌和藻类罐头、04.05.02.03坚果与籽类罐头除外)大米及其制品小麦粉及其制品[06.03.01小麦粉、",
+    "foodCategoryName": "大米及其制品",
     "maxUseLevel": "0.25",
     "unit": "g/kg",
     "note": "",
@@ -2400,7 +2400,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 13,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：ε-聚赖氨酸盐酸盐；CNS号 17.038；INS号 —；功能 防腐剂；06.02 04.03.02.04食用菌和藻类罐头、04.05.02.03坚果与籽类罐头除外)大米及其制品小麦粉及其制品[06.03.01小麦粉、；最大使用量 0.25 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：ε-聚赖氨酸盐酸盐；CNS号 17.038；INS号 —；功能 防腐剂；06.02 大米及其制品；最大使用量 0.25 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p016-r006",
@@ -2411,7 +2411,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "insNumber": "—",
     "functionText": "防腐剂",
     "foodCategoryCode": "06.03",
-    "foodCategoryName": "06.03.02.01生湿面制品(如面条、饺子皮、馄饨皮、烧麦皮)、06.03.02.02生干面制品除外]",
+    "foodCategoryName": "小麦粉及其制品[06.03.01小麦粉、06.03.02.01生湿面制品(如面条、饺子皮、馄饨皮、烧麦皮)、06.03.02.02生干面制品除外]",
     "maxUseLevel": "0.30",
     "unit": "g/kg",
     "note": "",
@@ -2419,7 +2419,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 13,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：ε-聚赖氨酸盐酸盐；CNS号 17.038；INS号 —；功能 防腐剂；06.03 06.03.02.01生湿面制品(如面条、饺子皮、馄饨皮、烧麦皮)、06.03.02.02生干面制品除外]；最大使用量 0.30 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：ε-聚赖氨酸盐酸盐；CNS号 17.038；INS号 —；功能 防腐剂；06.03 小麦粉及其制品[06.03.01小麦粉、06.03.02.01生湿面制品(如面条、饺子皮、馄饨皮、烧麦皮)、06.03.02.02生干面制品除外]；最大使用量 0.30 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p016-r007",
@@ -6870,7 +6870,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
   {
     "id": "gb2760-2024-a1-generated-p030-r001",
     "ingredientId": "",
-    "additiveNameCn": "赤藓糖醇6)",
+    "additiveNameCn": "赤藓糖醇",
     "additiveNameEn": "",
     "cnsNumber": "19.018",
     "insNumber": "968",
@@ -6884,7 +6884,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 27,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：赤藓糖醇6)；CNS号 19.018；INS号 968；功能 甜味剂；— 各类食品,表A.2中编号为1~68的食品类别除外；最大使用量 按生产需要适量使用。"
+    "rawSourceText": "GB 2760-2024 表 A.1：赤藓糖醇；CNS号 19.018；INS号 968；功能 甜味剂；— 各类食品,表A.2中编号为1~68的食品类别除外；最大使用量 按生产需要适量使用。"
   },
   {
     "id": "gb2760-2024-a1-generated-p030-r002",
@@ -13317,7 +13317,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "insNumber": "—",
     "functionText": "着色剂",
     "foodCategoryCode": "08.03",
-    "foodCategoryName": "熟肉制品蛋制品(改变其物理性状)[10.03.01脱",
+    "foodCategoryName": "熟肉制品",
     "maxUseLevel": "按生产需要适量使用",
     "unit": "",
     "note": "",
@@ -13325,7 +13325,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 49,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：红曲米,红曲红；CNS号 08.119,08.120；INS号 —；功能 着色剂；08.03 熟肉制品蛋制品(改变其物理性状)[10.03.01脱；最大使用量 按生产需要适量使用。"
+    "rawSourceText": "GB 2760-2024 表 A.1：红曲米,红曲红；CNS号 08.119,08.120；INS号 —；功能 着色剂；08.03 熟肉制品；最大使用量 按生产需要适量使用。"
   },
   {
     "id": "gb2760-2024-a1-generated-p052-r002",
@@ -13336,7 +13336,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "insNumber": "—",
     "functionText": "着色剂",
     "foodCategoryCode": "10.03",
-    "foodCategoryName": "水蛋制品(如蛋白粉、蛋黄粉、蛋白片)、10.03.03蛋液与液态蛋除外]",
+    "foodCategoryName": "蛋制品(改变其物理性状)[10.03.01脱水蛋制品(如蛋白粉、蛋黄粉、蛋白片)、10.03.03蛋液与液态蛋除外]",
     "maxUseLevel": "按生产需要适量使用",
     "unit": "",
     "note": "",
@@ -13344,7 +13344,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 49,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：红曲米,红曲红；CNS号 08.119,08.120；INS号 —；功能 着色剂；10.03 水蛋制品(如蛋白粉、蛋黄粉、蛋白片)、10.03.03蛋液与液态蛋除外]；最大使用量 按生产需要适量使用。"
+    "rawSourceText": "GB 2760-2024 表 A.1：红曲米,红曲红；CNS号 08.119,08.120；INS号 —；功能 着色剂；10.03 蛋制品(改变其物理性状)[10.03.01脱水蛋制品(如蛋白粉、蛋黄粉、蛋白片)、10.03.03蛋液与液态蛋除外]；最大使用量 按生产需要适量使用。"
   },
   {
     "id": "gb2760-2024-a1-generated-p052-r003",
@@ -17079,7 +17079,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "insNumber": "475",
     "functionText": "乳化剂、稳定剂、增稠剂、抗结剂",
     "foodCategoryCode": "07.0",
-    "foodCategoryName": "焙烤食品调味品(12.01盐及代盐制品、12.09香",
+    "foodCategoryName": "焙烤食品",
     "maxUseLevel": "10.0",
     "unit": "g/kg",
     "note": "",
@@ -17087,7 +17087,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 60,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：聚甘油脂肪酸酯；CNS号 10.022；INS号 475；功能 乳化剂、稳定剂、增稠剂、抗结剂；07.0 焙烤食品调味品(12.01盐及代盐制品、12.09香；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：聚甘油脂肪酸酯；CNS号 10.022；INS号 475；功能 乳化剂、稳定剂、增稠剂、抗结剂；07.0 焙烤食品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p063-r004",
@@ -17098,7 +17098,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "insNumber": "475",
     "functionText": "乳化剂、稳定剂、增稠剂、抗结剂",
     "foodCategoryCode": "12.0",
-    "foodCategoryName": "辛料类除外)(仅限用于膨化食品的调味料)",
+    "foodCategoryName": "调味品(12.01盐及代盐制品、12.09香辛料类除外)(仅限用于膨化食品的调味料)",
     "maxUseLevel": "10.0",
     "unit": "g/kg",
     "note": "",
@@ -17106,7 +17106,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 60,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：聚甘油脂肪酸酯；CNS号 10.022；INS号 475；功能 乳化剂、稳定剂、增稠剂、抗结剂；12.0 辛料类除外)(仅限用于膨化食品的调味料)；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：聚甘油脂肪酸酯；CNS号 10.022；INS号 475；功能 乳化剂、稳定剂、增稠剂、抗结剂；12.0 调味品(12.01盐及代盐制品、12.09香辛料类除外)(仅限用于膨化食品的调味料)；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p063-r005",
@@ -23780,7 +23780,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
   {
     "id": "gb2760-2024-a1-generated-p085-r002",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23794,12 +23794,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；02.01.01 植物油脂；最大使用量 0.7 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；02.01.01 植物油脂；最大使用量 0.7 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r003",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23813,12 +23813,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；02.01.02 动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；02.01.02 动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r004",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23832,12 +23832,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；02.02.01 脂肪含量80%以上的乳化制品；最大使用量 0.7 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；02.02.01 脂肪含量80%以上的乳化制品；最大使用量 0.7 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r005",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23851,12 +23851,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 0.7 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 0.7 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r006",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23870,12 +23870,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；04.05.02.01 熟制坚果与籽类(仅限油炸坚果与籽类)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；04.05.02.01 熟制坚果与籽类(仅限油炸坚果与籽类)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r007",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23889,12 +23889,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；06.03.02.05 油炸面制品；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；06.03.02.05 油炸面制品；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r008",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23908,12 +23908,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；08.02 预制肉制品；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；08.02 预制肉制品；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r009",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23927,12 +23927,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.01 酱卤肉制品类；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.01 酱卤肉制品类；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r010",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23946,12 +23946,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.02 熏、烧、烤肉类(熏肉、叉烧肉、烤鸭、肉脯等)；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.02 熏、烧、烤肉类(熏肉、叉烧肉、烤鸭、肉脯等)；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r011",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23965,12 +23965,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.03 油炸肉类；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.03 油炸肉类；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r012",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -23984,12 +23984,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.04 西式火腿(熏烤、烟熏、蒸煮火腿)类；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.04 西式火腿(熏烤、烟熏、蒸煮火腿)类；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r013",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -24003,12 +24003,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.05 肉灌肠类；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.05 肉灌肠类；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r014",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -24022,12 +24022,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.06 发酵肉制品类；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；08.03.06 发酵肉制品类；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r015",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -24041,12 +24041,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；12.10.01 固体复合调味料；最大使用量 0.7 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；12.10.01 固体复合调味料；最大使用量 0.7 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r016",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -24060,12 +24060,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；12.10.02 半固体复合调味料；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；12.10.02 半固体复合调味料；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r017",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -24079,12 +24079,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；12.10.03 液体复合调味料；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；12.10.03 液体复合调味料；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r018",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -24098,12 +24098,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；14.03.02 植物蛋白饮料；最大使用量 0.15 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；14.03.02 植物蛋白饮料；最大使用量 0.15 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p085-r019",
     "ingredientId": "",
-    "additiveNameCn": "迷迭香提取物8)",
+    "additiveNameCn": "迷迭香提取物",
     "additiveNameEn": "",
     "cnsNumber": "04.017",
     "insNumber": "392",
@@ -24117,7 +24117,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 82,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物8)；CNS号 04.017；INS号 392；功能 抗氧化剂；16.06 膨化食品；最大使用量 0.3 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：迷迭香提取物；CNS号 04.017；INS号 392；功能 抗氧化剂；16.06 膨化食品；最大使用量 0.3 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p086-r001",
@@ -30848,7 +30848,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
   {
     "id": "gb2760-2024-a1-generated-p107-r007",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30862,12 +30862,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.01.03 调制乳；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.01.03 调制乳；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r008",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30881,12 +30881,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.02.02 风味发酵乳；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.02.02 风味发酵乳；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r009",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30900,12 +30900,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.03 乳粉和奶油粉及其调制产品(01.03.01乳粉和奶油粉除外)；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.03 乳粉和奶油粉及其调制产品(01.03.01乳粉和奶油粉除外)；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r010",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30919,12 +30919,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.05 稀奶油(淡奶油)及其类似品；最大使用量 6.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.05 稀奶油(淡奶油)及其类似品；最大使用量 6.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r011",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30938,12 +30938,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.06 干酪、再制干酪、干酪制品及干酪类似品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.06 干酪、再制干酪、干酪制品及干酪类似品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r012",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30957,12 +30957,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.07 以乳为主要配料的即食风味食品或其预制产品(不包括冰淇淋和风味发酵乳)；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；01.07 以乳为主要配料的即食风味食品或其预制产品(不包括冰淇淋和风味发酵乳)；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r013",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30976,12 +30976,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.02 水油状脂肪乳化制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.02 水油状脂肪乳化制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r014",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -30995,12 +30995,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r015",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31014,12 +31014,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.04 脂肪类甜品；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.04 脂肪类甜品；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r016",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31033,12 +31033,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.05 其他油脂或油脂制品(仅限植脂末)；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；02.05 其他油脂或油脂制品(仅限植脂末)；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r017",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31052,12 +31052,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r018",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31071,12 +31071,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.02 水果干类；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.02 水果干类；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r019",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31090,12 +31090,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.03 醋、油或盐渍水果；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.03 醋、油或盐渍水果；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p107-r020",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31109,12 +31109,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 104,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.06 果泥；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.06 果泥；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r001",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31128,12 +31128,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.07 除04.01.02.05以外的果酱(如印度酸辣酱)；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.07 除04.01.02.05以外的果酱(如印度酸辣酱)；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r002",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31147,12 +31147,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.08 蜜饯；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.08 蜜饯；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r003",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31166,12 +31166,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.09 装饰性果蔬；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.09 装饰性果蔬；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r004",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31185,12 +31185,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.10 水果甜品,包括果味液体甜品；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.10 水果甜品,包括果味液体甜品；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r005",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31204,12 +31204,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.11 发酵的水果制品；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.01.02.11 发酵的水果制品；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r006",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31223,12 +31223,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.02 干制蔬菜；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.02 干制蔬菜；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r007",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31242,12 +31242,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.03 腌渍的蔬菜；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.03 腌渍的蔬菜；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r008",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31261,12 +31261,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.07 经水煮或油炸的蔬菜；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.07 经水煮或油炸的蔬菜；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r009",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31280,12 +31280,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.08 其他加工蔬菜；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.02.02.08 其他加工蔬菜；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r010",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31299,12 +31299,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.03.02.03 腌渍的食用菌和藻类；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.03.02.03 腌渍的食用菌和藻类；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r011",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31318,12 +31318,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.03.02.05 经水煮或油炸的藻类；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.03.02.05 经水煮或油炸的藻类；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r012",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31337,12 +31337,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.03.02.06 其他加工食用菌和藻类；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.03.02.06 其他加工食用菌和藻类；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r013",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31356,12 +31356,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.04.01.06 熟制豆类；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；04.04.01.06 熟制豆类；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r014",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31375,12 +31375,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；05.02.01 胶基糖果；最大使用量 50.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；05.02.01 胶基糖果；最大使用量 50.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r015",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31394,12 +31394,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；05.02.02 除胶基糖果以外的其他糖果；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；05.02.02 除胶基糖果以外的其他糖果；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r016",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31413,12 +31413,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；05.04 装饰糖果(如工艺造型,或用于蛋糕装饰)、顶饰(非水果材料)和甜汁；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；05.04 装饰糖果(如工艺造型,或用于蛋糕装饰)、顶饰(非水果材料)和甜汁；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r017",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31432,12 +31432,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.03.02.01 生湿面制品(如面条、饺子皮、馄饨皮、烧麦皮)；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.03.02.01 生湿面制品(如面条、饺子皮、馄饨皮、烧麦皮)；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r018",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31451,12 +31451,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.03.02.02 生干面制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.03.02.02 生干面制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r019",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31470,12 +31470,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.03.02.05 油炸面制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.03.02.05 油炸面制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r020",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31489,12 +31489,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.04.01 杂粮粉；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.04.01 杂粮粉；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r021",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31508,12 +31508,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.05.01 食用淀粉；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.05.01 食用淀粉；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r022",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31527,12 +31527,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.07 方便米面制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.07 方便米面制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r023",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31546,12 +31546,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.08 冷冻米面制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.08 冷冻米面制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r024",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31565,12 +31565,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.09 谷类和淀粉类甜品(如米布丁、木薯布丁)；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.09 谷类和淀粉类甜品(如米布丁、木薯布丁)；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p108-r025",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31584,12 +31584,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 105,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.11 面糊(如用于鱼和禽肉的拖面糊)、裹粉、煎炸粉；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；06.11 面糊(如用于鱼和禽肉的拖面糊)、裹粉、煎炸粉；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r001",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31603,12 +31603,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；07.0 焙烤食品；最大使用量 20.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；07.0 焙烤食品；最大使用量 20.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r002",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31622,12 +31622,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；08.02 预制肉制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；08.02 预制肉制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r003",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31641,12 +31641,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；08.03 熟肉制品水产及其制品(包括鱼类、甲壳类、贝；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；08.03 熟肉制品水产及其制品(包括鱼类、甲壳类、贝；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r004",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31660,12 +31660,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；09.0 类、软体类、棘皮类等水产及其加工制品等)[09.01鲜水产、09.03预制水产品(半成品)除外]；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；09.0 类、软体类、棘皮类等水产及其加工制品等)[09.01鲜水产、09.03预制水产品(半成品)除外]；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r005",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31679,12 +31679,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；10.02.05 其他再制蛋；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；10.02.05 其他再制蛋；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r006",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31698,12 +31698,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；10.04 其他蛋制品；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；10.04 其他蛋制品；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r007",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31717,12 +31717,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；11.01.02 赤砂糖、原糖、其他糖和糖浆；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；11.01.02 赤砂糖、原糖、其他糖和糖浆；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r008",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31736,12 +31736,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；12.09 香辛料类；最大使用量 0.001 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；12.09 香辛料类；最大使用量 0.001 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r009",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31755,12 +31755,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；12.10.02 半固体复合调味料；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；12.10.02 半固体复合调味料；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r010",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31774,12 +31774,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；12.10.03 液体复合调味料；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；12.10.03 液体复合调味料；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r011",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31793,12 +31793,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r012",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31812,12 +31812,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.03 蛋白饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.03 蛋白饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r013",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31831,12 +31831,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.04 碳酸饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.04 碳酸饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r014",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31850,12 +31850,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.05 茶、咖啡、植物(类)饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.05 茶、咖啡、植物(类)饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r015",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31869,12 +31869,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.07 特殊用途饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.07 特殊用途饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r016",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31888,12 +31888,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.08 风味饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；14.08 风味饮料；最大使用量 5.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r017",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31907,12 +31907,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；15.03 发酵酒(15.03.01葡萄酒除外)；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；15.03 发酵酒(15.03.01葡萄酒除外)；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r018",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31926,12 +31926,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；15.03.03 果酒；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；15.03.03 果酒；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r019",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31945,12 +31945,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；16.01 果冻；最大使用量 2.5 g/kg；如用于果冻粉，按冲调倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；16.01 果冻；最大使用量 2.5 g/kg；如用于果冻粉，按冲调倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p109-r020",
     "ingredientId": "",
-    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-",
+    "additiveNameCn": "双乙酰酒石酸单双甘油酯(简称“DA-TEM”)",
     "additiveNameEn": "",
     "cnsNumber": "10.010",
     "insNumber": "472e",
@@ -31964,12 +31964,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 106,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；16.06 膨化食品；最大使用量 20.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：双乙酰酒石酸单双甘油酯(简称“DA-TEM”)；CNS号 10.010；INS号 472e；功能 乳化剂、增稠剂；16.06 膨化食品；最大使用量 20.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r001",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -31983,18 +31983,18 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；01.01.03 调制乳；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；01.01.03 调制乳；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r002",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
     "functionText": "乳化剂",
     "foodCategoryCode": "01.05",
-    "foodCategoryName": "稀奶油(淡奶油)及其类似品(01.05.01稀奶油除外)脂肪、油和乳化脂肪制品[02.01.01.01植",
+    "foodCategoryName": "稀奶油(淡奶油)及其类似品(01.05.01稀奶油除外)",
     "maxUseLevel": "10.0",
     "unit": "g/kg",
     "note": "",
@@ -32002,18 +32002,18 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；01.05 稀奶油(淡奶油)及其类似品(01.05.01稀奶油除外)脂肪、油和乳化脂肪制品[02.01.01.01植；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；01.05 稀奶油(淡奶油)及其类似品(01.05.01稀奶油除外)；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r003",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
     "functionText": "乳化剂",
     "foodCategoryCode": "02.0",
-    "foodCategoryName": "物油、02.01.02动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)、02.01.03无水黄油、无水乳脂、02.02.01.01黄油和浓",
+    "foodCategoryName": "脂肪、油和乳化脂肪制品[02.01.01.01植物油、02.01.02动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)、02.01.03无水黄油、无水乳脂、02.02.01.01黄油和浓缩黄油除外]",
     "maxUseLevel": "15.0",
     "unit": "g/kg",
     "note": "",
@@ -32021,18 +32021,18 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；02.0 物油、02.01.02动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)、02.01.03无水黄油、无水乳脂、02.02.01.01黄油和浓；最大使用量 15.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；02.0 脂肪、油和乳化脂肪制品[02.01.01.01植物油、02.01.02动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)、02.01.03无水黄油、无水乳脂、02.02.01.01黄油和浓缩黄油除外]；最大使用量 15.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r004",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
     "functionText": "乳化剂",
     "foodCategoryCode": "02.01.01.02",
-    "foodCategoryName": "缩黄油除外]氢化植物油",
+    "foodCategoryName": "氢化植物油",
     "maxUseLevel": "10.0",
     "unit": "g/kg",
     "note": "",
@@ -32040,12 +32040,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；02.01.01.02 缩黄油除外]氢化植物油；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；02.01.01.02 氢化植物油；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r005",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32059,12 +32059,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；03.01 冰淇淋、雪糕类；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；03.01 冰淇淋、雪糕类；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r006",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32078,12 +32078,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；04.01.01.02 经表面处理的鲜水果；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；04.01.01.02 经表面处理的鲜水果；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r007",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32097,12 +32097,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；04.02.01.02 经表面处理的新鲜蔬菜；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；04.02.01.02 经表面处理的新鲜蔬菜；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r008",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32116,12 +32116,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；04.04 豆类制品；最大使用量 1.6 g/kg；以每千克豆类的使用量计。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；04.04 豆类制品；最大使用量 1.6 g/kg；以每千克豆类的使用量计。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r009",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32135,12 +32135,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；05.01 可可制品、巧克力和巧克力制品,包括代可可脂巧克力及制品；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；05.01 可可制品、巧克力和巧克力制品,包括代可可脂巧克力及制品；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r010",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32154,12 +32154,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；05.02.02 除胶基糖果以外的其他糖果；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；05.02.02 除胶基糖果以外的其他糖果；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r011",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32173,12 +32173,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；07.01 面包；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；07.01 面包；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r012",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32192,12 +32192,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；07.02 糕点；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；07.02 糕点；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r013",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32211,12 +32211,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；07.03 饼干；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；07.03 饼干；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r014",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32230,12 +32230,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r015",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32249,12 +32249,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.03.02 植物蛋白饮料；最大使用量 6.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.03.02 植物蛋白饮料；最大使用量 6.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r016",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32268,12 +32268,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.06 固体饮料(速溶咖啡除外)；最大使用量 3.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.06 固体饮料(速溶咖啡除外)；最大使用量 3.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r017",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32287,12 +32287,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.06.03 速溶咖啡；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.06.03 速溶咖啡；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r018",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32306,12 +32306,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.08 风味饮料(仅限果味饮料)；最大使用量 0.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；14.08 风味饮料(仅限果味饮料)；最大使用量 0.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p110-r019",
     "ingredientId": "",
-    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘",
+    "additiveNameCn": "司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.024,10.008,10.003,10.004,",
     "insNumber": "493,495,491,492,494",
@@ -32325,7 +32325,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 107,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；16.04.01 干酵母；最大使用量 10.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]；CNS号 10.024,10.008,10.003,10.004,；INS号 493,495,491,492,494；功能 乳化剂；16.04.01 干酵母；最大使用量 10.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p111-r001",
@@ -33451,7 +33451,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
   {
     "id": "gb2760-2024-a1-generated-p115-r016",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33465,12 +33465,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 112,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；01.02.02 风味发酵乳；最大使用量 0.79 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；01.02.02 风味发酵乳；最大使用量 0.79 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p115-r017",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33484,12 +33484,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 112,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 0.68 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 0.68 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r001",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33503,12 +33503,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；04.01.02.04 水果罐头；最大使用量 0.35 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；04.01.02.04 水果罐头；最大使用量 0.35 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r002",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33522,12 +33522,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；04.01.02.05 果酱；最大使用量 0.68 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；04.01.02.05 果酱；最大使用量 0.68 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r003",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33541,12 +33541,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；04.01.02.08.01 蜜饯类、凉果类；最大使用量 0.35 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；04.01.02.08.01 蜜饯类、凉果类；最大使用量 0.35 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r004",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33560,12 +33560,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；04.02.02.03 腌渍的蔬菜；最大使用量 0.20 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；04.02.02.03 腌渍的蔬菜；最大使用量 0.20 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r005",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33579,12 +33579,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；05.02 糖果；最大使用量 4.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；05.02 糖果；最大使用量 4.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r006",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33598,12 +33598,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；05.02.01 胶基糖果；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；05.02.01 胶基糖果；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r007",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33617,12 +33617,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；06.04.02.01 杂粮罐头；最大使用量 0.35 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；06.04.02.01 杂粮罐头；最大使用量 0.35 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r008",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33636,12 +33636,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；11.04 餐桌甜味料；最大使用量 按生产需要适量使用。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；11.04 餐桌甜味料；最大使用量 按生产需要适量使用。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r009",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33655,12 +33655,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；12.0 调味品(12.01盐及代盐制品、12.09香辛料类除外)；最大使用量 1.13 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；12.0 调味品(12.01盐及代盐制品、12.09香辛料类除外)；最大使用量 1.13 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r010",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33674,12 +33674,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；12.04 酱油；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；12.04 酱油；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r011",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33693,12 +33693,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；12.10.03 液体复合调味料；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；12.10.03 液体复合调味料；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r012",
     "ingredientId": "",
-    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)",
+    "additiveNameCn": "天门冬酰苯丙氨酸甲酯乙酰磺胺酸",
     "additiveNameEn": "",
     "cnsNumber": "19.021",
     "insNumber": "962",
@@ -33712,7 +33712,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 113,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸9)；CNS号 19.021；INS号 962；功能 甜味剂；14.0 饮料类[14.01包装饮用水、14.02.01果蔬汁(浆)、14.02.02浓缩果蔬汁(浆)除外]；最大使用量 0.68 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：天门冬酰苯丙氨酸甲酯乙酰磺胺酸；CNS号 19.021；INS号 962；功能 甜味剂；14.0 饮料类[14.01包装饮用水、14.02.01果蔬汁(浆)、14.02.02浓缩果蔬汁(浆)除外]；最大使用量 0.68 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p116-r013",
@@ -34914,7 +34914,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
   {
     "id": "gb2760-2024-a1-generated-p120-r001",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -34928,12 +34928,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；01.01.03 调制乳；最大使用量 1.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；01.01.03 调制乳；最大使用量 1.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r002",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -34947,12 +34947,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；01.05.01 稀奶油；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；01.05.01 稀奶油；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r003",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -34966,12 +34966,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；01.05.03 调制稀奶油；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；01.05.03 调制稀奶油；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r004",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -34985,12 +34985,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；02.02 水油状脂肪乳化制品(02.02.01.01黄油和浓缩黄油除外)；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；02.02 水油状脂肪乳化制品(02.02.01.01黄油和浓缩黄油除外)；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r005",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35004,12 +35004,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；02.03 02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r006",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35023,12 +35023,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 1.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；03.0 冷冻饮品(03.04食用冰除外)；最大使用量 1.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r007",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35042,12 +35042,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；07.01 面包；最大使用量 2.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；07.01 面包；最大使用量 2.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r008",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35061,12 +35061,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；07.02 糕点；最大使用量 2.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；07.02 糕点；最大使用量 2.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r009",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35080,12 +35080,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；12.10.01 固体复合调味料；最大使用量 4.5 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；12.10.01 固体复合调味料；最大使用量 4.5 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r010",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35099,12 +35099,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；12.10.02 半固体复合调味料；最大使用量 5.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；12.10.02 半固体复合调味料；最大使用量 5.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r011",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35118,12 +35118,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；12.10.03 液体复合调味料；最大使用量 1.0 g/kg。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；12.10.03 液体复合调味料；最大使用量 1.0 g/kg。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r012",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35137,12 +35137,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.0 饮料类[14.01包装饮用水、14.02.01果蔬汁(浆)、14.02.02浓缩果蔬汁(浆)、14.06固体饮料除外]；最大使用量 0.5 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.0 饮料类[14.01包装饮用水、14.02.01果蔬汁(浆)、14.02.02浓缩果蔬汁(浆)、14.06固体饮料除外]；最大使用量 0.5 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r013",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35156,12 +35156,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 0.75 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.02.03 果蔬汁(浆)类饮料；最大使用量 0.75 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r014",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35175,12 +35175,12 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.03.01 含乳饮料；最大使用量 2.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.03.01 含乳饮料；最大使用量 2.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p120-r015",
     "ingredientId": "",
-    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]",
+    "additiveNameCn": "吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]",
     "additiveNameEn": "",
     "cnsNumber": "10.025,10.026,10.015,10.016",
     "insNumber": "432,434,435,433",
@@ -35194,7 +35194,7 @@ export const gb2760OfficialGeneratedA1StagingRecords = [
     "standardPage": 117,
     "extractionStatus": "extracted",
     "reviewStatus": "needs_review",
-    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.03.02 植物蛋白饮料；最大使用量 2.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
+    "rawSourceText": "GB 2760-2024 表 A.1：吐温类[包括聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)]；CNS号 10.025,10.026,10.015,10.016；INS号 432,434,435,433；功能 乳化剂、稳定剂；14.03.02 植物蛋白饮料；最大使用量 2.0 g/kg；以即饮状态计，相应的固体饮料按稀释倍数增加使用量。"
   },
   {
     "id": "gb2760-2024-a1-generated-p121-r001",

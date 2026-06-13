@@ -12,6 +12,78 @@ const pdfPageStart = 8;
 const pdfPageEnd = 148;
 const generatedAt = '2026-06-13';
 const extractionTool = 'pdftotext -bbox-layout (poppler-utils)';
+const generatedRecordCorrections = [
+  {
+    pdfPage: 16,
+    additiveNameCn: 'ε-聚赖氨酸盐酸盐',
+    foodCategoryCode: '04.0',
+    maxUseLevel: '0.30',
+    foodCategoryName: '水果、蔬菜(包括块根类)、豆类、食用菌、藻类、坚果以及籽类等(04.01.01鲜水果、04.01.02.04水果罐头、04.02.01新鲜蔬菜、04.02.02.01冷冻蔬菜、04.02.02.04蔬菜罐头、04.02.02.06发酵蔬菜制品、04.03.01新鲜食用菌和藻类、04.03.02.01冷冻食用菌和藻类、04.03.02.04食用菌和藻类罐头、04.05.02.03坚果与籽类罐头除外)'
+  },
+  {
+    pdfPage: 16,
+    additiveNameCn: 'ε-聚赖氨酸盐酸盐',
+    foodCategoryCode: '06.02',
+    maxUseLevel: '0.25',
+    foodCategoryName: '大米及其制品'
+  },
+  {
+    pdfPage: 16,
+    additiveNameCn: 'ε-聚赖氨酸盐酸盐',
+    foodCategoryCode: '06.03',
+    maxUseLevel: '0.30',
+    foodCategoryName: '小麦粉及其制品[06.03.01小麦粉、06.03.02.01生湿面制品(如面条、饺子皮、馄饨皮、烧麦皮)、06.03.02.02生干面制品除外]'
+  },
+  {
+    pdfPage: 52,
+    additiveNameCn: '红曲米,红曲红',
+    foodCategoryCode: '08.03',
+    maxUseLevel: '按生产需要适量使用',
+    foodCategoryName: '熟肉制品'
+  },
+  {
+    pdfPage: 52,
+    additiveNameCn: '红曲米,红曲红',
+    foodCategoryCode: '10.03',
+    maxUseLevel: '按生产需要适量使用',
+    foodCategoryName: '蛋制品(改变其物理性状)[10.03.01脱水蛋制品(如蛋白粉、蛋黄粉、蛋白片)、10.03.03蛋液与液态蛋除外]'
+  },
+  {
+    pdfPage: 63,
+    additiveNameCn: '聚甘油脂肪酸酯',
+    foodCategoryCode: '07.0',
+    maxUseLevel: '10.0',
+    foodCategoryName: '焙烤食品'
+  },
+  {
+    pdfPage: 63,
+    additiveNameCn: '聚甘油脂肪酸酯',
+    foodCategoryCode: '12.0',
+    maxUseLevel: '10.0',
+    foodCategoryName: '调味品(12.01盐及代盐制品、12.09香辛料类除外)(仅限用于膨化食品的调味料)'
+  },
+  {
+    pdfPage: 110,
+    additiveNameCn: '司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]',
+    foodCategoryCode: '01.05',
+    maxUseLevel: '10.0',
+    foodCategoryName: '稀奶油(淡奶油)及其类似品(01.05.01稀奶油除外)'
+  },
+  {
+    pdfPage: 110,
+    additiveNameCn: '司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]',
+    foodCategoryCode: '02.0',
+    maxUseLevel: '15.0',
+    foodCategoryName: '脂肪、油和乳化脂肪制品[02.01.01.01植物油、02.01.02动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)、02.01.03无水黄油、无水乳脂、02.02.01.01黄油和浓缩黄油除外]'
+  },
+  {
+    pdfPage: 110,
+    additiveNameCn: '司盘类[包括山梨醇酐单月桂酸酯(又名司盘20),山梨醇酐单棕榈酸酯(又名司盘40),山梨醇酐单硬脂酸酯(又名司盘60),山梨醇酐三硬脂酸酯(又名司盘65),山梨醇酐单油酸酯(又名司盘80)]',
+    foodCategoryCode: '02.01.01.02',
+    maxUseLevel: '10.0',
+    foodCategoryName: '氢化植物油'
+  }
+];
 
 const records = extractA1Rows();
 const fileContent = `export const gb2760OfficialGeneratedA1Coverage = {
@@ -98,7 +170,7 @@ function extractA1Rows() {
       const pageRowNumber = (pageRowCounts.get(tableSegment.pdfPage) || 0) + 1;
       pageRowCounts.set(tableSegment.pdfPage, pageRowNumber);
 
-      const record = {
+      let record = {
         id: `gb2760-2024-a1-generated-p${String(tableSegment.pdfPage).padStart(3, '0')}-r${String(pageRowNumber).padStart(3, '0')}`,
         ingredientId: '',
         additiveNameCn: currentAdditive.additiveNameCn,
@@ -116,6 +188,7 @@ function extractA1Rows() {
         extractionStatus: 'extracted',
         reviewStatus: 'needs_review'
       };
+      record = applyGeneratedRecordCorrection(record);
       record.rawSourceText = [
         `GB 2760-2024 表 A.1：${record.additiveNameCn}`,
         record.additiveNameEn,
@@ -135,7 +208,8 @@ function extractA1Rows() {
   for (let pdfPage = pdfPageStart; pdfPage <= pdfPageEnd; pdfPage += 1) {
     const lines = parsePdfPage(pdfPage);
     for (const line of lines) {
-      if (line.mid < 100 || isJunkLine(line)) continue;
+      const isHeaderContinuation = isHeaderContinuationLine(line, pendingHeaderLines);
+      if (line.mid < 100 || (isJunkLine(line) && !isHeaderContinuation)) continue;
 
       if (line.text.includes('CNS号')) {
         finishTableSegment();
@@ -157,12 +231,20 @@ function extractA1Rows() {
 
       if (isTableHeaderLine(line)) {
         finishTableSegment();
+        pendingHeaderLines = [];
         inTable = true;
         tableSegment = {
           pdfPage,
           unitHint: line.text.includes('g/kg') ? 'g/kg' : line.text.includes('g/L') ? 'g/L' : '',
           lines: []
         };
+        continue;
+      }
+
+      if (isHeaderContinuation) {
+        finishTableSegment();
+        pendingHeaderLines.push(line);
+        inTable = false;
         continue;
       }
 
@@ -175,7 +257,7 @@ function extractA1Rows() {
 
       if (inTable && tableSegment) {
         tableSegment.lines.push(line);
-      } else if (/[\u4e00-\u9fff]/u.test(line.text)) {
+      } else if (/[\u4e00-\u9fff]/u.test(line.text) && !isFootnoteTextLine(line)) {
         pendingHeaderLines.push(line);
       }
     }
@@ -183,6 +265,16 @@ function extractA1Rows() {
   }
 
   return rows;
+}
+
+function applyGeneratedRecordCorrection(record) {
+  const correction = generatedRecordCorrections.find((item) => (
+    item.pdfPage === record.pdfPage
+    && item.additiveNameCn === record.additiveNameCn
+    && item.foodCategoryCode === record.foodCategoryCode
+    && item.maxUseLevel === record.maxUseLevel
+  ));
+  return correction ? { ...record, ...correction } : record;
 }
 
 function parsePdfPage(pdfPage) {
@@ -299,6 +391,7 @@ function isJunkLine(line) {
 
 function isHeaderCandidateLine(line) {
   if (isJunkLine(line) || isTableHeaderLine(line)) return false;
+  if (isFootnoteTextLine(line)) return false;
   if (line.text.includes('CNS号') || line.text.startsWith('功能')) return false;
   if (isRowStartLine(line)) return false;
 
@@ -308,14 +401,52 @@ function isHeaderCandidateLine(line) {
   return hasLeftNonCodeWord && /[\u4e00-\u9fff]/u.test(line.leftText);
 }
 
+function isHeaderContinuationLine(line, pendingHeaderLines) {
+  if (!pendingHeaderLines.length || isTableHeaderLine(line)) return false;
+  if (isFootnoteTextLine(line)) return false;
+  if (line.text.includes('CNS号') || line.text.startsWith('功能')) return false;
+  if (isRowStartLine(line)) return false;
+
+  const pendingTitle = pendingHeaderLines.map(headerLineText).join('');
+  if (!hasOpenTitleContinuation(pendingTitle)) return false;
+
+  const titleText = headerLineText(line);
+  if (!titleText) return false;
+
+  const hasLeftTitleWord = line.words.some((word) => (
+    word.x < 130 && !/^(?:\d{1,2}\.?|\d\)|—)$/u.test(word.text)
+  ));
+  return hasLeftTitleWord && /[\u4e00-\u9fffA-Za-zαβγδεΔ0-9'()[\]（）“”+\-,]/u.test(titleText);
+}
+
 function extractAdditiveName(lines) {
   const parts = [];
   for (const line of lines) {
-    if (isJunkLine(line) || line.text.includes('食品分类号')) continue;
-    const text = joinWords(line.words.filter((word) => word.x < 255));
+    if (line.text.includes('食品分类号')) continue;
+    const text = headerLineText(line);
     if (/[\u4e00-\u9fffA-Za-zαβγδεΔ0-9'()+\-,]/u.test(text)) parts.push(text);
   }
   return cleanAdditiveName(parts.join(''));
+}
+
+function headerLineText(line) {
+  return joinWords(line.words.filter((word) => word.x < 255));
+}
+
+function hasOpenTitleContinuation(value) {
+  const text = cleanText(value);
+  return countMatches(text, /[(（[{]/gu) > countMatches(text, /[)）\]}]/gu)
+    || countMatches(text, /“/gu) > countMatches(text, /”/gu)
+    || /[-{[]$/u.test(text);
+}
+
+function countMatches(value, pattern) {
+  return [...String(value || '').matchAll(pattern)].length;
+}
+
+function isFootnoteTextLine(line) {
+  const text = headerLineText(line);
+  return /^(?:若|当|时[,，]?|量[,，)]|添加该添加剂)/u.test(text);
 }
 
 function cleanAdditiveName(value) {
@@ -382,5 +513,5 @@ function canonicalText(value) {
 }
 
 function stripTrailingFootnoteMarkers(value) {
-  return String(value || '').replace(/([)）\]】])\d+[)）]$/u, '$1');
+  return String(value || '').replace(/([^\d])\d+\)$/u, '$1');
 }

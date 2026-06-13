@@ -39,9 +39,11 @@
 - 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取行保持 `needs_review`，不得直接当作正式 `usageLimits`。
 
 - 当前全文页数：264 页，覆盖 GB 2760-2024 官方 PDF 全文。
-- 当前表 A.1 行级 staging 行数：2405 行，覆盖表 A.1 的 PDF 第 8-148 页（标准页 5-145）；其中 554 行已关联 91 个现有食品添加剂 ID，1851 行尚未匹配本地 ingredient。
+- 当前表 A.1 行级 staging 行数：2404 行，覆盖表 A.1 的 PDF 第 8-148 页（标准页 5-145）；其中 957 行已关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient。
+- ingredient 自动关联只使用唯一中文名/别名匹配，或无名称匹配时的单一 INS 码精确匹配；INS 子码不折叠，多 INS、多盐类或多色淀组合默认保留空 `ingredientId`，等待人工归并。
+- 自动抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正，避免 `DATEM`、司盘类、吐温类等长标题截断，以及相邻食品分类文字串行；这些校正仍属于 staging 抽取质量控制，不代表人工审核完成。
 - 已与正式 `ingredients.usageLimits` 对齐的 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量。
-- 待审核 staging 行：2392 行，来自官方 PDF 表 A.1 的行级抽取结果，状态为 `needs_review`；这些行只代表官方 PDF 原文、页码和限量已进入 staging，不代表正式成分详情已升级。
+- 待审核 staging 行：2391 行，来自官方 PDF 表 A.1 的行级抽取结果，状态为 `needs_review`；这些行只代表官方 PDF 原文、页码和限量已进入 staging，不代表正式成分详情已升级。
 - 100 条食品添加剂 seed 的 A.1 覆盖审计：91 条在官方 PDF 表 A.1 中找到可匹配条目并已进入 staging；9 条未找到可结构化的 A.1 证据，当前不强行编造 staging 行：`calcium-citrate`、`citral`、`ethyl-maltol`、`ethyl-vanillin`、`isomalt`、`konjac-gum`、`menthol`、`potassium-benzoate`、`vanillin`。
 - staging 表按“添加剂 × 食品类别 × 最大使用量/备注”逐行存储，保留 `pdfPage`、`standardPage`、`rawSourceText`、平台记录 ID、附件 ID 和 PDF SHA-256，供后续人工审核后再聚合进正式 `ingredients.usageLimits`。
 
