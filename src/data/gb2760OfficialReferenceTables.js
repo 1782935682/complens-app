@@ -33367,316 +33367,316 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-017",
     "rowNumber": 17,
     "rowCode": "17",
-    "rowName": "氯化钾po",
-    "processingAidNameCn": "氯化钾po",
-    "processingAidNameEn": "tassiumchloride",
+    "rowName": "氯化钾",
+    "processingAidNameCn": "氯化钾",
+    "processingAidNameEn": "potassiumchloride",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "17氯化钾potassiumchloride",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 17；助剂中文名称 氯化钾po；助剂英文名称 tassiumchloride；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 17；助剂中文名称 氯化钾；助剂英文名称 potassiumchloride；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-018",
     "rowNumber": 18,
     "rowCode": "18",
-    "rowName": "柠檬酸ci",
-    "processingAidNameCn": "柠檬酸ci",
-    "processingAidNameEn": "tricacid",
+    "rowName": "柠檬酸",
+    "processingAidNameCn": "柠檬酸",
+    "processingAidNameEn": "citricacid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "18柠檬酸citricacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 18；助剂中文名称 柠檬酸ci；助剂英文名称 tricacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 18；助剂中文名称 柠檬酸；助剂英文名称 citricacid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-019",
     "rowNumber": 19,
     "rowCode": "19",
-    "rowName": "氢气hyd",
-    "processingAidNameCn": "氢气hyd",
-    "processingAidNameEn": "rogen",
+    "rowName": "氢气",
+    "processingAidNameCn": "氢气",
+    "processingAidNameEn": "hydrogen",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "19氢气hydrogen",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 19；助剂中文名称 氢气hyd；助剂英文名称 rogen；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 19；助剂中文名称 氢气；助剂英文名称 hydrogen；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-020",
     "rowNumber": 20,
     "rowCode": "20",
-    "rowName": "氢氧化钙c",
-    "processingAidNameCn": "氢氧化钙c",
-    "processingAidNameEn": "alciumhydroxide",
+    "rowName": "氢氧化钙",
+    "processingAidNameCn": "氢氧化钙",
+    "processingAidNameEn": "calciumhydroxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "20氢氧化钙calciumhydroxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 20；助剂中文名称 氢氧化钙c；助剂英文名称 alciumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 20；助剂中文名称 氢氧化钙；助剂英文名称 calciumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-021",
     "rowNumber": 21,
     "rowCode": "21",
-    "rowName": "氢氧化钾po",
-    "processingAidNameCn": "氢氧化钾po",
-    "processingAidNameEn": "tassiumhydroxide",
+    "rowName": "氢氧化钾",
+    "processingAidNameCn": "氢氧化钾",
+    "processingAidNameEn": "potassiumhydroxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "21氢氧化钾potassiumhydroxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 21；助剂中文名称 氢氧化钾po；助剂英文名称 tassiumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 21；助剂中文名称 氢氧化钾；助剂英文名称 potassiumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-022",
     "rowNumber": 22,
     "rowCode": "22",
-    "rowName": "氢氧化钠s",
-    "processingAidNameCn": "氢氧化钠s",
-    "processingAidNameEn": "odiumhydroxide",
+    "rowName": "氢氧化钠",
+    "processingAidNameCn": "氢氧化钠",
+    "processingAidNameEn": "sodiumhydroxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "22氢氧化钠sodiumhydroxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 22；助剂中文名称 氢氧化钠s；助剂英文名称 odiumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 22；助剂中文名称 氢氧化钠；助剂英文名称 sodiumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-023",
     "rowNumber": 23,
     "rowCode": "23",
-    "rowName": "乳酸la",
-    "processingAidNameCn": "乳酸la",
-    "processingAidNameEn": "cticacid",
+    "rowName": "乳酸",
+    "processingAidNameCn": "乳酸",
+    "processingAidNameEn": "lacticacid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "23乳酸lacticacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 23；助剂中文名称 乳酸la；助剂英文名称 cticacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 23；助剂中文名称 乳酸；助剂英文名称 lacticacid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-024",
     "rowNumber": 24,
     "rowCode": "24",
-    "rowName": "硅酸镁magne",
-    "processingAidNameCn": "硅酸镁magne",
-    "processingAidNameEn": "siumtrisilicate",
+    "rowName": "硅酸镁",
+    "processingAidNameCn": "硅酸镁",
+    "processingAidNameEn": "magnesiumtrisilicate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "24硅酸镁magnesiumtrisilicate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 24；助剂中文名称 硅酸镁magne；助剂英文名称 siumtrisilicate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 24；助剂中文名称 硅酸镁；助剂英文名称 magnesiumtrisilicate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-025",
     "rowNumber": 25,
     "rowCode": "25",
-    "rowName": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)c",
-    "processingAidNameCn": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)c",
-    "processingAidNameEn": "alciumcarbonate(light,heavy)",
+    "rowName": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)",
+    "processingAidNameCn": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)",
+    "processingAidNameEn": "calciumcarbonate(light,heavy)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "25碳酸钙(包括轻质碳酸钙,重质碳酸钙)calciumcarbonate(light,heavy)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 25；助剂中文名称 碳酸钙(包括轻质碳酸钙,重质碳酸钙)c；助剂英文名称 alciumcarbonate(light,heavy)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 25；助剂中文名称 碳酸钙(包括轻质碳酸钙,重质碳酸钙)；助剂英文名称 calciumcarbonate(light,heavy)；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-026",
     "rowNumber": 26,
     "rowCode": "26",
-    "rowName": "碳酸钾po",
-    "processingAidNameCn": "碳酸钾po",
-    "processingAidNameEn": "tassiumcarbonate",
+    "rowName": "碳酸钾",
+    "processingAidNameCn": "碳酸钾",
+    "processingAidNameEn": "potassiumcarbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "26碳酸钾potassiumcarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 26；助剂中文名称 碳酸钾po；助剂英文名称 tassiumcarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 26；助剂中文名称 碳酸钾；助剂英文名称 potassiumcarbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-027",
     "rowNumber": 27,
     "rowCode": "27",
-    "rowName": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)magne",
-    "processingAidNameCn": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)magne",
-    "processingAidNameEn": "siumcarbonate(light,heavy)",
+    "rowName": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)",
+    "processingAidNameCn": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)",
+    "processingAidNameEn": "magnesiumcarbonate(light,heavy)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "27碳酸镁(包括轻质碳酸镁,重质碳酸镁)magnesiumcarbonate(light,heavy)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 27；助剂中文名称 碳酸镁(包括轻质碳酸镁,重质碳酸镁)magne；助剂英文名称 siumcarbonate(light,heavy)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 27；助剂中文名称 碳酸镁(包括轻质碳酸镁,重质碳酸镁)；助剂英文名称 magnesiumcarbonate(light,heavy)；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-028",
     "rowNumber": 28,
     "rowCode": "28",
-    "rowName": "碳酸钠s",
-    "processingAidNameCn": "碳酸钠s",
-    "processingAidNameEn": "odiumcarbonate",
+    "rowName": "碳酸钠",
+    "processingAidNameCn": "碳酸钠",
+    "processingAidNameEn": "sodiumcarbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "28碳酸钠sodiumcarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 28；助剂中文名称 碳酸钠s；助剂英文名称 odiumcarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 28；助剂中文名称 碳酸钠；助剂英文名称 sodiumcarbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-029",
     "rowNumber": 29,
     "rowCode": "29",
-    "rowName": "碳酸氢钾po",
-    "processingAidNameCn": "碳酸氢钾po",
-    "processingAidNameEn": "tassiumhydrogencarbonate",
+    "rowName": "碳酸氢钾",
+    "processingAidNameCn": "碳酸氢钾",
+    "processingAidNameEn": "potassiumhydrogencarbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "29碳酸氢钾potassiumhydrogencarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 29；助剂中文名称 碳酸氢钾po；助剂英文名称 tassiumhydrogencarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 29；助剂中文名称 碳酸氢钾；助剂英文名称 potassiumhydrogencarbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-030",
     "rowNumber": 30,
     "rowCode": "30",
-    "rowName": "碳酸氢钠s",
-    "processingAidNameCn": "碳酸氢钠s",
-    "processingAidNameEn": "odiumhydrogencarbonate",
+    "rowName": "碳酸氢钠",
+    "processingAidNameCn": "碳酸氢钠",
+    "processingAidNameEn": "sodiumhydrogencarbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "30碳酸氢钠sodiumhydrogencarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 30；助剂中文名称 碳酸氢钠s；助剂英文名称 odiumhydrogencarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 30；助剂中文名称 碳酸氢钠；助剂英文名称 sodiumhydrogencarbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-031",
     "rowNumber": 31,
     "rowCode": "31",
-    "rowName": "纤维素c",
-    "processingAidNameCn": "纤维素c",
-    "processingAidNameEn": "ellulose",
+    "rowName": "纤维素",
+    "processingAidNameCn": "纤维素",
+    "processingAidNameEn": "cellulose",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "31纤维素cellulose",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 31；助剂中文名称 纤维素c；助剂英文名称 ellulose；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 31；助剂中文名称 纤维素；助剂英文名称 cellulose；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-032",
     "rowNumber": 32,
     "rowCode": "32",
-    "rowName": "盐酸hyd",
-    "processingAidNameCn": "盐酸hyd",
-    "processingAidNameEn": "rochloricacid",
+    "rowName": "盐酸",
+    "processingAidNameCn": "盐酸",
+    "processingAidNameEn": "hydrochloricacid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "32盐酸hydrochloricacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 32；助剂中文名称 盐酸hyd；助剂英文名称 rochloricacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 32；助剂中文名称 盐酸；助剂英文名称 hydrochloricacid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-033",
     "rowNumber": 33,
     "rowCode": "33",
-    "rowName": "氧化钙c",
-    "processingAidNameCn": "氧化钙c",
-    "processingAidNameEn": "alciumoxide",
+    "rowName": "氧化钙",
+    "processingAidNameCn": "氧化钙",
+    "processingAidNameEn": "calciumoxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "33氧化钙calciumoxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 33；助剂中文名称 氧化钙c；助剂英文名称 alciumoxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 33；助剂中文名称 氧化钙；助剂英文名称 calciumoxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-034",
     "rowNumber": 34,
     "rowCode": "34",
-    "rowName": "氧化镁(包括重质氧化镁,轻质氧化镁)magne",
-    "processingAidNameCn": "氧化镁(包括重质氧化镁,轻质氧化镁)magne",
-    "processingAidNameEn": "siumoxide(heavy,light)",
+    "rowName": "氧化镁(包括重质氧化镁,轻质氧化镁)",
+    "processingAidNameCn": "氧化镁(包括重质氧化镁,轻质氧化镁)",
+    "processingAidNameEn": "magnesiumoxide(heavy,light)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "34氧化镁(包括重质氧化镁,轻质氧化镁)magnesiumoxide(heavy,light)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 34；助剂中文名称 氧化镁(包括重质氧化镁,轻质氧化镁)magne；助剂英文名称 siumoxide(heavy,light)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 34；助剂中文名称 氧化镁(包括重质氧化镁,轻质氧化镁)；助剂英文名称 magnesiumoxide(heavy,light)；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-035",
     "rowNumber": 35,
     "rowCode": "35",
-    "rowName": "乙醇et",
-    "processingAidNameCn": "乙醇et",
-    "processingAidNameEn": "hanol",
+    "rowName": "乙醇",
+    "processingAidNameCn": "乙醇",
+    "processingAidNameEn": "ethanol",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "35乙醇ethanol",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 35；助剂中文名称 乙醇et；助剂英文名称 hanol；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 35；助剂中文名称 乙醇；助剂英文名称 ethanol；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-036",
     "rowNumber": 36,
     "rowCode": "36",
-    "rowName": "冰乙酸(又名冰醋酸)a",
-    "processingAidNameCn": "冰乙酸(又名冰醋酸)a",
-    "processingAidNameEn": "ceticacid",
+    "rowName": "冰乙酸(又名冰醋酸)",
+    "processingAidNameCn": "冰乙酸(又名冰醋酸)",
+    "processingAidNameEn": "aceticacid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "36冰乙酸(又名冰醋酸)aceticacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 36；助剂中文名称 冰乙酸(又名冰醋酸)a；助剂英文名称 ceticacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 36；助剂中文名称 冰乙酸(又名冰醋酸)；助剂英文名称 aceticacid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-037",
     "rowNumber": 37,
     "rowCode": "37",
-    "rowName": "植物活性炭vege",
-    "processingAidNameCn": "植物活性炭vege",
-    "processingAidNameEn": "tablecarbon(activated)",
+    "rowName": "植物活性炭",
+    "processingAidNameCn": "植物活性炭",
+    "processingAidNameEn": "vegetablecarbon(activated)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "37植物活性炭vegetablecarbon(activated)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 37；助剂中文名称 植物活性炭vege；助剂英文名称 tablecarbon(activated)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 37；助剂中文名称 植物活性炭；助剂英文名称 vegetablecarbon(activated)；可在各类食品加工过程中使用,残留量不需限定。"
   }
 ];
 
@@ -33685,9 +33685,9 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-001",
     "rowNumber": 1,
     "rowCode": "1",
-    "rowName": "-丁醇",
-    "processingAidNameCn": "-丁醇",
-    "processingAidNameEn": "-butanol",
+    "rowName": "1-丁醇",
+    "processingAidNameCn": "1-丁醇",
+    "processingAidNameEn": "1-butanol",
     "functionText": "萃取溶剂",
     "useScope": "发酵工艺",
     "pdfPage": 227,
@@ -33696,15 +33696,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "11-丁醇1-butanol萃取溶剂发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 1；助剂中文名称 -丁醇；助剂英文名称 -butanol；功能 萃取溶剂；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 1；助剂中文名称 1-丁醇；助剂英文名称 1-butanol；功能 萃取溶剂；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-002",
     "rowNumber": 2,
     "rowCode": "2",
-    "rowName": "植物油抽提溶剂v",
-    "processingAidNameCn": "植物油抽提溶剂v",
-    "processingAidNameEn": "egetableoilsextractionsolvent",
+    "rowName": "植物油抽提溶剂",
+    "processingAidNameCn": "植物油抽提溶剂",
+    "processingAidNameEn": "vegetableoilsextractionsolvent",
     "functionText": "浸油溶剂、提取溶剂",
     "useScope": "发酵工艺、油脂加工提取工艺",
     "pdfPage": 227,
@@ -33713,15 +33713,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "2植物油抽提溶剂vegetableoilsextractionsolvent浸油溶剂、提取溶剂发酵工艺、油脂加工提取工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 2；助剂中文名称 植物油抽提溶剂v；助剂英文名称 egetableoilsextractionsolvent；功能 浸油溶剂、提取溶剂；使用范围 发酵工艺、油脂加工提取工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 2；助剂中文名称 植物油抽提溶剂；助剂英文名称 vegetableoilsextractionsolvent；功能 浸油溶剂、提取溶剂；使用范围 发酵工艺、油脂加工提取工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-003",
     "rowNumber": 3,
     "rowCode": "3",
-    "rowName": "D-甘露糖醇D-mann",
-    "processingAidNameCn": "D-甘露糖醇D-mann",
-    "processingAidNameEn": "itol",
+    "rowName": "D-甘露糖醇",
+    "processingAidNameCn": "D-甘露糖醇",
+    "processingAidNameEn": "D-mannitol",
     "functionText": "防黏剂",
     "useScope": "糖果的加工工艺",
     "pdfPage": 227,
@@ -33730,15 +33730,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "3D-甘露糖醇D-mannitol防黏剂糖果的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 3；助剂中文名称 D-甘露糖醇D-mann；助剂英文名称 itol；功能 防黏剂；使用范围 糖果的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 3；助剂中文名称 D-甘露糖醇；助剂英文名称 D-mannitol；功能 防黏剂；使用范围 糖果的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-004",
     "rowNumber": 4,
     "rowCode": "4",
-    "rowName": "DL-苹果酸钠s",
-    "processingAidNameCn": "DL-苹果酸钠s",
-    "processingAidNameEn": "odiumDL-malate",
+    "rowName": "DL-苹果酸钠",
+    "processingAidNameCn": "DL-苹果酸钠",
+    "processingAidNameEn": "sodiumDL-malate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 227,
@@ -33747,15 +33747,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "4DL-苹果酸钠sodiumDL-malate发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 4；助剂中文名称 DL-苹果酸钠s；助剂英文名称 odiumDL-malate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 4；助剂中文名称 DL-苹果酸钠；助剂英文名称 sodiumDL-malate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-005",
     "rowNumber": 5,
     "rowCode": "5",
-    "rowName": "L-苹果酸L",
-    "processingAidNameCn": "L-苹果酸L",
-    "processingAidNameEn": "-malicacid",
+    "rowName": "L-苹果酸",
+    "processingAidNameCn": "L-苹果酸",
+    "processingAidNameEn": "L-malicacid",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺调制乳、发酵乳和风味发酵",
     "pdfPage": 227,
@@ -33764,15 +33764,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "5L-苹果酸L-malicacid发酵用营养物质发酵工艺调制乳、发酵乳和风味发酵",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 5；助剂中文名称 L-苹果酸L；助剂英文名称 -malicacid；功能 发酵用营养物质；使用范围 发酵工艺调制乳、发酵乳和风味发酵。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 5；助剂中文名称 L-苹果酸；助剂英文名称 L-malicacid；功能 发酵用营养物质；使用范围 发酵工艺调制乳、发酵乳和风味发酵。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-006",
     "rowNumber": 6,
     "rowCode": "6",
-    "rowName": "β-环状糊精β",
-    "processingAidNameCn": "β-环状糊精β",
-    "processingAidNameEn": "-cyclodextrin",
+    "rowName": "β-环状糊精",
+    "processingAidNameCn": "β-环状糊精",
+    "processingAidNameEn": "β-cyclodextrin",
     "functionText": "胆固醇提取剂",
     "useScope": "乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺",
     "pdfPage": 227,
@@ -33781,7 +33781,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "乳、稀奶油(淡奶油)及其类似6β-环状糊精β-cyclodextrin胆固醇提取剂品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 6；助剂中文名称 β-环状糊精β；助剂英文名称 -cyclodextrin；功能 胆固醇提取剂；使用范围 乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 6；助剂中文名称 β-环状糊精；助剂英文名称 β-cyclodextrin；功能 胆固醇提取剂；使用范围 乳、稀奶油(淡奶油)及其类似品、干酪、再制干酪、干酪制品及干酪类似品的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-007",
@@ -34042,9 +34042,9 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-022",
     "rowNumber": 22,
     "rowCode": "22",
-    "rowName": "滑石粉t",
-    "processingAidNameCn": "滑石粉t",
-    "processingAidNameEn": "alc",
+    "rowName": "滑石粉",
+    "processingAidNameCn": "滑石粉",
+    "processingAidNameEn": "talc",
     "functionText": "脱模剂、防黏剂",
     "useScope": "糖果的加工工艺、发酵提取工艺",
     "pdfPage": 229,
@@ -34053,15 +34053,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "糖果的加工工艺、发酵提取22滑石粉talc脱模剂、防黏剂工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 22；助剂中文名称 滑石粉t；助剂英文名称 alc；功能 脱模剂、防黏剂；使用范围 糖果的加工工艺、发酵提取工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 22；助剂中文名称 滑石粉；助剂英文名称 talc；功能 脱模剂、防黏剂；使用范围 糖果的加工工艺、发酵提取工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-023",
     "rowNumber": 23,
     "rowCode": "23",
-    "rowName": "活性白土a",
-    "processingAidNameCn": "活性白土a",
-    "processingAidNameEn": "ctivatedclay",
+    "rowName": "活性白土",
+    "processingAidNameCn": "活性白土",
+    "processingAidNameEn": "activatedclay",
     "functionText": "澄清剂、食用油脱色剂、吸附剂",
     "useScope": "配制酒的加工工艺和发酵工艺、油脂加工工艺、水处理工艺",
     "pdfPage": 229,
@@ -34070,15 +34070,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "配制酒的加工工艺和发酵工澄清剂、食用油脱色23活性白土activatedclay艺、油脂加工工艺、水处理剂、吸附剂工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 23；助剂中文名称 活性白土a；助剂英文名称 ctivatedclay；功能 澄清剂、食用油脱色剂、吸附剂；使用范围 配制酒的加工工艺和发酵工艺、油脂加工工艺、水处理工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 23；助剂中文名称 活性白土；助剂英文名称 activatedclay；功能 澄清剂、食用油脱色剂、吸附剂；使用范围 配制酒的加工工艺和发酵工艺、油脂加工工艺、水处理工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-024",
     "rowNumber": 24,
     "rowCode": "24",
-    "rowName": "甲醇钠s",
-    "processingAidNameCn": "甲醇钠s",
-    "processingAidNameEn": "odiummethylate",
+    "rowName": "甲醇钠",
+    "processingAidNameCn": "甲醇钠",
+    "processingAidNameEn": "sodiummethylate",
     "functionText": "油脂酯交换催化剂",
     "useScope": "油脂加工工艺",
     "pdfPage": 229,
@@ -34087,15 +34087,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "24甲醇钠sodiummethylate油脂酯交换催化剂油脂加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 24；助剂中文名称 甲醇钠s；助剂英文名称 odiummethylate；功能 油脂酯交换催化剂；使用范围 油脂加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 24；助剂中文名称 甲醇钠；助剂英文名称 sodiummethylate；功能 油脂酯交换催化剂；使用范围 油脂加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-025",
     "rowNumber": 25,
     "rowCode": "25",
-    "rowName": "甲酸钠s",
-    "processingAidNameCn": "甲酸钠s",
-    "processingAidNameEn": "odiumformate",
+    "rowName": "甲酸钠",
+    "processingAidNameCn": "甲酸钠",
+    "processingAidNameEn": "sodiumformate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺大豆蛋白的加工工艺(仅限大",
     "pdfPage": 229,
@@ -34104,15 +34104,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "25甲酸钠sodiumformate发酵用营养物质发酵工艺大豆蛋白的加工工艺(仅限大",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 25；助剂中文名称 甲酸钠s；助剂英文名称 odiumformate；功能 发酵用营养物质；使用范围 发酵工艺大豆蛋白的加工工艺(仅限大。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 25；助剂中文名称 甲酸钠；助剂英文名称 sodiumformate；功能 发酵用营养物质；使用范围 发酵工艺大豆蛋白的加工工艺(仅限大。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-026",
     "rowNumber": 26,
     "rowCode": "26",
-    "rowName": "焦亚硫酸钠s",
-    "processingAidNameCn": "焦亚硫酸钠s",
-    "processingAidNameEn": "odiummetabisulphite",
+    "rowName": "焦亚硫酸钠",
+    "processingAidNameCn": "焦亚硫酸钠",
+    "processingAidNameEn": "sodiummetabisulphite",
     "functionText": "黏度调节剂",
     "useScope": "豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg",
     "pdfPage": 229,
@@ -34121,15 +34121,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "豆分离蛋白、大豆浓缩蛋26焦亚硫酸钠sodiummetabisulphite黏度调节剂白),最大使用量为0.03g/kg",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 26；助剂中文名称 焦亚硫酸钠s；助剂英文名称 odiummetabisulphite；功能 黏度调节剂；使用范围 豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 26；助剂中文名称 焦亚硫酸钠；助剂英文名称 sodiummetabisulphite；功能 黏度调节剂；使用范围 豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-027",
     "rowNumber": 27,
     "rowCode": "27",
-    "rowName": "酒石酸氢钾po",
-    "processingAidNameCn": "酒石酸氢钾po",
-    "processingAidNameEn": "tassiumbitartrate",
+    "rowName": "酒石酸氢钾",
+    "processingAidNameCn": "酒石酸氢钾",
+    "processingAidNameEn": "potassiumbitartrate",
     "functionText": "结晶剂",
     "useScope": "(以二氧化硫残留量计)葡萄酒加工工艺",
     "pdfPage": 229,
@@ -34138,15 +34138,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "(以二氧化硫残留量计)27酒石酸氢钾potassiumbitartrate结晶剂葡萄酒加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 27；助剂中文名称 酒石酸氢钾po；助剂英文名称 tassiumbitartrate；功能 结晶剂；使用范围 (以二氧化硫残留量计)葡萄酒加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 27；助剂中文名称 酒石酸氢钾；助剂英文名称 potassiumbitartrate；功能 结晶剂；使用范围 (以二氧化硫残留量计)葡萄酒加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-028",
     "rowNumber": 28,
     "rowCode": "28",
-    "rowName": "聚苯乙烯po",
-    "processingAidNameCn": "聚苯乙烯po",
-    "processingAidNameEn": "lytyrene",
+    "rowName": "聚苯乙烯",
+    "processingAidNameCn": "聚苯乙烯",
+    "processingAidNameEn": "polytyrene",
     "functionText": "助滤剂",
     "useScope": "啤酒加工工艺饮料加工工艺的水处理工艺、",
     "pdfPage": 229,
@@ -34155,15 +34155,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "28聚苯乙烯polytyrene助滤剂啤酒加工工艺饮料加工工艺的水处理工艺、",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 28；助剂中文名称 聚苯乙烯po；助剂英文名称 lytyrene；功能 助滤剂；使用范围 啤酒加工工艺饮料加工工艺的水处理工艺、。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 28；助剂中文名称 聚苯乙烯；助剂英文名称 polytyrene；功能 助滤剂；使用范围 啤酒加工工艺饮料加工工艺的水处理工艺、。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-029",
     "rowNumber": 29,
     "rowCode": "29",
-    "rowName": "聚丙烯酰胺po",
-    "processingAidNameCn": "聚丙烯酰胺po",
-    "processingAidNameEn": "lyacrylamide",
+    "rowName": "聚丙烯酰胺",
+    "processingAidNameCn": "聚丙烯酰胺",
+    "processingAidNameEn": "polyacrylamide",
     "functionText": "絮凝剂、助滤剂",
     "useScope": "制糖工艺和发酵工艺、制盐工艺豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷",
     "pdfPage": 229,
@@ -34172,15 +34172,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "29聚丙烯酰胺polyacrylamide絮凝剂、助滤剂制糖工艺和发酵工艺、制盐工艺豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 29；助剂中文名称 聚丙烯酰胺po；助剂英文名称 lyacrylamide；功能 絮凝剂、助滤剂；使用范围 制糖工艺和发酵工艺、制盐工艺豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 29；助剂中文名称 聚丙烯酰胺；助剂英文名称 polyacrylamide；功能 絮凝剂、助滤剂；使用范围 制糖工艺和发酵工艺、制盐工艺豆制品加工工艺(最大使用量0.3g/kg,以每千克豆类的使用量计,以聚二甲基硅氧烷计),肉制品、啤酒加工工艺(上述加工工艺最大使用量0.2g/kg,以聚二甲基硅氧烷。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-030",
     "rowNumber": 30,
     "rowCode": "30",
-    "rowName": "聚二甲基硅氧烷及其乳液(包括聚二甲po基硅氧烷,聚二甲基硅氧烷乳液)",
-    "processingAidNameCn": "聚二甲基硅氧烷及其乳液(包括聚二甲po基硅氧烷,聚二甲基硅氧烷乳液)",
-    "processingAidNameEn": "lydimethylsiloxane",
+    "rowName": "聚二甲基硅氧烷及其乳液(包括聚二甲基硅氧烷,聚二甲基硅氧烷乳液)",
+    "processingAidNameCn": "聚二甲基硅氧烷及其乳液(包括聚二甲基硅氧烷,聚二甲基硅氧烷乳液)",
+    "processingAidNameEn": "polydimethylsiloxane",
     "functionText": "消泡剂、脱模剂",
     "useScope": "计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺",
     "pdfPage": 229,
@@ -34189,7 +34189,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷聚二甲基硅氧烷及计),果冻、果汁、浓缩果汁粉、其乳液(包括聚二甲饮料、速溶食品、冰淇淋、果30polydimethylsiloxane消泡剂、脱模剂基硅氧烷,聚二甲基酱、调味品和蔬菜加工工艺硅氧烷乳液)(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 30；助剂中文名称 聚二甲基硅氧烷及其乳液(包括聚二甲po基硅氧烷,聚二甲基硅氧烷乳液)；助剂英文名称 lydimethylsiloxane；功能 消泡剂、脱模剂；使用范围 计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 30；助剂中文名称 聚二甲基硅氧烷及其乳液(包括聚二甲基硅氧烷,聚二甲基硅氧烷乳液)；助剂英文名称 polydimethylsiloxane；功能 消泡剂、脱模剂；使用范围 计),焙烤食品工艺(在模具中的最大使用量30mg/dm2,以聚二甲基硅氧烷计),油脂加工及煎炸工艺(最大使用量0.01g/kg,以聚二甲基硅氧烷计),果冻、果汁、浓缩果汁粉、饮料、速溶食品、冰淇淋、果酱、调味品和蔬菜加工工艺(上述加工工艺最大使用量0.05g/kg,以聚二甲基硅氧烷计),发酵工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),薯类加工工艺(最大使用量为按生产需要适量使用),畜禽血制品加工工艺(最大使用量为0.2g/kg,以聚二甲基硅氧烷计),酵母加工制品生产加工工艺(最大使用量0.1g/kg,以聚二甲基硅氧烷计),胶原蛋白肠衣加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-031",
@@ -34331,8 +34331,8 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-039",
     "rowNumber": 39,
     "rowCode": "39",
-    "rowName": "10)磷酸",
-    "processingAidNameCn": "10)磷酸",
+    "rowName": "磷酸",
+    "processingAidNameCn": "磷酸",
     "processingAidNameEn": "phosphoricacid",
     "functionText": "澄清剂、精炼脱胶、发酵用营养物质、自溶促进剂",
     "useScope": "制糖工艺和油脂加工工艺、发酵工艺、酵母加工制品的生产工艺",
@@ -34341,8 +34341,8 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "pdfPages": [
       230
     ],
-    "rawRowText": "澄清剂、精炼脱胶、制糖工艺和油脂加工工艺、发10)39磷酸phosphoricacid发酵用营养物质、自酵工艺、酵母加工制品的生产溶促进剂工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 39；助剂中文名称 10)磷酸；助剂英文名称 phosphoricacid；功能 澄清剂、精炼脱胶、发酵用营养物质、自溶促进剂；使用范围 制糖工艺和油脂加工工艺、发酵工艺、酵母加工制品的生产工艺。"
+    "rawRowText": "澄清剂、精炼脱胶、制糖工艺和油脂加工工艺、发39磷酸phosphoricacid发酵用营养物质、自酵工艺、酵母加工制品的生产溶促进剂工艺",
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 39；助剂中文名称 磷酸；助剂英文名称 phosphoricacid；功能 澄清剂、精炼脱胶、发酵用营养物质、自溶促进剂；使用范围 制糖工艺和油脂加工工艺、发酵工艺、酵母加工制品的生产工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-040",
@@ -34399,26 +34399,26 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-043",
     "rowNumber": 43,
     "rowCode": "43",
-    "rowName": "磷酸二氢钠10)包括磷酸(湿法),磷酸湿法仅用于制糖工艺、",
-    "processingAidNameCn": "磷酸二氢钠10)包括磷酸(湿法),磷酸湿法仅用于制糖工艺、",
-    "processingAidNameEn": "sodiumdihydrogenphosphate油脂加工工艺、",
-    "functionText": "发酵用营养物质发酵工艺。",
+    "rowName": "磷酸二氢钠",
+    "processingAidNameCn": "磷酸二氢钠",
+    "processingAidNameEn": "sodiumdihydrogenphosphate",
+    "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 230,
     "standardPage": 227,
     "pdfPages": [
       230
     ],
-    "rawRowText": "43磷酸二氢钠sodiumdihydrogenphosphate发酵用营养物质发酵工艺10)包括磷酸(湿法),磷酸湿法仅用于制糖工艺、油脂加工工艺、发酵工艺。",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 43；助剂中文名称 磷酸二氢钠10)包括磷酸(湿法),磷酸湿法仅用于制糖工艺、；助剂英文名称 sodiumdihydrogenphosphate油脂加工工艺、；功能 发酵用营养物质发酵工艺。；使用范围 发酵工艺。"
+    "rawRowText": "43磷酸二氢钠sodiumdihydrogenphosphate发酵用营养物质发酵工艺",
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 43；助剂中文名称 磷酸二氢钠；助剂英文名称 sodiumdihydrogenphosphate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-044",
     "rowNumber": 44,
     "rowCode": "44",
-    "rowName": "t磷酸三钙c",
-    "processingAidNameCn": "t磷酸三钙c",
-    "processingAidNameEn": "ricalciumorthophosphate(cal-iumphosphate)",
+    "rowName": "磷酸三钙",
+    "processingAidNameCn": "磷酸三钙",
+    "processingAidNameEn": "tricalciumorthophosphate(cal-ciumphosphate)",
     "functionText": "分散剂",
     "useScope": "乳制品加工工艺",
     "pdfPage": 231,
@@ -34427,15 +34427,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "tricalciumorthophosphate(cal-44磷酸三钙分散剂乳制品加工工艺ciumphosphate)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 44；助剂中文名称 t磷酸三钙c；助剂英文名称 ricalciumorthophosphate(cal-iumphosphate)；功能 分散剂；使用范围 乳制品加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 44；助剂中文名称 磷酸三钙；助剂英文名称 tricalciumorthophosphate(cal-ciumphosphate)；功能 分散剂；使用范围 乳制品加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-045",
     "rowNumber": 45,
     "rowCode": "45",
-    "rowName": "磷酸氢二钠d",
-    "processingAidNameCn": "磷酸氢二钠d",
-    "processingAidNameEn": "isodiumhydrogenphosphate",
+    "rowName": "磷酸氢二钠",
+    "processingAidNameCn": "磷酸氢二钠",
+    "processingAidNameEn": "disodiumhydrogenphosphate",
     "functionText": "絮凝剂、发酵用营养物质",
     "useScope": "饮料加工工艺的水处理工艺、发酵工艺",
     "pdfPage": 231,
@@ -34444,15 +34444,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "絮凝剂、发酵用营养饮料加工工艺的水处理工艺、45磷酸氢二钠disodiumhydrogenphosphate物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 45；助剂中文名称 磷酸氢二钠d；助剂英文名称 isodiumhydrogenphosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 45；助剂中文名称 磷酸氢二钠；助剂英文名称 disodiumhydrogenphosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-046",
     "rowNumber": 46,
     "rowCode": "46",
-    "rowName": "磷酸三钠t",
-    "processingAidNameCn": "磷酸三钠t",
-    "processingAidNameEn": "risodiumphosphate",
+    "rowName": "磷酸三钠",
+    "processingAidNameCn": "磷酸三钠",
+    "processingAidNameEn": "trisodiumphosphate",
     "functionText": "絮凝剂、发酵用营养物质",
     "useScope": "饮料加工工艺的水处理工艺、发酵工艺",
     "pdfPage": 231,
@@ -34461,15 +34461,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "絮凝剂、发酵用营养饮料加工工艺的水处理工艺、46磷酸三钠trisodiumphosphate物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 46；助剂中文名称 磷酸三钠t；助剂英文名称 risodiumphosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 46；助剂中文名称 磷酸三钠；助剂英文名称 trisodiumphosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-047",
     "rowNumber": 47,
     "rowCode": "47",
-    "rowName": "多聚磷酸钠(包括六s偏磷酸钠)",
-    "processingAidNameCn": "多聚磷酸钠(包括六s偏磷酸钠)",
-    "processingAidNameEn": "odiumpolyphosphate",
+    "rowName": "多聚磷酸钠(包括六偏磷酸钠)",
+    "processingAidNameCn": "多聚磷酸钠(包括六偏磷酸钠)",
+    "processingAidNameEn": "sodiumpolyphosphate",
     "functionText": "螯合剂",
     "useScope": "乳糖加工工艺(残留量为0.2g/kg)",
     "pdfPage": 231,
@@ -34478,15 +34478,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "多聚磷酸钠(包括六乳糖加工工艺(残留量为47sodiumpolyphosphate螯合剂偏磷酸钠)0.2g/kg)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 47；助剂中文名称 多聚磷酸钠(包括六s偏磷酸钠)；助剂英文名称 odiumpolyphosphate；功能 螯合剂；使用范围 乳糖加工工艺(残留量为0.2g/kg)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 47；助剂中文名称 多聚磷酸钠(包括六偏磷酸钠)；助剂英文名称 sodiumpolyphosphate；功能 螯合剂；使用范围 乳糖加工工艺(残留量为0.2g/kg)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-048",
     "rowNumber": 48,
     "rowCode": "48",
-    "rowName": "硫磺su",
-    "processingAidNameCn": "硫磺su",
-    "processingAidNameEn": "lfur",
+    "rowName": "硫磺",
+    "processingAidNameCn": "硫磺",
+    "processingAidNameEn": "sulfur",
     "functionText": "澄清剂、助分离剂",
     "useScope": "制糖工艺、淀粉加工工艺",
     "pdfPage": 231,
@@ -34495,15 +34495,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "48硫磺sulfur澄清剂、助分离剂制糖工艺、淀粉加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 48；助剂中文名称 硫磺su；助剂英文名称 lfur；功能 澄清剂、助分离剂；使用范围 制糖工艺、淀粉加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 48；助剂中文名称 硫磺；助剂英文名称 sulfur；功能 澄清剂、助分离剂；使用范围 制糖工艺、淀粉加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-049",
     "rowNumber": 49,
     "rowCode": "49",
-    "rowName": "硫酸su",
-    "processingAidNameCn": "硫酸su",
-    "processingAidNameEn": "lfuricacid",
+    "rowName": "硫酸",
+    "processingAidNameCn": "硫酸",
+    "processingAidNameEn": "sulfuricacid",
     "functionText": "絮凝剂、发酵用营养物质、中和除皂",
     "useScope": "啤酒的加工工艺、发酵工艺、淀粉加工工艺、乳制品加工工艺、油脂加工工艺",
     "pdfPage": 231,
@@ -34512,15 +34512,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "啤酒的加工工艺、发酵工艺、絮凝剂、发酵用营养49硫酸sulfuricacid淀粉加工工艺、乳制品加工工物质、中和除皂艺、油脂加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 49；助剂中文名称 硫酸su；助剂英文名称 lfuricacid；功能 絮凝剂、发酵用营养物质、中和除皂；使用范围 啤酒的加工工艺、发酵工艺、淀粉加工工艺、乳制品加工工艺、油脂加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 49；助剂中文名称 硫酸；助剂英文名称 sulfuricacid；功能 絮凝剂、发酵用营养物质、中和除皂；使用范围 啤酒的加工工艺、发酵工艺、淀粉加工工艺、乳制品加工工艺、油脂加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-050",
     "rowNumber": 50,
     "rowCode": "50",
-    "rowName": "硫酸铵ammon",
-    "processingAidNameCn": "硫酸铵ammon",
-    "processingAidNameEn": "iumsulfate",
+    "rowName": "硫酸铵",
+    "processingAidNameCn": "硫酸铵",
+    "processingAidNameEn": "ammoniumsulfate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 231,
@@ -34529,7 +34529,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "50硫酸铵ammoniumsulfate发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 50；助剂中文名称 硫酸铵ammon；助剂英文名称 iumsulfate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 50；助剂中文名称 硫酸铵；助剂英文名称 ammoniumsulfate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-051",
@@ -34552,9 +34552,9 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-052",
     "rowNumber": 52,
     "rowCode": "52",
-    "rowName": "硫酸铜c",
-    "processingAidNameCn": "硫酸铜c",
-    "processingAidNameEn": "oppersulphate",
+    "rowName": "硫酸铜",
+    "processingAidNameCn": "硫酸铜",
+    "processingAidNameEn": "coppersulphate",
     "functionText": "澄清剂、螯合剂、发酵用营养物质",
     "useScope": "葡萄酒的加工工艺、皮蛋的加工工艺、发酵工艺",
     "pdfPage": 231,
@@ -34563,15 +34563,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "澄清剂、螯合剂、发葡萄酒的加工工艺、皮蛋的加52硫酸铜coppersulphate酵用营养物质工工艺、发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 52；助剂中文名称 硫酸铜c；助剂英文名称 oppersulphate；功能 澄清剂、螯合剂、发酵用营养物质；使用范围 葡萄酒的加工工艺、皮蛋的加工工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 52；助剂中文名称 硫酸铜；助剂英文名称 coppersulphate；功能 澄清剂、螯合剂、发酵用营养物质；使用范围 葡萄酒的加工工艺、皮蛋的加工工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-053",
     "rowNumber": 53,
     "rowCode": "53",
-    "rowName": "硫酸锌z",
-    "processingAidNameCn": "硫酸锌z",
-    "processingAidNameEn": "incsulphate",
+    "rowName": "硫酸锌",
+    "processingAidNameCn": "硫酸锌",
+    "processingAidNameEn": "zincsulphate",
     "functionText": "螯合剂、絮凝剂、发酵用营养物质",
     "useScope": "皮蛋的加工工艺、啤酒的加工工艺、发酵工艺",
     "pdfPage": 231,
@@ -34580,15 +34580,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "螯合剂、絮凝剂、发皮蛋的加工工艺、啤酒的加工53硫酸锌zincsulphate酵用营养物质工艺、发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 53；助剂中文名称 硫酸锌z；助剂英文名称 incsulphate；功能 螯合剂、絮凝剂、发酵用营养物质；使用范围 皮蛋的加工工艺、啤酒的加工工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 53；助剂中文名称 硫酸锌；助剂英文名称 zincsulphate；功能 螯合剂、絮凝剂、发酵用营养物质；使用范围 皮蛋的加工工艺、啤酒的加工工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-054",
     "rowNumber": 54,
     "rowCode": "54",
-    "rowName": "硫酸亚铁f",
-    "processingAidNameCn": "硫酸亚铁f",
-    "processingAidNameEn": "erroussulfate",
+    "rowName": "硫酸亚铁",
+    "processingAidNameCn": "硫酸亚铁",
+    "processingAidNameEn": "ferroussulfate",
     "functionText": "絮凝剂",
     "useScope": "饮料加工工艺的水处理工艺和啤酒的加工工艺",
     "pdfPage": 231,
@@ -34597,7 +34597,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "饮料加工工艺的水处理工艺54硫酸亚铁ferroussulfate絮凝剂和啤酒的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 54；助剂中文名称 硫酸亚铁f；助剂英文名称 erroussulfate；功能 絮凝剂；使用范围 饮料加工工艺的水处理工艺和啤酒的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 54；助剂中文名称 硫酸亚铁；助剂英文名称 ferroussulfate；功能 絮凝剂；使用范围 饮料加工工艺的水处理工艺和啤酒的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-055",
@@ -34620,9 +34620,9 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-056",
     "rowNumber": 56,
     "rowCode": "56",
-    "rowName": "明胶ge",
-    "processingAidNameCn": "明胶ge",
-    "processingAidNameEn": "latin",
+    "rowName": "明胶",
+    "processingAidNameCn": "明胶",
+    "processingAidNameEn": "gelatin",
     "functionText": "澄清剂",
     "useScope": "果酒的加工工艺、葡萄酒的加工工艺",
     "pdfPage": 231,
@@ -34631,15 +34631,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "果酒的加工工艺、葡萄酒的加56明胶gelatin澄清剂工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 56；助剂中文名称 明胶ge；助剂英文名称 latin；功能 澄清剂；使用范围 果酒的加工工艺、葡萄酒的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 56；助剂中文名称 明胶；助剂英文名称 gelatin；功能 澄清剂；使用范围 果酒的加工工艺、葡萄酒的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-057",
     "rowNumber": 57,
     "rowCode": "57",
-    "rowName": "镍n",
-    "processingAidNameCn": "镍n",
-    "processingAidNameEn": "ickel",
+    "rowName": "镍",
+    "processingAidNameCn": "镍",
+    "processingAidNameEn": "nickel",
     "functionText": "催化剂",
     "useScope": "发酵工艺、油脂加工工艺、糖醇加工工艺",
     "pdfPage": 231,
@@ -34648,15 +34648,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "发酵工艺、油脂加工工艺、糖57镍nickel催化剂醇加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 57；助剂中文名称 镍n；助剂英文名称 ickel；功能 催化剂；使用范围 发酵工艺、油脂加工工艺、糖醇加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 57；助剂中文名称 镍；助剂英文名称 nickel；功能 催化剂；使用范围 发酵工艺、油脂加工工艺、糖醇加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-058",
     "rowNumber": 58,
     "rowCode": "58",
-    "rowName": "膨润土ben",
-    "processingAidNameCn": "膨润土ben",
-    "processingAidNameEn": "tonite",
+    "rowName": "膨润土",
+    "processingAidNameCn": "膨润土",
+    "processingAidNameEn": "bentonite",
     "functionText": "吸附剂、助滤剂、澄清剂、脱色剂",
     "useScope": "葡萄酒、果酒、黄酒和配制酒、油脂、调味品、果蔬汁、茶饮料、固体饮料的加工工艺、发酵工艺",
     "pdfPage": 231,
@@ -34665,15 +34665,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "葡萄酒、果酒、黄酒和配制酒、吸附剂、助滤剂、澄油脂、调味品、果蔬汁、茶饮58膨润土bentonite清剂、脱色剂料、固体饮料的加工工艺、发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 58；助剂中文名称 膨润土ben；助剂英文名称 tonite；功能 吸附剂、助滤剂、澄清剂、脱色剂；使用范围 葡萄酒、果酒、黄酒和配制酒、油脂、调味品、果蔬汁、茶饮料、固体饮料的加工工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 58；助剂中文名称 膨润土；助剂英文名称 bentonite；功能 吸附剂、助滤剂、澄清剂、脱色剂；使用范围 葡萄酒、果酒、黄酒和配制酒、油脂、调味品、果蔬汁、茶饮料、固体饮料的加工工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-059",
     "rowNumber": 59,
     "rowCode": "59",
-    "rowName": "石蜡pa",
-    "processingAidNameCn": "石蜡pa",
-    "processingAidNameEn": "raffin",
+    "rowName": "石蜡",
+    "processingAidNameCn": "石蜡",
+    "processingAidNameEn": "paraffin",
     "functionText": "脱模剂、脱毛剂",
     "useScope": "糖果、焙烤食品加工工艺、畜禽脱毛处理工艺",
     "pdfPage": 231,
@@ -34682,15 +34682,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "糖果、焙烤食品加工工艺、畜59石蜡paraffin脱模剂、脱毛剂禽脱毛处理工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 59；助剂中文名称 石蜡pa；助剂英文名称 raffin；功能 脱模剂、脱毛剂；使用范围 糖果、焙烤食品加工工艺、畜禽脱毛处理工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 59；助剂中文名称 石蜡；助剂英文名称 paraffin；功能 脱模剂、脱毛剂；使用范围 糖果、焙烤食品加工工艺、畜禽脱毛处理工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-060",
     "rowNumber": 60,
     "rowCode": "60",
-    "rowName": "石油醚pe",
-    "processingAidNameCn": "石油醚pe",
-    "processingAidNameEn": "troleumether",
+    "rowName": "石油醚",
+    "processingAidNameCn": "石油醚",
+    "processingAidNameEn": "petroleumether",
     "functionText": "提取溶剂",
     "useScope": "配制酒的加工工艺、提取工艺",
     "pdfPage": 231,
@@ -34699,15 +34699,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "60石油醚petroleumether提取溶剂配制酒的加工工艺、提取工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 60；助剂中文名称 石油醚pe；助剂英文名称 troleumether；功能 提取溶剂；使用范围 配制酒的加工工艺、提取工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 60；助剂中文名称 石油醚；助剂英文名称 petroleumether；功能 提取溶剂；使用范围 配制酒的加工工艺、提取工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-061",
     "rowNumber": 61,
     "rowCode": "61",
-    "rowName": "松香甘油酯g",
-    "processingAidNameCn": "松香甘油酯g",
-    "processingAidNameEn": "lycerolesterofrosin",
+    "rowName": "松香甘油酯",
+    "processingAidNameCn": "松香甘油酯",
+    "processingAidNameEn": "glycerolesterofrosin",
     "functionText": "脱毛剂",
     "useScope": "畜禽脱毛处理工艺",
     "pdfPage": 231,
@@ -34716,7 +34716,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "61松香甘油酯glycerolesterofrosin脱毛剂畜禽脱毛处理工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 61；助剂中文名称 松香甘油酯g；助剂英文名称 lycerolesterofrosin；功能 脱毛剂；使用范围 畜禽脱毛处理工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 61；助剂中文名称 松香甘油酯；助剂英文名称 glycerolesterofrosin；功能 脱毛剂；使用范围 畜禽脱毛处理工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-062",
@@ -34977,9 +34977,9 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "id": "gb2760-2024-c2-processing-aid-function-scope-077",
     "rowNumber": 77,
     "rowCode": "77",
-    "rowName": "蔗糖脂肪酸酯suc",
-    "processingAidNameCn": "蔗糖脂肪酸酯suc",
-    "processingAidNameEn": "roseestersoffattyacid",
+    "rowName": "蔗糖脂肪酸酯",
+    "processingAidNameCn": "蔗糖脂肪酸酯",
+    "processingAidNameEn": "sucroseestersoffattyacid",
     "functionText": "消泡剂",
     "useScope": "制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒",
     "pdfPage": 233,
@@ -34988,15 +34988,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       233
     ],
     "rawRowText": "77蔗糖脂肪酸酯sucroseestersoffattyacid消泡剂制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 77；助剂中文名称 蔗糖脂肪酸酯suc；助剂英文名称 roseestersoffattyacid；功能 消泡剂；使用范围 制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 77；助剂中文名称 蔗糖脂肪酸酯；助剂英文名称 sucroseestersoffattyacid；功能 消泡剂；使用范围 制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-078",
     "rowNumber": 78,
     "rowCode": "78",
-    "rowName": "珍珠岩pe",
-    "processingAidNameCn": "珍珠岩pe",
-    "processingAidNameEn": "arlrock",
+    "rowName": "珍珠岩",
+    "processingAidNameCn": "珍珠岩",
+    "processingAidNameEn": "pearlrock",
     "functionText": "助滤剂",
     "useScope": "的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺",
     "pdfPage": 233,
@@ -35005,15 +35005,15 @@ export const gb2760OfficialC2ProcessingAidRows = [
       233
     ],
     "rawRowText": "78珍珠岩pearlrock助滤剂的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 78；助剂中文名称 珍珠岩pe；助剂英文名称 arlrock；功能 助滤剂；使用范围 的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 78；助剂中文名称 珍珠岩；助剂英文名称 pearlrock；功能 助滤剂；使用范围 的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-079",
     "rowNumber": 79,
     "rowCode": "79",
-    "rowName": "正己烷n",
-    "processingAidNameCn": "正己烷n",
-    "processingAidNameEn": "-hexane",
+    "rowName": "正己烷",
+    "processingAidNameCn": "正己烷",
+    "processingAidNameEn": "n-hexane",
     "functionText": "提取溶剂",
     "useScope": "提取工艺、大豆蛋白加工工艺",
     "pdfPage": 233,
@@ -35022,7 +35022,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       233
     ],
     "rawRowText": "79正己烷n-hexane提取溶剂提取工艺、大豆蛋白加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 79；助剂中文名称 正己烷n；助剂英文名称 -hexane；功能 提取溶剂；使用范围 提取工艺、大豆蛋白加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 79；助剂中文名称 正己烷；助剂英文名称 n-hexane；功能 提取溶剂；使用范围 提取工艺、大豆蛋白加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-080",
@@ -35066,18 +35066,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "2",
     "rowName": "α-半乳糖苷酶Alpha-galactosidase",
     "enzymeName": "α-半乳糖苷酶Alpha-galactosidase",
-    "source": "黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱Bacillussubtiliscillusclau李氏木霉Trichodermareesei樟绒枝霉李氏木霉Trichodermareesei李氏木霉dopullulyticuscalf,kid,orlamb雪白根霉Rhizopusniveus",
-    "donor": "杆菌Bacilluslichenifor-地芽孢杆菌Geobacillus性卤杆菌Alkalihaloba-siiMalbrancheasulfureaTrichodermareesei",
+    "source": "黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解",
+    "donor": "地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
-      233,
-      235,
-      239,
-      241
+      233
     ],
-    "rawRowText": "2α-半乳糖苷酶Alpha-galactosidase黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌Geobacillus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱性卤杆菌Alkalihaloba-Bacillussubtiliscillusclausii李氏木霉Trichodermareesei樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei李氏木霉Trichodermareeseidopullulyticuscalf,kid,orlamb雪白根霉Rhizopusniveus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶Alpha-galactosidase；来源 黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱Bacillussubtiliscillusclau李氏木霉Trichodermareesei樟绒枝霉李氏木霉Trichodermareesei李氏木霉dopullulyticuscalf,kid,orlamb雪白根霉Rhizopusniveus；供体 杆菌Bacilluslichenifor-地芽孢杆菌Geobacillus性卤杆菌Alkalihaloba-siiMalbrancheasulfureaTrichodermareesei。"
+    "rawRowText": "2α-半乳糖苷酶Alpha-galactosidase黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌Geobacillus",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶Alpha-galactosidase；来源 黑曲霉Aspergillusniger地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解；供体 地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-003",
@@ -35085,7 +35082,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "3",
     "rowName": "α-淀粉酶Alpha-amylaseα-淀粉酶Alpha-amylase",
     "enzymeName": "α-淀粉酶Alpha-amylaseα-淀粉酶Alpha-amylase",
-    "source": "misstearothermoph黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis嗜热脂解枯草芽孢杆菌Bacillussubtilisstearothermoph米根霉Rhizopusoryzae米曲霉Aspergillusoryzae地衣芽孢杆菌Bacilluslicheni-嗜纤维菌formis黑曲霉微小根毛霉AspergillusnigerRhizomuc李氏木霉Trichodermareesei白曲霉",
+    "source": "misstearothermoph黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis嗜热脂解枯草芽孢杆菌Bacillussubtilisstearothermoph米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌formis黑曲霉微小根毛霉AspergillusnigerRhizomuc李氏木霉Trichodermareesei白曲霉",
     "donor": "ilus地芽孢杆菌GeobacillusilusCytophagasp.orpusillusAspergilluskawachii",
     "pdfPage": 233,
     "standardPage": 230,
@@ -35093,8 +35090,8 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       233,
       234
     ],
-    "rawRowText": "misstearothermophilus黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens3α-淀粉酶Alpha-amylase枯草芽孢杆菌Bacillussubtilis嗜热脂解地芽孢杆菌Geobacillus枯草芽孢杆菌Bacillussubtilisstearothermophilus米根霉Rhizopusoryzae米曲霉Aspergillusoryzae地衣芽孢杆菌Bacilluslicheni-嗜纤维菌Cytophagasp.formis3α-淀粉酶Alpha-amylase黑曲霉微小根毛霉AspergillusnigerRhizomucorpusillus李氏木霉Trichodermareesei白曲霉Aspergilluskawachii",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶Alpha-amylaseα-淀粉酶Alpha-amylase；来源 misstearothermoph黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis嗜热脂解枯草芽孢杆菌Bacillussubtilisstearothermoph米根霉Rhizopusoryzae米曲霉Aspergillusoryzae地衣芽孢杆菌Bacilluslicheni-嗜纤维菌formis黑曲霉微小根毛霉AspergillusnigerRhizomuc李氏木霉Trichodermareesei白曲霉；供体 ilus地芽孢杆菌GeobacillusilusCytophagasp.orpusillusAspergilluskawachii。"
+    "rawRowText": "misstearothermophilus黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens3α-淀粉酶Alpha-amylase枯草芽孢杆菌Bacillussubtilis嗜热脂解地芽孢杆菌Geobacillus枯草芽孢杆菌Bacillussubtilisstearothermophilus米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌Cytophagasp.formis3α-淀粉酶Alpha-amylase黑曲霉微小根毛霉AspergillusnigerRhizomucorpusillus李氏木霉Trichodermareesei白曲霉Aspergilluskawachii",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶Alpha-amylaseα-淀粉酶Alpha-amylase；来源 misstearothermoph黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis嗜热脂解枯草芽孢杆菌Bacillussubtilisstearothermoph米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌formis黑曲霉微小根毛霉AspergillusnigerRhizomuc李氏木霉Trichodermareesei白曲霉；供体 ilus地芽孢杆菌GeobacillusilusCytophagasp.orpusillusAspergilluskawachii。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-004",
@@ -35230,15 +35227,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "12",
     "rowName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
     "enzymeName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
-    "source": "uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis小牛胃Ca微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyl",
-    "donor": "孢杆菌Bacillusamyloliq-lfstomachThermusAquaticusoliquefaciens",
+    "source": "uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis小牛胃Ca微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyl热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱Bacillussubtiliscillusclau李氏木霉Trichodermareesei樟绒枝霉李氏木霉Trichodermareesei李氏木霉",
+    "donor": "孢杆菌Bacillusamyloliq-lfstomachThermusAquaticusoliquefaciens性卤杆菌Alkalihaloba-siiMalbrancheasulfureaTrichodermareesei",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
-    "rawRowText": "uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽孢杆菌Bacillusamyloliq-uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei蛋白酶(包括乳凝块酶)Protease12米曲霉Aspergillusoryzae(includingmilkclottingenzymes)乳克鲁维酵母Kluyveromyceslactis小牛胃Calfstomach微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌ThermusAquaticus枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyloliquefaciens",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)；来源 uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis小牛胃Ca微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyl；供体 孢杆菌Bacillusamyloliq-lfstomachThermusAquaticusoliquefaciens。"
+    "rawRowText": "uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽孢杆菌Bacillusamyloliq-uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei蛋白酶(包括乳凝块酶)Protease12米曲霉Aspergillusoryzae(includingmilkclottingenzymes)乳克鲁维酵母Kluyveromyceslactis小牛胃Calfstomach微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌ThermusAquaticus枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyloliquefaciens热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱性卤杆菌Alkalihaloba-Bacillussubtiliscillusclausii李氏木霉Trichodermareesei樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)；来源 uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis小牛胃Ca微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyl热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱Bacillussubtiliscillusclau李氏木霉Trichodermareesei樟绒枝霉李氏木霉Trichodermareesei李氏木霉；供体 孢杆菌Bacillusamyloliq-lfstomachThermusAquaticusoliquefaciens性卤杆菌Alkalihaloba-siiMalbrancheasulfureaTrichodermareesei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-013",
@@ -35791,7 +35788,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "47",
     "rowName": "普鲁兰酶Pullulanase普鲁兰酶Pullulanase",
     "enzymeName": "普鲁兰酶Pullulanase普鲁兰酶Pullulanase",
-    "source": "枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽枯草芽孢杆菌Bacillussubtilisdopullulyt嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌BacillussubtilisBacillusde地衣芽孢杆菌Bacilluslichenifor-Bacillusdemis长野解普鲁兰杆菌Pullulanibacil-",
+    "source": "枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽枯草芽孢杆菌Bacillussubtilisdopullulyt嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusde地衣芽孢杆菌Bacilluslichenifor-Bacillusdemis长野解普鲁兰杆菌Pullulanibacil-",
     "donor": "孢杆菌Bacillusaci-icusramificansramificans",
     "pdfPage": 239,
     "standardPage": 236,
@@ -35799,8 +35796,8 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       239,
       240
     ],
-    "rawRowText": "枯草芽孢杆菌Bacillussubtilis47普鲁兰酶Pullulanase嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌Bacillussubtilisdopullulyticus嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌BacillussubtilisBacillusderamificans地衣芽孢杆菌Bacilluslichenifor-Bacillusderamificans47普鲁兰酶Pullulanasemis长野解普鲁兰杆菌Pullulanibacil-",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase普鲁兰酶Pullulanase；来源 枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽枯草芽孢杆菌Bacillussubtilisdopullulyt嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌BacillussubtilisBacillusde地衣芽孢杆菌Bacilluslichenifor-Bacillusdemis长野解普鲁兰杆菌Pullulanibacil-；供体 孢杆菌Bacillusaci-icusramificansramificans。"
+    "rawRowText": "枯草芽孢杆菌Bacillussubtilis47普鲁兰酶Pullulanase嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌Bacillussubtilisdopullulyticus嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusderamificans地衣芽孢杆菌Bacilluslichenifor-Bacillusderamificans47普鲁兰酶Pullulanasemis长野解普鲁兰杆菌Pullulanibacil-",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase普鲁兰酶Pullulanase；来源 枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽枯草芽孢杆菌Bacillussubtilisdopullulyt嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusde地衣芽孢杆菌Bacilluslichenifor-Bacillusdemis长野解普鲁兰杆菌Pullulanibacil-；供体 孢杆菌Bacillusaci-icusramificansramificans。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-048",
@@ -36032,7 +36029,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "rowCode": "62",
     "rowName": "脂肪酶Lipase脂肪酶Lipase",
     "enzymeName": "脂肪酶Lipase脂肪酶Lipase",
-    "source": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌棉状嗜热米曲霉Aspergillusoryzaelanuginosu小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachof羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger黄色镰刀菌多形汉逊酵母Hansenulapoly-异孢镰morpharum李氏木霉黑曲霉塔宾变种",
+    "source": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌棉状嗜热米曲霉Aspergillusoryzaelanuginosu小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger黄色镰刀菌多形汉逊酵母Hansenulapoly-异孢镰morpharum李氏木霉黑曲霉塔宾变种",
     "donor": "Fusariumoxysporum丝孢菌ThermomycessRhizomucormieheiFusariumculmorum刀菌Fusariumhetreospo-Aspergillusniger",
     "pdfPage": 241,
     "standardPage": 238,
@@ -36040,8 +36037,8 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241,
       242
     ],
-    "rawRowText": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌Fusariumoxysporum62脂肪酶Lipase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachof羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉Rhizomucormiehei柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus62脂肪酶Lipase)黑曲霉Aspergillusniger黄色镰刀菌Fusariumculmorum多形汉逊酵母Hansenulapoly-异孢镰刀菌Fusariumhetreospo-morpharum李氏木霉黑曲霉塔宾变种Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶Lipase脂肪酶Lipase；来源 米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌棉状嗜热米曲霉Aspergillusoryzaelanuginosu小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachof羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger黄色镰刀菌多形汉逊酵母Hansenulapoly-异孢镰morpharum李氏木霉黑曲霉塔宾变种；供体 Fusariumoxysporum丝孢菌ThermomycessRhizomucormieheiFusariumculmorum刀菌Fusariumhetreospo-Aspergillusniger。"
+    "rawRowText": "米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌Fusariumoxysporum62脂肪酶Lipase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉Rhizomucormiehei柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus62脂肪酶Lipase)黑曲霉Aspergillusniger黄色镰刀菌Fusariumculmorum多形汉逊酵母Hansenulapoly-异孢镰刀菌Fusariumhetreospo-morpharum李氏木霉黑曲霉塔宾变种Aspergillusniger",
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶Lipase脂肪酶Lipase；来源 米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌棉状嗜热米曲霉Aspergillusoryzaelanuginosu小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger黄色镰刀菌多形汉逊酵母Hansenulapoly-异孢镰morpharum李氏木霉黑曲霉塔宾变种；供体 Fusariumoxysporum丝孢菌ThermomycessRhizomucormieheiFusariumculmorum刀菌Fusariumhetreospo-Aspergillusniger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-063",

@@ -97,8 +97,8 @@ const c1Rows = extractCoordinateTableRows({
   },
   buildRowData(row) {
     return {
-      processingAidNameCn: extractColumnText(row.lines, 95, 350),
-      processingAidNameEn: extractColumnText(row.lines, 350, 530)
+      processingAidNameCn: extractColumnText(row.lines, 95, 345, { wordPosition: 'center' }),
+      processingAidNameEn: extractColumnText(row.lines, 345, 530, { wordPosition: 'center' })
     };
   },
   getRowName(rowData) {
@@ -125,16 +125,17 @@ const c2Rows = extractCoordinateTableRows({
   rowNumberMinX: 60,
   rowNumberMaxX: 90,
   includeLine(line) {
+    if (isC2FootnoteLine(line)) return false;
     return (line.pdfPage === 227 && line.mid > 590)
       || (line.pdfPage > 227 && line.pdfPage < 233)
       || (line.pdfPage === 233 && line.mid < 300);
   },
   buildRowData(row) {
     return {
-      processingAidNameCn: extractColumnText(row.lines, 70, 185, { excludeRowNumber: row.rowNumber }),
-      processingAidNameEn: extractColumnText(row.lines, 185, 310),
-      functionText: extractColumnText(row.lines, 310, 400),
-      useScope: extractColumnText(row.lines, 400, 560)
+      processingAidNameCn: extractColumnText(row.lines, 90, 185, { wordPosition: 'center' }),
+      processingAidNameEn: extractColumnText(row.lines, 185, 310, { wordPosition: 'center' }),
+      functionText: extractColumnText(row.lines, 310, 400, { wordPosition: 'center' }),
+      useScope: extractColumnText(row.lines, 400, 560, { wordPosition: 'center' })
     };
   },
   getRowName(rowData) {
@@ -604,11 +605,11 @@ function extractCoordinateTableRows({
   const starts = lines
     .map((line) => {
       if (!allowNoiseRowStarts && isCommonNoiseLine(line)) return undefined;
-      const rowNumberWord = line.words.find((word) => /^\d+$/u.test(word.text) && word.x >= rowNumberMinX && word.x < rowNumberMaxX);
-      if (!rowNumberWord) return undefined;
+      const rowNumber = extractRowStartNumber(line, rowNumberMinX, rowNumberMaxX, expectedCount);
+      if (!rowNumber) return undefined;
       return {
         line,
-        rowNumber: Number(rowNumberWord.text),
+        rowNumber,
         center: line.global
       };
     })
@@ -616,8 +617,10 @@ function extractCoordinateTableRows({
     .sort((a, b) => a.center - b.center);
 
   const segmentRows = starts.map((start, index) => {
-    const lowerBound = index > 0 ? (starts[index - 1].center + start.center) / 2 : start.center - 30;
-    const upperBound = index < starts.length - 1 ? (start.center + starts[index + 1].center) / 2 : start.center + 30;
+    const previousStart = starts[index - 1];
+    const nextStart = starts[index + 1];
+    const lowerBound = previousStart ? (previousStart.center + start.center) / 2 : start.center - 30;
+    const upperBound = nextStart ? (start.center + nextStart.center) / 2 : start.center + 30;
     return {
       rowNumber: start.rowNumber,
       lines: lines.filter((line) => line.global >= lowerBound && line.global < upperBound && !isCommonNoiseLine(line))
@@ -625,17 +628,13 @@ function extractCoordinateTableRows({
   });
 
   const groupedRows = mergeDuplicateRowNumbers
-    ? Object.values(segmentRows.reduce((groups, row) => {
-        groups[row.rowNumber] ||= { rowNumber: row.rowNumber, lines: [] };
-        groups[row.rowNumber].lines.push(...row.lines);
-        return groups;
-      }, {})).sort((a, b) => a.rowNumber - b.rowNumber)
+    ? mergeAdjacentDuplicateRows(segmentRows)
     : segmentRows;
 
   assertRowCount(tableName, groupedRows, expectedCount);
 
   const rows = groupedRows.map((row) => {
-    const rowData = buildRowData(row);
+    const rowData = normalizeCoordinateRowData(tableName, row, buildRowData(row));
     const rowName = getRowName(rowData);
     const rowCode = getRowCode(row, rowData);
     const rowWords = row.lines.flatMap((line) => line.words);
@@ -663,6 +662,46 @@ function extractCoordinateTableRows({
     }
   }
   return rows;
+}
+
+function normalizeCoordinateRowData(tableName, row, rowData) {
+  if (tableName === '表 C.3' && row.rowNumber === 2) {
+    return {
+      ...rowData,
+      source: rowData.source.replace('Bacilluslichenifor-嗜热脂解misstearothermoph', 'Bacilluslichenifor-mis'),
+      donor: '地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus'
+    };
+  }
+  return rowData;
+}
+
+function extractRowStartNumber(line, minX, maxX, expectedCount) {
+  const digitWords = line.words
+    .filter((word) => /^\d+$/u.test(word.text) && word.x >= minX && word.x < maxX)
+    .sort((a, b) => a.x - b.x);
+  if (digitWords.length === 0) return undefined;
+
+  const firstCluster = [digitWords[0]];
+  for (const word of digitWords.slice(1)) {
+    const previous = firstCluster.at(-1);
+    if (word.x - previous.xMax > 5) break;
+    firstCluster.push(word);
+  }
+
+  const rowNumber = Number(firstCluster.map((word) => word.text).join(''));
+  return rowNumber >= 1 && rowNumber <= expectedCount ? rowNumber : undefined;
+}
+
+function mergeAdjacentDuplicateRows(segmentRows) {
+  return segmentRows.reduce((rows, row) => {
+    const lastRow = rows.at(-1);
+    if (lastRow?.rowNumber === row.rowNumber) {
+      lastRow.lines.push(...row.lines);
+    } else {
+      rows.push({ rowNumber: row.rowNumber, lines: [...row.lines] });
+    }
+    return rows;
+  }, []);
 }
 
 function extractFunctionCategoryRows() {
@@ -905,14 +944,24 @@ function isCommonNoiseLine(line) {
     || text.startsWith('c包括针尾曲霉');
 }
 
+function isC2FootnoteLine(line) {
+  const text = joinWords(line.words);
+  return /^\d+\)$/u.test(text)
+    || text.includes('包括磷酸(湿法)')
+    || text.includes('磷酸湿法仅用于');
+}
+
 function extractColumnText(lines, minX, maxX, options = {}) {
   const excludeValues = new Set([
     ...(options.excludeValues || []),
     ...(options.excludeRowNumber ? [String(options.excludeRowNumber)] : [])
   ]);
+  const getWordPosition = options.wordPosition === 'center'
+    ? (word) => (word.x + word.xMax) / 2
+    : (word) => word.x;
   return joinWords(lines.flatMap((line) => line.words.filter((word) => (
-    word.x >= minX
-      && word.x < maxX
+    getWordPosition(word) >= minX
+      && getWordPosition(word) < maxX
       && !excludeValues.has(word.text)
   ))));
 }
