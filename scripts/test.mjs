@@ -1143,6 +1143,15 @@ assert.equal(gb2760OfficialB2NaturalFlavorRows[0].flavorCode, 'N001');
 assert.equal(gb2760OfficialB2NaturalFlavorRows[0].flavorNameCn, '丁香叶油');
 assert.equal(gb2760OfficialB2NaturalFlavorRows.at(-1).flavorCode, 'N404');
 assert.equal(gb2760OfficialB2NaturalFlavorRows.at(-1).femaNumber, '4831');
+const b2NaturalFlavorN060 = gb2760OfficialB2NaturalFlavorRows.find((row) => row.flavorCode === 'N060');
+assert.equal(b2NaturalFlavorN060.flavorNameCn, '杭白菊花浸膏(又名杭菊花流浸膏)');
+assert.equal(b2NaturalFlavorN060.flavorNameEn, 'ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-lium)');
+assert.doesNotMatch(b2NaturalFlavorN060.rawSourceText, /浸膏\)l/u);
+assert.match(b2NaturalFlavorN060.rawSourceText, /morifo-lium\)/u);
+assert.equal(
+  [...gb2760OfficialB2NaturalFlavorRows, ...gb2760OfficialB3SyntheticFlavorRows].some((row) => /[A-Za-z]$/u.test(row.flavorNameCn)),
+  false
+);
 assert.equal(gb2760OfficialB3SyntheticFlavorRows[0].flavorCode, 'S0001');
 assert.equal(gb2760OfficialB3SyntheticFlavorRows.at(-1).flavorCode, 'S1506');
 assert.equal(gb2760OfficialB3SyntheticFlavorRows.at(-1).flavorNameCn, '2-己基吡啶');
@@ -1161,6 +1170,9 @@ assert.match(c2ProcessingAidRow11.useScope, /^薯类的加工工艺、油脂加�
 assert.doesNotMatch(c2ProcessingAidRow11.useScope, /^艺/u);
 const c2ProcessingAidRow12 = gb2760OfficialC2ProcessingAidRows.find((row) => row.rowNumber === 12);
 assert.match(c2ProcessingAidRow12.useScope, /^啤酒、葡萄酒、果酒、黄酒、配制酒/u);
+const c2ProcessingAidRow33 = gb2760OfficialC2ProcessingAidRows.find((row) => row.rowNumber === 33);
+assert.equal(c2ProcessingAidRow33.rawRowText, '聚氧丙烯氧化乙烯Polyoxypropyleneoxyethylene33消泡剂发酵工艺甘油醚glycerolether(GPE)');
+assert.doesNotMatch(c2ProcessingAidRow33.rawRowText, /聚氧乙烯\(20\)|制糖工艺、发酵工艺、提取工/u);
 const c2ProcessingAidRow34 = gb2760OfficialC2ProcessingAidRows.find((row) => row.rowNumber === 34);
 assert.match(c2ProcessingAidRow34.processingAidNameCn, /^聚氧乙烯\(20\)山梨醇酐单月桂酸酯/u);
 assert.match(c2ProcessingAidRow34.useScope, /^制糖工艺、发酵工艺、提取工艺/u);

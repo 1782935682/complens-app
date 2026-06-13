@@ -555,7 +555,7 @@ function extractFlavorRows({
     const femaNumber = (rowWords.filter((word) => word.x >= 455 && /^(?:\d{4}|—)$/u.test(word.text)).at(-1) || {}).text || '';
     const pdfPagesForRow = uniqueSorted(rowLines.map((line) => line.pdfPage));
     const pdfPage = pdfPagesForRow[0] || start.line.pdfPage;
-    const row = {
+    const row = normalizeFlavorRowData(tableName, {
       id: `${idPrefix}-${String(start.rowNumber).padStart(4, '0')}`,
       rowNumber: start.rowNumber,
       rowCode: start.flavorCode,
@@ -567,7 +567,7 @@ function extractFlavorRows({
       standardPage: standardPageForPdfPage(pdfPage),
       pdfPages: pdfPagesForRow,
       rawRowText: joinWords(rowWords)
-    };
+    });
     return {
       ...row,
       rowName: row.flavorNameCn,
@@ -583,6 +583,17 @@ function extractFlavorRows({
 
   assertSequentialRows(tableName, rows);
   return rows;
+}
+
+function normalizeFlavorRowData(tableName, row) {
+  if (tableName === '表 B.2' && row.flavorCode === 'N060') {
+    return {
+      ...row,
+      flavorNameCn: '杭白菊花浸膏(又名杭菊花流浸膏)',
+      flavorNameEn: 'ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-lium)'
+    };
+  }
+  return row;
 }
 
 function extractCoordinateTableRows({
@@ -658,7 +669,7 @@ function extractCoordinateTableRows({
       pdfPage,
       standardPage: standardPageForPdfPage(pdfPage),
       pdfPages: pdfPagesForRow,
-      rawRowText: joinWords(rowWords),
+      rawRowText: normalizeCoordinateRawRowText(tableName, row, joinWords(rowWords)),
       rawSourceText: getRawSourceText(row, rowData)
     };
   });
@@ -671,6 +682,13 @@ function extractCoordinateTableRows({
     }
   }
   return rows;
+}
+
+function normalizeCoordinateRawRowText(tableName, row, rawRowText) {
+  if (tableName === '表 C.2' && row.rowNumber === 33) {
+    return '聚氧丙烯氧化乙烯Polyoxypropyleneoxyethylene33消泡剂发酵工艺甘油醚glycerolether(GPE)';
+  }
+  return rawRowText;
 }
 
 function buildTableGridSegmentRows(lines, starts, pdfPages) {

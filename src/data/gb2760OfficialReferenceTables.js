@@ -1944,8 +1944,8 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowNumber": 59,
     "rowCode": "N060",
     "flavorCode": "N060",
-    "flavorNameCn": "杭白菊花浸膏(又名杭菊花流浸膏)l",
-    "flavorNameEn": "ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-ium)",
+    "flavorNameCn": "杭白菊花浸膏(又名杭菊花流浸膏)",
+    "flavorNameEn": "ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-lium)",
     "femaNumber": "4689",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1953,8 +1953,8 @@ export const gb2760OfficialB2NaturalFlavorRows = [
       155
     ],
     "rawRowText": "ChrysanthemumHangZhouflowerextract(Den-杭白菊花浸膏(又名杭菊59N060dranthemamorifoliumorChrysanthemummorifo-4689花流浸膏)lium)",
-    "rowName": "杭白菊花浸膏(又名杭菊花流浸膏)l",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 59；编码 N060；香料中文名称 杭白菊花浸膏(又名杭菊花流浸膏)l；香料英文名称 ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-ium)；FEMA 编号 4689。"
+    "rowName": "杭白菊花浸膏(又名杭菊花流浸膏)",
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 59；编码 N060；香料中文名称 杭白菊花浸膏(又名杭菊花流浸膏)；香料英文名称 ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-lium)；FEMA 编号 4689。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0060",
@@ -34239,7 +34239,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "pdfPages": [
       230
     ],
-    "rawRowText": "聚氧丙烯氧化乙烯Polyoxypropyleneoxyethylene33消泡剂发酵工艺甘油醚glycerolether(GPE)聚氧乙烯(20)山梨醇酐单月桂酸酯(又制糖工艺、发酵工艺、提取工",
+    "rawRowText": "聚氧丙烯氧化乙烯Polyoxypropyleneoxyethylene33消泡剂发酵工艺甘油醚glycerolether(GPE)",
     "rawSourceText": "GB 2760-2024 表 C.2：序号 33；助剂中文名称 聚氧丙烯氧化乙烯甘油醚；助剂英文名称 Polyoxypropyleneoxyethyleneglycerolether(GPE)；功能 消泡剂；使用范围 发酵工艺。"
   },
   {
