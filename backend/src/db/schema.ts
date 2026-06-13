@@ -145,6 +145,42 @@ export const gb2760OfficialPages = pgTable('gb2760_official_pages', {
   index('gb2760_official_pages_pdf_sha256_idx').on(table.pdfSha256)
 ]);
 
+export const gb2760OfficialReferenceRows = pgTable('gb2760_official_reference_rows', {
+  id: text('id').primaryKey(),
+  standardCode: text('standard_code').notNull(),
+  standardTitle: text('standard_title').notNull(),
+  tableName: text('table_name').notNull(),
+  tableTitle: text('table_title').notNull(),
+  rowNumber: integer('row_number').notNull(),
+  rowCode: text('row_code').notNull(),
+  rowName: text('row_name').notNull(),
+  rowData: jsonb('row_data').$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+  pdfPage: integer('pdf_page').notNull(),
+  standardPage: integer('standard_page').notNull(),
+  rawSourceText: text('raw_source_text').notNull(),
+  sourceName: text('source_name').notNull(),
+  sourceType: text('source_type').notNull(),
+  sourceUrl: text('source_url').notNull(),
+  downloadEndpoint: text('download_endpoint').notNull(),
+  platformRecordId: text('platform_record_id').notNull(),
+  announcementRecordId: text('announcement_record_id').notNull(),
+  fileGuid: text('file_guid').notNull(),
+  factName: text('fact_name').notNull(),
+  pdfSha256: text('pdf_sha256').notNull(),
+  retrievedAt: text('retrieved_at').notNull(),
+  extractionTool: text('extraction_tool').notNull(),
+  extractionScope: text('extraction_scope').notNull(),
+  generatedAt: text('generated_at').notNull(),
+  extractionStatus: text('extraction_status').notNull(),
+  reviewStatus: text('review_status').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  syncedAt: timestamp('synced_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  index('gb2760_official_reference_rows_table_name_idx').on(table.tableName),
+  index('gb2760_official_reference_rows_row_code_idx').on(table.rowCode),
+  index('gb2760_official_reference_rows_pdf_sha256_idx').on(table.pdfSha256)
+]);
+
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull(),
@@ -264,6 +300,8 @@ export type Gb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferSelect;
 export type NewGb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferInsert;
 export type Gb2760OfficialPageRow = typeof gb2760OfficialPages.$inferSelect;
 export type NewGb2760OfficialPageRow = typeof gb2760OfficialPages.$inferInsert;
+export type Gb2760OfficialReferenceRow = typeof gb2760OfficialReferenceRows.$inferSelect;
+export type NewGb2760OfficialReferenceRow = typeof gb2760OfficialReferenceRows.$inferInsert;
 export type UserRow = typeof users.$inferSelect;
 export type NewUserRow = typeof users.$inferInsert;
 export type SessionRow = typeof sessions.$inferSelect;

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialPageRow, toGb2760OfficialRecordRow, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
+import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialPageRow, toGb2760OfficialRecordRow, toGb2760OfficialReferenceRow, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
@@ -421,6 +421,50 @@ describe('ingredient search helpers', () => {
     expect(row.text).toContain('食品添加剂使用标准');
     expect(row.pdfSha256).toBe('2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de');
     expect(row.extractionScope).toBe('full_pdf_text_by_page');
+    expect(row.syncedAt).toBeInstanceOf(Date);
+  });
+
+  it('maps GB 2760 official reference rows with structured row data intact', () => {
+    const row = toGb2760OfficialReferenceRow({
+      id: 'gb2760-2024-a2-exception-067',
+      standardCode: 'GB 2760-2024',
+      standardTitle: '食品安全国家标准 食品添加剂使用标准',
+      tableName: '表 A.2',
+      tableTitle: '表 A.1 中例外食品编号对应的食品类别',
+      rowNumber: 67,
+      rowCode: '67',
+      rowName: '特种葡萄酒(按特殊工艺加工制作的葡萄酒,如在葡萄原酒中加入白兰地、浓缩葡萄汁等)',
+      rowData: {
+        exceptionNumber: 67,
+        foodCategoryCode: '15.03.01.04',
+        foodCategoryName: '特种葡萄酒(按特殊工艺加工制作的葡萄酒,如在葡萄原酒中加入白兰地、浓缩葡萄汁等)'
+      },
+      pdfPage: 150,
+      standardPage: 147,
+      rawSourceText: 'GB 2760-2024 表 A.2：例外食品类别编号 67；食品分类号 15.03.01.04；食品名称 特种葡萄酒(按特殊工艺加工制作的葡萄酒,如在葡萄原酒中加入白兰地、浓缩葡萄汁等)。',
+      sourceName: '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台',
+      sourceType: 'official_standard',
+      sourceUrl: 'https://sppt.cfsa.net.cn:8086/db?task=indexSearch',
+      downloadEndpoint: 'https://sppt.cfsa.net.cn:8086/cfsa_aiguo',
+      platformRecordId: '6CA1489A-9570-4906-8CE8-CC86FBFB1941',
+      announcementRecordId: '3D0601E8-A77C-4EC5-B148-30E2E7020822',
+      fileGuid: '43C9B75E-3D84-4577-80FC-0F7D77D36407',
+      factName: '1747898473246.pdf',
+      pdfSha256: '2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de',
+      retrievedAt: '2026-06-12',
+      extractionTool: 'pdftotext -bbox-layout (poppler-utils)',
+      extractionScope: 'official_reference_tables_structured',
+      generatedAt: '2026-06-13',
+      extractionStatus: 'extracted',
+      reviewStatus: 'needs_review'
+    });
+
+    expect(row.id).toBe('gb2760-2024-a2-exception-067');
+    expect(row.tableName).toBe('表 A.2');
+    expect(row.rowCode).toBe('67');
+    expect(row.rowData).toMatchObject({ foodCategoryCode: '15.03.01.04' });
+    expect(row.pdfSha256).toBe('2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de');
+    expect(row.reviewStatus).toBe('needs_review');
     expect(row.syncedAt).toBeInstanceOf(Date);
   });
 

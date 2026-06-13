@@ -78,6 +78,13 @@
       "when": 1781316318928,
       "tag": "0010_bent_boomerang",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1781330495137,
+      "tag": "0011_neat_thaddeus_ross",
+      "breakpoints": true
     }
   ]
 }

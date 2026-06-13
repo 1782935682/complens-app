@@ -1,6 +1,6 @@
-import { and, asc, count, desc, eq, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, notInArray, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { gb2760OfficialPages, gb2760OfficialRecords, ingredientSources, ingredients, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
+import { gb2760OfficialPages, gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredientSources, ingredients, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewGb2760OfficialReferenceRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
 export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
@@ -112,6 +112,36 @@ export type Gb2760OfficialPageInput = {
   extractionTool: string;
   extractionScope: string;
   generatedAt: string;
+};
+
+export type Gb2760OfficialReferenceRowInput = {
+  id: string;
+  standardCode: string;
+  standardTitle: string;
+  tableName: string;
+  tableTitle: string;
+  rowNumber: number;
+  rowCode: string;
+  rowName: string;
+  rowData?: Record<string, unknown>;
+  pdfPage: number;
+  standardPage: number;
+  rawSourceText: string;
+  sourceName: string;
+  sourceType: string;
+  sourceUrl: string;
+  downloadEndpoint: string;
+  platformRecordId: string;
+  announcementRecordId: string;
+  fileGuid: string;
+  factName: string;
+  pdfSha256: string;
+  retrievedAt: string;
+  extractionTool: string;
+  extractionScope: string;
+  generatedAt: string;
+  extractionStatus: string;
+  reviewStatus: string;
 };
 
 export type IngredientListParams = {
@@ -426,10 +456,48 @@ export function toGb2760OfficialPageRow(page: Gb2760OfficialPageInput): NewGb276
   };
 }
 
+export function toGb2760OfficialReferenceRow(row: Gb2760OfficialReferenceRowInput): NewGb2760OfficialReferenceRow {
+  return {
+    id: row.id,
+    standardCode: row.standardCode,
+    standardTitle: row.standardTitle,
+    tableName: row.tableName,
+    tableTitle: row.tableTitle,
+    rowNumber: row.rowNumber,
+    rowCode: row.rowCode,
+    rowName: row.rowName,
+    rowData: row.rowData ?? {},
+    pdfPage: row.pdfPage,
+    standardPage: row.standardPage,
+    rawSourceText: row.rawSourceText,
+    sourceName: row.sourceName,
+    sourceType: row.sourceType,
+    sourceUrl: row.sourceUrl,
+    downloadEndpoint: row.downloadEndpoint,
+    platformRecordId: row.platformRecordId,
+    announcementRecordId: row.announcementRecordId,
+    fileGuid: row.fileGuid,
+    factName: row.factName,
+    pdfSha256: row.pdfSha256,
+    retrievedAt: row.retrievedAt,
+    extractionTool: row.extractionTool,
+    extractionScope: row.extractionScope,
+    generatedAt: row.generatedAt,
+    extractionStatus: row.extractionStatus,
+    reviewStatus: row.reviewStatus,
+    syncedAt: new Date()
+  };
+}
+
 export async function upsertGb2760OfficialRecords(db: Database, records: Gb2760OfficialRecordInput[]) {
   if (records.length === 0) return;
 
   await db.transaction(async (tx) => {
+    // Official PDF-derived tables are snapshots; keep database rows in lockstep with source files.
+    await tx
+      .delete(gb2760OfficialRecords)
+      .where(notInArray(gb2760OfficialRecords.id, records.map((record) => record.id)));
+
     for (const record of records) {
       const row = toGb2760OfficialRecordRow(record);
       await tx
@@ -450,6 +518,11 @@ export async function upsertGb2760OfficialPages(db: Database, pages: Gb2760Offic
   if (pages.length === 0) return;
 
   await db.transaction(async (tx) => {
+    // Official PDF-derived tables are snapshots; keep database rows in lockstep with source files.
+    await tx
+      .delete(gb2760OfficialPages)
+      .where(notInArray(gb2760OfficialPages.id, pages.map((page) => page.id)));
+
     for (const page of pages) {
       const row = toGb2760OfficialPageRow(page);
       await tx
@@ -460,6 +533,31 @@ export async function upsertGb2760OfficialPages(db: Database, pages: Gb2760Offic
           set: {
             ...row,
             createdAt: sql`${gb2760OfficialPages.createdAt}`
+          }
+        });
+    }
+  });
+}
+
+export async function upsertGb2760OfficialReferenceRows(db: Database, rows: Gb2760OfficialReferenceRowInput[]) {
+  if (rows.length === 0) return;
+
+  await db.transaction(async (tx) => {
+    // Official PDF-derived tables are snapshots; keep database rows in lockstep with source files.
+    await tx
+      .delete(gb2760OfficialReferenceRows)
+      .where(notInArray(gb2760OfficialReferenceRows.id, rows.map((row) => row.id)));
+
+    for (const referenceRow of rows) {
+      const row = toGb2760OfficialReferenceRow(referenceRow);
+      await tx
+        .insert(gb2760OfficialReferenceRows)
+        .values(row)
+        .onConflictDoUpdate({
+          target: gb2760OfficialReferenceRows.id,
+          set: {
+            ...row,
+            createdAt: sql`${gb2760OfficialReferenceRows.createdAt}`
           }
         });
     }

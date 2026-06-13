@@ -139,11 +139,26 @@ GB 2760-2024 官方 PDF 全文转换（需要本机已安装 `poppler-utils` / `
 node scripts/generate-gb2760-fulltext.mjs
 ```
 
-该命令生成 `src/data/gb2760OfficialFullText.js`，保存官方 PDF 全 264 页逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段。后端 `npm run db:seed` 会同时导入：
+GB 2760-2024 官方 PDF 表 A.1 staging 转换：
+
+```bash
+node scripts/generate-gb2760-a1-staging.mjs
+```
+
+GB 2760-2024 官方 PDF 参考表转换（当前抽取表 A.2 例外食品类别）：
+
+```bash
+node scripts/generate-gb2760-reference-tables.mjs
+```
+
+上述命令分别生成 `src/data/gb2760OfficialFullText.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和 `src/data/gb2760OfficialReferenceTables.js`，保存官方 PDF 全 264 页逐页文本、表 A.1 行级 staging 和表 A.2 reference rows。后端 `npm run db:seed` 会同时导入：
 
 - `ingredients`
 - `gb2760_official_records` 表 A.1 行级 staging
 - `gb2760_official_pages` PDF 全文页
+- `gb2760_official_reference_rows` 官方参考表结构化行
+
+官方 PDF 派生表按当前源文件做快照同步：`db:seed` 会清理源文件中已不存在的旧 `gb2760_official_records` / `gb2760_official_pages` / `gb2760_official_reference_rows` 行，再写入当前数据。
 
 可选审计参数：
 
