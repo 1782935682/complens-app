@@ -2,6 +2,7 @@ import {
   gb2760OfficialGeneratedA1Coverage,
   gb2760OfficialGeneratedA1StagingRecords
 } from './gb2760OfficialGeneratedA1Staging.js';
+import { foodAdditives } from './foodAdditives.js';
 
 const gb2760OfficialRetrievedAt = '2026-06-12';
 const gb2760OfficialSearchUrl = 'https://sppt.cfsa.net.cn:8086/db?task=indexSearch';
@@ -45,6 +46,8 @@ const sourceFields = {
   tableName: '表 A.1'
 };
 
+const gb2760SeedIngredientMatchIndex = buildGb2760SeedIngredientMatchIndex(foodAdditives);
+
 const aspartameFootnote = '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量';
 const aspartameBeverageNote = `${aspartameFootnote}；以即饮状态计，相应的固体饮料按稀释倍数增加使用量`;
 const aspartameJellyNote = `${aspartameFootnote}；如用于果冻粉，按冲调倍数增加使用量`;
@@ -61,7 +64,8 @@ const erythrosineBeverageNote = `${erythrosineNote}，以即饮状态计，相�
 function officialRecord(record) {
   return {
     ...sourceFields,
-    ...record
+    ...record,
+    ingredientId: record.ingredientId || findGb2760SeedIngredientId(record) || ''
   };
 }
 
@@ -7591,6 +7595,71 @@ export const gb2760OfficialStagingRecords = [
   ...gb2760OfficialGeneratedStagingRecords
 ];
 
+function buildGb2760SeedIngredientMatchIndex(ingredients) {
+  const nameMap = new Map();
+  const insMap = new Map();
+  const seedIngredients = Array.isArray(ingredients)
+    ? ingredients.filter((ingredient) => ingredient?.kind === 'food-additive')
+    : [];
+
+  for (const ingredient of seedIngredients) {
+    for (const value of [
+      ingredient.nameCn,
+      ingredient.nameEn,
+      ...(Array.isArray(ingredient.aliases) ? ingredient.aliases : [])
+    ]) {
+      addMatchIndexValue(nameMap, normalizeDedupeText(value), ingredient.id);
+      addMatchIndexValue(nameMap, normalizeAdditiveBaseName(value), ingredient.id);
+    }
+
+    for (const value of [
+      ingredient.gbCode,
+      ingredient.eNumber,
+      ...(Array.isArray(ingredient.aliases) ? ingredient.aliases : [])
+    ]) {
+      for (const code of normalizeInsCodeVariants(value)) {
+        addMatchIndexValue(insMap, code, ingredient.id);
+      }
+    }
+  }
+
+  return { nameMap, insMap };
+}
+
+function addMatchIndexValue(map, key, ingredientId) {
+  if (!key || !ingredientId) return;
+  const matches = map.get(key) || new Set();
+  matches.add(ingredientId);
+  map.set(key, matches);
+}
+
+function findGb2760SeedIngredientId(record) {
+  const nameCandidates = new Set();
+  for (const key of [
+    normalizeDedupeText(record.additiveNameCn),
+    normalizeAdditiveBaseName(record.additiveNameCn),
+    normalizeDedupeText(record.additiveNameEn),
+    normalizeAdditiveBaseName(record.additiveNameEn)
+  ]) {
+    addCandidateIds(nameCandidates, gb2760SeedIngredientMatchIndex.nameMap.get(key));
+  }
+
+  const candidates = new Set(nameCandidates);
+  const insTokens = splitInsTokens(record.insNumber);
+  if (!nameCandidates.size && insTokens.length === 1) {
+    for (const code of normalizeInsCodeVariants(insTokens[0])) {
+      addCandidateIds(candidates, gb2760SeedIngredientMatchIndex.insMap.get(code));
+    }
+  }
+
+  return candidates.size === 1 ? [...candidates][0] : '';
+}
+
+function addCandidateIds(target, ids) {
+  if (!ids) return;
+  for (const id of ids) target.add(id);
+}
+
 function getGeneratedDedupeKey(record) {
   return [
     normalizeDedupeText(record?.additiveNameCn),
@@ -7607,13 +7676,36 @@ function normalizeDedupeText(value) {
     .replace(/[，,]/g, ',')
     .replace(/[（]/g, '(')
     .replace(/[）]/g, ')')
+    .replace(/[【\[]/g, '(')
+    .replace(/[】\]]/g, ')')
     .replace(/[。；;]/g, '')
     .trim())
     .toLowerCase();
 }
 
+function normalizeAdditiveBaseName(value) {
+  return normalizeDedupeText(value).replace(/[(（].*?[)）]/gu, '');
+}
+
+function splitInsTokens(value) {
+  return String(value || '')
+    .split(/[;,，、]/u)
+    .map((token) => token.trim())
+    .filter((token) => token && token !== '—');
+}
+
+function normalizeInsCodeVariants(value) {
+  const code = String(value || '')
+    .toLowerCase()
+    .replace(/^ins\s*/u, '')
+    .replace(/^e\s*/u, '')
+    .replace(/[^0-9a-z()]+/gu, '');
+  if (!code || code === '—') return [];
+  return [...new Set([code, code.replace(/\(.+\)$/u, '')].filter(Boolean))];
+}
+
 function stripTrailingFootnoteMarkers(value) {
-  return String(value || '').replace(/([)）\]】])\d+[)）]$/u, '$1');
+  return String(value || '').replace(/([^\d])\d+\)$/u, '$1');
 }
 
 export function getGb2760OfficialStagingSummary(records = gb2760OfficialStagingRecords) {
