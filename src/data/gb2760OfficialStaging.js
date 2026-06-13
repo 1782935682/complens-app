@@ -1541,6 +1541,309 @@ export const gb2760OfficialStagingRecords = [
       unit: 'g/kg',
       note: ''
     }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sucralose',
+    additiveNameCn: '三氯蔗糖（又名蔗糖素）',
+    additiveNameEn: 'sucralose',
+    cnsNumber: '19.016',
+    insNumber: '955',
+    functionText: '甜味剂',
+    pdfPage: 100,
+    standardPage: 97,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sucralose-modified-milk',
+      foodCategoryCode: '01.01.03',
+      foodCategoryName: '调制乳',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-modified-milk-powder',
+      foodCategoryCode: '01.03.02',
+      foodCategoryName: '调制乳粉和调制奶油粉',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sucralose',
+    additiveNameCn: '三氯蔗糖（又名蔗糖素）',
+    additiveNameEn: 'sucralose',
+    cnsNumber: '19.016',
+    insNumber: '955',
+    functionText: '甜味剂',
+    pdfPage: 101,
+    standardPage: 98,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sucralose-processed-cheese',
+      foodCategoryCode: '01.06.04',
+      foodCategoryName: '再制干酪及干酪制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-dried-fruit',
+      foodCategoryCode: '04.01.02.02',
+      foodCategoryName: '水果干类',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-canned-fruit',
+      foodCategoryCode: '04.01.02.04',
+      foodCategoryName: '水果罐头',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.45',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-preserved-fruit',
+      foodCategoryCode: '04.01.02.08',
+      foodCategoryName: '蜜饯',
+      maxUseLevel: '1.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-cooked-fried-fruit',
+      foodCategoryCode: '04.01.02.12',
+      foodCategoryName: '煮熟的或油炸的水果',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-pickled-vegetable',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-processed-mushroom-algae',
+      foodCategoryCode: '04.03.02',
+      foodCategoryName: '加工食用菌和藻类（04.03.02.01 冷冻食用菌和藻类除外）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-new-soy-protein-product',
+      foodCategoryCode: '04.04.01.05',
+      foodCategoryName: '新型豆制品（大豆蛋白及其膨化食品、大豆素肉等）',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-fermented-bean-curd',
+      foodCategoryCode: '04.04.02.01',
+      foodCategoryName: '腐乳类',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-processed-nuts-seeds',
+      foodCategoryCode: '04.05.02',
+      foodCategoryName: '加工坚果与籽类',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
+      maxUseLevel: '1.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-canned-grains',
+      foodCategoryCode: '06.04.02.01',
+      foodCategoryName: '杂粮罐头',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-microwave-popcorn',
+      foodCategoryCode: '06.04.02.02',
+      foodCategoryName: '其他杂粮制品（仅限微波爆米花）',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-ready-to-eat-cereal',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-instant-rice-noodle',
+      foodCategoryCode: '06.07',
+      foodCategoryName: '方便米面制品',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-bakery',
+      foodCategoryCode: '07.0',
+      foodCategoryName: '焙烤食品',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-meat-sausage',
+      foodCategoryCode: '08.03.05',
+      foodCategoryName: '肉灌肠类',
+      maxUseLevel: '0.35',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-tabletop-sweeteners',
+      foodCategoryCode: '11.04',
+      foodCategoryName: '餐桌甜味料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-vinegar',
+      foodCategoryCode: '12.03',
+      foodCategoryName: '食醋',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-soy-sauce',
+      foodCategoryCode: '12.04',
+      foodCategoryName: '酱油',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-fermented-sauce',
+      foodCategoryCode: '12.05',
+      foodCategoryName: '酿造酱',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-spice-sauce',
+      foodCategoryCode: '12.09.03',
+      foodCategoryName: '香辛料酱（如芥末酱、青芥酱）',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-compound-seasoning',
+      foodCategoryCode: '12.10',
+      foodCategoryName: '复合调味料',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-mayonnaise-salad-dressing',
+      foodCategoryCode: '12.10.02.01',
+      foodCategoryName: '蛋黄酱、沙拉酱',
+      maxUseLevel: '1.25',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'sucralose',
+    additiveNameCn: '三氯蔗糖（又名蔗糖素）',
+    additiveNameEn: 'sucralose',
+    cnsNumber: '19.016',
+    insNumber: '955',
+    functionText: '甜味剂',
+    pdfPage: 102,
+    standardPage: 99,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sucralose-beverages',
+      foodCategoryCode: '14.0',
+      foodCategoryName: '饮料类（14.01 包装饮用水、14.02.01 果蔬汁（浆）、14.02.02 浓缩果蔬汁（浆）除外）',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-prepared-wine',
+      foodCategoryCode: '15.02',
+      foodCategoryName: '配制酒',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-fermented-wine',
+      foodCategoryCode: '15.03',
+      foodCategoryName: '发酵酒（15.03.01 葡萄酒除外）',
+      maxUseLevel: '0.65',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sucralose-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '0.45',
+      unit: 'g/kg',
+      note: '如用于果冻粉，按冲调倍数增加使用量'
+    }
   ])
 ];
 
