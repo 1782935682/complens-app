@@ -1,3 +1,8 @@
+import {
+  gb2760OfficialGeneratedA1Coverage,
+  gb2760OfficialGeneratedA1StagingRecords
+} from './gb2760OfficialGeneratedA1Staging.js';
+
 const gb2760OfficialRetrievedAt = '2026-06-12';
 const gb2760OfficialSearchUrl = 'https://sppt.cfsa.net.cn:8086/db?task=indexSearch';
 const gb2760OfficialDownloadUrl = 'https://sppt.cfsa.net.cn:8086/cfsa_aiguo';
@@ -40,6 +45,19 @@ const sourceFields = {
   tableName: '表 A.1'
 };
 
+const aspartameFootnote = '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量';
+const aspartameBeverageNote = `${aspartameFootnote}；以即饮状态计，相应的固体饮料按稀释倍数增加使用量`;
+const aspartameJellyNote = `${aspartameFootnote}；如用于果冻粉，按冲调倍数增加使用量`;
+const acesulfameMixNote = '混合使用时最大使用量不能超过标准规定的安赛蜜最大使用量';
+const acesulfameBeverageNote = `${acesulfameMixNote}；以即饮状态计，相应的固体饮料按稀释倍数增加使用量`;
+const acesulfameJellyNote = `${acesulfameMixNote}；如用于果冻粉，按冲调倍数增加使用量`;
+const benzoicAcidNote = '以苯甲酸计';
+const benzoicAcidBeverageNote = `${benzoicAcidNote}，以即饮状态计，相应的固体饮料按稀释倍数增加使用量`;
+const teaPolyphenolsCatechinNote = '以儿茶素计';
+const teaPolyphenolsOilCatechinNote = '以油脂中儿茶素计';
+const erythrosineNote = '以赤藓红计';
+const erythrosineBeverageNote = `${erythrosineNote}，以即饮状态计，相应的固体饮料按稀释倍数增加使用量`;
+
 function officialRecord(record) {
   return {
     ...sourceFields,
@@ -73,7 +91,7 @@ function officialGroupedUsageRows(common, ingredientVariants, rows) {
   }))));
 }
 
-export const gb2760OfficialStagingRecords = [
+const gb2760OfficialManualStagingRecords = [
   officialRecord({
     id: 'gb2760-2024-a1-citric-acid-general',
     ingredientId: 'citric-acid',
@@ -321,6 +339,102 @@ export const gb2760OfficialStagingRecords = [
     reviewStatus: 'verified',
     rawSourceText: 'GB 2760-2024 表 A.1：碳酸氢钠 sodium hydrogencarbonate；06.02.02 大米制品（仅限发酵大米制品）按生产需要适量使用。'
   }),
+  ...officialUsageRows({
+    additiveNameCn: '铵磷脂',
+    additiveNameEn: 'ammonium phosphatide',
+    cnsNumber: '10.033',
+    insNumber: '442',
+    functionText: '乳化剂',
+    pdfPage: 23,
+    standardPage: 20,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-ammonium-phosphatide-cocoa-products',
+      foodCategoryCode: '05.01.02',
+      foodCategoryName: '巧克力和巧克力制品、除 05.01.01 以外的可可制品',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '巴西棕榈蜡',
+    additiveNameEn: 'carnauba wax',
+    cnsNumber: '14.008',
+    insNumber: '903',
+    functionText: '被膜剂、抗结剂',
+    pdfPage: 23,
+    standardPage: 20,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-carnauba-wax-fresh-fruit',
+      foodCategoryCode: '04.01.01',
+      foodCategoryName: '新鲜水果',
+      maxUseLevel: '0.0004',
+      unit: 'g/kg',
+      note: '以残留量计'
+    },
+    {
+      id: 'gb2760-2024-a1-carnauba-wax-cocoa-chocolate-candy',
+      foodCategoryCode: '05.0',
+      foodCategoryName: '可可制品、巧克力和巧克力制品（包括代可可脂巧克力及制品）以及糖果',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '白油（又名液体石蜡）',
+    additiveNameEn: 'mineral oil, white (liquid paraffin)',
+    cnsNumber: '14.003',
+    insNumber: '905a',
+    functionText: '被膜剂',
+    pdfPage: 23,
+    standardPage: 20,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-mineral-oil-white-candy-except-gum',
+      foodCategoryCode: '05.02.02',
+      foodCategoryName: '除胶基糖果以外的其他糖果',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-mineral-oil-white-fresh-eggs',
+      foodCategoryCode: '10.01',
+      foodCategoryName: '鲜蛋',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '半乳甘露聚糖',
+    additiveNameEn: 'galactomannan',
+    cnsNumber: '00.014',
+    insNumber: '—',
+    functionText: '其他',
+    pdfPage: 23,
+    standardPage: 20,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-galactomannan-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
   ...officialGroupedUsageRows({
     additiveNameCn: '苯甲酸及其钠盐（包括苯甲酸，苯甲酸钠）',
     additiveNameEn: 'benzoic acid, sodium benzoate',
@@ -368,6 +482,245 @@ export const gb2760OfficialStagingRecords = [
       note: '以苯甲酸计'
     }
   ]),
+  ...officialGroupedUsageRows({
+    additiveNameCn: '苯甲酸及其钠盐（包括苯甲酸，苯甲酸钠）',
+    additiveNameEn: 'benzoic acid, sodium benzoate',
+    cnsNumber: '17.001, 17.002',
+    insNumber: '210, 211',
+    functionText: '防腐剂',
+    pdfPage: 24,
+    standardPage: 21,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    { ingredientId: 'benzoic-acid' },
+    { ingredientId: 'sodium-benzoate' }
+  ], [
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-chewing-gum',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '1.5',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-candy-except-gum',
+      foodCategoryCode: '05.02.02',
+      foodCategoryName: '除胶基糖果以外的其他糖果',
+      maxUseLevel: '0.8',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-flavored-syrups',
+      foodCategoryCode: '11.05',
+      foodCategoryName: '调味糖浆',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-vinegar',
+      foodCategoryCode: '12.03',
+      foodCategoryName: '食醋',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-soy-sauce',
+      foodCategoryCode: '12.04',
+      foodCategoryName: '酱油',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-fermented-sauce',
+      foodCategoryCode: '12.05',
+      foodCategoryName: '酿造酱',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-compound-seasoning',
+      foodCategoryCode: '12.10',
+      foodCategoryName: '复合调味料',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-semisolid-compound-seasoning',
+      foodCategoryCode: '12.10.02',
+      foodCategoryName: '半固体复合调味料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-liquid-compound-seasoning',
+      foodCategoryCode: '12.10.03',
+      foodCategoryName: '液体复合调味料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-concentrated-juice-industrial',
+      foodCategoryCode: '14.02.02',
+      foodCategoryName: '浓缩果蔬汁（浆）（仅限食品工业用）',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-fruit-vegetable-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-protein-beverages',
+      foodCategoryCode: '14.03',
+      foodCategoryName: '蛋白饮料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: benzoicAcidBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-tea-coffee-plant-beverages',
+      foodCategoryCode: '14.05',
+      foodCategoryName: '茶、咖啡、植物（类）饮料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-special-purpose-beverages',
+      foodCategoryCode: '14.07',
+      foodCategoryName: '特殊用途饮料',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: benzoicAcidBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: benzoicAcidBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-mixed-alcoholic-beverages',
+      foodCategoryCode: '15.02',
+      foodCategoryName: '配制酒',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    },
+    {
+      id: 'gb2760-2024-a1-{ingredientId}-fruit-wine',
+      foodCategoryCode: '15.03.03',
+      foodCategoryName: '果酒',
+      maxUseLevel: '0.8',
+      unit: 'g/kg',
+      note: benzoicAcidNote
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '阿拉伯胶',
+    additiveNameEn: 'arabic gum',
+    cnsNumber: '20.008',
+    insNumber: '414',
+    functionText: '增稠剂、其他',
+    pdfPage: 17,
+    standardPage: 14,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-arabic-gum-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~48、50~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '阿力甜（又名 L-α-天冬氨酰-N-(2,2,4,4-四甲基-3-硫化三亚甲基)-D-丙氨酰胺）',
+    additiveNameEn: 'alitame',
+    cnsNumber: '19.013',
+    insNumber: '956',
+    functionText: '甜味剂',
+    pdfPage: 17,
+    standardPage: 14,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-alitame-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-alitame-preserved-plum-products',
+      foodCategoryCode: '04.01.02.08.04',
+      foodCategoryName: '话化类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-alitame-gum-based-candy',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-alitame-tabletop-sweeteners',
+      foodCategoryCode: '11.04',
+      foodCategoryName: '餐桌甜味料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-alitame-beverages',
+      foodCategoryCode: '14.0',
+      foodCategoryName: '饮料类[14.01 包装饮用水、14.02.01 果蔬汁（浆）、14.02.02 浓缩果蔬汁（浆）除外]',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-alitame-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '如用于果冻粉，按冲调倍数增加使用量'
+    }
+  ]),
   ...officialUsageRows({
     ingredientId: 'aspartame',
     additiveNameCn: '阿斯巴甜（又名天门冬酰苯丙氨酸甲酯）',
@@ -386,7 +739,7 @@ export const gb2760OfficialStagingRecords = [
       foodCategoryName: '调制乳',
       maxUseLevel: '0.6',
       unit: 'g/kg',
-      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+      note: aspartameFootnote
     },
     {
       id: 'gb2760-2024-a1-aspartame-flavored-fermented-milk',
@@ -394,7 +747,7 @@ export const gb2760OfficialStagingRecords = [
       foodCategoryName: '风味发酵乳',
       maxUseLevel: '1.0',
       unit: 'g/kg',
-      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+      note: aspartameFootnote
     },
     {
       id: 'gb2760-2024-a1-aspartame-modified-milk-powder',
@@ -402,7 +755,7 @@ export const gb2760OfficialStagingRecords = [
       foodCategoryName: '调制乳粉和调制奶油粉',
       maxUseLevel: '2.0',
       unit: 'g/kg',
-      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+      note: aspartameFootnote
     },
     {
       id: 'gb2760-2024-a1-aspartame-cream-products',
@@ -410,7 +763,670 @@ export const gb2760OfficialStagingRecords = [
       foodCategoryName: '稀奶油（淡奶油）及其类似品（01.05.01 稀奶油除外）',
       maxUseLevel: '1.0',
       unit: 'g/kg',
-      note: '添加该添加剂的食品应标明含苯丙氨酸；混合使用时最大使用量不能超过标准规定的阿斯巴甜最大使用量'
+      note: aspartameFootnote
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'aspartame',
+    additiveNameCn: '阿斯巴甜（又名天门冬酰苯丙氨酸甲酯）',
+    additiveNameEn: 'aspartame',
+    cnsNumber: '19.004',
+    insNumber: '951',
+    functionText: '甜味剂',
+    pdfPage: 18,
+    standardPage: 15,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-aspartame-unripened-cheese',
+      foodCategoryCode: '01.06.01',
+      foodCategoryName: '非熟化干酪',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cheese-analogs',
+      foodCategoryCode: '01.06.05',
+      foodCategoryName: '干酪类似品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-milk-flavored-ready-foods',
+      foodCategoryCode: '01.07',
+      foodCategoryName: '以乳为主要配料的即食风味食品或其预制产品（不包括冰淇淋和风味发酵乳）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-fat-emulsions',
+      foodCategoryCode: '02.03',
+      foodCategoryName: '02.02 类以外的脂肪乳化制品，包括混合的和（或）调味的脂肪乳化制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-fat-desserts',
+      foodCategoryCode: '02.04',
+      foodCategoryName: '脂肪类甜品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-frozen-fruit',
+      foodCategoryCode: '04.01.02.01',
+      foodCategoryName: '冷冻水果',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-dried-fruit',
+      foodCategoryCode: '04.01.02.02',
+      foodCategoryName: '水果干类',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-pickled-fruit',
+      foodCategoryCode: '04.01.02.03',
+      foodCategoryName: '醋、油或盐渍水果',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-canned-fruit',
+      foodCategoryCode: '04.01.02.04',
+      foodCategoryName: '水果罐头',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-fruit-puree',
+      foodCategoryCode: '04.01.02.06',
+      foodCategoryName: '果泥',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-other-jam',
+      foodCategoryCode: '04.01.02.07',
+      foodCategoryName: '除 04.01.02.05 以外的果酱（如印度酸辣酱）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-preserved-fruit',
+      foodCategoryCode: '04.01.02.08',
+      foodCategoryName: '蜜饯',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-decorative-fruit-vegetable',
+      foodCategoryCode: '04.01.02.09',
+      foodCategoryName: '装饰性果蔬',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-fruit-desserts',
+      foodCategoryCode: '04.01.02.10',
+      foodCategoryName: '水果甜品，包括果味液体甜品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-fermented-fruit',
+      foodCategoryCode: '04.01.02.11',
+      foodCategoryName: '发酵的水果制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cooked-fried-fruit',
+      foodCategoryCode: '04.01.02.12',
+      foodCategoryName: '煮熟的或油炸的水果',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-frozen-vegetables',
+      foodCategoryCode: '04.02.02.01',
+      foodCategoryName: '冷冻蔬菜',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-dried-vegetables',
+      foodCategoryCode: '04.02.02.02',
+      foodCategoryName: '干制蔬菜',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-pickled-vegetables',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-canned-vegetables',
+      foodCategoryCode: '04.02.02.04',
+      foodCategoryName: '蔬菜罐头',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-vegetable-puree',
+      foodCategoryCode: '04.02.02.05',
+      foodCategoryName: '蔬菜泥（酱），番茄沙司除外',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-fermented-vegetables',
+      foodCategoryCode: '04.02.02.06',
+      foodCategoryName: '发酵蔬菜制品',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cooked-fried-vegetables',
+      foodCategoryCode: '04.02.02.07',
+      foodCategoryName: '经水煮或油炸的蔬菜',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-other-processed-vegetables',
+      foodCategoryCode: '04.02.02.08',
+      foodCategoryName: '其他加工蔬菜',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'aspartame',
+    additiveNameCn: '阿斯巴甜（又名天门冬酰苯丙氨酸甲酯）',
+    additiveNameEn: 'aspartame',
+    cnsNumber: '19.004',
+    insNumber: '951',
+    functionText: '甜味剂',
+    pdfPage: 19,
+    standardPage: 16,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-aspartame-pickled-fungi-algae',
+      foodCategoryCode: '04.03.02.03',
+      foodCategoryName: '腌渍的食用菌和藻类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-canned-fungi-algae',
+      foodCategoryCode: '04.03.02.04',
+      foodCategoryName: '食用菌和藻类罐头',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cooked-fried-algae',
+      foodCategoryCode: '04.03.02.05',
+      foodCategoryName: '经水煮或油炸的藻类',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-other-processed-fungi-algae',
+      foodCategoryCode: '04.03.02.06',
+      foodCategoryName: '其他加工食用菌和藻类',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-processed-nuts-seeds',
+      foodCategoryCode: '04.05.02',
+      foodCategoryName: '加工坚果与籽类',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cocoa-chocolate',
+      foodCategoryCode: '05.01',
+      foodCategoryName: '可可制品、巧克力和巧克力制品，包括代可可脂巧克力及制品',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-chewing-gum',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-candy-except-gum',
+      foodCategoryCode: '05.02.02',
+      foodCategoryName: '除胶基糖果以外的其他糖果',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-decorative-candy',
+      foodCategoryCode: '05.04',
+      foodCategoryName: '装饰糖果（如工艺造型，或用于蛋糕装饰）、顶饰（非水果材料）和甜汁',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-ready-to-eat-cereals',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cereal-starch-desserts',
+      foodCategoryCode: '06.09',
+      foodCategoryName: '谷类和淀粉类甜品（如米布丁、木薯布丁）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-bread',
+      foodCategoryCode: '07.01',
+      foodCategoryName: '面包',
+      maxUseLevel: '4.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-pastries',
+      foodCategoryCode: '07.02',
+      foodCategoryName: '糕点',
+      maxUseLevel: '1.7',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-biscuits',
+      foodCategoryCode: '07.03',
+      foodCategoryName: '饼干',
+      maxUseLevel: '1.7',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-bakery-fillings',
+      foodCategoryCode: '07.04',
+      foodCategoryName: '焙烤食品馅料及表面用挂浆',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-other-bakery',
+      foodCategoryCode: '07.05',
+      foodCategoryName: '其他焙烤食品',
+      maxUseLevel: '1.7',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-frozen-battered-aquatic',
+      foodCategoryCode: '09.02.02',
+      foodCategoryName: '冷冻挂浆制品',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-frozen-surimi',
+      foodCategoryCode: '09.02.03',
+      foodCategoryName: '冷冻水产糜及其制品（包括冷冻丸类产品等）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-prepared-aquatic',
+      foodCategoryCode: '09.03',
+      foodCategoryName: '预制水产品（半成品）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-cooked-aquatic',
+      foodCategoryCode: '09.04',
+      foodCategoryName: '熟制水产品（可直接食用）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-canned-aquatic',
+      foodCategoryCode: '09.05',
+      foodCategoryName: '水产品罐头',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-other-egg-products',
+      foodCategoryCode: '10.04',
+      foodCategoryName: '其他蛋制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-tabletop-sweeteners',
+      foodCategoryCode: '11.04',
+      foodCategoryName: '餐桌甜味料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-flavored-syrups',
+      foodCategoryCode: '11.05',
+      foodCategoryName: '调味糖浆',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-vinegar',
+      foodCategoryCode: '12.03',
+      foodCategoryName: '食醋',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-solid-compound-seasoning',
+      foodCategoryCode: '12.10.01',
+      foodCategoryName: '固体复合调味料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'aspartame',
+    additiveNameCn: '阿斯巴甜（又名天门冬酰苯丙氨酸甲酯）',
+    additiveNameEn: 'aspartame',
+    cnsNumber: '19.004',
+    insNumber: '951',
+    functionText: '甜味剂',
+    pdfPage: 20,
+    standardPage: 17,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-aspartame-semisolid-compound-seasoning',
+      foodCategoryCode: '12.10.02',
+      foodCategoryName: '半固体复合调味料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-liquid-compound-seasoning',
+      foodCategoryCode: '12.10.03',
+      foodCategoryName: '液体复合调味料',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-fruit-vegetable-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: aspartameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-protein-beverages',
+      foodCategoryCode: '14.03',
+      foodCategoryName: '蛋白饮料',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: aspartameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: aspartameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-tea-coffee-plant-beverages',
+      foodCategoryCode: '14.05',
+      foodCategoryName: '茶、咖啡、植物（类）饮料',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: aspartameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-special-purpose-beverages',
+      foodCategoryCode: '14.07',
+      foodCategoryName: '特殊用途饮料',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: aspartameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: aspartameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: aspartameJellyNote
+    },
+    {
+      id: 'gb2760-2024-a1-aspartame-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: aspartameFootnote
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '爱德万甜（又名 N-{N-[3-(3-羟基-4-甲氧基苯基)丙基]-L-α-天冬氨酰}-L-苯丙氨酸-1-甲酯）',
+    additiveNameEn: 'advantame',
+    cnsNumber: '19.026',
+    insNumber: '969',
+    functionText: '甜味剂',
+    pdfPage: 20,
+    standardPage: 17,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-advantame-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.006',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.0005',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-processed-fruit',
+      foodCategoryCode: '04.01.02',
+      foodCategoryName: '加工水果',
+      maxUseLevel: '0.12',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-cocoa-chocolate-candy',
+      foodCategoryCode: '05.0',
+      foodCategoryName: '可可制品、巧克力和巧克力制品（包括代可可脂巧克力及制品）以及糖果',
+      maxUseLevel: '0.0005',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-egg-products',
+      foodCategoryCode: '10.03',
+      foodCategoryName: '蛋制品（改变其物理性状）[10.03.01 脱水蛋制品（如蛋白粉、蛋黄粉、蛋白片）、10.03.03 蛋液与液态蛋除外]',
+      maxUseLevel: '0.0004',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-tabletop-sweeteners',
+      foodCategoryCode: '11.04',
+      foodCategoryName: '餐桌甜味料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-flavored-syrups',
+      foodCategoryCode: '11.05',
+      foodCategoryName: '调味糖浆',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '爱德万甜（又名 N-{N-[3-(3-羟基-4-甲氧基苯基)丙基]-L-α-天冬氨酰}-L-苯丙氨酸-1-甲酯）',
+    additiveNameEn: 'advantame',
+    cnsNumber: '19.026',
+    insNumber: '969',
+    functionText: '甜味剂',
+    pdfPage: 21,
+    standardPage: 18,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-advantame-other-sweeteners',
+      foodCategoryCode: '11.06',
+      foodCategoryName: '其他甜味料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-compound-seasoning',
+      foodCategoryCode: '12.10',
+      foodCategoryName: '复合调味料',
+      maxUseLevel: '0.0005',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.006',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-tea-coffee-plant-beverages',
+      foodCategoryCode: '14.05',
+      foodCategoryName: '茶、咖啡、植物（类）饮料',
+      maxUseLevel: '0.003',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-solid-beverages',
+      foodCategoryCode: '14.06',
+      foodCategoryName: '固体饮料',
+      maxUseLevel: '0.004',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-advantame-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '0.0004',
+      unit: 'g/kg',
+      note: '如用于果冻粉，按冲调倍数增加使用量'
     }
   ]),
   ...officialUsageRows({
@@ -504,6 +1520,175 @@ export const gb2760OfficialStagingRecords = [
       maxUseLevel: '0.1',
       unit: 'g/kg',
       note: '以柠檬黄计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'acesulfame-potassium',
+    additiveNameCn: '安赛蜜（又名乙酰磺胺酸钾）',
+    additiveNameEn: 'acesulfame potassium',
+    cnsNumber: '19.011',
+    insNumber: '950',
+    functionText: '甜味剂',
+    pdfPage: 22,
+    standardPage: 19,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-ready-to-eat-cereals',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '0.8',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-cereal-dessert-canned',
+      foodCategoryCode: '06.09',
+      foodCategoryName: '谷类和淀粉类甜品（仅限谷类甜品罐头）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-bakery',
+      foodCategoryCode: '07.0',
+      foodCategoryName: '焙烤食品',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-pastries',
+      foodCategoryCode: '07.02',
+      foodCategoryName: '糕点',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-biscuits',
+      foodCategoryCode: '07.03',
+      foodCategoryName: '饼干',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-tabletop-sweeteners',
+      foodCategoryCode: '11.04',
+      foodCategoryName: '餐桌甜味料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-condiments',
+      foodCategoryCode: '12.0',
+      foodCategoryName: '调味品（12.01 盐及代盐制品、12.09 香辛料类除外）',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-soy-sauce',
+      foodCategoryCode: '12.04',
+      foodCategoryName: '酱油',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-liquid-compound-seasoning',
+      foodCategoryCode: '12.10.03',
+      foodCategoryName: '液体复合调味料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-beverages',
+      foodCategoryCode: '14.0',
+      foodCategoryName: '饮料类[14.01 包装饮用水、14.02.01 果蔬汁（浆）、14.02.02 浓缩果蔬汁（浆）除外]',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: acesulfameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-tea-beverages',
+      foodCategoryCode: '14.05.01',
+      foodCategoryName: '茶（类）饮料',
+      maxUseLevel: '0.58',
+      unit: 'g/kg',
+      note: acesulfameBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-mixed-alcoholic-beverages',
+      foodCategoryCode: '15.02',
+      foodCategoryName: '配制酒',
+      maxUseLevel: '0.35',
+      unit: 'g/kg',
+      note: acesulfameMixNote
+    },
+    {
+      id: 'gb2760-2024-a1-acesulfame-potassium-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: acesulfameJellyNote
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '氨基乙酸（又名甘氨酸）',
+    additiveNameEn: 'glycine',
+    cnsNumber: '12.007',
+    insNumber: '640',
+    functionText: '增味剂',
+    pdfPage: 22,
+    standardPage: 19,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-glycine-prepared-meat',
+      foodCategoryCode: '08.02',
+      foodCategoryName: '预制肉制品',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: '包括氨基乙酸（羟基乙腈法）'
+    },
+    {
+      id: 'gb2760-2024-a1-glycine-cooked-meat',
+      foodCategoryCode: '08.03',
+      foodCategoryName: '熟肉制品',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: '包括氨基乙酸（羟基乙腈法）'
+    },
+    {
+      id: 'gb2760-2024-a1-glycine-condiments',
+      foodCategoryCode: '12.0',
+      foodCategoryName: '调味品（12.01 盐及代盐制品、12.09 香辛料类除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '包括氨基乙酸（羟基乙腈法）'
+    },
+    {
+      id: 'gb2760-2024-a1-glycine-fruit-vegetable-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '包括氨基乙酸（羟基乙腈法）；以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-glycine-plant-protein-beverages',
+      foodCategoryCode: '14.03.02',
+      foodCategoryName: '植物蛋白饮料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '包括氨基乙酸（羟基乙腈法）；以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
     }
   ]),
   ...officialGroupedUsageRows({
@@ -2582,6 +3767,26 @@ export const gb2760OfficialStagingRecords = [
     }
   ]),
   ...officialUsageRows({
+    additiveNameCn: '4-己基间苯二酚',
+    additiveNameEn: '4-hexylresorcinol',
+    cnsNumber: '04.013',
+    insNumber: '586',
+    functionText: '抗氧化剂',
+    pdfPage: 8,
+    standardPage: 5,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-4-hexylresorcinol-fresh-aquatic-shrimp',
+      foodCategoryCode: '09.01',
+      foodCategoryName: '鲜水产（仅限虾类）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: '残留量 ≤1 mg/kg'
+    }
+  ]),
+  ...officialUsageRows({
     ingredientId: 'disodium-ribonucleotides',
     additiveNameCn: "5'-呈味核苷酸二钠（又名呈味核苷酸二钠）",
     additiveNameEn: "disodium 5'-ribonucleotide",
@@ -2597,6 +3802,66 @@ export const gb2760OfficialStagingRecords = [
       id: 'gb2760-2024-a1-disodium-ribonucleotides-general',
       foodCategoryCode: '—',
       foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: "5'-肌苷酸二钠",
+    additiveNameEn: "disodium 5'-inosinate",
+    cnsNumber: '12.003',
+    insNumber: '631',
+    functionText: '增味剂',
+    pdfPage: 8,
+    standardPage: 5,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-disodium-inosinate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: "5'-鸟苷酸二钠",
+    additiveNameEn: "disodium 5'-guanylate",
+    cnsNumber: '12.002',
+    insNumber: '627',
+    functionText: '增味剂',
+    pdfPage: 8,
+    standardPage: 5,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-disodium-guanylate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'D-甘露糖醇',
+    additiveNameEn: 'D-mannitol',
+    cnsNumber: '19.017',
+    insNumber: '421',
+    functionText: '甜味剂、乳化剂、膨松剂、稳定剂、增稠剂',
+    pdfPage: 8,
+    standardPage: 5,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-d-mannitol-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
       maxUseLevel: '按生产需要适量使用',
       unit: '',
       note: ''
@@ -2655,6 +3920,206 @@ export const gb2760OfficialStagingRecords = [
     }
   ]),
   ...officialUsageRows({
+    additiveNameCn: 'DL-苹果酸钠',
+    additiveNameEn: 'sodium DL-malate',
+    cnsNumber: '01.314',
+    insNumber: '350(ii)',
+    functionText: '酸度调节剂',
+    pdfPage: 9,
+    standardPage: 6,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sodium-dl-malate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'L-半胱氨酸盐酸盐',
+    additiveNameEn: 'L-cysteine hydrochloride',
+    cnsNumber: '13.003',
+    insNumber: '920',
+    functionText: '面粉处理剂',
+    pdfPage: 9,
+    standardPage: 6,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-l-cysteine-hydrochloride-wet-noodles-ramen',
+      foodCategoryCode: '06.03.02.01',
+      foodCategoryName: '生湿面制品（如面条、饺子皮、馄饨皮、烧麦皮）（仅限拉面）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-l-cysteine-hydrochloride-fermented-flour-products',
+      foodCategoryCode: '06.03.02.03',
+      foodCategoryName: '发酵面制品',
+      maxUseLevel: '0.06',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-l-cysteine-hydrochloride-frozen-rice-flour-products',
+      foodCategoryCode: '06.08',
+      foodCategoryName: '冷冻米面制品',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'L-丙氨酸',
+    additiveNameEn: 'L-alanine',
+    cnsNumber: '12.006',
+    insNumber: '—',
+    functionText: '增味剂',
+    pdfPage: 9,
+    standardPage: 6,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-l-alanine-condiments',
+      foodCategoryCode: '12.0',
+      foodCategoryName: '调味品（12.01 盐及代盐制品、12.09 香辛料类除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'L(+)-酒石酸，dl-酒石酸',
+    additiveNameEn: 'L(+)-tartaric acid, dl-tartaric acid',
+    cnsNumber: '01.111, 01.313',
+    insNumber: '334, —',
+    functionText: '酸度调节剂',
+    pdfPage: 10,
+    standardPage: 7,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-pickled-vegetables',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: '以酒石酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
+      maxUseLevel: '30.0',
+      unit: 'g/kg',
+      note: '以酒石酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-fried-flour-products',
+      foodCategoryCode: '06.03.02.05',
+      foodCategoryName: '油炸面制品',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: '以酒石酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-vermicelli',
+      foodCategoryCode: '06.05.02.01',
+      foodCategoryName: '粉丝、粉条',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以酒石酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-batter-breading-frying-powder',
+      foodCategoryCode: '06.11',
+      foodCategoryName: '面糊（如用于鱼和禽肉的拖面糊）、裹粉、煎炸粉',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: '以酒石酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-solid-compound-seasoning',
+      foodCategoryCode: '12.10.01',
+      foodCategoryName: '固体复合调味料',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: '以酒石酸计'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '以酒石酸计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-plant-protein-beverages',
+      foodCategoryCode: '14.03.02',
+      foodCategoryName: '植物蛋白饮料',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '以酒石酸计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-compound-protein-beverages',
+      foodCategoryCode: '14.03.03',
+      foodCategoryName: '复合蛋白饮料',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '以酒石酸计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '以酒石酸计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-tea-coffee-plant-beverages',
+      foodCategoryCode: '14.05',
+      foodCategoryName: '茶、咖啡、植物（类）饮料',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '以酒石酸计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-special-purpose-beverages',
+      foodCategoryCode: '14.07',
+      foodCategoryName: '特殊用途饮料',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '以酒石酸计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '以酒石酸计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tartaric-acids-wine',
+      foodCategoryCode: '15.03.01',
+      foodCategoryName: '葡萄酒',
+      maxUseLevel: '4.0',
+      unit: 'g/L',
+      note: '以酒石酸计'
+    }
+  ]),
+  ...officialUsageRows({
     ingredientId: 'malic-acid',
     additiveNameCn: 'L-苹果酸',
     additiveNameEn: 'L-malic acid',
@@ -2670,6 +4135,418 @@ export const gb2760OfficialStagingRecords = [
       id: 'gb2760-2024-a1-malic-acid-l-general',
       foodCategoryCode: '—',
       foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'L-苹果酸钠',
+    additiveNameEn: 'L-(-)-malic acid disodium salt',
+    cnsNumber: '01.315',
+    insNumber: '—',
+    functionText: '酸度调节剂',
+    pdfPage: 11,
+    standardPage: 8,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sodium-l-malate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'α-环状糊精',
+    additiveNameEn: 'alpha-cyclodextrin',
+    cnsNumber: '18.011',
+    insNumber: '457',
+    functionText: '稳定剂、增稠剂',
+    pdfPage: 11,
+    standardPage: 8,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-alpha-cyclodextrin-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'β-环状糊精',
+    additiveNameEn: 'beta-cyclodextrin',
+    cnsNumber: '20.024',
+    insNumber: '459',
+    functionText: '增稠剂、其他',
+    pdfPage: 15,
+    standardPage: 12,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-pickled-vegetables',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-gum-based-candy',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '20.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-other-candy-tablet-candy',
+      foodCategoryCode: '05.02.02',
+      foodCategoryName: '除胶基糖果以外的其他糖果（仅限压片糖果）',
+      maxUseLevel: '15.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-instant-rice-noodle-products',
+      foodCategoryCode: '06.07',
+      foodCategoryName: '方便米面制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-prepared-meat',
+      foodCategoryCode: '08.02',
+      foodCategoryName: '预制肉制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-cooked-meat',
+      foodCategoryCode: '08.03',
+      foodCategoryName: '熟肉制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-plant-protein-beverages',
+      foodCategoryCode: '14.03.02',
+      foodCategoryName: '植物蛋白饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-compound-protein-beverages',
+      foodCategoryCode: '14.03.03',
+      foodCategoryName: '复合蛋白饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-other-protein-beverages',
+      foodCategoryCode: '14.03.04',
+      foodCategoryName: '其他蛋白饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-tea-coffee-plant-beverages',
+      foodCategoryCode: '14.05',
+      foodCategoryName: '茶、咖啡、植物（类）饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-special-purpose-beverages',
+      foodCategoryCode: '14.07',
+      foodCategoryName: '特殊用途饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-cyclodextrin-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'γ-环状糊精',
+    additiveNameEn: 'gamma-cyclodextrin',
+    cnsNumber: '18.012',
+    insNumber: '458',
+    functionText: '稳定剂、增稠剂',
+    pdfPage: 15,
+    standardPage: 12,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-gamma-cyclodextrin-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'ε-聚赖氨酸',
+    additiveNameEn: 'epsilon-polylysine',
+    cnsNumber: '17.037',
+    insNumber: '—',
+    functionText: '防腐剂',
+    pdfPage: 16,
+    standardPage: 13,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-baked-foods',
+      foodCategoryCode: '07.0',
+      foodCategoryName: '焙烤食品',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-cooked-meat',
+      foodCategoryCode: '08.03',
+      foodCategoryName: '熟肉制品',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '0.2',
+      unit: 'g/L',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: 'ε-聚赖氨酸盐酸盐',
+    additiveNameEn: 'epsilon-polylysine hydrochloride',
+    cnsNumber: '17.038',
+    insNumber: '—',
+    functionText: '防腐剂',
+    pdfPage: 16,
+    standardPage: 13,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-fruit-vegetable-legume-fungi-algae-nuts-seeds',
+      foodCategoryCode: '04.0',
+      foodCategoryName: '水果、蔬菜（包括块根类）、豆类、食用菌、藻类、坚果以及籽类等（04.01.01 新鲜水果、04.01.02.04 水果罐头、04.02.01 新鲜蔬菜、04.02.02.01 冷冻蔬菜、04.02.02.04 蔬菜罐头、04.02.02.06 发酵蔬菜制品、04.03.01 新鲜食用菌和藻类、04.03.02.01 冷冻食用菌和藻类、04.03.02.04 食用菌和藻类罐头、04.05.02.03 坚果与籽类罐头除外）',
+      maxUseLevel: '0.30',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-rice-products',
+      foodCategoryCode: '06.02',
+      foodCategoryName: '大米及其制品',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-wheat-flour-products',
+      foodCategoryCode: '06.03',
+      foodCategoryName: '小麦粉及其制品 [06.03.01 小麦粉、06.03.02.01 生湿面制品（如面条、饺子皮、馄饨皮、烧麦皮）、06.03.02.02 生干面制品除外]',
+      maxUseLevel: '0.30',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-coarse-grain-products',
+      foodCategoryCode: '06.04.02',
+      foodCategoryName: '杂粮制品（06.04.02.01 杂粮罐头除外）',
+      maxUseLevel: '0.40',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-meat-products',
+      foodCategoryCode: '08.0',
+      foodCategoryName: '肉及肉制品（08.01 生、鲜肉、08.03.08 肉罐头类除外）',
+      maxUseLevel: '0.30',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-marinated-eggs',
+      foodCategoryCode: '10.02.01',
+      foodCategoryName: '卤蛋',
+      maxUseLevel: '0.50',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-condiments',
+      foodCategoryCode: '12.0',
+      foodCategoryName: '调味品（12.01 盐及代盐制品、12.09 香辛料类除外）',
+      maxUseLevel: '0.50',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-epsilon-polylysine-hydrochloride-beverages',
+      foodCategoryCode: '14.0',
+      foodCategoryName: '饮料类[14.01 包装饮用水、14.02.01 果蔬汁（浆）、14.02.02 浓缩果蔬汁（浆）除外]',
+      maxUseLevel: '0.20',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: "β-阿朴-8'-胡萝卜素醛",
+    additiveNameEn: "beta-apo-8'-carotenal",
+    cnsNumber: '08.018',
+    insNumber: '160e',
+    functionText: '着色剂',
+    pdfPage: 11,
+    standardPage: 8,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-beta-apo-8-carotenal-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '0.015',
+      unit: 'g/kg',
+      note: "以β-阿朴-8'-胡萝卜素醛计"
+    },
+    {
+      id: 'gb2760-2024-a1-beta-apo-8-carotenal-processed-cheese-products',
+      foodCategoryCode: '01.06.04',
+      foodCategoryName: '再制干酪及干酪制品',
+      maxUseLevel: '0.018',
+      unit: 'g/kg',
+      note: "以β-阿朴-8'-胡萝卜素醛计"
+    },
+    {
+      id: 'gb2760-2024-a1-beta-apo-8-carotenal-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '0.020',
+      unit: 'g/kg',
+      note: "以β-阿朴-8'-胡萝卜素醛计"
+    },
+    {
+      id: 'gb2760-2024-a1-beta-apo-8-carotenal-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
+      maxUseLevel: '0.015',
+      unit: 'g/kg',
+      note: "以β-阿朴-8'-胡萝卜素醛计"
+    },
+    {
+      id: 'gb2760-2024-a1-beta-apo-8-carotenal-baked-foods',
+      foodCategoryCode: '07.0',
+      foodCategoryName: '焙烤食品',
+      maxUseLevel: '0.015',
+      unit: 'g/kg',
+      note: "以β-阿朴-8'-胡萝卜素醛计"
+    },
+    {
+      id: 'gb2760-2024-a1-beta-apo-8-carotenal-semi-solid-compound-seasoning',
+      foodCategoryCode: '12.10.02',
+      foodCategoryName: '半固体复合调味料',
+      maxUseLevel: '0.005',
+      unit: 'g/kg',
+      note: "以β-阿朴-8'-胡萝卜素醛计"
+    },
+    {
+      id: 'gb2760-2024-a1-beta-apo-8-carotenal-beverages',
+      foodCategoryCode: '14.0',
+      foodCategoryName: '饮料类（14.01 包装饮用水、14.02.01 果蔬汁（浆）、14.02.02 浓缩果蔬汁（浆）除外）',
+      maxUseLevel: '0.010',
+      unit: 'g/kg',
+      note: "以β-阿朴-8'-胡萝卜素醛计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量"
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '冰结构蛋白',
+    additiveNameEn: 'ice structuring protein',
+    cnsNumber: '00.020',
+    insNumber: '—',
+    functionText: '其他',
+    pdfPage: 25,
+    standardPage: 22,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-ice-structuring-protein-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '冰乙酸（低压羰基化法）',
+    additiveNameEn: 'acetic acid',
+    cnsNumber: '01.112',
+    insNumber: '—',
+    functionText: '酸度调节剂',
+    pdfPage: 25,
+    standardPage: 22,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-acetic-acid-low-pressure-carbonylation-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品（12.03 食醋除外），表 A.2 中编号为 1~68 的食品类别除外',
       maxUseLevel: '按生产需要适量使用',
       unit: '',
       note: ''
@@ -2693,6 +4570,130 @@ export const gb2760OfficialStagingRecords = [
       foodCategoryName: '各类食品（12.03 食醋除外），表 A.2 中编号为 1~68 的食品类别除外',
       maxUseLevel: '按生产需要适量使用',
       unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '丙二醇',
+    additiveNameEn: 'propylene glycol',
+    cnsNumber: '18.004',
+    insNumber: '1520',
+    functionText: '稳定剂和凝固剂、抗结剂、乳化剂、水分保持剂、增稠剂',
+    pdfPage: 25,
+    standardPage: 22,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-wet-noodles',
+      foodCategoryCode: '06.03.02.01',
+      foodCategoryName: '生湿面制品（如面条、饺子皮、馄饨皮、烧麦皮）',
+      maxUseLevel: '1.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-pastries',
+      foodCategoryCode: '07.02',
+      foodCategoryName: '糕点',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '丙二醇脂肪酸酯',
+    additiveNameEn: 'propylene glycol esters of fatty acids',
+    cnsNumber: '10.020',
+    insNumber: '477',
+    functionText: '乳化剂、稳定剂',
+    pdfPage: 25,
+    standardPage: 22,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-milk-products',
+      foodCategoryCode: '01.0',
+      foodCategoryName: '乳及乳制品（13.0 特殊膳食用食品涉及品种除外）（01.01.01 巴氏杀菌乳、01.01.02 灭菌乳和高温杀菌乳、01.02.01 发酵乳、01.03.01 乳粉和奶油粉和 01.05.01 稀奶油除外）',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '丙二醇脂肪酸酯',
+    additiveNameEn: 'propylene glycol esters of fatty acids',
+    cnsNumber: '10.020',
+    insNumber: '477',
+    functionText: '乳化剂、稳定剂',
+    pdfPage: 26,
+    standardPage: 23,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-fat-oil-emulsions',
+      foodCategoryCode: '02.0',
+      foodCategoryName: '脂肪、油和乳化脂肪制品（02.01 基本不含水的脂肪和油、02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-fried-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类（仅限油炸坚果与籽类）',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-fried-noodles',
+      foodCategoryCode: '06.03.02.05',
+      foodCategoryName: '油炸面制品',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-pastries',
+      foodCategoryCode: '07.02',
+      foodCategoryName: '糕点',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-western-pastries',
+      foodCategoryCode: '07.02.02',
+      foodCategoryName: '西式糕点',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-compound-seasoning',
+      foodCategoryCode: '12.10',
+      foodCategoryName: '复合调味料',
+      maxUseLevel: '20.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-propylene-glycol-esters-fatty-acids-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
       note: ''
     }
   ]),
@@ -2845,6 +4846,286 @@ export const gb2760OfficialStagingRecords = [
     }
   ]),
   ...officialUsageRows({
+    additiveNameCn: '达瓦树胶',
+    additiveNameEn: 'ghatti gum',
+    cnsNumber: '10.043',
+    insNumber: '419',
+    functionText: '乳化剂',
+    pdfPage: 31,
+    standardPage: 28,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-ghatti-gum-special-dietary-foods',
+      foodCategoryCode: '13.03',
+      foodCategoryName: '其他特殊膳食用食品（特殊医学用途配方食品，仅限 10 岁以上人群）',
+      maxUseLevel: '3.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '单辛酸甘油酯',
+    additiveNameEn: 'capryl monoglyceride',
+    cnsNumber: '17.031',
+    insNumber: '—',
+    functionText: '防腐剂',
+    pdfPage: 31,
+    standardPage: 28,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-capryl-monoglyceride-wet-noodles',
+      foodCategoryCode: '06.03.02.01',
+      foodCategoryName: '生湿面制品（如面条、饺子皮、馄饨皮、烧麦皮）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-capryl-monoglyceride-pastries',
+      foodCategoryCode: '07.02',
+      foodCategoryName: '糕点',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-capryl-monoglyceride-bakery-fillings-bean-paste',
+      foodCategoryCode: '07.04',
+      foodCategoryName: '焙烤食品馅料及表面用挂浆（仅限豆馅）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-capryl-monoglyceride-meat-sausage',
+      foodCategoryCode: '08.03.05',
+      foodCategoryName: '肉灌肠类',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '氮气（液氮）',
+    additiveNameEn: 'nitrogen',
+    cnsNumber: '00.024',
+    insNumber: '—',
+    functionText: '其他',
+    pdfPage: 31,
+    standardPage: 28,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-nitrogen-flavored-fermented-milk',
+      foodCategoryCode: '01.02.02',
+      foodCategoryName: '风味发酵乳',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-nitrogen-protein-beverages',
+      foodCategoryCode: '14.03',
+      foodCategoryName: '蛋白饮料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-nitrogen-tea-coffee-plant-beverages',
+      foodCategoryCode: '14.05',
+      foodCategoryName: '茶、咖啡、植物（类）饮料',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '淀粉磷酸酯钠（又名淀粉磷酸酯，磷酸酯淀粉，单淀粉磷酸酯）',
+    additiveNameEn: 'sodium starch phosphate (mono starch phosphate)',
+    cnsNumber: '20.013',
+    insNumber: '1410',
+    functionText: '增稠剂',
+    pdfPage: 32,
+    standardPage: 29,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-sodium-starch-phosphate-fat-emulsion',
+      foodCategoryCode: '02.02.01',
+      foodCategoryName: '脂肪含量 80% 以上的乳化制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sodium-starch-phosphate-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sodium-starch-phosphate-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sodium-starch-phosphate-condiments',
+      foodCategoryCode: '12.0',
+      foodCategoryName: '调味品（12.01 盐及代盐制品、12.09 香辛料类除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-sodium-starch-phosphate-beverages',
+      foodCategoryCode: '14.0',
+      foodCategoryName: '饮料类[14.01 包装饮用水、14.02.01 果蔬汁（浆）、14.02.02 浓缩果蔬汁（浆）除外]',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '靛蓝及其铝色淀（包括靛蓝，靛蓝铝色淀）',
+    additiveNameEn: 'indigotine, indigotine aluminum lake',
+    cnsNumber: '08.008',
+    insNumber: '132',
+    functionText: '着色剂',
+    pdfPage: 32,
+    standardPage: 29,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-indigotine-candied-fruit',
+      foodCategoryCode: '04.01.02.08.01',
+      foodCategoryName: '蜜饯类、凉果类',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-decorative-fruit-vegetable',
+      foodCategoryCode: '04.01.02.09',
+      foodCategoryName: '装饰性果蔬',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-pickled-vegetables',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '0.01',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-fried-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类（仅限油炸坚果与籽类）',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-cocoa-chocolate-candy',
+      foodCategoryCode: '05.0',
+      foodCategoryName: '可可制品、巧克力和巧克力制品（包括代可可脂巧克力及制品）以及糖果（05.01.01 可可制品除外）',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-candy-except-gum',
+      foodCategoryCode: '05.02.02',
+      foodCategoryName: '除胶基糖果以外的其他糖果',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-cake-decorations',
+      foodCategoryCode: '07.02.04',
+      foodCategoryName: '糕点上彩装',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-biscuit-fillings',
+      foodCategoryCode: '07.04',
+      foodCategoryName: '焙烤食品馅料及表面用挂浆（仅限饼干夹心）',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-fruit-vegetable-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '靛蓝及其铝色淀（包括靛蓝，靛蓝铝色淀）',
+    additiveNameEn: 'indigotine, indigotine aluminum lake',
+    cnsNumber: '08.008',
+    insNumber: '132',
+    functionText: '着色剂',
+    pdfPage: 33,
+    standardPage: 30,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-indigotine-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-fruit-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料（仅限果味饮料）',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计，以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-mixed-alcoholic-beverages',
+      foodCategoryCode: '15.02',
+      foodCategoryName: '配制酒',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: '以靛蓝计'
+    },
+    {
+      id: 'gb2760-2024-a1-indigotine-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: '仅限使用靛蓝'
+    }
+  ]),
+  ...officialUsageRows({
     ingredientId: 'silicon-dioxide',
     additiveNameCn: '二氧化硅',
     additiveNameEn: 'silicon dioxide',
@@ -2892,6 +5173,538 @@ export const gb2760OfficialStagingRecords = [
       maxUseLevel: '按生产需要适量使用',
       unit: '',
       note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '茶多酚（又名维多酚，简称“TP”）',
+    additiveNameEn: 'tea polyphenol (TP)',
+    cnsNumber: '04.005',
+    insNumber: '—',
+    functionText: '抗氧化剂',
+    pdfPage: 27,
+    standardPage: 24,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-anhydrous-fats-oils',
+      foodCategoryCode: '02.01',
+      foodCategoryName: '基本不含水的脂肪和油',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: teaPolyphenolsCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-fried-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类（仅限油炸坚果与籽类）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-fried-noodles',
+      foodCategoryCode: '06.03.02.05',
+      foodCategoryName: '油炸面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-ready-to-eat-cereals',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-instant-rice-noodles',
+      foodCategoryCode: '06.07',
+      foodCategoryName: '方便米面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-pastries',
+      foodCategoryCode: '07.02',
+      foodCategoryName: '糕点',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-bakery-fillings-fat',
+      foodCategoryCode: '07.04',
+      foodCategoryName: '焙烤食品馅料及表面用挂浆（仅限含油脂馅料）',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-cured-meat',
+      foodCategoryCode: '08.02.02',
+      foodCategoryName: '腌腊肉制品类（如咸肉、腊肉、板鸭、中式火腿、腊肠）',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-sauced-braised-meat',
+      foodCategoryCode: '08.03.01',
+      foodCategoryName: '酱卤肉制品类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-smoked-roasted-meat',
+      foodCategoryCode: '08.03.02',
+      foodCategoryName: '熏、烧、烤肉类（熏肉、叉烧肉、烤鸭、肉脯等）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-fried-meat',
+      foodCategoryCode: '08.03.03',
+      foodCategoryName: '油炸肉类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-western-ham',
+      foodCategoryCode: '08.03.04',
+      foodCategoryName: '西式火腿（熏烤、烟熏、蒸煮火腿）类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-meat-sausage',
+      foodCategoryCode: '08.03.05',
+      foodCategoryName: '肉灌肠类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-fermented-meat',
+      foodCategoryCode: '08.03.06',
+      foodCategoryName: '发酵肉制品类',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-prepared-aquatic',
+      foodCategoryCode: '09.03',
+      foodCategoryName: '预制水产品（半成品）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-cooked-aquatic',
+      foodCategoryCode: '09.04',
+      foodCategoryName: '熟制水产品（可直接食用）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-canned-aquatic',
+      foodCategoryCode: '09.05',
+      foodCategoryName: '水产品罐头',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-fruit-flavored-syrup',
+      foodCategoryCode: '11.05.01',
+      foodCategoryName: '水果调味糖浆',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: teaPolyphenolsCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-compound-seasoning',
+      foodCategoryCode: '12.10',
+      foodCategoryName: '复合调味料',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: teaPolyphenolsCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-plant-protein-beverages',
+      foodCategoryCode: '14.03.02',
+      foodCategoryName: '植物蛋白饮料',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: teaPolyphenolsCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-protein-solid-beverages',
+      foodCategoryCode: '14.06.02',
+      foodCategoryName: '蛋白固体饮料',
+      maxUseLevel: '0.8',
+      unit: 'g/kg',
+      note: teaPolyphenolsCatechinNote
+    },
+    {
+      id: 'gb2760-2024-a1-tea-polyphenols-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: teaPolyphenolsOilCatechinNote
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '茶多酚棕榈酸酯',
+    additiveNameEn: 'tea polyphenol palmitate',
+    cnsNumber: '04.021',
+    insNumber: '—',
+    functionText: '抗氧化剂',
+    pdfPage: 28,
+    standardPage: 25,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-tea-polyphenol-palmitate-anhydrous-fats-oils',
+      foodCategoryCode: '02.01',
+      foodCategoryName: '基本不含水的脂肪和油',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '茶黄素',
+    additiveNameEn: 'theaflavins',
+    cnsNumber: '04.023',
+    insNumber: '—',
+    functionText: '抗氧化剂',
+    pdfPage: 28,
+    standardPage: 25,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-theaflavins-fat-oil-emulsions',
+      foodCategoryCode: '02.0',
+      foodCategoryName: '脂肪、油和乳化脂肪制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-fried-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类（仅限油炸坚果与籽类）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-canned-nuts-seeds',
+      foodCategoryCode: '04.05.02.03',
+      foodCategoryName: '坚果与籽类罐头',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-chewing-gum',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-fried-noodles',
+      foodCategoryCode: '06.03.02.05',
+      foodCategoryName: '油炸面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-ready-to-eat-cereals',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-instant-rice-noodles',
+      foodCategoryCode: '06.07',
+      foodCategoryName: '方便米面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-bakery',
+      foodCategoryCode: '07.0',
+      foodCategoryName: '焙烤食品',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-prepared-meat',
+      foodCategoryCode: '08.02',
+      foodCategoryName: '预制肉制品',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-cooked-meat',
+      foodCategoryCode: '08.03',
+      foodCategoryName: '熟肉制品',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-aquatic-products',
+      foodCategoryCode: '09.0',
+      foodCategoryName: '水产及其制品（包括鱼类、甲壳类、贝类、软体类、棘皮类等水产及其加工制品等）（09.01 鲜水产除外）',
+      maxUseLevel: '0.3',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-compound-seasoning',
+      foodCategoryCode: '12.10',
+      foodCategoryName: '复合调味料',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-plant-protein-beverages',
+      foodCategoryCode: '14.03.02',
+      foodCategoryName: '植物蛋白饮料',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-solid-beverages',
+      foodCategoryCode: '14.06',
+      foodCategoryName: '固体饮料',
+      maxUseLevel: '0.8',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-special-purpose-beverages',
+      foodCategoryCode: '14.07',
+      foodCategoryName: '特殊用途饮料',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-other-beverages',
+      foodCategoryCode: '14.09',
+      foodCategoryName: '其他类饮料',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '茶黄素',
+    additiveNameEn: 'theaflavins',
+    cnsNumber: '04.023',
+    insNumber: '—',
+    functionText: '抗氧化剂',
+    pdfPage: 29,
+    standardPage: 26,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-theaflavins-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '如用于果冻粉，按冲调倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-tea-products',
+      foodCategoryCode: '16.02.02',
+      foodCategoryName: '茶制品（包括调味茶和代用茶）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-theaflavins-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '赤藓红及其铝色淀（包括赤藓红，赤藓红铝色淀）',
+    additiveNameEn: 'erythrosine, erythrosine aluminum lake',
+    cnsNumber: '08.003',
+    insNumber: '127',
+    functionText: '着色剂',
+    pdfPage: 29,
+    standardPage: 26,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-erythrosine-candied-fruit',
+      foodCategoryCode: '04.01.02.08.01',
+      foodCategoryName: '蜜饯类、凉果类',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-decorative-fruit-vegetable',
+      foodCategoryCode: '04.01.02.09',
+      foodCategoryName: '装饰性果蔬',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-fried-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类（仅限油炸坚果与籽类）',
+      maxUseLevel: '0.025',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-cocoa-chocolate-candy',
+      foodCategoryCode: '05.0',
+      foodCategoryName: '可可制品、巧克力和巧克力制品（包括代可可脂巧克力及制品）以及糖果（05.01.01 可可制品除外）',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-cake-decorations',
+      foodCategoryCode: '07.02.04',
+      foodCategoryName: '糕点上彩装',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-meat-sausage',
+      foodCategoryCode: '08.03.05',
+      foodCategoryName: '肉灌肠类',
+      maxUseLevel: '0.015',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-canned-meat',
+      foodCategoryCode: '08.03.08',
+      foodCategoryName: '肉罐头类',
+      maxUseLevel: '0.015',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-fermented-sauce',
+      foodCategoryCode: '12.05',
+      foodCategoryName: '酿造酱',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-compound-seasoning',
+      foodCategoryCode: '12.10',
+      foodCategoryName: '复合调味料',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-fruit-vegetable-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-fruit-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料（仅限果味饮料）',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineBeverageNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-mixed-alcoholic-beverages',
+      foodCategoryCode: '15.02',
+      foodCategoryName: '配制酒',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: erythrosineNote
+    },
+    {
+      id: 'gb2760-2024-a1-erythrosine-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.025',
+      unit: 'g/kg',
+      note: '仅限使用赤藓红'
     }
   ]),
   ...officialUsageRows({
@@ -3151,6 +5964,560 @@ export const gb2760OfficialStagingRecords = [
       foodCategoryCode: '01.02.02',
       foodCategoryName: '风味发酵乳',
       maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-modified-milk-powder-cream-powder',
+      foodCategoryCode: '01.03.02',
+      foodCategoryName: '调制乳粉和调制奶油粉',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-cream-analogues',
+      foodCategoryCode: '01.05',
+      foodCategoryName: '稀奶油（淡奶油）及其类似品（01.05.01 稀奶油除外）',
+      maxUseLevel: '0.02',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-unripened-cheese',
+      foodCategoryCode: '01.06.01',
+      foodCategoryName: '非熟化干酪',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-ripened-cheese',
+      foodCategoryCode: '01.06.02',
+      foodCategoryName: '熟化干酪',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-processed-cheese-products',
+      foodCategoryCode: '01.06.04',
+      foodCategoryName: '再制干酪及干酪制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-cheese-analogues',
+      foodCategoryCode: '01.06.05',
+      foodCategoryName: '干酪类似品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-milk-based-ready-to-eat-flavored-foods',
+      foodCategoryCode: '01.07',
+      foodCategoryName: '以乳为主要配料的即食风味食品或其预制产品（不包括冰淇淋和风味发酵乳）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-water-oil-fat-emulsion',
+      foodCategoryCode: '02.02',
+      foodCategoryName: '水油状脂肪乳化制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-other-fat-emulsion',
+      foodCategoryCode: '02.03',
+      foodCategoryName: '02.02 类以外的脂肪乳化制品，包括混合的和（或）调味的脂肪乳化制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-fat-based-desserts',
+      foodCategoryCode: '02.04',
+      foodCategoryName: '脂肪类甜品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-other-fats-non-dairy-creamer',
+      foodCategoryCode: '02.05',
+      foodCategoryName: '其他油脂或油脂制品（仅限植脂末）',
+      maxUseLevel: '0.065',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-frozen-desserts',
+      foodCategoryCode: '03.0',
+      foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-vinegar-oil-salted-fruit',
+      foodCategoryCode: '04.01.02.03',
+      foodCategoryName: '醋、油或盐渍水果',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-canned-fruit',
+      foodCategoryCode: '04.01.02.04',
+      foodCategoryName: '水果罐头',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-other-jam',
+      foodCategoryCode: '04.01.02.07',
+      foodCategoryName: '除 04.01.02.05 以外的果酱（如印度酸辣酱）',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-candied-fruit',
+      foodCategoryCode: '04.01.02.08',
+      foodCategoryName: '蜜饯',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-decorative-fruit-vegetables',
+      foodCategoryCode: '04.01.02.09',
+      foodCategoryName: '装饰性果蔬',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-fruit-desserts',
+      foodCategoryCode: '04.01.02.10',
+      foodCategoryName: '水果甜品，包括果味液体甜品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'beta-carotene',
+    additiveNameCn: 'β-胡萝卜素',
+    additiveNameEn: 'beta-carotene',
+    cnsNumber: '08.010',
+    insNumber: '160a(i), 160a(iii), 160a(iv)',
+    functionText: '着色剂',
+    pdfPage: 13,
+    standardPage: 10,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-beta-carotene-fermented-fruit-products',
+      foodCategoryCode: '04.01.02.11',
+      foodCategoryName: '发酵的水果制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-dried-vegetables',
+      foodCategoryCode: '04.02.02.02',
+      foodCategoryName: '干制蔬菜',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-pickled-vegetables',
+      foodCategoryCode: '04.02.02.03',
+      foodCategoryName: '腌渍的蔬菜',
+      maxUseLevel: '0.132',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-canned-vegetables',
+      foodCategoryCode: '04.02.02.04',
+      foodCategoryName: '蔬菜罐头',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-vegetable-puree',
+      foodCategoryCode: '04.02.02.05',
+      foodCategoryName: '蔬菜泥（酱），番茄沙司除外',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-other-processed-vegetables',
+      foodCategoryCode: '04.02.02.08',
+      foodCategoryName: '其他加工蔬菜',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-pickled-fungi-algae',
+      foodCategoryCode: '04.03.02.03',
+      foodCategoryName: '腌渍的食用菌和藻类',
+      maxUseLevel: '0.132',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-canned-fungi-algae',
+      foodCategoryCode: '04.03.02.04',
+      foodCategoryName: '食用菌和藻类罐头',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-other-processed-fungi-algae',
+      foodCategoryCode: '04.03.02.06',
+      foodCategoryName: '其他加工食用菌和藻类',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-processed-nuts-seeds',
+      foodCategoryCode: '04.05.02',
+      foodCategoryName: '加工坚果与籽类',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-cocoa-chocolate-products',
+      foodCategoryCode: '05.01',
+      foodCategoryName: '可可制品、巧克力和巧克力制品包括代可可脂巧克力及制品',
+      maxUseLevel: '0.1',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-candy',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-candy-chocolate-coating',
+      foodCategoryCode: '05.03',
+      foodCategoryName: '糖果和巧克力制品包衣',
+      maxUseLevel: '20.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-decorative-confectionery-toppings',
+      foodCategoryCode: '05.04',
+      foodCategoryName: '装饰糖果（如工艺造型，或用于蛋糕装饰）、顶饰（非水果材料）和甜汁',
+      maxUseLevel: '20.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-fried-flour-products',
+      foodCategoryCode: '06.03.02.05',
+      foodCategoryName: '油炸面制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-canned-coarse-grains',
+      foodCategoryCode: '06.04.02.01',
+      foodCategoryName: '杂粮罐头',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-ready-to-eat-cereals',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-instant-rice-noodle-products',
+      foodCategoryCode: '06.07',
+      foodCategoryName: '方便米面制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-frozen-rice-flour-products',
+      foodCategoryCode: '06.08',
+      foodCategoryName: '冷冻米面制品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-cereal-starch-desserts',
+      foodCategoryCode: '06.09',
+      foodCategoryName: '谷类和淀粉类甜品（如米布丁、木薯布丁）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-grain-product-fillings',
+      foodCategoryCode: '06.10',
+      foodCategoryName: '粮食制品馅料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-batter-breading-frying-powder',
+      foodCategoryCode: '06.11',
+      foodCategoryName: '面糊（如用于鱼和禽肉的拖面糊）、裹粉、煎炸粉',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-baked-foods',
+      foodCategoryCode: '07.0',
+      foodCategoryName: '焙烤食品',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-prepared-meat',
+      foodCategoryCode: '08.02.01',
+      foodCategoryName: '调理肉制品（生肉添加调理料）',
+      maxUseLevel: '0.02',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-cooked-meat',
+      foodCategoryCode: '08.03',
+      foodCategoryName: '熟肉制品',
+      maxUseLevel: '0.02',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-edible-animal-casing',
+      foodCategoryCode: '08.04',
+      foodCategoryName: '肉制品的可食用动物肠衣类',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'beta-carotene',
+    additiveNameCn: 'β-胡萝卜素',
+    additiveNameEn: 'beta-carotene',
+    cnsNumber: '08.010',
+    insNumber: '160a(i), 160a(iii), 160a(iv)',
+    functionText: '着色剂',
+    pdfPage: 14,
+    standardPage: 11,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-beta-carotene-frozen-surimi-products',
+      foodCategoryCode: '09.02.03',
+      foodCategoryName: '冷冻水产糜及其制品（包括冷冻丸类产品等）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-prepared-aquatic-products',
+      foodCategoryCode: '09.03',
+      foodCategoryName: '预制水产品（半成品）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-cooked-aquatic-products',
+      foodCategoryCode: '09.04',
+      foodCategoryName: '熟制水产品（可直接食用）',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-canned-aquatic-products',
+      foodCategoryCode: '09.05',
+      foodCategoryName: '水产品罐头',
+      maxUseLevel: '0.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-egg-products-physical-form-changed',
+      foodCategoryCode: '10.03',
+      foodCategoryName: '蛋制品（改变其物理性状）[10.03.01 脱水蛋制品（如蛋白粉、蛋黄粉、蛋白片）、10.03.03 蛋液与液态蛋除外]',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-other-egg-products',
+      foodCategoryCode: '10.04',
+      foodCategoryName: '其他蛋制品',
+      maxUseLevel: '0.15',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-flavored-syrup',
+      foodCategoryCode: '11.05',
+      foodCategoryName: '调味糖浆',
+      maxUseLevel: '0.05',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-solid-compound-seasoning',
+      foodCategoryCode: '12.10.01',
+      foodCategoryName: '固体复合调味料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-semi-solid-compound-seasoning',
+      foodCategoryCode: '12.10.02',
+      foodCategoryName: '半固体复合调味料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-liquid-compound-seasoning',
+      foodCategoryCode: '12.10.03',
+      foodCategoryName: '液体复合调味料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-protein-beverages',
+      foodCategoryCode: '14.03',
+      foodCategoryName: '蛋白饮料类',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-tea-beverages',
+      foodCategoryCode: '14.05.01',
+      foodCategoryName: '茶（类）饮料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-coffee-beverages',
+      foodCategoryCode: '14.05.02',
+      foodCategoryName: '咖啡（类）饮料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-plant-beverages',
+      foodCategoryCode: '14.05.03',
+      foodCategoryName: '植物饮料',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-special-purpose-beverages',
+      foodCategoryCode: '14.07',
+      foodCategoryName: '特殊用途饮料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料',
+      maxUseLevel: '2.0',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-fermented-wine',
+      foodCategoryCode: '15.03',
+      foodCategoryName: '发酵酒（15.03.01 葡萄酒除外）',
+      maxUseLevel: '0.6',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '1.0',
+      unit: 'g/kg',
+      note: '如用于果冻粉，按冲调倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-beta-carotene-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.1',
       unit: 'g/kg',
       note: ''
     }
@@ -3564,6 +6931,26 @@ export const gb2760OfficialStagingRecords = [
     }
   ]),
   ...officialUsageRows({
+    additiveNameCn: '刺梧桐胶',
+    additiveNameEn: 'karaya gum',
+    cnsNumber: '18.010',
+    insNumber: '416',
+    functionText: '稳定剂',
+    pdfPage: 30,
+    standardPage: 27,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-karaya-gum-fat-emulsion',
+      foodCategoryCode: '02.02',
+      foodCategoryName: '水油状脂肪乳化制品（02.02.01.01 黄油和浓缩黄油除外）',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
     ingredientId: 'tara-gum',
     additiveNameCn: '刺云实胶',
     additiveNameEn: 'tara gum',
@@ -3589,6 +6976,87 @@ export const gb2760OfficialStagingRecords = [
       foodCategoryName: '冷冻饮品（03.04 食用冰除外）',
       maxUseLevel: '5.0',
       unit: 'g/kg',
+      note: ''
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'tara-gum',
+    additiveNameCn: '刺云实胶',
+    additiveNameEn: 'tara gum',
+    cnsNumber: '20.041',
+    insNumber: '417',
+    functionText: '增稠剂',
+    pdfPage: 30,
+    standardPage: 27,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-tara-gum-jam',
+      foodCategoryCode: '04.01.02.05',
+      foodCategoryName: '果酱',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-tara-gum-bakery',
+      foodCategoryCode: '07.0',
+      foodCategoryName: '焙烤食品',
+      maxUseLevel: '1.5',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-tara-gum-prepared-meat',
+      foodCategoryCode: '08.02',
+      foodCategoryName: '预制肉制品',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-tara-gum-cooked-meat',
+      foodCategoryCode: '08.03',
+      foodCategoryName: '熟肉制品',
+      maxUseLevel: '10.0',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-tara-gum-beverages',
+      foodCategoryCode: '14.0',
+      foodCategoryName: '饮料类[14.01 包装饮用水、14.02.01 果蔬汁（浆）、14.02.02 浓缩果蔬汁（浆）除外]',
+      maxUseLevel: '2.5',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-tara-gum-jelly',
+      foodCategoryCode: '16.01',
+      foodCategoryName: '果冻',
+      maxUseLevel: '5.0',
+      unit: 'g/kg',
+      note: '如用于果冻粉，按冲调倍数增加使用量'
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '醋酸酯淀粉',
+    additiveNameEn: 'starch acetate',
+    cnsNumber: '20.039',
+    insNumber: '1420',
+    functionText: '增稠剂',
+    pdfPage: 30,
+    standardPage: 27,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-starch-acetate-general',
+      foodCategoryCode: '—',
+      foodCategoryName: '各类食品，表 A.2 中编号为 1~30、32~68 的食品类别除外',
+      maxUseLevel: '按生产需要适量使用',
+      unit: '',
       note: ''
     }
   ]),
@@ -3784,6 +7252,115 @@ export const gb2760OfficialStagingRecords = [
     }
   ]),
   ...officialUsageRows({
+    ingredientId: 'butylated-hydroxyanisole',
+    additiveNameCn: '丁基羟基茴香醚（简称 BHA）',
+    additiveNameEn: 'butylated hydroxyanisole',
+    cnsNumber: '04.001',
+    insNumber: '320',
+    functionText: '抗氧化剂',
+    pdfPage: 33,
+    standardPage: 30,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-fried-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类（仅限油炸坚果与籽类）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-canned-nuts-seeds',
+      foodCategoryCode: '04.05.02.03',
+      foodCategoryName: '坚果与籽类罐头',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-chewing-gum',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-fried-noodles',
+      foodCategoryCode: '06.03.02.05',
+      foodCategoryName: '油炸面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-coarse-grain-flour',
+      foodCategoryCode: '06.04.01',
+      foodCategoryName: '杂粮粉',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-ready-to-eat-cereals',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-instant-rice-noodles',
+      foodCategoryCode: '06.07',
+      foodCategoryName: '方便米面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-biscuits',
+      foodCategoryCode: '07.03',
+      foodCategoryName: '饼干',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-cured-meat',
+      foodCategoryCode: '08.02.02',
+      foodCategoryName: '腌腊肉制品类（如咸肉、腊肉、板鸭、中式火腿、腊肠等）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-dried-aquatic',
+      foodCategoryCode: '09.03.04',
+      foodCategoryName: '风干、烘干、压干等水产品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-solid-chicken-seasoning',
+      foodCategoryCode: '12.10.01',
+      foodCategoryName: '固体复合调味料（仅限鸡肉粉）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxyanisole-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
     ingredientId: 'butylated-hydroxytoluene',
     additiveNameCn: '二丁基羟基甲苯（简称 BHT）',
     additiveNameEn: 'butylated hydroxytoluene',
@@ -3802,6 +7379,180 @@ export const gb2760OfficialStagingRecords = [
       maxUseLevel: '0.2',
       unit: 'g/kg',
       note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'butylated-hydroxytoluene',
+    additiveNameCn: '二丁基羟基甲苯（简称 BHT）',
+    additiveNameEn: 'butylated hydroxytoluene',
+    cnsNumber: '04.002',
+    insNumber: '321',
+    functionText: '抗氧化剂',
+    pdfPage: 34,
+    standardPage: 31,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-fried-nuts-seeds',
+      foodCategoryCode: '04.05.02.01',
+      foodCategoryName: '熟制坚果与籽类（仅限油炸坚果与籽类）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-canned-nuts-seeds',
+      foodCategoryCode: '04.05.02.03',
+      foodCategoryName: '坚果与籽类罐头',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    ingredientId: 'butylated-hydroxytoluene',
+    additiveNameCn: '二丁基羟基甲苯（简称 BHT）',
+    additiveNameEn: 'butylated hydroxytoluene',
+    cnsNumber: '04.002',
+    insNumber: '321',
+    functionText: '抗氧化剂',
+    pdfPage: 35,
+    standardPage: 32,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-chewing-gum',
+      foodCategoryCode: '05.02.01',
+      foodCategoryName: '胶基糖果',
+      maxUseLevel: '0.4',
+      unit: 'g/kg',
+      note: ''
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-fried-noodles',
+      foodCategoryCode: '06.03.02.05',
+      foodCategoryName: '油炸面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-dehydrated-potato-products',
+      foodCategoryCode: '06.04.02.02',
+      foodCategoryName: '其他杂粮制品（仅限脱水马铃薯制品）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-ready-to-eat-cereals',
+      foodCategoryCode: '06.06',
+      foodCategoryName: '即食谷物，包括碾轧燕麦（片）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-instant-rice-noodles',
+      foodCategoryCode: '06.07',
+      foodCategoryName: '方便米面制品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-biscuits',
+      foodCategoryCode: '07.03',
+      foodCategoryName: '饼干',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-cured-meat',
+      foodCategoryCode: '08.02.02',
+      foodCategoryName: '腌腊肉制品类（如咸肉、腊肉、板鸭、中式火腿、腊肠）',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-dried-aquatic',
+      foodCategoryCode: '09.03.04',
+      foodCategoryName: '风干、烘干、压干等水产品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    },
+    {
+      id: 'gb2760-2024-a1-butylated-hydroxytoluene-puffed-foods',
+      foodCategoryCode: '16.06',
+      foodCategoryName: '膨化食品',
+      maxUseLevel: '0.2',
+      unit: 'g/kg',
+      note: '以油脂中的含量计'
+    }
+  ]),
+  ...officialUsageRows({
+    additiveNameCn: '二甲基二碳酸盐（又名维果灵）',
+    additiveNameEn: 'dimethyl dicarbonate',
+    cnsNumber: '17.033',
+    insNumber: '242',
+    functionText: '防腐剂',
+    pdfPage: 35,
+    standardPage: 32,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  }, [
+    {
+      id: 'gb2760-2024-a1-dimethyl-dicarbonate-fruit-vegetable-juice-beverages',
+      foodCategoryCode: '14.02.03',
+      foodCategoryName: '果蔬汁（浆）类饮料',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-dimethyl-dicarbonate-carbonated-beverages',
+      foodCategoryCode: '14.04',
+      foodCategoryName: '碳酸饮料',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-dimethyl-dicarbonate-tea-beverages',
+      foodCategoryCode: '14.05.01',
+      foodCategoryName: '茶（类）饮料',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-dimethyl-dicarbonate-special-purpose-beverages',
+      foodCategoryCode: '14.07',
+      foodCategoryName: '特殊用途饮料',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-dimethyl-dicarbonate-flavored-beverages',
+      foodCategoryCode: '14.08',
+      foodCategoryName: '风味饮料',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
+    },
+    {
+      id: 'gb2760-2024-a1-dimethyl-dicarbonate-other-beverages',
+      foodCategoryCode: '14.09',
+      foodCategoryName: '其他饮料类（仅限麦芽汁发酵的非酒精饮料）',
+      maxUseLevel: '0.25',
+      unit: 'g/kg',
+      note: '以即饮状态计，相应的固体饮料按稀释倍数增加使用量'
     }
   ]),
   ...officialUsageRows({
@@ -3826,6 +7577,41 @@ export const gb2760OfficialStagingRecords = [
     }
   ])
 ];
+
+const manualStagingKeys = new Set(gb2760OfficialManualStagingRecords.map(getGeneratedDedupeKey));
+
+const gb2760OfficialGeneratedStagingRecords = gb2760OfficialGeneratedA1StagingRecords
+  .map((record) => officialRecord(record))
+  .filter((record) => !manualStagingKeys.has(getGeneratedDedupeKey(record)));
+
+export const gb2760OfficialStagingGenerationCoverage = gb2760OfficialGeneratedA1Coverage;
+
+export const gb2760OfficialStagingRecords = [
+  ...gb2760OfficialManualStagingRecords,
+  ...gb2760OfficialGeneratedStagingRecords
+];
+
+function getGeneratedDedupeKey(record) {
+  return [
+    normalizeDedupeText(record?.additiveNameCn),
+    record?.foodCategoryCode || '',
+    normalizeDedupeText(record?.foodCategoryName),
+    normalizeDedupeText(record?.maxUseLevel),
+    record?.unit || '',
+    normalizeDedupeText(record?.note)
+  ].join('|');
+}
+
+function normalizeDedupeText(value) {
+  return String(value || '')
+    .replace(/\s+/g, '')
+    .replace(/[，,]/g, ',')
+    .replace(/[（]/g, '(')
+    .replace(/[）]/g, ')')
+    .replace(/[。；;]/g, '')
+    .trim()
+    .toLowerCase();
+}
 
 export function getGb2760OfficialStagingSummary(records = gb2760OfficialStagingRecords) {
   const statusCounts = records.reduce((counts, record) => {
