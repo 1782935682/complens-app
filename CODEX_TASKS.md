@@ -227,7 +227,7 @@
 
 ### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
 
-**状态**：🔄 进行中（2026-06-13 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 官方 PDF 已完成 264 页全文转换并接入 `gb2760_official_pages` seed 通路；表 A.1 第 8-148 页已转换为 2404 行 staging，其中 957 行按唯一名称/别名或单一 INS 码精确匹配关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient；表 A.2 第 149-150 页已转换为 68 行 reference rows 并接入 `gb2760_official_reference_rows` seed 通路；100 条 seed 中有 A.1 证据的 91 条已全部覆盖，9 条无可结构化 A.1 证据；GB 2760 自动抽取行仍待人工审核、去重/归并和正式库升级）
+**状态**：🔄 进行中（2026-06-13 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 官方 PDF 已完成 264 页全文转换并接入 `gb2760_official_pages` seed 通路；表 A.1 第 8-148 页已转换为 2404 行 staging，其中 957 行按唯一名称/别名或单一 INS 码精确匹配关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient；表 A.2 第 149-150 页和表 B.1 第 152 页已转换为 97 行 reference rows 并接入 `gb2760_official_reference_rows` seed 通路；100 条 seed 中有 A.1 证据的 91 条已全部覆盖，9 条无可结构化 A.1 证据；GB 2760 自动抽取行仍待人工审核、去重/归并和正式库升级）
 
 **目标**：不一次性补齐所有食品配料，先建立“基础权威库 + 持续扩充 + 人工校验队列”的可追溯数据导入流程。
 
@@ -268,7 +268,7 @@
 7. [x] GB 2760 官方 PDF staging 入库：新增 `gb2760_official_records` 表和 seed 通路，将官方 PDF 表 A.1 按“添加剂 × 食品类别 × 限量/备注”逐行存储，保留 PDF 页码、标准页码、平台记录 ID、附件 ID、PDF SHA-256 和审核状态。
 8. [x] GB 2760 官方 PDF 全文转换：新增 `src/data/gb2760OfficialFullText.js`、`gb2760_official_pages` 表和 seed 通路，将官方 PDF 全 264 页按页保存为可追溯文本、页 SHA-256 和官方来源元数据。
 9. [x] GB 2760 表 A.1 全页 staging 转换：新增 `scripts/generate-gb2760-a1-staging.mjs`，用 `pdftotext -bbox-layout` 将表 A.1 PDF 第 8-148 页转换为 `src/data/gb2760OfficialGeneratedA1Staging.js`，再与人工校对行合并为 2404 行 staging；脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正；自动抽取行保持 `needs_review`。
-10. [x] GB 2760 表 A.2 参考表转换：新增 `scripts/generate-gb2760-reference-tables.mjs` 和 `src/data/gb2760OfficialReferenceTables.js`，用 `pdftotext -bbox-layout` 将表 A.2 PDF 第 149-150 页转换为 68 行例外食品类别 reference rows；后端新增 `gb2760_official_reference_rows` 表和 seed 通路，供后续解释 A.1 例外范围。
+10. [x] GB 2760 表 A.2 / B.1 参考表转换：新增 `scripts/generate-gb2760-reference-tables.mjs` 和 `src/data/gb2760OfficialReferenceTables.js`，用 `pdftotext -bbox-layout` 将表 A.2 PDF 第 149-150 页转换为 68 行例外食品类别 reference rows，并将表 B.1 PDF 第 152 页转换为 29 行香料禁加食品 reference rows；B.1 脚注 a 的香兰素、乙基香兰素、香荚兰豆浸膏例外和剂量条件已保存到 `rowData.footnote` 与原文；后端新增 `gb2760_official_reference_rows` 表和 seed 通路，供后续解释 A.1 例外范围和附录 B 食品用香料使用边界。
 11. [x] OCR 未匹配收集：OCR 来源报告的未收录条目以 `unknown_from_ocr` / `ocr_unmatched` 汇总到数据治理页人工校验队列。
 12. [x] 人工校验队列：`/data` 页提供 OCR 未收录、低置信候选和静态未验证数据的只读审核入口，并通过数据纠错表单提交校验线索；真实升级仍需人工来源确认。
 13. [x] 继续输出数据质量报告：`validate:data` 和数据治理页继续展示总数、JECFA 匹配、普通配料、未验证、待确认、来源版本分布和复核清单。
@@ -306,6 +306,8 @@ cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm 
 **2026-06-13 GB 2760 官方 PDF 表 A.1 全页转换记录**：新增 `scripts/generate-gb2760-a1-staging.mjs`，基于官方 PDF 和 `pdftotext -bbox-layout` 的坐标文本，将表 A.1 PDF 第 8-148 页（标准页 5-145）转换为 `src/data/gb2760OfficialGeneratedA1Staging.js`，再与人工校对过的 750 行合并、过滤重复，形成 2404 行 `gb2760_official_records` staging 数据。当前 13 行为 `verified`，2391 行为 `needs_review`，覆盖 141 个表 A.1 PDF 页；自动 ingredient 关联只使用唯一名称/别名或单一 INS 码精确匹配，INS 子码不折叠，多 INS 组合继续留待人工归并；抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正；新增自动抽取行只作为原文、页码和限量进入 staging 的证据，不自动升级正式 `ingredients.usageLimits`。
 
 **2026-06-13 GB 2760 官方 PDF 表 A.2 参考表转换记录**：新增 `scripts/generate-gb2760-reference-tables.mjs`、`src/data/gb2760OfficialReferenceTables.js`、后端 `gb2760_official_reference_rows` 表和 seed 通路，将表 A.2 PDF 第 149-150 页（标准页 146-147）转换为 68 行例外食品类别 reference rows，保存例外食品类别编号、食品分类号、食品名称、页码、官方来源字段和 PDF SHA-256。该层用于解释 A.1 中“表 A.2 中编号...”例外食品范围，不自动升级正式 `ingredients.usageLimits`。
+
+**2026-06-13 GB 2760 官方 PDF 表 B.1 参考表转换记录**：继续扩展 `scripts/generate-gb2760-reference-tables.mjs` 和 `src/data/gb2760OfficialReferenceTables.js`，将表 B.1 PDF 第 152 页（标准页 149）转换为 29 行“不得添加食品用香料、香精的食品名单”reference rows，保存食品分类号、食品名称、脚注标记、脚注 a 例外剂量条件、页码、官方来源字段和 PDF SHA-256。当前 reference rows 合计 97 行：表 A.2 68 行、表 B.1 29 行；该层用于解释附录 B 食品用香料使用边界，不自动升级正式 `ingredients.usageLimits`。
 
 **2026-06-13 GB 2760 官方 PDF 全文转换记录**：新增 `scripts/generate-gb2760-fulltext.mjs`、`src/data/gb2760OfficialFullText.js`、后端 `gb2760_official_pages` 表和 seed 通路，将官方 PDF 全 264 页按页转换为文本并保存页 SHA-256、PDF SHA-256、平台记录 ID、附件 ID、下载接口和提取工具信息。该全文层用于保证官方 PDF 全量可追溯；表 A.1 逐食品类别限量仍需从全文层继续拆分到 `gb2760_official_records`，不能把全文页自动当成正式 `usageLimits`。
 

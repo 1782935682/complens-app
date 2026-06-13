@@ -37,11 +37,11 @@
 
 - PDF 全文转换层：`src/data/gb2760OfficialFullText.js` 保存官方 PDF 全 264 页的 `pdftotext -layout` 逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段；后端表 `gb2760_official_pages` 可将全文页入库，确保不是只保存本地 PDF 文件。
 - 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取行保持 `needs_review`，不得直接当作正式 `usageLimits`。
-- 官方参考表结构化层：`src/data/gb2760OfficialReferenceTables.js` 和后端表 `gb2760_official_reference_rows` 保存表 A.2 等非限量参考表；当前已结构化表 A.2 “表 A.1 中例外食品编号对应的食品类别”68 行，用于解释 A.1 中“表 A.2 编号”例外范围，仍保持 `needs_review`。
+- 官方参考表结构化层：`src/data/gb2760OfficialReferenceTables.js` 和后端表 `gb2760_official_reference_rows` 保存表 A.2、B.1 等非限量参考表；当前已结构化表 A.2 “表 A.1 中例外食品编号对应的食品类别”68 行和表 B.1 “不得添加食品用香料、香精的食品名单”29 行，B.1 脚注 a 的香料例外和剂量条件已结构化到 `rowData.footnote`，用于解释 A.1 中“表 A.2 编号”例外范围和 B.1 香料使用边界，仍保持 `needs_review`。
 
 - 当前全文页数：264 页，覆盖 GB 2760-2024 官方 PDF 全文。
 - 当前表 A.1 行级 staging 行数：2404 行，覆盖表 A.1 的 PDF 第 8-148 页（标准页 5-145）；其中 957 行已关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient。
-- 当前表 A.2 参考表行数：68 行，覆盖 PDF 第 149-150 页（标准页 146-147），保存例外食品类别编号、食品分类号和食品名称；用于支撑 A.1 “各类食品，表 A.2 中编号...” 的后续审核解释。
+- 当前参考表行数：97 行，覆盖表 A.2 PDF 第 149-150 页（标准页 146-147）和表 B.1 PDF 第 152 页（标准页 149）；保存例外食品类别编号、食品分类号、食品名称、香料禁加范围和 B.1 脚注 a 例外剂量条件；用于支撑 A.1 “各类食品，表 A.2 中编号...” 和附录 B 食品用香料使用规定的后续审核解释。
 - ingredient 自动关联只使用唯一中文名/别名匹配，或无名称匹配时的单一 INS 码精确匹配；INS 子码不折叠，多 INS、多盐类或多色淀组合默认保留空 `ingredientId`，等待人工归并。
 - 自动抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正，避免 `DATEM`、司盘类、吐温类等长标题截断，以及相邻食品分类文字串行；这些校正仍属于 staging 抽取质量控制，不代表人工审核完成。
 - 已与正式 `ingredients.usageLimits` 对齐的 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量。
@@ -191,7 +191,7 @@ GB 2760 官方 PDF 非限量参考表数据进入后端 `gb2760_official_referen
 
 ## 后续数据任务
 
-1. 官方 GB 2760 数据导入：先保证官方 PDF 全文逐页进入 `gb2760_official_pages`，再把可可靠拆分的表 A.1 行导入 `gb2760_official_records` staging 表，并将 A.2/B/C/D/E/F 等参考表逐步导入 `gb2760_official_reference_rows`；不能可靠结构化时保留全文页和 `needs_review`，不得编造食品类别或限量。
+1. 官方 GB 2760 数据导入：先保证官方 PDF 全文逐页进入 `gb2760_official_pages`，再把可可靠拆分的表 A.1 行导入 `gb2760_official_records` staging 表，并将 B.2/B.3/C/D/E/F 等参考表逐步导入 `gb2760_official_reference_rows`；不能可靠结构化时保留全文页和 `needs_review`，不得编造食品类别或限量。
 2. JECFA 映射扩充：只扩充安全评价来源，不写中国法规使用限制。
 3. 常见配料词库：继续从真实标签样本和可信词表扩展，并保持 `common_ingredient` 状态。
 4. OCR 未匹配收集：保存未收录条目、来源上下文和置信度，进入人工校验队列。

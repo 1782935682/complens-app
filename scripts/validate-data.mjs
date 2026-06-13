@@ -4,7 +4,7 @@ import { foodIngredients } from '../src/data/foodAdditives.js';
 import { standardAllergenTypes } from '../src/data/allergens.js';
 import { gb2760OfficialStagingRecords, gb2760OfficialStagingSource } from '../src/data/gb2760OfficialStaging.js';
 import { gb2760OfficialFullTextPages, gb2760OfficialFullTextSource } from '../src/data/gb2760OfficialFullText.js';
-import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialReferenceRows, gb2760OfficialReferenceTableSource } from '../src/data/gb2760OfficialReferenceTables.js';
+import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialReferenceRows, gb2760OfficialReferenceTableSource } from '../src/data/gb2760OfficialReferenceTables.js';
 
 const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);
@@ -477,10 +477,16 @@ export function getGb2760OfficialFullTextQualityReport(pages = gb2760OfficialFul
   };
 }
 
-export function validateGb2760OfficialReferenceTables(rows = gb2760OfficialReferenceRows, a2Rows = gb2760OfficialA2ExceptionFoodCategories) {
+export function validateGb2760OfficialReferenceTables(
+  rows = gb2760OfficialReferenceRows,
+  a2Rows = gb2760OfficialA2ExceptionFoodCategories,
+  b1Rows = gb2760OfficialB1NoFlavorFoodCategories
+) {
   const errors = [];
   const ids = new Set();
   const a2Ids = new Set((Array.isArray(a2Rows) ? a2Rows : []).map((row) => row?.id).filter(Boolean));
+  const b1Ids = new Set((Array.isArray(b1Rows) ? b1Rows : []).map((row) => row?.id).filter(Boolean));
+  const b1RowsById = new Map((Array.isArray(b1Rows) ? b1Rows : []).map((row) => [row?.id, row]));
 
   if (!Array.isArray(rows)) {
     return ['gb2760OfficialReferenceRows must be an array'];
@@ -492,13 +498,29 @@ export function validateGb2760OfficialReferenceTables(rows = gb2760OfficialRefer
     errors.push(`gb2760OfficialA2ExceptionFoodCategories must contain 68 rows, got ${a2Rows.length}`);
   }
 
-  if (Array.isArray(a2Rows)) {
+  if (!Array.isArray(b1Rows)) {
+    errors.push('gb2760OfficialB1NoFlavorFoodCategories must be an array');
+  } else if (b1Rows.length !== 29) {
+    errors.push(`gb2760OfficialB1NoFlavorFoodCategories must contain 29 rows, got ${b1Rows.length}`);
+  }
+
+  if (Array.isArray(a2Rows) && Array.isArray(b1Rows) && rows.length !== a2Rows.length + b1Rows.length) {
+    errors.push(`gb2760OfficialReferenceRows must contain ${a2Rows.length + b1Rows.length} rows, got ${rows.length}`);
+  }
+
+  if (Array.isArray(a2Rows) || Array.isArray(b1Rows)) {
     const rowIds = new Set(rows.map((row) => row?.id).filter(Boolean));
-    const missingA2Ids = a2Rows
+    const missingA2Ids = (Array.isArray(a2Rows) ? a2Rows : [])
       .map((row) => row?.id)
       .filter((id) => id && !rowIds.has(id));
     if (missingA2Ids.length > 0) {
       errors.push(`gb2760OfficialReferenceRows must cover all A.2 rows; missing ids: ${missingA2Ids.join(', ')}`);
+    }
+    const missingB1Ids = (Array.isArray(b1Rows) ? b1Rows : [])
+      .map((row) => row?.id)
+      .filter((id) => id && !rowIds.has(id));
+    if (missingB1Ids.length > 0) {
+      errors.push(`gb2760OfficialReferenceRows must cover all B.1 rows; missing ids: ${missingB1Ids.join(', ')}`);
     }
   }
 
@@ -603,6 +625,38 @@ export function validateGb2760OfficialReferenceTables(rows = gb2760OfficialRefer
       if (!/^GB 2760-2024 表 A\.2：例外食品类别编号/u.test(row?.rawSourceText || '')) {
         errors.push(`${label}.rawSourceText must identify the A.2 exception number`);
       }
+    } else if (row?.tableName === '表 B.1') {
+      if (!b1Ids.has(row.id)) errors.push(`${label} must map to a B.1 no-flavor food category row`);
+      const b1SourceRow = b1RowsById.get(row.id);
+      const expectedFootnoteMarker = b1SourceRow?.footnoteMarker || '';
+      if (!String(row?.rawSourceText || '').includes('GB 2760-2024 表 B.1')) {
+        errors.push(`${label}.rawSourceText must cite GB 2760-2024 表 B.1`);
+      }
+      if (String(row?.rawSourceText || '').includes('。。')) {
+        errors.push(`${label}.rawSourceText must not contain duplicate sentence punctuation`);
+      }
+      if (row?.rowData?.foodCategoryCode !== row?.rowCode) {
+        errors.push(`${label}.rowData.foodCategoryCode must match rowCode`);
+      }
+      if (row?.rowData?.footnoteMarker !== expectedFootnoteMarker) {
+        errors.push(`${label}.rowData.footnoteMarker must match the B.1 source footnote marker`);
+      }
+      if (expectedFootnoteMarker === 'a') {
+        if (row?.rowData?.flavorUseRestriction !== 'no_added_food_flavor_with_footnote_exceptions') {
+          errors.push(`${label}.rowData.flavorUseRestriction must preserve B.1 footnote exceptions`);
+        }
+        if (row?.rowData?.footnote?.text !== gb2760OfficialB1Footnotes.a.text) {
+          errors.push(`${label}.rowData.footnote.text must preserve B.1 footnote a`);
+        }
+        if (!Array.isArray(row?.rowData?.footnote?.exceptionUses) || row.rowData.footnote.exceptionUses.length !== 4) {
+          errors.push(`${label}.rowData.footnote.exceptionUses must preserve the four B.1 footnote a exception uses`);
+        }
+        if (!String(row?.rawSourceText || '').includes('5 mg/100 mL') || !String(row?.rawSourceText || '').includes('7 mg/100g')) {
+          errors.push(`${label}.rawSourceText must preserve B.1 footnote a exception dosage text`);
+        }
+      } else if (row?.rowData?.flavorUseRestriction !== 'no_added_food_flavor') {
+        errors.push(`${label}.rowData.flavorUseRestriction must be no_added_food_flavor`);
+      }
     }
   });
 
@@ -628,6 +682,45 @@ export function validateGb2760OfficialReferenceTables(rows = gb2760OfficialRefer
     });
   }
 
+  if (Array.isArray(b1Rows)) {
+    b1Rows.forEach((row, index) => {
+      const label = row?.id || `gb2760OfficialB1NoFlavorFoodCategories[${index}]`;
+      if (row?.rowNumber !== index + 1) {
+        errors.push(`${label}.rowNumber must be sequential, expected ${index + 1}`);
+      }
+      requireString(row, 'id', label, errors);
+      requireString(row, 'foodCategoryCode', label, errors);
+      requireString(row, 'foodCategoryName', label, errors);
+      requireString(row, 'rawSourceText', label, errors);
+      if (!/^\d{2}(?:\.\d{2})*$/u.test(row?.foodCategoryCode || '')) {
+        errors.push(`${label}.foodCategoryCode must be a dotted GB 2760 food category code`);
+      }
+      if (![152].includes(row?.pdfPage)) {
+        errors.push(`${label}.pdfPage must point to the official B.1 PDF page`);
+      }
+      if (![149].includes(row?.standardPage)) {
+        errors.push(`${label}.standardPage must point to the official B.1 standard page`);
+      }
+      if (!['', 'a'].includes(row?.footnoteMarker)) {
+        errors.push(`${label}.footnoteMarker must be blank or a`);
+      }
+      if (row?.footnoteMarker === 'a' && !['13.01', '13.02'].includes(row?.foodCategoryCode)) {
+        errors.push(`${label}.footnoteMarker a is only expected on 13.01 and 13.02`);
+      }
+      if (row?.footnoteMarker === 'a') {
+        if (String(row?.rawSourceText || '').includes('。。')) {
+          errors.push(`${label}.rawSourceText must not contain duplicate sentence punctuation`);
+        }
+        if (!String(row?.rawSourceText || '').includes('5 mg/100 mL') || !String(row?.rawSourceText || '').includes('7 mg/100g')) {
+          errors.push(`${label}.rawSourceText must preserve B.1 footnote a exception dosage text`);
+        }
+        if (!String(row?.rawSourceText || '').includes('0~6个月婴幼儿配方食品不得添加任何食用香料')) {
+          errors.push(`${label}.rawSourceText must preserve B.1 footnote a residual prohibition`);
+        }
+      }
+    });
+  }
+
   return errors;
 }
 
@@ -637,7 +730,8 @@ export function getGb2760OfficialReferenceTableQualityReport(rows = gb2760Offici
     totalRows: safeRows.length,
     tableCounts: countBy(safeRows, (row) => row?.tableName || 'missing'),
     pdfPageCount: new Set(safeRows.map((row) => row?.pdfPage).filter(Boolean)).size,
-    a2ExceptionFoodCategoryCount: safeRows.filter((row) => row?.tableName === '表 A.2').length
+    a2ExceptionFoodCategoryCount: safeRows.filter((row) => row?.tableName === '表 A.2').length,
+    b1NoFlavorFoodCategoryCount: safeRows.filter((row) => row?.tableName === '表 B.1').length
   };
 }
 
@@ -757,7 +851,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   console.log(`GB 2760 staging report: rows=${stagingReport.totalCount}, linkedIngredients=${stagingReport.linkedIngredientCount}, unlinked=${stagingReport.unlinkedCount}, pdfPages=${stagingReport.pdfPageCount}, reviewStatus=${formatCounts(stagingReport.reviewStatusCounts)}, extractionStatus=${formatCounts(stagingReport.extractionStatusCounts)}.`);
   console.log(`GB 2760 seed coverage report: matchingCovered=${coverageReport.matchingCoveredSeedCount}/${coverageReport.matchingSeedCount}, noA1Evidence=${coverageReport.notApplicableSeedCount}, unexpectedUncovered=${coverageReport.unexpectedUncoveredSeedIds.join(', ') || 'none'}.`);
   console.log(`GB 2760 full-text report: pages=${fullTextReport.totalPages}, standardPageLabels=${fullTextReport.standardPageLabelCount}, textSha256=${fullTextReport.textSha256Count}, emptyTextPages=${fullTextReport.emptyTextPages.join(', ') || 'none'}.`);
-  console.log(`GB 2760 reference table report: rows=${referenceTableReport.totalRows}, a2ExceptionFoodCategories=${referenceTableReport.a2ExceptionFoodCategoryCount}, pdfPages=${referenceTableReport.pdfPageCount}, tables=${formatCounts(referenceTableReport.tableCounts)}.`);
+  console.log(`GB 2760 reference table report: rows=${referenceTableReport.totalRows}, a2ExceptionFoodCategories=${referenceTableReport.a2ExceptionFoodCategoryCount}, b1NoFlavorFoodCategories=${referenceTableReport.b1NoFlavorFoodCategoryCount}, pdfPages=${referenceTableReport.pdfPageCount}, tables=${formatCounts(referenceTableReport.tableCounts)}.`);
   console.log(`Data source versions: ${formatCounts(report.sourceVersionCounts)}.`);
   console.log(`Review queue sample: ${report.reviewQueue.slice(0, 10).join(', ') || 'none'}.`);
 }

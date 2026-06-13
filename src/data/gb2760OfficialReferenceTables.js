@@ -622,7 +622,337 @@ export const gb2760OfficialA2ExceptionFoodCategories = [
   }
 ];
 
-export const gb2760OfficialReferenceRows = gb2760OfficialA2ExceptionFoodCategories.map((row) => ({
+export const gb2760OfficialB1NoFlavorFoodCategories = [
+  {
+    "id": "gb2760-2024-b1-no-flavor-001",
+    "rowNumber": 1,
+    "foodCategoryCode": "01.01.01",
+    "foodCategoryName": "巴氏杀菌乳",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 01.01.01；食品名称 巴氏杀菌乳；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-002",
+    "rowNumber": 2,
+    "foodCategoryCode": "01.01.02",
+    "foodCategoryName": "灭菌乳和高温杀菌乳",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 01.01.02；食品名称 灭菌乳和高温杀菌乳；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-003",
+    "rowNumber": 3,
+    "foodCategoryCode": "01.02.01",
+    "foodCategoryName": "发酵乳",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 01.02.01；食品名称 发酵乳；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-004",
+    "rowNumber": 4,
+    "foodCategoryCode": "01.05.01",
+    "foodCategoryName": "稀奶油",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 01.05.01；食品名称 稀奶油；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-005",
+    "rowNumber": 5,
+    "foodCategoryCode": "02.01.01",
+    "foodCategoryName": "植物油脂",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 02.01.01；食品名称 植物油脂；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-006",
+    "rowNumber": 6,
+    "foodCategoryCode": "02.01.02",
+    "foodCategoryName": "动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 02.01.02；食品名称 动物油脂(包括猪油、牛油、鱼油和其他动物脂肪等)；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-007",
+    "rowNumber": 7,
+    "foodCategoryCode": "02.01.03",
+    "foodCategoryName": "无水黄油、无水乳脂",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 02.01.03；食品名称 无水黄油、无水乳脂；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-008",
+    "rowNumber": 8,
+    "foodCategoryCode": "04.01.01",
+    "foodCategoryName": "新鲜水果",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 04.01.01；食品名称 新鲜水果；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-009",
+    "rowNumber": 9,
+    "foodCategoryCode": "04.02.01",
+    "foodCategoryName": "新鲜蔬菜",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 04.02.01；食品名称 新鲜蔬菜；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-010",
+    "rowNumber": 10,
+    "foodCategoryCode": "04.02.02.01",
+    "foodCategoryName": "冷冻蔬菜",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 04.02.02.01；食品名称 冷冻蔬菜；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-011",
+    "rowNumber": 11,
+    "foodCategoryCode": "04.03.01",
+    "foodCategoryName": "新鲜食用菌和藻类",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 04.03.01；食品名称 新鲜食用菌和藻类；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-012",
+    "rowNumber": 12,
+    "foodCategoryCode": "04.03.02.01",
+    "foodCategoryName": "冷冻食用菌和藻类",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 04.03.02.01；食品名称 冷冻食用菌和藻类；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-013",
+    "rowNumber": 13,
+    "foodCategoryCode": "06.01",
+    "foodCategoryName": "原粮",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 06.01；食品名称 原粮；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-014",
+    "rowNumber": 14,
+    "foodCategoryCode": "06.02.01",
+    "foodCategoryName": "大米",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 06.02.01；食品名称 大米；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-015",
+    "rowNumber": 15,
+    "foodCategoryCode": "06.03.01",
+    "foodCategoryName": "小麦粉",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 06.03.01；食品名称 小麦粉；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-016",
+    "rowNumber": 16,
+    "foodCategoryCode": "06.04.01",
+    "foodCategoryName": "杂粮粉",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 06.04.01；食品名称 杂粮粉；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-017",
+    "rowNumber": 17,
+    "foodCategoryCode": "06.05.01",
+    "foodCategoryName": "食用淀粉",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 06.05.01；食品名称 食用淀粉；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-018",
+    "rowNumber": 18,
+    "foodCategoryCode": "08.01",
+    "foodCategoryName": "生、鲜肉",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 08.01；食品名称 生、鲜肉；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-019",
+    "rowNumber": 19,
+    "foodCategoryCode": "09.01",
+    "foodCategoryName": "鲜水产",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 09.01；食品名称 鲜水产；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-020",
+    "rowNumber": 20,
+    "foodCategoryCode": "10.01",
+    "foodCategoryName": "鲜蛋",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 10.01；食品名称 鲜蛋；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-021",
+    "rowNumber": 21,
+    "foodCategoryCode": "11.01",
+    "foodCategoryName": "食糖",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 11.01；食品名称 食糖；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-022",
+    "rowNumber": 22,
+    "foodCategoryCode": "11.03.01",
+    "foodCategoryName": "蜂蜜",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 11.03.01；食品名称 蜂蜜；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-023",
+    "rowNumber": 23,
+    "foodCategoryCode": "12.01",
+    "foodCategoryName": "盐及代盐制品",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 12.01；食品名称 盐及代盐制品；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-024",
+    "rowNumber": 24,
+    "foodCategoryCode": "13.01",
+    "foodCategoryName": "婴幼儿配方食品",
+    "footnoteMarker": "a",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 13.01；食品名称 婴幼儿配方食品；不得添加食品用香料、香精；脚注 a：较大婴儿和幼儿配方食品中可以使用香兰素、乙基香兰素和香荚兰豆浸膏(提取物),最大使用量分别为5 mg/100 mL、5 mg/100 mL和按照生产需要适量使用,其中100 mL以即食食品计,生产企业应按照冲调比例折算成配方食品中的使用量;婴幼儿谷类辅助食品中可以使用香兰素,最大使用量为7 mg/100g,其中100g以即食食品计,生产企业应按照冲调比例折算成谷类食品中的使用量;凡使用范围涵盖0~6个月婴幼儿配方食品不得添加任何食用香料。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-025",
+    "rowNumber": 25,
+    "foodCategoryCode": "13.02",
+    "foodCategoryName": "婴幼儿辅助食品",
+    "footnoteMarker": "a",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 13.02；食品名称 婴幼儿辅助食品；不得添加食品用香料、香精；脚注 a：较大婴儿和幼儿配方食品中可以使用香兰素、乙基香兰素和香荚兰豆浸膏(提取物),最大使用量分别为5 mg/100 mL、5 mg/100 mL和按照生产需要适量使用,其中100 mL以即食食品计,生产企业应按照冲调比例折算成配方食品中的使用量;婴幼儿谷类辅助食品中可以使用香兰素,最大使用量为7 mg/100g,其中100g以即食食品计,生产企业应按照冲调比例折算成谷类食品中的使用量;凡使用范围涵盖0~6个月婴幼儿配方食品不得添加任何食用香料。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-026",
+    "rowNumber": 26,
+    "foodCategoryCode": "14.01.01",
+    "foodCategoryName": "饮用天然矿泉水",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 14.01.01；食品名称 饮用天然矿泉水；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-027",
+    "rowNumber": 27,
+    "foodCategoryCode": "14.01.02",
+    "foodCategoryName": "饮用纯净水",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 14.01.02；食品名称 饮用纯净水；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-028",
+    "rowNumber": 28,
+    "foodCategoryCode": "14.01.03",
+    "foodCategoryName": "其他类饮用水",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 14.01.03；食品名称 其他类饮用水；不得添加食品用香料、香精。"
+  },
+  {
+    "id": "gb2760-2024-b1-no-flavor-029",
+    "rowNumber": 29,
+    "foodCategoryCode": "16.02.01",
+    "foodCategoryName": "茶叶、咖啡",
+    "footnoteMarker": "",
+    "pdfPage": 152,
+    "standardPage": 149,
+    "rawSourceText": "GB 2760-2024 表 B.1：食品分类号 16.02.01；食品名称 茶叶、咖啡；不得添加食品用香料、香精。"
+  }
+];
+
+export const gb2760OfficialB1Footnotes = {
+  "a": {
+    "text": "较大婴儿和幼儿配方食品中可以使用香兰素、乙基香兰素和香荚兰豆浸膏(提取物),最大使用量分别为5 mg/100 mL、5 mg/100 mL和按照生产需要适量使用,其中100 mL以即食食品计,生产企业应按照冲调比例折算成配方食品中的使用量;婴幼儿谷类辅助食品中可以使用香兰素,最大使用量为7 mg/100g,其中100g以即食食品计,生产企业应按照冲调比例折算成谷类食品中的使用量;凡使用范围涵盖0~6个月婴幼儿配方食品不得添加任何食用香料。",
+    "exceptionUses": [
+      {
+        "foodCategoryCode": "13.01.02",
+        "foodCategoryName": "较大婴儿和幼儿配方食品",
+        "flavorName": "香兰素",
+        "maxUseLevel": "5 mg/100 mL",
+        "useBasis": "100 mL以即食食品计，生产企业应按照冲调比例折算成配方食品中的使用量"
+      },
+      {
+        "foodCategoryCode": "13.01.02",
+        "foodCategoryName": "较大婴儿和幼儿配方食品",
+        "flavorName": "乙基香兰素",
+        "maxUseLevel": "5 mg/100 mL",
+        "useBasis": "100 mL以即食食品计，生产企业应按照冲调比例折算成配方食品中的使用量"
+      },
+      {
+        "foodCategoryCode": "13.01.02",
+        "foodCategoryName": "较大婴儿和幼儿配方食品",
+        "flavorName": "香荚兰豆浸膏(提取物)",
+        "maxUseLevel": "按生产需要适量使用",
+        "useBasis": "100 mL以即食食品计，生产企业应按照冲调比例折算成配方食品中的使用量"
+      },
+      {
+        "foodCategoryCode": "13.02.01",
+        "foodCategoryName": "婴幼儿谷类辅助食品",
+        "flavorName": "香兰素",
+        "maxUseLevel": "7 mg/100g",
+        "useBasis": "100g以即食食品计，生产企业应按照冲调比例折算成谷类食品中的使用量"
+      }
+    ],
+    "residualRestriction": "凡使用范围涵盖0~6个月婴幼儿配方食品不得添加任何食用香料"
+  }
+};
+
+const gb2760OfficialA2ReferenceRows = gb2760OfficialA2ExceptionFoodCategories.map((row) => ({
   ...gb2760OfficialReferenceTableSource,
   id: row.id,
   tableName: '表 A.2',
@@ -642,10 +972,41 @@ export const gb2760OfficialReferenceRows = gb2760OfficialA2ExceptionFoodCategori
   reviewStatus: 'needs_review'
 }));
 
+const gb2760OfficialB1ReferenceRows = gb2760OfficialB1NoFlavorFoodCategories.map((row) => {
+  const footnote = row.footnoteMarker ? gb2760OfficialB1Footnotes[row.footnoteMarker] : undefined;
+  return {
+    ...gb2760OfficialReferenceTableSource,
+    id: row.id,
+    tableName: '表 B.1',
+    tableTitle: "不得添加食品用香料、香精的食品名单",
+    rowNumber: row.rowNumber,
+    rowCode: row.foodCategoryCode,
+    rowName: row.foodCategoryName,
+    rowData: {
+      foodCategoryCode: row.foodCategoryCode,
+      foodCategoryName: row.foodCategoryName,
+      flavorUseRestriction: footnote ? 'no_added_food_flavor_with_footnote_exceptions' : 'no_added_food_flavor',
+      footnoteMarker: row.footnoteMarker,
+      ...(footnote ? { footnote } : {})
+    },
+    pdfPage: row.pdfPage,
+    standardPage: row.standardPage,
+    rawSourceText: row.rawSourceText,
+    extractionStatus: 'extracted',
+    reviewStatus: 'needs_review'
+  };
+});
+
+export const gb2760OfficialReferenceRows = [
+  ...gb2760OfficialA2ReferenceRows,
+  ...gb2760OfficialB1ReferenceRows
+];
+
 export function getGb2760OfficialReferenceTableSummary() {
   return {
     totalRows: gb2760OfficialReferenceRows.length,
     a2ExceptionFoodCategoryCount: gb2760OfficialA2ExceptionFoodCategories.length,
+    b1NoFlavorFoodCategoryCount: gb2760OfficialB1NoFlavorFoodCategories.length,
     tableNames: [...new Set(gb2760OfficialReferenceRows.map((row) => row.tableName))],
     pdfPages: [...new Set(gb2760OfficialReferenceRows.map((row) => row.pdfPage))].sort((a, b) => a - b)
   };
