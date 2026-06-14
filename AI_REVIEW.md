@@ -7,6 +7,7 @@
 - 接入本机 RapidOCR 服务：后端 `OCR_PROVIDER=rapidocr` 通过 `OCR_SERVICE_URL` 调用 `/home/downloads/tools/complens-ocr` FastAPI `/ocr`，生产后续切换 Aliyun OCR。
 - 建立外部组件台账 `INTEGRATIONS.md`，记录数据库、后端 API、本机 OCR、AI 等外部组件目录、配置、启动命令、验收命令和生产替换说明。
 - 整理文档分类，新增新机器部署手册和数据库设计文档，补充表含义、字段含义、初始化 SQL 入口和“同一数据库两个连接地址”的解释。
+- 修复 PR review 指出的 RapidOCR provider 风险：增加调用超时，拒绝结构漂移的 200 响应，避免后端请求无限挂起或把空结果当真实 OCR。
 - 修复 GB2760 官方参考表 B.2/B.3/C.1/C.2/C.3 英文与拉丁名的紧缩文本、跨列边界和已定位 OCR 分词问题。
 - 同步重构任务与规划文档，让后续 Codex 按数据源准确性、GB2760 导入、OCR 主路径优先执行。
 - 避免新增 `README.md` 与既有 `readme.md` 在大小写不敏感文件系统上冲突；产品入口已合并到既有 `readme.md`。
@@ -59,7 +60,7 @@
 | `src/services/ingredientService.js`、`src/services/reportService.js`、`src/services/reportExportService.js`、`src/types/ingredient.js` | 更新 | 服务层和类型层引用统一 `dataStatusOrder` / `normalizeDataStatus` / `dataStatusLabel`，导出报告与统计口径和页面展示保持一致 |
 | `src/styles.css` | 更新 | 补齐 `data-badge--verified-regulation`、`verified-jecfa`、`pending-review`、`mapped-candidate`、`common-ingredient`、`unknown-from-ocr` 等状态 class，并统一使用 CSS 变量 |
 | `backend/src/services/ocrProviders/index.ts` | 更新 | OCR provider 命名层接入本机 `rapidocr` HTTP 服务，映射 `rawText` / `confidence` / `blocks` 为前端契约；`mock` 继续只作为测试 provider |
-| `backend/src/routes/ocr.ts`、`backend/src/config.ts`、`backend/tests/ocr.test.ts`、`scripts/test.mjs` | 更新 | 新增 `OCR_SERVICE_URL`，`rapidocr` 不再要求 `OCR_API_KEY`；测试覆盖缺少服务 URL、代理调用和响应映射 |
+| `backend/src/routes/ocr.ts`、`backend/src/config.ts`、`backend/tests/ocr.test.ts`、`scripts/test.mjs` | 更新 | 新增 `OCR_SERVICE_URL`，`rapidocr` 不再要求 `OCR_API_KEY`；测试覆盖缺少服务 URL、代理调用、响应映射、超时和 malformed payload |
 | `backend/.env.example`、`.env.example`、`COMMANDS.md`、`INTEGRATIONS.md` | 新增/更新 | 记录本机 OCR 目录 `/home/downloads/tools/complens-ocr`、启动命令、健康检查、后端代理验收和生产 Aliyun 切换配置 |
 | `docs/README.md` | 新增 | 文档分类入口，按项目入口、部署、数据库、数据治理、外部系统、平台能力等分组 |
 | `docs/deployment.md` | 新增 | 新机器部署手册，覆盖依赖、环境变量、数据库、RapidOCR、后端、前端、外部访问验证和生产替换项 |
@@ -83,6 +84,7 @@
 12. Batch 8-C 已补齐全页状态出口：搜索初始空态不再是单行空提示，GB2760 复核和参考表错误态都可重试；retry 事件使用委托绑定，覆盖参考表局部渲染后的错误态按钮；UX-D 的共享组件抽取和 5-B/UX-C 可信表达统一不在本批次冒充完成。
 13. Batch 5-B / UX-C 已补齐可信表达映射层：`verified_regulation` 显示为"官方标准已验证"，`verified_jecfa` 显示为"安全评价已匹配（非中国法规范围）"，`pending_review` 显示为"待复核来源数据"，`mapped_candidate` 显示为"疑似匹配，待确认"，`unknown_from_ocr` 显示为"暂未收录"；本批次只统一映射与现有页面引用，不冒充完成首页、OCR 状态机、共享组件抽取或报告页整体产品化设计。
 14. 文档入口已分层：`docs/deployment.md` 作为新机器部署手册，`docs/database.md` 作为数据库设计和初始化 SQL 入口，`docs/README.md` 作为分类索引；`COMMANDS.md` 继续只保留可复制命令。
+15. RapidOCR provider 已增加 30 秒默认超时；超时返回 `ocr_provider_timeout` / 504，结构漂移或缺失 `rawText` / `blocks` 的 200 响应返回 `ocr_provider_invalid_response` / 502。
 
 ## 与现有代码核对（防止伪造状态）
 

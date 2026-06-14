@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
 import type { AuthService } from '../src/services/authService.js';
+import { recognizeWithOcrProvider } from '../src/services/ocrProviders/index.js';
 
 const user = {
   id: 'user-1',
@@ -33,6 +34,7 @@ function createTestApp(config = {}) {
 }
 
 afterEach(() => {
+  vi.useRealTimers();
   vi.unstubAllGlobals();
 });
 
@@ -148,6 +150,66 @@ describe('POST /api/ocr', () => {
           bounds: { points: [{ x: 1, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 4 }, { x: 1, y: 4 }] }
         }
       ]
+    });
+  });
+
+  it('times out stalled rapidocr provider calls', async () => {
+    vi.useFakeTimers();
+    const fetchMock = vi.fn((_url: string | URL | Request, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      const signal = init?.signal;
+      if (!signal) return;
+      signal.addEventListener('abort', () => {
+        reject(new DOMException('aborted', 'AbortError'));
+      });
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    const recognition = recognizeWithOcrProvider('rapidocr', {
+      imageBase64: 'aGVsbG8=',
+      mimeType: 'image/jpeg',
+      category: 'food'
+    }, {
+      serviceUrl: 'http://127.0.0.1:8000',
+      timeoutMs: 5
+    });
+    const expectation = expect(recognition).rejects.toMatchObject({
+      code: 'ocr_provider_timeout',
+      status: 504
+    });
+    await vi.advanceTimersByTimeAsync(5);
+
+    await expectation;
+  });
+
+  it('rejects malformed rapidocr responses instead of returning an empty real OCR result', async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+      provider: 'rapidocr-onnxruntime',
+      raw_text: '配料：水',
+      blocks: {}
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+    const app = createTestApp({
+      ocrProvider: 'rapidocr',
+      ocrServiceUrl: 'http://127.0.0.1:8000'
+    });
+
+    const response = await app.request('/api/ocr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer valid-token'
+      },
+      body: JSON.stringify({ imageBase64: 'aGVsbG8=', mimeType: 'image/jpeg', category: 'food' })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(502);
+    expect(body).toMatchObject({
+      error: 'ocr_provider_invalid_response',
+      provider: 'rapidocr'
     });
   });
 
