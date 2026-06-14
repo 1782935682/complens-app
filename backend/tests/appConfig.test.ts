@@ -7,6 +7,7 @@ function createMockIngredientService(): IngredientService {
   return {
     listIngredients: vi.fn(),
     getIngredientById: vi.fn(),
+    getIngredientWithGb2760Evidence: vi.fn(),
     getCategorySummaries: vi.fn(),
     batchSearch: vi.fn()
   };

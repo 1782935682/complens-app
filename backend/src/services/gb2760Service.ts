@@ -1,6 +1,6 @@
-import { asc, count, desc, eq, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, sql, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { importErrors, importRuns, sourceDocuments, type ImportErrorRow, type ImportRunRow, type NewImportErrorRow, type NewImportRunRow, type NewSourceDocumentRow, type SourceDocumentRow } from '../db/schema.js';
+import { gb2760OfficialReferenceRows, importErrors, importRuns, sourceDocuments, type Gb2760OfficialReferenceRow, type ImportErrorRow, type ImportRunRow, type NewImportErrorRow, type NewImportRunRow, type NewSourceDocumentRow, type SourceDocumentRow } from '../db/schema.js';
 
 export const validImportRunTypes = ['fulltext', 'a1_staging', 'reference_tables', 'promote'] as const;
 export const validImportRunStatuses = ['running', 'succeeded', 'failed'] as const;
@@ -77,9 +77,25 @@ export type ImportRunErrorsResult = {
   items: ImportErrorRow[];
 };
 
+export type ReferenceRowListParams = {
+  tableName?: string;
+  q?: string;
+  page: number;
+  limit: number;
+};
+
+export type ReferenceRowListResult = {
+  items: Gb2760OfficialReferenceRow[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
+
 export type Gb2760Service = {
   listImportRuns(params: ImportRunListParams): Promise<ImportRunListResult>;
   getImportRunErrors(importRunId: string): Promise<ImportRunErrorsResult | null>;
+  listReferenceRows(params: ReferenceRowListParams): Promise<ReferenceRowListResult>;
 };
 
 let defaultClient: DatabaseClient | null = null;
@@ -92,6 +108,9 @@ export function createGb2760Service(db: Database): Gb2760Service {
     },
     async getImportRunErrors(importRunId) {
       return getImportRunErrors(db, importRunId);
+    },
+    async listReferenceRows(params) {
+      return listReferenceRows(db, params);
     }
   };
 }
@@ -124,6 +143,9 @@ export function createLazyGb2760Service(databaseUrl?: string): Gb2760Service {
     },
     getImportRunErrors(importRunId) {
       return getLazyService().getImportRunErrors(importRunId);
+    },
+    listReferenceRows(params) {
+      return getLazyService().listReferenceRows(params);
     }
   };
 }
@@ -293,6 +315,36 @@ export async function getImportRunErrors(db: Database, importRunId: string): Pro
   };
 }
 
+export async function listReferenceRows(db: Database, params: ReferenceRowListParams): Promise<ReferenceRowListResult> {
+  const page = normalizePositiveInteger(params.page, 'page');
+  const limit = Math.min(normalizePositiveInteger(params.limit, 'limit'), 100);
+  const offset = (page - 1) * limit;
+  const where = buildReferenceRowsWhere(params);
+  const [{ total }] = await db
+    .select({ total: count() })
+    .from(gb2760OfficialReferenceRows)
+    .where(where);
+  const rows = await db
+    .select()
+    .from(gb2760OfficialReferenceRows)
+    .where(where)
+    .orderBy(
+      asc(gb2760OfficialReferenceRows.tableName),
+      asc(gb2760OfficialReferenceRows.rowNumber),
+      asc(gb2760OfficialReferenceRows.id)
+    )
+    .limit(limit)
+    .offset(offset);
+
+  return {
+    items: rows,
+    page,
+    limit,
+    total,
+    totalPages: Math.max(1, Math.ceil(total / limit))
+  };
+}
+
 function formatImportRunListItem(row: { run: ImportRunRow; sourceDocument: SourceDocumentRow | null }): ImportRunListItem {
   return {
     ...row.run,
@@ -306,6 +358,39 @@ function formatImportRunListItem(row: { run: ImportRunRow; sourceDocument: Sourc
         }
       : null
   };
+}
+
+function buildReferenceRowsWhere(params: ReferenceRowListParams): SQL | undefined {
+  const filters: SQL[] = [];
+  if (params.tableName) {
+    filters.push(eq(gb2760OfficialReferenceRows.tableName, normalizeReferenceTableName(params.tableName)));
+  }
+  if (params.q) {
+    const pattern = `%${escapeLikePattern(params.q)}%`;
+    filters.push(sql`(
+      ${gb2760OfficialReferenceRows.rowName} ILIKE ${pattern} ESCAPE '\\'
+      OR ${gb2760OfficialReferenceRows.rowCode} ILIKE ${pattern} ESCAPE '\\'
+      OR ${gb2760OfficialReferenceRows.rawSourceText} ILIKE ${pattern} ESCAPE '\\'
+      OR ${gb2760OfficialReferenceRows.rowData}::text ILIKE ${pattern} ESCAPE '\\'
+    )`);
+  }
+
+  return filters.length > 0 ? and(...filters) : undefined;
+}
+
+export function normalizeReferenceTableName(value: string | undefined) {
+  const normalized = normalizeOptionalText(value);
+  if (!normalized) return '';
+  if (/^附录\s*[DF]$/iu.test(normalized)) {
+    return normalized.replace(/\s+/g, ' ').replace(/^附录\s*/u, '附录 ');
+  }
+  const match = normalized.match(/^(?:表\s*)?([A-Z])(?:\.)?(\d)$/iu);
+  if (match) return `表 ${match[1].toUpperCase()}.${match[2]}`;
+  return normalized;
+}
+
+function escapeLikePattern(value: string) {
+  return value.replace(/[\\%_]/g, (char) => `\\${char}`);
 }
 
 function normalizeRequiredText(value: string | undefined, field: string) {

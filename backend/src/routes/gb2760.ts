@@ -31,6 +31,16 @@ export function createGb2760Route(authService: AuthService, gb2760Service: Gb276
     return context.json(result);
   });
 
+  route.get('/gb2760/reference-rows', async (context) => {
+    const parsed = parseReferenceRowsQuery(context.req.query());
+    if (!parsed.ok) {
+      return context.json(parsed.error, 400);
+    }
+
+    const result = await gb2760Service.listReferenceRows(parsed.value);
+    return context.json(result);
+  });
+
   return route;
 }
 
@@ -46,6 +56,20 @@ function parseListQuery(query: Record<string, string>) {
     value: {
       page: page.value,
       limit: limit.value
+    }
+  };
+}
+
+function parseReferenceRowsQuery(query: Record<string, string>) {
+  const parsed = parseListQuery(query);
+  if (!parsed.ok) return parsed;
+
+  return {
+    ok: true as const,
+    value: {
+      ...parsed.value,
+      tableName: normalizeOptionalQuery(query.table),
+      q: normalizeOptionalQuery(query.q)
     }
   };
 }
@@ -76,4 +100,9 @@ function invalidParameter(field: string, message: string) {
       message
     }
   };
+}
+
+function normalizeOptionalQuery(value: string | undefined) {
+  const normalized = value?.trim();
+  return normalized ? normalized : undefined;
 }

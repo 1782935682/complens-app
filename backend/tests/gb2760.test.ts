@@ -3,7 +3,7 @@ import { createApp } from '../src/app.js';
 import type { AdditiveUsageRuleRow, Gb2760OfficialRecordRow, ImportRunRow, IngredientRow } from '../src/db/schema.js';
 import { getAffectedPromotionIngredientIds, getGb2760AdditiveIdentityKey, getStaleFormalRuleSourceIds, hasFullPromotionCoverage, isApprovedForPromotion, isPromotedForReconciliation, toAdditiveUsageRuleRow, toDemotedIngredientPatch, toPartiallyPromotedIngredientPatch, toPromotedIngredientPatch, validatePromotionCandidate } from '../src/services/gb2760PromoteService.js';
 import type { AuthService } from '../src/services/authService.js';
-import { createGb2760SourceDocumentInput, createSeedImportRunId, toImportErrorRow, toImportRunRow, toSourceDocumentRow, type Gb2760Service, type ImportRunListItem } from '../src/services/gb2760Service.js';
+import { createGb2760SourceDocumentInput, createSeedImportRunId, normalizeReferenceTableName, toImportErrorRow, toImportRunRow, toSourceDocumentRow, type Gb2760Service, type ImportRunListItem } from '../src/services/gb2760Service.js';
 import { validateGb2760State } from '../src/services/gb2760ValidateService.js';
 import { preserveGb2760ManualReviewState, preserveGb2760ManualReviewStatus } from '../src/services/ingredientService.js';
 
@@ -87,6 +87,43 @@ function createGb2760Service(overrides: Partial<Gb2760Service> = {}): Gb2760Serv
           }]
         }
       : null)),
+    listReferenceRows: vi.fn(async (params) => ({
+      items: [{
+        id: 'gb2760-2024-b2-natural-flavor-001',
+        standardCode: 'GB 2760-2024',
+        standardTitle: '食品安全国家标准 食品添加剂使用标准',
+        tableName: params.tableName || '表 B.2',
+        tableTitle: '允许使用的天然食品用香料名单',
+        rowNumber: 1,
+        rowCode: 'N001',
+        rowName: '八角茴香油',
+        rowData: { flavorType: 'natural' },
+        pdfPage: 173,
+        standardPage: 170,
+        rawSourceText: 'GB 2760-2024 表 B.2：N001 八角茴香油。',
+        sourceName: '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台',
+        sourceType: 'official_standard',
+        sourceUrl: 'https://sppt.cfsa.net.cn:8086/db?task=indexSearch',
+        downloadEndpoint: 'https://sppt.cfsa.net.cn:8086/cfsa_aiguo',
+        platformRecordId: '6CA1489A-9570-4906-8CE8-CC86FBFB1941',
+        announcementRecordId: '3D0601E8-A77C-4EC5-B148-30E2E7020822',
+        fileGuid: '43C9B75E-3D84-4577-80FC-0F7D77D36407',
+        factName: '1747898473246.pdf',
+        pdfSha256: '2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de',
+        retrievedAt: '2026-06-12',
+        extractionTool: 'pdftotext -bbox-layout (poppler-utils)',
+        extractionScope: 'official_reference_tables_structured',
+        generatedAt: '2026-06-13',
+        extractionStatus: 'extracted',
+        reviewStatus: 'pending_review',
+        createdAt: new Date('2026-06-14T00:00:00.000Z'),
+        syncedAt: new Date('2026-06-14T00:00:00.000Z')
+      }],
+      page: params.page,
+      limit: params.limit,
+      total: 1,
+      totalPages: 1
+    })),
     ...overrides
   };
 }
@@ -164,7 +201,51 @@ describe('GET /api/gb2760/import-runs/:id/errors', () => {
   });
 });
 
+describe('GET /api/gb2760/reference-rows', () => {
+  it('returns paginated official reference rows for authenticated reviewers', async () => {
+    const service = createGb2760Service();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/gb2760/reference-rows?table=B.2&q=%E5%85%AB%E8%A7%92&page=2&limit=10', { headers: authHeaders });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.items[0]).toMatchObject({
+      tableName: 'B.2',
+      rowName: '八角茴香油',
+      reviewStatus: 'pending_review'
+    });
+    expect(service.listReferenceRows).toHaveBeenCalledWith({
+      tableName: 'B.2',
+      q: '八角',
+      page: 2,
+      limit: 10
+    });
+  });
+
+  it('requires auth and rejects invalid pagination before exposing reference rows', async () => {
+    const app = createTestApp(createGb2760Service());
+
+    const missing = await app.request('/api/gb2760/reference-rows');
+    const invalidLimit = await app.request('/api/gb2760/reference-rows?limit=500', { headers: authHeaders });
+
+    expect(missing.status).toBe(401);
+    expect(invalidLimit.status).toBe(400);
+    expect(await invalidLimit.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'limit',
+      message: 'limit must be between 1 and 100'
+    });
+  });
+});
+
 describe('GB 2760 import audit mappers', () => {
+  it('normalizes compact GB 2760 reference table names for DB lookups', () => {
+    expect(normalizeReferenceTableName('B.2')).toBe('表 B.2');
+    expect(normalizeReferenceTableName('表 C.1')).toBe('表 C.1');
+    expect(normalizeReferenceTableName('附录F')).toBe('附录 F');
+  });
+
   it('maps official source metadata into source_documents rows', () => {
     const input = createGb2760SourceDocumentInput({
       standardCode: 'GB 2760-2024',

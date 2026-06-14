@@ -36,6 +36,19 @@ const regionLabels = {
   International: '国际'
 };
 
+const gb2760ReferenceTables = [
+  { value: 'A.2', label: '表 A.2' },
+  { value: 'B.1', label: '表 B.1' },
+  { value: 'B.2', label: '表 B.2' },
+  { value: 'B.3', label: '表 B.3' },
+  { value: 'C.1', label: '表 C.1' },
+  { value: 'C.2', label: '表 C.2' },
+  { value: 'C.3', label: '表 C.3' },
+  { value: 'E.1', label: '表 E.1' },
+  { value: '附录 D', label: '附录 D' },
+  { value: '附录 F', label: '附录 F' }
+];
+
 export function renderDataPage(category = 'food', filters = {}) {
   const currentCategory = getProductCategory(category);
   const allItems = getAllIngredients(category);
@@ -163,6 +176,7 @@ export function renderDataPage(category = 'food', filters = {}) {
     </section>
 
     ${renderManualReviewQueue(category, reviewQueue)}
+    ${category === 'food' ? renderGb2760ReferenceBrowser(activeFilters) : ''}
 
     <section class="section">
       <div class="section__head">
@@ -213,10 +227,16 @@ function normalizeDataFilters(filters, items) {
   const source = String(filters?.source || '').trim();
   const confidenceLevel = String(filters?.confidenceLevel || '').trim();
   const dataStatus = String(filters?.dataStatus || '').trim();
+  const gbTable = normalizeGb2760ReferenceTable(filters?.gbTable);
+  const gbQuery = String(filters?.gbQuery || '').trim().slice(0, 80);
+  const gbPage = Math.max(1, Number(filters?.gbPage) || 1);
   return {
     source: sourceNames.has(source) ? source : '',
     confidenceLevel: confidenceLevels.has(confidenceLevel) ? confidenceLevel : '',
-    dataStatus: dataStatuses.has(dataStatus) ? dataStatus : ''
+    dataStatus: dataStatuses.has(dataStatus) ? dataStatus : '',
+    gbTable,
+    gbQuery,
+    gbPage
   };
 }
 
@@ -321,6 +341,179 @@ function renderManualReviewQueue(category, queue) {
       }))}
     </section>
   `;
+}
+
+function renderGb2760ReferenceBrowser(filters) {
+  return html`
+    <section class="section gb2760-reference-browser" data-gb2760-reference-browser>
+      <div class="section__head">
+        <div>
+          <h2>GB 2760 参考表</h2>
+          <p class="helper-text">浏览 A.2/B/C/D/E/F 官方参考表行，作为人工复核 staging 行时的辅助证据。</p>
+        </div>
+      </div>
+      <form class="filter-row data-filter-row" data-gb2760-reference-form>
+        <label class="filter-field">
+          <span>参考表</span>
+          <select name="gbTable">
+            ${gb2760ReferenceTables.map((table) => html`
+              <option value="${escapeHtml(table.value)}"${table.value === filters.gbTable ? ' selected' : ''}>${escapeHtml(table.label)}</option>
+            `).join('')}
+          </select>
+        </label>
+        <label class="filter-field">
+          <span>检索</span>
+          <input name="gbQuery" value="${escapeHtml(filters.gbQuery)}" placeholder="名称、编号或原文" />
+        </label>
+        <button type="submit" class="button-link secondary-link">查看</button>
+      </form>
+      <div data-gb2760-reference-results>
+        ${renderGb2760ReferenceRowsState({ status: 'idle' }, filters)}
+      </div>
+    </section>
+  `;
+}
+
+export function renderGb2760ReferenceRowsState(state, filters = {}) {
+  if (state?.status === 'loading' || state?.status === 'idle') {
+    return html`
+      <div class="loading-state gb2760-reference-state" aria-busy="true">
+        <div class="skeleton skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton skeleton-text skeleton-text--wide" aria-hidden="true"></div>
+      </div>
+    `;
+  }
+
+  if (state?.status === 'error') {
+    const needsLogin = state.code === 'auth_required' || state.httpStatus === 401;
+    return html`
+      <div class="error-state gb2760-reference-state">
+        <p class="error-state-title">${needsLogin ? '需要登录后查看参考表' : 'GB 2760 参考表暂不可用'}</p>
+        <p class="error-desc">${needsLogin ? '参考表接口沿用后端数据审计鉴权。' : '当前可以继续查看本地数据概览。'}</p>
+        ${needsLogin ? html`<a class="button-link secondary-link" href="#/food/login?redirect=${encodeURIComponent('/food/data')}" data-route>登录账号</a>` : ''}
+      </div>
+    `;
+  }
+
+  const result = state?.result || {};
+  const rows = Array.isArray(result.items) ? result.items : [];
+  const page = Number(result.page || filters.gbPage || 1);
+  const totalPages = Math.max(1, Number(result.totalPages || 1));
+  return html`
+    <div class="gb2760-reference-summary">
+      <span>${escapeHtml(formatGb2760ReferenceTable(filters.gbTable))}</span>
+      <span>${Number(result.total || rows.length)} 行</span>
+      <span>第 ${page} / ${totalPages} 页</span>
+    </div>
+    ${rows.length ? html`
+      <div class="gb2760-reference-list">
+        ${rows.map(renderGb2760ReferenceRow).join('')}
+      </div>
+      ${renderGb2760ReferencePagination(filters, page, totalPages)}
+    ` : renderDataEmptyState('表', '没有匹配的参考表行', '可以调整表名或检索词后再查看。', buildDatasetCorrectionUrl('food', {
+      totalCount: 0,
+      sourceCoveragePercent: 0,
+      usageLimitCoveragePercent: 0,
+      missingUsageLimitsCount: 0
+    }))}
+  `;
+}
+
+function renderGb2760ReferenceRow(row) {
+  return html`
+    <article class="gb2760-reference-row">
+      <div>
+        <p class="eyebrow">${escapeHtml(row.tableName || 'GB 2760')} / PDF ${escapeHtml(row.pdfPage || '暂无')} / 标准页 ${escapeHtml(row.standardPage || '暂无')}</p>
+        <h3>${escapeHtml(row.rowName || '未命名参考行')}</h3>
+        <div class="chip-list">
+          ${row.rowCode ? html`<span class="chip">编号：${escapeHtml(row.rowCode)}</span>` : ''}
+          ${row.reviewStatus ? html`<span class="chip">状态：${escapeHtml(gb2760ReviewStatusLabel(row.reviewStatus))}</span>` : ''}
+        </div>
+      </div>
+      <p>${escapeHtml(row.rawSourceText || '暂无原文')}</p>
+      ${renderGb2760RowData(row.rowData)}
+    </article>
+  `;
+}
+
+function renderGb2760RowData(rowData) {
+  if (!rowData || typeof rowData !== 'object') return '';
+  const pairs = Object.entries(rowData).filter(([, value]) => value != null && value !== '');
+  if (!pairs.length) return '';
+  return html`
+    <dl class="gb2760-row-data">
+      ${pairs.slice(0, 6).map(([key, value]) => html`
+        <div>
+          <dt>${escapeHtml(formatRowDataKey(key))}</dt>
+          <dd>${escapeHtml(formatRowDataValue(value))}</dd>
+        </div>
+      `).join('')}
+    </dl>
+  `;
+}
+
+function renderGb2760ReferencePagination(filters, page, totalPages) {
+  if (totalPages <= 1) return '';
+  return html`
+    <div class="pagination gb2760-reference-pagination">
+      ${page > 1 ? html`<a class="pagination__link" href="${buildGb2760ReferenceHref(filters, page - 1)}" data-route>上一页</a>` : ''}
+      ${page < totalPages ? html`<a class="pagination__link" href="${buildGb2760ReferenceHref(filters, page + 1)}" data-route>下一页</a>` : ''}
+    </div>
+  `;
+}
+
+function buildGb2760ReferenceHref(filters, page) {
+  const params = new URLSearchParams();
+  if (filters.source) params.set('source', filters.source);
+  if (filters.confidenceLevel) params.set('confidenceLevel', filters.confidenceLevel);
+  if (filters.dataStatus) params.set('dataStatus', filters.dataStatus);
+  if (filters.gbTable) params.set('gbTable', filters.gbTable);
+  if (filters.gbQuery) params.set('gbQuery', filters.gbQuery);
+  if (page > 1) params.set('gbPage', String(page));
+  const suffix = params.toString();
+  return `#${categoryPath('food', '/data')}${suffix ? `?${suffix}` : ''}`;
+}
+
+function normalizeGb2760ReferenceTable(value) {
+  const normalized = String(value || '').trim();
+  const allowed = new Set(gb2760ReferenceTables.map((table) => table.value));
+  return allowed.has(normalized) ? normalized : 'B.2';
+}
+
+function formatGb2760ReferenceTable(value) {
+  return gb2760ReferenceTables.find((table) => table.value === value)?.label || '表 B.2';
+}
+
+function gb2760ReviewStatusLabel(status) {
+  const labels = {
+    pending_review: '待复核来源数据',
+    needs_review: '待复核来源数据',
+    mapped_candidate: '候选待确认',
+    approved: '已签核待 promote',
+    promoted: '已进入正式规则',
+    verified: '历史已验证'
+  };
+  return labels[status] || status || '待复核来源数据';
+}
+
+function formatRowDataKey(key) {
+  const labels = {
+    foodCategoryCode: '食品分类号',
+    foodCategoryName: '食品类别',
+    exceptionNumber: '例外编号',
+    insNumber: 'INS',
+    cnsNumber: 'CNS',
+    useScope: '使用范围',
+    functionText: '功能',
+    footnote: '脚注'
+  };
+  return labels[key] || key;
+}
+
+function formatRowDataValue(value) {
+  if (Array.isArray(value)) return value.map(formatRowDataValue).join('、');
+  if (value && typeof value === 'object') return JSON.stringify(value);
+  return String(value || '');
 }
 
 function renderReviewQueueItem(category, item) {

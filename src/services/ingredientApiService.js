@@ -21,10 +21,13 @@ export async function fetchIngredientSearch({ query = '', filters = {}, page = 1
   return requestIngredientJson(`/ingredients/search?${params.toString()}`);
 }
 
-export async function fetchIngredientById(id) {
+export async function fetchIngredientById(id, options = {}) {
   const normalizedId = String(id || '').trim();
   if (!normalizedId) return null;
-  return requestIngredientJson(`/ingredients/${encodeURIComponent(normalizedId)}`);
+  const params = new URLSearchParams();
+  if (options.includeEvidence) params.set('includeEvidence', '1');
+  const suffix = params.toString();
+  return requestIngredientJson(`/ingredients/${encodeURIComponent(normalizedId)}${suffix ? `?${suffix}` : ''}`);
 }
 
 export async function fetchIngredientCategories() {

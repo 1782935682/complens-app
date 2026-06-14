@@ -47,7 +47,10 @@ export function createIngredientsRoute(ingredientService: IngredientService) {
   });
 
   route.get('/ingredients/:id', async (context) => {
-    const ingredient = await ingredientService.getIngredientById(context.req.param('id'));
+    const includeEvidence = context.req.query('includeEvidence') === '1';
+    const ingredient = includeEvidence
+      ? await ingredientService.getIngredientWithGb2760Evidence(context.req.param('id'))
+      : await ingredientService.getIngredientById(context.req.param('id'));
     if (!ingredient) {
       return context.json({ error: 'not_found' }, 404);
     }
