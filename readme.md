@@ -24,6 +24,18 @@
 
 ---
 
+## 当前架构策略
+
+- **正式用户端**：规划为 `user-uniapp/`，使用 uni-app + Vue3，目标支持 H5/PWA、微信小程序、Android、iOS。
+- **旧 Web/PWA 原型**：当前 `src/` 纯 JS + Vite + hash 路由前端保留为历史原型和迁移来源，不直接删除，也不继续承载复杂新业务。
+- **后台管理端**：规划为 `admin-web/`，使用 Vue3 + TDesign Web，单独建设产品运营后台 + 数据治理后台 + 系统配置后台 + 权限审计后台。
+- **后端 API**：复用现有 `backend/`，Node.js + TypeScript + Hono + Drizzle + PostgreSQL；不要重复创建 Express/Nest/Fastify 第二套后端。
+- **OCR 服务**：用户端 / 小程序 / App → 后端 API → OCR Provider → Python FastAPI + RapidOCR。OCR 服务不暴露公网，前端不直连 OCR / AI / 数据库，不暴露任何 Key。
+
+完整技术栈、旧前端迁移、后端必需性和后台定位见 [`docs/product-blueprint/ARCHITECTURE_SPEC.md`](./docs/product-blueprint/ARCHITECTURE_SPEC.md)。
+
+---
+
 ## 数据可信状态
 
 | 状态 | 含义 | 能否作为权威展示 |
@@ -47,7 +59,7 @@ GB2760 导入采用 **staging 全量承接 → 高置信度 promote 到正式库
 - **数据可信原则**：数据状态分层展示（见上表与 [`DATA_TRUST_SPEC.md`](./docs/product-blueprint/DATA_TRUST_SPEC.md)）；`pending_review` / `mapped_candidate` / `unverified` / `unknown_from_ocr` 不得展示为权威结论；AI 不作为原始数据来源。
 - **消费者体验原则**：专业信息默认隐藏，普通人报告默认展示；用户拍的不一定只有配料表，也可能是营养成分表或包装正面；报告只做购买前建议关注，不给绝对购买建议。
 - **OCR 原则**：拍照识别是核心主路径；OCR 结果必须进入文本确认页，不能跳过；无 Key 时保留 manual 手动输入、不崩溃、不伪造识别文字；降级链路 real → manual → fallback。
-- **跨端策略**：当前优先 Web/PWA 跑通主流程，后续以统一设计系统和 API 迁移到微信小程序、Android、iOS；后台管理端单独建设；统一的是产品流程、设计 token、数据状态、API 契约，不强行一套 UI 代码覆盖所有端（见 [`CROSS_PLATFORM_SPEC.md`](./docs/product-blueprint/CROSS_PLATFORM_SPEC.md)）。
+- **跨端策略**：正式用户端采用 `user-uniapp`（uni-app + Vue3）覆盖 H5/PWA、微信小程序、Android、iOS；当前 `src/` Vite 前端保留为历史原型和迁移来源；后台管理端 `admin-web` 单独建设；统一的是产品流程、设计 token、数据状态、API 契约和平台能力接口，不强行一套 UI 代码覆盖所有端（见 [`CROSS_PLATFORM_SPEC.md`](./docs/product-blueprint/CROSS_PLATFORM_SPEC.md)）。
 - **Codex 开发规则入口**：强制规范见 [`AGENTS.md`](./AGENTS.md)，任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)，验收见 [`QA_ACCEPTANCE_SPEC.md`](./docs/product-blueprint/QA_ACCEPTANCE_SPEC.md)。
 
 ---
@@ -939,13 +951,15 @@ docs: update agent development guide
 
 本项目使用以下技术栈，编码 Agent 不得在未经说明的情况下更换或引入新技术。
 
-### 21.1 已确定技术栈
+### 21.1 已确定技术栈（历史旧 `src/` 原型）
+
+> 本节是旧 `src/` Web/PWA 原型的历史技术栈约束。正式用户端已规划为 `user-uniapp/`（uni-app + Vue3），后台已规划为 `admin-web/`（Vue3 + TDesign Web）。若与顶部当前架构策略冲突，以顶部当前策略、`AGENTS.md` 和 `docs/product-blueprint/ARCHITECTURE_SPEC.md` 为准。
 
 | 技术 | 选型 | 说明 |
 |---|---|---|
 | 语言 | 纯 JavaScript (ES2022+) | **不使用 TypeScript**，用 JSDoc 注释类型 |
 | 模块系统 | ES Modules (`type: "module"`) | `import` / `export`，不用 CommonJS |
-| 框架 | 无框架 | **不使用 React / Vue / Svelte** 等 |
+| 框架 | 旧 `src/` 原型无框架 | 仅约束旧 Web 原型；正式 `user-uniapp` 和 `admin-web` 使用 Vue3 |
 | 打包工具 | Vite（M2 起引入） | **不使用 webpack / Parcel**（Vite 内置 Rollup 除外） |
 | 构建脚本 | `vite build` | 产物输出到 `dist/` |
 | 开发服务器 | `vite` | 默认端口 5173，不自动打开浏览器 |

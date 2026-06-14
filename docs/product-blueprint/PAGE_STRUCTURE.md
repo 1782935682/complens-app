@@ -22,10 +22,9 @@
 
 ### 0.1 路由约定
 
-- 采用 **hash 路由**，源在 `src/router/router.js`。
-- 路由可带**类别前缀**（如 `#/food/scan`）。无类别前缀的 legacy 路径仍可解析；化妆品类别 `#/cosmetics/*` 为原型保留，非本期主路径。
-- 本文档路由列以 `router.js` 实际可解析路径为准；不确定的统一标注「待确认（以 router.js 为准）」。
-- 实际页面渲染映射见 `router.js` 中 `resolveRoute` / `renderRoute`。
+- 正式用户端目标目录为 `user-uniapp/`，采用 uni-app + Vue3，路由由后续 uni-app pages 配置承载。
+- 当前 `src/` 纯 JS + Vite 前端采用 **hash 路由**，源在 `src/router/router.js`，仅作为历史原型和迁移来源。
+- 本文档同时登记目标页面与当前原型承载页面；不确定的统一标注「计划 / 待确认」。
 
 ### 0.2 数据可信展示总则（统一来源 `src/utils/dataStatus.js`）
 
@@ -403,8 +402,11 @@
 首页 (homePage / #/)
   │  起点是手里那包食品，主 CTA 去拍照
   ▼
-拍照 / 上传 (scanPage / #/scan)
+拍照 / 上传食品标签 (scanPage / #/scan；目标 user-uniapp scan page)
   │  采集图片
+  ▼
+标签类型识别 (计划 labelTypeSelectPage / user-uniapp label-type)
+  │  配料表 / 营养成分表 / 包装正面 / 未知；低置信必须让用户选择
   ▼
 OCR 识别 (scanPage / #/scan)
   │  ⚠ OCR 输出为原始文本，未验证，禁止当权威结论
@@ -412,14 +414,15 @@ OCR 识别 (scanPage / #/scan)
 文本确认 (ocrConfirmPage / #/ocr-confirm)
   │  ⚠ 仍为用户/OCR 文本，无可信结论；确认后再分析
   ▼
-配料拆分 (analyzePage / #/analyze)
-  │  自动拆分单条配料
+配料拆分 / 营养字段解析 / 包装卖点识别 (analyzePage / 目标 parse pages)
+  │  自动拆分单条配料；结构化营养字段；包装卖点识别先规划后实现
   ▼
-匹配确认 (analyzePage / #/analyze)
+匹配确认 (analyzePage / 目标 report compose flow)
+  │  匹配食品成分、食品添加剂、营养字段和用户关注项
   │  ⚠ 逐条按 dataStatus 打标；mapped_candidate/pending_review/
   │     unverified/unknown_from_ocr 一律不得呈现为权威结论
   ▼
-分析报告 (reportDetailPage / #/reports/:id)
+食品标签解读报告 (reportDetailPage / #/reports/:id)
   │  ⚠ 逐项来源 + 可信等级；verified_jecfa 注明非中国法规范围；无红线词
   ▼
 保存历史 / 档案 (historyPage / #/history、productArchivePage / #/products)
@@ -430,22 +433,84 @@ OCR 识别 (scanPage / #/scan)
 
 ---
 
-## 三、后台页面（第一版规划）
+## 三、后台页面（完整规划）
 
-> 详细规格见 [`ADMIN_CONSOLE_SPEC.md`](./ADMIN_CONSOLE_SPEC.md)。当前后台**仅有内部 `gb2760ReviewPage` 部分落地**（Batch 1-F，`blocked_by_user` 暂缓），其余均为计划。状态取值：已落地 / 计划 / 待确认。
+> 详细规格见 [`ADMIN_CONSOLE_SPEC.md`](./ADMIN_CONSOLE_SPEC.md)。后台定位为 **CompLens 产品运营后台 + 数据治理后台 + 系统配置后台**，目标目录为 `admin-web/`，技术栈为 Vue3 + TDesign Web。当前后台**仅有内部 `gb2760ReviewPage` 部分落地**（Batch 1-F，`blocked_by_user` 暂缓），其余均为计划。状态取值：已落地 / 计划 / 待确认。
 
-| 后台页面 | 页面目标 | MVP 是否必须 | 当前状态 |
+### 3.1 后台首页 / Dashboard
+- 页面目标：展示核心业务、数据治理、OCR/AI 成本、反馈和系统状态概览。
+- 当前状态：计划。
+
+### 3.2 用户与会员
+| 页面 | 页面目标 | 阶段 | 当前状态 |
 | --- | --- | --- | --- |
-| 数据源管理 | 维护数据来源清单与元信息 | 是 | 计划 |
-| GB2760 导入任务 | 管理 GB 2760 数据导入任务 | 是 | 计划 |
-| staging 数据复核 | 复核 staging / 待定数据（`pending_review` / `mapped_candidate`），现由内部 gb2760ReviewPage 部分承载 | 是 | 部分落地（Batch 1-F，blocked_by_user 暂缓） |
-| 食品添加剂管理 | 维护食品添加剂主数据 | 是 | 计划 |
-| 使用规则管理 | 维护添加剂使用范围 / 限量规则 | 是 | 计划 |
-| 食品分类管理 | 维护食品分类体系 | 否（可后置） | 计划 |
-| OCR 记录管理 | 查看 / 处理 OCR 记录 | 否 | 计划 |
-| 用户反馈管理 | 处理 supportPage 提交的反馈 | 否 | 计划 |
-| 产品分析记录 | 后台查看产品分析记录 | 否 | 计划 |
-| 系统配置 | 全局参数 / 开关配置 | 否 | 计划 |
+| 用户管理 | 用户列表、筛选、账号状态 | Beta | 计划 |
+| 用户详情 | 查看扫描、报告、反馈、设备登录 | Beta | 计划 |
+| 会员管理 | 会员等级、状态、权益包 | 产品化 | 计划 |
+| 订阅管理 | 订阅计划、状态流转 | 产品化 / 人工+Codex | 计划 |
+| 订单/支付记录 | 支付平台订单、退款、取消 | 产品化 / 人工+Codex | 计划 |
+| 用户设备与登录记录 | 平台来源、设备和登录安全 | Beta | 计划 |
+
+### 3.3 内容运营
+| 页面 | 页面目标 | 阶段 | 当前状态 |
+| --- | --- | --- | --- |
+| 公告管理 | 版本更新、维护、隐私更新通知 | Beta | 计划 |
+| Banner 管理 | 首页运营位 | Beta | 计划 |
+| 首页场景卡片管理 | 控糖/低钠/孩子/忌口等入口配置 | Beta | 计划 |
+| FAQ 管理 | 常见问题内容 | Beta | 计划 |
+| 数据说明文案管理 | 数据来源、OCR 隐私、标签解读说明 | Beta | 计划 |
+| 隐私政策 / 用户协议管理 | 协议版本管理 | 上架商业化 | 计划 |
+
+### 3.4 食品标签业务
+| 页面 | 页面目标 | 阶段 | 当前状态 |
+| --- | --- | --- | --- |
+| 扫描记录 | 查看扫描会话 | Beta | 计划 |
+| OCR 记录 | OCR 原文、provider、耗时、失败原因 | MVP | 计划 |
+| 标签解读报告 | 查看报告记录和问题回溯 | Beta | 计划 |
+| 用户关注项统计 | 统计关注项使用情况 | Beta | 计划 |
+| 产品档案管理 | 查看用户产品档案 | Beta | 计划 |
+| 用户反馈管理 | 查看和处理反馈 | MVP | 计划 |
+
+### 3.5 数据治理
+| 页面 | 页面目标 | 阶段 | 当前状态 |
+| --- | --- | --- | --- |
+| 数据源管理 | 维护数据来源清单与元信息 | MVP | 计划 |
+| GB2760 导入任务 | 管理 GB 2760 数据导入任务 | MVP | 计划 |
+| staging 数据复核 | 复核 staging / 待定数据 | MVP | 部分落地（Batch 1-F，blocked_by_user 暂缓） |
+| 食品添加剂管理 | 维护食品添加剂主数据 | MVP | 计划 |
+| 食品分类管理 | 维护食品分类体系 | MVP | 计划 |
+| 使用规则管理 | 维护添加剂使用范围 / 限量规则 | MVP | 计划 |
+| 普通配料词库 | 管理常见食品配料 | Beta | 计划 |
+| 营养成分字段规则 | 能量、蛋白质、脂肪、糖、钠等解析规则 | Beta | 计划 |
+| 包装卖点词库 | 0 糖、低脂、高蛋白、无添加等词库 | Beta | 计划 |
+
+### 3.6 OCR / AI / Provider
+| 页面 | 页面目标 | 阶段 | 当前状态 |
+| --- | --- | --- | --- |
+| OCR Provider 配置 | provider、降级策略、服务地址 | 产品化 | 计划 |
+| OCR 失败日志 | 失败原因、耗时、平台来源 | MVP / Beta | 计划 |
+| AI Provider 配置 | 模型、开关、密钥引用 | 产品化 | 计划 |
+| AI 调用日志 | tokens、成本、失败原因 | 产品化 | 计划 |
+| 调用成本统计 | OCR/AI 成本估算 | 产品化 | 计划 |
+| 降级策略配置 | OCR/AI 不可用时的降级 | 产品化 | 计划 |
+
+### 3.7 系统配置
+| 页面 | 页面目标 | 阶段 | 当前状态 |
+| --- | --- | --- | --- |
+| 功能开关 | OCR、AI、对比、卖点核对、订阅入口 | MVP / 产品化 | 计划 |
+| 平台配置 | web / wechat_mp / ios / android / all | 产品化 | 计划 |
+| App / 小程序版本配置 | 最低版本、升级提示 | 产品化 | 计划 |
+| 分享配置 | 分享文案和链接 | Beta | 计划 |
+| 消息通知配置 | 推送和订阅消息 | 产品化 | 计划 |
+| 第三方 SDK 配置 | SDK 清单与启停 | 上架商业化 | 计划 |
+
+### 3.8 权限与审计
+| 页面 | 页面目标 | 阶段 | 当前状态 |
+| --- | --- | --- | --- |
+| 管理员管理 | 后台账号 | MVP 预留 / 产品化 | 计划 |
+| 角色权限 | super_admin / data_admin / operation_admin / support_admin / viewer | 产品化 | 计划 |
+| 操作日志 | 操作前后差异 | 产品化 | 计划 |
+| 审计日志 | 关键合规操作审计 | 产品化 | 计划 |
 
 > 后台可信约束：复核工作台须明确区分 `verified_regulation` / `verified_jecfa` 与待定状态（`pending_review` / `mapped_candidate` / `unverified`），仅在复核确认后方可升级状态；任何未确认数据不得在用户端呈现为权威结论。
 
