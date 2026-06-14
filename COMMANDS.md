@@ -12,11 +12,11 @@
 
 参考 `.env.example`。本项目通过 Vite 构建前端，但公开配置仍不使用 `VITE_` 前缀，统一在 `vite.config.js` 中显式 `define` 注入。
 
-当前前端仅允许读取显式注入的公开配置。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。
+当前前端仅允许读取显式注入的公开配置。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。外部组件目录、配置和命令统一记录在 `INTEGRATIONS.md`，新增外部系统时必须同步更新。
 
 食品搜索和详情默认请求同源 `/api`；如需指向独立后端，可在浏览器本地设置 `compcheck:api-base-url`。后端不可用时，前端食品搜索/详情会降级到本地 `src/data/foodAdditives.js` seed，并展示错误提示和未验证状态。
 
-OCR Provider 抽象已支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。`OCR_PROVIDER=mock` 会返回明确标注为 `provider: "mock"` 的固定测试结果；真实供应商调用仍未接入。真实 provider 缺少 `OCR_API_KEY` 时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
+OCR Provider 抽象已支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。`OCR_PROVIDER=mock` 会返回明确标注为 `provider: "mock"` 的固定测试结果；`OCR_PROVIDER=rapidocr` 会调用本机 `/home/downloads/tools/complens-ocr` FastAPI 服务，不需要 `OCR_API_KEY`，但需要 `OCR_SERVICE_URL`。`aliyun` / `paddleocr` 缺少 `OCR_API_KEY` 时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
 
 GB2760 内部复核写接口需要登录且账号在后端 allowlist 内。开发/部署时用 `GB2760_INTERNAL_REVIEWERS` 配置逗号分隔的内部邮箱或用户 ID；未配置时，`PUT /api/gb2760/staging-rows/*` 会对普通登录账号返回 `403 forbidden`，只读查询仍只要求登录。
 
@@ -111,6 +111,55 @@ cd backend
 npm run typecheck
 npm test
 npm run build
+```
+
+## 本机 RapidOCR 服务
+
+当前本机真实 OCR 使用 `/home/downloads/tools/complens-ocr`，生产环境后续切换为阿里云 OCR。目录和替换说明见 `INTEGRATIONS.md`。
+
+启动本机 OCR 服务：
+
+```bash
+cd /home/downloads/tools/complens-ocr
+.venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8000
+```
+
+健康检查：
+
+```bash
+curl http://127.0.0.1:8000/health
+```
+
+后端本机配置：
+
+```env
+OCR_PROVIDER=rapidocr
+OCR_SERVICE_URL=http://127.0.0.1:8000
+OCR_API_KEY=
+```
+
+直接验证 OCR 服务：
+
+```bash
+curl -X POST "http://127.0.0.1:8000/ocr" \
+  -F "file=@/path/to/ingredient-label.jpg"
+```
+
+通过 CompCheck 后端代理验证（需要先登录取得 JWT）：
+
+```bash
+curl -X POST "http://127.0.0.1:3000/api/ocr" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <jwt>" \
+  -d '{"imageBase64":"<base64>","mimeType":"image/jpeg","category":"food"}'
+```
+
+生产切换阿里云 OCR 时：
+
+```env
+OCR_PROVIDER=aliyun
+OCR_API_KEY=<aliyun-ocr-key>
+OCR_SERVICE_URL=
 ```
 
 数据库启动：
@@ -214,7 +263,7 @@ curl -X POST "http://127.0.0.1:3000/api/ingredients/batch-search" \
   -d '{"terms":["E211","柠檬酸","未知配料"]}'
 ```
 
-OCR 代理占位验收（需要先登录取得 JWT；真实 provider 无 `OCR_API_KEY` 时预期返回 503）：
+OCR 代理占位验收（需要先登录取得 JWT；`aliyun` / `paddleocr` 无 `OCR_API_KEY` 时预期返回 503）：
 
 ```bash
 curl -i -X POST "http://127.0.0.1:3000/api/ocr" \

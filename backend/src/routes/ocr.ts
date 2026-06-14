@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { createAuthMiddleware, type AuthVariables } from '../middleware/auth.js';
 import type { AppConfig } from '../config.js';
 import type { AuthService } from '../services/authService.js';
-import { isRealOcrProvider, normalizeOcrProvider, recognizeWithOcrProvider } from '../services/ocrProviders/index.js';
+import { OcrProviderError, normalizeOcrProvider, recognizeWithOcrProvider, requiresOcrApiKey, requiresOcrServiceUrl } from '../services/ocrProviders/index.js';
 
 type OcrJsonBody = {
   imageBase64?: unknown;
@@ -13,7 +13,7 @@ type OcrJsonBody = {
 const MAX_OCR_IMAGE_BYTES = 10 * 1024 * 1024;
 const MAX_OCR_IMAGE_BASE64_LENGTH = Math.ceil(MAX_OCR_IMAGE_BYTES / 3) * 4;
 
-export function createOcrRoute(authService: AuthService, config: Pick<AppConfig, 'ocrApiKey' | 'ocrProvider'>) {
+export function createOcrRoute(authService: AuthService, config: Pick<AppConfig, 'ocrApiKey' | 'ocrProvider' | 'ocrServiceUrl'>) {
   const route = new Hono<{ Variables: AuthVariables }>();
   const requireAuth = createAuthMiddleware(authService);
 
@@ -29,11 +29,24 @@ export function createOcrRoute(authService: AuthService, config: Pick<AppConfig,
       return context.json({ error: 'ocr_not_configured', provider }, 503);
     }
 
-    if (isRealOcrProvider(provider) && !config.ocrApiKey) {
+    if (requiresOcrApiKey(provider) && !config.ocrApiKey) {
       return context.json({ error: 'ocr_not_configured', provider }, 503);
     }
 
-    const result = await recognizeWithOcrProvider(provider, validation.value);
+    if (requiresOcrServiceUrl(provider) && !config.ocrServiceUrl) {
+      return context.json({ error: 'ocr_not_configured', provider }, 503);
+    }
+
+    const result = await recognizeWithOcrProvider(provider, validation.value, {
+      apiKey: config.ocrApiKey,
+      serviceUrl: config.ocrServiceUrl
+    }).catch((error) => {
+      if (error instanceof OcrProviderError) return error;
+      throw error;
+    });
+    if (result instanceof OcrProviderError) {
+      return context.json({ error: result.code, provider, message: result.message }, result.status);
+    }
     if (result) return context.json(result);
 
     return context.json({ error: 'ocr_provider_pending', provider }, 501);

@@ -1,9 +1,11 @@
-# AI Review — 2026-06-14 GB2760 参考表修复、导入审计、promote 准入、Batch 8-C 状态统一与 Batch 5-B / UX-C 可信表达
+# AI Review — 2026-06-14 GB2760、可信表达与本机 RapidOCR 接入
 
 ## 本轮目标
 
 本轮范围包含以下工作：
 
+- 接入本机 RapidOCR 服务：后端 `OCR_PROVIDER=rapidocr` 通过 `OCR_SERVICE_URL` 调用 `/home/downloads/tools/complens-ocr` FastAPI `/ocr`，生产后续切换 Aliyun OCR。
+- 建立外部组件台账 `INTEGRATIONS.md`，记录数据库、后端 API、本机 OCR、AI 等外部组件目录、配置、启动命令、验收命令和生产替换说明。
 - 修复 GB2760 官方参考表 B.2/B.3/C.1/C.2/C.3 英文与拉丁名的紧缩文本、跨列边界和已定位 OCR 分词问题。
 - 同步重构任务与规划文档，让后续 Codex 按数据源准确性、GB2760 导入、OCR 主路径优先执行。
 - 避免新增 `README.md` 与既有 `readme.md` 在大小写不敏感文件系统上冲突；产品入口已合并到既有 `readme.md`。
@@ -55,8 +57,9 @@
 | `src/pages/searchPage.js`、`src/pages/detailPage.js`、`src/pages/analyzePage.js`、`src/pages/reportDetailPage.js`、`src/pages/dataPage.js` | 更新 | 页面层统一引用 `dataStatus` 映射工具，避免各页各自维护 `GB 2760 已验证`、`暂未收录`、JECFA 等文案 |
 | `src/services/ingredientService.js`、`src/services/reportService.js`、`src/services/reportExportService.js`、`src/types/ingredient.js` | 更新 | 服务层和类型层引用统一 `dataStatusOrder` / `normalizeDataStatus` / `dataStatusLabel`，导出报告与统计口径和页面展示保持一致 |
 | `src/styles.css` | 更新 | 补齐 `data-badge--verified-regulation`、`verified-jecfa`、`pending-review`、`mapped-candidate`、`common-ingredient`、`unknown-from-ocr` 等状态 class，并统一使用 CSS 变量 |
-| `backend/src/services/ocrProviders/index.ts` | 新增 | OCR provider 命名层，规范 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，并提供 mock OCR 结果 |
-| `backend/src/routes/ocr.ts`、`backend/tests/ocr.test.ts`、`src/services/ocrService.js`、`scripts/test.mjs` | 更新 | 后端按 provider 区分 mock / 真实 pending / 未配置 Key；前端校验 provider 名称；测试覆盖 mock 与 pending |
+| `backend/src/services/ocrProviders/index.ts` | 更新 | OCR provider 命名层接入本机 `rapidocr` HTTP 服务，映射 `rawText` / `confidence` / `blocks` 为前端契约；`mock` 继续只作为测试 provider |
+| `backend/src/routes/ocr.ts`、`backend/src/config.ts`、`backend/tests/ocr.test.ts`、`scripts/test.mjs` | 更新 | 新增 `OCR_SERVICE_URL`，`rapidocr` 不再要求 `OCR_API_KEY`；测试覆盖缺少服务 URL、代理调用和响应映射 |
+| `backend/.env.example`、`.env.example`、`COMMANDS.md`、`INTEGRATIONS.md` | 新增/更新 | 记录本机 OCR 目录 `/home/downloads/tools/complens-ocr`、启动命令、健康检查、后端代理验收和生产 Aliyun 切换配置 |
 | `AI_REVIEW.md` | 覆盖 | 本文件 |
 
 ## 核心调整
@@ -71,7 +74,7 @@
 8. Batch 1-D 已落地：`validate:gb2760` 当前 DB 通过，报告 `staging=2404`、`pending_review=0`、`promoted=2391`、`legacy_verified=13`、`additive_usage_rules=2391`、`verified_regulation_ingredients=308`、`import_errors=0`，并已接入 CI。
 9. GB2760 复核闭环已落地：`map:gb2760` 自动创建 217 个缺失成分身份并回填 1447 条 staging 映射；人工在复核页批量签核后，`promote:gb2760` 成功 promote 2391 条正式规则，失败 0。
 10. 本地 review 后已补强三项风险：普通登录用户不能调用 GB2760 写接口、签核/映射写入 reviewer 审计字段、自动生成 ingredient kind 统一为 `food-additive`。
-11. OCR 抽象层已补齐 provider 命名：`OCR_PROVIDER=mock` 可用于本地固定响应测试，`aliyun` / `paddleocr` / `rapidocr` 在真实适配前继续返回 pending，不会伪造真实 OCR。
+11. OCR 抽象层已补齐 provider 命名：`OCR_PROVIDER=mock` 可用于本地固定响应测试；`OCR_PROVIDER=rapidocr` 已通过 `OCR_SERVICE_URL` 调用本机 `/home/downloads/tools/complens-ocr` 服务；生产 Aliyun OCR 仍待 Key 与生产适配。
 12. Batch 8-C 已补齐全页状态出口：搜索初始空态不再是单行空提示，GB2760 复核和参考表错误态都可重试；retry 事件使用委托绑定，覆盖参考表局部渲染后的错误态按钮；UX-D 的共享组件抽取和 5-B/UX-C 可信表达统一不在本批次冒充完成。
 13. Batch 5-B / UX-C 已补齐可信表达映射层：`verified_regulation` 显示为"官方标准已验证"，`verified_jecfa` 显示为"安全评价已匹配（非中国法规范围）"，`pending_review` 显示为"待复核来源数据"，`mapped_candidate` 显示为"疑似匹配，待确认"，`unknown_from_ocr` 显示为"暂未收录"；本批次只统一映射与现有页面引用，不冒充完成首页、OCR 状态机、共享组件抽取或报告页整体产品化设计。
 
@@ -79,6 +82,7 @@
 
 - 真实后端表：`ingredients`、`ingredient_sources`、`gb2760_official_records`、`gb2760_official_pages`、`gb2760_official_reference_rows`、`source_documents`、`import_runs`、`import_errors`、`additive_usage_rules`、`users`、`sessions`、`user_favorites`、`user_history`、`user_allergens`、`user_profile_ingredients`、`user_reports`、`product_archives`。
 - 真实后端路由：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。
+- 真实外部组件台账：`INTEGRATIONS.md`，当前记录 PostgreSQL、Backend API、本机 RapidOCR、AI Provider 和后续新增外部系统的记录规则。
 - 真实前端命令：`dev` / `build` / `preview` / `lint` / `test` / `validate:data` / `validate:gb2760` / `map:gb2760` / `promote:gb2760` / `cap:*`；后端：`dev` / `build` / `db:generate` / `db:migrate` / `db:seed` / `map:gb2760` / `promote:gb2760` / `validate:gb2760` / `typecheck` / `test`。
 - 用户要求的 `promote:gb2760` / `validate:gb2760` 已存在；`import:gb2760` 仍不存在；`import:gb2760:status` 的查询能力已作为需登录 API `GET /api/gb2760/import-runs` 落地，但 npm CLI 包装仍不存在。
 - 已完成的 OCR/解析/报告/档案/登录/移动批次按真实页面与服务（`scanPage`/`ocrConfirmPage`/`ingredientMatchService`/`reportDetailPage`/`productArchiveService`/`authService` 等）标 ✅。
@@ -107,6 +111,7 @@ cd backend && npm test
 npm --prefix backend run test -- ocr.test.ts
 npm --prefix backend run typecheck
 node --input-type=module -e "<front OCR provider contract check>"
+node -e "<rapidocr provider real local service check>"
 node -e "<query source_documents/import_runs/import_errors counts>"
 node -e "<query additive_usage_rules/review_status/import_errors counts>"
 codex review --uncommitted
@@ -117,6 +122,8 @@ codex review --uncommitted
 Batch 8-C 本次增量验证：`npm test`、`npm run lint`、`npm run build`、`git diff --check` 通过；未重复运行完整数据校验，因本批次只改前端状态渲染、测试和任务文档，不改数据生成/入库口径。
 
 Batch 5-B / UX-C 本次增量验证：`npm test`、`npm run lint`、`npm run build`、`git diff --check` 通过；未运行 `validate:data` / `validate:gb2760`，因本批次只改前端可信表达映射、导出文案、测试和任务文档，不改数据生成、导入、签核或 promote 口径。
+
+本机 RapidOCR 接入增量验证：`npm --prefix backend test -- ocr.test.ts`、`npm --prefix backend run typecheck`、`npm --prefix backend run build`、`npm test`、`npm run lint`、`npm run build`、`npm run validate:data`、`git diff --check` 均通过；`curl http://127.0.0.1:8000/health` 返回 `{"ok":true,"provider":"rapidocr-onnxruntime"}`；非 sandbox 下直接调用构建后的 `rapidocr` provider，真实连接 `http://127.0.0.1:8000/ocr`，返回 `provider=rapidocr`、`confidence=0.974177729667255`、`blocks=134`。
 
 ## 风险点与后续人工确认
 
