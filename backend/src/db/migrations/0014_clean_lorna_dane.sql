@@ -1,0 +1,1 @@
+ALTER TABLE "ingredients" ADD COLUMN "gb2760_promotion_base_state" jsonb;

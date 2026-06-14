@@ -145,18 +145,20 @@ GB 2760-2024 官方 PDF 表 A.1 staging 转换：
 node scripts/generate-gb2760-a1-staging.mjs
 ```
 
-GB 2760-2024 官方 PDF 参考表转换（当前抽取表 A.2 例外食品类别和表 B.1 香料禁加食品名单）：
+GB 2760-2024 官方 PDF 参考表转换（当前抽取表 A.2、B.1、B.2、B.3、C.1、C.2、C.3、附录 D、E.1 和附录 F）：
 
 ```bash
 node scripts/generate-gb2760-reference-tables.mjs
 ```
 
-上述命令分别生成 `src/data/gb2760OfficialFullText.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和 `src/data/gb2760OfficialReferenceTables.js`，保存官方 PDF 全 264 页逐页文本、表 A.1 行级 staging、表 A.2 reference rows 和表 B.1 reference rows。后端 `npm run db:seed` 会同时导入：
+上述命令分别生成 `src/data/gb2760OfficialFullText.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和 `src/data/gb2760OfficialReferenceTables.js`，保存官方 PDF 全 264 页逐页文本、表 A.1 行级 staging，以及 2800 行官方参考表结构化数据。后端 `npm run db:seed` 会同时导入：
 
 - `ingredients`
+- `source_documents` GB2760 官方来源文档登记
 - `gb2760_official_records` 表 A.1 行级 staging
 - `gb2760_official_pages` PDF 全文页
 - `gb2760_official_reference_rows` 官方参考表结构化行
+- `import_runs` / `import_errors` 导入审计记录
 
 官方 PDF 派生表按当前源文件做快照同步：`db:seed` 会清理源文件中已不存在的旧 `gb2760_official_records` / `gb2760_official_pages` / `gb2760_official_reference_rows` 行，再写入当前数据。
 
@@ -167,7 +169,25 @@ cd backend
 npm run db:seed -- --version 2026-06-v1 --reviewed-by system --change-note "seed version update"
 ```
 
-`--version` 会覆盖本次导入写入数据库的 `data_version`；同一条记录只有在数据库中已有版本与本次版本不同时，才会更新 `change_note` 和 `reviewed_at`。这只记录导入批次，不代表人工法规审核完成。
+`--version` 会覆盖本次导入写入数据库的 `data_version`；同一条记录只有在数据库中已有版本与本次版本不同时，才会更新 `change_note` 和 `reviewed_at`。这只记录 seed 审计字段，不代表人工法规审核完成。
+
+GB2760 导入审计 API 验收：
+
+```bash
+curl -H "Authorization: Bearer <token>" "http://127.0.0.1:3000/api/gb2760/import-runs"
+curl -H "Authorization: Bearer <token>" "http://127.0.0.1:3000/api/gb2760/import-runs/<import-run-id>/errors"
+```
+
+`GET /api/gb2760/import-runs` 返回 `db:seed` 写入的 `fulltext` / `a1_staging` / `reference_tables` 批次、行数、状态和来源文档摘要；`errors` 接口返回失败批次的错误明细。接口需要登录 token，当前没有单独的 `npm run import:gb2760:status` CLI 包装命令。
+
+GB2760 正式库准入 promote（后端命令，Batch 1-C 已实现）：
+
+```bash
+cd backend
+npm run promote:gb2760
+```
+
+`promote:gb2760` 只处理 DB staging 中已经人工标记为 `approved` 或已 `promoted` 的行。字段不完整的已签核行会记录到 `import_errors` 并使命令失败；未签核行保持 `pending_review`，不会写入正式规则表。成功 promote 会同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`，让既有成分详情 / 搜索 API 可见。当前空签核场景输出 `scanned=2404 approved=0 promoted=0 failed=0 pending_review=2391 already_verified=13`，`additive_usage_rules` 仍为 0 行，表示没有伪造 verified 增量。
 
 默认 PostgreSQL 宿主端口为 `15432`，避免和本机已有 `5432` 冲突；如需调整，可在 `backend/.env` 设置 `POSTGRES_PORT` 并同步宿主机使用的 `DATABASE_URL`。
 
@@ -336,7 +356,29 @@ npm run test
 npm run validate:data
 ```
 
-当前校验食品添加剂数据的必填字段、枚举值、重复 id、重复中文名 + 英文名组合、来源字段、可信等级、已验证数据来源依据，以及风险说明中的绝对化医疗结论。命令通过后会额外输出数据质量报告，包括 reviewed / verified / unverified 数量、缺来源字段数、缺限量数和来源版本分布。
+当前校验食品添加剂数据的必填字段、枚举值、重复 id、重复中文名 + 英文名组合、来源字段、可信等级、已验证数据来源依据，以及风险说明中的绝对化医疗结论。命令通过后会额外输出数据质量报告，包括 reviewed / verified / unverified 数量、缺来源字段数、缺限量数和来源版本分布，以及 GB2760 staging / 参考表 / 全文 / seed 覆盖报告。
+
+## GB2760 命令与已实现接口
+
+> 以下为 `CODEX_TASKS.md` 阶段 1 的命令规划和当前状态。不要把"计划，未实现"项当作已存在命令调用。当前 GB2760 数据仍通过"GB 2760-2024 官方 PDF 全文转换 / 表 A.1 staging 转换 / 参考表转换"脚本生成，再由后端 `npm run db:seed` 入库；导入状态查询已先以只读 API 落地，正式库准入 promote 和 GB2760 数据校验已作为 npm 命令落地。
+
+| 命令 | 用途 | 对应 Batch | 状态 |
+|---|---|---|---|
+| `import:gb2760` | 从官方 PDF 全量承接到 staging（封装现有生成脚本 + 导入审计） | Batch 1-A/1-B | 计划，未实现 |
+| `import:gb2760:resume` | 断点续跑 staging 导入 | Batch 1-A/1-B | 计划，未实现 |
+| `import:gb2760:status` | 查询导入批次状态（`import_runs` / `import_errors`） | Batch 1-A | CLI 计划，需登录 API 已实现：`GET /api/gb2760/import-runs` |
+| `promote:gb2760` | 把已人工签核且满足正式库准入规则的 staging 行 promote 到 `additive_usage_rules` 并同步更新 `ingredients` 可见法规字段；低置信保持 pending_review | Batch 1-C | 已实现：`cd backend && npm run promote:gb2760`；当前 0 promoted |
+| `validate:gb2760` | 强制执行正式库准入规则与禁止事项，违规报错退出 | Batch 1-D | 已实现：`npm run validate:gb2760`；CI 已接入 |
+
+后续 CLI 预期形态（占位，待导入状态 CLI 包装落地）：
+
+```bash
+# 后端（backend/package.json）：import:gb2760:status 仍为计划；promote:gb2760 / validate:gb2760 已实现
+cd backend
+npm run import:gb2760:status
+```
+
+当前可用的 GB2760 数据生成、入库、准入与校验流程是：`node scripts/generate-gb2760-fulltext.mjs` / `generate-gb2760-a1-staging.mjs` / `generate-gb2760-reference-tables.mjs` → `cd backend && npm run db:seed` → 人工签核 DB staging 行 → `cd backend && npm run promote:gb2760` → `npm run validate:gb2760`。没有人工签核时 promote 会成功退出但写入 0 条正式规则；validate 会报告空签核状态并通过。
 
 ## 文档与差异检查
 

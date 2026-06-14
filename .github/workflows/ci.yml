@@ -29,6 +29,23 @@ concurrency:
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: compcheck
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 15432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d compcheck"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:password@localhost:15432/compcheck
+      JWT_SECRET: ci-only-compcheck-jwt-secret-with-enough-length
     steps:
       - uses: actions/checkout@v4
 
@@ -48,6 +65,15 @@ jobs:
         working-directory: backend
 
       - run: npm run typecheck
+        working-directory: backend
+
+      - run: npm run db:migrate
+        working-directory: backend
+
+      - run: npm run db:seed
+        working-directory: backend
+
+      - run: npm run validate:gb2760
         working-directory: backend
 
       - run: npm test

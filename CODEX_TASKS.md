@@ -1,2337 +1,1068 @@
-# Codex 开发任务清单
+# CODEX_TASKS.md
 
-> **使用说明**：每次让 Codex 继续开发时，告诉它"按 CODEX_TASKS.md 中最早未完成的任务执行"。每个批次完成后将状态改为 `✅ 已完成 YYYY-MM-DD`。
-
----
-
-## 任务执行规则
-
-1. **按顺序执行**，不跳过、不合并跨阶段任务。
-2. **每个批次对应一个 PR**，PR 合并后再开始下一批次。
-3. 每个批次完成后必须同步更新 `PROJECT_PLAN.md` 的进度和修改记录。
-4. `[人工]` 任务需要人工操作完成并在本文件中标注后，Codex 再继续。
-5. `[Codex]` 任务由 Codex 独立完成并提交 PR。
-6. `[人工+Codex]` 任务需人工先完成前置操作，Codex 再执行编码部分。
-7. 每个 Codex 批次结束前必须全部通过：`npm run validate:data && npm run lint && npm run test && npm run build`（后端改为对应命令）。
-8. 禁止为通过测试/构建而屏蔽错误、删除断言或使用 mock 假装功能完成。
-9. 禁止自动 push 到 `main`，所有代码必须通过 PR 合并。
-10. **OCR 是产品核心功能**，未配置 OCR API Key 时必须有手动输入降级路径，不能崩溃报死。
-11. **AI 只能作为解释层**，不能编造数据来源、不能生成医疗诊断、不能替代数据库中的原始安全结论。
-12. 禁止用 100 条 seed 样本充当完整数据集，禁止把未验证数据展示为权威结论。
-13. **禁止用 localStorage 存储图片或大型 blob**，图片必须用 IndexedDB；localStorage 只存索引/元数据。
-14. 每个页面必须实现 loading / empty / error 三种状态，不允许只做 happy path。
+> 本文件是 CompLens / 成分镜（项目代号 CompCheck）的 **Codex 主任务清单**。Codex 每次开发时按"当前最早未完成且未被人工阻塞的任务"执行，完成后把状态改为 `✅ 已完成 YYYY-MM-DD` 并同步 `PROJECT_PLAN.md` / `AI_REVIEW.md`。
+>
+> 2026-06-14 按"数据源准确性 → GB2760 导入 → 数据库 → OCR 主路径 → 解析匹配 → 报告 → 档案 → 体验 → AI → 登录 → 订阅"的优先级整体重构。订阅、支付、上架已全部后置。
 
 ---
 
-## 技术栈速查
-
-| 层级 | 技术 | 说明 |
-|---|---|---|
-| 前端语言 | 纯 JS ES2022+ | 无 TypeScript，JSDoc 注释类型 |
-| 前端框架 | 无 | 无 React/Vue/Svelte |
-| 前端构建 | Vite | 已接入 |
-| 前端路由 | 自实现 hash 路由 | window.location.hash |
-| 移动端打包 | Capacitor 7.x | 已接入 |
-| 后端语言 | Node.js 20 + TypeScript | 位于仓库 `backend/` 子目录 |
-| 后端框架 | Hono | 轻量级 |
-| ORM | Drizzle ORM + PostgreSQL | |
-| 前端本地图片存储 | IndexedDB | localStorage 只存元数据 |
-| 前端测试 | Node.js 原生 assert | scripts/test.mjs |
-| 后端测试 | Vitest | backend/tests/ |
-| CI | GitHub Actions | .github/workflows/ |
-
----
-
-## 设计语言规范（全局生效）
-
-所有批次必须遵守以下设计规范，**不允许使用内联颜色或魔法数字**，统一在 `src/styles.css` 中通过 CSS 变量引用：
-
-```css
-/* 风险色系 */
---color-risk-high:      #ef4444;   /* 红 — 高关注 */
---color-risk-medium:    #f59e0b;   /* 橙 — 需关注 */
---color-risk-low:       #22c55e;   /* 绿 — 较安全 */
---color-unverified:     #9ca3af;   /* 灰 — 数据未验证 */
---color-unknown:        #6b7280;   /* 深灰 — 未收录 */
-
-/* 个性化色系 */
---color-allergen:       #dc2626;   /* 过敏原 */
---color-avoid:          #ea580c;   /* 忌口项 */
---color-watch:          #2563eb;   /* 关注成分 */
-
-/* 交互 */
---color-primary:        #0ea5e9;
---color-primary-dark:   #0284c7;
---radius-card:          12px;
---radius-btn:           8px;
---transition-fast:      150ms ease-out;
---shadow-card:          0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
-
-/* 字体 */
---font-size-xs:   12px;
---font-size-sm:   14px;
---font-size-base: 16px;   /* 移动端输入框最小 16px，防止 iOS 自动缩放 */
---font-size-lg:   18px;
---font-size-xl:   20px;
---font-size-2xl:  24px;
-```
-
----
-
-## 产品定位
-
-**CompLens / 成分镜（项目代号 CompCheck）** 是一个面向普通用户的食品配料表拍照识别与成分分析 App。
-
-### 核心用户流程
+## 项目主路径
 
 ```
-拍照/上传食品配料表图片
+拍照 / 上传食品配料表图片
   → [客户端] 图片预处理（EXIF 修正 + 压缩 + IndexedDB 存储）
-  → OCR 识别文字（real/manual/fallback 三模式）
-  → 用户确认和修正识别文本 + 填写产品名称
-  → 自动拆分配料（含 OCR 噪声修正 + E-number 识别）
-  → 批量匹配食品成分/食品添加剂数据库
-  → 标出重点关注项（过敏原/忌口/高风险）
-  → 生成食品配料分析报告（含整体风险评级 + 分类统计）
-  → 保存产品档案（IndexedDB 存图，JSON 存元数据）
-  → 历史查询 / 收藏 / 分享
+  → OCR 识别文字（manual / mock / 真实 provider 三类模式）
+  → 用户确认和修正识别文本
+  → 自动拆分配料
+  → 匹配食品成分 / 食品添加剂数据库
+  → 展示每条配料的数据来源和可信等级
+  → 生成食品配料分析报告
+  → 保存产品档案和分析历史
 ```
 
-**成分搜索是辅助功能，不是主路径。**
+**成分搜索只是辅助功能，不是主路径。OCR 拍照识别配料表 + 分析配料是核心主路径。**
 
-### 产品边界
+产品边界：
 
-- 当前阶段只做「食品配料 / 食品添加剂」，不混入化妆品、护肤品、药品。
-- 数据必须来自可追溯的官方来源，AI 不能作为原始数据来源。
-- 所有风险提示必须谨慎表达，不构成医疗建议。
-- 禁止文案：`绝对安全 / 绝对有害 / 治疗疾病 / 一定致敏 / 一定不能吃`
+- 当前阶段只做"食品配料 / 食品添加剂"，不混入化妆品、护肤品、药品。
+- 数据必须来自可追溯官方来源，AI 不能作为原始数据来源。
+- 所有风险提示谨慎表达，不构成医疗建议。
+- 禁止文案：`绝对安全 / 绝对有害 / 治疗疾病 / 一定致敏 / 一定不能吃 / 致癌 / 有毒`
 - 推荐文案：`建议关注 / 部分人群可能需要留意 / 仅供配料信息参考 / 不构成医疗建议`
+
+---
+
+## 自动化执行规则
+
+1. **按阶段顺序执行**，不跳过、不合并跨阶段任务，除非该任务被标记为 `blocked_by_user`（见下方阻塞规则）。
+2. **每个 Batch 对应一个 PR**，PR 合并后再开始下一个 Batch。
+3. 每个 Batch 完成后必须同步更新 `PROJECT_PLAN.md` 进度、`AI_REVIEW.md` 审查材料；若影响命令则更新 `COMMANDS.md`，若影响数据口径则更新 `DATA_SOURCES.md`。
+4. 每个 Codex Batch 结束前必须全部通过：`npm run validate:data && npm run lint && npm run test && npm run build`；涉及后端时追加 `cd backend && npm run typecheck && npm test && npm run build`。
+5. 禁止为通过测试 / 构建而屏蔽错误、删除断言或用 mock 假装功能完成。
+6. 禁止自动 push 到 `main`，所有代码必须通过 PR 合并。
+7. **OCR 是核心主路径**：未配置 OCR API Key 时必须保留 manual 手动输入降级，App 不得崩溃。
+8. **AI 只能作为解释层**，不能编造数据来源、不能生成医疗诊断、不能替代数据库原始结论。
+9. **禁止用 localStorage 存图片或大 blob**，图片必须用 IndexedDB（`compcheck-images` / `scan-images`）；localStorage 只存索引、元数据、设置。
+10. 每个页面必须实现 loading / empty / error 三种状态，不允许只做 happy path。
+11. 不允许把 seed 样本充当完整数据集，不允许把 `pending_review` / `unverified` 展示为权威结论。
+12. 样式只用 `src/styles.css` CSS 变量，禁止内联颜色和魔法数字。
 
 ---
 
 ## 人工阻塞处理规则
 
-如遇需要人工介入的任务，**不停止自动化流程**：标记 `⏸ blocked_by_user` → 记录原因 → 跳过 → 继续后续任务。
+遇到需要人工介入的任务，**不要停止整个流程**。正确处理：
+
+```
+标记 blocked_by_user
+记录阻塞原因
+跳过该任务
+继续执行后续无需人工介入的任务
+```
+
+人工阻塞清单（解锁对应能力）：
 
 | 阻塞项 | 解锁什么 |
 |---|---|
-| OCR API Key | 真实 OCR 识别 |
-| AI API Key | 真实 AI 解释 |
-| 生产数据库连接串 | 生产环境数据查询 |
-| Apple Developer 账号 | iOS 打包/上架 |
-| Google Play 账号 | Android 打包/上架 |
+| 生产 `DATABASE_URL` | 生产数据库查询（阶段 2 生产部分） |
+| OCR API Key + 供应商选型 | 真实 OCR 识别（阶段 3 real provider） |
+| AI API Key + 模型选型 | 真实 AI 解释（阶段 9 真实调用） |
+| Apple Developer 账号 | iOS 打包 / 上架 |
+| Google Play 账号 + 14 天闭测 | Android 打包 / 上架 |
 | 国内应用商店账号 | 国内上架 |
-| 服务器/CDN 账号 | 生产部署 |
-| 支付/订阅账号 | 订阅功能 |
-| 隐私政策法律确认 | 合规上架 |
-| 软著/备案/商标材料 | 国内合规 |
+| 支付 / 订阅账号 | 订阅功能（阶段 11） |
+| 服务器 / 部署平台选择 | 生产部署 |
+| 隐私政策最终法律确认 | 合规上架 |
+| 软著 / 备案 / 商标材料 | 国内合规 |
+| GB2760 人工复核 | staging → 正式库 promote（阶段 1 promote 的数据准入） |
 
 ---
 
-## 部署资源、成本控制与人工部署原则
+## 任务状态定义
 
-当前阶段优先使用已有的 Oracle Cloud 服务器作为默认部署和验证环境。这里的 Oracle 指 Oracle Cloud 服务器，不是 Oracle 数据库。
+| 状态标记 | 含义 |
+|---|---|
+| ✅ 已完成 YYYY-MM-DD | 已完成并通过验收 |
+| 🔄 进行中 | 部分完成，仍有未完成子项 |
+| ⏸ 待开始 | 未开始，无阻塞，可执行 |
+| ⛔ blocked_by_user | 被人工阻塞，跳过并继续后续任务 |
+| 🔁 待重构 | 已有实现但需按新规范调整 |
 
-在 MVP 和内部测试阶段，项目中的后端服务、数据库、Redis、Nginx、OCR 服务、文件临时存储等组件，默认优先部署到现有 Oracle Cloud 机器上。除非明确必要，不要默认引入新的付费云服务器、RDS、OSS、云 Redis、GPU 服务器、CDN 或其他收费基础设施。
-
-如果某个组件因为架构限制、性能不足、系统兼容性、网络访问、备案合规或应用商店上架要求，确实需要购买服务器或云服务，必须先明确提示：
-
-- 为什么现有 Oracle Cloud 机器无法满足；
-- 需要购买什么资源；
-- 推荐的最低配置和生产配置；
-- 是否当前阶段必须购买；
-- 是否可以先用替代方案或临时方案继续推进；
-- 预计该资源用于哪些组件或场景。
-
-只有在产品进入正式上线、应用商店上架、真实用户访问，或现有 Oracle Cloud 机器无法承载时，才考虑购买新的阿里云、腾讯云等正式服务器。
-
-当前阶段不允许自动部署。Codex 可以生成部署文档、Dockerfile、docker-compose.yml、环境变量模板、初始化脚本和人工执行命令，但不得自动执行任何真实部署动作。
-
-未经明确授权，禁止执行以下操作：
-
-- 自动连接 Oracle Cloud、阿里云、腾讯云或其他远程服务器；
-- 自动执行 SSH、scp、rsync 等远程操作；
-- 自动执行 docker compose up、docker run、systemctl、nginx reload 等会改变服务器状态的命令；
-- 自动初始化或迁移生产/测试数据库；
-- 自动修改服务器防火墙、安全组、端口、域名解析、HTTPS 证书；
-- 自动创建、购买、开通或变更任何云资源；
-- 自动配置 CI/CD 部署流水线并触发上线。
-
-如果某个功能确实需要部署或服务器操作，Codex 只能输出人工操作步骤和命令，并说明：
-
-- 为什么需要部署；
-- 需要我在哪台机器执行；
-- 每条命令的作用；
-- 是否有风险；
-- 风险影响范围；
-- 如何回滚；
-- 是否会影响现有服务。
-
-除非我明确说“可以执行部署”或“现在帮我部署”，否则 Codex 只能修改代码、文档、配置模板和部署说明，不允许进行实际部署。
-
-当前阶段的优先目标是：低成本跑通完整业务链路，包括拍照上传、OCR 识别、成分解析、风险提示、历史记录和基础管理能力，而不是提前做高成本生产化部署。
+执行者标记：`[Codex]` 独立完成 / `[人工]` 仅人工 / `[人工+Codex]` 人工前置后 Codex 编码。
 
 ---
 
-## 当前优先级（2026-06-12 重排）
+## 当前最早可执行任务（Codex 立即执行）
 
 ```
-1. 食品成分/食品添加剂数据源准确性
-2. 数据完整度
-3. 数据库真实对接（生产级）
-4. OCR 拍照识别产品闭环   ← 核心，必须前置
-5. 配料表文本解析和成分匹配
-6. 食品配料分析报告
-7. 产品档案、收藏、历史
-8. 前端账号登录 UI
-9. 移动端 / PWA 使用体验
-10. AI 总结和解释
-11. 订阅、支付、上架  ← 必须后置
+→ 无阻塞，按顺序执行：
+  1. Batch 1-E：成分详情页 GB2760 官方证据展示（参考表 + staging 行）
+  2. Batch UX-A ~ UX-E：产品体验与信息架构优化
+
+→ 当前人工阻塞（跳过，不阻断 Codex）：
+  GB2760 人工复核（promote 的数据准入需要人工签核高置信行）
+  生产 DATABASE_URL（阶段 2 生产部分）
+  OCR API Key（阶段 3 real provider）
+  AI API Key（阶段 9 真实调用）
 ```
 
 ---
 
 ## 已完成任务归档
 
-| 批次 | 名称 | 完成日期 |
+| Batch | 名称 | 完成日期 |
 |---|---|---|
-| Batch U-B | 关注成分与忌口项跨设备同步 | ✅ 2026-06-12 |
-| Batch F-B | 历史列表与产品收藏管理 | ✅ 2026-06-12 |
-| Data Batch 1-C | 数据版本管理与审核状态后台化 | ✅ 2026-06-12 |
-| Batch F-A | 产品档案与 IndexedDB 图片存储 | ✅ 2026-06-12 |
-| Batch R-A | 食品配料分析报告页 | ✅ 2026-06-12 |
-| Batch P-B | 数据库批量成分匹配 | ✅ 2026-06-12 |
-| Batch P-A | 配料表文本解析增强 | ✅ 2026-06-12 |
-| Batch O-C | 识别文本确认与修正页 | ✅ 2026-06-12 |
-| Batch O-B | OCR 服务抽象层与模式切换 | ✅ 2026-06-12 |
-| Batch O-D | 图片预处理服务（EXIF 修正 + 压缩 + IndexedDB） | ✅ 2026-06-12 |
-| Batch O-A | 拍照/上传入口与产品质量体验 | ✅ 2026-06-12 |
-| Data Batch 1-A | 来源字段、数据库 API 和前端降级闭环 | ✅ 2026-06-12 |
 | Batch 0-A | 修复测试失败（阿斯巴甜/三氯蔗糖风险等级） | ✅ 2026-06-11 |
-| Batch 1-A | 食品数据扩充确认（100 条 seed） | ✅ 2026-06-11 |
-| Batch 1-B | 前端已知缺口修复（5 个场景） | ✅ 2026-06-11 |
-| [人工] 解锁 Vite | readme.md 第 21 节修改 | ✅ 2026-06-11 |
-| Batch 2-A | 前端工程化迁移（Vite） | ✅ 2026-06-11 |
-| Batch 2-B | Capacitor 项目脚手架 | ✅ 2026-06-11 |
-| Batch 2-C | 原生权限与移动端适配 | ✅ 2026-06-11 |
-| Batch 3-A | 后端项目初始化（Hono/TS） | ✅ 2026-06-11 |
-| Batch 3-B | 数据库 Schema 与成分 API | ✅ 2026-06-11 |
-| Batch 3-C | 账号与鉴权 | ✅ 2026-06-11 |
-| Batch 3-D | 收藏与历史云同步 | ✅ 2026-06-12 |
+| Batch 1-Seed | 食品数据扩充确认（100 条 seed） | ✅ 2026-06-11 |
+| Batch 2-Vite | 前端工程化迁移（Vite） | ✅ 2026-06-11 |
+| Batch 2-Cap | Capacitor 项目脚手架 + 原生权限适配 | ✅ 2026-06-11 |
+| Batch 3-API | 后端初始化（Hono/TS）+ 数据库 Schema + 成分 API | ✅ 2026-06-11 |
+| Batch 3-Auth | 账号鉴权 + 收藏/历史云同步 | ✅ 2026-06-12 |
+| Data 旧 1-A | 来源字段、数据库 API、前端降级闭环 | ✅ 2026-06-12 |
+| Data 旧 1-C | 数据版本管理与审核状态后台化 | ✅ 2026-06-12 |
+| OCR 旧 O-A/B/C/D | 拍照入口 / OCR 抽象 / 文本确认 / 图片预处理 | ✅ 2026-06-12 |
+| 解析 旧 P-A/P-B | 配料解析增强 + 数据库批量匹配 | ✅ 2026-06-12 |
+| 报告 旧 R-A | 食品配料分析报告页 | ✅ 2026-06-12 |
+| 档案 旧 F-A/F-B | 产品档案 + IndexedDB 图片 + 历史/收藏 | ✅ 2026-06-12 |
+| 登录 旧 Q-A | 前端登录/注册页 | ✅ 2026-06-12 |
+| 个性化 旧 U-A/U-B | 关注/忌口/过敏原 + 跨设备同步 | ✅ 2026-06-12 |
+| 移动 旧 M-A/M-B | 首页/导航重构 + PWA 离线 | ✅ 2026-06-12 |
+| GB2760 全文 | 264 页官方 PDF 全文转换 + `gb2760_official_pages` 入库 | ✅ 2026-06-13 |
+| GB2760 A.1 staging | 2404 行表 A.1 staging + `gb2760_official_records` 入库 | ✅ 2026-06-13 |
+| GB2760 参考表 | 2800 行 A.2/B/C/D/E/F 参考表 + `gb2760_official_reference_rows` 入库 | ✅ 2026-06-13 |
+| GB2760 边界修复 | 参考表行边界泄漏 / 跨页续行 / INS 续行修复 | ✅ 2026-06-14 |
+| Batch 1-A | `source_documents` / `import_runs` / `import_errors` 导入审计骨架 + 查询接口 | ✅ 2026-06-14 |
+| Batch 1-C | `additive_usage_rules` 表 + `promote:gb2760` 正式库准入脚本（空签核场景 0 promoted） | ✅ 2026-06-14 |
+| Batch 1-D | `validate:gb2760` 数据校验命令 + CI 数据准入校验 | ✅ 2026-06-14 |
+
+> 这些已完成项被映射到下方各阶段并标记 ✅；详细 GB2760 完成记录见文末"附录：GB2760 导入历史记录"。
 
 ---
 
-## 阶段 1：数据源准确性与数据完整度
+# 阶段 1：数据源与 GB2760 导入
 
-> 目标：先保证数据可信、可查、可维护、可追溯。所有数据必须有来源依据，不允许 AI 编造安全结论。
+> 优先级最高。目标：把官方 GB2760-2024 PDF 通过 **staging 全量承接 → 高置信度 promote 到正式库 → 低置信度 pending_review → 人工复核** 的可追溯流程导入。不要求一次性全量 verified，不允许把 PDF 抽取结果直接全部写入正式表。
 
-### Data Batch 1-B：官方来源导入与逐条审核流程 `[人工+Codex]`
+**数据状态模型**（详见 `DATA_SOURCES.md`）：
 
-**状态**：🔄 进行中（2026-06-13 已建立基础权威数据底座：5 条 `verified_regulation`、27 条 `verified_jecfa`、12 条 `common_ingredient`、68 条 `unverified`；GB 2760 官方 PDF 已完成 264 页全文转换并接入 `gb2760_official_pages` seed 通路；表 A.1 第 8-148 页已转换为 2404 行 staging，其中 957 行按唯一名称/别名或单一 INS 码精确匹配关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient；表 A.2 第 149-150 页和表 B.1 第 152 页已转换为 97 行 reference rows 并接入 `gb2760_official_reference_rows` seed 通路；100 条 seed 中有 A.1 证据的 91 条已全部覆盖，9 条无可结构化 A.1 证据；GB 2760 自动抽取行仍待人工审核、去重/归并和正式库升级）
+| 状态 | 含义 | 能否作为权威展示 |
+|---|---|---|
+| `verified_regulation` | 已通过 GB2760 官方来源确认 | ✅ 可作为官方规则展示 |
+| `pending_review` | 已从官方来源抽取，字段或结构待复核（源文件仍可能保留 `needs_review`；后端入库已统一为 `pending_review`） | ❌ 不能作为权威结论 |
+| `mapped_candidate` | 疑似匹配，需用户或人工确认 | ❌ 需确认 |
+| `common_ingredient` | 普通食品配料，不一定是添加剂 | ⚠️ 仅用于可读性，不是法规来源 |
+| `unverified` | 无可靠来源 | ❌ 不得展示为权威 |
+| `unknown_from_ocr` | OCR 识别到但数据库未收录 | ❌ 运行时状态，进人工校验队列 |
 
-**目标**：不一次性补齐所有食品配料，先建立“基础权威库 + 持续扩充 + 人工校验队列”的可追溯数据导入流程。
+> 另：当前数据集已有 27 条 `verified_jecfa`（JECFA 安全评价，仅作安全评价来源，不写 GB2760 使用范围）。这是真实存在的独立状态，保留不动，不得当作中国法规使用范围。
 
-**涉及文件**：
-- `DATA_SOURCES.md`
-- `src/data/foodAdditives.js`
-- `src/data/gb2760OfficialStaging.js`
-- `src/data/gb2760OfficialGeneratedA1Staging.js`
-- `src/data/gb2760OfficialReferenceTables.js`
-- `src/data/commonFoodIngredients.js`
-- `scripts/generate-gb2760-a1-staging.mjs`
-- `scripts/generate-gb2760-reference-tables.mjs`
-- `scripts/validate-data.mjs`
-- `backend/src/db/schema.ts`
+**正式库准入规则**（Batch 1-C 强制校验，全部满足才允许 promote）：
+
+1. 添加剂名称明确。
+2. CNS / INS 能明确解析，或原文可追溯。
+3. 功能类别明确。
+4. 食品分类号或适用范围明确。
+5. 最大使用量、最大残留量或"按生产需要适量使用"明确。
+6. 备注完整保留。
+7. 有 `rawSourceText`。
+8. 有 `sourcePage`（`pdfPage` / `standardPage`）。
+9. 有 `sourceTable`（`tableName`）。
+10. 有 `sourceHash`（`pdfSha256`）。
+11. DB staging 行已由人工标记为 `approved` 或已 `promoted`。
+12. 没有跨页错配、错行、漏备注。
+
+不满足条件的数据只能留在 staging，`reviewStatus = pending_review`。
+
+**禁止事项**（写入校验，违反则 `validate:gb2760` 报错退出）：
+
+1. 不允许 AI 猜数据。
+2. 不允许把 JECFA 数据反推 GB2760 使用范围。
+3. 不允许把 `pending_review` 当作 `verified`。
+4. 不允许丢失备注。
+5. 不允许把"按生产需要适量使用"改写为数值。
+6. 不允许伪造导入成功。
+7. 不允许把样本 seed 数据当成完整数据库。
+
+**GB2760 表结构规划**（部分已存在，部分为计划表）：
+
+| 表名 | 当前状态 | 说明 |
+|---|---|---|
+| `source_documents` | ✅ 已存在 | 官方来源文档登记（PDF 文件名、SHA-256、平台记录 ID、附件 ID、版本、发布/实施日期） |
+| `gb2760_staging_entries` | ✅ 已存在（实现名 `gb2760_official_records`） | 表 A.1 行级 staging（添加剂×食品类别×限量/备注） |
+| `gb2760_official_pages` | ✅ 已存在 | PDF 全文 264 页逐页文本 + 页/PDF SHA-256 |
+| `gb2760_official_reference_rows` | ✅ 已存在 | 表 A.2/B/C/D/E/F 参考表 2800 行 |
+| `food_additives` | ✅ 已存在（实现名 `ingredients`） | 正式成分库 |
+| `additive_usage_rules` | ✅ 已存在 | 正式使用限量规则（添加剂×食品类别×限量），promote 目标表；当前为空，等待人工签核 staging 行后写入 |
+| `food_categories` | ⏸ 计划 | GB2760 食品分类系统（附录 E）；当前在 reference_rows |
+| `exception_food_categories` | ⏸ 计划 | 表 A.2 例外食品类别；当前在 reference_rows |
+| `additive_functions` | ⏸ 计划 | 添加剂功能类别（附录 D）；当前在 reference_rows |
+| `import_runs` | ✅ 已存在 | 导入批次记录（开始/结束、来源文档、行数、状态） |
+| `import_errors` | ✅ 已存在 | 导入错误日志（行号、原因、原文） |
+
+---
+
+### Batch 1-A：source_documents / import_runs / import_errors 表与导入审计骨架 [Codex]
+
+目标：为 GB2760 导入建立可追溯的审计骨架，记录"导入了哪份官方文档、哪个批次、成功/失败多少行、错在哪"。
+
+涉及文件：
+- `backend/src/db/schema.ts`（新增 `source_documents`、`import_runs`、`import_errors` 表）
+- `backend/src/db/migrations/`（新增迁移）
+- `backend/scripts/seed.ts`（导入时写入 `import_runs` / `import_errors`）
+- `backend/src/routes/ingredients.ts` 或新建 `backend/src/routes/gb2760.ts`（导入状态查询接口）
+- `COMMANDS.md`（补充 `import:gb2760:status` 计划命令）
+
+实现内容（已完成）：
+1. ✅ `source_documents`：`id`、`docCode`（如 `GB 2760-2024`）、`title`、`pdfFileName`、`pdfSha256`、`platformRecordId`、`attachmentId`、`publishDate`、`effectiveDate`、`downloadEndpoint`、`createdAt`。首条记录用已确认的 GB2760-2024 元数据（见 `DATA_SOURCES.md`）。
+2. ✅ `import_runs`：`id`、`sourceDocumentId`、`runType`（`fulltext` / `a1_staging` / `reference_tables` / `promote`）、`startedAt`、`endedAt`、`totalRows`、`succeededRows`、`failedRows`、`status`（`running` / `succeeded` / `failed`）、`note`。
+3. ✅ `import_errors`：`id`、`importRunId`、`rowRef`（页码/行号）、`reason`、`rawSourceText`、`createdAt`。
+4. ✅ `db:seed` 入库时写入 `a1_staging` / `fulltext` / `reference_tables` 三类 `import_runs`；失败时写入批次级 `import_errors` 并继续抛错，不改变现有抽取逻辑。
+5. ✅ 新增登录鉴权只读接口 `GET /api/gb2760/import-runs` 和 `GET /api/gb2760/import-runs/:id/errors`。
+
+验收标准：
+1. 迁移可执行，三张表创建成功。
+2. `db:seed` 后 `import_runs` 至少有 fulltext / a1_staging / reference_tables 三条批次记录，行数与实际入库一致。
+3. `GET /api/gb2760/import-runs` 返回批次列表。
+4. 不改变现有 `gb2760_official_*` 表数据。
+
+状态：✅ 已完成 2026-06-14。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm test && npm run build`，再携带登录 token 请求 `GET /api/gb2760/import-runs`。本地 seed 后审计表结果：`source_documents` 1 条；`import_runs` 三条稳定成功记录（A.1 staging 2404、全文 264、参考表 2800）；`import_errors` 0。
+
+---
+
+### Batch 1-B：GB2760 PDF staging 导入器（已完成，巩固） [Codex]
+
+目标：把官方 PDF 转换为 staging 数据并入库，全量承接、保留原文与页码，不直接写正式库。
+
+涉及文件：
+- `scripts/generate-gb2760-fulltext.mjs`、`scripts/generate-gb2760-a1-staging.mjs`、`scripts/generate-gb2760-reference-tables.mjs`
+- `src/data/gb2760OfficialFullText.js`、`src/data/gb2760OfficialGeneratedA1Staging.js`、`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialReferenceTables.js`
+- `backend/src/db/schema.ts`、`backend/scripts/seed.ts`
+
+实现内容（已完成）：
+1. ✅ 264 页全文 → `gb2760_official_pages`。
+2. ✅ 表 A.1 第 8-148 页 → 2404 行 `gb2760_official_records`（staging），保留 `pdfPage`/`standardPage`/`rawSourceText`/`pdfSha256`，`reviewStatus = needs_review`。
+3. ✅ 表 A.2/B.1/B.2/B.3/C.1/C.2/C.3/附录 D/E.1/附录 F → 2800 行 `gb2760_official_reference_rows`。
+4. ✅ 行边界、跨页续行、INS 续行修复。
+5. ✅ 后端入库时把 staging 的 `reviewStatus` 取值与状态模型统一（源文件 `needs_review` → DB `pending_review`）。
+
+状态：✅ 已完成 2026-06-14（staging 全量承接已完成；后端 DB 状态统一在 1-C 完成）。
+是否需要人工：否（staging 抽取）。后续 promote 需人工复核。
+阻塞条件：无。
+验证命令：`npm run validate:data`（输出 GB2760 staging / 参考表 / 全文 / seed 覆盖报告）。
+
+---
+
+### Batch 1-C：promote:gb2760 正式库准入脚本 [人工+Codex]
+
+目标：把 staging 中满足"正式库准入规则"的高置信行 promote 到正式 `ingredients` / `additive_usage_rules`；低置信行保持 `pending_review`，等待人工复核。
+
+涉及文件：
+- `backend/scripts/promote-gb2760.ts`（新建）
+- `backend/src/db/schema.ts`（新增 `additive_usage_rules` 表）
 - `backend/src/db/migrations/`
-- `backend/scripts/seed.ts`
-- `PROJECT_PLAN.md`、`AI_REVIEW.md`
+- `backend/package.json`（新增 `promote:gb2760` 脚本）
+- `COMMANDS.md`、`DATA_SOURCES.md`
 
-**人工操作（先做，阻塞 Codex 部分）**：
-- [x] 确认本阶段先从官方来源导入（2026-06-12 用户确认“继续加官方数据”）
-- [x] 首批 10 条高频食品添加剂按已有字段格式补充 JECFA 可追溯条目（`sourceName`、`sourceVersion`、`effectiveDate`、`regulatoryBasis`、`rawSourceText`）
-- [x] 第二批 22 条食品添加剂按已有字段格式补充 JECFA 可追溯条目
-- [x] 确认 JECFA-only 数据只能从 `'unverified'` 升级为 `'reviewed'` / `'medium'`，不能升级为 `'verified'` / `'high'`
-- [x] 确认 JECFA 只作为安全评价来源，不作为 GB 2760 中国法规使用范围
-- [x] 确认 GB 2760-2024 官方来源：国家卫健委公告（2024 年第 1 号）和食品安全国家标准数据检索平台标准文本记录（发布日期 2024-02-08，实施日期 2025-02-08，附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`）
-- [x] 从官方 PDF 表 A.1 首批确认 5 条 GB 2760 条款级使用范围和限量：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`
-- [ ] 继续确认 GB 2760-2024 条款编号、逐食品类别限量和中国适用条件
-- [ ] 在此处标注完整来源清单人工完成：`[人工完成 ✅ YYYY-MM-DD]`
+实现内容（Codex 编码已完成）：
+1. ✅ 新增 `additive_usage_rules` 表：`id`、`ingredientId`、`foodCategoryCode`、`foodCategoryName`、`maxUseLevel`、`unit`、`functionText`、`note`、`sourceStagingId`、`sourcePage`、`sourceTable`、`sourceHash`、`dataStatus`、`createdAt`。
+2. ✅ `promote-gb2760.ts` 逐行校验 staging 行是否满足正式库准入字段；满足且已人工 `approved` 才 `dataStatus = verified_regulation` 写入 `additive_usage_rules`，同步更新对应 `ingredients` 行的 GB2760 可见字段，并把 staging 行 `reviewStatus` 标为 `promoted`。
+3. ✅ 后端 seed 入库时把现有 `needs_review` 统一为 `pending_review`；不满足或未签核行保持待复核，缺字段的已签核行会记录到 `import_errors`。
+4. ✅ 人工签核闸门：promote 只处理 DB staging 中 `reviewStatus = approved` 或已 `promoted` 的行；当前没有人工 approved 行，因此空签核场景产出 0 条 verified，不把历史 `verified` staging 行自动写入新规则表。
+5. ✅ 幂等：按 `sourceStagingId` 唯一约束 upsert，不产生重复 `additive_usage_rules`。
+6. ✅ 绝不把"按生产需要适量使用"改写为数值；`maxUseLevel` 和 `unit` 分字段原样保存。
 
-**Codex 任务**：
+人工操作（前置，阻塞 promote 实际 verified 输出，但不阻塞脚本编码）：
+- [ ] 人工复核高置信 staging 行并标记 `approved` / `reviewedBy`。
+- [ ] 在此标注：`[人工完成 ✅ YYYY-MM-DD]`
 
-1. [x] 官方数据导入：为每条人工审核过的数据补全来源字段，未被确认的继续保留 `unverified`/`false`，不得随意升级。
-2. [x] JECFA 映射：已匹配 32 条 JECFA 安全评价条目，其中 27 条仍为 `verified_jecfa`；5 条在完成 GB 2760 官方 PDF 条款核验后升级为 `verified_regulation`，JECFA 仅保留为补充来源。
-3. [x] 常见配料词库：新增 12 条 `common_ingredient`，只用于普通食品配料识别，不作为法规或安全评价来源。
-4. [x] 数据可信等级展示：搜索、详情、数据页、分析报告和导出展示数据状态、来源、待确认和低置信提示。
-5. [x] 建立硬性规则：任何新增条目缺失来源字段、状态字段或误把 JECFA 标成法规验证时，`validate:data` 必须报错退出。
-6. [x] GB 2760 官方来源导入：已导入 GB 2760-2024 官方标准文本基础字段、平台 `rawSourceText` 和首批 5 条官方 PDF 表 A.1 条款级限量；无法可靠结构化的其余逐项限量、条款编号和适用类别不得编造结构化结论。
-7. [x] GB 2760 官方 PDF staging 入库：新增 `gb2760_official_records` 表和 seed 通路，将官方 PDF 表 A.1 按“添加剂 × 食品类别 × 限量/备注”逐行存储，保留 PDF 页码、标准页码、平台记录 ID、附件 ID、PDF SHA-256 和审核状态。
-8. [x] GB 2760 官方 PDF 全文转换：新增 `src/data/gb2760OfficialFullText.js`、`gb2760_official_pages` 表和 seed 通路，将官方 PDF 全 264 页按页保存为可追溯文本、页 SHA-256 和官方来源元数据。
-9. [x] GB 2760 表 A.1 全页 staging 转换：新增 `scripts/generate-gb2760-a1-staging.mjs`，用 `pdftotext -bbox-layout` 将表 A.1 PDF 第 8-148 页转换为 `src/data/gb2760OfficialGeneratedA1Staging.js`，再与人工校对行合并为 2404 行 staging；脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正；自动抽取行保持 `needs_review`。
-10. [x] GB 2760 表 A.2 / B.1 参考表转换：新增 `scripts/generate-gb2760-reference-tables.mjs` 和 `src/data/gb2760OfficialReferenceTables.js`，用 `pdftotext -bbox-layout` 将表 A.2 PDF 第 149-150 页转换为 68 行例外食品类别 reference rows，并将表 B.1 PDF 第 152 页转换为 29 行香料禁加食品 reference rows；B.1 脚注 a 的香兰素、乙基香兰素、香荚兰豆浸膏例外和剂量条件已保存到 `rowData.footnote` 与原文；后端新增 `gb2760_official_reference_rows` 表和 seed 通路，供后续解释 A.1 例外范围和附录 B 食品用香料使用边界。
-11. [x] OCR 未匹配收集：OCR 来源报告的未收录条目以 `unknown_from_ocr` / `ocr_unmatched` 汇总到数据治理页人工校验队列。
-12. [x] 人工校验队列：`/data` 页提供 OCR 未收录、低置信候选和静态未验证数据的只读审核入口，并通过数据纠错表单提交校验线索；真实升级仍需人工来源确认。
-13. [x] 继续输出数据质量报告：`validate:data` 和数据治理页继续展示总数、JECFA 匹配、普通配料、未验证、待确认、来源版本分布和复核清单。
+验收标准：
+1. ✅ `additive_usage_rules` 表迁移成功。
+2. ✅ `promote:gb2760` 在无人工签核行时输出 0 条 verified、2391 条保持 pending_review，不报错、不伪造。
+3. ✅ 有签核行时只把签核且字段齐全行 promote，缺字段行进 `import_errors`；成功 promote 的规则会在既有成分详情 / 搜索 API 的 `ingredients` 行中可见（单元测试覆盖）。
+4. ✅ 幂等重跑不重复写入（`sourceStagingId` 唯一约束 + upsert）。
 
-**验收标准**：
-
-```bash
-npm run validate:data   # 通过并输出数据质量报告
-npm run lint && npm run test && npm run build
-cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm test
-```
-
-**阻塞条件**：完整 GB 2760 条款级限量、68 条未审核记录和 OCR 未匹配人工校验仍需人工来源核验。  **是否需要人工**：是，人工先行。
-
-**2026-06-12 自动化处理记录**：已识别为人工前置任务；未新增或伪造任何官方来源数据，跳过 Codex 部分并继续执行后续不依赖该人工项的 OCR/解析/匹配任务。
-
-**2026-06-12 首批官方数据导入记录**：用户确认继续加官方数据后，已从 WHO JECFA Food Additives and Contaminants Database 导入 10 条高频添加剂精确名称条目和 ADI 摘要：`citric-acid`、`sodium-citrate`、`potassium-sorbate`、`sodium-benzoate`、`ascorbic-acid`、`xanthan-gum`、`aspartame`、`sucralose`、`sodium-bicarbonate`、`sodium-cyclamate`。这些条目升级为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组，避免伪造 GB 2760 逐食品类别限量。`npm run validate:data` 已输出数据质量报告：reviewed=10、verified=0、unverified=90、missingSourceFields=0、missingUsageLimits=100。
-
-**2026-06-12 第二批官方数据导入记录**：PR #66 合并后继续从 WHO JECFA Food Additives and Contaminants Database 导入 22 条可直接映射的 JECFA 条目和 ADI 摘要：`pectin`、`calcium-carbonate`、`tartrazine`、`sunset-yellow-fcf`、`allura-red-ac`、`glycerol`、`calcium-chloride`、`sodium-alginate`、`acesulfame-potassium`、`carrageenan`、`guar-gum`、`polysorbate-80`、`sodium-nitrite`、`potassium-nitrate`、`potassium-citrate`、`calcium-citrate`、`lactic-acid`、`sodium-acetate`、`calcium-propionate`、`natamycin`、`propylene-glycol-alginate`、`sodium-carboxymethyl-cellulose`。累计 32 条为 `reviewStatus: 'reviewed'`、`confidenceLevel: 'medium'`，但 `isVerified` 仍为 `false`，`usageLimits` 仍为空数组。`npm run validate:data` 输出：reviewed=32、verified=0、unverified=68、missingSourceFields=0、missingUsageLimits=100。
-
-**2026-06-12 基础权威数据底座记录**：新增分层字段 `dataStatus`、`matchConfidence`、`sourceScope`、`reviewNote`，后端 schema/seed/API 同步；当前食品基础库 112 条，其中 `verified_regulation=5`、`verified_jecfa=27`、`mapped_candidate=0`、`common_ingredient=12`、`unverified=68`、`unknown_from_ocr=0`。分析报告已展示已匹配数量、待确认数量、暂未收录数量、每个配料的数据状态、数据来源和低置信度提示。本批次不新增 AI 编造数据，不把 JECFA 当成 GB 2760 使用范围，不强行补齐全部食品配料。
-
-**2026-06-12 人工校验队列记录**：新增 `reviewQueueService` 和数据治理页“人工校验队列”，从本机报告聚合 OCR 未收录项、低置信候选项，并从静态数据聚合 `unverified` / `mapped_candidate` / `seed_reference` 记录。队列仅作为人工校验入口和数据纠错线索，不自动升级 `dataStatus`、`isVerified`、GB 2760 使用范围或限量。
-
-**2026-06-12 GB 2760-2024 官方来源记录**：用户确认 GB 2760-2024 官方来源以国家卫健委公告和食品安全国家标准数据检索平台为准。已从食品安全国家标准数据检索平台检索到标准文本记录：`CODE=GB 2760-2024`、`TITLE=食品安全国家标准 食品添加剂使用标准`、发布日期 `2024-02-08`、实施日期 `2025-02-08`、标准文本 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`、附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`、平台文件名 `1747898473246.pdf`。官方 PDF 已保存到 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`（`2600140` bytes，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`），不提交到应用仓库。该步先将未验证 seed 的主来源更新为“国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台”，并把平台记录写入 `rawSourceText`；条款级结构化导入见下一条记录。
-
-**2026-06-12 GB 2760 首批官方 PDF 条款级导入记录**：基于 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`（SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`）和食品安全国家标准数据检索平台官方记录，首批导入 5 条可可靠结构化的表 A.1 数据：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`。这些条目升级为 `reviewStatus: 'verified'`、`dataStatus: 'verified_regulation'`、`sourceScope: 'gb_2760_regulation'`、`confidenceLevel: 'high'`、`isVerified: true`，并写入 `usageLimits`、适用食品类别、PDF 页码/标准页码和官方来源引用；其余记录继续保持未验证或 JECFA-only 状态。
-
-**2026-06-13 GB 2760 官方 PDF staging 入库初始记录**：新增 `src/data/gb2760OfficialStaging.js` 和后端 `gb2760_official_records` 表，将官方 PDF 表 A.1 抽取结果按行存入数据库 staging 层。初始行级 staging 数据为 446 行：其中 414 行关联 91 个现有添加剂 ID，32 行为尚未匹配本地 ingredient 的官方 PDF 第 8-11 页记录；13 行与首批 5 条 `verified_regulation` 的正式 `usageLimits` 对齐，433 行为 `needs_review`。100 条食品添加剂 seed 中，91 条在官方 PDF 表 A.1 找到可匹配条目并已进入 staging；`calcium-citrate`、`citral`、`ethyl-maltol`、`ethyl-vanillin`、`isomalt`、`konjac-gum`、`menthol`、`potassium-benzoate`、`vanillin` 这 9 条未找到可结构化 A.1 证据，当前不强行编造 staging 行。这些 `needs_review` 行只代表官方 PDF 原文、页码和限量已进入 staging，不自动升级正式成分详情、不修改 `isVerified`。
-
-**2026-06-13 GB 2760 官方 PDF 第 8-14 页继续抽取记录**：继续从官方 PDF 表 A.1 第 8-11 页补入未匹配本地 ingredient 的官方记录，包括 `4-己基间苯二酚`、`5'-肌苷酸二钠`、`5'-鸟苷酸二钠`、`D-甘露糖醇`、`DL-苹果酸钠`、`L-半胱氨酸盐酸盐`、`L-丙氨酸`、`L(+)-酒石酸，dl-酒石酸`、`L-苹果酸钠`、`α-环状糊精`、`β-阿朴-8'-胡萝卜素醛`；同时补齐第 12-14 页 `β-胡萝卜素` 续表。新增记录均保持 `reviewStatus: 'needs_review'`，只作为官方 PDF 行级 staging 证据。
-
-**2026-06-13 GB 2760 官方 PDF 第 15-35 页继续抽取检查点**：继续补入 `β-环状糊精`、`γ-环状糊精`、`ε-聚赖氨酸`、`ε-聚赖氨酸盐酸盐`、`阿拉伯胶`、`阿力甜`、`阿斯巴甜`、`爱德万甜`、`安赛蜜`、`氨基乙酸`、`铵磷脂`、`巴西棕榈蜡`、`白油`、`半乳甘露聚糖`、`苯甲酸及其钠盐`、`冰结构蛋白`、`冰乙酸（低压羰基化法）`、`丙二醇`、`丙二醇脂肪酸酯`、`茶多酚`、`茶多酚棕榈酸酯`、`茶黄素`、`赤藓红及其铝色淀`、`刺梧桐胶`、`刺云实胶`、`醋酸酯淀粉`、`达瓦树胶`、`单辛酸甘油酯`、`氮气`、`淀粉磷酸酯钠`、`靛蓝及其铝色淀`、`丁基羟基茴香醚（BHA）`、`二丁基羟基甲苯（BHT）`、`二甲基二碳酸盐` 等表 A.1 行。该检查点曾为 750 行，其中 737 行 `needs_review`；已被后续全页转换记录扩展。
-
-**2026-06-13 GB 2760 官方 PDF 表 A.1 全页转换记录**：新增 `scripts/generate-gb2760-a1-staging.mjs`，基于官方 PDF 和 `pdftotext -bbox-layout` 的坐标文本，将表 A.1 PDF 第 8-148 页（标准页 5-145）转换为 `src/data/gb2760OfficialGeneratedA1Staging.js`，再与人工校对过的 750 行合并、过滤重复，形成 2404 行 `gb2760_official_records` staging 数据。当前 13 行为 `verified`，2391 行为 `needs_review`，覆盖 141 个表 A.1 PDF 页；自动 ingredient 关联只使用唯一名称/别名或单一 INS 码精确匹配，INS 子码不折叠，多 INS 组合继续留待人工归并；抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正；新增自动抽取行只作为原文、页码和限量进入 staging 的证据，不自动升级正式 `ingredients.usageLimits`。
-
-**2026-06-13 GB 2760 官方 PDF 表 A.2 参考表转换记录**：新增 `scripts/generate-gb2760-reference-tables.mjs`、`src/data/gb2760OfficialReferenceTables.js`、后端 `gb2760_official_reference_rows` 表和 seed 通路，将表 A.2 PDF 第 149-150 页（标准页 146-147）转换为 68 行例外食品类别 reference rows，保存例外食品类别编号、食品分类号、食品名称、页码、官方来源字段和 PDF SHA-256。该层用于解释 A.1 中“表 A.2 中编号...”例外食品范围，不自动升级正式 `ingredients.usageLimits`。
-
-**2026-06-13 GB 2760 官方 PDF 表 B.1 参考表转换记录**：继续扩展 `scripts/generate-gb2760-reference-tables.mjs` 和 `src/data/gb2760OfficialReferenceTables.js`，将表 B.1 PDF 第 152 页（标准页 149）转换为 29 行“不得添加食品用香料、香精的食品名单”reference rows，保存食品分类号、食品名称、脚注标记、脚注 a 例外剂量条件、页码、官方来源字段和 PDF SHA-256。当前 reference rows 合计 97 行：表 A.2 68 行、表 B.1 29 行；该层用于解释附录 B 食品用香料使用边界，不自动升级正式 `ingredients.usageLimits`。
-
-**2026-06-13 GB 2760 官方 PDF 全文转换记录**：新增 `scripts/generate-gb2760-fulltext.mjs`、`src/data/gb2760OfficialFullText.js`、后端 `gb2760_official_pages` 表和 seed 通路，将官方 PDF 全 264 页按页转换为文本并保存页 SHA-256、PDF SHA-256、平台记录 ID、附件 ID、下载接口和提取工具信息。该全文层用于保证官方 PDF 全量可追溯；表 A.1 逐食品类别限量仍需从全文层继续拆分到 `gb2760_official_records`，不能把全文页自动当成正式 `usageLimits`。
-
-**2026-06-13 GB 2760 seed 覆盖审计记录**：`scripts/validate-data.mjs` 新增 seed 覆盖报告，校验 `src/data/foodAdditives.js` 的 100 条食品添加剂 seed 与 `gb2760_official_records` staging 的覆盖关系。当前输出为 `matchingCovered=91/91`、`noA1Evidence=9`、`unexpectedUncovered=none`；这表示有 A.1 证据的 seed 已 100% 进入 staging，而不是 PDF 只有 100 条。官方 PDF 全 264 页仍由 `gb2760_official_pages` 全文层完整保存，表 A.1 PDF 第 8-148 页已进入行级 staging。
+状态：✅ 已完成 2026-06-14（Codex 脚本和空签核场景已完成；实际 verified 产出仍需人工签核）。
+是否需要人工：是（人工签核高置信行）。脚本编码已完成；实际 promote verified 输出仍等待人工。
+阻塞条件：GB2760 人工复核（`blocked_by_user`，仅阻塞实际 verified 产出，不阻塞脚本与 pending_review 流程）。
+验证命令：`cd backend && npm run db:migrate && npm run db:seed && npm run promote:gb2760 && npm run typecheck && npm test`。本地空签核结果：`scanned=2404 approved=0 promoted=0 failed=0 pending_review=2391 already_verified=13`；DB 查询：`additive_usage_rules=0`，`import_errors=0`。
 
 ---
 
-### Data Batch 1-C：数据版本管理与审核状态后台化 `[Codex]`
+### Batch 1-D：validate:gb2760 数据校验命令 [Codex]
 
-**状态**：✅ 已完成 2026-06-12（Data Batch 1-B 人工来源审核仍保持 blocked_by_user）
+目标：新增独立 GB2760 校验命令，强制执行"正式库准入规则"和"禁止事项"，违反则报错退出。
 
-**目标**：建立数据版本追踪和审核状态的可持续流程。
+涉及文件：
+- `backend/src/services/gb2760ValidateService.ts`（新增）
+- `backend/scripts/validate-gb2760.ts`（新增）
+- `backend/package.json` / `package.json`（新增 `validate:gb2760` 脚本）
+- `.github/workflows/ci.yml`（Postgres + migrate/seed + validate）
+- `COMMANDS.md`
 
-**涉及文件**：
-- `backend/src/db/schema.ts`（追加字段）
-- `backend/src/routes/ingredients.ts`（新增 confidenceLevel 筛选）
-- `src/services/ingredientApiService.js`
-- `src/pages/dataPage.js`
-- `scripts/validate-data.mjs`
+实现内容（已完成）：
+1. ✅ 校验正式库（`additive_usage_rules` / `ingredients` 中 `verified_regulation` 行）必须满足准入规则，否则报错。
+2. ✅ 校验 DB staging 行字段完整性、`reviewStatus` 取值合法（`pending_review` / `mapped_candidate` / `approved` / `promoted`；历史 `verified` 行单独报告，不得自动当作新 promote 输入）。
+3. ✅ 校验禁止事项：无"按生产需要适量使用"被改写为数值；JECFA 来源未写入 GB2760 使用范围；`pending_review` 未被写入正式规则表。
+4. ✅ 输出报告：staging 行数、pending_review 数、promoted 数、legacy verified 数、正式规则表行数、最新导入批次状态和错误明细。
+5. ✅ 与 CI 集成：CI 启动 Postgres，执行 backend `db:migrate` / `db:seed` / `validate:gb2760`，失败即阻断。
 
-**实现内容**：
+验收标准：
+1. `validate:gb2760` 在数据合规时通过并输出报告。
+2. 人为制造违规（如把 pending_review 标 verified）时命令报错退出码非 0。
+3. 不影响现有 `validate:data`。
 
-1. `ingredients` 表追加：`data_version VARCHAR`（批次标识，如 `"2026-06-v1"`）、`reviewed_by VARCHAR`（审核人，可为 `"system"` 或人名）、`reviewed_at TIMESTAMP`、`change_note TEXT`。
-2. seed 脚本支持版本号参数 `--version`，幂等导入，版本不同时写入 `change_note`。
-3. `GET /api/ingredients` 支持 `?confidenceLevel=high|medium|low|unverified` 筛选。
-4. 前端 `/data` 页新增：
-   - 来源筛选下拉（按 `sourceName`）
-   - 可信等级筛选（high / medium / low / unverified）
-   - 未验证数据比例指标（如"90% 待审核"）
-5. 文档明确：本地开发数据库已完成，生产数据库属于人工阻塞项。
-
-**验收标准**：
-
-```bash
-npm run validate:data && npm run lint && npm run test && npm run build
-cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm test
-curl "http://127.0.0.1:3000/api/ingredients?confidenceLevel=unverified&limit=5"
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
-
-**2026-06-12 完成记录**：已新增 `reviewed_by`、`reviewed_at`、`change_note` 字段和 `confidence_level` / `data_version` 索引；seed 脚本支持 `--version`、`--reviewed-by`、`--change-note`，版本变更时写入变更说明；后端列表/search API 支持可信等级筛选；前端 `/data` 页支持来源和可信等级筛选，并展示可信等级统计和待审核比例。本批次没有把任何 seed 数据升级为 reviewed/verified。
+状态：✅ 已完成 2026-06-14。
+是否需要人工：否。
+阻塞条件：无（可在 staging 数据上运行，正式库为空时只校验 staging）。
+验证命令：`npm run validate:gb2760 && npm run validate:data`。本地 DB 输出：`staging=2404 pending_review=2391 approved=0 promoted=0 legacy_verified=13 mapped_candidate=0 additive_usage_rules=0 verified_regulation_ingredients=5 import_errors=0`；最新导入批次 `a1_staging` / `fulltext` / `reference_tables` / `promote` 均为 `succeeded`。
 
 ---
 
-## 阶段 2：数据库真实对接（生产级补完）
+### Batch 1-E：成分详情页 GB2760 官方证据展示 [Codex]
 
-### Batch D-A：生产数据库选型与配置 `[人工]`
+目标：在成分详情页展示对应的 GB2760 官方证据（参考表行 + staging 行），让用户和人工审核者直接看到来源原文、页码和可信状态。
 
-**状态**：⏸ blocked_by_user
+涉及文件：
+- `backend/src/routes/ingredients.ts`（详情接口新增 `?includeEvidence=1` 返回 staging/reference 行）
+- `backend/src/routes/gb2760.ts`（新增 `GET /api/gb2760/reference-rows`）
+- `src/services/ingredientApiService.js`、`src/pages/detailPage.js`、`src/pages/dataPage.js`
+- `src/styles.css`、`scripts/test.mjs`
 
-- [ ] 选择数据库托管平台（推荐 Railway PostgreSQL 或 Supabase）
-- [ ] 选择后端部署平台（推荐 Railway 或 Fly.io）
-- [ ] 在对应平台创建账号，获取生产连接字符串
-- [ ] 数据库平台：`[填写]`  /  后端部署平台：`[填写]`
-- [ ] 生产 `DATABASE_URL` 配置到平台环境变量，**不提交代码**
+实现内容：
+1. `GET /api/ingredients/:id?includeEvidence=1` 附加 `stagingRows`（来自 `gb2760_official_records`，按 `ingredientId` 匹配，最多 50 行，按 `pdfPage` 排序）和 `referenceRows`（按中文名/别名/INS 匹配，最多 20 行）。默认不返回，避免常规流量加载过多。
+2. `GET /api/gb2760/reference-rows?table=B.2&page=1&limit=50` 分页浏览参考表。
+3. 详情页"官方 GB2760-2024 证据"可折叠区块：staging 行显示食品类别、最大用量、页码、`pending_review` 灰色提示；reference 行按表名分组。
+4. 数据治理页 `/data` 新增"参考表浏览"折叠区块，按表名分页查看。
+5. 颜色用 CSS 变量：`pending_review` → `--color-unverified`，`verified_regulation` → `--color-risk-low`。
+
+验收标准：
+1. `?includeEvidence=1` 返回证据数组；无该参数时不返回（字段不存在）。
+2. 有 staging 行的成分（如 `citric-acid`）详情页显示证据区块；无证据成分不显示空标题。
+3. `pending_review` 行有明确"待复核来源数据"视觉提示，不展示为结论。
+4. 参考表浏览可翻页。
+
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test && npm run build`，`cd backend && npm run typecheck && npm test`，`curl "http://127.0.0.1:3000/api/ingredients/citric-acid?includeEvidence=1"`。
+
+---
+
+# 阶段 2：数据库与 API
+
+### Batch 2-A：本地数据库连接 [Codex]
+
+目标：本地 / 开发环境 Drizzle + PostgreSQL schema、迁移、seed 可用。
+
+状态：✅ 已完成 2026-06-11（schema、migration、seed、`ingredients` 等表、Docker Compose 已可用）。
+涉及文件：`backend/src/db/*`、`backend/scripts/seed.ts`、`backend/drizzle.config.ts`。
+验收标准：✅ `cd backend && npm run db:migrate && npm run db:seed` 成功；本地查询返回数据。
+是否需要人工：否。
+阻塞条件：生产 `DATABASE_URL` 为 `blocked_by_user`（仅阻塞生产部分，见 Batch 2-D）。
+验证命令：`cd backend && npm run db:migrate && npm run db:seed && npm test`。
+
+---
+
+### Batch 2-B：成分 API [Codex]
+
+目标：只读成分 API（列表、详情、分类、搜索、批量匹配、可信等级筛选）。
+
+状态：✅ 已完成 2026-06-12。
+涉及文件：`backend/src/routes/ingredients.ts`、`backend/src/services/ingredientService.ts`。
+验收标准：✅ `GET /api/ingredients`、`/:id`、`/categories`、`/search`、`POST /api/ingredients/batch-search`、`?confidenceLevel=` 均可用。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：见 `COMMANDS.md` 成分 API 验收段。
+
+---
+
+### Batch 2-C：前端优先 API、失败降级本地 [Codex]
+
+目标：前端成分搜索/详情优先请求后端 API，后端不可用时降级本地 seed 并显示未验证标识。
+
+状态：✅ 已完成 2026-06-12。
+涉及文件：`src/services/ingredientApiService.js`、`src/services/ingredientService.js`、`vite.config.js`。
+验收标准：✅ 后端可用时走 API；后端关闭时降级本地并显示错误/未验证态。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`（含降级断言）。
+
+---
+
+### Batch 2-D：生产数据库迁移与首次导入 [人工+Codex]
+
+目标：提供生产迁移/seed 脚本和文档；人工提供生产连接串后执行。
+
+状态：⛔ blocked_by_user（依赖生产 `DATABASE_URL` 与部署平台选型）。
+涉及文件：`backend/scripts/migrate-prod.sh`（计划）、`backend/scripts/seed-prod.sh`（计划）、`COMMANDS.md`。
+实现内容：
+1. 幂等生产迁移脚本，读取 `DATABASE_URL`，已迁移跳过。
+2. 幂等生产 seed（upsert），避免重复导入。
+3. `COMMANDS.md` 补充生产迁移/seed 说明。
+
+人工操作：
+- [ ] 选择数据库托管平台与后端部署平台。
+- [ ] 提供生产 `DATABASE_URL`（不提交代码）。
 - [ ] 标注：`[人工完成 ✅ YYYY-MM-DD]`
 
----
-
-### Batch D-B：生产数据库迁移与数据首次导入 `[人工+Codex]`
-
-**状态**：⏸ blocked_by_user（依赖 D-A）
-
-**Codex 任务**：
-
-1. 新建 `backend/scripts/migrate-prod.sh`：读取 `DATABASE_URL` 环境变量，执行 Drizzle 迁移，幂等安全（已迁移的跳过）。
-2. 新建 `backend/scripts/seed-prod.sh`：将当前食品添加剂 seed 导入生产库，幂等 upsert，避免重复导入。
-3. 补充 `COMMANDS.md` 生产迁移/seed 命令说明。
-4. 更新 `PROJECT_PLAN.md` 生产数据库状态。
-
-**验收标准**：
-
-```bash
-# 生产（人工运行）
-DATABASE_URL=<prod> bash backend/scripts/migrate-prod.sh
-DATABASE_URL=<prod> bash backend/scripts/seed-prod.sh
-curl https://api.your-domain.com/health    # db: "ok"
-curl "https://api.your-domain.com/api/ingredients?limit=3"
-# 本地
-cd backend && npm run db:migrate && npm run db:seed && npm test
-```
+是否需要人工：是。
+阻塞条件：生产 `DATABASE_URL`、部署平台选择（`blocked_by_user`）。Codex 可先编写脚本与文档骨架。
+验证命令：（人工）`DATABASE_URL=<prod> bash backend/scripts/migrate-prod.sh`。
 
 ---
 
-## 阶段 3：OCR 拍照识别产品闭环
+# 阶段 3：OCR 主流程
 
-> 核心阶段，必须前置。OCR API Key 属于人工阻塞，但没有 Key 时必须用 manual 模式走通完整主路径，不能崩溃。
+> OCR 是核心主路径，必须前置。无 OCR API Key 时必须 manual 走通完整闭环，不崩溃。
 
----
+### Batch 3-A：拍照/上传入口 [Codex]
 
-### Batch O-A：拍照/上传入口与产品质量体验 `[Codex]`
+目标：首页主入口是"拍照识别配料表"，扫描页支持拍照、相册、预览、重选、权限异常、图片质量提示、iPhone Safari/PWA 安全区。
 
-**状态**：✅ 已完成 2026-06-12
-
-**目标**：把扫描页从"占位壳子"升级为真正可用的产品拍照入口，覆盖相机、相册、权限异常、图片预览、质量引导全链路。
-
-**涉及文件**：
-- `src/pages/scanPage.js`（大幅增强）
-- `src/pages/homePage.js`（首页主入口突出显示）
-- `src/services/nativeBridgeService.js`（增强）
-- `src/styles.css`（扫描页专属样式）
-- `scripts/test.mjs`（新增测试）
-
-**实现内容**：
-
-#### 1. 首页主入口
-
-首页主操作区（Hero 区，页面最显眼位置）：
-
-```
-┌────────────────────────────────────┐
-│  成分镜                             │
-│  拍照识别食品配料表，了解每种成分     │
-│                                    │
-│  ┌──────────────────────────────┐  │
-│  │  📷  拍照识别配料表           │  │   ← 主 CTA，全宽，height 56px
-│  └──────────────────────────────┘  │
-│                                    │
-│  最近分析  ·  成分搜索               │   ← 次要入口，文字链接即可
-└────────────────────────────────────┘
-```
-
-- 主 CTA 按钮样式：背景 `--color-primary`，字体 18px，font-weight 600，border-radius `--radius-btn`
-- 点击后跳转 `#/scan`
-
-#### 2. 扫描页布局
-
-```
-┌────────────────────────────────────┐
-│  ← 返回        拍照识别             │   ← 顶部导航
-├────────────────────────────────────┤
-│                                    │
-│  [图片预览区 / 占位区]               │   ← 固定高度 220px，object-fit cover
-│  未选择图片时：灰色虚线框             │
-│  "点击选择食品配料表照片"             │
-│                                    │
-├────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  │
-│  │  📷 拍照    │  │  🖼 相册    │  │   ← 两个等宽按钮，height 48px
-│  └─────────────┘  └─────────────┘  │
-├────────────────────────────────────┤
-│  📌 拍摄技巧                        │   ← 可折叠提示区（默认展开，看一次后折叠）
-│  • 将配料表放置在画面中央             │
-│  • 光线充足，避免反光                 │
-│  • 字体区域占满画面，不需要全包装      │
-└────────────────────────────────────┘
-│  [ 确认并识别 ]                      │   ← 已选图片后才显示，fixed bottom
-└────────────────────────────────────┘
-```
-
-#### 3. 相机/相册入口逻辑
-
-```js
-// Capacitor 原生环境
-Camera.getPhoto({ resultType: 'base64', source: CameraSource.Camera })
-Camera.getPhoto({ resultType: 'base64', source: CameraSource.Photos })
-
-// Web 降级
-<input type="file" accept="image/*" capture="environment">  // 拍照
-<input type="file" accept="image/*">                         // 相册
-```
-
-- 全部包裹 `try/catch`，任何失败静默降级到 Web input
-- 相机权限被拒时，显示 toast 提示："相机权限未开启，请在系统设置中允许本 App 访问相机"，同时显示相册选择入口
-
-#### 4. 图片预览与交互
-
-- 选中图片后：图片预览区展示缩略图，图片右上角显示「✕ 重选」按钮
-- 图片下方显示文件大小（如"图片大小：1.2 MB"）
-- 若图片超过 8MB 限制，立即提示并清除预览
-
-#### 5. 图片格式验证
-
-支持：`jpg/jpeg/png/webp/heic/heif`
-- 超过 8MB：提示"图片过大，请选择 8MB 以内的图片或重新拍摄"
-- 非图片格式：提示"请选择图片文件（JPG/PNG/WebP）"
-
-#### 6. 移动端安全区
-
-```css
-.scan-page { padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px); }
-.scan-page-bottom-bar { padding-bottom: env(safe-area-inset-bottom, 0px); }
-```
-
-#### 7. 首次使用引导
-
-- `localStorage` 键 `compcheck:scan-tips-seen`：未见过时，拍摄技巧区默认展开并高亮；见过后折叠
-- 首次进入扫描页时，图片预览区显示动画脉冲边框提示用户点击
-
-**测试覆盖（必须在 test.mjs 新增）**：
-
-```js
-// 1. 首页有拍照识别主 CTA，链接到 #/scan
-// 2. 扫描页渲染，包含相机和相册两个按钮
-// 3. 非 native 环境下，nativeBridgeService.getPhoto() 不崩溃
-// 4. 文件超大校验（8MB 限制）
-// 5. 非图片文件类型校验
-// 6. 首次使用标志存取
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# 手动验证：
-# - 首页拍照识别按钮最显眼，点击跳转扫描页
-# - 扫描页相机和相册按钮均可触发
-# - 选中图片后预览正常显示
-# - 重选图片功能正常
-# - 桌面浏览器 file input 降级正常
-# - iPhone Safari 底部按钮不被 Home Bar 遮挡
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
+状态：✅ 已完成 2026-06-12（首页 Hero CTA、`/scan` 页、Camera/相册/Web 降级、8MB 校验、预览、重选、拍摄技巧、安全区）。
+涉及文件：`src/pages/scanPage.js`、`src/pages/homePage.js`、`src/services/nativeBridgeService.js`、`src/styles.css`、`scripts/test.mjs`。
+验收标准：✅ 首页第一操作是拍照识别；可选图预览；移动端不溢出；搜索不是首页第一主按钮。
+是否需要人工：否。
+阻塞条件：无（真机相机验收待 Batch 8-B）。
+验证命令：`npm run lint && npm run test && npm run build`。
 
 ---
 
-### Batch O-D：图片预处理服务（EXIF修正 + 压缩 + IndexedDB） `[Codex]`
+### Batch 3-B：OCR Provider 抽象 [Codex 🔁 待重构]
 
-**状态**：✅ 已完成 2026-06-12
+目标：OCR Provider 抽象，不写死某一家。Provider 设计为 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，无 Key 自动降级 manual，密钥只在后端。
 
-**目标**：在 OCR 之前对图片进行客户端预处理，修正手机拍照方向、压缩体积、存储到 IndexedDB，提升 OCR 识别质量，同时不占满 localStorage。
+涉及文件：
+- `src/services/ocrService.js`（前端调用抽象，当前为 real/manual/fallback，待扩展 provider 命名）
+- `backend/src/routes/ocr.ts`（后端代理，当前无 Key 返回 503 / provider 未接入返回 501）
+- `backend/src/services/ocrProviders/`（计划新建，按 provider 分文件）
+- `backend/.env.example`（`OCR_PROVIDER`、`OCR_API_KEY`）
+- `scripts/test.mjs`、`COMMANDS.md`
 
-**背景**：
-- 手机拍照的 JPEG 文件通常带 EXIF Orientation 标签（值 3/6/8 等），浏览器不总是自动修正，导致 OCR 服务收到横躺的图片，识别率大幅下降。
-- localStorage 上限约 5–10MB，直接存 base64 图片会很快填满。
-- OCR 服务通常对超过 1MB 的图片计费更高或响应更慢，需要客户端压缩。
+实现内容：
+1. 后端按 `OCR_PROVIDER` 选择 provider：`manual`（无需 Key）、`mock`（测试固定返回，明确标注 `provider: "mock"`）、`aliyun` / `paddleocr` / `rapidocr`（真实，需 Key / 自建服务，未接入返回 501）。
+2. `OcrResult` 结构统一：`{ rawText, confidence?, provider, blocks?: [{ text, confidence? }] }`。
+3. 无 `OCR_API_KEY` 时后端返回 503，前端自动降级 manual。
+4. 不允许前端直连阿里云；API Key 只在后端环境变量。
+5. 不允许伪造真实 OCR；`mock` 必须明确标注，不混淆为真实结果。
+6. OCR 原文、置信度、provider、图片引用需要保存（图片在 IndexedDB，元数据在 localStorage，后续可选 `ocr_results` 表见 Batch 4 计划）。
 
-**涉及文件**：
-- `src/utils/imageProcessor.js`（新建）
-- `src/services/imageStoreService.js`（新建，IndexedDB 封装）
-- `src/pages/scanPage.js`（接入预处理）
-- `scripts/test.mjs`（新增测试）
+验收标准：
+1. 无 Key 时 `POST /api/ocr` 返回 503，前端进入 manual。
+2. `OCR_PROVIDER=mock` 返回标注为 mock 的固定结果，不冒充真实。
+3. `OcrResult` 字段齐全。
+4. 前端不出现任何 OCR 厂商密钥。
 
-**实现内容**：
-
-#### 1. EXIF 方向修正（`imageProcessor.js`）
-
-```js
-/**
- * 通过 canvas 重绘修正 EXIF 方向，返回方向已修正的 canvas/blob。
- * 不引入外部依赖，纯 canvas 实现。
- *
- * EXIF orientation 对应的旋转：
- *   1 → 不旋转, 3 → 180°, 6 → 顺时针90°, 8 → 逆时针90°
- */
-export async function fixImageOrientation(file) { ... }
-```
-
-实现步骤：
-1. 读取文件的前 64KB，查找 EXIF Orientation 标签（不引入 exif-js 等库，手动解析 JPEG APP1 segment）
-2. 用 `createImageBitmap` 解码图片（比 `new Image()` 性能更好）
-3. 按 Orientation 值在 canvas 上做对应旋转变换
-4. 输出方向正确的 ImageBitmap
-
-#### 2. 客户端压缩（`imageProcessor.js`）
-
-```js
-/**
- * @param {File|Blob} file
- * @param {Object} opts
- * @param {number} opts.maxWidth - 最大宽度，默认 1200px
- * @param {number} opts.quality - JPEG 质量，默认 0.82
- * @param {number} opts.maxBytes - 目标最大体积，默认 800_000 (800KB)
- * @returns {Promise<{blob: Blob, width: number, height: number, originalSize: number, compressedSize: number}>}
- */
-export async function compressImage(file, opts = {}) { ... }
-```
-
-压缩逻辑：
-1. 先修正 EXIF 方向（调用 `fixImageOrientation`）
-2. 如果原始尺寸 ≤ maxWidth 且体积 ≤ maxBytes，不压缩直接返回
-3. 按比例缩放到 maxWidth，保持宽高比
-4. Canvas `toBlob('image/jpeg', quality)` 输出
-5. 如果压缩后仍 > maxBytes，递减 quality 0.05 重试，最多 3 次
-6. 返回压缩结果和体积对比
-
-#### 3. IndexedDB 图片存储（`imageStoreService.js`）
-
-```js
-const DB_NAME = 'compcheck-images';
-const DB_VERSION = 1;
-const STORE_NAME = 'scan-images';
-
-/**
- * 存储一张图片，返回 id（UUID）
- * @param {Blob} blob
- * @param {Object} meta - { originalName, mimeType, width, height, compressedSize }
- * @returns {Promise<string>} id
- */
-export async function saveImage(blob, meta) { ... }
-
-/**
- * 读取图片，返回 { blob, meta }
- */
-export async function getImage(id) { ... }
-
-/**
- * 删除图片
- */
-export async function deleteImage(id) { ... }
-
-/**
- * 列出所有图片 meta（不返回 blob，避免内存问题）
- */
-export async function listImages() { ... }
-
-/**
- * 清理 N 天前的图片（用于自动清理历史，默认 30 天）
- */
-export async function cleanOldImages(daysToKeep = 30) { ... }
-```
-
-IndexedDB schema：
-```js
-db.createObjectStore(STORE_NAME, { keyPath: 'id' })
-// 每条记录: { id, blob, meta: { originalName, mimeType, width, height, compressedSize, createdAt } }
-```
-
-降级处理：
-- IndexedDB 不可用（隐私模式等）：回退到 URL.createObjectURL，仅当前会话有效，显示提示"图片在刷新后将丢失"
-- IndexedDB 配额满：提示"本地存储已满，请清理历史后重试"，调用 `cleanOldImages(7)`
-
-#### 4. 扫描页接入
-
-```js
-// scanPage.js 中，用户选中图片后：
-import { compressImage } from '../utils/imageProcessor.js';
-import { saveImage } from '../services/imageStoreService.js';
-
-const result = await compressImage(file, { maxWidth: 1200, maxBytes: 800_000 });
-// 展示压缩信息（开发模式下）: "从 3.2MB 压缩到 760KB"
-const imageId = await saveImage(result.blob, { ... });
-// 把 imageId 存入 userStore 的 scan:pendingImageId，不存 base64
-```
-
-扫描页图片预览从 IndexedDB 读取：
-```js
-const { blob } = await getImage(imageId);
-const objectUrl = URL.createObjectURL(blob);
-imgEl.src = objectUrl;
-// 组件卸载时 URL.revokeObjectURL(objectUrl)
-```
-
-#### 5. 测试覆盖
-
-```js
-// 1. compressImage 对小图（< 800KB）不压缩，直接通过
-// 2. compressImage 对大图返回压缩后体积 < 原始体积
-// 3. saveImage 写入 IndexedDB，getImage 可读回
-// 4. IndexedDB 不可用时 saveImage 不崩溃
-// 5. cleanOldImages 删除旧记录
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# 手动验证：
-# - 选择手机横拍的图片，预览显示方向正确
-# - 选择 3MB+ 图片，控制台显示压缩到 < 800KB
-# - 刷新页面后，ImageDB 中的图片仍可读取（如果在最近历史中）
-# - 隐私模式下（IndexedDB 不可用）不崩溃，显示降级提示
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
+是否需要人工：否（抽象层）。真实 provider 接入见 Batch 3-E。
+阻塞条件：无（抽象层不阻塞）。
+验证命令：`npm run lint && npm run test && npm run build`，`cd backend && npm run typecheck && npm test`。
 
 ---
 
-### Batch O-B：OCR 服务抽象层与模式切换 `[Codex]`
+### Batch 3-C：识别文本确认与修正 [Codex]
 
-**状态**：✅ 已完成 2026-06-12
+目标：OCR 后进入文本确认页，展示原文、可编辑、可清空、可重新上传、可手动粘贴，OCR 失败不阻塞，确认后进入配料拆分。
 
-**目标**：重构现有 `ocrService.js`，建立三模式（real/manual/fallback）抽象，处理超时/重试/错误分类，未配置 Key 时不崩溃。
-
-**涉及文件**：
-- `src/services/ocrService.js`（重构）
-- `backend/src/routes/ocr.ts`（新建，代理占位）
-- `backend/.env.example`（确认 OCR_API_KEY 占位存在）
-- `scripts/test.mjs`（新增测试）
-- `COMMANDS.md`（补充 OCR 说明）
-
-**实现内容**：
-
-#### 1. OcrResult 类型（JSDoc）
-
-```js
-/**
- * @typedef {Object} OcrResult
- * @property {'real'|'manual'|'fallback'} mode - 识别模式
- * @property {string} rawText          - 识别文本（real/fallback 为 OCR 原始文本，manual 为用户输入）
- * @property {number} confidence       - 整体置信度 0–1（manual 模式固定为 1）
- * @property {string} provider         - 'aliyun'|'tencent'|'manual'|'mock'
- * @property {boolean} requiresConfirm - 是否需要用户在确认页校对（始终为 true）
- * @property {OcrBlock[]|undefined} blocks - 分块识别结果（有则传）
- * @property {string|undefined} errorCode  - 错误码（fallback 时有）
- * @property {string|undefined} errorMsg   - 用户可读的错误描述
- */
-
-/**
- * @typedef {Object} OcrBlock
- * @property {string} text
- * @property {number} confidence
- * @property {{ x: number, y: number, w: number, h: number }|undefined} bounds
- */
-```
-
-#### 2. 核心函数
-
-```js
-/**
- * 主入口：对压缩后的图片 blob 进行 OCR
- * @param {Blob} imageBlob - 已经过 O-D 预处理的压缩图片
- * @param {{ category?: string }} opts
- * @returns {Promise<OcrResult>}
- */
-export async function recognizeImage(imageBlob, opts = {}) {
-  const mode = detectMode();
-  if (mode === 'real') {
-    return await callRealOcr(imageBlob, opts);
-  }
-  return buildManualResult();
-}
-
-function detectMode() {
-  // 后端 /api/ocr 可达 + 用户已登录 → 'real'
-  // 否则 → 'manual'
-}
-```
-
-#### 3. real 模式
-
-```js
-async function callRealOcr(blob, opts) {
-  const base64 = await blobToBase64(blob);
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 15_000);  // 15s 超时
-
-  try {
-    const resp = await fetch('/api/ocr', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` },
-      body: JSON.stringify({ imageBase64: base64, mimeType: blob.type }),
-      signal: controller.signal
-    });
-    clearTimeout(timer);
-
-    if (resp.status === 503) return buildFallback('ocr_not_configured', 'OCR 服务未配置，请手动输入文字');
-    if (resp.status === 429) return buildFallback('rate_limited', '识别次数已达上限，请稍后再试');
-    if (resp.status === 402) return buildFallback('quota_exceeded', '本月 OCR 额度已用完');
-    if (!resp.ok) return buildFallback('server_error', 'OCR 服务异常，请手动输入文字');
-
-    const data = await resp.json();
-    if (!validateOCRResponse(data).ok) return buildFallback('invalid_response', '识别结果格式异常');
-    return { mode: 'real', rawText: data.text, confidence: data.confidence ?? 0.9, provider: data.provider, requiresConfirm: true, blocks: data.blocks };
-  } catch (err) {
-    clearTimeout(timer);
-    if (err.name === 'AbortError') return buildFallback('timeout', '识别超时（>15s），请检查网络或手动输入');
-    return buildFallback('network_error', '网络异常，请手动输入文字');
-  }
-}
-```
-
-#### 4. fallback / manual 模式
-
-```js
-function buildFallback(errorCode, errorMsg) {
-  return { mode: 'fallback', rawText: '', confidence: 0, provider: 'none', requiresConfirm: true, errorCode, errorMsg };
-}
-function buildManualResult() {
-  return { mode: 'manual', rawText: '', confidence: 1, provider: 'manual', requiresConfirm: true };
-}
-```
-
-#### 5. 后端代理占位（`backend/src/routes/ocr.ts`）
-
-```ts
-// POST /api/ocr
-// 需要 JWT 鉴权
-// OCR_API_KEY 未配置 → 503 { error: 'ocr_not_configured' }
-// 已配置但供应商未选型 → 501 { error: 'ocr_provider_pending' }
-// 绝不返回伪造的识别文本
-```
-
-#### 6. 禁止事项
-
-- 不允许在没有真实 Key 的情况下返回假装识别成功的文字
-- 不允许把 `mode: 'manual'` 的结果展示为真实 OCR 结果
-- 不允许对超时不做任何提示直接卡死
-
-#### 7. 测试覆盖
-
-```js
-// 1. detectMode 在未登录时返回 'manual'
-// 2. buildManualResult 返回 mode:'manual', isMock: 不崩溃
-// 3. callRealOcr 后端返回 503 时降级为 fallback，不崩溃
-// 4. callRealOcr 超时后降级为 fallback，不崩溃
-// 5. validateOCRResponse 格式校验
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-cd backend && npm run typecheck && npm test
-# 手动验证：
-# - 扫描页（无 OCR Key）不崩溃，显示"OCR 服务未接入，请手动输入"
-# - 后端 POST /api/ocr 无 Key 返回 503
-```
-
-**阻塞条件**：OCR API Key 属于 blocked_by_user，本批次只做抽象层。  **是否需要人工**：否。
+状态：✅ 已完成 2026-06-12（`/ocr-confirm` 页、可编辑 textarea、产品名、实时配料数预览、loading/empty/error/manual 状态机、pending 状态持久化）。
+涉及文件：`src/pages/ocrConfirmPage.js`、`src/pages/scanPage.js`、`src/router/router.js`、`src/store/userStore.js`、`scripts/test.mjs`。
+验收标准：✅ OCR 原文可编辑/清空；可重新上传；可手动粘贴；失败降级 manual 不卡死；确认后进入分析。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test && npm run build`。
 
 ---
 
-### Batch O-C：识别文本确认与修正页 `[Codex]`
+### Batch 3-D：OCR fallback [Codex]
 
-**状态**：✅ 已完成 2026-06-12
+目标：OCR 识别中、识别失败、重试、手动输入降级状态完整，不卡死中间状态。
 
-**目标**：OCR 完成后进入专属确认页，用户可编辑文本、填写产品名、确认后进入解析流程。这是 OCR 到分析之间的关键中间页，不能省略。
-
-**涉及文件**：
-- `src/pages/ocrConfirmPage.js`（新建）
-- `src/pages/scanPage.js`（增加跳转逻辑）
-- `src/router/router.js`（新增路由 `#/ocr-confirm`）
-- `src/main.js`（路由注册）
-- `src/styles.css`（确认页样式）
-- `src/store/userStore.js`（pending 状态管理）
-- `scripts/test.mjs`（新增测试）
-
-**实现内容**：
-
-#### 1. 页面布局
-
-```
-┌────────────────────────────────────┐
-│  ←        确认配料表内容             │   ← 顶部导航
-├────────────────────────────────────┤
-│  [图片缩略图 72×72]  识别来源：手动输入 │   ← OCR 来源状态（或"实时识别"）
-│                     置信度：高 ✓    │   ← 只有 real 模式才显示置信度
-├────────────────────────────────────┤
-│  产品名称（选填）                    │
-│  ┌──────────────────────────────┐  │
-│  │  如：旺旺仙贝 原味            │  │   ← input，placeholder 示例
-│  └──────────────────────────────┘  │
-├────────────────────────────────────┤
-│  配料表内容                  14 项  │   ← 实时解析预览：右侧显示成分数量
-│  ┌──────────────────────────────┐  │
-│  │  水、白砂糖、麦芽糖浆、        │  │   ← textarea，最少 5 行，自动扩展
-│  │  食品添加剂（柠檬酸...        │  │
-│  └──────────────────────────────┘  │
-│  💡 识别有误？直接在上方修改文字      │
-├────────────────────────────────────┤
-│  [清空重填]     [返回重拍]           │   ← 次要操作
-├────────────────────────────────────┤
-│  [ 开始分析配料 →  ]                │   ← 主 CTA，fixed bottom，文本不为空才激活
-└────────────────────────────────────┘
-```
-
-#### 2. 成分数量实时预览
-
-- 用户每次编辑 textarea（input 事件），调用 `splitIngredientInput` 实时解析
-- 右上角显示解析到的配料数量（如 "14 项"），帮助用户确认
-- 数量为 0 时显示"未识别到配料，请检查文本"
-
-#### 3. OCR 识别中的 loading 状态
-
-- 从扫描页跳转到确认页时，如果 OCR 还在进行中：
-  - textarea 显示为 disabled，显示 skeleton 占位动画
-  - 顶部 toast："正在识别图片文字…"
-  - 15s 超时后自动切换到 manual 模式
-
-#### 4. 状态机
-
-| 状态 | 描述 | 显示 |
-|---|---|---|
-| `loading` | OCR 识别中 | textarea disabled，顶部 loading toast |
-| `success` | OCR 完成，文本可编辑 | 正常显示，置信度标识 |
-| `empty` | OCR 结果为空 | 提示"未识别到文字，请手动输入配料表" |
-| `error` | OCR 失败/超时 | 提示具体错误 + 降级到手动输入 |
-| `manual` | 手动输入模式 | 提示"手动输入模式" |
-
-#### 5. 产品名称字段
-
-- 非必填，placeholder：`如：旺旺仙贝（选填，便于日后查找）`
-- 最大长度：50 个字符
-- 保存到 `userStore` 的 `scan:pendingProductName`
-
-#### 6. 状态持久化
-
-```js
-// userStore 中维护
-scan: {
-  pendingImageId: string|null,         // IndexedDB 图片 ID
-  pendingText: string,                  // 用户确认/修正后的文本
-  pendingProductName: string,           // 产品名称（选填）
-  pendingSource: 'ocr'|'manual',       // 来源
-  pendingOcrMode: 'real'|'manual'|'fallback',
-}
-```
-
-- 用户编辑 textarea 时实时保存到 userStore
-- 跳转分析后清空 pending 状态
-- 用户点返回时，pending 状态保留，重新进入确认页恢复
-
-#### 7. 键盘体验（移动端）
-
-- textarea 获取焦点时，页面滚动到 textarea 可见范围（`scrollIntoView({ behavior: 'smooth', block: 'nearest' }`）
-- 主 CTA 按钮在虚拟键盘弹出时不遮挡 textarea
-
-#### 8. 测试覆盖
-
-```js
-// 1. ocrConfirmPage 渲染，textarea、产品名称输入框、3 个按钮均存在
-// 2. textarea 空时"开始分析"按钮禁用/提示
-// 3. 实时解析预览：输入"水、糖"时成分数量显示 2
-// 4. 状态机各状态下页面显示正确
-// 5. pending 状态存取（存入/读出一致）
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# 手动验证完整闭环：
-# 1. 扫描页选图 → 进入确认页（loading 中有动画）
-# 2. OCR 不可用时，确认页显示"手动输入模式"，textarea 可用
-# 3. 输入配料表文字 → 成分数量实时变化
-# 4. 填写产品名称
-# 5. 点击"开始分析配料" → 跳转分析页，携带文本和产品名
-# 6. 返回确认页，文本未丢失
-# 7. iPhone Safari 下键盘弹出后 CTA 按钮仍可操作
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
+状态：✅ 已完成 2026-06-12（real→fallback→manual 降级、15s 超时、503/429/402/网络错误分类、确认页状态机）。
+涉及文件：`src/services/ocrService.js`、`src/pages/ocrConfirmPage.js`、`scripts/test.mjs`。
+验收标准：✅ 各错误码降级提示明确；超时降级 manual；不卡死。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`（含 fallback 断言）。
 
 ---
 
-## 阶段 4：食品配料表解析与成分匹配
-
-### Batch P-A：配料表文本解析增强 `[Codex]`
-
-**状态**：✅ 已完成 2026-06-12
-
-**目标**：在现有 `splitIngredientInput` 基础上大幅增强，覆盖 OCR 噪声、E-number 识别、配料顺序保留、去重，输出结构化 `ParsedIngredient[]`。
-
-**涉及文件**：
-- `src/utils/text.js`（增强，保持向后兼容）
-- `src/pages/analyzePage.js`（接入结构化输出）
-- `src/pages/ocrConfirmPage.js`（成分数量预览接入）
-- `scripts/test.mjs`（新增测试，必须全部通过）
-
-**实现内容**：
-
-#### 1. 输出类型
-
-```js
-/**
- * @typedef {Object} ParsedIngredient
- * @property {number}  index           - 在原始文本中的顺序（0-based，越小含量越高）
- * @property {string}  rawText         - 解析前的原始文本片段
- * @property {string}  normalizedText  - 标准化后文本（全半角、空格、大小写统一）
- * @property {string|null} eNumber     - 若匹配 E-number 格式则提取（如 "E211"）
- * @property {boolean} isSubIngredient - 是否为复合配料的子项
- * @property {string|undefined} parentLabel - 父级标签（如"食品添加剂"）
- * @property {boolean} isUnknown       - 无法识别
- * @property {boolean} isDuplicate     - 是否在原始文本中重复出现
- */
-```
-
-#### 2. 新增：OCR 噪声修正
-
-OCR 经常产生以下错误，解析前先做修正：
-
-```js
-const OCR_CORRECTIONS = [
-  // 全角/半角混淆
-  [/（/g, '（'], [/）/g, '）'],  // 已由 NFKC 处理
-  // 数字-字母混淆（常见于配料表 OCR）
-  [/\b0(?=[a-zA-Z一-鿿])/g, 'O'],   // 0→O，如"0CT"→"OCT"
-  // 空格误插（OCR 在中文字间插入空格）
-  [/([^\x00-\x7F])\s+([^\x00-\x7F])/g, '$1$2'],  // 中文字之间的空格
-  // 换行处理（OCR 多行扫描）
-  [/\r?\n/g, '，'],
-  // 重复标点
-  [/[,，、]{2,}/g, '，'],
-];
-
-export function applyOcrCorrections(text) { ... }
-```
-
-#### 3. 支持的配料表前缀（完整列表）
-
-```js
-const LABEL_PREFIXES = /^\s*(?:配料表?|原料|原材料|食品添加剂|配方|成分表?|ingredients?)\s*[:：\-]\s*/gi;
-```
-
-#### 4. 支持的分隔符
-
-- 逗号：`，` `,`
-- 顿号：`、`
-- 分号：`；` `;`
-- 换行（OCR 多行）：`\n` `\r`（已转为逗号）
-
-#### 5. 复合配料括号解析（已有，确认逻辑）
-
-- `食品添加剂（柠檬酸、山梨酸钾）` → 子项 `柠檬酸`、`山梨酸钾`，父级标签 `食品添加剂`
-- 嵌套括号最多 2 层
-- 括号内容为百分比时不展开（如 `水（50%）`）
-
-#### 6. E-number 识别
-
-```js
-const E_NUMBER_PATTERN = /^[Ee]\d{3,4}[a-z]?$/i;  // E211, E330, E471
-
-function extractENumber(text) {
-  const match = normalizedText.match(E_NUMBER_PATTERN);
-  return match ? match[0].toUpperCase() : null;
-}
-```
-
-- E-number 成分保留原始文本，同时记录 `eNumber` 字段
-- 这让 P-B 匹配时可以通过 E-number 直接查到中文名
-
-#### 7. 配料顺序
-
-- 保留 `index` 字段，反映在原始配料表中的位置
-- 分析报告中用顺序提示："前几位成分含量通常较高"
-
-#### 8. 去重
-
-- 如果同一成分名（normalizedText 相同）出现多次，第二次起标记 `isDuplicate: true`
-- 去重不删除，只标记，便于报告中提示"该成分出现多次"
-
-#### 9. 主函数签名
-
-```js
-/**
- * 主解析函数（向后兼容：若只需要字符串数组，调用旧的 splitIngredientInput）
- * @param {string} rawInput - 用户确认后的配料表文本（已经过 OCR 修正）
- * @returns {ParsedIngredient[]}
- */
-export function parseIngredientList(rawInput) { ... }
-```
-
-#### 10. 完整测试用例（必须全部通过）
-
-```js
-// 用例 1：标准格式
-input:    "配料：水、白砂糖、麦芽糖浆、食品添加剂（柠檬酸、山梨酸钾）、食用香精"
-expected: ["水","白砂糖","麦芽糖浆","柠檬酸","山梨酸钾","食用香精"]
-// 山梨酸钾 isSubIngredient=true, parentLabel="食品添加剂"
-
-// 用例 2：OCR 中文空格噪声
-input:    "配 料 ：水 、白 砂 糖 、防 腐 剂（苯 甲 酸 钠）"
-expected: ["水","白砂糖","苯甲酸钠"]
-
-// 用例 3：OCR 换行
-input:    "配料：水\n白砂糖\n柠檬酸"
-expected: ["水","白砂糖","柠檬酸"]
-
-// 用例 4：E-number
-input:    "配料：水、E211、E330、白砂糖"
-result:   [{ normalizedText:"水" }, { normalizedText:"E211", eNumber:"E211" }, { normalizedText:"E330", eNumber:"E330" }, ...]
-
-// 用例 5：含量百分比剥离
-input:    "配料：水（50%）、白砂糖（30%）、食用盐（2%）"
-expected: ["水","白砂糖","食用盐"]
-
-// 用例 6：未知成分保留
-input:    "配料：水、XYZ-Unknown-999、白砂糖"
-result:   [{ normalizedText:"水" }, { normalizedText:"XYZ-Unknown-999", isUnknown:true }, { normalizedText:"白砂糖" }]
-
-// 用例 7：重复去重标记
-input:    "配料：水、白砂糖、水、柠檬酸"
-result:   4 项，第3项"水" isDuplicate=true
-
-// 用例 8：英文配料表
-input:    "Ingredients: Water, Sugar, Citric Acid (E330), Sodium Benzoate (E211)"
-expected: ["Water","Sugar","Citric Acid","Sodium Benzoate"]，E330/E211 提取为 eNumber
-
-// 用例 9：仅有添加剂括号
-input:    "配料：小麦粉、白砂糖、食品添加剂（碳酸氢钠、碳酸氢铵、焦亚硫酸钠）"
-expected: ["小麦粉","白砂糖","碳酸氢钠","碳酸氢铵","焦亚硫酸钠"]
-
-// 用例 10：空输入
-input:    ""
-result:   []，不崩溃
-
-// 用例 11：仅有前缀无内容
-input:    "配料："
-result:   []
-
-// 用例 12：顺序（index）
-input:    "配料：水、糖、盐"
-result:   水 index=0，糖 index=1，盐 index=2
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# 所有 12 个用例通过
-# 旧有 splitIngredientInput 测试不回归
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
-
----
-
-### Batch P-B：数据库批量成分匹配 `[Codex]`
-
-**状态**：✅ 已完成 2026-06-12
-
-**目标**：将解析后的 `ParsedIngredient[]` 与数据库进行高效批量匹配，支持 E-number 直查、别名匹配、模糊匹配，有客户端缓存，低置信度需用户确认。
-
-**涉及文件**：
-- `src/services/ingredientMatchService.js`（新建）
-- `src/services/ingredientApiService.js`（增强批量接口）
-- `backend/src/routes/ingredients.ts`（新增 `POST /api/ingredients/batch-search`）
-- `backend/src/services/ingredientService.ts`（新增批量搜索逻辑）
-- `src/pages/analyzePage.js`（接入匹配结果）
-- `scripts/test.mjs`（新增匹配测试）
-
-**实现内容**：
-
-#### 1. 后端批量搜索接口
-
-```ts
-// POST /api/ingredients/batch-search
-// Body: { terms: string[], includeENumbers?: boolean }
-// Response: { results: BatchSearchResult[] }
-
-interface BatchSearchResult {
-  term: string;           // 原始搜索词
-  eNumber: string | null; // 如果是 E-number 格式
-  match: IngredientSummary | null;
-  confidence: number;     // 0–1
-  matchType: 'exact' | 'alias' | 'eNumber' | 'fuzzy' | 'none';
-  alternates?: IngredientSummary[];  // 次选匹配（最多 2 个）
-}
-```
-
-匹配逻辑（优先级从高到低）：
-1. **E-number 直查**（`eNumber` 字段不为 null）→ confidence 0.99
-2. **中文名/英文名完全精确**（normalizedText 去空格后完全相等）→ confidence 1.0
-3. **别名精确**（aliases 数组包含）→ confidence 0.92
-4. **前缀匹配**（startsWith）→ confidence 0.75
-5. **包含匹配**（includes）→ confidence 0.55
-6. 无匹配 → confidence 0
-
-批量大小限制：单次最多 200 个 term，超出则分批调用（后端限制）。
-
-#### 2. 前端文本标准化（匹配前做）
-
-```js
-function normalizeTerm(text) {
-  return text
-    .normalize('NFKC')           // 全半角统一
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '')         // 去所有空格
-    .replace(/[·•・]/g, '')      // 去中文间隔号
-    .replace(/^(?:食品添加剂|添加剂)\s*[:：]?\s*/, ''); // 去前缀
-}
-```
-
-#### 3. 客户端缓存
-
-```js
-// 5 分钟 TTL 的内存缓存，避免重复请求相同成分
-const matchCache = new Map();  // key: normalizedTerm → value: { result, expiry }
-const CACHE_TTL_MS = 5 * 60 * 1000;
-
-function getCached(term) { ... }
-function setCached(term, result) { ... }
-```
-
-#### 4. 前端匹配服务
-
-```js
-/**
- * @param {ParsedIngredient[]} parsedIngredients
- * @returns {Promise<MatchSummary>}
- */
-export async function matchIngredients(parsedIngredients) {
-  // 1. 提取待查询 term（跳过 isDuplicate 的重复项）
-  // 2. 查客户端缓存
-  // 3. 未命中缓存的走批量 API
-  // 4. API 不可用时降级到本地 ingredientService 逐个搜索
-  // 5. 合并结果，写入缓存
-  // 6. 计算 matchRate、unmatchedList
-}
-
-/**
- * @typedef {Object} MatchSummary
- * @property {IngredientMatchResult[]} results  - 每个 ParsedIngredient 的匹配结果
- * @property {number}  matchRate                 - 已匹配/总数 (0–1)
- * @property {string[]} unmatchedTerms           - 未匹配的 normalizedText 列表
- * @property {string[]} lowConfidenceTerms       - 低置信度（0.55–0.79）的 normalizedText 列表
- */
-```
-
-#### 5. 展示规则
-
-| 置信度 | 展示 | 颜色 |
-|---|---|---|
-| ≥ 0.9 | 确定匹配，直接展示 | 正常 |
-| 0.6–0.89 | 展示 + "⚠️ 请确认" badge | `--color-risk-medium` |
-| 0.1–0.59 | 展示候选 + 用户可确认/驳回 | `--color-unverified` |
-| 0 | "未收录"标记，展示原始文本 | `--color-unknown` |
-
-低置信度项在分析报告中单独列出"待确认匹配"区块。
-
-#### 6. 测试覆盖
-
-```js
-// 1. E-number "E211" 匹配到苯甲酸钠（若数据库有）
-// 2. 精确匹配"柠檬酸" confidence ≥ 0.9
-// 3. 无匹配项"XYZ-UNKNOWN" confidence = 0
-// 4. 低置信度项在 lowConfidenceTerms 列表中
-// 5. API 不可用时降级到本地搜索，不崩溃
-// 6. 缓存命中时不重复调用 API
-// 7. 200 个 term 的批量请求分批处理
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-cd backend && npm run typecheck && npm test
-# 手动验证：
-# - 输入标准配料表 → 分析页显示匹配/未匹配/低置信度列表
-# - E-number 成分被正确识别
-# - 未匹配项有"未收录"标记
-# - 低置信度项有"请确认"标记
-# - API 不可用时，本地降级正常
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
-
----
-
-## 阶段 5：食品配料分析报告
-
-### Batch R-A：食品配料分析报告页 `[Codex]`
-
-**状态**：✅ 已完成 2026-06-12
-
-**目标**：生成完整、信息密度高、视觉清晰的食品配料分析报告，包含整体风险评级、分类统计、配料顺序意义、特殊人群提示、数据来源说明。
-
-**涉及文件**：
-- `src/pages/reportDetailPage.js`（新建，单报告详情）
-- `src/pages/reportsPage.js`（已有，报告列表，接入新入口）
-- `src/pages/analyzePage.js`（生成报告，跳转详情）
-- `src/services/reportService.js`（新建，报告数据模型与计算）
-- `src/store/userStore.js`（报告持久化）
-- `src/router/router.js`（新增路由 `#/report/:id`）
-- `scripts/test.mjs`（新增报告测试）
-
-**实现内容**：
-
-#### 1. 报告数据模型
-
-```js
-/**
- * @typedef {Object} IngredientReport
- * @property {string}  id
- * @property {string}  createdAt
- * @property {string}  productName       - 用户填写（可为"未命名产品"）
- * @property {string|undefined} brandName
- * @property {string|null} imageId       - IndexedDB 图片 ID
- * @property {string}  originalText      - 原始 OCR/手动输入文本
- * @property {'ocr'|'manual'} source
- * @property {ParsedIngredient[]}  parsedIngredients
- * @property {IngredientMatchResult[]} matchResults
- * @property {RiskGrade}  riskGrade      - 整体风险评级
- * @property {RiskSummary} riskSummary   - 分类统计
- * @property {string[]} unmatchedTerms
- * @property {string[]} lowConfidenceTerms
- * @property {number}  matchRate
- */
-
-/**
- * @typedef {'A'|'B'|'C'|'D'|'F'} RiskGrade
- * A = 0 高风险成分     B = 0 高风险, ≤1 中等   C = 1-2 高风险
- * D = 3+ 高风险       F = 5+ 高风险 或 数据严重不足
- */
-
-/**
- * @typedef {Object} RiskSummary
- * @property {number} highRisk
- * @property {number} mediumRisk
- * @property {number} lowRisk
- * @property {number} unmatched
- * @property {number} unverifiedData   - 匹配到但数据未验证的成分数量
- * @property {Record<string, number>} categoryBreakdown  - 添加剂分类统计
- */
-```
-
-#### 2. 风险评级算法
-
-```js
-export function computeRiskGrade(matchResults) {
-  const highCount = matchResults.filter(r => r.match?.riskLevel === 'high').length;
-  const medCount  = matchResults.filter(r => r.match?.riskLevel === 'medium').length;
-  if (highCount === 0 && medCount === 0) return 'A';
-  if (highCount === 0 && medCount <= 1)  return 'B';
-  if (highCount <= 2)                    return 'C';
-  if (highCount <= 4)                    return 'D';
-  return 'F';
-}
-```
-
-评级颜色：A→`#22c55e`，B→`#84cc16`，C→`#f59e0b`，D→`#ef4444`，F→`#7f1d1d`
-
-#### 3. 报告页布局（`/report/:id`）
-
-```
-┌────────────────────────────────────┐
-│  ←        旺旺仙贝 原味              │   ← 产品名 + 品牌
-├────────────────────────────────────┤
-│  ┌────────────────────────────┐    │
-│  │  整体评级  B               │    │   ← 大字评级，颜色对应
-│  │  含 1 种中等关注成分         │    │
-│  │  共识别 14 种配料           │    │
-│  └────────────────────────────┘    │
-├────────────────────────────────────┤
-│  ⚠️ 关注摘要（最多 3 条）           │   ← 最重要的信息，折叠前可见
-│  • 含阿斯巴甜（甜味剂，苯丙酮尿症患者禁用）│
-│  • 3 种成分数据仍待审核             │
-├────────────────────────────────────┤
-│  📋 配料顺序说明                    │   ← 可折叠
-│  "配料表中排列越靠前，含量通常越高。  │
-│   本产品中含量最高的前 3 种成分为：  │
-│   水、白砂糖、麦芽糖浆"             │
-├────────────────────────────────────┤
-│  食品添加剂（5种）                  │
-│  防腐剂 ×2  甜味剂 ×1  增稠剂 ×2  │   ← 分类统计 chips
-│  ────────────────────────────────  │
-│  • 山梨酸钾 [防腐剂] ●低关注        │
-│  • 阿斯巴甜 [甜味剂] ●需关注  ⚠️   │
-│  • ...                             │
-├────────────────────────────────────┤
-│  天然原料（9种）                    │
-│  • 水 ✓  白砂糖 ✓  麦芽糖浆 ✓     │
-├────────────────────────────────────┤
-│  未收录（2种）                      │   ← 灰色，"数据库暂未收录此成分"
-│  • XYZ物质                         │
-├────────────────────────────────────┤
-│  👶 特殊人群提醒                    │   ← 仅当 cautionGroups 有匹配时显示
-│  • 阿斯巴甜：苯丙酮尿症患者禁用      │
-│  不构成医疗建议，如有疑虑请咨询医生   │
-├────────────────────────────────────┤
-│  📚 数据来源                        │
-│  部分数据仍在审核中（基础库 112 条； │
-│  GB 2760 PDF 全文 264 页已入库）     │
-│  来源：GB 2760、Codex INS、JECFA   │
-├────────────────────────────────────┤
-│  ℹ️ 本报告仅供配料信息参考，          │
-│     不构成医疗建议                   │
-└────────────────────────────────────┘
-
-底部操作：[保存] [分享] [重新分析]
-```
-
-#### 4. 成分条目展示格式
-
-每个成分条目（`li`）显示：
-- 成分名 + 功能分类 chip（如 `[防腐剂]`）
-- 风险标识（颜色圆点 + 文字）
-- 数据可信等级标识（`unverified` 显示灰色"待审核"）
-- 点击可展开：ADI 值、GB 状态、来源链接、过敏原标注
-- 若命中用户过敏原/忌口/关注：显示对应 badge（颜色见设计语言规范）
-
-#### 5. 分享内容
-
-点击「分享」时，生成可读的文字摘要：
-
-```
-【成分镜分析报告】旺旺仙贝 原味
-整体评级：B（较安全）
-共 14 种配料，含 5 种食品添加剂
-主要关注：阿斯巴甜（甜味剂，苯丙酮尿症患者禁用）
-排名前三：水、白砂糖、麦芽糖浆
----
-仅供参考，不构成医疗建议
-由成分镜 App 生成
-```
-
-#### 6. 报告本地存储
-
-- 元数据（不含图片）存 localStorage（键：`compcheck:reports`，JSON 数组）
-- 图片 ID 仅存 reference，实际 blob 在 IndexedDB
-- 最多保留 50 条报告；超出时删除最旧的
-
-**2026-06-12 自动化处理记录**：已完成报告数据模型、整体评级、关注摘要、配料顺序说明、食品添加剂分类统计、特殊人群提示、数据来源说明、报告分享文案、Markdown/JSON 导出和 `/report/:id` 路由别名；保存报告上限提升到 50 条。验证：`npm run validate:data`、`npm run lint`、`npm run test`、`npm run build`、`git diff --check` 通过。
-
-#### 7. 禁止文案（`lint` 脚本检查）
-
-```
-绝对安全 / 绝对有害 / 治疗 / 一定致敏 / 一定不能吃 / 致癌 / 有毒
-```
-
-#### 8. 测试覆盖
-
-```js
-// 1. computeRiskGrade 各级别算法验证（0/1/3/5 个高风险）
-// 2. 报告数据模型完整性（所有必填字段存在）
-// 3. 报告保存到 localStorage，刷新后可读取
-// 4. 最多 50 条，超出删除最旧
-// 5. 分享文字摘要生成（包含产品名、评级、关注点）
-// 6. 禁止文案检查（lint 脚本覆盖）
-```
-
-**验收标准**：
-
-```bash
-npm run validate:data && npm run lint && npm run test && npm run build
-# 手动验证完整主路径：
-# 1. 扫描页选图 → 确认文本（含产品名）→ 点击分析 →
-# 2. 显示分析报告：评级、关注摘要、配料顺序说明、添加剂列表、未收录清单
-# 3. 点击保存 → 报告列表可查看
-# 4. 点击分享 → 生成文字摘要
-# 5. 点击重新分析 → 返回确认页
-# 6. 刷新后报告仍可查看
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
-
----
-
-## 阶段 6：产品档案、收藏、历史
-
-### Batch F-A：产品档案与 IndexedDB 图片存储 `[Codex]`
-
-**状态**：✅ 已完成 2026-06-12
-
-**目标**：建立产品档案概念，将报告与具体产品关联；图片存储用 IndexedDB（O-D 已建），不用 localStorage。
-
-**涉及文件**：
-- `src/services/productArchiveService.js`（新建）
-- `src/pages/productArchivePage.js`（新建）
-- `src/pages/reportDetailPage.js`（增加保存档案入口）
-- `src/router/router.js`（新增路由 `#/product/:id`）
-- `backend/src/db/schema.ts`（新增 `product_archives` 表）
-- `backend/src/routes/user.ts`（新增产品档案 API）
-- `scripts/test.mjs`
-
-**实现内容**：
-
-#### 1. 产品档案数据模型
-
-```js
-/**
- * @typedef {Object} ProductArchive
- * @property {string}  id
- * @property {string}  createdAt
- * @property {string}  updatedAt
- * @property {string}  productName
- * @property {string|undefined} brandName
- * @property {string|null} imageId    - IndexedDB 图片 ID（NOT base64）
- * @property {string|null} thumbnailDataUrl  - 200px 缩略图 data URL（localStorage 安全，< 20KB）
- * @property {string}  originalText
- * @property {ParsedIngredient[]} parsedIngredients
- * @property {IngredientMatchResult[]} matchResults
- * @property {string}  reportId
- * @property {RiskGrade} riskGrade
- * @property {boolean} isFavorite
- * @property {string[]} tags
- */
-```
-
-图片存储策略：
-- 完整图片 blob → IndexedDB（imageId）
-- 200px 缩略图 → canvas 生成 → data URL → localStorage（< 20KB，用于列表展示）
-- localStorage 存 ProductArchive 元数据（不含完整图片）
-
-#### 2. 后端 product_archives 表
-
-```sql
-product_archives (
-  id UUID PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  product_name VARCHAR(100) NOT NULL,
-  brand_name VARCHAR(100),
-  thumbnail_url TEXT,          -- 生产环境可存 CDN URL
-  original_text TEXT NOT NULL,
-  parsed_ingredients JSONB,
-  match_results JSONB,
-  report_id VARCHAR(36),
-  risk_grade CHAR(1),
-  is_favorite BOOLEAN DEFAULT FALSE,
-  tags JSONB DEFAULT '[]',
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
-)
-```
-
-#### 3. 产品档案 API（需 JWT）
-
-- `GET /api/user/products?search=&isFavorite=&riskGrade=&page=1&limit=20`
-- `GET /api/user/products/:id`
-- `POST /api/user/products`
-- `PATCH /api/user/products/:id`（更新名称/品牌/收藏/标签）
-- `DELETE /api/user/products/:id`
-
-#### 4. 未登录用户本地存储
-
-- localStorage 键：`compcheck:products`（JSON 数组，最多 100 条）
-- 超出时删除最旧的 `isFavorite: false` 的记录
-- 收藏的记录不自动删除
-
-#### 5. 产品档案页（`/product/:id`）
-
-```
-┌────────────────────────────────────┐
-│  ←  旺旺仙贝 原味        ⭐ 收藏   │
-├────────────────────────────────────┤
-│  [图片]     评级 B                  │
-│             2026-06-12 分析         │
-├────────────────────────────────────┤
-│  配料：水、白砂糖、麦芽糖浆...       │
-│  [展开全部]                         │
-├────────────────────────────────────┤
-│  [ 查看完整报告 →  ]                │
-└────────────────────────────────────┘
-```
-
-#### 6. 产品档案搜索
-
-`GET /api/user/products?search=旺旺` 支持按产品名/品牌模糊搜索。
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-cd backend && npm run typecheck && npm test
-# - 完成分析后保存为产品档案
-# - 产品档案列表可查看，缩略图正常显示
-# - 刷新后数据不丢失
-# - IndexedDB 中存有完整图片，localStorage 只存元数据+缩略图
-```
-
----
-
-### Batch F-B：历史列表与产品收藏管理 `[Codex]`
-
-**状态**：✅ 已完成 2026-06-12
-
-**涉及文件**：
-- `src/pages/historyPage.js`（新建）
-- `src/pages/favoritesPage.js`（扩展）
-- `src/pages/homePage.js`（最近历史入口）
-- `src/router/router.js`（新增 `#/history`）
-- `scripts/test.mjs`
-
-**实现内容**：
-
-#### 1. 历史列表页（`/history`）
-
-```
-┌──────────────────────────────────┐
-│  分析历史            [清空全部]   │
-├──────────────────────────────────┤
-│  🔍 搜索产品名...                 │
-├──────────────────────────────────┤
-│  筛选：全部 | 收藏 | 高关注       │   ← Tab 筛选
-├──────────────────────────────────┤
-│  [缩略图] 旺旺仙贝    B  6月12日  │   ← 每条记录
-│           14种配料  1种需关注     │
-│           ← 左滑可删除（移动端）  │
-├──────────────────────────────────┤
-│  空状态：                         │
-│  还没有分析历史                   │
-│  [📷 去拍照识别]                  │
-└──────────────────────────────────┘
-```
-
-移动端左滑删除：CSS `touch-action: pan-y`，监听 `touchstart/touchmove/touchend` 实现。
-
-#### 2. 收藏页扩展
-
-- 新增"收藏产品"Tab（与已有"收藏成分"Tab 并列）
-- 产品卡片展示：缩略图 + 名称 + 评级 + 日期
-
-#### 3. 首页最近历史
-
-```
-最近分析
-─────────
-[缩略图] 旺旺仙贝    [缩略图] 奥利奥
-6月12日              6月11日
-[查看全部历史 →]
-```
-
-#### 4. 存储策略
-
-- 最多显示 50 条历史（UI 层面，存储层不限）
-- 超出 100 条本地存储时：删除最旧的非收藏记录
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# - 历史页显示分析记录，有缩略图
-# - 移动端左滑可删除
-# - 筛选 Tab 正常工作
-# - 空状态有引导
-# - 首页最近历史可见
-```
-
----
-
-## 阶段 7：前端账号登录 UI
-
-> 后端账号 API（注册/登录/鉴权/退出）已在 Batch 3-C 完成，本阶段补前端 UI。
-
-### Batch Q-A：前端登录/注册页面 `[Codex]`
-
-**状态**：✅ 已完成 2026-06-12
-
-**目标**：让用户能在前端完成注册、登录、退出；登录后启用云同步、跨设备历史。
-
-**涉及文件**：
-- `src/pages/authPage.js`（新建，登录/注册同页切换）
-- `src/services/authService.js`（新建，前端 JWT 管理）
-- `src/store/userStore.js`（增加 currentUser 状态）
-- `src/pages/settingsPage.js`（增加登录/退出入口）
-- `src/router/router.js`（新增路由 `#/login`）
-- `scripts/test.mjs`
-
-**实现内容**：
-
-#### 1. 页面布局（登录/注册切换）
-
-```
-┌──────────────────────────────────┐
-│  ←        账号登录                │
-├──────────────────────────────────┤
-│  [登录] [注册]                    │   ← Tab 切换
-├──────────────────────────────────┤
-│  邮箱                             │
-│  ┌────────────────────────────┐  │
-│  │  your@email.com            │  │
-│  └────────────────────────────┘  │
-│  密码（8 位以上）                  │
-│  ┌────────────────────────────┐  │
-│  │  ••••••••      [👁 显示]  │  │
-│  └────────────────────────────┘  │
-│  [ 登录 / 注册 ]                  │
-│  ────────── 或 ──────────         │
-│  [ 暂不登录，以访客模式继续 ]       │
-└──────────────────────────────────┘
-```
-
-#### 2. 前端 JWT 管理（`authService.js`）
-
-```js
-const TOKEN_KEY = 'compcheck:auth-token';
-const USER_KEY  = 'compcheck:auth-user';
-
-export async function login(email, password) { ... }  // POST /api/auth/login
-export async function register(email, password) { ... }  // POST /api/auth/register
-export async function logout() { ... }               // POST /api/auth/logout + 清除本地
-export function getToken() { ... }                   // 从 localStorage 读取
-export function getCurrentUser() { ... }             // 从 localStorage 读取缓存用户
-export function isLoggedIn() { ... }                 // token 存在且未过期（解析 JWT exp）
-export async function syncLocalDataToServer() { ... }  // 登录后同步本地数据到服务器
-```
-
-token 过期检测：解析 JWT payload 的 `exp` 字段（无需验证签名，只看时间），过期则清除并重定向 `/login`。
-
-#### 3. 登录后操作
-
-1. 保存 token 和 user 到 localStorage
-2. 调用 `syncLocalDataToServer()`：将本地收藏、历史、过敏原、报告批量同步到后端（避免数据丢失）
-3. 更新 `userStore.currentUser`
-4. 跳转到来源页面（或首页）
-
-#### 4. 错误状态
-
-| 错误 | 提示文案 |
-|---|---|
-| 邮箱格式错误 | "请输入有效的邮箱地址" |
-| 密码不足 8 位 | "密码至少需要 8 个字符" |
-| 邮箱已注册 | "该邮箱已被注册，请直接登录" |
-| 密码错误 | "邮箱或密码错误，请重试" |
-| 服务器错误 | "服务器异常，请稍后再试" |
-| 网络失败 | "网络连接失败，请检查网络" |
-
-#### 5. 设置页登录/退出入口
-
-- 未登录：显示"登录账号，开启云同步"按钮，点击跳转 `#/login`
-- 已登录：显示用户邮箱 + "退出登录"按钮
-
-#### 6. 访客模式
-
-- "暂不登录"后，所有功能在本地运行（已有逻辑）
-- 不强制登录，不阻断主流程
-
-#### 7. 测试覆盖
-
-```js
-// 1. authPage 渲染，登录/注册 Tab 切换
-// 2. 邮箱格式校验（本地，不发请求）
-// 3. 密码长度校验
-// 4. isLoggedIn() 在 token 过期时返回 false
-// 5. 退出登录清除 localStorage
-// 6. 未登录时不崩溃，各页面访客模式正常
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-cd backend && npm run typecheck && npm test
-# 手动验证：
-# - 注册新账号 → 自动登录 → 本地数据同步
-# - 退出登录 → 再登录 → 历史恢复
-# - 访客模式下全部核心功能可用
-# - 设置页显示登录状态
-```
-
----
-
-## 阶段 8：个性化关注项
-
-### Batch U-A：关注成分、忌口项、过敏原与全局高亮 `[Codex]`
-
-**状态**：✅ 已完成（2026-06-12）
-
-**目标**：整合现有过敏原设置，新增关注成分和忌口项，在报告/搜索/详情中全局高亮，所有提示谨慎表达。
-
-**涉及文件**：
-- `src/services/personalProfileService.js`（新建，整合三类个性化项）
-- `src/pages/settingsPage.js`（扩展设置 UI）
-- `src/pages/reportDetailPage.js`（接入高亮）
-- `src/pages/searchPage.js`（接入高亮）
-- `src/pages/detailPage.js`（接入高亮）
-- `src/pages/onboardingPage.js`（接入首次设置）
-- `scripts/test.mjs`
-
-**实现内容**：
-
-#### 1. 三类个性化项
-
-```js
-/**
- * @typedef {Object} PersonalProfile
- * @property {string[]} allergenIds     - EU 14 类标准过敏原 ID
- * @property {string[]} watchIds        - 关注成分 ID（"我想重点了解"）
- * @property {string[]} avoidIds        - 忌口项 ID（"我尽量少吃"）
- */
-```
-
-localStorage 键：
-- `compcheck:allergens`（已有）
-- `compcheck:watch-ingredients`（新增）
-- `compcheck:avoid-ingredients`（新增）
-
-#### 2. 设置页 UI
-
-三个区块，各自可展开/折叠：
-
-**过敏原**（已有，稍作优化）：
-- EU 14 类标准，按 chip 选择
-- 已选 N 种过敏原
-
-**我的关注成分**：
-- 搜索框 + 成分列表，点击添加
-- 已添加的显示为 chip，可删除
-- 文案："添加后在分析报告中重点展示，不代表有害"
-
-**我的忌口项**：
-- 同上
-- 文案："添加后在分析报告中标注提醒，**不构成医疗建议**"
-
-#### 3. 报告高亮（优先级和颜色）
-
-同一成分可以同时命中多类，优先级：过敏原 > 忌口 > 关注
-
-```
-过敏原   →  红色 badge "⚠️ 含过敏原"    --color-allergen
-忌口项   →  橙色 badge "• 你的忌口项"   --color-avoid
-关注成分 →  蓝色 badge "★ 你关注的"    --color-watch
-```
-
-报告页新增"个人命中摘要"区块（在关注摘要下方）：
-```
-你的个人设置命中了 2 种成分：
-• 阿斯巴甜 ⚠️ 过敏原（苯丙酮尿症）
-• 山梨酸钾 ★ 你关注的成分
-不构成医疗建议。如有疑虑请咨询专业人士。
-```
-
-#### 4. 搜索/详情高亮
-
-- 搜索结果列表：命中成分的卡片右上角显示对应角标
-- 详情页顶部：如果命中，显示 banner（同颜色体系）
-
-#### 5. 首次设置引导集成
-
-onboardingPage 在已有步骤后新增一步：
-- "设置你的过敏原" → 引导选择过敏原
-- "以后可以在设置中修改"
-
-#### 6. 存储策略
-
-- 过敏原沿用 `compcheck:allergens`，登录后仍通过既有 `/api/user/allergens` 同步
-- 关注成分和忌口项使用 `compcheck:watch-ingredients`、`compcheck:avoid-ingredients`，未登录时保持本机 `localStorage`
-- Batch U-B 后，登录态会通过 `/api/user/profile/watch`、`/api/user/profile/avoid` 云同步；本机 JSON 快照导出/导入/清空仍保留
-
-#### 7. 测试覆盖
-
-```js
-// 1. 添加/删除关注成分，存取一致
-// 2. 添加/删除忌口项，存取一致
-// 3. getPersonalProfile 整合三类
-// 4. 报告页 personal hit 正确高亮
-// 5. 设置清空后高亮消失
-```
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# - 设置页可添加/删除三类个性化项
-# - 分析报告命中项有 badge
-# - 搜索结果命中项有角标
-# - 刷新后设置不丢失
-```
-
----
-
-### Batch U-B：关注成分与忌口项跨设备同步 `[Codex]`
-
-**状态**：✅ 已完成 2026-06-12
-
-**目标**：把 Batch U-A 的关注成分和忌口项从“本机账号隔离”升级为登录态云同步，补齐个人成分档案跨设备恢复基础。
-
-**涉及文件**：
-- `backend/src/db/schema.ts`
-- `backend/src/routes/user.ts`
-- `backend/src/services/userService.ts`
-- `src/services/storageService.js`
-- `backend/tests/user.test.ts`
-- `scripts/test.mjs`
-- `PROJECT_PLAN.md`、`COMMANDS.md`、`AI_REVIEW.md`
-
-**实现内容**：
-
-1. 新增 `user_profile_ingredients` 表，按 `user_id + kind(watch/avoid) + ingredient_id` 存储个人关注/忌口成分。
-2. 新增 `GET/PUT /api/user/profile/:kind`，支持 `watch` 和 `avoid` 两类 whole-set replace，同步语义与过敏原一致。
-3. 前端 `storageService` 将 `compcheck:watch-ingredients`、`compcheck:avoid-ingredients` 接入现有 hydrate-before-write 云同步流程。
-4. 未登录时继续使用本机 localStorage；登录后按当前 JWT 用户做本机缓存隔离并自动云端恢复。
-5. 补充后端 route 测试和前端同步结构测试。
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-cd backend && npm run typecheck && npm test && npm run build && npm run db:migrate
-```
-
-**阻塞条件**：无。  **是否需要人工**：否。
-
-**2026-06-12 完成记录**：已补齐关注成分与忌口项 profile 同步基础；仍需后续用两个真实设备或浏览器 profile 做端到端跨设备验收，并补离线队列。
-
----
-
-## 阶段 9：移动端和 PWA 产品体验
-
-### Batch M-A：首页与导航重构 + 设计系统落地 `[Codex]`
-
-**状态**：✅ 2026-06-12
-
-**目标**：以"拍照识别"为核心重构首页信息架构，落地全局设计系统（CSS 变量），统一 loading/empty/error 状态。
-
-**涉及文件**：
-- `src/pages/homePage.js`（重构）
-- `src/main.js`（底部导航调整）
-- `src/styles.css`（设计系统落地 + 首页样式 + skeleton）
-- `scripts/test.mjs`
-
-**实现内容**：
-
-#### 1. CSS 变量落地
-
-在 `src/styles.css` 的 `:root` 中补全"设计语言规范"章节定义的所有 CSS 变量，所有页面必须通过变量引用颜色。
-
-#### 2. 统一 Loading Skeleton 组件
-
-```css
-/* 骨架屏动画 */
-@keyframes skeleton-shimmer {
-  0%   { background-position: -200px 0; }
-  100% { background-position: calc(200px + 100%) 0; }
-}
-.skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
-  animation: skeleton-shimmer 1.5s infinite;
-  border-radius: 4px;
-}
-.skeleton-text  { height: 16px; margin: 8px 0; }
-.skeleton-card  { height: 80px; border-radius: var(--radius-card); }
-```
-
-所有数据加载中的页面必须用 skeleton 替代空白或 spinner。
-
-#### 3. 统一 Empty State 组件
-
-```html
-<!-- empty-state 结构 -->
-<div class="empty-state">
-  <div class="empty-state-icon">图标（纯文字或 SVG）</div>
-  <p class="empty-state-title">主提示文字</p>
-  <p class="empty-state-desc">次要说明</p>
-  <button class="btn-primary">操作按钮</button>
-</div>
-```
-
-每个页面的 empty state 都要有"下一步"操作按钮，不能只显示文字。
-
-#### 4. 统一 Error State
-
-```html
-<div class="error-state">
-  <p>⚠️ 加载失败</p>
-  <p class="error-desc">具体原因</p>
-  <button onclick="retry()">重试</button>
-</div>
-```
-
-#### 5. 首页信息架构
-
-```
-┌────────────────────────────────────┐
-│  成分镜               [设置图标]   │   ← 顶部
-├────────────────────────────────────┤
-│  ┌──────────────────────────────┐  │
-│  │  📷  拍照识别配料表           │  │   ← Hero CTA，全宽，高 56px
-│  └──────────────────────────────┘  │
-├────────────────────────────────────┤
-│  最近分析                          │   ← 有历史才显示，skeleton 加载中
-│  [缩略图] 旺旺仙贝   [缩略图] 奥利奥│
-│  2分钟前             昨天           │
-│                  [查看全部历史]     │
-├────────────────────────────────────┤
-│  成分搜索                          │
-│  [🔍 搜索成分名称...]              │
-├────────────────────────────────────┤
-│  热门类别                          │
-│  [防腐剂] [甜味剂] [着色剂] [增稠剂]│
-└────────────────────────────────────┘
-```
-
-#### 6. 底部导航（5 个 Tab）
-
-```
-[首页]  [📷 识别]  [搜索]  [历史]  [我的]
-```
-
-- 中间"识别"Tab 视觉突出（稍大图标，或圆形背景）
-- active Tab 颜色：`--color-primary`，未选中：`#9ca3af`
-
-#### 7. 页面过渡动画
-
-```css
-.page-enter {
-  animation: slide-in-right 150ms var(--transition-fast);
-}
-@keyframes slide-in-right {
-  from { transform: translateX(16px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-}
-```
-
-#### 8. 无障碍（Accessibility）
-
-- 所有图标按钮必须有 `aria-label`
-- 底部导航是视觉 Tab，但语义保留 `nav` + link；运行时用 `aria-current="page"` 标识当前入口，避免伪装成没有 tabpanel 的 tab widget
-- 图片预览 `alt` 属性不能为空
-- 主 CTA 按钮 font-size ≥ 16px（防止 iOS Safari 自动缩放表单）
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# - 首页 Hero CTA 最显眼
-# - 底部 5 个 Tab 清晰，中间"识别"视觉突出
-# - 所有页面 loading 用 skeleton，不用空白
-# - 所有页面 empty state 有操作按钮
-# - iPhone Safari 底部 Tab 不被 Home Bar 遮挡
-# - 基础 Accessibility 检查（手动或 axe-core）
-```
-
----
-
-### Batch M-B：PWA 体验优化与离线能力 `[Codex]`
-
-**状态**：✅ 2026-06-12
-
-**目标**：优化 PWA 安装体验，明确离线能力边界，修复 iPhone Safari 常见问题。
-
-**涉及文件**：
-- `public/manifest.webmanifest`（优化）
-- `public/sw.js`（离线策略优化）
-- `src/main.js`（离线状态和安装提示）
-- `src/styles.css`（iOS 修复）
-- `src/index.html`
-- `src/pages/settingsPage.js`（离线能力说明）
-- `docs/pwa-offline-capability.md`（新建）
-
-**实现内容**：
-
-#### 1. manifest 完整配置
-
-```json
-{
-  "name": "成分镜",
-  "short_name": "成分镜",
-  "description": "拍照识别食品配料表，了解每种成分",
-  "start_url": "./#/food",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#116a5b",
-  "orientation": "portrait",
-  "icons": [72,96,128,144,152,192,384,512 的各尺寸 PNG],
-  "shortcuts": [{
-    "name": "拍照识别",
-    "url": "./#/food/scan",
-    "icons": [...]
-  }]
-}
-```
-
-#### 2. Service Worker 离线策略
-
-| 资源类型 | 策略 |
-|---|---|
-| App Shell（HTML/CSS/JS）| Install 阶段预缓存 HTML/manifest/icons，并解析 `index.html` 预热 Vite JS/CSS bundles；运行时 Stale-While-Revalidate，替换 HTML 前先缓存新 HTML 引用的 bundles |
-| 成分 API `/api/ingredients` | Network First，失败时返回缓存 |
-| 图片和图标 | Cache First，图标首次离线可回退读取 App Shell 预缓存 |
-| OCR API `/api/ocr` | Network Only（不缓存） |
-| 登录态 API `/api/auth/*`、`/api/user/*` | Network Only（不缓存），失败时提示离线 |
-
-#### 3. 离线能力说明文档（`docs/pwa-offline-capability.md`）
-
-明确哪些功能离线可用：
-- ✅ 查看本地历史报告
-- ✅ 成分搜索（已缓存数据）
-- ✅ 查看收藏
-- ⚠️ 拍照识别（需要网络，OCR API）
-- ⚠️ 云同步（需要网络）
-- ❌ 登录/注册（需要网络）
-
-在 App 中展示全局离线状态提示：检测到 `!navigator.onLine` 时顶部显示“当前离线，部分功能不可用”，并在设置页展示“离线与安装”能力说明。
-
-#### 4. iPhone Safari 修复
-
-```css
-/* 修复 100vh 问题 */
-.full-height {
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-
-/* 输入框 zoom 防止 */
-input, textarea, select { font-size: max(16px, 1rem); }
-
-/* 状态栏处理（PWA 模式下） */
-/* meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" */
-/* 顶部使用 env(safe-area-inset-top) 避免状态栏遮挡 */
-```
-
-#### 5. PWA 安装提示
-
-- 检测 `beforeinstallprompt` 事件（Android Chrome）
-- 用户第 3 次打开时在底部显示 "添加到主屏幕" 提示条
-- iOS Safari 提示："点击分享，然后选择添加到主屏幕"
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-# Lighthouse PWA 检查得分 ≥ 80
-# - 离线时历史页可查看
-# - iPhone Safari 全屏模式下 100vh 正确
-# - 输入框在 iOS 下不触发自动缩放
-# - manifest shortcuts 可在 Android 长按图标显示
-```
-
----
-
-## 阶段 10：AI 总结和解释
-
-### Batch A-A：AI 解释层集成 `[人工+Codex]`
-
-**状态**：⏸ blocked_by_user（等待 AI API Key）
-
-**目标**：AI 基于已匹配的数据库结果生成可读解释，不编造来源，不替代数据库，不生成医疗诊断。
-
-**人工操作（先做）**：
-- [ ] 选择 AI 模型（推荐 Anthropic Claude，`claude-haiku-4-5-20251001` 控制成本）
-- [ ] 获取 API Key → 后端环境变量 `AI_API_KEY`、`AI_PROVIDER=anthropic`
+### Batch 3-E：真实 OCR 服务接入 [人工+Codex]
+
+目标：接入真实 OCR 供应商（推荐阿里云通用文字识别或自建 PaddleOCR/RapidOCR），后端代理，图片二次压缩，真实识别。
+
+状态：⛔ blocked_by_user（OCR API Key + 供应商选型）。
+涉及文件：`backend/src/services/ocrProviders/*.ts`、`backend/src/routes/ocr.ts`、`backend/.env.example`。
+实现内容：
+1. 人工选 provider 并提供 Key / 自建服务地址。
+2. 实现对应 provider 适配，图片后端二次压缩到 1MB 内再发送。
+3. 真实包装图片测试（≥3 张，识别可用率达标）。
+
+人工操作：
+- [ ] 选择 OCR 供应商，申请 Key → `OCR_API_KEY` / `OCR_PROVIDER`。
 - [ ] 标注：`[人工完成 ✅ YYYY-MM-DD]`
 
-**Codex 任务**：
-
-1. `cd backend && npm install @anthropic-ai/sdk`
-
-2. `backend/src/routes/analyze.ts`（需 JWT）：
-   - `POST /api/analyze` 接收 `{ matchResults: MatchResult[], productName: string }`
-   - AI **只能**基于传入的 `matchResults` 生成解释，不得凭空描述成分性质
-   - System prompt 强制约束：
-     ```
-     你是食品配料信息助手。根据以下数据库匹配结果，用通俗语言解释这些食品添加剂的常见用途和在食品中的作用。
-     严格禁止：编造来源或安全结论 / 生成医疗诊断 / 使用"绝对安全/绝对有害"等绝对化表述 / 提及不在匹配结果中的成分。
-     最后必须加：本解释仅供参考，不构成医疗建议。
-     ```
-   - 未配置 Key → `503 { error: 'ai_not_configured' }`，不崩溃
-
-3. 前端 `aiAnalysisService.js`：
-   - 登录后调用 `/api/analyze`
-   - 未登录或 API 不可用 → 本地 fallback 解释（基于已有 riskLevel 描述拼接）
-   - AI 结果在报告页"AI 解释"区块展示（可折叠，默认折叠，标注"AI 生成，仅供参考"）
-
-**验收标准**：
-
-```bash
-npm run lint && npm run test && npm run build
-cd backend && npm run typecheck && npm test
-# 未配置 Key 时 AI 区块显示 fallback，不崩溃
-# 配置 Key 后 AI 解释基于传入数据生成
-```
+是否需要人工：是。
+阻塞条件：OCR API Key（`blocked_by_user`）。manual/mock 闭环不受阻。
+验证命令：（接入后）`cd backend && npm test`，真机/真实图片验证。
 
 ---
 
-## 阶段 11：订阅、支付、上架（必须后置）
+# 阶段 4：配料表解析与匹配
 
-> 所有任务等核心产品闭环（阶段 3-9）稳定后才能推进。
+### Batch 4-A：配料文本解析 [Codex]
 
-### Batch L-A：真实 OCR 服务接入 `[人工+Codex]`
+目标：支持"配料：/配料表：/原料：/食品添加剂："前缀，中英文逗号/顿号/分号，中英文括号，复合配料括号展开，未识别项保留，不强行匹配未知项。
 
-**状态**：⏸ blocked_by_user（OCR API Key + O-B 完成）
+状态：✅ 已完成 2026-06-12（`parseIngredientList` 支持 OCR 噪声修正、前缀、复配括号、E-number、顺序、去重、未知项保留，12 个用例通过）。
+涉及文件：`src/utils/text.js`、`src/pages/analyzePage.js`、`src/pages/ocrConfirmPage.js`、`scripts/test.mjs`。
+验收标准：✅ 示例 `配料：水、白砂糖、麦芽糖浆、食品添加剂（柠檬酸、山梨酸钾）、食用香精` 正确拆分为 6 项；未知项保留。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`（12 用例）。
 
-**人工操作**：
-- [ ] 选择 OCR 供应商（推荐：阿里云通用文字识别 或 腾讯云 OCR）
-- [ ] 申请 API Key → `OCR_API_KEY`、`OCR_PROVIDER=aliyun`
+---
+
+### Batch 4-B：数据库匹配 [Codex]
+
+目标：中文名/英文名/别名/模糊匹配 + 匹配置信度，未匹配保留，低置信度提示，结果展示数据来源和可信等级。
+
+状态：✅ 已完成 2026-06-12（`ingredientMatchService` + 后端 `batch-search`，E-number 直查、精确/别名/前缀/包含匹配、置信度、客户端缓存、本地降级）。
+涉及文件：`src/services/ingredientMatchService.js`、`backend/src/routes/ingredients.ts`、`src/pages/analyzePage.js`、`scripts/test.mjs`。
+验收标准：✅ E-number 命中；精确匹配高置信；未匹配保留；低置信度入 lowConfidence 列表；展示来源与可信等级。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`，`cd backend && npm test`。
+
+---
+
+### Batch 4-C：低置信度确认 [Codex]
+
+目标：低置信度匹配在报告中单独列"待确认匹配"，用户可确认/驳回。
+
+状态：🔄 进行中（已有低置信列表展示；用户确认/驳回交互待补强）。
+涉及文件：`src/pages/reportDetailPage.js`、`src/services/ingredientMatchService.js`、`src/services/reviewQueueService.js`、`scripts/test.mjs`。
+实现内容：
+1. 报告/分析页低置信项（0.55–0.79）单独区块，标注"⚠️ 请确认"。
+2. 用户可"确认匹配"或"驳回"；驳回后该项标为未收录，进人工校验队列。
+3. 确认/驳回结果保存到本机报告快照。
+
+验收标准：
+1. 低置信项单独展示，颜色用 `--color-risk-medium`。
+2. 用户可确认/驳回，状态持久化。
+3. 驳回项进入 `reviewQueueService` 队列。
+
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test && npm run build`。
+
+---
+
+### Batch 4-D：未匹配收集 [Codex]
+
+目标：未匹配/OCR 未收录项以 `unknown_from_ocr` 汇总到数据治理页人工校验队列，并支持数据纠错反馈。
+
+状态：✅ 已完成 2026-06-12（`reviewQueueService` + `/data` 页人工校验队列 + 数据纠错表单）。
+涉及文件：`src/services/reviewQueueService.js`、`src/pages/dataPage.js`、`src/services/supportService.js`。
+验收标准：✅ OCR 未收录项进队列；可提交纠错线索；不自动升级 `dataStatus` / `isVerified`。
+是否需要人工：否（升级仍需人工来源确认）。
+阻塞条件：无。
+验证命令：`npm run test`。
+
+---
+
+# 阶段 5：分析报告
+
+### Batch 5-A：报告页 [Codex]
+
+目标：报告含已识别/已匹配/待确认/未收录数量、添加剂列表、重点关注、数据来源、可信等级、保存、分享、重新分析、非医疗化提示。
+
+状态：✅ 已完成 2026-06-12（`reportDetailPage` 结构化报告：整体评级、关注摘要、配料顺序、添加剂分类、未收录、特殊人群、来源说明、Markdown/JSON 导出、分享、重新分析）。
+涉及文件：`src/pages/reportDetailPage.js`、`src/pages/reportsPage.js`、`src/pages/analyzePage.js`、`src/services/reportService.js`、`scripts/test.mjs`。
+验收标准：✅ 报告含全部必需区块；禁止文案被 lint 拦截；可保存/分享/重新分析。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run validate:data && npm run lint && npm run test && npm run build`。
+
+---
+
+### Batch 5-B：可信等级展示 [Codex]
+
+目标：报告所有结果明确数据状态：`verified_regulation` 显示"官方标准已验证"，`pending_review` 显示"待复核来源数据"，`unknown_from_ocr` 显示"暂未收录"，不确定数据不展示为结论。
+
+状态：🔄 进行中（已有数据状态/来源/低置信展示；待统一文案与 `pending_review` 措辞，配合阶段 1 状态模型）。
+涉及文件：`src/pages/reportDetailPage.js`、`src/pages/detailPage.js`、`src/pages/searchPage.js`、`src/services/ingredientService.js`、`scripts/test.mjs`。
+实现内容：
+1. 统一可信等级文案映射（见 UX-C），全页面一致。
+2. `verified_regulation` / `verified_jecfa` / `pending_review` / `mapped_candidate` / `common_ingredient` / `unverified` / `unknown_from_ocr` 各有明确 Badge 文案与颜色。
+3. 不允许把不确定数据展示成结论。
+
+验收标准：
+1. 各状态文案与颜色全页面统一。
+2. `pending_review` 不显示为"已验证"。
+3. 测试覆盖文案映射。
+
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test`。
+
+---
+
+### Batch 5-C：保存与分享 [Codex]
+
+目标：报告可保存本地、分享文字摘要、导出 Markdown/JSON。
+
+状态：✅ 已完成 2026-06-12。
+涉及文件：`src/services/reportExportService.js`、`src/services/shareService.js`、`src/pages/reportDetailPage.js`。
+验收标准：✅ 可复制/下载 Markdown、下载 JSON、原生/Web Share/复制 fallback。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`。
+
+---
+
+### Batch 5-D：历史记录 [Codex]
+
+目标：历史分析记录列表，产品名/品牌、分析时间、匹配摘要，可重新打开报告。
+
+状态：✅ 已完成 2026-06-12（`/history` + `/reports` + 首页最近分析）。
+涉及文件：`src/pages/historyPage.js`、`src/pages/reportsPage.js`、`src/pages/homePage.js`。
+验收标准：✅ 历史列表含缩略图/产品名/评级/日期；可重开报告；移动端左滑删除。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`。
+
+---
+
+# 阶段 6：产品档案与个性化
+
+### Batch 6-A：产品档案 [Codex]
+
+目标：报告可建档为产品档案，完整图片存 IndexedDB，localStorage 只存 `imageId`+元数据+缩略图；后端 `product_archives` 表 + CRUD/搜索。
+
+状态：✅ 已完成 2026-06-12。
+涉及文件：`src/services/productArchiveService.js`、`src/pages/productArchivePage.js`、`backend/src/routes/user.ts`、`backend/src/db/schema.ts`。
+验收标准：✅ 可建档、列表、详情；图片在 IndexedDB；元数据在 localStorage；后端 `/api/user/products` CRUD 可用。
+是否需要人工：否。
+阻塞条件：无（生产 CDN 图片存储待生产部署）。
+验证命令：`npm run test`，`cd backend && npm test`。
+
+---
+
+### Batch 6-B：收藏 [Codex]
+
+目标：收藏成分/产品，取消收藏，本地持久化 + 登录态云同步。
+
+状态：✅ 已完成 2026-06-12（成分收藏 + 收藏产品 Tab + `/api/user/favorites` 同步）。
+涉及文件：`src/pages/favoritesPage.js`、`src/services/storageService.js`、`backend/src/routes/user.ts`。
+验收标准：✅ 收藏/取消/展示正常；登录后云同步。
+是否需要人工：否。
+阻塞条件：无（真实跨设备验收待人工）。
+验证命令：`npm run test`，`cd backend && npm test`。
+
+---
+
+### Batch 6-C：历史 [Codex]
+
+目标：分析历史搜索/筛选/清空/删除。
+
+状态：✅ 已完成 2026-06-12（见 Batch 5-D，历史与档案打通）。
+涉及文件：`src/pages/historyPage.js`、`src/services/productArchiveService.js`。
+验收标准：✅ 历史搜索/全部-收藏-高关注筛选/清空/左滑删除。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`。
+
+---
+
+### Batch 6-D：关注项/过敏原本地设置 [Codex]
+
+目标：我的关注成分、忌口项、过敏原本机设置 + 全局高亮（过敏原>忌口>关注），登录态云同步。
+
+状态：✅ 已完成 2026-06-12（`personalProfileService` + 设置页三区块 + `/api/user/profile/:kind` + `/api/user/allergens` 同步）。
+涉及文件：`src/services/personalProfileService.js`、`src/pages/settingsPage.js`、`backend/src/routes/user.ts`、`src/data/allergens.js`。
+验收标准：✅ 三类档案可增删；报告/搜索/详情全局高亮；登录态同步。
+是否需要人工：否（真实跨设备验收待人工）。
+阻塞条件：无。
+验证命令：`npm run test`，`cd backend && npm test`。
+
+---
+
+# 阶段 7：产品体验与信息架构优化
+
+> 目标：解决"用户不知道下一步、OCR 失败中断、未匹配被丢弃、来源不透明、移动端按钮过小、状态不统一、报告过度医疗化"等体验问题。
+
+### Batch UX-A：首页主路径重构 [Codex 🔁 待重构]
+
+目标：用户一打开就知道可以拍照识别配料表，搜索成分是辅助。
+
+涉及文件：`src/pages/homePage.js`、`src/main.js`、`src/styles.css`、`scripts/test.mjs`。
+实现内容：
+1. 首页第一操作是"拍照识别配料表"全宽主 CTA。
+2. 上传图片、粘贴配料表为次级入口。
+3. 搜索成分为辅助入口（非首屏第一主按钮）。
+4. 最近分析记录可见。
+5. 常见关注项、数据可信说明入口。
+6. 移动端优先，安全区适配。
+
+验收标准：
+1. 首页第一操作是拍照识别配料表。
+2. 搜索成分是辅助入口。
+3. 最近分析记录可见。
+4. 移动端不溢出、不错位。
+
+是否需要人工：否。
+阻塞条件：无（部分由旧 M-A 完成，本批次按新优先级复核首页层级）。
+验证命令：`npm run lint && npm run test && npm run build`。
+
+---
+
+### Batch UX-B：OCR 流程状态机 [Codex]
+
+目标：拍照→上传→识别→确认→解析→匹配→报告全流程状态明确，失败可回退/重试，无 Key 走手动，不卡死。
+
+涉及文件：`src/services/ocrService.js`、`src/pages/scanPage.js`、`src/pages/ocrConfirmPage.js`、`src/pages/analyzePage.js`、`src/store/userStore.js`、`scripts/test.mjs`。
+实现内容：
+1. 定义并文档化流程状态：`idle / capturing / processing / ocr_loading / confirm / parsing / matching / report / error`。
+2. 每步有明确状态与可见反馈。
+3. 任一步失败可回退上一步或重试。
+4. 无 API Key 全程可走 manual。
+5. 不出现无出口的中间状态。
+
+验收标准：
+1. 每一步都有明确状态。
+2. 失败可回退或重试。
+3. 无 API Key 可走手动输入。
+4. 不会卡死在中间状态。
+
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test && npm run build`。
+
+---
+
+### Batch UX-C：统一结果可信表达 [Codex]
+
+目标：所有结果都明确数据状态，建立全局可信等级文案与颜色映射。
+
+涉及文件：`src/utils/dataStatus.js`（计划新建，统一映射）、`src/pages/detailPage.js`、`src/pages/searchPage.js`、`src/pages/reportDetailPage.js`、`src/styles.css`、`scripts/test.mjs`。
+实现内容：
+1. 统一映射：
+
+   | dataStatus | 文案 | 颜色变量 |
+   |---|---|---|
+   | `verified_regulation` | 官方标准已验证 | `--color-risk-low` |
+   | `verified_jecfa` | 安全评价已匹配（非中国法规范围） | `--color-watch` |
+   | `pending_review` | 待复核来源数据 | `--color-unverified` |
+   | `mapped_candidate` | 疑似匹配，待确认 | `--color-risk-medium` |
+   | `common_ingredient` | 普通配料 | `--color-risk-low` |
+   | `unverified` | 未验证 | `--color-unverified` |
+   | `unknown_from_ocr` | 暂未收录 | `--color-unknown` |
+
+2. 搜索、详情、报告统一引用该映射。
+3. 不允许把不确定数据展示成结论。
+
+验收标准：
+1. `verified_regulation` 显示"官方标准已验证"。
+2. `pending_review` 显示"待复核来源数据"。
+3. `unknown_from_ocr` 显示"暂未收录"。
+4. 不把不确定数据展示成结论。
+
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test`。
+
+---
+
+### Batch UX-D：移动端组件统一 [Codex]
+
+目标：统一 Button、Card、Badge、Toast、EmptyState、ErrorState、LoadingState、BottomNav。
+
+涉及文件：`src/components/`（计划补齐共享组件）、`src/styles.css`、各 page 引用、`scripts/test.mjs`。
+实现内容：
+1. 抽取统一组件：`Button`、`Card`、`Badge`、`Toast`、`EmptyState`、`ErrorState`、`LoadingState`、`BottomNav`。
+2. 各页面复用，不再各写一套视觉。
+3. 全部用 CSS 变量，无内联颜色、无魔法数字。
+4. iPhone Safari 正常，安全区适配。
+
+验收标准：
+1. 页面风格统一。
+2. iPhone Safari 正常。
+3. 不出现默认丑页面。
+4. 不出现内联硬编码颜色。
+
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test && npm run build`。
+
+---
+
+### Batch UX-E：报告页产品化 [Codex]
+
+目标：报告页是用户能看懂的分析结果，不是简单列表，文案不医疗化。
+
+涉及文件：`src/pages/reportDetailPage.js`、`src/services/reportService.js`、`src/styles.css`、`scripts/test.mjs`。
+实现内容：
+1. 报告摘要 + 重点关注前置。
+2. 已匹配/待确认/未收录统计可视化。
+3. 数据来源说明明确。
+4. 保存、分享、重新分析。
+5. 文案非医疗化（禁止文案被 lint 拦截）。
+
+验收标准：
+1. 有摘要、有重点关注。
+2. 有已匹配/待确认/未收录统计。
+3. 有数据来源说明。
+4. 有保存和分享。
+5. 文案不医疗化。
+
+是否需要人工：否。
+阻塞条件：无（大部分由旧 R-A 完成，本批次按产品化标准复核与补强）。
+验证命令：`npm run validate:data && npm run lint && npm run test && npm run build`。
+
+---
+
+# 阶段 8：移动端 / PWA 体验
+
+### Batch 8-A：底部导航 [Codex]
+
+目标：底部主导航（首页/识别/搜索/历史/我的），识别 Tab 视觉突出，active 态清晰。
+
+状态：✅ 已完成 2026-06-12（5 Tab 底部导航 + `aria-current`）。
+涉及文件：`src/index.html`、`src/main.js`、`src/styles.css`。
+验收标准：✅ 5 Tab 清晰，识别突出，active 态正确。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`。
+
+---
+
+### Batch 8-B：iPhone Safari 适配 [Codex]
+
+目标：`100dvh`、输入框 16px 防缩放、安全区、底部导航不被 Home Bar 遮挡。
+
+状态：🔄 进行中（CSS 已适配；真机验收待人工）。
+涉及文件：`src/styles.css`、`src/index.html`、`public/manifest.webmanifest`、`public/sw.js`。
+实现内容：
+1. `100vh`/`100dvh` 修复、输入框 `font-size >= 16px`、`env(safe-area-inset-*)`。
+2. PWA 安装/离线已有；真机 Lighthouse PWA 检查待补。
+
+验收标准：
+1. iPhone Safari 全屏 100vh 正确。
+2. 输入框不触发自动缩放。
+3. 底部 Tab 不被 Home Bar 遮挡。
+
+是否需要人工：是（真机验收）。CSS 编码无需人工。
+阻塞条件：真机验收（可记录为待人工，不阻塞 CSS 实现）。
+验证命令：`npm run lint && npm run build`，真机 / Lighthouse 验证。
+
+---
+
+### Batch 8-C：loading/empty/error 状态统一 [Codex]
+
+目标：所有页面 loading 用 skeleton、empty 有操作按钮、error 有重试，不空白不丑陋。
+
+状态：🔄 进行中（已有 skeleton / empty / error 基础；待全页面统一复核，配合 UX-D）。
+涉及文件：`src/styles.css`、各 page、`scripts/test.mjs`。
+实现内容：
+1. 全页面 loading → skeleton。
+2. 全页面 empty → 含"下一步"操作按钮。
+3. 全页面 error → 含重试。
+
+验收标准：
+1. 无页面用空白替代 loading。
+2. 每个 empty 有操作按钮。
+3. 每个 error 有重试。
+
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run lint && npm run test`。
+
+---
+
+# 阶段 9：AI 总结解释
+
+> AI 只能总结数据库匹配结果、通俗解释、生成非医疗化提示。AI 不能编造成分数据、不能编造 GB2760 结论、不能替代 OCR、不能替代数据库匹配、不能给医疗诊断。AI 排在数据源和数据库匹配之后。
+
+### Batch 9-A：AI Provider 抽象 [Codex]
+
+目标：AI Provider 抽象（协议、endpoint、payload、输出 contract、本地 fallback），密钥只在后端。
+
+状态：✅ 已完成 2026-06-12（`aiAnalysisService` 协议版本、endpoint 占位、payload、响应校验、本地 fallback）。
+涉及文件：`src/services/aiAnalysisService.js`、`backend/.env.example`。
+验收标准：✅ 协议结构清晰；未配置 Key 时本地 fallback；前端不暴露密钥。
+是否需要人工：否。
+阻塞条件：无（抽象层）。
+验证命令：`npm run test`。
+
+---
+
+### Batch 9-B：基于数据库结果的总结 [人工+Codex]
+
+目标：后端 `POST /api/analyze`，AI 只基于传入 `matchResults` 生成解释，强制 system prompt 约束，加免责声明。
+
+状态：⛔ blocked_by_user（AI API Key）。
+涉及文件：`backend/src/routes/analyze.ts`（计划）、`src/services/aiAnalysisService.js`。
+实现内容：
+1. `cd backend && npm install @anthropic-ai/sdk`（人工提供 Key 后）。
+2. `POST /api/analyze` 接收 `{ matchResults, productName }`，AI 只基于传入结果解释，不凭空描述。
+3. System prompt 强制：禁止编造来源/安全结论、禁止医疗诊断、禁止绝对化、禁止提及不在结果中的成分、必须加"本解释仅供参考，不构成医疗建议"。
+4. 未配置 Key → 503，不崩溃。
+
+人工操作：
+- [ ] 选 AI 模型（推荐 Anthropic Claude，`claude-haiku-4-5` 控成本），提供 `AI_API_KEY` / `AI_PROVIDER`。
 - [ ] 标注：`[人工完成 ✅ YYYY-MM-DD]`
 
-**Codex 任务**：
-1. `cd backend && npm install sharp`
-2. 实现 `backend/src/services/ocrProviders/aliyunOcr.ts`（或对应供应商）
-3. 图片在后端用 sharp 二次压缩到 1MB 以内再发送
-4. 更新 `backend/src/routes/ocr.ts` 接入真实供应商
-5. 真实食品包装图片测试（至少 3 张，识别准确率 ≥ 70%）
+是否需要人工：是。
+阻塞条件：AI API Key（`blocked_by_user`）。
+验证命令：（接入后）`cd backend && npm run typecheck && npm test`。
 
 ---
 
-### Batch 2-D：iOS 工程配置 `[人工]`
+### Batch 9-C：未配置 API Key 降级 [Codex]
 
-**状态**：⏸ blocked_by_user
+目标：未登录或 API 不可用时本地 fallback 解释（基于已有 riskLevel 描述拼接），报告页"AI 解释"区块默认折叠，标注"AI 生成，仅供参考"。
 
-- [ ] 注册 Apple Developer Program（$99/年）
-- [ ] Xcode 配置：Bundle ID `com.compcheck.app`，App 名称"成分镜"
-- [ ] 添加相机/相册权限描述（见 `docs/ios-plist-additions.md`）
-- [ ] 真机 Build & Run，验证拍照识别主流程可用
-- [ ] TestFlight 内测
+状态：✅ 已完成 2026-06-12（本地 fallback 解读 + 协议状态展示）。
+涉及文件：`src/services/aiAnalysisService.js`、`src/pages/analyzePage.js`。
+验收标准：✅ 无 Key 时显示 fallback，不崩溃；AI 区块标注仅供参考。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`。
+
+---
+
+# 阶段 10：登录、云同步
+
+> 登录/云同步不阻塞本地 MVP。访客模式下所有核心功能可用。
+
+### Batch 10-A：登录 UI [Codex]
+
+目标：前端登录/注册页，JWT 管理，访客模式，登录后本机数据同步。
+
+状态：✅ 已完成 2026-06-12（`authPage` + `authService` + 设置页登录/退出 + 访客模式 + JWT 过期清理）。
+涉及文件：`src/pages/authPage.js`、`src/services/authService.js`、`src/pages/settingsPage.js`、`backend/src/routes/auth.ts`。
+验收标准：✅ 注册/登录/退出；访客模式核心功能可用；登录后云同步触发。
+是否需要人工：否。
+阻塞条件：无。
+验证命令：`npm run test`，`cd backend && npm test`。
+
+---
+
+### Batch 10-B：云同步接口预留 [Codex]
+
+目标：收藏/历史/过敏原/关注/忌口/报告/产品档案登录态同步。
+
+状态：✅ 已完成 2026-06-12（`/api/user/*` 同步接口 + 前端 hydrate-before-write 流程）。
+涉及文件：`backend/src/routes/user.ts`、`src/services/storageService.js`。
+验收标准：✅ 各类数据登录后同步；未登录保持本机行为。
+是否需要人工：否（真实跨设备验收 + 离线队列待补）。
+阻塞条件：无。
+验证命令：`cd backend && npm test`，`npm run test`。
+
+---
+
+### Batch 10-C：真实生产配置与跨设备验收 [人工+Codex]
+
+目标：真实跨设备同步验收 + 离线同步队列。
+
+状态：⛔ blocked_by_user（生产环境 + 真实多设备）。
+涉及文件：`src/services/storageService.js`、`backend/src/routes/user.ts`。
+实现内容：
+1. 离线同步队列（离线写入排队，恢复网络后回放）。
+2. 真实两设备/两浏览器 profile 端到端验收。
+
+人工操作：
+- [ ] 提供生产环境或两台真实设备做跨设备验收。
 - [ ] 标注：`[人工完成 ✅ YYYY-MM-DD]`
 
----
-
-### Batch 2-E：Android 工程配置 `[人工]`
-
-**状态**：⏸ blocked_by_user
-
-- [ ] 注册 Google Play Developer（$25）
-- [ ] Android Studio 配置：applicationId `com.compcheck.app`
-- [ ] 签名 keystore（妥善备份密码）
-- [ ] 真机 Build & Run，验证拍照识别主流程可用
-- [ ] Google Play 内测轨道（14 天闭测计时）
-  - 内测开始日期：`[填写]`
-  - 可申请正式发布日期：`[填写 = 开始 + 14 天]`
-- [ ] 标注：`[人工完成 ✅ YYYY-MM-DD]`
+是否需要人工：是。
+阻塞条件：生产环境 / 多设备（`blocked_by_user`）。离线队列编码可先做。
+验证命令：（人工）两设备登录同账号验证数据一致。
 
 ---
 
-### Batch 4-A：套餐设计与权益服务 `[Codex]`
+# 阶段 11：订阅、支付、上架（全部后置）
 
-**状态**：⏸ 后移（依赖阶段 3-9 稳定）
+> 等核心产品闭环（阶段 1-10）稳定后才推进。全部标记 `[人工]` 或 `[人工+Codex]`，当前不计入核心进度。
 
-主要内容：`entitlements` 表、`entitlementService.ts`、免费额度（OCR 5次/月、AI报告 3次/月）、`GET /api/user/entitlement`、`POST /api/user/entitlement/verify`、用量限制中间件。
+### Batch 11-A：套餐设计与权益服务 [Codex]
 
----
+状态：⏸ 后置（依赖阶段 1-10 稳定）。
+实现内容：`entitlements` 表、`entitlementService`、免费额度（OCR 5 次/月、AI 报告 3 次/月）、`GET /api/user/entitlement`、用量限制中间件。
+是否需要人工：否（但后置）。
+阻塞条件：核心闭环稳定前不启动。
 
-### Batch 4-B：Apple IAP 接入 `[人工+Codex]`
+### Batch 11-B：Apple IAP 接入 [人工+Codex]
 
-**状态**：⏸ blocked_by_user（依赖 4-A + Apple Developer 账号）
+状态：⛔ blocked_by_user（Apple Developer + 4-A）。
+人工：App Store Connect 订阅商品、沙盒账号、.p8 Key。Codex：前端购买流程、服务端 JWS 验证、Webhook。
 
-人工：App Store Connect 创建订阅商品、沙盒账号、.p8 API Key。
-Codex：前端购买流程、服务端 JWS 验证、Webhook 处理。
+### Batch 11-C：Google Play Billing [人工+Codex]
 
----
+状态：⛔ blocked_by_user（Google Play + 14 天闭测）。
+人工：Play Console 订阅、Pub/Sub 通知、服务账号 JSON。Codex：购买流程、服务端验证、Webhook。
 
-### Batch 4-C：Google Play Billing 接入 `[人工+Codex]`
+### Batch 11-D：iOS / Android 工程签名 [人工]
 
-**状态**：⏸ blocked_by_user（依赖 4-B + Google Play 账号）
+状态：⛔ blocked_by_user。
+iOS：Apple Developer Program、Bundle ID、权限描述、TestFlight。Android：Google Play 开发者、applicationId、keystore、14 天闭测。
 
-人工：Play Console 配置订阅、Pub/Sub 通知、服务账号 JSON。
-Codex：购买流程、服务端验证、Webhook。
+### Batch 11-E：E2E 测试 [Codex]
 
----
+状态：⏸ 后置（依赖阶段 1-10 稳定）。
+实现内容：Playwright 覆盖拍照识别→分析→保存报告、搜索→详情→收藏主流程，CI 集成。
 
-### Batch 6-A：E2E 测试 `[Codex]`
+### Batch 11-F：合规材料最终版 [人工+Codex]
 
-**状态**：⏸ 后移（依赖阶段 3-9 功能稳定）
+状态：⛔ blocked_by_user（法务复核）。
+人工：法务复核隐私政策、服务条款、数据安全问卷、客服邮箱。Codex：更新 `src/data/legalContent.js`、`docs/app-store-metadata.md`。
 
-主要内容：Playwright，覆盖拍照识别→配料分析→保存报告、成分搜索→详情→收藏等主流程，CI 集成。
+### Batch 11-G：生产基础设施与监控 [人工+Codex]
 
----
+状态：⛔ blocked_by_user（依赖 2-D + 域名）。
+人工：域名、DNS、生产库、部署平台、生产环境变量。Codex：生产 Dockerfile、CI/CD、Sentry、`/health` 数据库检查、结构化日志。
 
-### Batch 6-B：合规材料最终版 `[人工+Codex]`
+### Batch 11-H：提交商店审核与发布 [人工]
 
-**状态**：⏸ blocked_by_user（法务复核）
-
-人工：法务复核隐私政策、服务条款、数据安全问卷、客服邮箱。
-Codex：更新 `legalContent.js`，新建 `docs/app-store-metadata.md`。
-
----
-
-### Batch 6-C：上架资源准备 `[人工]`
-
-**状态**：⏸ blocked_by_user
-
-- [ ] App Icon 1024×1024 PNG
-- [ ] iOS 截图（6.7"、6.5"、5.5"）、Android 截图
-- [ ] 短描述（≤ 30 字）、完整描述（中英文）
-- [ ] 审核 demo 账号
-
----
-
-### Batch 6-D：生产基础设施配置 `[人工+Codex]`
-
-**状态**：⏸ blocked_by_user（依赖 D-A 选型 + 域名）
-
-人工：域名、DNS、生产数据库、部署平台、所有生产环境变量。
-Codex：生产多阶段 Dockerfile、CI/CD deploy.yml。
-
----
-
-### Batch 7-A：监控与可观测性 `[Codex]`
-
-**状态**：⏸ 后移（依赖 6-D）
-
-主要内容：Sentry 接入、`/health` 数据库检查、前端全局错误上报、关键操作结构化日志。
-
----
-
-### Batch 7-B：提交商店审核 `[人工]`
-
-**状态**：⏸ blocked_by_user（依赖 M6 全部完成）
-
-App Store Connect 和 Google Play Console 提交审核所需所有人工操作。
-
----
-
-### Batch 7-C：正式发布与验收 `[人工+Codex]`
-
-**状态**：⏸ 后移（依赖审核通过）
-
-Codex：`scripts/post-launch-check.sh`，更新 `PROJECT_PLAN.md` 进度至 100%。
-
----
-
-## 快速参考：当前最早未完成任务
-
-```
-→ 无阻塞，Codex 可立即执行（按顺序）：
-  暂无（下一项 A-A 需要 AI Key 人工前置）
-
-→ 当前需要人工并行处理：
-  Data Batch 1-B：官方来源清单确认和 10-20 条逐条审核样例（不阻塞 OCR 流程）
-  Batch D-A：生产数据库选型（不阻塞 OCR 流程）
-  OCR API Key：解锁真实 OCR 供应商调用（不阻塞 manual/fallback 闭环）
-```
+状态：⛔ blocked_by_user。
+App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 ---
 
 ## 完整依赖关系
 
 ```
-【已完成】Data 1-A, 0-A, 1-A, 1-B, 2-A~C, 3-A~D
-
-【数据主线】Data 1-B[人工+Codex，blocked_by_user] → 【已完成】Data 1-C（数据版本/审核状态基础设施） → D-A[人工] → D-B[人工+Codex]
-
-【OCR 产品闭环（Codex 主线）】
-【已完成】O-A（拍照入口）→ O-D（图片预处理）→ O-B（OCR 抽象）→ O-C（文本确认）
-→ P-A（配料解析）→ P-B（数据库匹配）
-【已完成】R-A（分析报告）→ F-A（产品档案）→ F-B（历史收藏）
-【已完成】Q-A（登录 UI）
-【已完成】U-A（个性化）→ U-B（关注/忌口云同步）
-【已完成】M-A（首页重构）
-【已完成】M-B（PWA 优化）
-【下一步】A-A[人工+Codex，需 AI Key]
-
-【后置：订阅支付上架（等核心稳定）】
-L-A[人工+Codex] → 2-D[人工] → 2-E[人工]
-→ 4-A → 4-B[人工+Codex] → 4-C[人工+Codex]
-→ 6-A → 6-B[人工+Codex] → 6-C[人工] → 6-D[人工+Codex]
-→ 7-A → 7-B[人工] → 7-C[人工+Codex]
+阶段 1（数据源 GB2760）：1-A → 1-B✅ → 1-C[人工+Codex] → 1-D → 1-E
+阶段 2（数据库 API）：2-A✅ → 2-B✅ → 2-C✅ → 2-D[人工+Codex, blocked]
+阶段 3（OCR）：3-A✅ → 3-B🔁 → 3-C✅ → 3-D✅ → 3-E[人工+Codex, blocked]
+阶段 4（解析匹配）：4-A✅ → 4-B✅ → 4-C🔄 → 4-D✅
+阶段 5（报告）：5-A✅ → 5-B🔄 → 5-C✅ → 5-D✅
+阶段 6（档案个性化）：6-A✅ → 6-B✅ → 6-C✅ → 6-D✅
+阶段 7（体验 UX）：UX-A🔁 → UX-B → UX-C → UX-D → UX-E
+阶段 8（移动 PWA）：8-A✅ → 8-B🔄 → 8-C🔄
+阶段 9（AI）：9-A✅ → 9-B[人工+Codex, blocked] → 9-C✅
+阶段 10（登录同步）：10-A✅ → 10-B✅ → 10-C[人工+Codex, blocked]
+阶段 11（订阅支付上架）：全部后置 / blocked_by_user
 ```
 
-**关键人工卡点**：
+关键人工卡点：
 
-| 卡点 | 解锁什么 | 最晚时机 |
+| 卡点 | 解锁 | 当前是否阻塞核心 |
 |---|---|---|
-| GB 2760 等来源确认 | Data 1-B Codex 部分 | OCR 闭环进行中可并行 |
-| 生产数据库连接串 | D-A/D-B | M-B 完成前 |
-| OCR API Key | L-A | A-A 完成后 |
-| AI API Key | A-A | M-B 完成后 |
-| Apple Developer | 2-D、4-B | 4-A 完成后 |
-| Google Play + 14天闭测 | 2-E、4-C | **尽早启动，闭测需时间** |
-| 法务合规复核 | 6-B | 6-A 完成后 |
-| 域名 + 生产环境 | 6-D | 6-B 完成后 |
+| GB2760 人工复核 | 1-C promote 实际 verified 增量产出 | 否（pending_review 流程与 promote 脚本已可用） |
+| 生产 DATABASE_URL | 2-D | 否（本地闭环可用） |
+| OCR API Key | 3-E | 否（manual/mock 闭环可用） |
+| AI API Key | 9-B | 否（本地 fallback 可用） |
+| Apple / Google 账号 | 11-B/C/D/H | 否（已后置） |
+
+---
+
+## 附录：GB2760 导入历史记录（保留追溯，勿删）
+
+- **2026-06-12 官方来源确认**：GB 2760-2024 官方来源为国家卫健委公告（2024 年第 1 号）和食品安全国家标准数据检索平台；标准文本 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`，附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`，发布 `2024-02-08`，实施 `2025-02-08`；官方 PDF SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`（不入应用仓库）。
+- **2026-06-12 首批 5 条条款级导入**：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate` 升级为 `verified_regulation` / `isVerified: true`。
+- **2026-06-13 全文转换**：264 页 → `gb2760_official_pages`。
+- **2026-06-13 表 A.1 staging**：第 8-148 页 → 2404 行 `gb2760_official_records`，2391 行 `needs_review`，957 行关联 91 个 ingredient，1447 行未匹配；100 条 seed 中 91 条有 A.1 证据（9 条无：`calcium-citrate`/`citral`/`ethyl-maltol`/`ethyl-vanillin`/`isomalt`/`konjac-gum`/`menthol`/`potassium-benzoate`/`vanillin`）。
+- **2026-06-13 参考表全量**：A.2=68、B.1=29、B.2=388、B.3=1504、C.1=37、C.2=80、C.3=66、附录 D=23、E.1=318、附录 F=287，合计 2800 行 `gb2760_official_reference_rows`。
+- **2026-06-14 边界修复**：表 C.3/附录 F 行边界泄漏、C3 跨页续行所有权、INS 续行解析、C2 加工助剂包裹行修复；`validate:data` 通过，分表行数与官方 PDF 一致。

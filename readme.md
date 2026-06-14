@@ -1,4 +1,70 @@
-# 成分 App 项目开发 README / Agent 指令文档
+# CompLens / 成分镜（CompCheck）
+
+面向普通用户的**食品配料表拍照识别与成分分析 App**。
+
+> 本文件是产品与协作入口。Agent 强制规范见 [`AGENTS.md`](./AGENTS.md)；任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)；进度计划见 [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)；命令见 [`COMMANDS.md`](./COMMANDS.md)；数据来源与口径见 [`DATA_SOURCES.md`](./DATA_SOURCES.md)。
+
+---
+
+## 当前产品主路径
+
+```
+拍照/上传食品配料表图片
+  → OCR 识别文字
+  → 用户确认和修正识别文本
+  → 自动拆分配料
+  → 匹配食品成分/食品添加剂数据库
+  → 展示数据来源和可信等级
+  → 生成食品配料分析报告
+  → 保存产品档案和分析历史
+```
+
+**成分搜索只是辅助功能，不是主路径。OCR 拍照识别配料表 + 分析配料是核心主路径。**
+
+当前阶段只做食品配料 / 食品添加剂，不混入化妆品、护肤品、药品。
+
+---
+
+## 数据可信状态
+
+| 状态 | 含义 | 能否作为权威展示 |
+|---|---|---|
+| `verified_regulation` | 已通过 GB2760 官方来源确认 | 是 |
+| `verified_jecfa` | JECFA 安全评价已匹配（非中国法规范围） | 仅安全评价 |
+| `pending_review` | 已从官方来源抽取，待复核 | 否 |
+| `mapped_candidate` | 疑似匹配，待确认 | 否 |
+| `common_ingredient` | 普通食品配料 | 仅可读性 |
+| `unverified` | 无可靠来源 | 否 |
+| `unknown_from_ocr` | OCR 识别到但未收录 | 否 |
+
+GB2760 导入采用 **staging 全量承接 → 高置信度 promote 到正式库 → 低置信度 pending_review → 人工复核**，详见 [`DATA_SOURCES.md`](./DATA_SOURCES.md)。
+
+---
+
+## 快速开始
+
+```bash
+# Terminal 1: frontend
+npm install
+npm run dev
+```
+
+```bash
+# Terminal 2: backend
+cd backend
+npm install
+cp .env.example .env
+docker compose up -d postgres
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
+
+完整命令见 [`COMMANDS.md`](./COMMANDS.md)。
+
+---
+
+## 旧版开发指令与历史约定
 
 ## 1. 项目目标
 

@@ -3,16 +3,19 @@ import { cors } from 'hono/cors';
 import type { AppConfig } from './config.js';
 import { requestLogger } from './middleware/requestLogger.js';
 import { createAuthRoute } from './routes/auth.js';
+import { createGb2760Route } from './routes/gb2760.js';
 import { healthRoute } from './routes/health.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
 import { createOcrRoute } from './routes/ocr.js';
 import { createUserRoute } from './routes/user.js';
 import { createLazyAuthService, type AuthService } from './services/authService.js';
+import { createLazyGb2760Service, type Gb2760Service } from './services/gb2760Service.js';
 import { createLazyIngredientService, type IngredientService } from './services/ingredientService.js';
 import { createLazyUserService, type UserService } from './services/userService.js';
 
 export type AppServices = {
   authService?: AuthService;
+  gb2760Service?: Gb2760Service;
   ingredientService?: IngredientService;
   userService?: UserService;
 };
@@ -32,6 +35,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.route('/api', createAuthRoute(authService));
   app.route('/api', createOcrRoute(authService, config));
   app.route('/api', createUserRoute(authService, services.userService ?? createLazyUserService(config.databaseUrl)));
+  app.route('/api', createGb2760Route(authService, services.gb2760Service ?? createLazyGb2760Service(config.databaseUrl)));
   app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService(config.databaseUrl)));
 
   app.notFound((context) => context.json({ error: 'not_found' }, 404));

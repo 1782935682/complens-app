@@ -10,6 +10,7 @@
     "lint": "node scripts/lint.mjs",
     "test": "node scripts/test.mjs",
     "validate:data": "node scripts/validate-data.mjs",
+    "validate:gb2760": "npm --prefix backend run validate:gb2760",
     "cap:sync": "npm run build && npx cap sync",
     "cap:open:ios": "npx cap open ios",
     "cap:open:android": "npx cap open android"
