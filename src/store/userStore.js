@@ -3,7 +3,7 @@ import { defaultSupportTopic, isSupportTopic } from '../data/supportTopics.js';
 import { getIngredientById } from '../services/ingredientService.js';
 import { AVOID_INGREDIENTS_KEY, WATCH_INGREDIENTS_KEY, normalizePersonalIngredientIds } from '../services/personalProfileService.js';
 import { clearProductArchives, getProductArchives, normalizeProductArchives, PRODUCT_ARCHIVES_KEY } from '../services/productArchiveService.js';
-import { buildIngredientReport, normalizeIngredientReport } from '../services/reportService.js';
+import { applyReportMatchDecision, buildIngredientReport, normalizeIngredientReport } from '../services/reportService.js';
 import { readJson, writeJson } from '../services/storageService.js';
 
 const FAVORITES_KEY = 'compcheck:favorites';
@@ -309,6 +309,23 @@ export function deleteAnalysisReport(id) {
   const next = getAnalysisReports().filter((report) => report.id !== normalizedId);
   writeJson(ANALYSIS_REPORTS_KEY, next);
   return next;
+}
+
+export function updateAnalysisReportMatchDecision(id, matchIndex, decision) {
+  const normalizedId = String(id || '').trim();
+  if (!normalizedId) return null;
+
+  const current = getAnalysisReports();
+  const updated = current.map((report) => {
+    if (report.id !== normalizedId) return report;
+    return applyReportMatchDecision(report, matchIndex, decision) || report;
+  });
+  const nextReport = updated.find((report) => report.id === normalizedId);
+  const previousReport = current.find((report) => report.id === normalizedId);
+  if (!nextReport || nextReport === previousReport) return null;
+
+  writeJson(ANALYSIS_REPORTS_KEY, updated.sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
+  return nextReport;
 }
 
 export function clearAnalysisReports(category) {

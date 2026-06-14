@@ -331,6 +331,7 @@ function renderManualReviewQueue(category, queue) {
       </div>
       <div class="audit-grid">
         ${renderAuditMetric(`${summary.ocrUnmatchedCount || 0} 项`, 'OCR 未收录')}
+        ${renderAuditMetric(`${summary.rejectedCandidateCount || 0} 项`, '驳回候选')}
         ${renderAuditMetric(`${summary.mappedCandidateCount || 0} 项`, '低置信候选')}
         ${renderAuditMetric(`${summary.datasetReviewCount || 0} 项`, '静态待复核')}
       </div>
@@ -585,6 +586,7 @@ function buildReviewQueueCorrectionUrl(category, item) {
 function reviewQueueTypeLabel(type) {
   const labels = {
     ocr_unmatched: 'OCR 未匹配',
+    uncollected_candidate: '驳回未收录',
     mapped_candidate: '候选待确认',
     dataset_review: '静态数据复核'
   };
