@@ -2,7 +2,7 @@
 
 面向普通用户的**食品配料表拍照识别与成分分析 App**。
 
-> 本文件是产品与协作入口。Agent 强制规范见 [`AGENTS.md`](./AGENTS.md)；任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)；进度计划见 [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)；命令见 [`COMMANDS.md`](./COMMANDS.md)；数据来源与口径见 [`DATA_SOURCES.md`](./DATA_SOURCES.md)。
+> 本文件是产品与协作入口。文档分类入口见 [`docs/README.md`](./docs/README.md)；新机器部署见 [`docs/deployment.md`](./docs/deployment.md)；数据库设计见 [`docs/database.md`](./docs/database.md)；Agent 强制规范见 [`AGENTS.md`](./AGENTS.md)；任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)；进度计划见 [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)；命令见 [`COMMANDS.md`](./COMMANDS.md)；数据来源与口径见 [`DATA_SOURCES.md`](./DATA_SOURCES.md)。
 
 ---
 
@@ -61,6 +61,8 @@ npm run dev
 ```
 
 完整命令见 [`COMMANDS.md`](./COMMANDS.md)。
+
+新机器从零部署 PostgreSQL、后端、前端和本机 OCR，见 [`docs/deployment.md`](./docs/deployment.md)。数据库表设计、字段含义、初始化 SQL 入口和 seed/promote 写入关系，见 [`docs/database.md`](./docs/database.md)。
 
 ---
 

@@ -139,6 +139,8 @@ OCR 未匹配数据不直接写入权威库。运行时只记录为 `unknown_fro
 
 ## 数据模型字段
 
+完整数据库表设计、字段含义、初始化 SQL 清单和 seed/promote 写入关系见 [`docs/database.md`](./docs/database.md)。本节只保留数据可信度和 GB2760 数据治理的核心字段口径。
+
 食品数据和后端 `ingredients` 表需要保留以下可信度字段：
 
 - `dataStatus`

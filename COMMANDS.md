@@ -1,6 +1,6 @@
 # COMMANDS
 
-本文件集中记录 CompCheck（成分小查）当前可用命令。修改依赖、启动方式、构建方式或测试方式时需要同步更新。
+本文件集中记录 CompCheck（成分小查）当前可用命令。修改依赖、启动方式、构建方式或测试方式时需要同步更新。文档分类见 [`docs/README.md`](./docs/README.md)，新机器完整部署见 [`docs/deployment.md`](./docs/deployment.md)，数据库设计和初始化 SQL 见 [`docs/database.md`](./docs/database.md)。
 
 ## 环境要求
 
@@ -12,7 +12,7 @@
 
 参考 `.env.example`。本项目通过 Vite 构建前端，但公开配置仍不使用 `VITE_` 前缀，统一在 `vite.config.js` 中显式 `define` 注入。
 
-当前前端仅允许读取显式注入的公开配置。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。外部组件目录、配置和命令统一记录在 `INTEGRATIONS.md`，新增外部系统时必须同步更新。
+当前前端仅允许读取显式注入的公开配置。服务端密钥（OCR_API_KEY、AI_API_KEY）只在后端 Node.js 进程中读取，不传前端。外部组件目录、配置和命令统一记录在 `INTEGRATIONS.md`，新增外部系统时必须同步更新。另一台机器从零部署时先看 `docs/deployment.md`。
 
 食品搜索和详情默认请求同源 `/api`；如需指向独立后端，可在浏览器本地设置 `compcheck:api-base-url`。后端不可用时，前端食品搜索/详情会降级到本地 `src/data/foodAdditives.js` seed，并展示错误提示和未验证状态。
 
@@ -59,7 +59,7 @@ http://127.0.0.1:5173
 HOST=127.0.0.1 npm run dev -- --port 5174
 ```
 
-本地开发时，Vite 会把 `/api` 代理到 `API_ORIGIN`，默认是 `http://127.0.0.1:3000`。需要验证前端真实读取数据库时，先启动后端和数据库，再启动前端：
+本地开发时，Vite 会把 `/api` 代理到 `API_ORIGIN`，默认是 `http://127.0.0.1:3000`。需要验证前端真实读取数据库时，先启动后端和数据库，再启动前端。这里的 `db:migrate` / `db:seed` 与后文数据库章节是同一组命令，只执行一次即可：
 
 ```bash
 cd backend
@@ -162,7 +162,7 @@ OCR_API_KEY=<aliyun-ocr-key>
 OCR_SERVICE_URL=
 ```
 
-数据库启动：
+数据库启动。表设计、字段含义、迁移 SQL 清单和“为什么有两个数据库地址”的解释见 [`docs/database.md`](./docs/database.md)：
 
 ```bash
 cd backend
@@ -170,7 +170,7 @@ cp .env.example .env
 docker compose up -d postgres
 ```
 
-数据库迁移：
+数据库迁移。同一套命令在快速启动流程里也会出现，不代表有第二套数据库：
 
 ```bash
 cd backend
