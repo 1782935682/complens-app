@@ -24,6 +24,577 @@ const dTableTitle = '食品添加剂功能类别';
 const e1TableTitle = '食品分类系统';
 const fIndexTableTitle = '附录 A 中食品添加剂使用规定索引';
 const tableGridHorizontalBoundsCache = new Map();
+const latinSpacingTerms = new Set(`
+absolute acetate acid acids acetic acetone activated alcohol alkyl amylase amylase amyloliquefaciens ammonium and ananas anise artificial
+arabic aspergillus attapulgite bacillus bark barley basil bean beeswax bentonite beta bifidobacterium bitartrate
+bud buds butane butanol calcium candida carbon carbonate carboxylase cardamom carica carnauba carrageenan cellulose
+chitin chitosan chrysanthemum citric clay clove coenzyme coli common complex concrete copper cytophaga
+deacetylated decarboxylase decyl diatomaceous diammonium dihydrogen dimethyl disodium dioxide earth
+edible emersonii enzyme escherichia ester esters ethanol ether ethyl eugenia exchange extract extraction fatty fennel ferrous fijiensis flower fluorescens
+flowers formate fruit fruits galactosidase garlic gelatin geobacillus gluconase glutaraldehyde glycerate glycerides glycerine
+glycerol glycol gum hawthorn heavy hemicellulase higher hog hook humicola husk hydrogen hydrochloric hydroxide illicium insolens insoluble
+ion isopropyl jasmine jasmin kaolin kawachii kluyveromyces lactic lactase laurate lauric leaf leaves lichenifor-mis licheniformis
+light lime linn magnesium malic malted manganese mannitol menthol methylate mineral mono monolaurate monopalmitate monostearate morifolium
+niger nickel nitrogen nitrous octenyl octyl of oil oils orange orthophosphate oxide paraffin patchouli pearl penicillium pentahydrate pentaerythritol
+peroxide petroleum phosphate phosphoinositide phospholipase phospholipid phosphoric pinophilus polyacrylamide polydimethylsiloxane polyoxyethylene
+polyoxypropylene polyglycerol polypyrrolidone polyphosphate potassium propanediol propane propionate propionic propylene pullulanibacil-lus
+pusillus pseudomonas resin resins rhizomucor rhizopus rice rosin seed seeds silicate silica silicon siloxane sodium solvent sorbitan
+chloride metabisulphite source or pancreas rock sp spp starch star stearate streptomyces subtilis succinate sucrose sulfate sulfide sulphate sulphite sulfur sulphate sulfuric
+tagetes talc tannin tincture tricalcium trichoderma trisodium trisilicate tubingensis var vegetable verum vitamin wheat white wood xanthomonas
+zinc zhou
+abies absinthium acacia acer aglaia alba album algin algues alfalfa almond aloe althea ambergris american amyris
+angelica angostura annatto apricot asafoetida balsam bean benzoin bergamot birch bitter bitterless black bois boronia broad buchu
+cajeput camphor capsicum caraway cardamom carob carrot cascara cascarilla cassia castor castoreum cedar celery chamomile cherry chicory china chives cinnamon citronella
+clary clover cocoa coffee cognac coriander cornmint costus cubeb cumin daidai damiana dandelion dill elder elemi estragon eucalyptus fennel fenugreek fir fluid
+fusel galangal gardenia geranium ghatti ginger grapefruit green guaiac guarana hickory hop hops horehound horseradish hyssop immortelle jambu juniper kernel labdanum
+lavandin lavender leek lemon lemongrass licorice lime litsea locust longan lovage mace mandarin maple marjoram mate mentha mimosa molasses mountain myrrh nardostachys naringin neroli nutmeg
+oak oakmoss oleoresin olibanum onion opoponax orange origanum orris osmanthus palmarosa paprika parsley partially patchouli peach peel pennyroyal pepper peppermint petitgrain
+pimento pine powder pummelo quassia red refined resinoid rose rosemary saffron sandalwood santa sarsaparilla savory scotch seed shell shiso snakeroot solid soya soybean
+spearmint spike star stevia styrax summer sweet tangerine tea terpene terpeneless terpenes thyme tolu tops tragacanth tree treemoss tuberose turmeric turpentine vanilla valerian
+vetiver violet walnut white wild winter wintergreen wormwood xiang yerba ylang yucca
+archangelica arvensis balm berry bigarade bush cassie chestnut civet copaiba cubeba cyperus daniellii date de dementholized douchi fleabane galbanum
+genet glory grandis grains hip hips hull junos karaya katemfe laurel luohan massoia mohave molle needle osmanthus paradise rebaudiana root roots
+sage soyabean tangelo tar toushi vertiver vitex wumei
+ambrette blackcurrant cannabifolia chips crimson dahurica davana fengcha fermented fragrans gentian grandiflorum grape herb japonica mustard odorata oregano perilla sambac stem
+swallow tamarind expressed
+acetate adipic allyl amyl anisyl benzoate benzoic benzyl butyl butyrate butyric carvyl cinnamate cinnamic cinnamyl citronellyl
+decanoic decenoic dodecanoic dodecyl ethyl ethylbutyric fumaric fenchyl formic formate furfuryl geranyl heptanoic heptyl
+eugenyl hexadecylic hexanoic hexenoic hexenyl hexyl hydroxybenzoic isoamyl isobutyl isobutyrate isobutyric isohexanoic isovaleric
+lauryl levulinic linalyl medica methyl methylbenzyl methylbutyric methylcrotonic methylhexanoic methylnonanoic methyloctanoic
+methyloenanthic methylvaleric myrtenyl myristic neryl nonoic nonyl octanoic oleic oxobutyric palmitic phenethyl
+phenylacetate phenylacetic phenylpropionic phenylpropyl propyl pyroligneous pyruvic rue salicylate salicylic stearic styralyl styrallyl
+succinic tetradecanoic tiglic undecanoic undecenoic undecyl valeric
+`.trim().split(/\s+/u));
+const latinNoSegmentTerms = new Set([
+  'ammonia',
+  'butane',
+  'butanol',
+  'carrageenan',
+  'cellulose',
+  'cyclodextrin',
+  'ethanol',
+  'ether',
+  'gelatin',
+  'glycerine',
+  'hydrogen',
+  'kaolin',
+  'nickel',
+  'nitrogen',
+  'paraffin',
+  'polydimethylsiloxane',
+  'polyacrylamide',
+  'propane',
+  'talc'
+]);
+const latinFlavorTrailingTerms = new Set([
+  'absolute',
+  'balsam',
+  'bark',
+  'bean',
+  'berry',
+  'concrete',
+  'extract',
+  'flower',
+  'fruit',
+  'gum',
+  'leaf',
+  'leaves',
+  'oil',
+  'oils',
+  'oleoresin',
+  'peel',
+  'resinoid',
+  'root',
+  'seed',
+  'shell',
+  'stem',
+  'terpenes',
+  'tincture',
+  'wood'
+]);
+const latinPhraseCorrections = new Map([
+  ['Chinesedate', 'Chinese date'],
+  ['carnaubawax', 'carnauba wax'],
+  ['insolublepolyvinylpolypyrroli-done', 'insoluble polyvinylpolypyrrolidone'],
+  ['Linoleicacid', 'Linoleic acid'],
+  ['Rueoil', 'Rue oil'],
+  ['Oleicacid', 'Oleic acid'],
+  ['Quininehydrochloride', 'Quinine hydrochloride'],
+  ['Citrusmedicavar', 'Citrus medica var'],
+  ['medicavar', 'medica var'],
+  ['Pelargonliumspp', 'Pelargonium spp'],
+  ['Zanthoxylumspp', 'Zanthoxylum spp'],
+  ['Cinnamomaumspp', 'Cinnamomum spp'],
+  ['Pyroligneousacid', 'Pyroligneous acid'],
+  ['Pyroligneousacidextract', 'Pyroligneous acid extract'],
+  ['Artificialcognacoil', 'Artificial cognac oil'],
+  ['rythroandthreo', 'erythro and threo'],
+  ['Tannicacid', 'Tannic acid'],
+  ['sodiumpropio-nate', 'sodium propionate'],
+  ['silicagel', 'silica gel'],
+  ['Polyoxypropyleneoxyethylene', 'Polyoxypropylene oxyethylene'],
+  ['sorbi-tanmonolaurate', 'sorbitan monolaurate'],
+  ['polyoxyethylenepolyoxyprop-yleneamineether', 'polyoxyethylene polyoxypropylene amine ether'],
+  ['polyoxyethylenepolyoxyprop-ylene', 'polyoxyethylene polyoxypropylene'],
+  ['vitaminBfamily', 'vitamin B family'],
+  ['Bfamily', 'B family'],
+  ['includingmilkclottingenzymes', 'including milk clotting enzymes'],
+  ['Calfstomach', 'Calf stomach'],
+  ['Rutagraveolens', 'Ruta graveolens'],
+  ['salivaryglandsorforestomachofcalf,kid,orlamb', 'salivary glands or forestomach of calf, kid, or lamb'],
+  ['hog,calf,lamb(kid)orpoultrystomach', 'hog, calf, lamb (kid) or poultry stomach'],
+  ['calf,kid,orlambabomasum', 'calf, kid, or lamb abomasum'],
+  ['bovine,pigorhorseliver', 'bovine, pig or horse liver'],
+  ['porcineorbovinepancreas', 'porcine or bovine pancreas'],
+  ['hogorbovinepancreas', 'hog or bovine pancreas'],
+  ['porcinepancreas', 'porcine pancreas'],
+  ['goatgullets', 'goat gullets'],
+  ['Bacillusaci-dopullulyticus', 'Bacillus acidopullulyticus'],
+  ['Klebsiellaaero-genes', 'Klebsiella aerogenes'],
+  ['Pullulanibacil-lusnaganoensis', 'Pullulanibacillus naganoensis']
+]);
+const latinTokenCorrections = new Map([
+  ['Agene', 'A gene'],
+  ['Bgene', 'B gene'],
+  ['mono-anddiglyceridesoffattyacids', 'mono- and diglycerides of fatty acids'],
+  ['polytyrene', 'polystyrene'],
+  ['ethylactetate', 'ethylacetate'],
+  ['sorbi-tan', 'sorbitan'],
+  ['mo-nooleate', 'monooleate'],
+  ['polyoxyeth-ylene', 'polyoxyethylene'],
+  ['polyoxyprop-ylene', 'polyoxypropylene'],
+  ['polypyrroli-done', 'polypyrrolidone'],
+  ['phos-phate', 'phosphate'],
+  ['propio-nate', 'propionate'],
+  ['sinensisor', 'sinensis or'],
+  ['sinen-sis', 'sinensis'],
+  ['cal-ciumphosphate', 'calciumphosphate'],
+  ['amyloliq-uefaciens', 'amyloliquefaciens'],
+  ['offici-nale', 'officinale'],
+  ['Dendran-themamorifolium', 'Dendranthema morifolium'],
+  ['Dendranthemamorifolium', 'Dendranthema morifolium'],
+  ['Dendran-themamorifoliumor', 'Dendranthemamorifoliumor'],
+  ['Alkalihaloba-cillusclausii', 'Alkalihalobacillus clausii'],
+  ['lichenifor-mis', 'licheniformis'],
+  ['hogorbovinepan-creas', 'hogorbovinepancreas'],
+  ['stearotheilusrmoph', 'stearothermophilus'],
+  ['sucrosepolyoxypropylenees-ter', 'sucrose polyoxypropylene ether']
+]);
+const syntheticFlavorPhraseCorrections = new Map([
+  ['Propyleneglycol', 'Propylene glycol'],
+  ['Leafalcohol', 'Leaf alcohol'],
+  ['Methylbutylacetate', 'Methylbutyl acetate'],
+  ['Ethylbutylacetate', 'Ethylbutyl acetate'],
+  ['Geranyl2-ethylbutyrate', 'Geranyl 2-ethylbutyrate'],
+  ['Allyl2-ethylbutyrate', 'Allyl 2-ethylbutyrate'],
+  ['cis-3-Hexenylformate', 'cis-3-Hexenyl formate'],
+  ['trans-2-Hexenylpropionate', 'trans-2-Hexenyl propionate'],
+  ['Methylbenzylacetate', 'Methylbenzyl acetate'],
+  ['3-Octylacetate', '3-Octyl acetate'],
+  ['n-Propylisobutyrate', 'n-Propyl isobutyrate'],
+  ['sulfoniumchloride', 'sulfonium chloride'],
+  ['Ethylhydrocin-namate', 'Ethyl hydrocinnamate'],
+  ['Hydrocin-namate', 'Hydrocinnamate'],
+  ['Methtylmyristate', 'Methyl myristate']
+]);
+const syntheticAlcoholPrefixes = [
+  'Butyl',
+  'Isopropyl',
+  'Isobutyl',
+  'Amyl',
+  'Isoamyl',
+  'Hexyl',
+  'Heptyl',
+  'Octyl',
+  'Nonyl',
+  'Decyl',
+  'Undecyl',
+  'Lauryl',
+  'Dodecyl',
+  'Fenchyl',
+  'Leaf',
+  'Styralyl',
+  'Dimethylbenzyl',
+  'Isopropylbenzyl',
+  'Trimethylbenzyl',
+  'Methylbenzyl',
+  'Methylbutyl',
+  'Caryophyllene',
+  'Perilla',
+  'Benzyl',
+  'Phenethyl',
+  'Phenylpropyl',
+  'Anisyl',
+  'Cinnamic',
+  'Propyl',
+  'Furfuryl',
+  'Tetrahydrofurfuryl',
+  'Propylphenethyl',
+  'Hydratropyl',
+  'Amylcinnamyl',
+  'Vanillyl'
+];
+const syntheticAcidPrefixes = [
+  'Acetic',
+  'Propionic',
+  'Pyruvic',
+  'Butyric',
+  'Isobutyric',
+  'Methylbutyric',
+  'Ethylbutyric',
+  'Valeric',
+  'Methylvaleric',
+  'Isovaleric',
+  'Hexanoic',
+  'Adipic',
+  'Hexenoic',
+  'Heptanoic',
+  'Octanoic',
+  'Nonoic',
+  'Decanoic',
+  'Dodecanoic',
+  'Lauric',
+  'Tetradecanoic',
+  'Myristic',
+  'Hexadecylic',
+  'Palmitic',
+  'Citric',
+  'Benzoic',
+  'Phenylacetic',
+  'Cinnamic',
+  'Fumaric',
+  'Levulinic',
+  'Oxobutyric',
+  'Methylhexanoic',
+  'Methyloenanthic',
+  'Methyloctanoic',
+  'Methylpentanoic',
+  'Glutamic',
+  'Lactic',
+  'Decenoic',
+  'Undecanoic',
+  'Undecenoic',
+  'Phenylpropionic',
+  'Methylcrotonic',
+  'Formic',
+  'Methylnonanoic',
+  'Isohexanoic',
+  'Aspartic',
+  'Anisic',
+  'Glycyrrhizic',
+  'Geranic',
+  'Ethyloctanoic',
+  'Butenoic',
+  'Aminobutyric',
+  'Mercaptopropionic',
+  'Allylacetic',
+  'Cyclohexanecarboxylic',
+  'Benzoylanthranilic',
+  'Hydroxybenzoic',
+  'Salicylic',
+  'Tiglic',
+  'Succinic',
+  'Stearic'
+];
+const syntheticEsterPrefixes = [
+  'Methyl',
+  'Ethyl',
+  'Propyl',
+  'Isopropyl',
+  'Butyl',
+  'Isobutyl',
+  'Amyl',
+  'Isoamyl',
+  'Hexyl',
+  'Heptyl',
+  'Octyl',
+  'Nonyl',
+  'Benzyl',
+  'Phenethyl',
+  'Geranyl',
+  'Citronellyl',
+  'Linalyl',
+  'Neryl',
+  'Anisyl',
+  'Cinnamyl',
+  'Furfuryl',
+  'Allyl',
+  'Myrtenyl',
+  'Styrallyl',
+  'Carvyl',
+  'Eugenyl',
+  'Vanillyl',
+  'Bornyl',
+  'Menthol',
+  'Terpinyl',
+  'Cresyl',
+  'Dihydrocarvyl',
+  'Isopulegyl',
+  'Isopentyl',
+  'Menthyl',
+  'Diethyl',
+  '3-Hexenyl',
+  '1-Octen-3-yl',
+  '2-Methylbutyl',
+  '3-Phenylpropyl'
+];
+const syntheticEsterSuffixes = [
+  'phenylacetate',
+  'acetoacetate',
+  'isovalerate',
+  'tetradecanoate',
+  'methylbutyrate',
+  'methylbutanoate',
+  'hydroxybutyrate',
+  'hydroxyhexanoate',
+  'methylvalerate',
+  'methylthiopropionate',
+  'mercaptopropionate',
+  'phenylpropionate',
+  'methylpentanoate',
+  'phenylglycidate',
+  'furanacrylate',
+  'undecylenate',
+  'undecenoate',
+  'decatrienoate',
+  'decadienoate',
+  'thiofuroate',
+  'heptanoate',
+  'octanoate',
+  'decanoate',
+  'dodecanoate',
+  'butenoate',
+  'hexenoate',
+  'nonenoate',
+  'pentanoate',
+  'propanoate',
+  'malonate',
+  'succinate',
+  'caproate',
+  'caprylate',
+  'myristate',
+  'laurate',
+  'sorbate',
+  'lactate',
+  'tiglate',
+  'furoate',
+  'glycidate',
+  'carbonate',
+  'levulinate',
+  'fumarate',
+  'valerate',
+  'acetate',
+  'formate',
+  'propionate',
+  'butyrate',
+  'isobutyrate',
+  'benzoate',
+  'salicylate',
+  'cinnamate'
+];
+const latinGenusPrefixes = [
+  'Aeribacillus',
+  'Abies',
+  'Acacia',
+  'Acer',
+  'Aframomum',
+  'Aglaia',
+  'Allium',
+  'Alpinia',
+  'Althea',
+  'Amyris',
+  'Anethum',
+  'Aniba',
+  'Anogeissus',
+  'Allium',
+  'Alkalihalobacillus',
+  'Ananas',
+  'Anoxybacillus',
+  'Anthemis',
+  'Apium',
+  'Armoracia',
+  'Artemisia',
+  'Asarum',
+  'Aspergillus',
+  'Astragalus',
+  'Atractylodes',
+  'Bacillus',
+  'Barosma',
+  'Betula',
+  'Bifidobacterium',
+  'Bixa',
+  'Boswellia',
+  'Boronia',
+  'Brassica',
+  'Bulnesia',
+  'Candida',
+  'Camellia',
+  'Canarium',
+  'Capsicum',
+  'Carica',
+  'Carum',
+  'Carya',
+  'Castanea',
+  'Ceratania',
+  'Ceratoina',
+  'Ceratonia',
+  'Chaetomium',
+  'Chrysanthemum',
+  'Cichorium',
+  'Cinnamomum',
+  'Cinchona',
+  'Cistus',
+  'Citrus',
+  'Coffea',
+  'Commiphora',
+  'Copaifera',
+  'Coriandrum',
+  'Crataegus',
+  'Croton',
+  'Crocus',
+  'Cryptocarya',
+  'Cryphonectria',
+  'Cuminum',
+  'Cupressus',
+  'Curcuma',
+  'Cytophaga',
+  'Daucus',
+  'Decalepis',
+  'Dendranthema',
+  'Disporotrichum',
+  'Elletaria',
+  'Elettaria',
+  'Endothia',
+  'Erigeron',
+  'Eriodictyon',
+  'Escherichia',
+  'Eugenia',
+  'Eucalyptus',
+  'Euphoria',
+  'Evernia',
+  'Ferula',
+  'Ficus',
+  'Foeniculum',
+  'Fusarium',
+  'Galbaniflua',
+  'Galipea',
+  'Gaultheria',
+  'Gentiana',
+  'Geobacillus',
+  'Glycyrrhiza',
+  'Gardenia',
+  'Hansenula',
+  'Helichrysum',
+  'Hibiscus',
+  'Humulus',
+  'Humicola',
+  'Hyssopus',
+  'Ilex',
+  'Illicium',
+  'Iris',
+  'Jasminum',
+  'Juglans',
+  'Juniperus',
+  'Kereocystis',
+  'Kluyveromyces',
+  'Lactobacillus',
+  'Laminaria',
+  'Lavandula',
+  'Laurus',
+  'Levisticum',
+  'Limon',
+  'Liquidambar',
+  'Lippia',
+  'Litsea',
+  'Majorana',
+  'Matricaria',
+  'Marrubium',
+  'Medicago',
+  'Melaleuca',
+  'Melissa',
+  'Mentha',
+  'Malbranchea',
+  'Micrococcus',
+  'Michelia',
+  'Mucor',
+  'Murraya',
+  'Myristica',
+  'Myroxylon',
+  'Nardostachys',
+  'Ocimum',
+  'Origanum',
+  'Paullinia',
+  'Papiliotrema',
+  'Pelargonium',
+  'Perilla',
+  'Petroselinum',
+  'Pimenta',
+  'Piper',
+  'Picrasma',
+  'Penicillium',
+  'Pichia',
+  'Pinus',
+  'Polianthes',
+  'Pogostemon',
+  'Prunus',
+  'Pullulanibacillus',
+  'Pseudomonas',
+  'Quassia',
+  'Quercus',
+  'Rabdosia',
+  'Rasamsonia',
+  'Rhamnus',
+  'Rhizomucor',
+  'Rhizopus',
+  'Ribes',
+  'Ricinus',
+  'Rosa',
+  'Rosemarinus',
+  'Ruminococcus',
+  'Ruta',
+  'Saccharomyces',
+  'Salvia',
+  'Sambucus',
+  'Santalum',
+  'Sarcodactylis',
+  'Satureja',
+  'Saussurea',
+  'Schinus',
+  'Siraitia',
+  'Smilax',
+  'Sophora',
+  'Spartium',
+  'Spilanthes',
+  'Sterculia',
+  'Streptomyces',
+  'Styrax',
+  'Tagetes',
+  'Tamarindus',
+  'Tagetes',
+  'Talaromyces',
+  'Taraxacum',
+  'Thea',
+  'Theobroma',
+  'Thaumatococcus',
+  'Thermomyces',
+  'Thermopolyspora',
+  'Thuja',
+  'Thymus',
+  'Torreya',
+  'Trigonella',
+  'Trichoderma',
+  'Turnera',
+  'Valeriana',
+  'Vanilla',
+  'Vetiveria',
+  'Vicia',
+  'Viola',
+  'Viverra',
+  'Vitis',
+  'Xanthomonas',
+  'Zingiber',
+  'Ziziphus'
+].sort((a, b) => b.length - a.length);
 const b1Footnotes = {
   a: {
     text: '较大婴儿和幼儿配方食品中可以使用香兰素、乙基香兰素和香荚兰豆浸膏(提取物),最大使用量分别为5 mg/100 mL、5 mg/100 mL和按照生产需要适量使用,其中100 mL以即食食品计,生产企业应按照冲调比例折算成配方食品中的使用量;婴幼儿谷类辅助食品中可以使用香兰素,最大使用量为7 mg/100g,其中100g以即食食品计,生产企业应按照冲调比例折算成谷类食品中的使用量;凡使用范围涵盖0~6个月婴幼儿配方食品不得添加任何食用香料。',
@@ -99,7 +670,7 @@ const c1Rows = extractCoordinateTableRows({
   buildRowData(row) {
     return {
       processingAidNameCn: extractColumnText(row.lines, 95, 345, { wordPosition: 'center' }),
-      processingAidNameEn: extractColumnText(row.lines, 345, 530, { wordPosition: 'center' })
+      processingAidNameEn: extractColumnText(row.lines, 345, 530, { wordPosition: 'center', preserveLatinSpacing: true })
     };
   },
   getRowName(rowData) {
@@ -134,7 +705,7 @@ const c2Rows = extractCoordinateTableRows({
   buildRowData(row) {
     return {
       processingAidNameCn: extractColumnText(row.lines, 90, 185, { wordPosition: 'center' }),
-      processingAidNameEn: extractColumnText(row.lines, 185, 310, { wordPosition: 'center' }),
+      processingAidNameEn: extractColumnText(row.lines, 185, 310, { wordPosition: 'center', preserveLatinSpacing: true }),
       functionText: extractColumnText(row.lines, 310, 400, { wordPosition: 'center' }),
       useScope: extractColumnText(row.lines, 400, 560, { wordPosition: 'center' })
     };
@@ -173,9 +744,9 @@ const c3Rows = extractCoordinateTableRows({
   },
   buildRowData(row) {
     return {
-      enzymeName: extractColumnText(row.lines, 90, 235, { excludeRowNumber: row.rowNumber }),
-      source: extractColumnText(row.lines, 235, 380),
-      donor: extractColumnText(row.lines, 380, 560)
+      enzymeName: extractColumnText(row.lines, 90, 235, { excludeRowNumber: row.rowNumber, preserveLatinSpacing: true, splitKnownGenera: true }),
+      source: extractColumnText(row.lines, 235, 380, { preserveLatinSpacing: true, splitKnownGenera: true }),
+      donor: extractColumnText(row.lines, 380, 560, { preserveLatinSpacing: true, splitKnownGenera: true })
     };
   },
   getRowName(rowData) {
@@ -551,7 +1122,11 @@ function extractFlavorRows({
     const flavorNameCn = extractColumnText(rowLines, 135, chineseNameMaxX, {
       excludeValues: [String(start.rowNumber), start.flavorCode]
     });
-    const flavorNameEn = extractColumnText(rowLines, englishNameMinX, 455);
+    const flavorNameEn = extractColumnText(rowLines, englishNameMinX, 455, {
+      preserveLatinSpacing: true,
+      latinSpacingContext: tableName === '表 B.2' ? 'natural_flavor' : 'synthetic_flavor',
+      splitKnownGenera: tableName === '表 B.2'
+    });
     const femaNumber = (rowWords.filter((word) => word.x >= 455 && /^(?:\d{4}|—)$/u.test(word.text)).at(-1) || {}).text || '';
     const pdfPagesForRow = uniqueSorted(rowLines.map((line) => line.pdfPage));
     const pdfPage = pdfPagesForRow[0] || start.line.pdfPage;
@@ -590,7 +1165,7 @@ function normalizeFlavorRowData(tableName, row) {
     return {
       ...row,
       flavorNameCn: '杭白菊花浸膏(又名杭菊花流浸膏)',
-      flavorNameEn: 'ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-lium)'
+      flavorNameEn: 'Chrysanthemum Hang Zhou flower extract (Dendranthema morifolium or Chrysanthemum morifolium)'
     };
   }
   return row;
@@ -774,7 +1349,7 @@ function normalizeCoordinateRowData(tableName, row, rowData) {
   if (row.rowNumber === 23) {
     return {
       ...normalizedRowData,
-      source: '橘青霉penicilliumcitrinum'
+      source: '橘青霉 Penicillium citrinum'
     };
   }
   return normalizedRowData;
@@ -937,6 +1512,13 @@ function getTableGridHorizontalBounds(pdfPage) {
 
 function dedupeRepeatedText(value) {
   const text = String(value || '');
+  const words = text.trim().split(/\s+/u);
+  if (words.length % 2 === 0) {
+    const wordMiddle = words.length / 2;
+    const firstWords = words.slice(0, wordMiddle).join(' ');
+    if (firstWords === words.slice(wordMiddle).join(' ')) return firstWords;
+  }
+
   if (text.length % 2 !== 0) return text;
   const middle = text.length / 2;
   const firstHalf = text.slice(0, middle);
@@ -944,8 +1526,25 @@ function dedupeRepeatedText(value) {
 }
 
 function normalizeC3FieldText(value) {
-  return stripLeadingContinuationFragment(value)
-    .replace(/vart\.ubingensis/gu, 'var.tubingensis');
+  return normalizeC3OrganSourcePhrases(stripLeadingContinuationFragment(value))
+    .replace(/stearothe(?:ilusrmoph|\s+ilus\s+rmoph)/giu, 'stearothermophilus')
+    .replace(/nigervart\.ubingensis/gu, 'niger var. tubingensis')
+    .replace(/nigervar\.\s*tubingensis/gu, 'niger var. tubingensis')
+    .replace(/nigervar\.awamori/gu, 'niger var. awamori')
+    .replace(/vart\.ubingensis/gu, 'var. tubingensis')
+    .replace(/niger var\.(?=\S)/gu, 'niger var. ');
+}
+
+function normalizeC3OrganSourcePhrases(value) {
+  return String(value || '')
+    .replace(/salivary\s*glands\s*or\s*forestomach\s*of\s*calf,\s*kid,\s*or\s*lamb/giu, 'salivary glands or forestomach of calf, kid, or lamb')
+    .replace(/hog\s*or\s*bovine\s*pan-?\s*creas/giu, 'hog or bovine pancreas')
+    .replace(/porcine\s*or\s*bovine\s*pancreas/giu, 'porcine or bovine pancreas')
+    .replace(/porcine\s*pancreas/giu, 'porcine pancreas')
+    .replace(/goat\s*gullets/giu, 'goat gullets')
+    .replace(/bovine,\s*pig\s*or\s*horse\s*liver/giu, 'bovine, pig or horse liver')
+    .replace(/calf,\s*kid,\s*or\s*lamb\s*abomasum/giu, 'calf, kid, or lamb abomasum')
+    .replace(/or\s*poultry\s*stomach/giu, 'or poultry stomach');
 }
 
 function stripLeadingContinuationFragment(value) {
@@ -1326,11 +1925,15 @@ function extractColumnText(lines, minX, maxX, options = {}) {
   const getWordPosition = options.wordPosition === 'center'
     ? (word) => (word.x + word.xMax) / 2
     : (word) => word.x;
-  return joinWords(lines.flatMap((line) => line.words.filter((word) => (
+  const columnWords = lines.flatMap((line) => line.words.filter((word) => (
     getWordPosition(word) >= minX
       && getWordPosition(word) < maxX
       && !excludeValues.has(word.text)
-  ))));
+  )));
+  const text = options.preserveLatinSpacing
+    ? joinWordsPreservingLatinSpacing(columnWords)
+    : joinWords(columnWords);
+  return options.preserveLatinSpacing ? restoreLatinReferenceSpacing(text, options) : text;
 }
 
 function decodeXml(value) {
@@ -1345,11 +1948,348 @@ function decodeXml(value) {
 }
 
 function joinWords(words) {
-  return words
-    .slice()
-    .sort((a, b) => (a.lineGlobal ?? a.y) - (b.lineGlobal ?? b.y) || a.x - b.x)
+  return sortWordsForText(words)
     .map((word) => word.text)
     .join('');
+}
+
+function sortWordsForText(words) {
+  return words
+    .slice()
+    .sort((a, b) => (a.lineGlobal ?? a.y) - (b.lineGlobal ?? b.y) || a.x - b.x);
+}
+
+function joinWordsPreservingLatinSpacing(words) {
+  return sortWordsForText(words).reduce((state, word) => {
+    const token = word.text;
+    if (!state.text) return { text: token, previousWord: word };
+    const previousToken = state.text.match(/\S+$/u)?.[0] || '';
+    const separator = shouldSeparateReferenceTokens(previousToken, token, state.previousWord, word)
+      ? ' '
+      : '';
+    return {
+      text: `${state.text}${separator}${token}`,
+      previousWord: word
+    };
+  }, { text: '', previousWord: undefined }).text;
+}
+
+function shouldSeparateReferenceTokens(previousToken, currentToken, previousWord, currentWord) {
+  if (!previousToken || !currentToken) return false;
+  if (/^[,.;:)\]}]/u.test(currentToken)) return false;
+  if (/[(\[{]$/u.test(previousToken)) return false;
+  if (/\d$/u.test(previousToken) && /^\(\d/u.test(currentToken)) return false;
+  if (/-$/u.test(previousToken) && /^[A-Za-z0-9]/u.test(currentToken)) return false;
+  if (!hasReferenceTokenGap(previousWord, currentWord)) return false;
+
+  const previousHasLatin = /[A-Za-zα-ωΑ-Ω]/u.test(previousToken);
+  const currentHasLatin = /[A-Za-zα-ωΑ-Ω]/u.test(currentToken);
+  const currentStartsReference = /^[A-Za-z0-9α-ωΑ-Ω([]/u.test(currentToken);
+  const previousEndsReference = /[A-Za-z0-9α-ωΑ-Ω.)\]]$/u.test(previousToken);
+
+  if (previousHasLatin && currentStartsReference) return true;
+  if (previousEndsReference && currentHasLatin) return true;
+  if (/[\u3400-\u9fff]$/u.test(previousToken) && /^[A-Za-zα-ωΑ-Ω]/u.test(currentToken)) return true;
+  if (/[A-Za-zα-ωΑ-Ω.)\]]$/u.test(previousToken) && /^[\u3400-\u9fff]/u.test(currentToken)) return true;
+  return false;
+}
+
+function hasReferenceTokenGap(previousWord, currentWord) {
+  if (!previousWord || !currentWord) return false;
+  const previousLine = previousWord.lineGlobal ?? previousWord.y;
+  const currentLine = currentWord.lineGlobal ?? currentWord.y;
+  if (Math.abs(currentLine - previousLine) > 1) return true;
+  return currentWord.x - previousWord.xMax > 1.5;
+}
+
+function restoreLatinReferenceSpacing(value, options = {}) {
+  let text = String(value || '');
+  if (!/[A-Za-z]/u.test(text)) return text;
+
+  for (const [from, to] of latinPhraseCorrections) {
+    text = replaceCompactLatinPhrase(text, from, to);
+  }
+
+  for (const [from, to] of latinTokenCorrections) {
+    text = replaceCompactLatinPhrase(text, from, to);
+  }
+
+  text = text
+    .replace(/([\u3400-\u9fff])([A-Za-zα-ωΑ-Ω])/gu, '$1 $2')
+    .replace(/([A-Za-z])([\u3400-\u9fff])/gu, '$1 $2')
+    .replace(/([.)])([\u3400-\u9fff])/gu, '$1 $2')
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/\bmedicavar\./giu, 'medica var.')
+    .replace(/\bspp\.andotherkelps\b/giu, 'spp. and other kelps')
+    .replace(/\bAn-gelicasinensis\b/gu, 'Angelica sinensis')
+    .replace(/\bber-gamia\b/gu, 'bergamia')
+    .replace(/\bdeal-bata\b/gu, 'dealbata')
+    .replace(/\b([A-Z]{1,3}|[A-Z][a-z]{2,}|[fF])\.(?=(?:and|or|var|subsp)\b)/gu, '$1. ')
+    .replace(/\bspp\.(?=(?:and|or|of)\b)/giu, 'spp. ')
+    .replace(/\b(var|subsp)\.(?=[A-Za-z])/giu, '$1. ')
+    .replace(/\b([A-Z])\.(?=[a-z]{3,}\b)/gu, '$1. ')
+    .replace(/([A-Za-zα-ωΑ-Ω.)\]])\[/gu, (match, previousChar, offset, fullText) => (
+      shouldAttachSyntheticSquareBracket(fullText, offset + previousChar.length, options)
+        ? `${previousChar}[`
+        : `${previousChar} [`
+    ))
+    .replace(/([A-Za-z])\((?!\d)/g, (match, previousLetter, offset, fullText) => (
+      shouldAttachSyntheticParenthetical(fullText, offset + previousLetter.length, undefined, options)
+        ? `${previousLetter}(`
+        : `${previousLetter} (`
+    ))
+    .replace(/\.([A-Z][a-z])/g, '. $1')
+    .replace(/\)(?=\()/g, ') ')
+    .replace(/\)(?=[A-Za-z\u3400-\u9fff])/gu, (match, offset, fullText) => (
+      shouldAttachSyntheticParenthetical(fullText, undefined, offset, options) ? ')' : ') '
+    ));
+
+  if (options.latinSpacingContext !== 'synthetic_flavor') {
+    text = text.replace(/,([^\s,.;:)\]])/g, (match, next, offset, fullText) => (
+      /\d/u.test(next)
+        && (
+          /\d/u.test(fullText[offset - 1] || '')
+          || /\(\d+[A-Za-z]?\)$/u.test(fullText.slice(0, offset))
+        )
+        ? `,${next}`
+        : `, ${next}`
+    ));
+  }
+
+  text = options.latinSpacingContext === 'synthetic_flavor'
+    ? restoreSyntheticFlavorSpacing(text)
+    : text.replace(/[A-Za-z][A-Za-z-]*/g, (token) => segmentLatinToken(token, options));
+
+  return text
+    .replace(/(\d),\s+(?=\d)/g, '$1,')
+    .replace(/(\d)\s+\((?=\d)/g, '$1(')
+    .replace(/(\(\d+[A-Za-z]?\)),\s+(?=\d)/g, '$1,')
+    .replace(/\b(A\d)(?=[A-Z][a-z])/g, '$1 ')
+    .replace(/\b(CAG\d+)(?=[A-Z][a-z])/g, '$1 ')
+    .replace(/\bsp\.(?=CAG\d+\b)/g, 'sp. ')
+    .replace(/\bmedicavar\./giu, 'medica var.')
+    .replace(/\bspp\.andotherkelps\b/giu, 'spp. and other kelps')
+    .replace(/\bspp\.(?=(?:and|or|of)\b)/giu, 'spp. ')
+    .replace(/\bpsicose(?=\d+-epimerase\b)/giu, 'psicose ')
+    .replace(/\s+([,.;:)\]])/g, '$1')
+    .replace(/([(])\s+/g, '$1')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function restoreSyntheticFlavorSpacing(value) {
+  let text = String(value || '');
+  for (const [from, to] of syntheticFlavorPhraseCorrections) {
+    text = replaceCompactLatinPhrase(text, from, to);
+  }
+
+  text = replaceSyntheticCompactTerminalWord(text, 'hydrochloride', { minPrefixLength: 3 });
+  text = replaceSyntheticCompactTerminalWord(text, 'oxide', { exceptPrefixes: ['per'] });
+  text = replaceSyntheticCompactSuffix(text, syntheticAlcoholPrefixes, 'alcohol', { allowSymbolLead: true });
+  text = replaceSyntheticCompactSuffix(text, syntheticAcidPrefixes, 'acid', { allowSymbolLead: true });
+  text = replaceSyntheticCompactTerminalWord(text, 'acid');
+  text = replaceSyntheticEsterPrefixBeforeLocant(text);
+  for (const suffix of syntheticEsterSuffixes) {
+    text = replaceSyntheticCompactSuffix(text, syntheticEsterPrefixes, suffix, { allowSymbolLead: true, skipLowercasePrefix: true });
+    text = replaceSyntheticYlCompactSuffix(text, suffix);
+  }
+
+  return restoreSyntheticRingLocantSpacing(text)
+    .replace(/\b(acid|hydrochloride|oxide)(?=[α-ωΑ-Ω])/giu, '$1 ');
+}
+
+function shouldAttachSyntheticSquareBracket(fullText, bracketIndex, options = {}) {
+  if (options.latinSpacingContext !== 'synthetic_flavor') return false;
+  const closeIndex = fullText.indexOf(']', bracketIndex + 1);
+  if (closeIndex < 0) return false;
+  return hasSyntheticRingLocantPrefix(fullText.slice(0, bracketIndex));
+}
+
+function restoreSyntheticRingLocantSpacing(value) {
+  return String(value)
+    .replace(/(\b[A-Za-zα-ωΑ-Ω]*(?:cyclo|spiro|benzo|thieno))\s+\[/giu, '$1[')
+    .replace(/(\b[A-Za-zα-ωΑ-Ω]*(?:cyclo|spiro|benzo|thieno)\[[^\]]+\])\s+(?=[A-Za-zα-ωΑ-Ω-])/giu, '$1');
+}
+
+function hasSyntheticRingLocantPrefix(value) {
+  const before = String(value || '').trimEnd();
+  return /(?:\b[A-Za-zα-ωΑ-Ω]*(?:cyclo|spiro|benzo|thieno)|\b[A-Za-zα-ωΑ-Ω]*(?:cyclo|spiro|benzo|thieno)\[[^\]\s]+\])$/iu.test(before);
+}
+
+function replaceSyntheticCompactSuffix(value, prefixes, suffix, options = {}) {
+  const prefixPattern = prefixes.map(escapeRegExp).join('|');
+  const leadingPattern = options.allowSymbolLead ? '(^|[^A-Za-z])' : '(^|[\\s([{])';
+  const pattern = new RegExp(`${leadingPattern}(${prefixPattern})(${escapeRegExp(suffix)})(?=$|[^A-Za-z])`, 'giu');
+  return String(value).replace(pattern, (match, leading, prefix, matchedSuffix) => {
+    if (options.skipLowercasePrefix && leading === '-' && /^[a-z]/u.test(prefix)) return match;
+    return `${leading}${prefix} ${matchedSuffix.toLowerCase()}`;
+  });
+}
+
+function replaceSyntheticCompactTerminalWord(value, terminalWord, options = {}) {
+  const wordPattern = escapeRegExp(terminalWord);
+  const minPrefixLength = options.minPrefixLength || 4;
+  const pattern = new RegExp(`(^|[^A-Za-z])([A-Za-zα-ωΑ-Ω][A-Za-zα-ωΑ-Ω-]{${minPrefixLength - 1},})(${wordPattern})(?=$|[^A-Za-z])`, 'giu');
+  const exceptPrefixes = new Set((options.exceptPrefixes || []).map((prefix) => prefix.toLowerCase()));
+  return String(value).replace(pattern, (match, leading, prefix, matchedWord) => {
+    const lowerPrefix = prefix.toLowerCase();
+    if ([...exceptPrefixes].some((exceptPrefix) => lowerPrefix.endsWith(exceptPrefix))) return match;
+    return `${leading}${prefix} ${matchedWord.toLowerCase()}`;
+  });
+}
+
+function replaceSyntheticEsterPrefixBeforeLocant(value) {
+  const suffixPattern = syntheticEsterSuffixes.map(escapeRegExp).join('|');
+  const pattern = new RegExp(`(^|[^A-Za-z])([A-Za-z0-9][A-Za-z0-9,'.+-]*yl)(?=\\d[A-Za-z0-9,()'.+-]*(?:${suffixPattern})\\b)`, 'giu');
+  return String(value).replace(pattern, '$1$2 ');
+}
+
+function replaceSyntheticYlCompactSuffix(value, suffix) {
+  const pattern = new RegExp(`(^|[^A-Za-z])([A-Za-z0-9][A-Za-z0-9,'.+-]*yl)(${escapeRegExp(suffix)})(?=$|[^A-Za-z])`, 'giu');
+  return String(value).replace(pattern, (match, leading, prefix, matchedSuffix) => {
+    if (leading === '-' && /^[a-z]+yl$/u.test(prefix)) return match;
+    if (/^\d+(?:,\d+)*-[a-z]{3,}yl$/u.test(prefix) && !['acetate', 'formate'].includes(matchedSuffix.toLowerCase())) return match;
+    if (prefix.toLowerCase().endsWith('phenyl') && matchedSuffix.toLowerCase() === 'acetate') {
+      return match;
+    }
+    return `${leading}${prefix} ${matchedSuffix.toLowerCase()}`;
+  });
+}
+
+function shouldAttachSyntheticParenthetical(fullText, openIndex, closeIndex, options = {}) {
+  if (options.latinSpacingContext !== 'synthetic_flavor') return false;
+  const resolvedOpenIndex = openIndex ?? fullText.lastIndexOf('(', closeIndex - 1);
+  const resolvedCloseIndex = closeIndex ?? fullText.indexOf(')', openIndex + 1);
+  if (resolvedOpenIndex < 0 || resolvedCloseIndex < 0 || resolvedCloseIndex <= resolvedOpenIndex) return false;
+
+  const beforeOpen = fullText[resolvedOpenIndex - 1] || '';
+  const afterClose = fullText[resolvedCloseIndex + 1] || '';
+  const content = fullText.slice(resolvedOpenIndex + 1, resolvedCloseIndex);
+  return /[-\d]$/u.test(beforeOpen) || (/^[a-z]/u.test(content) && /^[A-Za-z\u3400-\u9fff]/u.test(afterClose));
+}
+
+function segmentLatinToken(token, options = {}) {
+  const lower = token.toLowerCase();
+  const corrected = latinTokenCorrections.get(token) || latinTokenCorrections.get(lower);
+  if (corrected && corrected.toLowerCase() !== lower) {
+    return preserveLatinTokenCase(token, segmentLatinToken(corrected, options));
+  }
+
+  if (token.length < 7 || /^[A-Z]{2,}$/u.test(token)) return token;
+  if (/^[A-Z]{1,3}$/u.test(token)) return token;
+
+  if (latinNoSegmentTerms.has(lower)) return token;
+
+  if (options.splitKnownGenera && /^[A-Z]/u.test(token)) {
+    const genusSplit = splitKnownLatinGenusToken(token, options);
+    if (genusSplit) return genusSplit;
+  }
+
+  const prefixed = token.match(/^([A-Z]{1,2}|[a-z]|β)-(.+)$/u);
+  if (prefixed) {
+    const suffix = segmentLatinToken(prefixed[2], options);
+    return `${prefixed[1]}-${suffix}`;
+  }
+
+  const parts = segmentLatinCompound(lower);
+  if (!parts || parts.length < 2) return token;
+
+  let offset = 0;
+  return parts
+    .map((part) => {
+      const originalPart = token.slice(offset, offset + part.length);
+      offset += part.length;
+      return originalPart;
+    })
+    .join(' ');
+}
+
+function splitKnownLatinGenusToken(token, options = {}) {
+  const lower = token.toLowerCase();
+  for (const genus of latinGenusPrefixes) {
+    const genusLower = genus.toLowerCase();
+    if (!lower.startsWith(genusLower) || lower.length <= genusLower.length) continue;
+    const rest = token.slice(genus.length);
+    if (!/^[a-z-]/u.test(rest)) continue;
+    return `${token.slice(0, genus.length)} ${segmentLatinSpeciesToken(rest)}`;
+  }
+  return undefined;
+}
+
+function segmentLatinSpeciesToken(token) {
+  const lower = token.toLowerCase();
+  const corrected = latinTokenCorrections.get(token) || latinTokenCorrections.get(lower);
+  if (corrected && corrected.toLowerCase() !== lower) {
+    return preserveLatinTokenCase(token, segmentLatinSpeciesToken(corrected));
+  }
+  const trailingParts = splitLatinSpeciesTrailingDescriptor(token);
+  if (trailingParts) return trailingParts;
+  return token;
+}
+
+function splitLatinSpeciesTrailingDescriptor(token) {
+  let best;
+  for (let index = 3; index <= token.length - 3; index += 1) {
+    const suffix = token.slice(index);
+    const suffixParts = segmentLatinCompound(suffix.toLowerCase());
+    if (!suffixParts || suffixParts.some((part) => !latinFlavorTrailingTerms.has(part))) continue;
+    const candidate = { prefix: token.slice(0, index), suffixParts };
+    if (!best || candidate.suffixParts.length > best.suffixParts.length || (
+      candidate.suffixParts.length === best.suffixParts.length && candidate.prefix.length < best.prefix.length
+    )) {
+      best = candidate;
+    }
+  }
+  if (!best) return undefined;
+
+  let offset = best.prefix.length;
+  const suffix = best.suffixParts.map((part) => {
+    const originalPart = token.slice(offset, offset + part.length);
+    offset += part.length;
+    return originalPart;
+  }).join(' ');
+  return `${best.prefix} ${suffix}`;
+}
+
+function preserveLatinTokenCase(originalToken, replacement) {
+  if (/^[A-Z]/u.test(originalToken)) {
+    return replacement.replace(/^[a-z]/u, (letter) => letter.toUpperCase());
+  }
+  return replacement;
+}
+
+function replaceCompactLatinPhrase(value, from, to) {
+  const pattern = new RegExp(`(^|[^A-Za-z])(${escapeRegExp(from)})(?=$|[^A-Za-z])`, 'giu');
+  return String(value).replace(pattern, (match, leading, compactValue) => (
+    `${leading}${preserveLatinTokenCase(compactValue, to)}`
+  ));
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function segmentLatinCompound(lower) {
+  const best = new Array(lower.length + 1).fill(undefined);
+  best[lower.length] = { score: 0, parts: [] };
+
+  for (let index = lower.length - 1; index >= 0; index -= 1) {
+    for (let end = index + 1; end <= lower.length; end += 1) {
+      const term = lower.slice(index, end);
+      const next = best[end];
+      if (!next || !latinSpacingTerms.has(term)) continue;
+      const candidate = {
+        score: next.score + (term.length * term.length) - 1,
+        parts: [term, ...next.parts]
+      };
+      if (!best[index] || candidate.score > best[index].score) {
+        best[index] = candidate;
+      }
+    }
+  }
+
+  return best[0]?.parts;
 }
 
 function normalizeFoodCategoryCode(value) {

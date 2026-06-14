@@ -1,109 +1,96 @@
-# AI Review - 2026-06-13 Data Foundation Layer
+# AI Review — 2026-06-14 GB2760 参考表修复、导入审计与 promote 准入
 
 ## 本轮目标
 
-本轮目标不是一次性补齐所有食品配料，而是建立可用的基础权威数据底座：
+本轮范围包含以下工作：
 
-- 不让 AI 编造食品成分数据、法规来源、ADI、限量或安全结论。
-- 不把 JECFA 数据当成 GB 2760 中国法规使用范围。
-- GB 2760-2024 只能以国家卫健委公告和食品安全国家标准数据检索平台作为官方来源，第三方网站不得作为 `official_standard`。
-- 不强行补齐全部食品配料。
-- 建立 `verified_regulation` / `verified_jecfa` / `mapped_candidate` / `common_ingredient` / `unverified` / `unknown_from_ocr` 分层。
+- 修复 GB2760 官方参考表 B.2/B.3/C.1/C.2/C.3 英文与拉丁名的紧缩文本、跨列边界和已定位 OCR 分词问题。
+- 同步重构任务与规划文档，让后续 Codex 按数据源准确性、GB2760 导入、OCR 主路径优先执行。
+- 避免新增 `README.md` 与既有 `readme.md` 在大小写不敏感文件系统上冲突；产品入口已合并到既有 `readme.md`。
+- 完成 Batch 1-A：新增 GB2760 导入审计骨架，记录官方来源文档、导入批次和错误明细，并提供只读查询接口。
+- 完成 Batch 1-C：新增 `additive_usage_rules` 和 `promote:gb2760`，只允许人工签核且字段齐全的 staging 行进入正式规则表；成功 promote 会同步更新对应 `ingredients` 行的 GB2760 可见字段；空签核场景 0 promoted。
+- 完成 Batch 1-D：新增 `validate:gb2760` 数据准入校验命令，校验正式规则表、staging 状态、JECFA 边界、最新导入批次和 CI 数据链路。
 
-## 本轮完成
+## 修改文件
 
-1. 数据模型新增或贯穿以下字段：`dataStatus`、`matchConfidence`、`sourceScope`、`sourceName`、`sourceVersion`、`sourceUrl`、`regulatoryBasis`、`rawSourceText`、`lastReviewedAt`、`reviewNote`、`isVerified`。
-2. 食品基础库当前 112 条：
-   - `verified_regulation`: 5 条
-   - `verified_jecfa`: 27 条
-   - `mapped_candidate`: 0 条静态数据；运行时低置信匹配会显示为候选
-   - `common_ingredient`: 12 条
-   - `unverified`: 68 条
-   - `unknown_from_ocr`: 0 条静态数据；OCR 未匹配时运行时记录
-3. JECFA-only 27 条只标记为 `sourceScope: 'jecfa_safety_evaluation'`，不写入 GB 2760 使用范围或限量。
-4. 常见普通食品配料新增为独立词库，仅用于分析覆盖和过敏原提示，不作为法规或安全评价来源。
-5. 分析报告、报告详情和导出展示已匹配数量、待确认数量、暂未收录数量、每个配料的数据状态、数据来源和低置信度提示。
-6. 后端 `ingredients` schema、seed、列表 API 增加数据状态字段和 `dataStatus` 筛选。
-7. 数据治理页新增“人工校验队列”，汇总本机 OCR 未收录项、低置信候选和静态未验证数据，并通过数据纠错表单提交校验线索。
-8. GB 2760-2024 官方标准文本来源已从食品安全国家标准数据检索平台确认：标准文本 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`，附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`，发布日期 `2024-02-08`，实施日期 `2025-02-08`；官方 PDF 已保存到 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`。
-9. 已从官方 PDF 表 A.1 首批导入 5 条条款级法规数据：`citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`，写入 `usageLimits`、适用食品类别、PDF 页码/标准页码、官方来源引用，并升级为 `verified_regulation` / `isVerified: true`。
-10. 新增 GB 2760 官方 PDF 全文转换层：`src/data/gb2760OfficialFullText.js` 保存官方 PDF 全 264 页逐页文本、页 SHA-256、PDF SHA-256 和官方平台来源字段，后端 `gb2760_official_pages` 表和 seed 通路可将全文页入库。
-11. GB 2760 官方 PDF 表 A.1 已完成第 8-148 页 staging 转换：`src/data/gb2760OfficialStaging.js` 合并人工校对行与 `src/data/gb2760OfficialGeneratedA1Staging.js` 的自动抽取行，保存 2404 行表 A.1 行级抽取记录，后端 `gb2760_official_records` 表和 seed 通路可将这些记录入库；自动抽取行仍需人工审核。
-12. staging 数据中 13 行与首批 5 条 `verified_regulation` 的正式 `usageLimits` 对齐，2391 行为 `needs_review`，其中 957 行关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient；ingredient 自动关联只使用唯一中文名/别名匹配，或无名称匹配时的单一 INS 码精确匹配，INS 子码不折叠，多 INS 组合保留待人工归并；100 条 seed 中 91 条在官方 PDF 表 A.1 找到可匹配证据并已覆盖，9 条未找到可结构化 A.1 证据；`needs_review` 只代表官方 PDF 原文和页码已抽取，不自动升级正式成分详情或 `isVerified`。
-13. 新增 GB 2760 官方 PDF 参考表结构化层：`src/data/gb2760OfficialReferenceTables.js` 保存表 A.2 “表 A.1 中例外食品编号对应的食品类别”68 行和表 B.1 “不得添加食品用香料、香精的食品名单”29 行，B.1 脚注 a 的香兰素/乙基香兰素/香荚兰豆浸膏例外和剂量条件已进入 `rowData.footnote` 与原文；后端 `gb2760_official_reference_rows` 表和 seed 通路可将非限量参考表入库；该层用于解释 A.1 例外范围和香料禁加食品范围，不自动升级正式 `usageLimits`。
-14. `DATA_SOURCES.md`、`PROJECT_PLAN.md`、`CODEX_TASKS.md` 已同步新口径：基础权威库 + 官方 PDF 全文入库层 + 官方 PDF staging 入库层 + 官方参考表结构化层 + 持续扩充 + 人工校验队列。
+| 文件 | 操作 | 摘要 |
+|---|---|---|
+| `scripts/generate-gb2760-reference-tables.mjs` | 更新 | 保留参考表英文/拉丁词间空格，区分天然香料、生物来源、加工助剂和合成香料化学括号；修复已定位的 B.2 N127、C.2 与 C.3 orphan/紧缩文本 |
+| `src/data/gb2760OfficialReferenceTables.js` | 重新生成 | 保持 2800 行，修复 B.2/B.3/C.1/C.2/C.3 多处英文/拉丁显示边界，并确认可由官方 PDF 复现 |
+| `scripts/validate-data.mjs` | 更新 | 新增 GB2760 参考表紧缩拉丁/英文文本回归校验 |
+| `scripts/test.mjs` | 更新 | 增加 B.2/B.3/C.1/C.2/C.3 代表性分词与边界断言 |
+| `backend/src/db/schema.ts` | 更新 | 新增 `source_documents` / `import_runs` / `import_errors` / `additive_usage_rules` 表定义、约束、索引和类型 |
+| `backend/src/db/migrations/0012_breezy_franklin_richards.sql` | 新增 | 创建 GB2760 导入审计三表和索引 |
+| `backend/src/db/migrations/0013_productive_crusher_hogan.sql` | 新增 | 创建 `additive_usage_rules` 表、`ingredient_id` 外键、`sourceStagingId` 唯一约束、索引和 `verified_regulation` check |
+| `backend/src/db/migrations/meta/0012_snapshot.json`、`meta/0013_snapshot.json`、`meta/_journal.json` | 更新 | Drizzle 迁移快照同步 |
+| `backend/src/services/gb2760Service.ts` | 新增 | 封装来源文档、导入批次、错误记录的 mapper/upsert/query 服务 |
+| `backend/src/services/gb2760PromoteService.ts` | 新增 | 封装 promote 准入校验、`additive_usage_rules` upsert、`ingredients` 法规可见字段同步、`reviewStatus` 更新和空签核统计 |
+| `backend/src/routes/gb2760.ts` | 新增 | 新增 `GET /api/gb2760/import-runs` 和 `GET /api/gb2760/import-runs/:id/errors` |
+| `backend/src/app.ts` | 更新 | 挂载 GB2760 只读审计路由并支持测试注入 service |
+| `backend/scripts/seed.ts` | 更新 | `db:seed` 先登记 GB2760 source document，再为 A.1 staging、全文页、参考表写入 import run；失败时写批次级 import error 并抛错 |
+| `backend/scripts/promote-gb2760.ts` | 新增 | 后端 `promote:gb2760` CLI：运行 promote、写入 promote import run、记录已签核缺字段错误 |
+| `backend/src/services/gb2760ValidateService.ts` | 新增 | 封装 `validate:gb2760` 准入校验：正式规则表、staging 状态、JECFA 边界、最新 import run |
+| `backend/scripts/validate-gb2760.ts` | 新增 | 后端 `validate:gb2760` CLI：读取 DB、输出报告、违规退出非 0 |
+| `backend/package.json`、`package.json` | 更新 | 新增 backend 与根目录 `validate:gb2760` 脚本 |
+| `.github/workflows/ci.yml` | 更新 | CI 增加 Postgres service，执行 backend `db:migrate` / `db:seed` / `validate:gb2760` |
+| `backend/tests/gb2760.test.ts` | 新增 | 覆盖导入审计路由、分页校验、404、source/run/error mapper，以及 promote / validate 准入 helper |
+| `backend/tests/ingredients.test.ts` | 更新 | 验证 GB2760 mapper 入库时把 `needs_review` 规范为 `pending_review` |
+| `CODEX_TASKS.md` | 重构 | 重排为项目主路径 / 自动化规则 / 人工阻塞规则 / 任务状态定义 / 阶段 1-11；新增 GB2760 staging→promote→pending_review→validate 流程（Batch 1-A/1-C/1-D/1-E）、OCR Provider 抽象重构（3-B）、产品体验阶段（UX-A~UX-E）；保留已完成项并标记完成；附录保留 GB2760 导入历史 |
+| `PROJECT_PLAN.md` | 重写 | 产品定位、最高优先级、真实进度（M1-M11）、已完成、未完成、人工阻塞、下一步、7 天执行计划、阶段验收标准 |
+| `readme.md` | 更新 | 合并产品入口、主路径、数据可信状态和快速开始，避免新增大小写冲突文件 |
+| `AGENTS.md` | 新建 | 编码 Agent 强制规范：主路径、五条红线、执行流程、阻塞跳过、技术栈约束、验收、体验要求、输出格式 |
+| `COMMANDS.md` | 更新 | 新增 GB2760 审计 API 验收，明确 `import:gb2760:status` 只有 API 已实现、CLI 仍为计划，不伪造 npm 命令 |
+| `DATA_SOURCES.md` | 更新 | 硬性规则补充 staging/verified 区别、`pending_review` 不能当权威、持续扩充；新增导入审计层和当前审计计数 |
+| `AI_REVIEW.md` | 覆盖 | 本文件 |
 
-## 已验证与未验证
+## 核心调整
 
-| 范围 | 当前状态 | 说明 |
-|---|---:|---|
-| GB 2760 官方标准文本来源 | 已确认 | 来源为国家卫健委公告（2024年第1号）和食品安全国家标准数据检索平台；仅代表标准文本来源确认 |
-| GB 2760 条款级法规依据 | 5 条已验证 | 已导入首批官方 PDF 表 A.1 使用范围和限量；其余不得展示为 GB 2760 已验证 |
-| GB 2760 官方 PDF 全文 | 264 页可入库 | 覆盖官方 PDF 全页文本、页 SHA-256 和官方来源元数据；用于追溯，不自动生成正式 `usageLimits` |
-| GB 2760 官方 PDF staging | 2404 行可入库 | 覆盖表 A.1 的 PDF 第 8-148 页；13 行已与正式 verified 记录对齐；2391 行为 `needs_review`，覆盖 91/91 条有 A.1 证据的 seed，另有 1447 行未匹配本地 ingredient；抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正；自动抽取行仍需人工审核，自动 ingredient 关联不代表正式法规升级 |
-| GB 2760 官方参考表 | 97 行可入库 | 覆盖表 A.2 的 PDF 第 149-150 页和表 B.1 的 PDF 第 152 页；保存例外食品类别编号、食品分类号、食品名称、香料禁加范围和 B.1 脚注 a 例外剂量条件，用于解释 A.1 例外范围和 B.1 香料使用边界；仍为 `needs_review`，不代表正式法规升级 |
-| JECFA 安全评价 | 27 条 JECFA-only，另 5 条作为补充来源 | 可作为安全评价来源；不得当作中国使用限制 |
-| 常见普通配料 | 12 条词库命中 | 来自项目样例标签词库；不是法规来源 |
-| 未验证食品添加剂 | 68 条 | 保留 seed reference 和来源线索，等待人工核验 |
-| OCR 未匹配 | 运行时记录 | 不直接写入权威库，后续进入人工校验队列 |
+1. GB2760 参考表生成结果仍为 2800 行：A.2=68、B.1=29、B.2=388、B.3=1504、C.1=37、C.2=80、C.3=66、D=23、E.1=318、F=287。
+2. 参考表英文/拉丁文本不再大量保留紧缩形态，例如 `Litsea cubeba berry oil`、`Green tea tincture (Thea sinensis or Camellia sinensis)`、`carnauba wax`、`polyoxyethylene polyoxypropylene amine ether (BAPE)`、`Leaf alcohol (cis-3-Hexen-1-ol)`、`3-(Methylthio)butanal`、`Methyl(methylthio)acetate`、`Bacillus subtilis`。
+3. 文档优先级重排为：数据源 → GB2760 导入 → 数据库 → OCR 主路径 → 解析 → 匹配 → 报告 → 档案 → 移动体验 → AI → 登录 → 订阅。
+4. GB2760 导入流程明确为 staging 全量承接 → 高置信 promote 正式库 → 低置信 `pending_review` → 人工复核；已实现命令和计划命令在 `COMMANDS.md` 分开标注。
+5. `README.md` 大小写冲突已规避，产品入口保留在已跟踪的 `readme.md`，`AGENTS.md` 链接同步指向 `readme.md`。
+6. Batch 1-A 已落地：`source_documents` 1 条 GB2760 官方来源记录；最近一次 `db:seed` 写入三条成功 `import_runs`（A.1 staging 2404、全文 264、参考表 2800）且 `import_errors` 为 0；查询接口只读、无鉴权，不改变原有 `gb2760_official_*` 数据事实。
+7. Batch 1-C 已落地：`additive_usage_rules` 表已创建；`promote:gb2760` 只处理 DB staging 中 `approved` / `promoted` 行，成功 promote 同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`；空签核场景为 `approved=0`、`promoted=0`、`pending_review=2391`、`already_verified=13`，不会把历史 `verified` staging 行自动写入新规则表。
+8. Batch 1-D 已落地：`validate:gb2760` 在当前空签核 DB 上通过，报告 `staging=2404`、`pending_review=2391`、`legacy_verified=13`、`additive_usage_rules=0`、`import_errors=0`，并已接入 CI。
 
-除上述 5 条 GB 2760 条款级记录外，其余食品记录当前仍为 `isVerified: false`。
+## 与现有代码核对（防止伪造状态）
 
-## 明确不做的事
-
-- 不新增 AI 生成的食品成分、法规结论、限量或来源链接。
-- 不把 JECFA ADI 或安全评价写成 GB 2760 允许使用范围。
-- 不为无法可靠结构化的法规文本编造食品类别、最大使用量或条款编号；staging 行必须保留 `rawSourceText` 和审核状态。
-- 不把 common ingredient 词库展示为官方法规数据。
-- 不承诺一次性补齐全部食品配料。
-
-## 需要后续人工确认
-
-| 阻塞项 | 需要确认 |
-|---|---|
-| GB 2760 条款级核验 | 2391 行 `needs_review` staging 需要人工确认、去重/归并和 ingredient 匹配后才能进入正式 `ingredients.usageLimits` |
-| 分组/拆分规则 | 焦糖色、糖精类、胡萝卜素、苹果酸、Nisin 等是否拆分 |
-| 未验证 68 条添加剂 | 是否可匹配 JECFA、GB 2760 或其他官方依据 |
-| OCR 未匹配队列 | 是否为普通配料、添加剂、错字、噪声或需新增条目 |
-| 普通配料词库扩展 | 来源词表、标签样本、过敏原标注和命名规范 |
-
-## 本轮新增队列边界
-
-- `unknown_from_ocr` 只来自运行时 OCR 来源报告的未匹配条目，不写入静态权威库。
-- 人工校验队列是只读入口：可以聚合 OCR 未收录、低置信候选和静态未验证数据，但不能自动升级为 `verified_regulation` 或 `isVerified: true`。
-- 任何升级仍需要人工补充官方来源、原文片段、条款编号、适用范围或拆分/归并说明。
+- 真实后端表：`ingredients`、`ingredient_sources`、`gb2760_official_records`、`gb2760_official_pages`、`gb2760_official_reference_rows`、`source_documents`、`import_runs`、`import_errors`、`additive_usage_rules`、`users`、`sessions`、`user_favorites`、`user_history`、`user_allergens`、`user_profile_ingredients`、`user_reports`、`product_archives`。
+- 真实后端路由：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。
+- 真实前端命令：`dev` / `build` / `preview` / `lint` / `test` / `validate:data` / `validate:gb2760` / `cap:*`；后端：`dev` / `build` / `db:generate` / `db:migrate` / `db:seed` / `promote:gb2760` / `validate:gb2760` / `typecheck` / `test`。
+- 用户要求的 `promote:gb2760` / `validate:gb2760` 已存在；`import:gb2760` 仍不存在；`import:gb2760:status` 的查询能力已作为 API `GET /api/gb2760/import-runs` 落地，但 npm CLI 包装仍不存在。
+- 已完成的 OCR/解析/报告/档案/登录/移动批次按真实页面与服务（`scanPage`/`ocrConfirmPage`/`ingredientMatchService`/`reportDetailPage`/`productArchiveService`/`authService` 等）标 ✅。
 
 ## 验证结果
 
-本轮 GB 2760-2024 官方来源、首批 PDF 条款级数据、2404 行 staging 数据、100 条 seed 的 A.1 覆盖审计、264 页 PDF 全文转换和 97 行参考表结构化已通过完整验证链；表 A.1 第 8-148 页已转换到 staging，表 A.2 第 149-150 页和表 B.1 第 152 页已转换到 reference rows：
+本轮已执行：
 
 ```bash
 npm run validate:data
-npm run lint
 npm run test
+npm run lint
 npm run build
-cd backend && npm run db:seed -- --version gb2760-reference-b1-20260613 --reviewed-by codex --change-note "GB 2760 official Table B.1 reference rows"
-cd backend && npm run typecheck
-cd backend && npm test
-cd backend && npm run build
 git diff --check
-```
-
-`npm run validate:data` 输出：112 条食品记录；`verified_regulation=5`、`verified_jecfa=27`、`common_ingredient=12`、`unverified=68`、`missingSourceFields=0`、`missingUsageLimits=95`。GB 2760 staging 输出：`rows=2404`、`linkedIngredients=91`、`unlinked=1447`、`pdfPages=141`、`verified=13`、`needs_review=2391`。GB 2760 seed coverage 输出：`matchingCovered=91/91`、`noA1Evidence=9`、`unexpectedUncovered=none`。GB 2760 full-text 输出：`pages=264`、`standardPageLabels=260`、`textSha256=264`、`emptyTextPages=none`。GB 2760 reference table 输出：`rows=97`、`a2ExceptionFoodCategories=68`、`b1NoFlavorFoodCategories=29`、`pdfPages=3`、`tables=表 A.2=68; 表 B.1=29`。`npm run test` 已覆盖已定位的标题截断、脚注污染、INS 子码误链、A.2 例外食品类别、B.1 香料禁加食品类别和跨行食品分类串行回归；`npm run lint`、`npm run test`、`npm run build`、后端 `db:seed` / `typecheck` / `test` / `build` 和 `git diff --check` 均已通过。本地数据库已确认精确同步为 112 条 ingredient、2404 行 A.1 staging、264 页全文、97 行 reference rows。
-
-上一轮基础数据分层与后端同步验证：
-
-```bash
-npm run validate:data
-npm run lint
-npm run test
-npm run build
-cd backend && npm run typecheck
-cd backend && npm test
-cd backend && npm run build
+node scripts/generate-gb2760-reference-tables.mjs /home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf /tmp/gb2760-reference-check.js
+diff -q /tmp/gb2760-reference-check.js src/data/gb2760OfficialReferenceTables.js
 cd backend && npm run db:generate
 cd backend && npm run db:migrate
-cd backend && npm run db:seed -- --version food-authority-foundation-v1 --reviewed-by codex --change-note "foundation data status layer"
+cd backend && npm run db:seed
+cd backend && npm run promote:gb2760
+npm run validate:gb2760
+cd backend && npm run typecheck
+cd backend && npm test
+node -e "<query source_documents/import_runs/import_errors counts>"
+node -e "<query additive_usage_rules/review_status/import_errors counts>"
+codex review --uncommitted
 ```
 
-以上已通过。`npm run validate:data` 输出：112 条食品记录；`verified_regulation=0`、`verified_jecfa=32`、`common_ingredient=12`、`unverified=68`、`unknown_from_ocr=0`、`missingSourceFields=0`、`missingUsageLimits=100`。`db:generate` 结果为 no schema changes，`db:migrate` applied successfully，seed 写入 112 条。
+`validate:data` 输出 112 条食品记录、2404 行 GB2760 staging、2800 行 GB2760 reference rows；`validate:gb2760` 输出 `staging=2404 pending_review=2391 approved=0 promoted=0 legacy_verified=13 mapped_candidate=0 additive_usage_rules=0 verified_regulation_ingredients=5 import_errors=0`；`lint`、`test`、`build`、`git diff --check` 和官方 PDF 重生成比对均通过。后端 `db:migrate` / `db:seed` / `promote:gb2760` / `validate:gb2760` / `typecheck` / `test` 通过，审计表查询结果为：`source_documents` 1 条、`import_runs` 三条 seed 成功记录 + 一条 promote 成功记录、`import_errors` 0；promote 空签核结果为 `additive_usage_rules=0`、DB staging `pending_review=2391`、历史 `verified=13`。本地 self-review 发现的 `README.md`/`readme.md` 大小写冲突、本文件范围说明不准确、C.2 加工助剂英文紧缩、B.2 N127 拉丁名紧缩、C.3 row 33 紧缩和植物学缩写缺空格问题已修复。
+
+## 风险点与后续人工确认
+
+- 源文件中的 `needs_review` 未做大规模 churn；后端入库 mapper 已统一为 DB `pending_review`。`db:seed` 只在行级法规字段指纹不变时保留既有人工 `mapped_candidate` / `approved` / `promoted` 状态；抽取内容变化会降回待复核，避免旧签核覆盖新限量或新原文证据。`validate:gb2760` 当前校验 DB 口径；源文件口径仍由 `validate:data` 校验。
+- `additive_usage_rules` 已存在但当前为空；这代表尚无人工签核行进入正式规则表，不代表 GB2760 无使用规则。
+- GB2760 高置信 staging 行的实际 promote verified 增量需要人工复核签核（`blocked_by_user`）；当前脚本已在空签核场景跑通。
+- 真实 OCR / AI 接入、生产数据库、跨设备验收、上架仍为人工阻塞项。

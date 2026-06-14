@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
-import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialPageRow, toGb2760OfficialRecordRow, toGb2760OfficialReferenceRow, toIngredientRow, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
+import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialPageRow, toGb2760OfficialRecordRow, toGb2760OfficialReferenceRow, toIngredientRow, upsertIngredients, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
   return createApp({
@@ -60,6 +60,7 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
         adi: '0-5 mg/kg bw',
         usageLimits: [],
         foodCategories: ['饮料'],
+        gb2760PromotionBaseState: null,
         allergenTypes: [],
         cautionGroups: ['child'],
         createdAt: new Date('2026-06-11T00:00:00.000Z'),
@@ -115,6 +116,7 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
           adi: '0-5 mg/kg bw',
           usageLimits: [],
           foodCategories: ['饮料'],
+          gb2760PromotionBaseState: null,
           allergenTypes: [],
           cautionGroups: ['child'],
           createdAt: new Date('2026-06-11T00:00:00.000Z'),
@@ -348,6 +350,66 @@ describe('ingredient search helpers', () => {
     expect(row.isVerified).toBe(false);
   });
 
+  it('preserves saved GB 2760 promotion base state during seed upsert conflicts', async () => {
+    const conflictSets: Array<Record<string, unknown>> = [];
+    const tx = {
+      insert: vi.fn(() => ({
+        values: vi.fn(() => ({
+          onConflictDoUpdate: vi.fn(async ({ set }: { set: Record<string, unknown> }) => {
+            conflictSets.push(set);
+          })
+        }))
+      })),
+      delete: vi.fn(() => ({
+        where: vi.fn(async () => undefined)
+      }))
+    };
+    const db = {
+      transaction: vi.fn(async (callback: (transaction: unknown) => Promise<void>) => callback(tx))
+    };
+
+    await upsertIngredients(db as unknown as Parameters<typeof upsertIngredients>[0], [{
+      id: 'xylitol',
+      kind: 'food-additive',
+      dataCategory: 'food',
+      nameCn: '木糖醇',
+      nameEn: 'Xylitol',
+      aliases: [],
+      category: '甜味剂',
+      functions: ['甜味剂'],
+      description: '测试数据',
+      riskLevel: 'low',
+      sourceNote: '测试来源',
+      sourceReferences: [],
+      reviewStatus: 'draft',
+      dataStatus: 'unverified',
+      dataVersion: 'food-additives-seed-v5',
+      updatedAt: '2026-06-12',
+      sourceName: '测试来源',
+      sourceType: 'official_standard',
+      sourceScope: 'seed_reference',
+      sourceVersion: '待人工核验',
+      sourceUrl: 'https://example.com/source',
+      effectiveDate: '待人工核验',
+      confidenceLevel: 'unverified',
+      matchConfidence: 'low',
+      lastReviewedAt: '2026-06-12',
+      reviewNote: '测试审核备注',
+      regulatoryBasis: '待人工核验',
+      rawSourceText: '待人工核验',
+      isVerified: false,
+      gbCode: 'INS 967',
+      gbStatus: 'restricted',
+      usageLimits: [],
+      foodCategories: [],
+      allergenTypes: [],
+      cautionGroups: []
+    }]);
+
+    expect(conflictSets).toHaveLength(1);
+    expect(conflictSets[0].gb2760PromotionBaseState).toBeTruthy();
+  });
+
   it('maps GB 2760 official staging records with source evidence intact', () => {
     const row = toGb2760OfficialRecordRow({
       id: 'gb2760-2024-a1-pectin-juice',
@@ -388,7 +450,7 @@ describe('ingredient search helpers', () => {
     expect(row.pdfSha256).toBe('2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de');
     expect(row.pdfPage).toBe(45);
     expect(row.standardPage).toBe(42);
-    expect(row.reviewStatus).toBe('needs_review');
+    expect(row.reviewStatus).toBe('pending_review');
     expect(row.syncedAt).toBeInstanceOf(Date);
   });
 
@@ -464,7 +526,7 @@ describe('ingredient search helpers', () => {
     expect(row.rowCode).toBe('67');
     expect(row.rowData).toMatchObject({ foodCategoryCode: '15.03.01.04' });
     expect(row.pdfSha256).toBe('2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de');
-    expect(row.reviewStatus).toBe('needs_review');
+    expect(row.reviewStatus).toBe('pending_review');
     expect(row.syncedAt).toBeInstanceOf(Date);
   });
 

@@ -1,11 +1,36 @@
-import { and, asc, count, desc, eq, notInArray, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, inArray, notInArray, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { gb2760OfficialPages, gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredientSources, ingredients, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewGb2760OfficialReferenceRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
+import { gb2760OfficialPages, gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredientSources, ingredients, type Gb2760OfficialRecordRow, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewGb2760OfficialReferenceRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
 export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
 export const validDataStatuses = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'] as const;
 export const validSearchSorts = ['relevance', 'risk', 'name'] as const;
+export const gb2760ManualReviewStatuses = ['mapped_candidate', 'approved', 'promoted'] as const;
+const gb2760ReviewFingerprintFields = [
+  'tableName',
+  'additiveNameCn',
+  'additiveNameEn',
+  'cnsNumber',
+  'insNumber',
+  'functionText',
+  'foodCategoryCode',
+  'foodCategoryName',
+  'maxUseLevel',
+  'unit',
+  'note',
+  'pdfPage',
+  'standardPage',
+  'rawSourceText',
+  'sourceUrl',
+  'downloadEndpoint',
+  'platformRecordId',
+  'announcementRecordId',
+  'fileGuid',
+  'factName',
+  'pdfSha256',
+  'extractionStatus'
+] as const;
 
 export type RiskLevel = typeof validRiskLevels[number];
 export type ConfidenceLevel = typeof validConfidenceLevels[number];
@@ -375,6 +400,7 @@ export function toIngredientRow(additive: FoodAdditiveInput, options: Ingredient
     adi: additive.adi ?? null,
     usageLimits: additive.usageLimits ?? [],
     foodCategories: additive.foodCategories ?? [],
+    gb2760PromotionBaseState: null,
     allergenTypes: additive.allergenTypes ?? [],
     cautionGroups: additive.cautionGroups ?? [],
     syncedAt: new Date()
@@ -425,7 +451,7 @@ export function toGb2760OfficialRecordRow(record: Gb2760OfficialRecordInput): Ne
     pdfSha256: record.pdfSha256,
     retrievedAt: record.retrievedAt,
     extractionStatus: record.extractionStatus,
-    reviewStatus: record.reviewStatus,
+    reviewStatus: normalizeGb2760ReviewStatus(record.reviewStatus),
     syncedAt: new Date()
   };
 }
@@ -484,29 +510,39 @@ export function toGb2760OfficialReferenceRow(row: Gb2760OfficialReferenceRowInpu
     extractionScope: row.extractionScope,
     generatedAt: row.generatedAt,
     extractionStatus: row.extractionStatus,
-    reviewStatus: row.reviewStatus,
+    reviewStatus: normalizeGb2760ReviewStatus(row.reviewStatus),
     syncedAt: new Date()
   };
 }
 
 export async function upsertGb2760OfficialRecords(db: Database, records: Gb2760OfficialRecordInput[]) {
   if (records.length === 0) return;
+  const recordIds = records.map((record) => record.id);
 
   await db.transaction(async (tx) => {
+    const existingRows = new Map(
+      (await tx
+        .select()
+        .from(gb2760OfficialRecords)
+        .where(inArray(gb2760OfficialRecords.id, recordIds)))
+        .map((row) => [row.id, row])
+    );
     // Official PDF-derived tables are snapshots; keep database rows in lockstep with source files.
     await tx
       .delete(gb2760OfficialRecords)
-      .where(notInArray(gb2760OfficialRecords.id, records.map((record) => record.id)));
+      .where(notInArray(gb2760OfficialRecords.id, recordIds));
 
     for (const record of records) {
       const row = toGb2760OfficialRecordRow(record);
+      const existingRow = existingRows.get(row.id);
+      const preservedRow = preserveGb2760ManualReviewState(row, existingRow);
       await tx
         .insert(gb2760OfficialRecords)
-        .values(row)
+        .values(preservedRow)
         .onConflictDoUpdate({
           target: gb2760OfficialRecords.id,
           set: {
-            ...row,
+            ...preservedRow,
             createdAt: sql`${gb2760OfficialRecords.createdAt}`
           }
         });
@@ -582,6 +618,7 @@ export async function upsertIngredients(db: Database, additives: FoodAdditiveInp
             reviewedBy: sql`case when ${auditUpdateCondition} then excluded.reviewed_by else ${ingredients.reviewedBy} end`,
             reviewedAt: sql`case when ${auditUpdateCondition} then excluded.reviewed_at else ${ingredients.reviewedAt} end`,
             changeNote: sql`case when ${auditUpdateCondition} then excluded.change_note else ${ingredients.changeNote} end`,
+            gb2760PromotionBaseState: sql`${ingredients.gb2760PromotionBaseState}`,
             createdAt: sql`${ingredients.createdAt}`
           }
         });
@@ -690,6 +727,41 @@ function ilikeEscaped(column: AnyColumn, pattern: string): SQL {
 function normalizeAuditText(value: string | undefined) {
   const normalized = value?.trim();
   return normalized ? normalized : '';
+}
+
+export function normalizeGb2760ReviewStatus(value: string) {
+  return value === 'needs_review' ? 'pending_review' : value;
+}
+
+export function getGb2760OfficialRecordReviewFingerprint(row: Pick<Gb2760OfficialRecordRow, typeof gb2760ReviewFingerprintFields[number]> | Pick<NewGb2760OfficialRecordRow, typeof gb2760ReviewFingerprintFields[number]>) {
+  return JSON.stringify(gb2760ReviewFingerprintFields.map((field) => [field, row[field] ?? null]));
+}
+
+export function preserveGb2760ManualReviewState(incomingRow: NewGb2760OfficialRecordRow, existingRow: Gb2760OfficialRecordRow | undefined): NewGb2760OfficialRecordRow {
+  const incoming = {
+    ...incomingRow,
+    reviewStatus: normalizeGb2760ReviewStatus(incomingRow.reviewStatus)
+  };
+  if (!existingRow) {
+    return incoming;
+  }
+
+  const existingStatus = normalizeGb2760ReviewStatus(existingRow.reviewStatus);
+  if (!gb2760ManualReviewStatuses.includes(existingStatus as typeof gb2760ManualReviewStatuses[number])) {
+    return incoming;
+  }
+
+  return getGb2760OfficialRecordReviewFingerprint(incomingRow) === getGb2760OfficialRecordReviewFingerprint(existingRow)
+    ? {
+        ...incoming,
+        ingredientId: existingRow.ingredientId,
+        reviewStatus: existingStatus
+      }
+    : incoming;
+}
+
+export function preserveGb2760ManualReviewStatus(incomingRow: NewGb2760OfficialRecordRow, existingRow: Gb2760OfficialRecordRow | undefined) {
+  return preserveGb2760ManualReviewState(incomingRow, existingRow).reviewStatus;
 }
 
 function parseAuditDate(value: string | undefined) {

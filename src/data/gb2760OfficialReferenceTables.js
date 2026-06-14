@@ -959,7 +959,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N001",
     "flavorCode": "N001",
     "flavorNameCn": "丁香叶油",
-    "flavorNameEn": "Cloveleafoil(Eugeniaspp.)",
+    "flavorNameEn": "Clove leaf oil (Eugenia spp.)",
     "femaNumber": "2325",
     "pdfPage": 153,
     "standardPage": 150,
@@ -968,7 +968,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "1N001丁香叶油Cloveleafoil(Eugeniaspp.)2325",
     "rowName": "丁香叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 1；编码 N001；香料中文名称 丁香叶油；香料英文名称 Cloveleafoil(Eugeniaspp.)；FEMA 编号 2325。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 1；编码 N001；香料中文名称 丁香叶油；香料英文名称 Clove leaf oil (Eugenia spp.)；FEMA 编号 2325。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0002",
@@ -976,7 +976,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N002",
     "flavorCode": "N002",
     "flavorNameCn": "丁香花蕾酊(提取物)",
-    "flavorNameEn": "Clovebudtincture(extract)(Eugeniaspp.)",
+    "flavorNameEn": "Clove bud tincture (extract) (Eugenia spp.)",
     "femaNumber": "2322",
     "pdfPage": 153,
     "standardPage": 150,
@@ -985,7 +985,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "2N002丁香花蕾酊(提取物)Clovebudtincture(extract)(Eugeniaspp.)2322",
     "rowName": "丁香花蕾酊(提取物)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 2；编码 N002；香料中文名称 丁香花蕾酊(提取物)；香料英文名称 Clovebudtincture(extract)(Eugeniaspp.)；FEMA 编号 2322。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 2；编码 N002；香料中文名称 丁香花蕾酊(提取物)；香料英文名称 Clove bud tincture (extract) (Eugenia spp.)；FEMA 编号 2322。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0003",
@@ -993,7 +993,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N003",
     "flavorCode": "N003",
     "flavorNameCn": "丁香花蕾油",
-    "flavorNameEn": "Clovebudoil(Eugeniaspp.)",
+    "flavorNameEn": "Clove bud oil (Eugenia spp.)",
     "femaNumber": "2323",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1002,7 +1002,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "3N003丁香花蕾油Clovebudoil(Eugeniaspp.)2323",
     "rowName": "丁香花蕾油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 3；编码 N003；香料中文名称 丁香花蕾油；香料英文名称 Clovebudoil(Eugeniaspp.)；FEMA 编号 2323。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 3；编码 N003；香料中文名称 丁香花蕾油；香料英文名称 Clove bud oil (Eugenia spp.)；FEMA 编号 2323。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0004",
@@ -1010,7 +1010,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N004",
     "flavorCode": "N004",
     "flavorNameCn": "罗勒油",
-    "flavorNameEn": "Basiloil(OcimumbasilicumL.)",
+    "flavorNameEn": "Basil oil (Ocimum basilicum L.)",
     "femaNumber": "2119",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1019,7 +1019,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "4N004罗勒油Basiloil(OcimumbasilicumL.)2119",
     "rowName": "罗勒油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 4；编码 N004；香料中文名称 罗勒油；香料英文名称 Basiloil(OcimumbasilicumL.)；FEMA 编号 2119。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 4；编码 N004；香料中文名称 罗勒油；香料英文名称 Basil oil (Ocimum basilicum L.)；FEMA 编号 2119。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0005",
@@ -1027,7 +1027,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N005",
     "flavorCode": "N005",
     "flavorNameCn": "八角茴香油",
-    "flavorNameEn": "Anisestaroil(IlliciumverumHook,F.)",
+    "flavorNameEn": "Anise star oil (Illicium verum Hook, F.)",
     "femaNumber": "2096",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1036,7 +1036,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "5N005八角茴香油Anisestaroil(IlliciumverumHook,F.)2096",
     "rowName": "八角茴香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 5；编码 N005；香料中文名称 八角茴香油；香料英文名称 Anisestaroil(IlliciumverumHook,F.)；FEMA 编号 2096。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 5；编码 N005；香料中文名称 八角茴香油；香料英文名称 Anise star oil (Illicium verum Hook, F.)；FEMA 编号 2096。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0006",
@@ -1044,7 +1044,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N006",
     "flavorCode": "N006",
     "flavorNameCn": "九里香浸膏",
-    "flavorNameEn": "CommonJasminorangeconcrete(Murrayapanic-ulata)",
+    "flavorNameEn": "Common Jasmin orange concrete (Murraya panic-ulata)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1053,7 +1053,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "CommonJasminorangeconcrete(Murrayapanic-6N006九里香浸膏—ulata)",
     "rowName": "九里香浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 6；编码 N006；香料中文名称 九里香浸膏；香料英文名称 CommonJasminorangeconcrete(Murrayapanic-ulata)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 6；编码 N006；香料中文名称 九里香浸膏；香料英文名称 Common Jasmin orange concrete (Murraya panic-ulata)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0007",
@@ -1061,7 +1061,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N007",
     "flavorCode": "N007",
     "flavorNameCn": "广藿香油",
-    "flavorNameEn": "Patchoulioil(Pogostemoncablin)",
+    "flavorNameEn": "Patchouli oil (Pogostemon cablin)",
     "femaNumber": "2838",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1070,7 +1070,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "7N007广藿香油Patchoulioil(Pogostemoncablin)2838",
     "rowName": "广藿香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 7；编码 N007；香料中文名称 广藿香油；香料英文名称 Patchoulioil(Pogostemoncablin)；FEMA 编号 2838。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 7；编码 N007；香料中文名称 广藿香油；香料英文名称 Patchouli oil (Pogostemon cablin)；FEMA 编号 2838。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0008",
@@ -1078,7 +1078,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N008",
     "flavorCode": "N008",
     "flavorNameCn": "万寿菊油",
-    "flavorNameEn": "Tagetesoil(Tagetesspp.)",
+    "flavorNameEn": "Tagetes oil (Tagetes spp.)",
     "femaNumber": "3040",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1087,7 +1087,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "8N008万寿菊油Tagetesoil(Tagetesspp.)3040",
     "rowName": "万寿菊油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 8；编码 N008；香料中文名称 万寿菊油；香料英文名称 Tagetesoil(Tagetesspp.)；FEMA 编号 3040。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 8；编码 N008；香料中文名称 万寿菊油；香料英文名称 Tagetes oil (Tagetes spp.)；FEMA 编号 3040。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0009",
@@ -1095,7 +1095,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N010",
     "flavorCode": "N010",
     "flavorNameCn": "小豆蔻油",
-    "flavorNameEn": "Cardamomoil(Elletariacardamomum)",
+    "flavorNameEn": "Cardamom oil (Elletaria cardamomum)",
     "femaNumber": "2241",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1104,7 +1104,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "9N010小豆蔻油Cardamomoil(Elletariacardamomum)2241",
     "rowName": "小豆蔻油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 9；编码 N010；香料中文名称 小豆蔻油；香料英文名称 Cardamomoil(Elletariacardamomum)；FEMA 编号 2241。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 9；编码 N010；香料中文名称 小豆蔻油；香料英文名称 Cardamom oil (Elletaria cardamomum)；FEMA 编号 2241。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0010",
@@ -1112,7 +1112,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N011",
     "flavorCode": "N011",
     "flavorNameCn": "小豆蔻酊",
-    "flavorNameEn": "Cardamomtincture(Elletariacardamomum)",
+    "flavorNameEn": "Cardamom tincture (Elletaria cardamomum)",
     "femaNumber": "2240",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1121,7 +1121,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "10N011小豆蔻酊Cardamomtincture(Elletariacardamomum)2240",
     "rowName": "小豆蔻酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 10；编码 N011；香料中文名称 小豆蔻酊；香料英文名称 Cardamomtincture(Elletariacardamomum)；FEMA 编号 2240。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 10；编码 N011；香料中文名称 小豆蔻酊；香料英文名称 Cardamom tincture (Elletaria cardamomum)；FEMA 编号 2240。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0011",
@@ -1129,7 +1129,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N012",
     "flavorCode": "N012",
     "flavorNameCn": "小茴香酊",
-    "flavorNameEn": "Fenneltincture(FoeniculumvulgareMill.)",
+    "flavorNameEn": "Fennel tincture (Foeniculum vulgare Mill.)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1138,7 +1138,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "11N012小茴香酊Fenneltincture(FoeniculumvulgareMill.)—",
     "rowName": "小茴香酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 11；编码 N012；香料中文名称 小茴香酊；香料英文名称 Fenneltincture(FoeniculumvulgareMill.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 11；编码 N012；香料中文名称 小茴香酊；香料英文名称 Fennel tincture (Foeniculum vulgare Mill.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0012",
@@ -1146,7 +1146,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N013",
     "flavorCode": "N013",
     "flavorNameCn": "山苍子油",
-    "flavorNameEn": "Litseacubebaberryoil",
+    "flavorNameEn": "Litsea cubeba berry oil",
     "femaNumber": "3846",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1155,7 +1155,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "12N013山苍子油Litseacubebaberryoil3846",
     "rowName": "山苍子油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 12；编码 N013；香料中文名称 山苍子油；香料英文名称 Litseacubebaberryoil；FEMA 编号 3846。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 12；编码 N013；香料中文名称 山苍子油；香料英文名称 Litsea cubeba berry oil；FEMA 编号 3846。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0013",
@@ -1163,7 +1163,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N014",
     "flavorCode": "N014",
     "flavorNameCn": "山楂酊",
-    "flavorNameEn": "Hawthornfruittincture(Crataegusspp.)",
+    "flavorNameEn": "Hawthorn fruit tincture (Crataegus spp.)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1172,7 +1172,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "13N014山楂酊Hawthornfruittincture(Crataegusspp.)—",
     "rowName": "山楂酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 13；编码 N014；香料中文名称 山楂酊；香料英文名称 Hawthornfruittincture(Crataegusspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 13；编码 N014；香料中文名称 山楂酊；香料英文名称 Hawthorn fruit tincture (Crataegus spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0014",
@@ -1180,7 +1180,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N015",
     "flavorCode": "N015",
     "flavorNameCn": "大蒜油",
-    "flavorNameEn": "Garlicoil(AlliumsativumL.)",
+    "flavorNameEn": "Garlic oil (Allium sativum L.)",
     "femaNumber": "2503",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1189,7 +1189,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "14N015大蒜油Garlicoil(AlliumsativumL.)2503",
     "rowName": "大蒜油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 14；编码 N015；香料中文名称 大蒜油；香料英文名称 Garlicoil(AlliumsativumL.)；FEMA 编号 2503。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 14；编码 N015；香料中文名称 大蒜油；香料英文名称 Garlic oil (Allium sativum L.)；FEMA 编号 2503。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0015",
@@ -1197,7 +1197,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N016",
     "flavorCode": "N016",
     "flavorNameCn": "大蒜油树脂",
-    "flavorNameEn": "Garlicoleoresin(AlliumsativumL.)",
+    "flavorNameEn": "Garlic oleoresin (Allium sativum L.)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1206,7 +1206,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "15N016大蒜油树脂Garlicoleoresin(AlliumsativumL.)—",
     "rowName": "大蒜油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 15；编码 N016；香料中文名称 大蒜油树脂；香料英文名称 Garlicoleoresin(AlliumsativumL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 15；编码 N016；香料中文名称 大蒜油树脂；香料英文名称 Garlic oleoresin (Allium sativum L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0016",
@@ -1214,7 +1214,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N017",
     "flavorCode": "N017",
     "flavorNameCn": "天然康酿克油",
-    "flavorNameEn": "Cognacoil,green",
+    "flavorNameEn": "Cognac oil, green",
     "femaNumber": "2331",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1223,7 +1223,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "16N017天然康酿克油Cognacoil,green2331",
     "rowName": "天然康酿克油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 16；编码 N017；香料中文名称 天然康酿克油；香料英文名称 Cognacoil,green；FEMA 编号 2331。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 16；编码 N017；香料中文名称 天然康酿克油；香料英文名称 Cognac oil, green；FEMA 编号 2331。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0017",
@@ -1231,7 +1231,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N018",
     "flavorCode": "N018",
     "flavorNameCn": "天然薄荷脑",
-    "flavorNameEn": "L-Menthol,natural",
+    "flavorNameEn": "L-Menthol, natural",
     "femaNumber": "2665",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1240,7 +1240,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "17N018天然薄荷脑L-Menthol,natural2665",
     "rowName": "天然薄荷脑",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 17；编码 N018；香料中文名称 天然薄荷脑；香料英文名称 L-Menthol,natural；FEMA 编号 2665。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 17；编码 N018；香料中文名称 天然薄荷脑；香料英文名称 L-Menthol, natural；FEMA 编号 2665。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0018",
@@ -1248,7 +1248,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N019",
     "flavorCode": "N019",
     "flavorNameCn": "云木香油",
-    "flavorNameEn": "Costusrootoil(SaussureslappaClanke)",
+    "flavorNameEn": "Costus root oil (Saussureslappa Clanke)",
     "femaNumber": "2336",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1257,7 +1257,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "18N019云木香油Costusrootoil(SaussureslappaClanke)2336",
     "rowName": "云木香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 18；编码 N019；香料中文名称 云木香油；香料英文名称 Costusrootoil(SaussureslappaClanke)；FEMA 编号 2336。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 18；编码 N019；香料中文名称 云木香油；香料英文名称 Costus root oil (Saussureslappa Clanke)；FEMA 编号 2336。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0019",
@@ -1265,7 +1265,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N020",
     "flavorCode": "N020",
     "flavorNameCn": "月桂叶油",
-    "flavorNameEn": "Bay,sweet,oil(LaurusnobilisL.)",
+    "flavorNameEn": "Bay, sweet, oil (Laurus nobilis L.)",
     "femaNumber": "2125",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1274,7 +1274,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "19N020月桂叶油Bay,sweet,oil(LaurusnobilisL.)2125",
     "rowName": "月桂叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 19；编码 N020；香料中文名称 月桂叶油；香料英文名称 Bay,sweet,oil(LaurusnobilisL.)；FEMA 编号 2125。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 19；编码 N020；香料中文名称 月桂叶油；香料英文名称 Bay, sweet, oil (Laurus nobilis L.)；FEMA 编号 2125。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0020",
@@ -1282,7 +1282,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N021",
     "flavorCode": "N021",
     "flavorNameCn": "乌梅酊",
-    "flavorNameEn": "Wumeitincture(Prunusmume)",
+    "flavorNameEn": "Wumei tincture (Prunus mume)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1291,7 +1291,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "20N021乌梅酊Wumeitincture(Prunusmume)—",
     "rowName": "乌梅酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 20；编码 N021；香料中文名称 乌梅酊；香料英文名称 Wumeitincture(Prunusmume)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 20；编码 N021；香料中文名称 乌梅酊；香料英文名称 Wumei tincture (Prunus mume)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0021",
@@ -1299,7 +1299,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N022",
     "flavorCode": "N022",
     "flavorNameCn": "布枯叶油",
-    "flavorNameEn": "Buchuleavesoil(Barosmaspp.)",
+    "flavorNameEn": "Buchu leaves oil (Barosma spp.)",
     "femaNumber": "2169",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1308,7 +1308,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "21N022布枯叶油Buchuleavesoil(Barosmaspp.)2169",
     "rowName": "布枯叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 21；编码 N022；香料中文名称 布枯叶油；香料英文名称 Buchuleavesoil(Barosmaspp.)；FEMA 编号 2169。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 21；编码 N022；香料中文名称 布枯叶油；香料英文名称 Buchu leaves oil (Barosma spp.)；FEMA 编号 2169。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0022",
@@ -1316,7 +1316,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N023",
     "flavorCode": "N023",
     "flavorNameCn": "可可酊",
-    "flavorNameEn": "Cocoatincture(TheobromacacaoLinn.)",
+    "flavorNameEn": "Cocoa tincture (Theobroma cacao Linn.)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1325,7 +1325,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "22N023可可酊Cocoatincture(TheobromacacaoLinn.)—",
     "rowName": "可可酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 22；编码 N023；香料中文名称 可可酊；香料英文名称 Cocoatincture(TheobromacacaoLinn.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 22；编码 N023；香料中文名称 可可酊；香料英文名称 Cocoa tincture (Theobroma cacao Linn.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0023",
@@ -1333,7 +1333,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N024",
     "flavorCode": "N024",
     "flavorNameCn": "可可壳酊",
-    "flavorNameEn": "Cocoahusktincture(TheobromacacaoLinn.)",
+    "flavorNameEn": "Cocoa husk tincture (Theobroma cacao Linn.)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1342,7 +1342,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "23N024可可壳酊Cocoahusktincture(TheobromacacaoLinn.)—",
     "rowName": "可可壳酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 23；编码 N024；香料中文名称 可可壳酊；香料英文名称 Cocoahusktincture(TheobromacacaoLinn.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 23；编码 N024；香料中文名称 可可壳酊；香料英文名称 Cocoa husk tincture (Theobroma cacao Linn.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0024",
@@ -1350,7 +1350,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N025",
     "flavorCode": "N025",
     "flavorNameCn": "甘松油",
-    "flavorNameEn": "Chinanardostachysoil(NardostachyschinensisBatal.)",
+    "flavorNameEn": "China nardostachys oil (Nardostachys chinensis Batal.)",
     "femaNumber": "—",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1359,7 +1359,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Chinanardostachysoil(Nardostachyschinensis24N025甘松油—Batal.)",
     "rowName": "甘松油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 24；编码 N025；香料中文名称 甘松油；香料英文名称 Chinanardostachysoil(NardostachyschinensisBatal.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 24；编码 N025；香料中文名称 甘松油；香料英文名称 China nardostachys oil (Nardostachys chinensis Batal.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0025",
@@ -1367,7 +1367,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N026",
     "flavorCode": "N026",
     "flavorNameCn": "甘草酊",
-    "flavorNameEn": "Licoricetincture(Glycyrrhizaspp.)",
+    "flavorNameEn": "Licorice tincture (Glycyrrhiza spp.)",
     "femaNumber": "2628",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1376,7 +1376,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "25N026甘草酊Licoricetincture(Glycyrrhizaspp.)2628",
     "rowName": "甘草酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 25；编码 N026；香料中文名称 甘草酊；香料英文名称 Licoricetincture(Glycyrrhizaspp.)；FEMA 编号 2628。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 25；编码 N026；香料中文名称 甘草酊；香料英文名称 Licorice tincture (Glycyrrhiza spp.)；FEMA 编号 2628。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0026",
@@ -1384,7 +1384,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N027",
     "flavorCode": "N027",
     "flavorNameCn": "甘草流浸膏",
-    "flavorNameEn": "Licoriceextract(Glycyrrhizaspp.)",
+    "flavorNameEn": "Licorice extract (Glycyrrhiza spp.)",
     "femaNumber": "2628",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1393,7 +1393,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "26N027甘草流浸膏Licoriceextract(Glycyrrhizaspp.)2628",
     "rowName": "甘草流浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 26；编码 N027；香料中文名称 甘草流浸膏；香料英文名称 Licoriceextract(Glycyrrhizaspp.)；FEMA 编号 2628。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 26；编码 N027；香料中文名称 甘草流浸膏；香料英文名称 Licorice extract (Glycyrrhiza spp.)；FEMA 编号 2628。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0027",
@@ -1401,7 +1401,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N028",
     "flavorCode": "N028",
     "flavorNameCn": "冬青油",
-    "flavorNameEn": "Wintergreenoil(GaultheriaprocumbensL.)",
+    "flavorNameEn": "Wintergreen oil (Gaultheria procumbens L.)",
     "femaNumber": "3113",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1410,7 +1410,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "27N028冬青油Wintergreenoil(GaultheriaprocumbensL.)3113",
     "rowName": "冬青油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 27；编码 N028；香料中文名称 冬青油；香料英文名称 Wintergreenoil(GaultheriaprocumbensL.)；FEMA 编号 3113。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 27；编码 N028；香料中文名称 冬青油；香料英文名称 Wintergreen oil (Gaultheria procumbens L.)；FEMA 编号 3113。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0028",
@@ -1418,7 +1418,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N029",
     "flavorCode": "N029",
     "flavorNameCn": "白兰花油",
-    "flavorNameEn": "Micheliaalbafloweroil",
+    "flavorNameEn": "Michelia alba flower oil",
     "femaNumber": "3950",
     "pdfPage": 153,
     "standardPage": 150,
@@ -1427,7 +1427,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "28N029白兰花油Micheliaalbafloweroil3950",
     "rowName": "白兰花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 28；编码 N029；香料中文名称 白兰花油；香料英文名称 Micheliaalbafloweroil；FEMA 编号 3950。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 28；编码 N029；香料中文名称 白兰花油；香料英文名称 Michelia alba flower oil；FEMA 编号 3950。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0029",
@@ -1435,7 +1435,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N030",
     "flavorCode": "N030",
     "flavorNameCn": "白兰叶油",
-    "flavorNameEn": "Micheliaalbaleafoil",
+    "flavorNameEn": "Michelia alba leaf oil",
     "femaNumber": "3950",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1444,7 +1444,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "29N030白兰叶油Micheliaalbaleafoil3950",
     "rowName": "白兰叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 29；编码 N030；香料中文名称 白兰叶油；香料英文名称 Micheliaalbaleafoil；FEMA 编号 3950。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 29；编码 N030；香料中文名称 白兰叶油；香料英文名称 Michelia alba leaf oil；FEMA 编号 3950。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0030",
@@ -1452,7 +1452,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N031",
     "flavorCode": "N031",
     "flavorNameCn": "白兰花净油",
-    "flavorNameEn": "Micheliaalbaflowerabsolute",
+    "flavorNameEn": "Michelia alba flower absolute",
     "femaNumber": "3950",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1461,7 +1461,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "30N031白兰花净油Micheliaalbaflowerabsolute3950",
     "rowName": "白兰花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 30；编码 N031；香料中文名称 白兰花净油；香料英文名称 Micheliaalbaflowerabsolute；FEMA 编号 3950。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 30；编码 N031；香料中文名称 白兰花净油；香料英文名称 Michelia alba flower absolute；FEMA 编号 3950。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0031",
@@ -1469,7 +1469,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N032",
     "flavorCode": "N032",
     "flavorNameCn": "白兰花浸膏",
-    "flavorNameEn": "Micheliaalbaflowerconcrete",
+    "flavorNameEn": "Michelia alba flower concrete",
     "femaNumber": "3950",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1478,7 +1478,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "31N032白兰花浸膏Micheliaalbaflowerconcrete3950",
     "rowName": "白兰花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 31；编码 N032；香料中文名称 白兰花浸膏；香料英文名称 Micheliaalbaflowerconcrete；FEMA 编号 3950。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 31；编码 N032；香料中文名称 白兰花浸膏；香料英文名称 Michelia alba flower concrete；FEMA 编号 3950。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0032",
@@ -1486,7 +1486,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N033",
     "flavorCode": "N033",
     "flavorNameCn": "白芷酊",
-    "flavorNameEn": "Angelicadahuricatincture",
+    "flavorNameEn": "Angelica dahurica tincture",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1495,7 +1495,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "32N033白芷酊Angelicadahuricatincture—",
     "rowName": "白芷酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 32；编码 N033；香料中文名称 白芷酊；香料英文名称 Angelicadahuricatincture；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 32；编码 N033；香料中文名称 白芷酊；香料英文名称 Angelica dahurica tincture；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0033",
@@ -1503,7 +1503,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N034",
     "flavorCode": "N034",
     "flavorNameCn": "白柠檬油",
-    "flavorNameEn": "Limeoil[Citrusaurantifolia(Christman)Swingle]",
+    "flavorNameEn": "Lime oil [Citrus aurantifolia (Christman) Swingle]",
     "femaNumber": "2631",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1512,7 +1512,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "33N034白柠檬油Limeoil[Citrusaurantifolia(Christman)Swingle]2631",
     "rowName": "白柠檬油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 33；编码 N034；香料中文名称 白柠檬油；香料英文名称 Limeoil[Citrusaurantifolia(Christman)Swingle]；FEMA 编号 2631。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 33；编码 N034；香料中文名称 白柠檬油；香料英文名称 Lime oil [Citrus aurantifolia (Christman) Swingle]；FEMA 编号 2631。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0034",
@@ -1520,7 +1520,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N035",
     "flavorCode": "N035",
     "flavorNameCn": "白柠檬萜烯",
-    "flavorNameEn": "Limeoilterpene",
+    "flavorNameEn": "Lime oil terpene",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1529,7 +1529,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "34N035白柠檬萜烯Limeoilterpene—",
     "rowName": "白柠檬萜烯",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 34；编码 N035；香料中文名称 白柠檬萜烯；香料英文名称 Limeoilterpene；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 34；编码 N035；香料中文名称 白柠檬萜烯；香料英文名称 Lime oil terpene；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0035",
@@ -1537,7 +1537,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N036",
     "flavorCode": "N036",
     "flavorNameCn": "生姜油树脂",
-    "flavorNameEn": "Gingeroleoresin(ZingiberofficinaleRosc.)",
+    "flavorNameEn": "Ginger oleoresin (Zingiber officinale Rosc.)",
     "femaNumber": "2523",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1546,7 +1546,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "35N036生姜油树脂Gingeroleoresin(ZingiberofficinaleRosc.)2523",
     "rowName": "生姜油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 35；编码 N036；香料中文名称 生姜油树脂；香料英文名称 Gingeroleoresin(ZingiberofficinaleRosc.)；FEMA 编号 2523。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 35；编码 N036；香料中文名称 生姜油树脂；香料英文名称 Ginger oleoresin (Zingiber officinale Rosc.)；FEMA 编号 2523。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0036",
@@ -1554,7 +1554,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N037",
     "flavorCode": "N037",
     "flavorNameCn": "肉豆蔻油",
-    "flavorNameEn": "Nutmegoil(MyristicafragransHoutt.)",
+    "flavorNameEn": "Nutmeg oil (Myristica fragrans Houtt.)",
     "femaNumber": "2793",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1563,7 +1563,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "36N037肉豆蔻油Nutmegoil(MyristicafragransHoutt.)2793",
     "rowName": "肉豆蔻油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 36；编码 N037；香料中文名称 肉豆蔻油；香料英文名称 Nutmegoil(MyristicafragransHoutt.)；FEMA 编号 2793。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 36；编码 N037；香料中文名称 肉豆蔻油；香料英文名称 Nutmeg oil (Myristica fragrans Houtt.)；FEMA 编号 2793。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0037",
@@ -1571,7 +1571,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N038",
     "flavorCode": "N038",
     "flavorNameCn": "肉豆蔻酊",
-    "flavorNameEn": "Nutmegtincture(MyristicafragransHoutt.)",
+    "flavorNameEn": "Nutmeg tincture (Myristica fragrans Houtt.)",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1580,7 +1580,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "37N038肉豆蔻酊Nutmegtincture(MyristicafragransHoutt.)—",
     "rowName": "肉豆蔻酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 37；编码 N038；香料中文名称 肉豆蔻酊；香料英文名称 Nutmegtincture(MyristicafragransHoutt.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 37；编码 N038；香料中文名称 肉豆蔻酊；香料英文名称 Nutmeg tincture (Myristica fragrans Houtt.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0038",
@@ -1588,7 +1588,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N039",
     "flavorCode": "N039",
     "flavorNameCn": "中国肉桂油",
-    "flavorNameEn": "Cassiaoil(CinnamomumcassiaBlume)",
+    "flavorNameEn": "Cassia oil (Cinnamomum cassia Blume)",
     "femaNumber": "2258",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1597,7 +1597,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "38N039中国肉桂油Cassiaoil(CinnamomumcassiaBlume)2258",
     "rowName": "中国肉桂油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 38；编码 N039；香料中文名称 中国肉桂油；香料英文名称 Cassiaoil(CinnamomumcassiaBlume)；FEMA 编号 2258。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 38；编码 N039；香料中文名称 中国肉桂油；香料英文名称 Cassia oil (Cinnamomum cassia Blume)；FEMA 编号 2258。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0039",
@@ -1605,7 +1605,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N040",
     "flavorCode": "N040",
     "flavorNameCn": "中国肉桂皮酊(提取物)",
-    "flavorNameEn": "Cassiabarktincture(extract)(CinnamomumcassiaBlume)",
+    "flavorNameEn": "Cassia bark tincture (extract) (Cinnamomum cassia Blume)",
     "femaNumber": "2257",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1614,7 +1614,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Cassiabarktincture(extract)(Cinnamomumcassia39N040中国肉桂皮酊(提取物)2257Blume)",
     "rowName": "中国肉桂皮酊(提取物)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 39；编码 N040；香料中文名称 中国肉桂皮酊(提取物)；香料英文名称 Cassiabarktincture(extract)(CinnamomumcassiaBlume)；FEMA 编号 2257。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 39；编码 N040；香料中文名称 中国肉桂皮酊(提取物)；香料英文名称 Cassia bark tincture (extract) (Cinnamomum cassia Blume)；FEMA 编号 2257。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0040",
@@ -1622,7 +1622,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N041",
     "flavorCode": "N041",
     "flavorNameCn": "红茶酊",
-    "flavorNameEn": "Blackteatincture(Camelliasinensis)",
+    "flavorNameEn": "Black tea tincture (Camellia sinensis)",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1631,7 +1631,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "40N041红茶酊Blackteatincture(Camelliasinensis)—",
     "rowName": "红茶酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 40；编码 N041；香料中文名称 红茶酊；香料英文名称 Blackteatincture(Camelliasinensis)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 40；编码 N041；香料中文名称 红茶酊；香料英文名称 Black tea tincture (Camellia sinensis)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0041",
@@ -1639,7 +1639,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N042",
     "flavorCode": "N042",
     "flavorNameCn": "印蒿油",
-    "flavorNameEn": "Davanaoil(ArtemisiapallensWall.)",
+    "flavorNameEn": "Davana oil (Artemisia pallens Wall.)",
     "femaNumber": "2359",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1648,7 +1648,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "41N042印蒿油Davanaoil(ArtemisiapallensWall.)2359",
     "rowName": "印蒿油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 41；编码 N042；香料中文名称 印蒿油；香料英文名称 Davanaoil(ArtemisiapallensWall.)；FEMA 编号 2359。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 41；编码 N042；香料中文名称 印蒿油；香料英文名称 Davana oil (Artemisia pallens Wall.)；FEMA 编号 2359。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0042",
@@ -1656,7 +1656,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N043",
     "flavorCode": "N043",
     "flavorNameCn": "吐鲁酊(提取物)",
-    "flavorNameEn": "Tolubalsamtincture(extract)(Myroxylonspp.)",
+    "flavorNameEn": "Tolu balsam tincture (extract) (Myroxylon spp.)",
     "femaNumber": "3069",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1665,7 +1665,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "42N043吐鲁酊(提取物)Tolubalsamtincture(extract)(Myroxylonspp.)3069",
     "rowName": "吐鲁酊(提取物)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 42；编码 N043；香料中文名称 吐鲁酊(提取物)；香料英文名称 Tolubalsamtincture(extract)(Myroxylonspp.)；FEMA 编号 3069。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 42；编码 N043；香料中文名称 吐鲁酊(提取物)；香料英文名称 Tolu balsam tincture (extract) (Myroxylon spp.)；FEMA 编号 3069。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0043",
@@ -1673,7 +1673,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N044",
     "flavorCode": "N044",
     "flavorNameCn": "吐鲁香膏",
-    "flavorNameEn": "Tolubalsamgum(Myroxylonspp.)",
+    "flavorNameEn": "Tolu balsam gum (Myroxylon spp.)",
     "femaNumber": "3070",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1682,7 +1682,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "43N044吐鲁香膏Tolubalsamgum(Myroxylonspp.)3070",
     "rowName": "吐鲁香膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 43；编码 N044；香料中文名称 吐鲁香膏；香料英文名称 Tolubalsamgum(Myroxylonspp.)；FEMA 编号 3070。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 43；编码 N044；香料中文名称 吐鲁香膏；香料英文名称 Tolu balsam gum (Myroxylon spp.)；FEMA 编号 3070。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0044",
@@ -1690,7 +1690,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N045",
     "flavorCode": "N045",
     "flavorNameCn": "豆豉酊",
-    "flavorNameEn": "Soyabeanfermentedtincture",
+    "flavorNameEn": "Soyabean fermented tincture",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1699,7 +1699,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "44N045豆豉酊Soyabeanfermentedtincture—",
     "rowName": "豆豉酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 44；编码 N045；香料中文名称 豆豉酊；香料英文名称 Soyabeanfermentedtincture；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 44；编码 N045；香料中文名称 豆豉酊；香料英文名称 Soyabean fermented tincture；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0045",
@@ -1707,7 +1707,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N046",
     "flavorCode": "N046",
     "flavorNameCn": "杜松籽油(又名刺柏子油)",
-    "flavorNameEn": "Juniperberryoil(JuniperuscommunisL.)",
+    "flavorNameEn": "Juniper berry oil (Juniperus communis L.)",
     "femaNumber": "2604",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1716,7 +1716,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "杜松籽油(又名刺柏子45N046Juniperberryoil(JuniperuscommunisL.)2604油)",
     "rowName": "杜松籽油(又名刺柏子油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 45；编码 N046；香料中文名称 杜松籽油(又名刺柏子油)；香料英文名称 Juniperberryoil(JuniperuscommunisL.)；FEMA 编号 2604。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 45；编码 N046；香料中文名称 杜松籽油(又名刺柏子油)；香料英文名称 Juniper berry oil (Juniperus communis L.)；FEMA 编号 2604。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0046",
@@ -1724,7 +1724,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N047",
     "flavorCode": "N047",
     "flavorNameCn": "芫荽籽油",
-    "flavorNameEn": "Corianderoil(CoriandrumsativumL.)",
+    "flavorNameEn": "Coriander oil (Coriandrum sativum L.)",
     "femaNumber": "2334",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1733,7 +1733,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "46N047芫荽籽油Corianderoil(CoriandrumsativumL.)2334",
     "rowName": "芫荽籽油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 46；编码 N047；香料中文名称 芫荽籽油；香料英文名称 Corianderoil(CoriandrumsativumL.)；FEMA 编号 2334。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 46；编码 N047；香料中文名称 芫荽籽油；香料英文名称 Coriander oil (Coriandrum sativum L.)；FEMA 编号 2334。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0047",
@@ -1741,7 +1741,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N048",
     "flavorCode": "N048",
     "flavorNameCn": "芹菜花油",
-    "flavorNameEn": "Celeryfloweroil(ApiumgraveolensL.)",
+    "flavorNameEn": "Celery flower oil (Apium graveolens L.)",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1750,7 +1750,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "47N048芹菜花油Celeryfloweroil(ApiumgraveolensL.)—",
     "rowName": "芹菜花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 47；编码 N048；香料中文名称 芹菜花油；香料英文名称 Celeryfloweroil(ApiumgraveolensL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 47；编码 N048；香料中文名称 芹菜花油；香料英文名称 Celery flower oil (Apium graveolens L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0048",
@@ -1758,7 +1758,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N049",
     "flavorCode": "N049",
     "flavorNameCn": "芹菜籽油",
-    "flavorNameEn": "Celeryseedoil(ApiumgraveolensL.)",
+    "flavorNameEn": "Celery seed oil (Apium graveolens L.)",
     "femaNumber": "2271",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1767,7 +1767,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "48N049芹菜籽油Celeryseedoil(ApiumgraveolensL.)2271",
     "rowName": "芹菜籽油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 48；编码 N049；香料中文名称 芹菜籽油；香料英文名称 Celeryseedoil(ApiumgraveolensL.)；FEMA 编号 2271。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 48；编码 N049；香料中文名称 芹菜籽油；香料英文名称 Celery seed oil (Apium graveolens L.)；FEMA 编号 2271。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0049",
@@ -1775,7 +1775,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N050",
     "flavorCode": "N050",
     "flavorNameCn": "牡荆叶油",
-    "flavorNameEn": "Vitexcannabifolialeafoil",
+    "flavorNameEn": "Vitex cannabifolia leaf oil",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1784,7 +1784,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "49N050牡荆叶油Vitexcannabifolialeafoil—",
     "rowName": "牡荆叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 49；编码 N050；香料中文名称 牡荆叶油；香料英文名称 Vitexcannabifolialeafoil；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 49；编码 N050；香料中文名称 牡荆叶油；香料英文名称 Vitex cannabifolia leaf oil；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0050",
@@ -1792,7 +1792,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N051",
     "flavorCode": "N051",
     "flavorNameCn": "圆柚油",
-    "flavorNameEn": "Grapefruitoil,expressed(CitrusparadisiMact.)",
+    "flavorNameEn": "Grapefruit oil, expressed (Citrus paradisi Mact.)",
     "femaNumber": "2530",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1801,7 +1801,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "50N051圆柚油Grapefruitoil,expressed(CitrusparadisiMact.)2530",
     "rowName": "圆柚油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 50；编码 N051；香料中文名称 圆柚油；香料英文名称 Grapefruitoil,expressed(CitrusparadisiMact.)；FEMA 编号 2530。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 50；编码 N051；香料中文名称 圆柚油；香料英文名称 Grapefruit oil, expressed (Citrus paradisi Mact.)；FEMA 编号 2530。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0051",
@@ -1809,7 +1809,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N052",
     "flavorCode": "N052",
     "flavorNameCn": "苍术脂(又名苍术硬脂、苍术油)",
-    "flavorNameEn": "Atractylodesoil(Atractylodeslancea)",
+    "flavorNameEn": "Atractylodes oil (Atractylodes lancea)",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1818,7 +1818,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "苍术脂(又名苍术硬脂、51N052Atractylodesoil(Atractylodeslancea)—苍术油)",
     "rowName": "苍术脂(又名苍术硬脂、苍术油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 51；编码 N052；香料中文名称 苍术脂(又名苍术硬脂、苍术油)；香料英文名称 Atractylodesoil(Atractylodeslancea)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 51；编码 N052；香料中文名称 苍术脂(又名苍术硬脂、苍术油)；香料英文名称 Atractylodes oil (Atractylodes lancea)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0052",
@@ -1826,7 +1826,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N053",
     "flavorCode": "N053",
     "flavorNameCn": "枣子酊",
-    "flavorNameEn": "Chinesedate(commonJujube)tincture(ZiziphusjujubaMill.)",
+    "flavorNameEn": "Chinese date (common Jujube) tincture (Ziziphus jujuba Mill.)",
     "femaNumber": "—",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1835,7 +1835,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Chinesedate(commonJujube)tincture(Ziziphus52N053枣子酊—jujubaMill.)",
     "rowName": "枣子酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 52；编码 N053；香料中文名称 枣子酊；香料英文名称 Chinesedate(commonJujube)tincture(ZiziphusjujubaMill.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 52；编码 N053；香料中文名称 枣子酊；香料英文名称 Chinese date (common Jujube) tincture (Ziziphus jujuba Mill.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0053",
@@ -1843,7 +1843,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N054",
     "flavorCode": "N054",
     "flavorNameCn": "玫瑰油",
-    "flavorNameEn": "Roseoil(Rosaspp.)",
+    "flavorNameEn": "Rose oil (Rosa spp.)",
     "femaNumber": "2989",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1852,7 +1852,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "53N054玫瑰油Roseoil(Rosaspp.)2989",
     "rowName": "玫瑰油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 53；编码 N054；香料中文名称 玫瑰油；香料英文名称 Roseoil(Rosaspp.)；FEMA 编号 2989。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 53；编码 N054；香料中文名称 玫瑰油；香料英文名称 Rose oil (Rosa spp.)；FEMA 编号 2989。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0054",
@@ -1860,7 +1860,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N055",
     "flavorCode": "N055",
     "flavorNameCn": "玫瑰净油",
-    "flavorNameEn": "Roseabsolute(Rosaspp.)",
+    "flavorNameEn": "Rose absolute (Rosa spp.)",
     "femaNumber": "2988",
     "pdfPage": 154,
     "standardPage": 151,
@@ -1869,7 +1869,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "54N055玫瑰净油Roseabsolute(Rosaspp.)2988",
     "rowName": "玫瑰净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 54；编码 N055；香料中文名称 玫瑰净油；香料英文名称 Roseabsolute(Rosaspp.)；FEMA 编号 2988。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 54；编码 N055；香料中文名称 玫瑰净油；香料英文名称 Rose absolute (Rosa spp.)；FEMA 编号 2988。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0055",
@@ -1877,7 +1877,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N056",
     "flavorCode": "N056",
     "flavorNameCn": "玫瑰浸膏",
-    "flavorNameEn": "Roseconcrete(Rosaspp.)",
+    "flavorNameEn": "Rose concrete (Rosa spp.)",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1886,7 +1886,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "55N056玫瑰浸膏Roseconcrete(Rosaspp.)—",
     "rowName": "玫瑰浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 55；编码 N056；香料中文名称 玫瑰浸膏；香料英文名称 Roseconcrete(Rosaspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 55；编码 N056；香料中文名称 玫瑰浸膏；香料英文名称 Rose concrete (Rosa spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0056",
@@ -1894,7 +1894,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N057",
     "flavorCode": "N057",
     "flavorNameCn": "鸢尾浸膏",
-    "flavorNameEn": "Orrisconcrete(IrisflorentinaL.,IrisgermanicaL.,andIrispallidaL.)",
+    "flavorNameEn": "Orris concrete (Iris florentina L., Iris germanica L., and Iris pallida L.)",
     "femaNumber": "2829",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1903,7 +1903,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Orrisconcrete(IrisflorentinaL.,Irisgermanica56N057鸢尾浸膏2829L.,andIrispallidaL.)",
     "rowName": "鸢尾浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 56；编码 N057；香料中文名称 鸢尾浸膏；香料英文名称 Orrisconcrete(IrisflorentinaL.,IrisgermanicaL.,andIrispallidaL.)；FEMA 编号 2829。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 56；编码 N057；香料中文名称 鸢尾浸膏；香料英文名称 Orris concrete (Iris florentina L., Iris germanica L., and Iris pallida L.)；FEMA 编号 2829。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0057",
@@ -1911,7 +1911,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N058",
     "flavorCode": "N058",
     "flavorNameCn": "鸢尾脂(又名鸢尾凝脂)",
-    "flavorNameEn": "Orrisrootextract(IrisflorentinaL.,IrisgermanicaL.,andIrispallidaL.)",
+    "flavorNameEn": "Orris root extract (Iris florentina L., Iris germanica L., and Iris pallida L.)",
     "femaNumber": "2830",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1920,7 +1920,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Orrisrootextract(IrisflorentinaL.,Iris57N058鸢尾脂(又名鸢尾凝脂)2830germanicaL.,andIrispallidaL.)",
     "rowName": "鸢尾脂(又名鸢尾凝脂)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 57；编码 N058；香料中文名称 鸢尾脂(又名鸢尾凝脂)；香料英文名称 Orrisrootextract(IrisflorentinaL.,IrisgermanicaL.,andIrispallidaL.)；FEMA 编号 2830。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 57；编码 N058；香料中文名称 鸢尾脂(又名鸢尾凝脂)；香料英文名称 Orris root extract (Iris florentina L., Iris germanica L., and Iris pallida L.)；FEMA 编号 2830。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0058",
@@ -1928,7 +1928,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N059",
     "flavorCode": "N059",
     "flavorNameCn": "杭白菊花油",
-    "flavorNameEn": "ChrysanthemumHangZhoufloweroil(Dendran-themamorifoliumorChrysanthemummorifolium)",
+    "flavorNameEn": "Chrysanthemum Hang Zhou flower oil (Dendranthema morifolium or Chrysanthemum morifolium)",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1937,7 +1937,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "ChrysanthemumHangZhoufloweroil(Dendran-58N059杭白菊花油—themamorifoliumorChrysanthemummorifolium)",
     "rowName": "杭白菊花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 58；编码 N059；香料中文名称 杭白菊花油；香料英文名称 ChrysanthemumHangZhoufloweroil(Dendran-themamorifoliumorChrysanthemummorifolium)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 58；编码 N059；香料中文名称 杭白菊花油；香料英文名称 Chrysanthemum Hang Zhou flower oil (Dendranthema morifolium or Chrysanthemum morifolium)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0059",
@@ -1945,7 +1945,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N060",
     "flavorCode": "N060",
     "flavorNameCn": "杭白菊花浸膏(又名杭菊花流浸膏)",
-    "flavorNameEn": "ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-lium)",
+    "flavorNameEn": "Chrysanthemum Hang Zhou flower extract (Dendranthema morifolium or Chrysanthemum morifolium)",
     "femaNumber": "4689",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1954,7 +1954,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "ChrysanthemumHangZhouflowerextract(Den-杭白菊花浸膏(又名杭菊59N060dranthemamorifoliumorChrysanthemummorifo-4689花流浸膏)lium)",
     "rowName": "杭白菊花浸膏(又名杭菊花流浸膏)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 59；编码 N060；香料中文名称 杭白菊花浸膏(又名杭菊花流浸膏)；香料英文名称 ChrysanthemumHangZhouflowerextract(Den-dranthemamorifoliumorChrysanthemummorifo-lium)；FEMA 编号 4689。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 59；编码 N060；香料中文名称 杭白菊花浸膏(又名杭菊花流浸膏)；香料英文名称 Chrysanthemum Hang Zhou flower extract (Dendranthema morifolium or Chrysanthemum morifolium)；FEMA 编号 4689。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0060",
@@ -1962,7 +1962,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N061",
     "flavorCode": "N061",
     "flavorNameCn": "枫槭油",
-    "flavorNameEn": "Mapleoil(Acerspp.)",
+    "flavorNameEn": "Maple oil (Acer spp.)",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1971,7 +1971,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "60N061枫槭油Mapleoil(Acerspp.)—",
     "rowName": "枫槭油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 60；编码 N061；香料中文名称 枫槭油；香料英文名称 Mapleoil(Acerspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 60；编码 N061；香料中文名称 枫槭油；香料英文名称 Maple oil (Acer spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0061",
@@ -1979,7 +1979,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N062",
     "flavorCode": "N062",
     "flavorNameCn": "枫槭浸膏",
-    "flavorNameEn": "Mapleconcrete(Acerspp.)",
+    "flavorNameEn": "Maple concrete (Acer spp.)",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -1988,7 +1988,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "61N062枫槭浸膏Mapleconcrete(Acerspp.)—",
     "rowName": "枫槭浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 61；编码 N062；香料中文名称 枫槭浸膏；香料英文名称 Mapleconcrete(Acerspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 61；编码 N062；香料中文名称 枫槭浸膏；香料英文名称 Maple concrete (Acer spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0062",
@@ -1996,7 +1996,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N063",
     "flavorCode": "N063",
     "flavorNameCn": "岩蔷薇浸膏(又名赖百当浸膏)",
-    "flavorNameEn": "Labdanumextract(Cistusladaniferus)",
+    "flavorNameEn": "Labdanum extract (Cistus ladaniferus)",
     "femaNumber": "2610",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2005,7 +2005,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "岩蔷薇浸膏(又名赖百当62N063Labdanumextract(Cistusladaniferus)2610浸膏)",
     "rowName": "岩蔷薇浸膏(又名赖百当浸膏)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 62；编码 N063；香料中文名称 岩蔷薇浸膏(又名赖百当浸膏)；香料英文名称 Labdanumextract(Cistusladaniferus)；FEMA 编号 2610。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 62；编码 N063；香料中文名称 岩蔷薇浸膏(又名赖百当浸膏)；香料英文名称 Labdanum extract (Cistus ladaniferus)；FEMA 编号 2610。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0063",
@@ -2013,7 +2013,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N064",
     "flavorCode": "N064",
     "flavorNameCn": "咖啡酊",
-    "flavorNameEn": "Coffeetincture(Coffeespp.)",
+    "flavorNameEn": "Coffee tincture (Coffee spp.)",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2022,7 +2022,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "63N064咖啡酊Coffeetincture(Coffeespp.)—",
     "rowName": "咖啡酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 63；编码 N064；香料中文名称 咖啡酊；香料英文名称 Coffeetincture(Coffeespp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 63；编码 N064；香料中文名称 咖啡酊；香料英文名称 Coffee tincture (Coffee spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0064",
@@ -2030,7 +2030,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N065",
     "flavorCode": "N065",
     "flavorNameCn": "罗汉果酊",
-    "flavorNameEn": "Luohanfruittincture[Siraitiagrosvenorii(Swingle)C.Jeffrey]",
+    "flavorNameEn": "Luohan fruit tincture [Siraitia grosvenorii (Swingle) C. Jeffrey]",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2039,7 +2039,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Luohanfruittincture[Siraitiagrosvenorii64N065罗汉果酊—(Swingle)C.Jeffrey]",
     "rowName": "罗汉果酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 64；编码 N065；香料中文名称 罗汉果酊；香料英文名称 Luohanfruittincture[Siraitiagrosvenorii(Swingle)C.Jeffrey]；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 64；编码 N065；香料中文名称 罗汉果酊；香料英文名称 Luohan fruit tincture [Siraitia grosvenorii (Swingle) C. Jeffrey]；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0065",
@@ -2047,7 +2047,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N066",
     "flavorCode": "N066",
     "flavorNameCn": "金合欢浸膏",
-    "flavorNameEn": "Cassieconcrete(AcaciafarnesianaWilld.)",
+    "flavorNameEn": "Cassie concrete (Acacia farnesiana Willd.)",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2056,7 +2056,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "65N066金合欢浸膏Cassieconcrete(AcaciafarnesianaWilld.)—",
     "rowName": "金合欢浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 65；编码 N066；香料中文名称 金合欢浸膏；香料英文名称 Cassieconcrete(AcaciafarnesianaWilld.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 65；编码 N066；香料中文名称 金合欢浸膏；香料英文名称 Cassie concrete (Acacia farnesiana Willd.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0066",
@@ -2064,7 +2064,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N067",
     "flavorCode": "N067",
     "flavorNameCn": "依兰依兰油",
-    "flavorNameEn": "Ylangylangoil(CanangaodorataHook.f.andThomas)",
+    "flavorNameEn": "Ylang ylang oil (Cananga odorata Hook.f. and Thomas)",
     "femaNumber": "3119",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2073,7 +2073,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Ylangylangoil(CanangaodorataHook.f.and66N067依兰依兰油3119Thomas)",
     "rowName": "依兰依兰油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 66；编码 N067；香料中文名称 依兰依兰油；香料英文名称 Ylangylangoil(CanangaodorataHook.f.andThomas)；FEMA 编号 3119。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 66；编码 N067；香料中文名称 依兰依兰油；香料英文名称 Ylang ylang oil (Cananga odorata Hook.f. and Thomas)；FEMA 编号 3119。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0067",
@@ -2081,7 +2081,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N068",
     "flavorCode": "N068",
     "flavorNameCn": "大花茉莉净油",
-    "flavorNameEn": "Jasminumgrandiflorumabsolute",
+    "flavorNameEn": "Jasminum grandiflorum absolute",
     "femaNumber": "2598",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2090,7 +2090,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "67N068大花茉莉净油Jasminumgrandiflorumabsolute2598",
     "rowName": "大花茉莉净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 67；编码 N068；香料中文名称 大花茉莉净油；香料英文名称 Jasminumgrandiflorumabsolute；FEMA 编号 2598。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 67；编码 N068；香料中文名称 大花茉莉净油；香料英文名称 Jasminum grandiflorum absolute；FEMA 编号 2598。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0068",
@@ -2098,7 +2098,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N069",
     "flavorCode": "N069",
     "flavorNameCn": "大花茉莉浸膏",
-    "flavorNameEn": "Jasminumgrandiflorumconcrete",
+    "flavorNameEn": "Jasminum grandiflorum concrete",
     "femaNumber": "2599",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2107,7 +2107,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "68N069大花茉莉浸膏Jasminumgrandiflorumconcrete2599",
     "rowName": "大花茉莉浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 68；编码 N069；香料中文名称 大花茉莉浸膏；香料英文名称 Jasminumgrandiflorumconcrete；FEMA 编号 2599。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 68；编码 N069；香料中文名称 大花茉莉浸膏；香料英文名称 Jasminum grandiflorum concrete；FEMA 编号 2599。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0069",
@@ -2115,7 +2115,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N070",
     "flavorCode": "N070",
     "flavorNameCn": "小花茉莉净油",
-    "flavorNameEn": "Jasminumsambacabsolute",
+    "flavorNameEn": "Jasminum sambac absolute",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2124,7 +2124,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "69N070小花茉莉净油Jasminumsambacabsolute—",
     "rowName": "小花茉莉净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 69；编码 N070；香料中文名称 小花茉莉净油；香料英文名称 Jasminumsambacabsolute；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 69；编码 N070；香料中文名称 小花茉莉净油；香料英文名称 Jasminum sambac absolute；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0070",
@@ -2132,7 +2132,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N071",
     "flavorCode": "N071",
     "flavorNameCn": "小花茉莉浸膏",
-    "flavorNameEn": "Jasminumsambacconcrete",
+    "flavorNameEn": "Jasminum sambac concrete",
     "femaNumber": "—",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2141,7 +2141,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "70N071小花茉莉浸膏Jasminumsambacconcrete—",
     "rowName": "小花茉莉浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 70；编码 N071；香料中文名称 小花茉莉浸膏；香料英文名称 Jasminumsambacconcrete；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 70；编码 N071；香料中文名称 小花茉莉浸膏；香料英文名称 Jasminum sambac concrete；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0071",
@@ -2149,7 +2149,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N072",
     "flavorCode": "N072",
     "flavorNameCn": "佛手油",
-    "flavorNameEn": "Sarcodactylisoil(Citrusmedicavar.SarcodactylisSwingle)",
+    "flavorNameEn": "Sarcodactylis oil (Citrus medica var. Sarcodactylis Swingle)",
     "femaNumber": "3899",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2158,7 +2158,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Sarcodactylisoil(Citrusmedicavar.Sarcodactylis71N072佛手油3899Swingle)",
     "rowName": "佛手油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 71；编码 N072；香料中文名称 佛手油；香料英文名称 Sarcodactylisoil(Citrusmedicavar.SarcodactylisSwingle)；FEMA 编号 3899。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 71；编码 N072；香料中文名称 佛手油；香料英文名称 Sarcodactylis oil (Citrus medica var. Sarcodactylis Swingle)；FEMA 编号 3899。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0072",
@@ -2166,7 +2166,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N073",
     "flavorCode": "N073",
     "flavorNameCn": "圆叶当归根酊(又名独活酊)",
-    "flavorNameEn": "Angelicaroottincture(extract)(Angelicaarch-angelicaL.)",
+    "flavorNameEn": "Angelica root tincture (extract) (Angelicaarch-angelica L.)",
     "femaNumber": "2087",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2175,7 +2175,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "圆叶当归根酊(又名独活Angelicaroottincture(extract)(Angelicaarch-72N0732087酊)angelicaL.)",
     "rowName": "圆叶当归根酊(又名独活酊)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 72；编码 N073；香料中文名称 圆叶当归根酊(又名独活酊)；香料英文名称 Angelicaroottincture(extract)(Angelicaarch-angelicaL.)；FEMA 编号 2087。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 72；编码 N073；香料中文名称 圆叶当归根酊(又名独活酊)；香料英文名称 Angelica root tincture (extract) (Angelicaarch-angelica L.)；FEMA 编号 2087。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0073",
@@ -2183,7 +2183,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N074",
     "flavorCode": "N074",
     "flavorNameCn": "洋葱油",
-    "flavorNameEn": "Onionoil(AlliumcepaL.)",
+    "flavorNameEn": "Onion oil (Allium cepa L.)",
     "femaNumber": "2817",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2192,7 +2192,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "73N074洋葱油Onionoil(AlliumcepaL.)2817",
     "rowName": "洋葱油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 73；编码 N074；香料中文名称 洋葱油；香料英文名称 Onionoil(AlliumcepaL.)；FEMA 编号 2817。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 73；编码 N074；香料中文名称 洋葱油；香料英文名称 Onion oil (Allium cepa L.)；FEMA 编号 2817。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0074",
@@ -2200,7 +2200,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N075",
     "flavorCode": "N075",
     "flavorNameCn": "生姜油",
-    "flavorNameEn": "Gingeroil(ZingiberofficinaleRosc.)",
+    "flavorNameEn": "Ginger oil (Zingiber officinale Rosc.)",
     "femaNumber": "2522",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2209,7 +2209,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "74N075生姜油Gingeroil(ZingiberofficinaleRosc.)2522",
     "rowName": "生姜油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 74；编码 N075；香料中文名称 生姜油；香料英文名称 Gingeroil(ZingiberofficinaleRosc.)；FEMA 编号 2522。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 74；编码 N075；香料中文名称 生姜油；香料英文名称 Ginger oil (Zingiber officinale Rosc.)；FEMA 编号 2522。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0075",
@@ -2217,7 +2217,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N076",
     "flavorCode": "N076",
     "flavorNameCn": "姜黄油",
-    "flavorNameEn": "Turmericoil(CurcumalongaL.)",
+    "flavorNameEn": "Turmeric oil (Curcuma longa L.)",
     "femaNumber": "3085",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2226,7 +2226,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "75N076姜黄油Turmericoil(CurcumalongaL.)3085",
     "rowName": "姜黄油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 75；编码 N076；香料中文名称 姜黄油；香料英文名称 Turmericoil(CurcumalongaL.)；FEMA 编号 3085。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 75；编码 N076；香料中文名称 姜黄油；香料英文名称 Turmeric oil (Curcuma longa L.)；FEMA 编号 3085。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0076",
@@ -2234,7 +2234,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N077",
     "flavorCode": "N077",
     "flavorNameCn": "姜黄油树脂",
-    "flavorNameEn": "Turmericoleoresin(CurcumalongaL.)",
+    "flavorNameEn": "Turmeric oleoresin (Curcuma longa L.)",
     "femaNumber": "3087",
     "pdfPage": 155,
     "standardPage": 152,
@@ -2243,7 +2243,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "76N077姜黄油树脂Turmericoleoresin(CurcumalongaL.)3087",
     "rowName": "姜黄油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 76；编码 N077；香料中文名称 姜黄油树脂；香料英文名称 Turmericoleoresin(CurcumalongaL.)；FEMA 编号 3087。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 76；编码 N077；香料中文名称 姜黄油树脂；香料英文名称 Turmeric oleoresin (Curcuma longa L.)；FEMA 编号 3087。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0077",
@@ -2251,7 +2251,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N078",
     "flavorCode": "N078",
     "flavorNameCn": "姜黄浸膏",
-    "flavorNameEn": "Turmericextract(CurcumalongaL.)",
+    "flavorNameEn": "Turmeric extract (Curcuma longa L.)",
     "femaNumber": "3086",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2260,7 +2260,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "77N078姜黄浸膏Turmericextract(CurcumalongaL.)3086",
     "rowName": "姜黄浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 77；编码 N078；香料中文名称 姜黄浸膏；香料英文名称 Turmericextract(CurcumalongaL.)；FEMA 编号 3086。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 77；编码 N078；香料中文名称 姜黄浸膏；香料英文名称 Turmeric extract (Curcuma longa L.)；FEMA 编号 3086。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0078",
@@ -2268,7 +2268,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N079",
     "flavorCode": "N079",
     "flavorNameCn": "葫芦巴酊",
-    "flavorNameEn": "Fenugreektincture(extract)(TrigonellafoenumgraecumL.)",
+    "flavorNameEn": "Fenugreek tincture (extract) (Trigonella foenum graecum L.)",
     "femaNumber": "2485",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2277,7 +2277,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Fenugreektincture(extract)(Trigonellafoenum78N079葫芦巴酊2485graecumL.)",
     "rowName": "葫芦巴酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 78；编码 N079；香料中文名称 葫芦巴酊；香料英文名称 Fenugreektincture(extract)(TrigonellafoenumgraecumL.)；FEMA 编号 2485。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 78；编码 N079；香料中文名称 葫芦巴酊；香料英文名称 Fenugreek tincture (extract) (Trigonella foenum graecum L.)；FEMA 编号 2485。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0079",
@@ -2285,7 +2285,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N080",
     "flavorCode": "N080",
     "flavorNameCn": "玳玳花油",
-    "flavorNameEn": "Daidaifloweroil(CitrusaurantiumL.‘Daidai’)",
+    "flavorNameEn": "Daidai flower oil (Citrus aurantium L.‘Daidai’)",
     "femaNumber": "2771",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2294,7 +2294,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "79N080玳玳花油Daidaifloweroil(CitrusaurantiumL.‘Daidai’)2771",
     "rowName": "玳玳花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 79；编码 N080；香料中文名称 玳玳花油；香料英文名称 Daidaifloweroil(CitrusaurantiumL.‘Daidai’)；FEMA 编号 2771。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 79；编码 N080；香料中文名称 玳玳花油；香料英文名称 Daidai flower oil (Citrus aurantium L.‘Daidai’)；FEMA 编号 2771。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0080",
@@ -2302,7 +2302,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N081",
     "flavorCode": "N081",
     "flavorNameCn": "玳玳花浸膏",
-    "flavorNameEn": "Daidaiflowerconcrete(CitrusaurantiumL.‘Daid-ai’)",
+    "flavorNameEn": "Daidai flower concrete (Citrus aurantium L.‘Daid-ai’)",
     "femaNumber": "2771",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2311,7 +2311,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Daidaiflowerconcrete(CitrusaurantiumL.‘Daid-80N081玳玳花浸膏2771ai’)",
     "rowName": "玳玳花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 80；编码 N081；香料中文名称 玳玳花浸膏；香料英文名称 Daidaiflowerconcrete(CitrusaurantiumL.‘Daid-ai’)；FEMA 编号 2771。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 80；编码 N081；香料中文名称 玳玳花浸膏；香料英文名称 Daidai flower concrete (Citrus aurantium L.‘Daid-ai’)；FEMA 编号 2771。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0081",
@@ -2319,7 +2319,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N082",
     "flavorCode": "N082",
     "flavorNameCn": "玳玳果油",
-    "flavorNameEn": "Daidaifruitoil(CitrusaurantiumL.‘Daidai’)",
+    "flavorNameEn": "Daidai fruit oil (Citrus aurantium L.‘Daidai’)",
     "femaNumber": "2771",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2328,7 +2328,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "81N082玳玳果油Daidaifruitoil(CitrusaurantiumL.‘Daidai’)2771",
     "rowName": "玳玳果油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 81；编码 N082；香料中文名称 玳玳果油；香料英文名称 Daidaifruitoil(CitrusaurantiumL.‘Daidai’)；FEMA 编号 2771。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 81；编码 N082；香料中文名称 玳玳果油；香料英文名称 Daidai fruit oil (Citrus aurantium L.‘Daidai’)；FEMA 编号 2771。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0082",
@@ -2336,7 +2336,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N083",
     "flavorCode": "N083",
     "flavorNameCn": "柚皮油",
-    "flavorNameEn": "Pummelopeeloil[Citrusgrandis(L.)Osbeck]",
+    "flavorNameEn": "Pummelo peel oil [Citrus grandis (L.) Osbeck]",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2345,7 +2345,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "82N083柚皮油Pummelopeeloil[Citrusgrandis(L.)Osbeck]—",
     "rowName": "柚皮油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 82；编码 N083；香料中文名称 柚皮油；香料英文名称 Pummelopeeloil[Citrusgrandis(L.)Osbeck]；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 82；编码 N083；香料中文名称 柚皮油；香料英文名称 Pummelo peel oil [Citrus grandis (L.) Osbeck]；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0083",
@@ -2353,7 +2353,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N084",
     "flavorCode": "N084",
     "flavorNameCn": "柏木叶油(北美香柏)",
-    "flavorNameEn": "Cedarleafoil(ThujaoccidentalisL.)",
+    "flavorNameEn": "Cedar leaf oil (Thuja occidentalis L.)",
     "femaNumber": "2267",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2362,7 +2362,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "83N084柏木叶油(北美香柏)Cedarleafoil(ThujaoccidentalisL.)2267",
     "rowName": "柏木叶油(北美香柏)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 83；编码 N084；香料中文名称 柏木叶油(北美香柏)；香料英文名称 Cedarleafoil(ThujaoccidentalisL.)；FEMA 编号 2267。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 83；编码 N084；香料中文名称 柏木叶油(北美香柏)；香料英文名称 Cedar leaf oil (Thuja occidentalis L.)；FEMA 编号 2267。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0084",
@@ -2370,7 +2370,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N085",
     "flavorCode": "N085",
     "flavorNameCn": "枯茗籽油(又名孜然油)",
-    "flavorNameEn": "Cuminseedoil(CuminumcyminumL.)",
+    "flavorNameEn": "Cumin seed oil (Cuminum cyminum L.)",
     "femaNumber": "2343",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2379,7 +2379,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "84N085枯茗籽油(又名孜然油)Cuminseedoil(CuminumcyminumL.)2343",
     "rowName": "枯茗籽油(又名孜然油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 84；编码 N085；香料中文名称 枯茗籽油(又名孜然油)；香料英文名称 Cuminseedoil(CuminumcyminumL.)；FEMA 编号 2343。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 84；编码 N085；香料中文名称 枯茗籽油(又名孜然油)；香料英文名称 Cumin seed oil (Cuminum cyminum L.)；FEMA 编号 2343。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0085",
@@ -2387,7 +2387,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N086",
     "flavorCode": "N086",
     "flavorNameCn": "柠檬油",
-    "flavorNameEn": "Lemonoil[Citruslimon(L.)Burm.f.]",
+    "flavorNameEn": "Lemon oil [Citrus limon (L.) Burm.f.]",
     "femaNumber": "2625",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2396,7 +2396,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "85N086柠檬油Lemonoil[Citruslimon(L.)Burm.f.]2625",
     "rowName": "柠檬油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 85；编码 N086；香料中文名称 柠檬油；香料英文名称 Lemonoil[Citruslimon(L.)Burm.f.]；FEMA 编号 2625。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 85；编码 N086；香料中文名称 柠檬油；香料英文名称 Lemon oil [Citrus limon (L.) Burm.f.]；FEMA 编号 2625。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0086",
@@ -2404,7 +2404,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N087",
     "flavorCode": "N087",
     "flavorNameCn": "无萜柠檬油",
-    "flavorNameEn": "Lemonoil,terpeneless[Citruslimon(L.)Burm.f.]",
+    "flavorNameEn": "Lemon oil, terpeneless [Citrus limon (L.) Burm.f.]",
     "femaNumber": "2626",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2413,7 +2413,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "86N087无萜柠檬油Lemonoil,terpeneless[Citruslimon(L.)Burm.f.]2626",
     "rowName": "无萜柠檬油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 86；编码 N087；香料中文名称 无萜柠檬油；香料英文名称 Lemonoil,terpeneless[Citruslimon(L.)Burm.f.]；FEMA 编号 2626。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 86；编码 N087；香料中文名称 无萜柠檬油；香料英文名称 Lemon oil, terpeneless [Citrus limon (L.) Burm.f.]；FEMA 编号 2626。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0087",
@@ -2421,7 +2421,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N088",
     "flavorCode": "N088",
     "flavorNameCn": "柠檬油萜烯",
-    "flavorNameEn": "Terpenesoflemonoil",
+    "flavorNameEn": "Terpenes of lemon oil",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2430,7 +2430,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "87N088柠檬油萜烯Terpenesoflemonoil—",
     "rowName": "柠檬油萜烯",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 87；编码 N088；香料中文名称 柠檬油萜烯；香料英文名称 Terpenesoflemonoil；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 87；编码 N088；香料中文名称 柠檬油萜烯；香料英文名称 Terpenes of lemon oil；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0088",
@@ -2438,7 +2438,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N089",
     "flavorCode": "N089",
     "flavorNameCn": "柠檬叶油",
-    "flavorNameEn": "Petitgrainlemonoil[Citruslimon(L.)Burm.f.]",
+    "flavorNameEn": "Petitgrain lemon oil [Citrus limon (L.) Burm.f.]",
     "femaNumber": "2853",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2447,7 +2447,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "88N089柠檬叶油Petitgrainlemonoil[Citruslimon(L.)Burm.f.]2853",
     "rowName": "柠檬叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 88；编码 N089；香料中文名称 柠檬叶油；香料英文名称 Petitgrainlemonoil[Citruslimon(L.)Burm.f.]；FEMA 编号 2853。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 88；编码 N089；香料中文名称 柠檬叶油；香料英文名称 Petitgrain lemon oil [Citrus limon (L.) Burm.f.]；FEMA 编号 2853。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0089",
@@ -2455,7 +2455,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N090",
     "flavorCode": "N090",
     "flavorNameCn": "柠檬草油",
-    "flavorNameEn": "Lemongrassoil(CymbopogoncitratusDC.andC.flexuosus)",
+    "flavorNameEn": "Lemongrass oil (Cymbopogon citratus DC. and C. flexuosus)",
     "femaNumber": "2624",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2464,7 +2464,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Lemongrassoil(CymbopogoncitratusDC.and89N090柠檬草油2624C.flexuosus)",
     "rowName": "柠檬草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 89；编码 N090；香料中文名称 柠檬草油；香料英文名称 Lemongrassoil(CymbopogoncitratusDC.andC.flexuosus)；FEMA 编号 2624。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 89；编码 N090；香料中文名称 柠檬草油；香料英文名称 Lemongrass oil (Cymbopogon citratus DC. and C. flexuosus)；FEMA 编号 2624。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0090",
@@ -2472,7 +2472,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N091",
     "flavorCode": "N091",
     "flavorNameCn": "栀子花浸膏",
-    "flavorNameEn": "Gardeniaflowerconcrete(GardeniajasminoidesEllis)",
+    "flavorNameEn": "Gardenia flower concrete (Gardenia jasminoides Ellis)",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2481,7 +2481,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Gardeniaflowerconcrete(Gardeniajasminoides90N091栀子花浸膏—Ellis)",
     "rowName": "栀子花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 90；编码 N091；香料中文名称 栀子花浸膏；香料英文名称 Gardeniaflowerconcrete(GardeniajasminoidesEllis)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 90；编码 N091；香料中文名称 栀子花浸膏；香料英文名称 Gardenia flower concrete (Gardenia jasminoides Ellis)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0091",
@@ -2489,7 +2489,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N092",
     "flavorCode": "N092",
     "flavorNameCn": "树兰花油",
-    "flavorNameEn": "Aglaiaodoratafloweroil",
+    "flavorNameEn": "Aglaia odorata flower oil",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2498,7 +2498,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "91N092树兰花油Aglaiaodoratafloweroil—",
     "rowName": "树兰花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 91；编码 N092；香料中文名称 树兰花油；香料英文名称 Aglaiaodoratafloweroil；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 91；编码 N092；香料中文名称 树兰花油；香料英文名称 Aglaia odorata flower oil；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0092",
@@ -2506,7 +2506,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N093",
     "flavorCode": "N093",
     "flavorNameCn": "树兰花酊",
-    "flavorNameEn": "Aglaiaodorataflowertincture",
+    "flavorNameEn": "Aglaia odorata flower tincture",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2515,7 +2515,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "92N093树兰花酊Aglaiaodorataflowertincture—",
     "rowName": "树兰花酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 92；编码 N093；香料中文名称 树兰花酊；香料英文名称 Aglaiaodorataflowertincture；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 92；编码 N093；香料中文名称 树兰花酊；香料英文名称 Aglaia odorata flower tincture；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0093",
@@ -2523,7 +2523,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N094",
     "flavorCode": "N094",
     "flavorNameCn": "树兰花浸膏",
-    "flavorNameEn": "Aglaiaodorataflowerconcrete",
+    "flavorNameEn": "Aglaia odorata flower concrete",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2532,7 +2532,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "93N094树兰花浸膏Aglaiaodorataflowerconcrete—",
     "rowName": "树兰花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 93；编码 N094；香料中文名称 树兰花浸膏；香料英文名称 Aglaiaodorataflowerconcrete；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 93；编码 N094；香料中文名称 树兰花浸膏；香料英文名称 Aglaia odorata flower concrete；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0094",
@@ -2540,7 +2540,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N095",
     "flavorCode": "N095",
     "flavorNameCn": "树苔净油",
-    "flavorNameEn": "Treemossabsolute(Everniafurfuraceae)",
+    "flavorNameEn": "Treemoss absolute (Evernia furfuraceae)",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2549,7 +2549,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "94N095树苔净油Treemossabsolute(Everniafurfuraceae)—",
     "rowName": "树苔净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 94；编码 N095；香料中文名称 树苔净油；香料英文名称 Treemossabsolute(Everniafurfuraceae)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 94；编码 N095；香料中文名称 树苔净油；香料英文名称 Treemoss absolute (Evernia furfuraceae)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0095",
@@ -2557,7 +2557,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N096",
     "flavorCode": "N096",
     "flavorNameCn": "树苔浸膏",
-    "flavorNameEn": "Treemossconcrete(Everniafurfuraceae)",
+    "flavorNameEn": "Treemoss concrete (Evernia furfuraceae)",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2566,7 +2566,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "95N096树苔浸膏Treemossconcrete(Everniafurfuraceae)—",
     "rowName": "树苔浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 95；编码 N096；香料中文名称 树苔浸膏；香料英文名称 Treemossconcrete(Everniafurfuraceae)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 95；编码 N096；香料中文名称 树苔浸膏；香料英文名称 Treemoss concrete (Evernia furfuraceae)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0096",
@@ -2574,7 +2574,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N097",
     "flavorCode": "N097",
     "flavorNameCn": "香叶油(又名玫瑰香叶油)",
-    "flavorNameEn": "Geraniumoil(geraniumroseoil)(PelargoniumgraveolensL’Her)",
+    "flavorNameEn": "Geranium oil (geranium rose oil) (Pelargonium graveolens L’Her)",
     "femaNumber": "2508",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2583,7 +2583,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "香叶油(又名玫瑰香叶Geraniumoil(geraniumroseoil)(Pelargonium96N0972508油)graveolensL’Her)",
     "rowName": "香叶油(又名玫瑰香叶油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 96；编码 N097；香料中文名称 香叶油(又名玫瑰香叶油)；香料英文名称 Geraniumoil(geraniumroseoil)(PelargoniumgraveolensL’Her)；FEMA 编号 2508。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 96；编码 N097；香料中文名称 香叶油(又名玫瑰香叶油)；香料英文名称 Geranium oil (geranium rose oil) (Pelargonium graveolens L’Her)；FEMA 编号 2508。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0097",
@@ -2591,7 +2591,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N098",
     "flavorCode": "N098",
     "flavorNameCn": "除萜香叶油",
-    "flavorNameEn": "Geraniumoilterpeneless",
+    "flavorNameEn": "Geranium oil terpeneless",
     "femaNumber": "2508",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2600,7 +2600,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "97N098除萜香叶油Geraniumoilterpeneless2508",
     "rowName": "除萜香叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 97；编码 N098；香料中文名称 除萜香叶油；香料英文名称 Geraniumoilterpeneless；FEMA 编号 2508。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 97；编码 N098；香料中文名称 除萜香叶油；香料英文名称 Geranium oil terpeneless；FEMA 编号 2508。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0098",
@@ -2608,7 +2608,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N099",
     "flavorCode": "N099",
     "flavorNameCn": "香风茶油(又名香茶菜油)",
-    "flavorNameEn": "XiangFengchaoil(Rabdosiaspp.)",
+    "flavorNameEn": "Xiang Fengcha oil (Rabdosia spp.)",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2617,7 +2617,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "香风茶油(又名香茶菜98N099XiangFengchaoil(Rabdosiaspp.)—油)",
     "rowName": "香风茶油(又名香茶菜油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 98；编码 N099；香料中文名称 香风茶油(又名香茶菜油)；香料英文名称 XiangFengchaoil(Rabdosiaspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 98；编码 N099；香料中文名称 香风茶油(又名香茶菜油)；香料英文名称 Xiang Fengcha oil (Rabdosia spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0099",
@@ -2625,7 +2625,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N101",
     "flavorCode": "N101",
     "flavorNameCn": "香柠檬油",
-    "flavorNameEn": "Bergamotoil(CitrusaurantiumL.subsp.ber-gamia)",
+    "flavorNameEn": "Bergamot oil (Citrus aurantium L. subsp. bergamia)",
     "femaNumber": "2153",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2634,7 +2634,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Bergamotoil(CitrusaurantiumL.subsp.ber-99N101香柠檬油2153gamia)",
     "rowName": "香柠檬油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 99；编码 N101；香料中文名称 香柠檬油；香料英文名称 Bergamotoil(CitrusaurantiumL.subsp.ber-gamia)；FEMA 编号 2153。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 99；编码 N101；香料中文名称 香柠檬油；香料英文名称 Bergamot oil (Citrus aurantium L. subsp. bergamia)；FEMA 编号 2153。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0100",
@@ -2642,7 +2642,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N102",
     "flavorCode": "N102",
     "flavorNameCn": "香根油",
-    "flavorNameEn": "Vertiveroil(VetiveriazizanioidesNash.)",
+    "flavorNameEn": "Vertiver oil (Vetiveria zizanioides Nash.)",
     "femaNumber": "—",
     "pdfPage": 156,
     "standardPage": 153,
@@ -2651,7 +2651,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "100N102香根油Vertiveroil(VetiveriazizanioidesNash.)—",
     "rowName": "香根油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 100；编码 N102；香料中文名称 香根油；香料英文名称 Vertiveroil(VetiveriazizanioidesNash.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 100；编码 N102；香料中文名称 香根油；香料英文名称 Vertiver oil (Vetiveria zizanioides Nash.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0101",
@@ -2659,7 +2659,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N103",
     "flavorCode": "N103",
     "flavorNameCn": "香根浸膏",
-    "flavorNameEn": "Vertiverconcrete(VetiveriazizanioidesNash.)",
+    "flavorNameEn": "Vertiver concrete (Vetiveria zizanioides Nash.)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2668,7 +2668,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "101N103香根浸膏Vertiverconcrete(VetiveriazizanioidesNash.)—",
     "rowName": "香根浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 101；编码 N103；香料中文名称 香根浸膏；香料英文名称 Vertiverconcrete(VetiveriazizanioidesNash.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 101；编码 N103；香料中文名称 香根浸膏；香料英文名称 Vertiver concrete (Vetiveria zizanioides Nash.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0102",
@@ -2676,7 +2676,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N104",
     "flavorCode": "N104",
     "flavorNameCn": "香荚兰豆酊",
-    "flavorNameEn": "Vanillabeantincture(Vanillaspp.)",
+    "flavorNameEn": "Vanilla bean tincture (Vanilla spp.)",
     "femaNumber": "3105",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2685,7 +2685,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "102N104香荚兰豆酊Vanillabeantincture(Vanillaspp.)3105",
     "rowName": "香荚兰豆酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 102；编码 N104；香料中文名称 香荚兰豆酊；香料英文名称 Vanillabeantincture(Vanillaspp.)；FEMA 编号 3105。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 102；编码 N104；香料中文名称 香荚兰豆酊；香料英文名称 Vanilla bean tincture (Vanilla spp.)；FEMA 编号 3105。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0103",
@@ -2693,7 +2693,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N105",
     "flavorCode": "N105",
     "flavorNameCn": "香荚兰豆浸膏(提取物)",
-    "flavorNameEn": "Vanillabeanconcrete(extract)(Vanillaspp.)",
+    "flavorNameEn": "Vanilla bean concrete (extract) (Vanilla spp.)",
     "femaNumber": "3105",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2702,7 +2702,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "103N105香荚兰豆浸膏(提取物)Vanillabeanconcrete(extract)(Vanillaspp.)3105",
     "rowName": "香荚兰豆浸膏(提取物)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 103；编码 N105；香料中文名称 香荚兰豆浸膏(提取物)；香料英文名称 Vanillabeanconcrete(extract)(Vanillaspp.)；FEMA 编号 3105。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 103；编码 N105；香料中文名称 香荚兰豆浸膏(提取物)；香料英文名称 Vanilla bean concrete (extract) (Vanilla spp.)；FEMA 编号 3105。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0104",
@@ -2710,7 +2710,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N106",
     "flavorCode": "N106",
     "flavorNameCn": "香附子油",
-    "flavorNameEn": "Cyperusoil(Cupressussempervirens)",
+    "flavorNameEn": "Cyperus oil (Cupressus sempervirens)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2719,7 +2719,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "104N106香附子油Cyperusoil(Cupressussempervirens)—",
     "rowName": "香附子油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 104；编码 N106；香料中文名称 香附子油；香料英文名称 Cyperusoil(Cupressussempervirens)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 104；编码 N106；香料中文名称 香附子油；香料英文名称 Cyperus oil (Cupressus sempervirens)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0105",
@@ -2727,7 +2727,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N107",
     "flavorCode": "N107",
     "flavorNameCn": "香葱油",
-    "flavorNameEn": "Chivesoil(Alliumschoenoprasum)",
+    "flavorNameEn": "Chives oil (Allium schoenoprasum)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2736,7 +2736,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "105N107香葱油Chivesoil(Alliumschoenoprasum)—",
     "rowName": "香葱油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 105；编码 N107；香料中文名称 香葱油；香料英文名称 Chivesoil(Alliumschoenoprasum)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 105；编码 N107；香料中文名称 香葱油；香料英文名称 Chives oil (Allium schoenoprasum)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0106",
@@ -2744,7 +2744,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N108",
     "flavorCode": "N108",
     "flavorNameCn": "香紫苏油",
-    "flavorNameEn": "Clarysageoil(SalviasclareaL.)",
+    "flavorNameEn": "Clary sage oil (Salvia sclarea L.)",
     "femaNumber": "2321",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2753,7 +2753,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "106N108香紫苏油Clarysageoil(SalviasclareaL.)2321",
     "rowName": "香紫苏油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 106；编码 N108；香料中文名称 香紫苏油；香料英文名称 Clarysageoil(SalviasclareaL.)；FEMA 编号 2321。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 106；编码 N108；香料中文名称 香紫苏油；香料英文名称 Clary sage oil (Salvia sclarea L.)；FEMA 编号 2321。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0107",
@@ -2761,7 +2761,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N109",
     "flavorCode": "N109",
     "flavorNameCn": "香榧子壳浸膏",
-    "flavorNameEn": "Torreyagrandisshellconcrete",
+    "flavorNameEn": "Torreya grandis shell concrete",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2770,7 +2770,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "107N109香榧子壳浸膏Torreyagrandisshellconcrete—",
     "rowName": "香榧子壳浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 107；编码 N109；香料中文名称 香榧子壳浸膏；香料英文名称 Torreyagrandisshellconcrete；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 107；编码 N109；香料中文名称 香榧子壳浸膏；香料英文名称 Torreya grandis shell concrete；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0108",
@@ -2778,7 +2778,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N110",
     "flavorCode": "N110",
     "flavorNameCn": "橘子油",
-    "flavorNameEn": "Mandarinoil(CitrusreticulataBlanco)",
+    "flavorNameEn": "Mandarin oil (Citrus reticulata Blanco)",
     "femaNumber": "2657",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2787,7 +2787,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "108N110橘子油Mandarinoil(CitrusreticulataBlanco)2657",
     "rowName": "橘子油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 108；编码 N110；香料中文名称 橘子油；香料英文名称 Mandarinoil(CitrusreticulataBlanco)；FEMA 编号 2657。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 108；编码 N110；香料中文名称 橘子油；香料英文名称 Mandarin oil (Citrus reticulata Blanco)；FEMA 编号 2657。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0109",
@@ -2795,7 +2795,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N111",
     "flavorCode": "N111",
     "flavorNameCn": "除萜橘子油",
-    "flavorNameEn": "Mandarinoil,terpeneless",
+    "flavorNameEn": "Mandarin oil, terpeneless",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2804,7 +2804,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "109N111除萜橘子油Mandarinoil,terpeneless—",
     "rowName": "除萜橘子油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 109；编码 N111；香料中文名称 除萜橘子油；香料英文名称 Mandarinoil,terpeneless；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 109；编码 N111；香料中文名称 除萜橘子油；香料英文名称 Mandarin oil, terpeneless；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0110",
@@ -2812,7 +2812,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N112",
     "flavorCode": "N112",
     "flavorNameCn": "酒花酊",
-    "flavorNameEn": "Hopstincture(extract)(HumuluslupulusL.)",
+    "flavorNameEn": "Hops tincture (extract) (Humulus lupulus L.)",
     "femaNumber": "2578",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2821,7 +2821,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "110N112酒花酊Hopstincture(extract)(HumuluslupulusL.)2578",
     "rowName": "酒花酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 110；编码 N112；香料中文名称 酒花酊；香料英文名称 Hopstincture(extract)(HumuluslupulusL.)；FEMA 编号 2578。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 110；编码 N112；香料中文名称 酒花酊；香料英文名称 Hops tincture (extract) (Humulus lupulus L.)；FEMA 编号 2578。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0111",
@@ -2829,7 +2829,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N113",
     "flavorCode": "N113",
     "flavorNameCn": "酒花浸膏",
-    "flavorNameEn": "Hopsextract,solid(HumuluslupulusL.)",
+    "flavorNameEn": "Hops extract, solid (Humulus lupulus L.)",
     "femaNumber": "2579",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2838,7 +2838,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "111N113酒花浸膏Hopsextract,solid(HumuluslupulusL.)2579",
     "rowName": "酒花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 111；编码 N113；香料中文名称 酒花浸膏；香料英文名称 Hopsextract,solid(HumuluslupulusL.)；FEMA 编号 2579。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 111；编码 N113；香料中文名称 酒花浸膏；香料英文名称 Hops extract, solid (Humulus lupulus L.)；FEMA 编号 2579。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0112",
@@ -2846,7 +2846,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N114",
     "flavorCode": "N114",
     "flavorNameCn": "桉叶油(蓝桉油)",
-    "flavorNameEn": "Eucalyptusoil(EucalyptusglobulusLabille)",
+    "flavorNameEn": "Eucalyptus oil (Eucalyptus globulus Labille)",
     "femaNumber": "2466",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2855,7 +2855,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "112N114桉叶油(蓝桉油)Eucalyptusoil(EucalyptusglobulusLabille)2466",
     "rowName": "桉叶油(蓝桉油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 112；编码 N114；香料中文名称 桉叶油(蓝桉油)；香料英文名称 Eucalyptusoil(EucalyptusglobulusLabille)；FEMA 编号 2466。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 112；编码 N114；香料中文名称 桉叶油(蓝桉油)；香料英文名称 Eucalyptus oil (Eucalyptus globulus Labille)；FEMA 编号 2466。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0113",
@@ -2863,7 +2863,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N115",
     "flavorCode": "N115",
     "flavorNameCn": "海狸酊",
-    "flavorNameEn": "Castoreumtincture(extract)(Castorspp.)",
+    "flavorNameEn": "Castoreum tincture (extract) (Castor spp.)",
     "femaNumber": "2261",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2872,7 +2872,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "113N115海狸酊Castoreumtincture(extract)(Castorspp.)2261",
     "rowName": "海狸酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 113；编码 N115；香料中文名称 海狸酊；香料英文名称 Castoreumtincture(extract)(Castorspp.)；FEMA 编号 2261。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 113；编码 N115；香料中文名称 海狸酊；香料英文名称 Castoreum tincture (extract) (Castor spp.)；FEMA 编号 2261。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0114",
@@ -2880,7 +2880,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N116",
     "flavorCode": "N116",
     "flavorNameCn": "斯里兰卡肉桂皮油",
-    "flavorNameEn": "Cinnamonbarkoil(Cinnamomumspp.)",
+    "flavorNameEn": "Cinnamon bark oil (Cinnamomum spp.)",
     "femaNumber": "2291",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2889,7 +2889,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "114N116斯里兰卡肉桂皮油Cinnamonbarkoil(Cinnamomumspp.)2291",
     "rowName": "斯里兰卡肉桂皮油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 114；编码 N116；香料中文名称 斯里兰卡肉桂皮油；香料英文名称 Cinnamonbarkoil(Cinnamomumspp.)；FEMA 编号 2291。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 114；编码 N116；香料中文名称 斯里兰卡肉桂皮油；香料英文名称 Cinnamon bark oil (Cinnamomum spp.)；FEMA 编号 2291。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0115",
@@ -2897,7 +2897,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N117",
     "flavorCode": "N117",
     "flavorNameCn": "斯里兰卡肉桂叶油",
-    "flavorNameEn": "Cinnamonleafoil(Cinnamomumspp.)",
+    "flavorNameEn": "Cinnamon leaf oil (Cinnamomum spp.)",
     "femaNumber": "2292",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2906,7 +2906,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "115N117斯里兰卡肉桂叶油Cinnamonleafoil(Cinnamomumspp.)2292",
     "rowName": "斯里兰卡肉桂叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 115；编码 N117；香料中文名称 斯里兰卡肉桂叶油；香料英文名称 Cinnamonleafoil(Cinnamomumspp.)；FEMA 编号 2292。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 115；编码 N117；香料中文名称 斯里兰卡肉桂叶油；香料英文名称 Cinnamon leaf oil (Cinnamomum spp.)；FEMA 编号 2292。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0116",
@@ -2914,7 +2914,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N118",
     "flavorCode": "N118",
     "flavorNameCn": "桂花净油",
-    "flavorNameEn": "Osmanthusfragransflowerabsolute",
+    "flavorNameEn": "Osmanthus fragrans flower absolute",
     "femaNumber": "3750",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2923,7 +2923,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "116N118桂花净油Osmanthusfragransflowerabsolute3750",
     "rowName": "桂花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 116；编码 N118；香料中文名称 桂花净油；香料英文名称 Osmanthusfragransflowerabsolute；FEMA 编号 3750。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 116；编码 N118；香料中文名称 桂花净油；香料英文名称 Osmanthus fragrans flower absolute；FEMA 编号 3750。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0117",
@@ -2931,7 +2931,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N119",
     "flavorCode": "N119",
     "flavorNameCn": "桂花酊",
-    "flavorNameEn": "Osmanthusfragransflowertincture",
+    "flavorNameEn": "Osmanthus fragrans flower tincture",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2940,7 +2940,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "117N119桂花酊Osmanthusfragransflowertincture—",
     "rowName": "桂花酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 117；编码 N119；香料中文名称 桂花酊；香料英文名称 Osmanthusfragransflowertincture；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 117；编码 N119；香料中文名称 桂花酊；香料英文名称 Osmanthus fragrans flower tincture；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0118",
@@ -2948,7 +2948,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N120",
     "flavorCode": "N120",
     "flavorNameCn": "桂花浸膏",
-    "flavorNameEn": "Osmanthusfragransflowerconcrete",
+    "flavorNameEn": "Osmanthus fragrans flower concrete",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2957,7 +2957,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "118N120桂花浸膏Osmanthusfragransflowerconcrete—",
     "rowName": "桂花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 118；编码 N120；香料中文名称 桂花浸膏；香料英文名称 Osmanthusfragransflowerconcrete；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 118；编码 N120；香料中文名称 桂花浸膏；香料英文名称 Osmanthus fragrans flower concrete；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0119",
@@ -2965,7 +2965,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N121",
     "flavorCode": "N121",
     "flavorNameCn": "桂圆酊",
-    "flavorNameEn": "Longantincture(Euphorialongana)",
+    "flavorNameEn": "Longan tincture (Euphoria longana)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2974,7 +2974,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "119N121桂圆酊Longantincture(Euphorialongana)—",
     "rowName": "桂圆酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 119；编码 N121；香料中文名称 桂圆酊；香料英文名称 Longantincture(Euphorialongana)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 119；编码 N121；香料中文名称 桂圆酊；香料英文名称 Longan tincture (Euphoria longana)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0120",
@@ -2982,7 +2982,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N122",
     "flavorCode": "N122",
     "flavorNameCn": "留兰香油",
-    "flavorNameEn": "Spearmintoil(Menthaspicata)",
+    "flavorNameEn": "Spearmint oil (Mentha spicata)",
     "femaNumber": "3032",
     "pdfPage": 157,
     "standardPage": 154,
@@ -2991,7 +2991,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "120N122留兰香油Spearmintoil(Menthaspicata)3032",
     "rowName": "留兰香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 120；编码 N122；香料中文名称 留兰香油；香料英文名称 Spearmintoil(Menthaspicata)；FEMA 编号 3032。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 120；编码 N122；香料中文名称 留兰香油；香料英文名称 Spearmint oil (Mentha spicata)；FEMA 编号 3032。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0121",
@@ -2999,7 +2999,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N123",
     "flavorCode": "N123",
     "flavorNameCn": "核桃壳提取物",
-    "flavorNameEn": "Walnuthullextract(Juglansspp.)",
+    "flavorNameEn": "Walnut hull extract (Juglans spp.)",
     "femaNumber": "3111",
     "pdfPage": 157,
     "standardPage": 154,
@@ -3008,7 +3008,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "121N123核桃壳提取物Walnuthullextract(Juglansspp.)3111",
     "rowName": "核桃壳提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 121；编码 N123；香料中文名称 核桃壳提取物；香料英文名称 Walnuthullextract(Juglansspp.)；FEMA 编号 3111。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 121；编码 N123；香料中文名称 核桃壳提取物；香料英文名称 Walnut hull extract (Juglans spp.)；FEMA 编号 3111。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0122",
@@ -3016,7 +3016,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N124",
     "flavorCode": "N124",
     "flavorNameCn": "素方花净油",
-    "flavorNameEn": "Commonwhitejasmineflowerabsolute(JasminumofficinaleL.)",
+    "flavorNameEn": "Common white jasmine flower absolute (Jasminum officinale L.)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -3025,7 +3025,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Commonwhitejasmineflowerabsolute(Jasminum122N124素方花净油—officinaleL.)",
     "rowName": "素方花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 122；编码 N124；香料中文名称 素方花净油；香料英文名称 Commonwhitejasmineflowerabsolute(JasminumofficinaleL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 122；编码 N124；香料中文名称 素方花净油；香料英文名称 Common white jasmine flower absolute (Jasminum officinale L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0123",
@@ -3033,7 +3033,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N125",
     "flavorCode": "N125",
     "flavorNameCn": "桦焦油",
-    "flavorNameEn": "Birchsweetoil(BetulalentaL.)",
+    "flavorNameEn": "Birch sweet oil (Betula lenta L.)",
     "femaNumber": "2154",
     "pdfPage": 157,
     "standardPage": 154,
@@ -3042,7 +3042,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "123N125桦焦油Birchsweetoil(BetulalentaL.)2154",
     "rowName": "桦焦油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 123；编码 N125；香料中文名称 桦焦油；香料英文名称 Birchsweetoil(BetulalentaL.)；FEMA 编号 2154。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 123；编码 N125；香料中文名称 桦焦油；香料英文名称 Birch sweet oil (Betula lenta L.)；FEMA 编号 2154。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0124",
@@ -3050,7 +3050,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N126",
     "flavorCode": "N126",
     "flavorNameCn": "蚕豆花酊",
-    "flavorNameEn": "Broadbeanflowertincture(ViciafabaLinn.)",
+    "flavorNameEn": "Broad bean flower tincture (Vicia faba Linn.)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -3059,7 +3059,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "124N126蚕豆花酊Broadbeanflowertincture(ViciafabaLinn.)—",
     "rowName": "蚕豆花酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 124；编码 N126；香料中文名称 蚕豆花酊；香料英文名称 Broadbeanflowertincture(ViciafabaLinn.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 124；编码 N126；香料中文名称 蚕豆花酊；香料英文名称 Broad bean flower tincture (Vicia faba Linn.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0125",
@@ -3067,7 +3067,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N127",
     "flavorCode": "N127",
     "flavorNameCn": "绿茶酊",
-    "flavorNameEn": "Greenteatincture(TheasinensisorCamelliasinen-sis)",
+    "flavorNameEn": "Green tea tincture (Thea sinensis or Camellia sinensis)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -3076,7 +3076,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Greenteatincture(TheasinensisorCamelliasinen-125N127绿茶酊—sis)",
     "rowName": "绿茶酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 125；编码 N127；香料中文名称 绿茶酊；香料英文名称 Greenteatincture(TheasinensisorCamelliasinen-sis)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 125；编码 N127；香料中文名称 绿茶酊；香料英文名称 Green tea tincture (Thea sinensis or Camellia sinensis)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0126",
@@ -3084,7 +3084,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N128",
     "flavorCode": "N128",
     "flavorNameCn": "野玫瑰浸膏",
-    "flavorNameEn": "Wildroseconcrete(Rosamultiflora)",
+    "flavorNameEn": "Wild rose concrete (Rosa multiflora)",
     "femaNumber": "—",
     "pdfPage": 157,
     "standardPage": 154,
@@ -3093,7 +3093,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "126N128野玫瑰浸膏Wildroseconcrete(Rosamultiflora)—",
     "rowName": "野玫瑰浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 126；编码 N128；香料中文名称 野玫瑰浸膏；香料英文名称 Wildroseconcrete(Rosamultiflora)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 126；编码 N128；香料中文名称 野玫瑰浸膏；香料英文名称 Wild rose concrete (Rosa multiflora)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0127",
@@ -3101,7 +3101,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N129",
     "flavorCode": "N129",
     "flavorNameCn": "甜小茴香油",
-    "flavorNameEn": "Fenneloil,sweet(FoeniculumvulgareMill.var.dulceD.C.)",
+    "flavorNameEn": "Fennel oil, sweet (Foeniculum vulgare Mill. var. dulce D.C.)",
     "femaNumber": "2483",
     "pdfPage": 157,
     "standardPage": 154,
@@ -3110,7 +3110,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Fenneloil,sweet(FoeniculumvulgareMill.var.127N129甜小茴香油2483dulceD.C.)",
     "rowName": "甜小茴香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 127；编码 N129；香料中文名称 甜小茴香油；香料英文名称 Fenneloil,sweet(FoeniculumvulgareMill.var.dulceD.C.)；FEMA 编号 2483。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 127；编码 N129；香料中文名称 甜小茴香油；香料英文名称 Fennel oil, sweet (Foeniculum vulgare Mill. var. dulce D.C.)；FEMA 编号 2483。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0128",
@@ -3118,7 +3118,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N130",
     "flavorCode": "N130",
     "flavorNameCn": "甜叶菊油",
-    "flavorNameEn": "Steviarebaudianaoil",
+    "flavorNameEn": "Stevia rebaudiana oil",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3127,7 +3127,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "128N130甜叶菊油Steviarebaudianaoil—",
     "rowName": "甜叶菊油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 128；编码 N130；香料中文名称 甜叶菊油；香料英文名称 Steviarebaudianaoil；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 128；编码 N130；香料中文名称 甜叶菊油；香料英文名称 Stevia rebaudiana oil；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0129",
@@ -3135,7 +3135,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N131",
     "flavorCode": "N131",
     "flavorNameCn": "甜橙油",
-    "flavorNameEn": "Orangeoil[Citrussinensis(L.)Osbeck]",
+    "flavorNameEn": "Orange oil [Citrus sinensis (L.) Osbeck]",
     "femaNumber": "2821",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3144,7 +3144,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "129N131甜橙油Orangeoil[Citrussinensis(L.)Osbeck]2821",
     "rowName": "甜橙油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 129；编码 N131；香料中文名称 甜橙油；香料英文名称 Orangeoil[Citrussinensis(L.)Osbeck]；FEMA 编号 2821。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 129；编码 N131；香料中文名称 甜橙油；香料英文名称 Orange oil [Citrus sinensis (L.) Osbeck]；FEMA 编号 2821。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0130",
@@ -3152,7 +3152,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N132",
     "flavorCode": "N132",
     "flavorNameCn": "除萜甜橙油",
-    "flavorNameEn": "Orangeoil,terpeneless[Citrussinensis(L.)Os-beck]",
+    "flavorNameEn": "Orange oil, terpeneless [Citrus sinensis (L.) Os-beck]",
     "femaNumber": "2822",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3161,7 +3161,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Orangeoil,terpeneless[Citrussinensis(L.)Os-130N132除萜甜橙油2822beck]",
     "rowName": "除萜甜橙油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 130；编码 N132；香料中文名称 除萜甜橙油；香料英文名称 Orangeoil,terpeneless[Citrussinensis(L.)Os-beck]；FEMA 编号 2822。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 130；编码 N132；香料中文名称 除萜甜橙油；香料英文名称 Orange oil, terpeneless [Citrus sinensis (L.) Os-beck]；FEMA 编号 2822。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0131",
@@ -3169,7 +3169,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N133",
     "flavorCode": "N133",
     "flavorNameCn": "甜橙油萜烯",
-    "flavorNameEn": "Terpenesoforangeoil",
+    "flavorNameEn": "Terpenes of orange oil",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3178,7 +3178,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "131N133甜橙油萜烯Terpenesoforangeoil—",
     "rowName": "甜橙油萜烯",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 131；编码 N133；香料中文名称 甜橙油萜烯；香料英文名称 Terpenesoforangeoil；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 131；编码 N133；香料中文名称 甜橙油萜烯；香料英文名称 Terpenes of orange oil；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0132",
@@ -3186,7 +3186,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N134",
     "flavorCode": "N134",
     "flavorNameCn": "菊苣浸膏",
-    "flavorNameEn": "Chicoryconcrete(extract)(CichoriumintybusL.)",
+    "flavorNameEn": "Chicory concrete (extract) (Cichorium intybus L.)",
     "femaNumber": "2280",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3195,7 +3195,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "132N134菊苣浸膏Chicoryconcrete(extract)(CichoriumintybusL.)2280",
     "rowName": "菊苣浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 132；编码 N134；香料中文名称 菊苣浸膏；香料英文名称 Chicoryconcrete(extract)(CichoriumintybusL.)；FEMA 编号 2280。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 132；编码 N134；香料中文名称 菊苣浸膏；香料英文名称 Chicory concrete (extract) (Cichorium intybus L.)；FEMA 编号 2280。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0133",
@@ -3203,7 +3203,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N135",
     "flavorCode": "N135",
     "flavorNameCn": "晚香玉浸膏",
-    "flavorNameEn": "Tuberoseconcrete(Polianthestuberosa)",
+    "flavorNameEn": "Tuberose concrete (Polianthes tuberosa)",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3212,7 +3212,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "133N135晚香玉浸膏Tuberoseconcrete(Polianthestuberosa)—",
     "rowName": "晚香玉浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 133；编码 N135；香料中文名称 晚香玉浸膏；香料英文名称 Tuberoseconcrete(Polianthestuberosa)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 133；编码 N135；香料中文名称 晚香玉浸膏；香料英文名称 Tuberose concrete (Polianthes tuberosa)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0134",
@@ -3220,7 +3220,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N136",
     "flavorCode": "N136",
     "flavorNameCn": "紫罗兰叶净油/浸膏",
-    "flavorNameEn": "Violetleavesabsolute/concrete(ViolaodorataL.)",
+    "flavorNameEn": "Violet leaves absolute/concrete (Viola odorata L.)",
     "femaNumber": "3110",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3229,7 +3229,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "134N136紫罗兰叶净油/浸膏Violetleavesabsolute/concrete(ViolaodorataL.)3110",
     "rowName": "紫罗兰叶净油/浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 134；编码 N136；香料中文名称 紫罗兰叶净油/浸膏；香料英文名称 Violetleavesabsolute/concrete(ViolaodorataL.)；FEMA 编号 3110。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 134；编码 N136；香料中文名称 紫罗兰叶净油/浸膏；香料英文名称 Violet leaves absolute/concrete (Viola odorata L.)；FEMA 编号 3110。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0135",
@@ -3237,7 +3237,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N137",
     "flavorCode": "N137",
     "flavorNameCn": "椒样薄荷油",
-    "flavorNameEn": "Peppermintoil(MenthapiperitaL.)",
+    "flavorNameEn": "Peppermint oil (Mentha piperita L.)",
     "femaNumber": "2848",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3246,7 +3246,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "135N137椒样薄荷油Peppermintoil(MenthapiperitaL.)2848",
     "rowName": "椒样薄荷油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 135；编码 N137；香料中文名称 椒样薄荷油；香料英文名称 Peppermintoil(MenthapiperitaL.)；FEMA 编号 2848。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 135；编码 N137；香料中文名称 椒样薄荷油；香料英文名称 Peppermint oil (Mentha piperita L.)；FEMA 编号 2848。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0136",
@@ -3254,7 +3254,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N138",
     "flavorCode": "N138",
     "flavorNameCn": "黑加仑酊",
-    "flavorNameEn": "Blackcurranttincture(RibesnigrumL.)",
+    "flavorNameEn": "Blackcurrant tincture (Ribes nigrum L.)",
     "femaNumber": "2346",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3263,7 +3263,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "136N138黑加仑酊Blackcurranttincture(RibesnigrumL.)2346",
     "rowName": "黑加仑酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 136；编码 N138；香料中文名称 黑加仑酊；香料英文名称 Blackcurranttincture(RibesnigrumL.)；FEMA 编号 2346。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 136；编码 N138；香料中文名称 黑加仑酊；香料英文名称 Blackcurrant tincture (Ribes nigrum L.)；FEMA 编号 2346。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0137",
@@ -3271,7 +3271,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N139",
     "flavorCode": "N139",
     "flavorNameCn": "黑加仑浸膏",
-    "flavorNameEn": "Blackcurrantconcrete(RibesnigrumL.)",
+    "flavorNameEn": "Blackcurrant concrete (Ribes nigrum L.)",
     "femaNumber": "2346",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3280,7 +3280,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "137N139黑加仑浸膏Blackcurrantconcrete(RibesnigrumL.)2346",
     "rowName": "黑加仑浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 137；编码 N139；香料中文名称 黑加仑浸膏；香料英文名称 Blackcurrantconcrete(RibesnigrumL.)；FEMA 编号 2346。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 137；编码 N139；香料中文名称 黑加仑浸膏；香料英文名称 Blackcurrant concrete (Ribes nigrum L.)；FEMA 编号 2346。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0138",
@@ -3288,7 +3288,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N140",
     "flavorCode": "N140",
     "flavorNameCn": "槐树花净油",
-    "flavorNameEn": "Sophorajaponicaflowerabsolute",
+    "flavorNameEn": "Sophora japonica flower absolute",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3297,7 +3297,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "138N140槐树花净油Sophorajaponicaflowerabsolute—",
     "rowName": "槐树花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 138；编码 N140；香料中文名称 槐树花净油；香料英文名称 Sophorajaponicaflowerabsolute；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 138；编码 N140；香料中文名称 槐树花净油；香料英文名称 Sophora japonica flower absolute；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0139",
@@ -3305,7 +3305,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N141",
     "flavorCode": "N141",
     "flavorNameCn": "槐树花浸膏",
-    "flavorNameEn": "Sophorajaponicaflowerconcrete",
+    "flavorNameEn": "Sophora japonica flower concrete",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3314,7 +3314,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "139N141槐树花浸膏Sophorajaponicaflowerconcrete—",
     "rowName": "槐树花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 139；编码 N141；香料中文名称 槐树花浸膏；香料英文名称 Sophorajaponicaflowerconcrete；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 139；编码 N141；香料中文名称 槐树花浸膏；香料英文名称 Sophora japonica flower concrete；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0140",
@@ -3322,7 +3322,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N142",
     "flavorCode": "N142",
     "flavorNameCn": "辣椒酊",
-    "flavorNameEn": "Capsicumtincture(extract)(Capsicumspp.)",
+    "flavorNameEn": "Capsicum tincture (extract) (Capsicum spp.)",
     "femaNumber": "2233",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3331,7 +3331,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "140N142辣椒酊Capsicumtincture(extract)(Capsicumspp.)2233",
     "rowName": "辣椒酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 140；编码 N142；香料中文名称 辣椒酊；香料英文名称 Capsicumtincture(extract)(Capsicumspp.)；FEMA 编号 2233。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 140；编码 N142；香料中文名称 辣椒酊；香料英文名称 Capsicum tincture (extract) (Capsicum spp.)；FEMA 编号 2233。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0141",
@@ -3339,7 +3339,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N143",
     "flavorCode": "N143",
     "flavorNameCn": "辣椒油树脂(又名灯笼辣椒油树脂)",
-    "flavorNameEn": "Paprikaoleoresin(CapsicumannuumL.)",
+    "flavorNameEn": "Paprika oleoresin (Capsicum annuum L.)",
     "femaNumber": "2834",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3348,7 +3348,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "辣椒油树脂(又名灯笼辣141N143Paprikaoleoresin(CapsicumannuumL.)2834椒油树脂)",
     "rowName": "辣椒油树脂(又名灯笼辣椒油树脂)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 141；编码 N143；香料中文名称 辣椒油树脂(又名灯笼辣椒油树脂)；香料英文名称 Paprikaoleoresin(CapsicumannuumL.)；FEMA 编号 2834。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 141；编码 N143；香料中文名称 辣椒油树脂(又名灯笼辣椒油树脂)；香料英文名称 Paprika oleoresin (Capsicum annuum L.)；FEMA 编号 2834。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0142",
@@ -3356,7 +3356,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N144",
     "flavorCode": "N144",
     "flavorNameCn": "愈疮木油",
-    "flavorNameEn": "Guaiacwoodoil(BulnesiasarmientiLor.)",
+    "flavorNameEn": "Guaiac wood oil (Bulnesia sarmienti Lor.)",
     "femaNumber": "2534",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3365,7 +3365,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "142N144愈疮木油Guaiacwoodoil(BulnesiasarmientiLor.)2534",
     "rowName": "愈疮木油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 142；编码 N144；香料中文名称 愈疮木油；香料英文名称 Guaiacwoodoil(BulnesiasarmientiLor.)；FEMA 编号 2534。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 142；编码 N144；香料中文名称 愈疮木油；香料英文名称 Guaiac wood oil (Bulnesia sarmienti Lor.)；FEMA 编号 2534。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0143",
@@ -3373,7 +3373,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N145",
     "flavorCode": "N145",
     "flavorNameCn": "缬草油",
-    "flavorNameEn": "Valerianrootoil(ValerianaofficinalisL.)",
+    "flavorNameEn": "Valerian root oil (Valeriana officinalis L.)",
     "femaNumber": "3100",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3382,7 +3382,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "143N145缬草油Valerianrootoil(ValerianaofficinalisL.)3100",
     "rowName": "缬草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 143；编码 N145；香料中文名称 缬草油；香料英文名称 Valerianrootoil(ValerianaofficinalisL.)；FEMA 编号 3100。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 143；编码 N145；香料中文名称 缬草油；香料英文名称 Valerian root oil (Valeriana officinalis L.)；FEMA 编号 3100。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0144",
@@ -3390,7 +3390,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N146",
     "flavorCode": "N146",
     "flavorNameCn": "墨红花净油",
-    "flavorNameEn": "Rosecrimsongloryflowerabsolute",
+    "flavorNameEn": "Rose crimson glory flower absolute",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3399,7 +3399,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "144N146墨红花净油Rosecrimsongloryflowerabsolute—",
     "rowName": "墨红花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 144；编码 N146；香料中文名称 墨红花净油；香料英文名称 Rosecrimsongloryflowerabsolute；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 144；编码 N146；香料中文名称 墨红花净油；香料英文名称 Rose crimson glory flower absolute；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0145",
@@ -3407,7 +3407,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N147",
     "flavorCode": "N147",
     "flavorNameCn": "墨红花浸膏",
-    "flavorNameEn": "Rosecrimsongloryflowerconcrete",
+    "flavorNameEn": "Rose crimson glory flower concrete",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3416,7 +3416,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "145N147墨红花浸膏Rosecrimsongloryflowerconcrete—",
     "rowName": "墨红花浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 145；编码 N147；香料中文名称 墨红花浸膏；香料英文名称 Rosecrimsongloryflowerconcrete；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 145；编码 N147；香料中文名称 墨红花浸膏；香料英文名称 Rose crimson glory flower concrete；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0146",
@@ -3424,7 +3424,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N149",
     "flavorCode": "N149",
     "flavorNameCn": "橙叶油",
-    "flavorNameEn": "Petitgrainbigaradeoil(CitrusaurantiumL.)",
+    "flavorNameEn": "Petitgrain bigarade oil (Citrus aurantium L.)",
     "femaNumber": "2855",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3433,7 +3433,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "146N149橙叶油Petitgrainbigaradeoil(CitrusaurantiumL.)2855",
     "rowName": "橙叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 146；编码 N149；香料中文名称 橙叶油；香料英文名称 Petitgrainbigaradeoil(CitrusaurantiumL.)；FEMA 编号 2855。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 146；编码 N149；香料中文名称 橙叶油；香料英文名称 Petitgrain bigarade oil (Citrus aurantium L.)；FEMA 编号 2855。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0147",
@@ -3441,7 +3441,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N150",
     "flavorCode": "N150",
     "flavorNameCn": "亚洲薄荷油",
-    "flavorNameEn": "Menthaarvensisoil(Cornmintoil)",
+    "flavorNameEn": "Mentha arvensis oil (Cornmint oil)",
     "femaNumber": "4219",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3450,7 +3450,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "147N150亚洲薄荷油Menthaarvensisoil(Cornmintoil)4219",
     "rowName": "亚洲薄荷油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 147；编码 N150；香料中文名称 亚洲薄荷油；香料英文名称 Menthaarvensisoil(Cornmintoil)；FEMA 编号 4219。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 147；编码 N150；香料中文名称 亚洲薄荷油；香料英文名称 Mentha arvensis oil (Cornmint oil)；FEMA 编号 4219。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0148",
@@ -3458,7 +3458,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N151",
     "flavorCode": "N151",
     "flavorNameCn": "亚洲薄荷素油",
-    "flavorNameEn": "Menthaarvensisoil,partiallydementholized",
+    "flavorNameEn": "Mentha arvensis oil, partially dementholized",
     "femaNumber": "—",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3467,7 +3467,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "148N151亚洲薄荷素油Menthaarvensisoil,partiallydementholized—",
     "rowName": "亚洲薄荷素油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 148；编码 N151；香料中文名称 亚洲薄荷素油；香料英文名称 Menthaarvensisoil,partiallydementholized；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 148；编码 N151；香料中文名称 亚洲薄荷素油；香料英文名称 Mentha arvensis oil, partially dementholized；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0149",
@@ -3475,7 +3475,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N152",
     "flavorCode": "N152",
     "flavorNameCn": "檀香油",
-    "flavorNameEn": "Sandalwoodoil(SantalumalbumL.)",
+    "flavorNameEn": "Sandalwood oil (Santalum album L.)",
     "femaNumber": "3005",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3484,7 +3484,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "149N152檀香油Sandalwoodoil(SantalumalbumL.)3005",
     "rowName": "檀香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 149；编码 N152；香料中文名称 檀香油；香料英文名称 Sandalwoodoil(SantalumalbumL.)；FEMA 编号 3005。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 149；编码 N152；香料中文名称 檀香油；香料英文名称 Sandalwood oil (Santalum album L.)；FEMA 编号 3005。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0150",
@@ -3492,7 +3492,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N153",
     "flavorCode": "N153",
     "flavorNameCn": "薰衣草油",
-    "flavorNameEn": "Lavenderoil(Lavandulaangustifolia)",
+    "flavorNameEn": "Lavender oil (Lavandula angustifolia)",
     "femaNumber": "2622",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3501,7 +3501,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "150N153薰衣草油Lavenderoil(Lavandulaangustifolia)2622",
     "rowName": "薰衣草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 150；编码 N153；香料中文名称 薰衣草油；香料英文名称 Lavenderoil(Lavandulaangustifolia)；FEMA 编号 2622。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 150；编码 N153；香料中文名称 薰衣草油；香料英文名称 Lavender oil (Lavandula angustifolia)；FEMA 编号 2622。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0151",
@@ -3509,7 +3509,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N154",
     "flavorCode": "N154",
     "flavorNameCn": "头状百里香油(又名西班牙牛至油)",
-    "flavorNameEn": "Origanumoil(Thymuscapitatus)",
+    "flavorNameEn": "Origanum oil (Thymus capitatus)",
     "femaNumber": "2828",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3518,7 +3518,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "头状百里香油(又名西班151N154Origanumoil(Thymuscapitatus)2828牙牛至油)",
     "rowName": "头状百里香油(又名西班牙牛至油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 151；编码 N154；香料中文名称 头状百里香油(又名西班牙牛至油)；香料英文名称 Origanumoil(Thymuscapitatus)；FEMA 编号 2828。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 151；编码 N154；香料中文名称 头状百里香油(又名西班牙牛至油)；香料英文名称 Origanum oil (Thymus capitatus)；FEMA 编号 2828。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0152",
@@ -3526,7 +3526,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N155",
     "flavorCode": "N155",
     "flavorNameCn": "可乐果提取物",
-    "flavorNameEn": "Kolasnutextract(ColaacuminateSchottetEndL.)",
+    "flavorNameEn": "Kolas nut extract (Cola acuminate Schottet End L.)",
     "femaNumber": "2607",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3535,7 +3535,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Kolasnutextract(ColaacuminateSchottet152N155可乐果提取物2607EndL.)",
     "rowName": "可乐果提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 152；编码 N155；香料中文名称 可乐果提取物；香料英文名称 Kolasnutextract(ColaacuminateSchottetEndL.)；FEMA 编号 2607。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 152；编码 N155；香料中文名称 可乐果提取物；香料英文名称 Kolas nut extract (Cola acuminate Schottet End L.)；FEMA 编号 2607。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0153",
@@ -3543,7 +3543,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N156",
     "flavorCode": "N156",
     "flavorNameCn": "加州胡椒油",
-    "flavorNameEn": "Schinusmolleoil(SchinusmolleL.)",
+    "flavorNameEn": "Schinus molle oil (Schinus molle L.)",
     "femaNumber": "3018",
     "pdfPage": 158,
     "standardPage": 155,
@@ -3552,7 +3552,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "153N156加州胡椒油Schinusmolleoil(SchinusmolleL.)3018",
     "rowName": "加州胡椒油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 153；编码 N156；香料中文名称 加州胡椒油；香料英文名称 Schinusmolleoil(SchinusmolleL.)；FEMA 编号 3018。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 153；编码 N156；香料中文名称 加州胡椒油；香料英文名称 Schinus molle oil (Schinus molle L.)；FEMA 编号 3018。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0154",
@@ -3560,7 +3560,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N157",
     "flavorCode": "N157",
     "flavorNameCn": "卡黎皮油",
-    "flavorNameEn": "Cascarillabarkoil(Crotonspp.)",
+    "flavorNameEn": "Cascarilla bark oil (Croton spp.)",
     "femaNumber": "2255",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3569,7 +3569,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "154N157卡黎皮油Cascarillabarkoil(Crotonspp.)2255",
     "rowName": "卡黎皮油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 154；编码 N157；香料中文名称 卡黎皮油；香料英文名称 Cascarillabarkoil(Crotonspp.)；FEMA 编号 2255。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 154；编码 N157；香料中文名称 卡黎皮油；香料英文名称 Cascarilla bark oil (Croton spp.)；FEMA 编号 2255。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0155",
@@ -3577,7 +3577,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N158",
     "flavorCode": "N158",
     "flavorNameCn": "百里香油",
-    "flavorNameEn": "Thymeoil(ThymusvulgarisL.)",
+    "flavorNameEn": "Thyme oil (Thymus vulgaris L.)",
     "femaNumber": "3064",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3586,7 +3586,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "155N158百里香油Thymeoil(ThymusvulgarisL.)3064",
     "rowName": "百里香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 155；编码 N158；香料中文名称 百里香油；香料英文名称 Thymeoil(ThymusvulgarisL.)；FEMA 编号 3064。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 155；编码 N158；香料中文名称 百里香油；香料英文名称 Thyme oil (Thymus vulgaris L.)；FEMA 编号 3064。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0156",
@@ -3611,7 +3611,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N160",
     "flavorCode": "N160",
     "flavorNameCn": "卡南伽油",
-    "flavorNameEn": "Canangaoil(CanangaodorataHook.F.andThoms)",
+    "flavorNameEn": "Cananga oil (Cananga odorata Hook.F. and Thoms)",
     "femaNumber": "2232",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3620,7 +3620,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Canangaoil(CanangaodorataHook.F.and157N160卡南伽油2232Thoms)",
     "rowName": "卡南伽油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 157；编码 N160；香料中文名称 卡南伽油；香料英文名称 Canangaoil(CanangaodorataHook.F.andThoms)；FEMA 编号 2232。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 157；编码 N160；香料中文名称 卡南伽油；香料英文名称 Cananga oil (Cananga odorata Hook.F. and Thoms)；FEMA 编号 2232。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0158",
@@ -3628,7 +3628,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N161",
     "flavorCode": "N161",
     "flavorNameCn": "月桂叶提取物/油树脂",
-    "flavorNameEn": "Laurelleavesextract/oleoresin(LaurusnobilisL.)",
+    "flavorNameEn": "Laurel leaves extract/oleoresin (Laurus nobilis L.)",
     "femaNumber": "2613",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3637,7 +3637,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "158N161月桂叶提取物/油树脂Laurelleavesextract/oleoresin(LaurusnobilisL.)2613",
     "rowName": "月桂叶提取物/油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 158；编码 N161；香料中文名称 月桂叶提取物/油树脂；香料英文名称 Laurelleavesextract/oleoresin(LaurusnobilisL.)；FEMA 编号 2613。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 158；编码 N161；香料中文名称 月桂叶提取物/油树脂；香料英文名称 Laurel leaves extract/oleoresin (Laurus nobilis L.)；FEMA 编号 2613。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0159",
@@ -3645,7 +3645,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N162",
     "flavorCode": "N162",
     "flavorNameCn": "生姜提取物(生姜浸膏)",
-    "flavorNameEn": "Gingerextract(Gingerconcrete.)(Zingiberoffici-nale)",
+    "flavorNameEn": "Ginger extract (Ginger concrete.) (Zingiber officinale)",
     "femaNumber": "2521",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3654,7 +3654,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Gingerextract(Gingerconcrete.)(Zingiberoffici-159N162生姜提取物(生姜浸膏)2521nale)",
     "rowName": "生姜提取物(生姜浸膏)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 159；编码 N162；香料中文名称 生姜提取物(生姜浸膏)；香料英文名称 Gingerextract(Gingerconcrete.)(Zingiberoffici-nale)；FEMA 编号 2521。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 159；编码 N162；香料中文名称 生姜提取物(生姜浸膏)；香料英文名称 Ginger extract (Ginger concrete.) (Zingiber officinale)；FEMA 编号 2521。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0160",
@@ -3662,7 +3662,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N163",
     "flavorCode": "N163",
     "flavorNameCn": "白栎木屑提取物",
-    "flavorNameEn": "Oakchipsextract(QuercusalbaL.)",
+    "flavorNameEn": "Oak chips extract (Quercus alba L.)",
     "femaNumber": "2794",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3671,7 +3671,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "160N163白栎木屑提取物Oakchipsextract(QuercusalbaL.)2794",
     "rowName": "白栎木屑提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 160；编码 N163；香料中文名称 白栎木屑提取物；香料英文名称 Oakchipsextract(QuercusalbaL.)；FEMA 编号 2794。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 160；编码 N163；香料中文名称 白栎木屑提取物；香料英文名称 Oak chips extract (Quercus alba L.)；FEMA 编号 2794。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0161",
@@ -3679,7 +3679,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N164",
     "flavorCode": "N164",
     "flavorNameCn": "龙蒿油",
-    "flavorNameEn": "Estragonoil(ArtemisiadracunculusL.)",
+    "flavorNameEn": "Estragon oil (Artemisia dracunculus L.)",
     "femaNumber": "2412",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3688,7 +3688,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "161N164龙蒿油Estragonoil(ArtemisiadracunculusL.)2412",
     "rowName": "龙蒿油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 161；编码 N164；香料中文名称 龙蒿油；香料英文名称 Estragonoil(ArtemisiadracunculusL.)；FEMA 编号 2412。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 161；编码 N164；香料中文名称 龙蒿油；香料英文名称 Estragon oil (Artemisia dracunculus L.)；FEMA 编号 2412。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0162",
@@ -3696,7 +3696,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N165",
     "flavorCode": "N165",
     "flavorNameCn": "白樟油",
-    "flavorNameEn": "Camphoroil,white[Cinnamomumcamphora(L.)Presl]",
+    "flavorNameEn": "Camphor oil, white [Cinnamomum camphora (L.) Presl]",
     "femaNumber": "2231",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3705,7 +3705,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Camphoroil,white[Cinnamomumcamphora(L.)162N165白樟油2231Presl]",
     "rowName": "白樟油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 162；编码 N165；香料中文名称 白樟油；香料英文名称 Camphoroil,white[Cinnamomumcamphora(L.)Presl]；FEMA 编号 2231。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 162；编码 N165；香料中文名称 白樟油；香料英文名称 Camphor oil, white [Cinnamomum camphora (L.) Presl]；FEMA 编号 2231。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0163",
@@ -3713,7 +3713,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N166",
     "flavorCode": "N166",
     "flavorNameCn": "肉豆蔻衣油",
-    "flavorNameEn": "Maceoil(MyristicafragransHoutt.)",
+    "flavorNameEn": "Mace oil (Myristica fragrans Houtt.)",
     "femaNumber": "2653",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3722,7 +3722,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "163N166肉豆蔻衣油Maceoil(MyristicafragransHoutt.)2653",
     "rowName": "肉豆蔻衣油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 163；编码 N166；香料中文名称 肉豆蔻衣油；香料英文名称 Maceoil(MyristicafragransHoutt.)；FEMA 编号 2653。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 163；编码 N166；香料中文名称 肉豆蔻衣油；香料英文名称 Mace oil (Myristica fragrans Houtt.)；FEMA 编号 2653。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0164",
@@ -3730,7 +3730,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N167",
     "flavorCode": "N167",
     "flavorNameCn": "众香叶油",
-    "flavorNameEn": "Pimentoleafoil(PimentaofficinalisLindl.)",
+    "flavorNameEn": "Pimento leaf oil (Pimenta officinalis Lindl.)",
     "femaNumber": "2901",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3739,7 +3739,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "164N167众香叶油Pimentoleafoil(PimentaofficinalisLindl.)2901",
     "rowName": "众香叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 164；编码 N167；香料中文名称 众香叶油；香料英文名称 Pimentoleafoil(PimentaofficinalisLindl.)；FEMA 编号 2901。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 164；编码 N167；香料中文名称 众香叶油；香料英文名称 Pimento leaf oil (Pimenta officinalis Lindl.)；FEMA 编号 2901。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0165",
@@ -3747,7 +3747,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N168",
     "flavorCode": "N168",
     "flavorNameCn": "西班牙鼠尾草油",
-    "flavorNameEn": "Sageoil,Spanish(SalvialavandulifoliaVahL.)",
+    "flavorNameEn": "Sage oil, Spanish (Salvia lavandulifolia Vah L.)",
     "femaNumber": "3003",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3756,7 +3756,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "165N168西班牙鼠尾草油Sageoil,Spanish(SalvialavandulifoliaVahL.)3003",
     "rowName": "西班牙鼠尾草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 165；编码 N168；香料中文名称 西班牙鼠尾草油；香料英文名称 Sageoil,Spanish(SalvialavandulifoliaVahL.)；FEMA 编号 3003。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 165；编码 N168；香料中文名称 西班牙鼠尾草油；香料英文名称 Sage oil, Spanish (Salvia lavandulifolia Vah L.)；FEMA 编号 3003。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0166",
@@ -3764,7 +3764,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N169",
     "flavorCode": "N169",
     "flavorNameCn": "红橘油",
-    "flavorNameEn": "Tangerineoil(CitrusreticulataBlanco)",
+    "flavorNameEn": "Tangerine oil (Citrus reticulata Blanco)",
     "femaNumber": "3041",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3773,7 +3773,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "166N169红橘油Tangerineoil(CitrusreticulataBlanco)3041",
     "rowName": "红橘油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 166；编码 N169；香料中文名称 红橘油；香料英文名称 Tangerineoil(CitrusreticulataBlanco)；FEMA 编号 3041。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 166；编码 N169；香料中文名称 红橘油；香料英文名称 Tangerine oil (Citrus reticulata Blanco)；FEMA 编号 3041。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0167",
@@ -3781,7 +3781,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N170",
     "flavorCode": "N170",
     "flavorNameCn": "杂薰衣草油",
-    "flavorNameEn": "Lavandinoil(Lavandulahydrida)",
+    "flavorNameEn": "Lavandin oil (Lavandula hydrida)",
     "femaNumber": "2618",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3790,7 +3790,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "167N170杂薰衣草油Lavandinoil(Lavandulahydrida)2618",
     "rowName": "杂薰衣草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 167；编码 N170；香料中文名称 杂薰衣草油；香料英文名称 Lavandinoil(Lavandulahydrida)；FEMA 编号 2618。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 167；编码 N170；香料中文名称 杂薰衣草油；香料英文名称 Lavandin oil (Lavandula hydrida)；FEMA 编号 2618。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0168",
@@ -3798,7 +3798,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N171",
     "flavorCode": "N171",
     "flavorNameCn": "杏仁油",
-    "flavorNameEn": "ApricotKerneloil(PrunusarmeniacaL.)",
+    "flavorNameEn": "Apricot Kernel oil (Prunus armeniaca L.)",
     "femaNumber": "2105",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3807,7 +3807,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "168N171杏仁油ApricotKerneloil(PrunusarmeniacaL.)2105",
     "rowName": "杏仁油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 168；编码 N171；香料中文名称 杏仁油；香料英文名称 ApricotKerneloil(PrunusarmeniacaL.)；FEMA 编号 2105。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 168；编码 N171；香料中文名称 杏仁油；香料英文名称 Apricot Kernel oil (Prunus armeniaca L.)；FEMA 编号 2105。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0169",
@@ -3815,7 +3815,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N172",
     "flavorCode": "N172",
     "flavorNameCn": "苏合香油",
-    "flavorNameEn": "Styraxoil(Liquidambarspp.)",
+    "flavorNameEn": "Styrax oil (Liquidambar spp.)",
     "femaNumber": "—",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3824,7 +3824,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "169N172苏合香油Styraxoil(Liquidambarspp.)—",
     "rowName": "苏合香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 169；编码 N172；香料中文名称 苏合香油；香料英文名称 Styraxoil(Liquidambarspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 169；编码 N172；香料中文名称 苏合香油；香料英文名称 Styrax oil (Liquidambar spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0170",
@@ -3832,7 +3832,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N173",
     "flavorCode": "N173",
     "flavorNameCn": "苏合香提取物",
-    "flavorNameEn": "Styraxextract(Liquidambarspp.)",
+    "flavorNameEn": "Styrax extract (Liquidambar spp.)",
     "femaNumber": "3037",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3841,7 +3841,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "170N173苏合香提取物Styraxextract(Liquidambarspp.)3037",
     "rowName": "苏合香提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 170；编码 N173；香料中文名称 苏合香提取物；香料英文名称 Styraxextract(Liquidambarspp.)；FEMA 编号 3037。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 170；编码 N173；香料中文名称 苏合香提取物；香料英文名称 Styrax extract (Liquidambar spp.)；FEMA 编号 3037。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0171",
@@ -3849,7 +3849,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N174",
     "flavorCode": "N174",
     "flavorNameCn": "长角豆油",
-    "flavorNameEn": "Locustbeanoil(CeratoniasiliquaL.)",
+    "flavorNameEn": "Locust bean oil (Ceratonia siliqua L.)",
     "femaNumber": "—",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3858,7 +3858,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "171N174长角豆油Locustbeanoil(CeratoniasiliquaL.)—",
     "rowName": "长角豆油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 171；编码 N174；香料中文名称 长角豆油；香料英文名称 Locustbeanoil(CeratoniasiliquaL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 171；编码 N174；香料中文名称 长角豆油；香料英文名称 Locust bean oil (Ceratonia siliqua L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0172",
@@ -3866,7 +3866,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N175",
     "flavorCode": "N175",
     "flavorNameCn": "角豆提取物",
-    "flavorNameEn": "Carobbeanextract(CeratoniasiliquaL.)",
+    "flavorNameEn": "Carob bean extract (Ceratonia siliqua L.)",
     "femaNumber": "2243",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3875,7 +3875,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "172N175角豆提取物Carobbeanextract(CeratoniasiliquaL.)2243",
     "rowName": "角豆提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 172；编码 N175；香料中文名称 角豆提取物；香料英文名称 Carobbeanextract(CeratoniasiliquaL.)；FEMA 编号 2243。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 172；编码 N175；香料中文名称 角豆提取物；香料英文名称 Carob bean extract (Ceratonia siliqua L.)；FEMA 编号 2243。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0173",
@@ -3883,7 +3883,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N176",
     "flavorCode": "N176",
     "flavorNameCn": "皂树皮提取物",
-    "flavorNameEn": "Quillaia(QuillajasaponariaMolina)",
+    "flavorNameEn": "Quillaia (Quillajasaponaria Molina)",
     "femaNumber": "2973",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3892,7 +3892,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "173N176皂树皮提取物Quillaia(QuillajasaponariaMolina)2973",
     "rowName": "皂树皮提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 173；编码 N176；香料中文名称 皂树皮提取物；香料英文名称 Quillaia(QuillajasaponariaMolina)；FEMA 编号 2973。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 173；编码 N176；香料中文名称 皂树皮提取物；香料英文名称 Quillaia (Quillajasaponaria Molina)；FEMA 编号 2973。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0174",
@@ -3900,7 +3900,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N177",
     "flavorCode": "N177",
     "flavorNameCn": "乳香油",
-    "flavorNameEn": "Olibanumoil(Boswelliaspp.)",
+    "flavorNameEn": "Olibanum oil (Boswellia spp.)",
     "femaNumber": "2816",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3909,7 +3909,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "174N177乳香油Olibanumoil(Boswelliaspp.)2816",
     "rowName": "乳香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 174；编码 N177；香料中文名称 乳香油；香料英文名称 Olibanumoil(Boswelliaspp.)；FEMA 编号 2816。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 174；编码 N177；香料中文名称 乳香油；香料英文名称 Olibanum oil (Boswellia spp.)；FEMA 编号 2816。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0175",
@@ -3917,7 +3917,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N178",
     "flavorCode": "N178",
     "flavorNameCn": "没药油",
-    "flavorNameEn": "Myrrhoil(Commiphoraspp.)",
+    "flavorNameEn": "Myrrh oil (Commiphora spp.)",
     "femaNumber": "2766",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3926,7 +3926,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "175N178没药油Myrrhoil(Commiphoraspp.)2766",
     "rowName": "没药油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 175；编码 N178；香料中文名称 没药油；香料英文名称 Myrrhoil(Commiphoraspp.)；FEMA 编号 2766。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 175；编码 N178；香料中文名称 没药油；香料英文名称 Myrrh oil (Commiphora spp.)；FEMA 编号 2766。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0176",
@@ -3934,7 +3934,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N179",
     "flavorCode": "N179",
     "flavorNameCn": "良姜根提取物",
-    "flavorNameEn": "Galangalrootextract(Alpiniaspp.)",
+    "flavorNameEn": "Galangal root extract (Alpinia spp.)",
     "femaNumber": "2499",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3943,7 +3943,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "176N179良姜根提取物Galangalrootextract(Alpiniaspp.)2499",
     "rowName": "良姜根提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 176；编码 N179；香料中文名称 良姜根提取物；香料英文名称 Galangalrootextract(Alpiniaspp.)；FEMA 编号 2499。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 176；编码 N179；香料中文名称 良姜根提取物；香料英文名称 Galangal root extract (Alpinia spp.)；FEMA 编号 2499。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0177",
@@ -3951,7 +3951,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N180",
     "flavorCode": "N180",
     "flavorNameCn": "苏格兰松油",
-    "flavorNameEn": "Pineoil,scotch(PinussylvestrisL.)",
+    "flavorNameEn": "Pine oil, scotch (Pinus sylvestris L.)",
     "femaNumber": "2906",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3960,7 +3960,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "177N180苏格兰松油Pineoil,scotch(PinussylvestrisL.)2906",
     "rowName": "苏格兰松油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 177；编码 N180；香料中文名称 苏格兰松油；香料英文名称 Pineoil,scotch(PinussylvestrisL.)；FEMA 编号 2906。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 177；编码 N180；香料中文名称 苏格兰松油；香料英文名称 Pine oil, scotch (Pinus sylvestris L.)；FEMA 编号 2906。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0178",
@@ -3968,7 +3968,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N181",
     "flavorCode": "N181",
     "flavorNameCn": "小茴香油(又名普通小茴香油)",
-    "flavorNameEn": "Fenneloil,(common)(FoeniculumvulgareMill)",
+    "flavorNameEn": "Fennel oil, (common) (Foeniculum vulgare Mill)",
     "femaNumber": "2481",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3977,7 +3977,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "小茴香油(又名普通小茴178N181Fenneloil,(common)(FoeniculumvulgareMill)2481香油)",
     "rowName": "小茴香油(又名普通小茴香油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 178；编码 N181；香料中文名称 小茴香油(又名普通小茴香油)；香料英文名称 Fenneloil,(common)(FoeniculumvulgareMill)；FEMA 编号 2481。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 178；编码 N181；香料中文名称 小茴香油(又名普通小茴香油)；香料英文名称 Fennel oil, (common) (Foeniculum vulgare Mill)；FEMA 编号 2481。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0179",
@@ -3985,7 +3985,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N182",
     "flavorCode": "N182",
     "flavorNameCn": "苦杏仁油",
-    "flavorNameEn": "Almondoil,bitter(Prunusamygdalus)",
+    "flavorNameEn": "Almond oil, bitter (Prunus amygdalus)",
     "femaNumber": "2046",
     "pdfPage": 159,
     "standardPage": 156,
@@ -3994,7 +3994,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "179N182苦杏仁油Almondoil,bitter(Prunusamygdalus)2046",
     "rowName": "苦杏仁油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 179；编码 N182；香料中文名称 苦杏仁油；香料英文名称 Almondoil,bitter(Prunusamygdalus)；FEMA 编号 2046。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 179；编码 N182；香料中文名称 苦杏仁油；香料英文名称 Almond oil, bitter (Prunus amygdalus)；FEMA 编号 2046。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0180",
@@ -4002,7 +4002,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N183",
     "flavorCode": "N183",
     "flavorNameCn": "阿魏油",
-    "flavorNameEn": "Asafoetidaoil(FerulaasafoetidaL.)",
+    "flavorNameEn": "Asafoetida oil (Ferula asafoetida L.)",
     "femaNumber": "2108",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4011,7 +4011,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "180N183阿魏油Asafoetidaoil(FerulaasafoetidaL.)2108",
     "rowName": "阿魏油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 180；编码 N183；香料中文名称 阿魏油；香料英文名称 Asafoetidaoil(FerulaasafoetidaL.)；FEMA 编号 2108。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 180；编码 N183；香料中文名称 阿魏油；香料英文名称 Asafoetida oil (Ferula asafoetida L.)；FEMA 编号 2108。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0181",
@@ -4019,7 +4019,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N184",
     "flavorCode": "N184",
     "flavorNameCn": "金合欢净油",
-    "flavorNameEn": "Cassieabsolute[Acaciafarnesiana(L.)Willd.]",
+    "flavorNameEn": "Cassie absolute [Acacia farnesiana (L.) Willd.]",
     "femaNumber": "2260",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4028,7 +4028,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "181N184金合欢净油Cassieabsolute[Acaciafarnesiana(L.)Willd.]2260",
     "rowName": "金合欢净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 181；编码 N184；香料中文名称 金合欢净油；香料英文名称 Cassieabsolute[Acaciafarnesiana(L.)Willd.]；FEMA 编号 2260。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 181；编码 N184；香料中文名称 金合欢净油；香料英文名称 Cassie absolute [Acacia farnesiana (L.) Willd.]；FEMA 编号 2260。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0182",
@@ -4036,7 +4036,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N185",
     "flavorCode": "N185",
     "flavorNameCn": "欧芹叶油",
-    "flavorNameEn": "Parsleyleafoil(Petroselinumcrispum)",
+    "flavorNameEn": "Parsley leaf oil (Petroselinum crispum)",
     "femaNumber": "2836",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4045,7 +4045,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "182N185欧芹叶油Parsleyleafoil(Petroselinumcrispum)2836",
     "rowName": "欧芹叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 182；编码 N185；香料中文名称 欧芹叶油；香料英文名称 Parsleyleafoil(Petroselinumcrispum)；FEMA 编号 2836。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 182；编码 N185；香料中文名称 欧芹叶油；香料英文名称 Parsley leaf oil (Petroselinum crispum)；FEMA 编号 2836。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0183",
@@ -4053,7 +4053,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N186",
     "flavorCode": "N186",
     "flavorNameCn": "松针油",
-    "flavorNameEn": "Pineneedleoil(Abiesspp.)",
+    "flavorNameEn": "Pine needle oil (Abies spp.)",
     "femaNumber": "2905",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4062,7 +4062,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "183N186松针油Pineneedleoil(Abiesspp.)2905",
     "rowName": "松针油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 183；编码 N186；香料中文名称 松针油；香料英文名称 Pineneedleoil(Abiesspp.)；FEMA 编号 2905。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 183；编码 N186；香料中文名称 松针油；香料英文名称 Pine needle oil (Abies spp.)；FEMA 编号 2905。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0184",
@@ -4070,7 +4070,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N187",
     "flavorCode": "N187",
     "flavorNameCn": "波罗尼花净油",
-    "flavorNameEn": "Boroniaabsolute(BoroniamegastigmaNees)",
+    "flavorNameEn": "Boronia absolute (Boronia megastigma Nees)",
     "femaNumber": "2167",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4079,7 +4079,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "184N187波罗尼花净油Boroniaabsolute(BoroniamegastigmaNees)2167",
     "rowName": "波罗尼花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 184；编码 N187；香料中文名称 波罗尼花净油；香料英文名称 Boroniaabsolute(BoroniamegastigmaNees)；FEMA 编号 2167。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 184；编码 N187；香料中文名称 波罗尼花净油；香料英文名称 Boronia absolute (Boronia megastigma Nees)；FEMA 编号 2167。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0185",
@@ -4087,7 +4087,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N188",
     "flavorCode": "N188",
     "flavorNameCn": "玫瑰木油",
-    "flavorNameEn": "Boisderoseoil(AnibarosaeodoraDucke)",
+    "flavorNameEn": "Bois de rose oil (Aniba rosaeodora Ducke)",
     "femaNumber": "2156",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4096,7 +4096,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "185N188玫瑰木油Boisderoseoil(AnibarosaeodoraDucke)2156",
     "rowName": "玫瑰木油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 185；编码 N188；香料中文名称 玫瑰木油；香料英文名称 Boisderoseoil(AnibarosaeodoraDucke)；FEMA 编号 2156。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 185；编码 N188；香料中文名称 玫瑰木油；香料英文名称 Bois de rose oil (Aniba rosaeodora Ducke)；FEMA 编号 2156。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0186",
@@ -4104,7 +4104,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N189",
     "flavorCode": "N189",
     "flavorNameCn": "玫瑰草油",
-    "flavorNameEn": "Palmarosaoil[Cymbopogonmartini(Roxb.)Stapf]",
+    "flavorNameEn": "Palmarosa oil [Cymbopogon martini (Roxb.) Stapf]",
     "femaNumber": "2831",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4113,7 +4113,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Palmarosaoil[Cymbopogonmartini(Roxb.)186N189玫瑰草油2831Stapf]",
     "rowName": "玫瑰草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 186；编码 N189；香料中文名称 玫瑰草油；香料英文名称 Palmarosaoil[Cymbopogonmartini(Roxb.)Stapf]；FEMA 编号 2831。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 186；编码 N189；香料中文名称 玫瑰草油；香料英文名称 Palmarosa oil [Cymbopogon martini (Roxb.) Stapf]；FEMA 编号 2831。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0187",
@@ -4121,7 +4121,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N190",
     "flavorCode": "N190",
     "flavorNameCn": "香茅油",
-    "flavorNameEn": "Citronellaoil(CymbopogonnardusRendleorCym-bopogonwinterianusJowitt)",
+    "flavorNameEn": "Citronella oil (Cymbopogonnardus Rendleor Cym-bopogonwinterianus Jowitt)",
     "femaNumber": "2308",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4130,7 +4130,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Citronellaoil(CymbopogonnardusRendleorCym-187N190香茅油2308bopogonwinterianusJowitt)",
     "rowName": "香茅油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 187；编码 N190；香料中文名称 香茅油；香料英文名称 Citronellaoil(CymbopogonnardusRendleorCym-bopogonwinterianusJowitt)；FEMA 编号 2308。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 187；编码 N190；香料中文名称 香茅油；香料英文名称 Citronella oil (Cymbopogonnardus Rendleor Cym-bopogonwinterianus Jowitt)；FEMA 编号 2308。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0188",
@@ -4138,7 +4138,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N191",
     "flavorCode": "N191",
     "flavorNameCn": "迷迭香油",
-    "flavorNameEn": "Rosemaryoil(RosemarinusofficinalisL.)",
+    "flavorNameEn": "Rosemary oil (Rosemarinus officinalis L.)",
     "femaNumber": "2992",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4147,7 +4147,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "188N191迷迭香油Rosemaryoil(RosemarinusofficinalisL.)2992",
     "rowName": "迷迭香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 188；编码 N191；香料中文名称 迷迭香油；香料英文名称 Rosemaryoil(RosemarinusofficinalisL.)；FEMA 编号 2992。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 188；编码 N191；香料中文名称 迷迭香油；香料英文名称 Rosemary oil (Rosemarinus officinalis L.)；FEMA 编号 2992。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0189",
@@ -4155,7 +4155,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N192",
     "flavorCode": "N192",
     "flavorNameCn": "香脂冷杉油",
-    "flavorNameEn": "Balsamfiroil[Abiesbalsamea(L.)Mill.]",
+    "flavorNameEn": "Balsam fir oil [Abies balsamea (L.) Mill.]",
     "femaNumber": "2114",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4164,7 +4164,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "189N192香脂冷杉油Balsamfiroil[Abiesbalsamea(L.)Mill.]2114",
     "rowName": "香脂冷杉油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 189；编码 N192；香料中文名称 香脂冷杉油；香料英文名称 Balsamfiroil[Abiesbalsamea(L.)Mill.]；FEMA 编号 2114。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 189；编码 N192；香料中文名称 香脂冷杉油；香料英文名称 Balsam fir oil [Abies balsamea (L.) Mill.]；FEMA 编号 2114。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0190",
@@ -4172,7 +4172,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N193",
     "flavorCode": "N193",
     "flavorNameCn": "香脂冷杉油树脂",
-    "flavorNameEn": "Balsamfiroleoresin[Abiesbalsamea(L.)Mill.]",
+    "flavorNameEn": "Balsam fir oleoresin [Abies balsamea (L.) Mill.]",
     "femaNumber": "2115",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4181,7 +4181,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "190N193香脂冷杉油树脂Balsamfiroleoresin[Abiesbalsamea(L.)Mill.]2115",
     "rowName": "香脂冷杉油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 190；编码 N193；香料中文名称 香脂冷杉油树脂；香料英文名称 Balsamfiroleoresin[Abiesbalsamea(L.)Mill.]；FEMA 编号 2115。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 190；编码 N193；香料中文名称 香脂冷杉油树脂；香料英文名称 Balsam fir oleoresin [Abies balsamea (L.) Mill.]；FEMA 编号 2115。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0191",
@@ -4189,7 +4189,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N194",
     "flavorCode": "N194",
     "flavorNameCn": "胡萝卜籽油",
-    "flavorNameEn": "Carrotseedoil(DaucuscarotaL.)",
+    "flavorNameEn": "Carrot seed oil (Daucus carota L.)",
     "femaNumber": "2244",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4198,7 +4198,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "191N194胡萝卜籽油Carrotseedoil(DaucuscarotaL.)2244",
     "rowName": "胡萝卜籽油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 191；编码 N194；香料中文名称 胡萝卜籽油；香料英文名称 Carrotseedoil(DaucuscarotaL.)；FEMA 编号 2244。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 191；编码 N194；香料中文名称 胡萝卜籽油；香料英文名称 Carrot seed oil (Daucus carota L.)；FEMA 编号 2244。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0192",
@@ -4206,7 +4206,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N195",
     "flavorCode": "N195",
     "flavorNameCn": "春黄菊花油(罗马)",
-    "flavorNameEn": "Chamomilefloweroil(Roman)(AnthemisnobilisL.)",
+    "flavorNameEn": "Chamomile flower oil (Roman) (Anthemis nobilis L.)",
     "femaNumber": "2275",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4215,7 +4215,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "192N195春黄菊花油(罗马)Chamomilefloweroil(Roman)(AnthemisnobilisL.)2275",
     "rowName": "春黄菊花油(罗马)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 192；编码 N195；香料中文名称 春黄菊花油(罗马)；香料英文名称 Chamomilefloweroil(Roman)(AnthemisnobilisL.)；FEMA 编号 2275。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 192；编码 N195；香料中文名称 春黄菊花油(罗马)；香料英文名称 Chamomile flower oil (Roman) (Anthemis nobilis L.)；FEMA 编号 2275。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0193",
@@ -4223,7 +4223,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N196",
     "flavorCode": "N196",
     "flavorNameCn": "春黄菊花净油(提取物)(罗马)",
-    "flavorNameEn": "Chamomileflowerabsolute(extract)(Roman)(AnthemisnobilisL.)",
+    "flavorNameEn": "Chamomile flower absolute (extract) (Roman) (Anthemis nobilis L.)",
     "femaNumber": "2274",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4232,7 +4232,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "春黄菊花净油(提取物)Chamomileflowerabsolute(extract)(Roman)193N1962274(罗马)(AnthemisnobilisL.)",
     "rowName": "春黄菊花净油(提取物)(罗马)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 193；编码 N196；香料中文名称 春黄菊花净油(提取物)(罗马)；香料英文名称 Chamomileflowerabsolute(extract)(Roman)(AnthemisnobilisL.)；FEMA 编号 2274。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 193；编码 N196；香料中文名称 春黄菊花净油(提取物)(罗马)；香料英文名称 Chamomile flower absolute (extract) (Roman) (Anthemis nobilis L.)；FEMA 编号 2274。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0194",
@@ -4240,7 +4240,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N197",
     "flavorCode": "N197",
     "flavorNameCn": "药鼠李提取物",
-    "flavorNameEn": "Cascarabitterlessextract(RhamnuspurshianaDC.)",
+    "flavorNameEn": "Cascara bitterless extract (Rhamnus purshiana DC.)",
     "femaNumber": "2253",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4249,7 +4249,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "194N197药鼠李提取物Cascarabitterlessextract(RhamnuspurshianaDC.)2253",
     "rowName": "药鼠李提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 194；编码 N197；香料中文名称 药鼠李提取物；香料英文名称 Cascarabitterlessextract(RhamnuspurshianaDC.)；FEMA 编号 2253。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 194；编码 N197；香料中文名称 药鼠李提取物；香料英文名称 Cascara bitterless extract (Rhamnus purshiana DC.)；FEMA 编号 2253。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0195",
@@ -4257,7 +4257,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N198",
     "flavorCode": "N198",
     "flavorNameCn": "荜澄茄油",
-    "flavorNameEn": "Cubeboil(PipercubebaL.f.)",
+    "flavorNameEn": "Cubeb oil (Piper cubeba L.f.)",
     "femaNumber": "2339",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4266,7 +4266,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "195N198荜澄茄油Cubeboil(PipercubebaL.f.)2339",
     "rowName": "荜澄茄油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 195；编码 N198；香料中文名称 荜澄茄油；香料英文名称 Cubeboil(PipercubebaL.f.)；FEMA 编号 2339。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 195；编码 N198；香料中文名称 荜澄茄油；香料英文名称 Cubeb oil (Piper cubeba L.f.)；FEMA 编号 2339。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0196",
@@ -4274,7 +4274,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N199",
     "flavorCode": "N199",
     "flavorNameCn": "胡薄荷油(又名唇萼薄荷油)",
-    "flavorNameEn": "Pennyroyaloil(MenthapulegiumL.)",
+    "flavorNameEn": "Pennyroyal oil (Mentha pulegium L.)",
     "femaNumber": "2839",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4283,7 +4283,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "胡薄荷油(又名唇萼薄荷196N199Pennyroyaloil(MenthapulegiumL.)2839油)",
     "rowName": "胡薄荷油(又名唇萼薄荷油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 196；编码 N199；香料中文名称 胡薄荷油(又名唇萼薄荷油)；香料英文名称 Pennyroyaloil(MenthapulegiumL.)；FEMA 编号 2839。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 196；编码 N199；香料中文名称 胡薄荷油(又名唇萼薄荷油)；香料英文名称 Pennyroyal oil (Mentha pulegium L.)；FEMA 编号 2839。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0197",
@@ -4291,7 +4291,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N200",
     "flavorCode": "N200",
     "flavorNameCn": "欧当归油",
-    "flavorNameEn": "Lovageoil(LevisticumofficinaleKoch.)",
+    "flavorNameEn": "Lovage oil (Levisticum officinale Koch.)",
     "femaNumber": "2651",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4300,7 +4300,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "197N200欧当归油Lovageoil(LevisticumofficinaleKoch.)2651",
     "rowName": "欧当归油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 197；编码 N200；香料中文名称 欧当归油；香料英文名称 Lovageoil(LevisticumofficinaleKoch.)；FEMA 编号 2651。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 197；编码 N200；香料中文名称 欧当归油；香料英文名称 Lovage oil (Levisticum officinale Koch.)；FEMA 编号 2651。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0198",
@@ -4308,7 +4308,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N201",
     "flavorCode": "N201",
     "flavorNameCn": "夏至草提取物",
-    "flavorNameEn": "Horehoundextract(MarrubiumvulgareL.)",
+    "flavorNameEn": "Horehound extract (Marrubium vulgare L.)",
     "femaNumber": "2581",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4317,7 +4317,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "198N201夏至草提取物Horehoundextract(MarrubiumvulgareL.)2581",
     "rowName": "夏至草提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 198；编码 N201；香料中文名称 夏至草提取物；香料英文名称 Horehoundextract(MarrubiumvulgareL.)；FEMA 编号 2581。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 198；编码 N201；香料中文名称 夏至草提取物；香料英文名称 Horehound extract (Marrubium vulgare L.)；FEMA 编号 2581。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0199",
@@ -4325,7 +4325,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N202",
     "flavorCode": "N202",
     "flavorNameCn": "莫哈弗丝兰提取物",
-    "flavorNameEn": "Yuccamohaveextract(Yuccaspp.)",
+    "flavorNameEn": "Yucca mohave extract (Yucca spp.)",
     "femaNumber": "3121",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4334,7 +4334,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "199N202莫哈弗丝兰提取物Yuccamohaveextract(Yuccaspp.)3121",
     "rowName": "莫哈弗丝兰提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 199；编码 N202；香料中文名称 莫哈弗丝兰提取物；香料英文名称 Yuccamohaveextract(Yuccaspp.)；FEMA 编号 3121。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 199；编码 N202；香料中文名称 莫哈弗丝兰提取物；香料英文名称 Yucca mohave extract (Yucca spp.)；FEMA 编号 3121。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0200",
@@ -4342,7 +4342,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N203",
     "flavorCode": "N203",
     "flavorNameCn": "海草(藻)提取物",
-    "flavorNameEn": "Kelp(LaminariaandKereocystisspp.)",
+    "flavorNameEn": "Kelp (Laminaria and Kereocystis spp.)",
     "femaNumber": "2606",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4351,7 +4351,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "200N203海草(藻)提取物Kelp(LaminariaandKereocystisspp.)2606",
     "rowName": "海草(藻)提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 200；编码 N203；香料中文名称 海草(藻)提取物；香料英文名称 Kelp(LaminariaandKereocystisspp.)；FEMA 编号 2606。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 200；编码 N203；香料中文名称 海草(藻)提取物；香料英文名称 Kelp (Laminaria and Kereocystis spp.)；FEMA 编号 2606。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0201",
@@ -4359,7 +4359,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N204",
     "flavorCode": "N204",
     "flavorNameCn": "海索草油",
-    "flavorNameEn": "Hyssopoil(HyssopusofficinalisL.)",
+    "flavorNameEn": "Hyssop oil (Hyssopus officinalis L.)",
     "femaNumber": "2591",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4368,7 +4368,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "201N204海索草油Hyssopoil(HyssopusofficinalisL.)2591",
     "rowName": "海索草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 201；编码 N204；香料中文名称 海索草油；香料英文名称 Hyssopoil(HyssopusofficinalisL.)；FEMA 编号 2591。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 201；编码 N204；香料中文名称 海索草油；香料英文名称 Hyssop oil (Hyssopus officinalis L.)；FEMA 编号 2591。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0202",
@@ -4376,7 +4376,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N205",
     "flavorCode": "N205",
     "flavorNameCn": "莳萝草油(又名莳萝油)",
-    "flavorNameEn": "Dillherboil(Anethumgraveolens)",
+    "flavorNameEn": "Dill herb oil (Anethum graveolens)",
     "femaNumber": "2383",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4385,7 +4385,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "202N205莳萝草油(又名莳萝油)Dillherboil(Anethumgraveolens)2383",
     "rowName": "莳萝草油(又名莳萝油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 202；编码 N205；香料中文名称 莳萝草油(又名莳萝油)；香料英文名称 Dillherboil(Anethumgraveolens)；FEMA 编号 2383。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 202；编码 N205；香料中文名称 莳萝草油(又名莳萝油)；香料英文名称 Dill herb oil (Anethum graveolens)；FEMA 编号 2383。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0203",
@@ -4393,7 +4393,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N206",
     "flavorCode": "N206",
     "flavorNameCn": "秘鲁香脂",
-    "flavorNameEn": "Balsamperu(MyroxylonpereiraeKlotzsch)",
+    "flavorNameEn": "Balsamperu (Myroxylon pereirae Klotzsch)",
     "femaNumber": "2116",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4402,7 +4402,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "203N206秘鲁香脂Balsamperu(MyroxylonpereiraeKlotzsch)2116",
     "rowName": "秘鲁香脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 203；编码 N206；香料中文名称 秘鲁香脂；香料英文名称 Balsamperu(MyroxylonpereiraeKlotzsch)；FEMA 编号 2116。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 203；编码 N206；香料中文名称 秘鲁香脂；香料英文名称 Balsamperu (Myroxylon pereirae Klotzsch)；FEMA 编号 2116。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0204",
@@ -4410,7 +4410,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N207",
     "flavorCode": "N207",
     "flavorNameCn": "格蓬油",
-    "flavorNameEn": "Galbanumoil(Ferulagalbaniflua)",
+    "flavorNameEn": "Galbanum oil (Ferula galbaniflua)",
     "femaNumber": "2501",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4419,7 +4419,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "204N207格蓬油Galbanumoil(Ferulagalbaniflua)2501",
     "rowName": "格蓬油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 204；编码 N207；香料中文名称 格蓬油；香料英文名称 Galbanumoil(Ferulagalbaniflua)；FEMA 编号 2501。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 204；编码 N207；香料中文名称 格蓬油；香料英文名称 Galbanum oil (Ferula galbaniflua)；FEMA 编号 2501。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0205",
@@ -4427,7 +4427,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N208",
     "flavorCode": "N208",
     "flavorNameCn": "脂檀油",
-    "flavorNameEn": "Amyrisoil(AmyrisbalsamiferaL.)",
+    "flavorNameEn": "Amyris oil (Amyris balsamifera L.)",
     "femaNumber": "—",
     "pdfPage": 160,
     "standardPage": 157,
@@ -4436,7 +4436,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "205N208脂檀油Amyrisoil(AmyrisbalsamiferaL.)—",
     "rowName": "脂檀油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 205；编码 N208；香料中文名称 脂檀油；香料英文名称 Amyrisoil(AmyrisbalsamiferaL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 205；编码 N208；香料中文名称 脂檀油；香料英文名称 Amyris oil (Amyris balsamifera L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0206",
@@ -4444,7 +4444,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N209",
     "flavorCode": "N209",
     "flavorNameCn": "银白金合欢净油(又名含羞草净油)",
-    "flavorNameEn": "Mimosaabsolute(AcaciadecurrensWill.var.deal-bata)",
+    "flavorNameEn": "Mimosa absolute (Acacia decurrens Will. var. dealbata)",
     "femaNumber": "2755",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4453,7 +4453,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "银白金合欢净油(又名含Mimosaabsolute(AcaciadecurrensWill.var.deal-206N2092755羞草净油)bata)",
     "rowName": "银白金合欢净油(又名含羞草净油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 206；编码 N209；香料中文名称 银白金合欢净油(又名含羞草净油)；香料英文名称 Mimosaabsolute(AcaciadecurrensWill.var.deal-bata)；FEMA 编号 2755。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 206；编码 N209；香料中文名称 银白金合欢净油(又名含羞草净油)；香料英文名称 Mimosa absolute (Acacia decurrens Will. var. dealbata)；FEMA 编号 2755。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0207",
@@ -4461,7 +4461,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N210",
     "flavorCode": "N210",
     "flavorNameCn": "接骨木花净油",
-    "flavorNameEn": "Elderflowerabsolute(SambucuscanadensisL.andS.nigraL.)",
+    "flavorNameEn": "Elder flower absolute (Sambucus canadensis L. and S. nigra L.)",
     "femaNumber": "—",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4470,7 +4470,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Elderflowerabsolute(SambucuscanadensisL.and207N210接骨木花净油—S.nigraL.)",
     "rowName": "接骨木花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 207；编码 N210；香料中文名称 接骨木花净油；香料英文名称 Elderflowerabsolute(SambucuscanadensisL.andS.nigraL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 207；编码 N210；香料中文名称 接骨木花净油；香料英文名称 Elder flower absolute (Sambucus canadensis L. and S. nigra L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0208",
@@ -4478,7 +4478,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N211",
     "flavorCode": "N211",
     "flavorNameCn": "甘牛至油",
-    "flavorNameEn": "Marjoramoil,sweet[MajoranahortensisMoench(OriganummajoranaL.)]",
+    "flavorNameEn": "Marjoram oil, sweet [Majorana hortensis Moench (Origanum majorana L.)]",
     "femaNumber": "2663",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4487,7 +4487,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Marjoramoil,sweet[MajoranahortensisMoench208N211甘牛至油2663(OriganummajoranaL.)]",
     "rowName": "甘牛至油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 208；编码 N211；香料中文名称 甘牛至油；香料英文名称 Marjoramoil,sweet[MajoranahortensisMoench(OriganummajoranaL.)]；FEMA 编号 2663。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 208；编码 N211；香料中文名称 甘牛至油；香料英文名称 Marjoram oil, sweet [Majorana hortensis Moench (Origanum majorana L.)]；FEMA 编号 2663。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0209",
@@ -4495,7 +4495,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N212",
     "flavorCode": "N212",
     "flavorNameCn": "黄龙胆根提取物",
-    "flavorNameEn": "Gentianrootextract(GentianaluteaL.)",
+    "flavorNameEn": "Gentian root extract (Gentiana lutea L.)",
     "femaNumber": "2506",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4504,7 +4504,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "209N212黄龙胆根提取物Gentianrootextract(GentianaluteaL.)2506",
     "rowName": "黄龙胆根提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 209；编码 N212；香料中文名称 黄龙胆根提取物；香料英文名称 Gentianrootextract(GentianaluteaL.)；FEMA 编号 2506。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 209；编码 N212；香料中文名称 黄龙胆根提取物；香料英文名称 Gentian root extract (Gentiana lutea L.)；FEMA 编号 2506。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0210",
@@ -4512,7 +4512,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N213",
     "flavorCode": "N213",
     "flavorNameCn": "黄葵籽油",
-    "flavorNameEn": "Ambretteseedoil(HibiscusabelmoschusL.)",
+    "flavorNameEn": "Ambrette seed oil (Hibiscus abelmoschus L.)",
     "femaNumber": "2051",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4521,7 +4521,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "210N213黄葵籽油Ambretteseedoil(HibiscusabelmoschusL.)2051",
     "rowName": "黄葵籽油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 210；编码 N213；香料中文名称 黄葵籽油；香料英文名称 Ambretteseedoil(HibiscusabelmoschusL.)；FEMA 编号 2051。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 210；编码 N213；香料中文名称 黄葵籽油；香料英文名称 Ambrette seed oil (Hibiscus abelmoschus L.)；FEMA 编号 2051。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0211",
@@ -4529,7 +4529,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N214",
     "flavorCode": "N214",
     "flavorNameCn": "野黑樱桃树皮提取物",
-    "flavorNameEn": "Cherrybarkextract(wild)(PrunusserotinaEhrh.)",
+    "flavorNameEn": "Cherry bark extract (wild) (Prunus serotina Ehrh.)",
     "femaNumber": "2276",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4538,7 +4538,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "211N214野黑樱桃树皮提取物Cherrybarkextract(wild)(PrunusserotinaEhrh.)2276",
     "rowName": "野黑樱桃树皮提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 211；编码 N214；香料中文名称 野黑樱桃树皮提取物；香料英文名称 Cherrybarkextract(wild)(PrunusserotinaEhrh.)；FEMA 编号 2276。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 211；编码 N214；香料中文名称 野黑樱桃树皮提取物；香料英文名称 Cherry bark extract (wild) (Prunus serotina Ehrh.)；FEMA 编号 2276。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0212",
@@ -4546,7 +4546,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N215",
     "flavorCode": "N215",
     "flavorNameCn": "黑胡椒油",
-    "flavorNameEn": "Pepperoil,black(PipernigrumL.)",
+    "flavorNameEn": "Pepper oil, black (Piper nigrum L.)",
     "femaNumber": "2845",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4555,7 +4555,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "212N215黑胡椒油Pepperoil,black(PipernigrumL.)2845",
     "rowName": "黑胡椒油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 212；编码 N215；香料中文名称 黑胡椒油；香料英文名称 Pepperoil,black(PipernigrumL.)；FEMA 编号 2845。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 212；编码 N215；香料中文名称 黑胡椒油；香料英文名称 Pepper oil, black (Piper nigrum L.)；FEMA 编号 2845。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0213",
@@ -4563,7 +4563,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N216",
     "flavorCode": "N216",
     "flavorNameCn": "葛缕籽油",
-    "flavorNameEn": "Carawayseedoil(CarumcarviL.)",
+    "flavorNameEn": "Caraway seed oil (Carum carvi L.)",
     "femaNumber": "2238",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4572,7 +4572,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "213N216葛缕籽油Carawayseedoil(CarumcarviL.)2238",
     "rowName": "葛缕籽油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 213；编码 N216；香料中文名称 葛缕籽油；香料英文名称 Carawayseedoil(CarumcarviL.)；FEMA 编号 2238。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 213；编码 N216；香料中文名称 葛缕籽油；香料英文名称 Caraway seed oil (Carum carvi L.)；FEMA 编号 2238。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0214",
@@ -4580,7 +4580,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N217",
     "flavorCode": "N217",
     "flavorNameCn": "榄香香树脂",
-    "flavorNameEn": "Elemiresinoid(Canariumssp.)",
+    "flavorNameEn": "Elemi resinoid (Canarium ssp.)",
     "femaNumber": "2407",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4589,7 +4589,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "214N217榄香香树脂Elemiresinoid(Canariumssp.)2407",
     "rowName": "榄香香树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 214；编码 N217；香料中文名称 榄香香树脂；香料英文名称 Elemiresinoid(Canariumssp.)；FEMA 编号 2407。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 214；编码 N217；香料中文名称 榄香香树脂；香料英文名称 Elemi resinoid (Canarium ssp.)；FEMA 编号 2407。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0215",
@@ -4597,7 +4597,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N218",
     "flavorCode": "N218",
     "flavorNameCn": "蜡菊提取物",
-    "flavorNameEn": "Immortelleextract(HelichrysumangustifoliumDC.)",
+    "flavorNameEn": "Immortelle extract (Helichrysum angustifolium DC.)",
     "femaNumber": "2592",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4606,7 +4606,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "215N218蜡菊提取物Immortelleextract(HelichrysumangustifoliumDC.)2592",
     "rowName": "蜡菊提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 215；编码 N218；香料中文名称 蜡菊提取物；香料英文名称 Immortelleextract(HelichrysumangustifoliumDC.)；FEMA 编号 2592。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 215；编码 N218；香料中文名称 蜡菊提取物；香料英文名称 Immortelle extract (Helichrysum angustifolium DC.)；FEMA 编号 2592。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0216",
@@ -4614,7 +4614,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N219",
     "flavorCode": "N219",
     "flavorNameCn": "香蜂花油",
-    "flavorNameEn": "Balmoil(MelissaofficinalisL.)",
+    "flavorNameEn": "Balm oil (Melissa officinalis L.)",
     "femaNumber": "2113",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4623,7 +4623,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "216N219香蜂花油Balmoil(MelissaofficinalisL.)2113",
     "rowName": "香蜂花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 216；编码 N219；香料中文名称 香蜂花油；香料英文名称 Balmoil(MelissaofficinalisL.)；FEMA 编号 2113。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 216；编码 N219；香料中文名称 香蜂花油；香料英文名称 Balm oil (Melissa officinalis L.)；FEMA 编号 2113。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0217",
@@ -4648,7 +4648,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N221",
     "flavorCode": "N221",
     "flavorNameCn": "橙花净油",
-    "flavorNameEn": "Orangeflowerabsolute(CitrusaurantiumL.subsp.amara)",
+    "flavorNameEn": "Orange flower absolute (Citrus aurantium L. subsp. amara)",
     "femaNumber": "2818",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4657,7 +4657,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Orangeflowerabsolute(CitrusaurantiumL.218N221橙花净油2818subsp.amara)",
     "rowName": "橙花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 218；编码 N221；香料中文名称 橙花净油；香料英文名称 Orangeflowerabsolute(CitrusaurantiumL.subsp.amara)；FEMA 编号 2818。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 218；编码 N221；香料中文名称 橙花净油；香料英文名称 Orange flower absolute (Citrus aurantium L. subsp. amara)；FEMA 编号 2818。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0219",
@@ -4665,7 +4665,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N222",
     "flavorCode": "N222",
     "flavorNameCn": "柚苷(又名柚皮甙提取物)",
-    "flavorNameEn": "Naringinextract(CitrusparadisiMacf.)",
+    "flavorNameEn": "Naringin extract (Citrus paradisi Macf.)",
     "femaNumber": "2769",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4674,7 +4674,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "柚苷(又名柚皮甙提取219N222Naringinextract(CitrusparadisiMacf.)2769物)",
     "rowName": "柚苷(又名柚皮甙提取物)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 219；编码 N222；香料中文名称 柚苷(又名柚皮甙提取物)；香料英文名称 Naringinextract(CitrusparadisiMacf.)；FEMA 编号 2769。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 219；编码 N222；香料中文名称 柚苷(又名柚皮甙提取物)；香料英文名称 Naringin extract (Citrus paradisi Macf.)；FEMA 编号 2769。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0220",
@@ -4682,7 +4682,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N223",
     "flavorCode": "N223",
     "flavorNameCn": "穗薰衣草油",
-    "flavorNameEn": "Spikelavenderoil(LavandulalatifoliaL.)",
+    "flavorNameEn": "Spike lavender oil (Lavandula latifolia L.)",
     "femaNumber": "3033",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4691,7 +4691,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "220N223穗薰衣草油Spikelavenderoil(LavandulalatifoliaL.)3033",
     "rowName": "穗薰衣草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 220；编码 N223；香料中文名称 穗薰衣草油；香料英文名称 Spikelavenderoil(LavandulalatifoliaL.)；FEMA 编号 3033。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 220；编码 N223；香料中文名称 穗薰衣草油；香料英文名称 Spike lavender oil (Lavandula latifolia L.)；FEMA 编号 3033。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0221",
@@ -4699,7 +4699,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N224",
     "flavorCode": "N224",
     "flavorNameCn": "鹰爪豆净油",
-    "flavorNameEn": "Genetabsolute(SpartiumjunceumL.)",
+    "flavorNameEn": "Genet absolute (Spartium junceum L.)",
     "femaNumber": "2504",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4708,7 +4708,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "221N224鹰爪豆净油Genetabsolute(SpartiumjunceumL.)2504",
     "rowName": "鹰爪豆净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 221；编码 N224；香料中文名称 鹰爪豆净油；香料英文名称 Genetabsolute(SpartiumjunceumL.)；FEMA 编号 2504。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 221；编码 N224；香料中文名称 鹰爪豆净油；香料英文名称 Genet absolute (Spartium junceum L.)；FEMA 编号 2504。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0222",
@@ -4716,7 +4716,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N225",
     "flavorCode": "N225",
     "flavorNameCn": "玳玳果皮油",
-    "flavorNameEn": "Daidaipeeloil(CitrusaurantiumL.‘Daidai’)",
+    "flavorNameEn": "Daidai peel oil (Citrus aurantium L.‘Daidai’)",
     "femaNumber": "3823",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4725,7 +4725,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "222N225玳玳果皮油Daidaipeeloil(CitrusaurantiumL.‘Daidai’)3823",
     "rowName": "玳玳果皮油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 222；编码 N225；香料中文名称 玳玳果皮油；香料英文名称 Daidaipeeloil(CitrusaurantiumL.‘Daidai’)；FEMA 编号 3823。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 222；编码 N225；香料中文名称 玳玳果皮油；香料英文名称 Daidai peel oil (Citrus aurantium L.‘Daidai’)；FEMA 编号 3823。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0223",
@@ -4733,7 +4733,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N226",
     "flavorCode": "N226",
     "flavorNameCn": "甜橙油(橙皮压榨法)",
-    "flavorNameEn": "Orangeoil,sweet,coldpressed[Citrussinensis(L.)osbeck]",
+    "flavorNameEn": "Orange oil, sweet, coldpressed [Citrus sinensis (L.) osbeck]",
     "femaNumber": "2825",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4742,7 +4742,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Orangeoil,sweet,coldpressed[Citrussinensis(L.)223N226甜橙油(橙皮压榨法)2825osbeck]",
     "rowName": "甜橙油(橙皮压榨法)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 223；编码 N226；香料中文名称 甜橙油(橙皮压榨法)；香料英文名称 Orangeoil,sweet,coldpressed[Citrussinensis(L.)osbeck]；FEMA 编号 2825。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 223；编码 N226；香料中文名称 甜橙油(橙皮压榨法)；香料英文名称 Orange oil, sweet, coldpressed [Citrus sinensis (L.) osbeck]；FEMA 编号 2825。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0224",
@@ -4750,7 +4750,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N227",
     "flavorCode": "N227",
     "flavorNameCn": "小米辣椒油树脂",
-    "flavorNameEn": "Bushredpepperoleoresin(CapsicumfrutescensL.)",
+    "flavorNameEn": "Bush red pepper oleoresin (Capsicum frutescens L.)",
     "femaNumber": "2234",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4759,7 +4759,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "224N227小米辣椒油树脂Bushredpepperoleoresin(CapsicumfrutescensL.)2234",
     "rowName": "小米辣椒油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 224；编码 N227；香料中文名称 小米辣椒油树脂；香料英文名称 Bushredpepperoleoresin(CapsicumfrutescensL.)；FEMA 编号 2234。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 224；编码 N227；香料中文名称 小米辣椒油树脂；香料英文名称 Bush red pepper oleoresin (Capsicum frutescens L.)；FEMA 编号 2234。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0225",
@@ -4767,7 +4767,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N228",
     "flavorCode": "N228",
     "flavorNameCn": "丁香茎油",
-    "flavorNameEn": "Clovestemoil(Eugeniaspp.)",
+    "flavorNameEn": "Clove stem oil (Eugenia spp.)",
     "femaNumber": "2328",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4776,7 +4776,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "225N228丁香茎油Clovestemoil(Eugeniaspp.)2328",
     "rowName": "丁香茎油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 225；编码 N228；香料中文名称 丁香茎油；香料英文名称 Clovestemoil(Eugeniaspp.)；FEMA 编号 2328。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 225；编码 N228；香料中文名称 丁香茎油；香料英文名称 Clove stem oil (Eugenia spp.)；FEMA 编号 2328。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0226",
@@ -4784,7 +4784,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N229",
     "flavorCode": "N229",
     "flavorNameCn": "大茴香油(又名茴芹油)",
-    "flavorNameEn": "Aniseoil(PimpinellaanisumL.)",
+    "flavorNameEn": "Anise oil (Pimpinellaanisum L.)",
     "femaNumber": "2094",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4793,7 +4793,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "226N229大茴香油(又名茴芹油)Aniseoil(PimpinellaanisumL.)2094",
     "rowName": "大茴香油(又名茴芹油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 226；编码 N229；香料中文名称 大茴香油(又名茴芹油)；香料英文名称 Aniseoil(PimpinellaanisumL.)；FEMA 编号 2094。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 226；编码 N229；香料中文名称 大茴香油(又名茴芹油)；香料英文名称 Anise oil (Pimpinellaanisum L.)；FEMA 编号 2094。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0227",
@@ -4818,7 +4818,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N231",
     "flavorCode": "N231",
     "flavorNameCn": "巴拉圭茶净油/提取物",
-    "flavorNameEn": "Mateabsolute/extract(IlexparaguariensisSt.Hil.)",
+    "flavorNameEn": "Mate absolute/extract (Ilex paraguariensis St. Hil.)",
     "femaNumber": "—",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4827,7 +4827,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "228N231巴拉圭茶净油/提取物Mateabsolute/extract(IlexparaguariensisSt.Hil.)—",
     "rowName": "巴拉圭茶净油/提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 228；编码 N231；香料中文名称 巴拉圭茶净油/提取物；香料英文名称 Mateabsolute/extract(IlexparaguariensisSt.Hil.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 228；编码 N231；香料中文名称 巴拉圭茶净油/提取物；香料英文名称 Mate absolute/extract (Ilex paraguariensis St. Hil.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0229",
@@ -4835,7 +4835,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N232",
     "flavorCode": "N232",
     "flavorNameCn": "白山核桃树皮提取物",
-    "flavorNameEn": "Hickorybarkextract(Caryaspp.)",
+    "flavorNameEn": "Hickory bark extract (Carya spp.)",
     "femaNumber": "2577",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4844,7 +4844,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "229N232白山核桃树皮提取物Hickorybarkextract(Caryaspp.)2577",
     "rowName": "白山核桃树皮提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 229；编码 N232；香料中文名称 白山核桃树皮提取物；香料英文名称 Hickorybarkextract(Caryaspp.)；FEMA 编号 2577。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 229；编码 N232；香料中文名称 白山核桃树皮提取物；香料英文名称 Hickory bark extract (Carya spp.)；FEMA 编号 2577。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0230",
@@ -4852,7 +4852,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N233",
     "flavorCode": "N233",
     "flavorNameCn": "瓜拉纳提取物",
-    "flavorNameEn": "Guaranaextract(PaulliniacupanaHBK)",
+    "flavorNameEn": "Guarana extract (Paullinia cupana HBK)",
     "femaNumber": "2536",
     "pdfPage": 161,
     "standardPage": 158,
@@ -4861,7 +4861,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "230N233瓜拉纳提取物Guaranaextract(PaulliniacupanaHBK)2536",
     "rowName": "瓜拉纳提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 230；编码 N233；香料中文名称 瓜拉纳提取物；香料英文名称 Guaranaextract(PaulliniacupanaHBK)；FEMA 编号 2536。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 230；编码 N233；香料中文名称 瓜拉纳提取物；香料英文名称 Guarana extract (Paullinia cupana HBK)；FEMA 编号 2536。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0231",
@@ -4869,7 +4869,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N235",
     "flavorCode": "N235",
     "flavorNameCn": "白百里香油",
-    "flavorNameEn": "Thymeoil,white(ThymuszygisL.)",
+    "flavorNameEn": "Thyme oil, white (Thymus zygis L.)",
     "femaNumber": "3065",
     "pdfPage": 162,
     "standardPage": 159,
@@ -4878,7 +4878,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "231N235白百里香油Thymeoil,white(ThymuszygisL.)3065",
     "rowName": "白百里香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 231；编码 N235；香料中文名称 白百里香油；香料英文名称 Thymeoil,white(ThymuszygisL.)；FEMA 编号 3065。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 231；编码 N235；香料中文名称 白百里香油；香料英文名称 Thyme oil, white (Thymus zygis L.)；FEMA 编号 3065。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0232",
@@ -4886,7 +4886,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N236",
     "flavorCode": "N236",
     "flavorNameCn": "白胡椒油",
-    "flavorNameEn": "Pepperoil,white(PipernigrumL.)",
+    "flavorNameEn": "Pepper oil, white (Piper nigrum L.)",
     "femaNumber": "2851",
     "pdfPage": 162,
     "standardPage": 159,
@@ -4895,7 +4895,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "232N236白胡椒油Pepperoil,white(PipernigrumL.)2851",
     "rowName": "白胡椒油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 232；编码 N236；香料中文名称 白胡椒油；香料英文名称 Pepperoil,white(PipernigrumL.)；FEMA 编号 2851。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 232；编码 N236；香料中文名称 白胡椒油；香料英文名称 Pepper oil, white (Piper nigrum L.)；FEMA 编号 2851。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0233",
@@ -4903,7 +4903,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N237",
     "flavorCode": "N237",
     "flavorNameCn": "白胡椒油树脂",
-    "flavorNameEn": "Pepperoleoresin,white(PipernigrumL.)",
+    "flavorNameEn": "Pepper oleoresin, white (Piper nigrum L.)",
     "femaNumber": "2852",
     "pdfPage": 162,
     "standardPage": 159,
@@ -4912,7 +4912,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "233N237白胡椒油树脂Pepperoleoresin,white(PipernigrumL.)2852",
     "rowName": "白胡椒油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 233；编码 N237；香料中文名称 白胡椒油树脂；香料英文名称 Pepperoleoresin,white(PipernigrumL.)；FEMA 编号 2852。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 233；编码 N237；香料中文名称 白胡椒油树脂；香料英文名称 Pepper oleoresin, white (Piper nigrum L.)；FEMA 编号 2852。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0234",
@@ -4920,7 +4920,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N238",
     "flavorCode": "N238",
     "flavorNameCn": "白康酿克油",
-    "flavorNameEn": "Cognacoil,white",
+    "flavorNameEn": "Cognac oil, white",
     "femaNumber": "2332",
     "pdfPage": 162,
     "standardPage": 159,
@@ -4929,7 +4929,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "234N238白康酿克油Cognacoil,white2332",
     "rowName": "白康酿克油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 234；编码 N238；香料中文名称 白康酿克油；香料英文名称 Cognacoil,white；FEMA 编号 2332。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 234；编码 N238；香料中文名称 白康酿克油；香料英文名称 Cognac oil, white；FEMA 编号 2332。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0235",
@@ -4971,7 +4971,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N241",
     "flavorCode": "N241",
     "flavorNameCn": "众香果油",
-    "flavorNameEn": "Pimentaoil(Pimentaofficinalis)",
+    "flavorNameEn": "Pimenta oil (Pimenta officinalis)",
     "femaNumber": "2018",
     "pdfPage": 162,
     "standardPage": 159,
@@ -4980,7 +4980,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "237N241众香果油Pimentaoil(Pimentaofficinalis)2018",
     "rowName": "众香果油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 237；编码 N241；香料中文名称 众香果油；香料英文名称 Pimentaoil(Pimentaofficinalis)；FEMA 编号 2018。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 237；编码 N241；香料中文名称 众香果油；香料英文名称 Pimenta oil (Pimenta officinalis)；FEMA 编号 2018。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0238",
@@ -4988,7 +4988,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N242",
     "flavorCode": "N242",
     "flavorNameCn": "安息香树脂",
-    "flavorNameEn": "Benzoinresinoid(StyraxtonkinensisPierre)",
+    "flavorNameEn": "Benzoin resinoid (Styrax tonkinensis Pierre)",
     "femaNumber": "2133",
     "pdfPage": 162,
     "standardPage": 159,
@@ -4997,7 +4997,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "238N242安息香树脂Benzoinresinoid(StyraxtonkinensisPierre)2133",
     "rowName": "安息香树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 238；编码 N242；香料中文名称 安息香树脂；香料英文名称 Benzoinresinoid(StyraxtonkinensisPierre)；FEMA 编号 2133。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 238；编码 N242；香料中文名称 安息香树脂；香料英文名称 Benzoin resinoid (Styrax tonkinensis Pierre)；FEMA 编号 2133。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0239",
@@ -5005,7 +5005,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N243",
     "flavorCode": "N243",
     "flavorNameCn": "当归籽油",
-    "flavorNameEn": "Angelicaseedoil(AngelicaarchangelicaL.orAn-gelicasinensis)",
+    "flavorNameEn": "Angelica seed oil (Angelica archangelica L. or Angelica sinensis)",
     "femaNumber": "2090",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5014,7 +5014,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Angelicaseedoil(AngelicaarchangelicaL.orAn-239N243当归籽油2090gelicasinensis)",
     "rowName": "当归籽油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 239；编码 N243；香料中文名称 当归籽油；香料英文名称 Angelicaseedoil(AngelicaarchangelicaL.orAn-gelicasinensis)；FEMA 编号 2090。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 239；编码 N243；香料中文名称 当归籽油；香料英文名称 Angelica seed oil (Angelica archangelica L. or Angelica sinensis)；FEMA 编号 2090。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0240",
@@ -5022,7 +5022,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N244",
     "flavorCode": "N244",
     "flavorNameCn": "当归根油",
-    "flavorNameEn": "Angelicarootoil(AngelicaarchangelicaL.orAn-gelicasinensis)",
+    "flavorNameEn": "Angelica root oil (Angelica archangelica L. or Angelica sinensis)",
     "femaNumber": "2088",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5031,7 +5031,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Angelicarootoil(AngelicaarchangelicaL.orAn-240N244当归根油2088gelicasinensis)",
     "rowName": "当归根油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 240；编码 N244；香料中文名称 当归根油；香料英文名称 Angelicarootoil(AngelicaarchangelicaL.orAn-gelicasinensis)；FEMA 编号 2088。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 240；编码 N244；香料中文名称 当归根油；香料英文名称 Angelica root oil (Angelica archangelica L. or Angelica sinensis)；FEMA 编号 2088。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0241",
@@ -5039,7 +5039,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N245",
     "flavorCode": "N245",
     "flavorNameCn": "肉豆蔻衣油树脂/提取物",
-    "flavorNameEn": "Maceoleoresin/extract(MyristicafragransHoutt)",
+    "flavorNameEn": "Mace oleoresin/extract (Myristica fragrans Houtt)",
     "femaNumber": "2654",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5048,7 +5048,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "241N245肉豆蔻衣油树脂/提取物Maceoleoresin/extract(MyristicafragransHoutt)2654",
     "rowName": "肉豆蔻衣油树脂/提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 241；编码 N245；香料中文名称 肉豆蔻衣油树脂/提取物；香料英文名称 Maceoleoresin/extract(MyristicafragransHoutt)；FEMA 编号 2654。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 241；编码 N245；香料中文名称 肉豆蔻衣油树脂/提取物；香料英文名称 Mace oleoresin/extract (Myristica fragrans Houtt)；FEMA 编号 2654。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0242",
@@ -5056,7 +5056,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N246",
     "flavorCode": "N246",
     "flavorNameCn": "西印度月桂叶提取物",
-    "flavorNameEn": "Bayleaves,westIndian,extract(Pimentaacriskos-tel)",
+    "flavorNameEn": "Bayleaves, west Indian, extract (Pimenta acriskos-tel)",
     "femaNumber": "2121",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5065,7 +5065,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Bayleaves,westIndian,extract(Pimentaacriskos-242N246西印度月桂叶提取物2121tel)",
     "rowName": "西印度月桂叶提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 242；编码 N246；香料中文名称 西印度月桂叶提取物；香料英文名称 Bayleaves,westIndian,extract(Pimentaacriskos-tel)；FEMA 编号 2121。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 242；编码 N246；香料中文名称 西印度月桂叶提取物；香料英文名称 Bayleaves, west Indian, extract (Pimenta acriskos-tel)；FEMA 编号 2121。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0243",
@@ -5073,7 +5073,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N247",
     "flavorCode": "N247",
     "flavorNameCn": "西印度月桂叶油",
-    "flavorNameEn": "Bayleaves,WestIndian,oil(Pimentaacriskostel)",
+    "flavorNameEn": "Bayleaves, West Indian, oil (Pimenta acriskostel)",
     "femaNumber": "2122",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5082,7 +5082,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "243N247西印度月桂叶油Bayleaves,WestIndian,oil(Pimentaacriskostel)2122",
     "rowName": "西印度月桂叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 243；编码 N247；香料中文名称 西印度月桂叶油；香料英文名称 Bayleaves,WestIndian,oil(Pimentaacriskostel)；FEMA 编号 2122。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 243；编码 N247；香料中文名称 西印度月桂叶油；香料英文名称 Bayleaves, West Indian, oil (Pimenta acriskostel)；FEMA 编号 2122。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0244",
@@ -5107,7 +5107,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N249",
     "flavorCode": "N249",
     "flavorNameCn": "阿拉伯胶",
-    "flavorNameEn": "Arabicgum",
+    "flavorNameEn": "Arabic gum",
     "femaNumber": "2001",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5116,7 +5116,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "245N249阿拉伯胶Arabicgum2001",
     "rowName": "阿拉伯胶",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 245；编码 N249；香料中文名称 阿拉伯胶；香料英文名称 Arabicgum；FEMA 编号 2001。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 245；编码 N249；香料中文名称 阿拉伯胶；香料英文名称 Arabic gum；FEMA 编号 2001。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0246",
@@ -5124,7 +5124,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N250",
     "flavorCode": "N250",
     "flavorNameCn": "欧当归提取物",
-    "flavorNameEn": "Lovageextract(LevisticumofficinaleKoch)",
+    "flavorNameEn": "Lovage extract (Levisticum officinale Koch)",
     "femaNumber": "2650",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5133,7 +5133,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "246N250欧当归提取物Lovageextract(LevisticumofficinaleKoch)2650",
     "rowName": "欧当归提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 246；编码 N250；香料中文名称 欧当归提取物；香料英文名称 Lovageextract(LevisticumofficinaleKoch)；FEMA 编号 2650。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 246；编码 N250；香料中文名称 欧当归提取物；香料英文名称 Lovage extract (Levisticum officinale Koch)；FEMA 编号 2650。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0247",
@@ -5141,7 +5141,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N251",
     "flavorCode": "N251",
     "flavorNameCn": "欧芹油树脂",
-    "flavorNameEn": "Parsleyoleoresin(Petroselinumspp.)",
+    "flavorNameEn": "Parsley oleoresin (Petroselinum spp.)",
     "femaNumber": "2837",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5150,7 +5150,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "247N251欧芹油树脂Parsleyoleoresin(Petroselinumspp.)2837",
     "rowName": "欧芹油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 247；编码 N251；香料中文名称 欧芹油树脂；香料英文名称 Parsleyoleoresin(Petroselinumspp.)；FEMA 编号 2837。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 247；编码 N251；香料中文名称 欧芹油树脂；香料英文名称 Parsley oleoresin (Petroselinum spp.)；FEMA 编号 2837。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0248",
@@ -5158,7 +5158,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N252",
     "flavorCode": "N252",
     "flavorNameCn": "油酸",
-    "flavorNameEn": "Oleicacid",
+    "flavorNameEn": "Oleic acid",
     "femaNumber": "2815",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5167,7 +5167,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "248N252油酸Oleicacid2815",
     "rowName": "油酸",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 248；编码 N252；香料中文名称 油酸；香料英文名称 Oleicacid；FEMA 编号 2815。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 248；编码 N252；香料中文名称 油酸；香料英文名称 Oleic acid；FEMA 编号 2815。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0249",
@@ -5175,7 +5175,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N253",
     "flavorCode": "N253",
     "flavorNameCn": "苦木提取物",
-    "flavorNameEn": "Quassiaextract[Picrasmaexcelsa(sw.)planch.QuassiaamaraL.]",
+    "flavorNameEn": "Quassia extract [Picrasma excelsa (sw.) planch. Quassia amara L.]",
     "femaNumber": "2971",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5184,7 +5184,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Quassiaextract[Picrasmaexcelsa(sw.)planch.249N253苦木提取物2971QuassiaamaraL.]",
     "rowName": "苦木提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 249；编码 N253；香料中文名称 苦木提取物；香料英文名称 Quassiaextract[Picrasmaexcelsa(sw.)planch.QuassiaamaraL.]；FEMA 编号 2971。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 249；编码 N253；香料中文名称 苦木提取物；香料英文名称 Quassia extract [Picrasma excelsa (sw.) planch. Quassia amara L.]；FEMA 编号 2971。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0250",
@@ -5192,7 +5192,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N254",
     "flavorCode": "N254",
     "flavorNameCn": "苦橙叶净油",
-    "flavorNameEn": "Orangeleafabsolute(CitrusaurantiumL.)",
+    "flavorNameEn": "Orange leaf absolute (Citrus aurantium L.)",
     "femaNumber": "2820",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5201,7 +5201,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "250N254苦橙叶净油Orangeleafabsolute(CitrusaurantiumL.)2820",
     "rowName": "苦橙叶净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 250；编码 N254；香料中文名称 苦橙叶净油；香料英文名称 Orangeleafabsolute(CitrusaurantiumL.)；FEMA 编号 2820。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 250；编码 N254；香料中文名称 苦橙叶净油；香料英文名称 Orange leaf absolute (Citrus aurantium L.)；FEMA 编号 2820。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0251",
@@ -5209,7 +5209,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N255",
     "flavorCode": "N255",
     "flavorNameCn": "苦橙油",
-    "flavorNameEn": "Orangeoil,bitter(CitrusaurantiumL.)",
+    "flavorNameEn": "Orange oil, bitter (Citrus aurantium L.)",
     "femaNumber": "2823",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5218,7 +5218,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "251N255苦橙油Orangeoil,bitter(CitrusaurantiumL.)2823",
     "rowName": "苦橙油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 251；编码 N255；香料中文名称 苦橙油；香料英文名称 Orangeoil,bitter(CitrusaurantiumL.)；FEMA 编号 2823。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 251；编码 N255；香料中文名称 苦橙油；香料英文名称 Orange oil, bitter (Citrus aurantium L.)；FEMA 编号 2823。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0252",
@@ -5226,7 +5226,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N256",
     "flavorCode": "N256",
     "flavorNameCn": "金鸡纳树皮",
-    "flavorNameEn": "Cinchonabark(yellow)(Cinchonaspp.)",
+    "flavorNameEn": "Cinchona bark (yellow) (Cinchona spp.)",
     "femaNumber": "2283",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5235,7 +5235,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "252N256金鸡纳树皮Cinchonabark(yellow)(Cinchonaspp.)2283",
     "rowName": "金鸡纳树皮",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 252；编码 N256；香料中文名称 金鸡纳树皮；香料英文名称 Cinchonabark(yellow)(Cinchonaspp.)；FEMA 编号 2283。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 252；编码 N256；香料中文名称 金鸡纳树皮；香料英文名称 Cinchona bark (yellow) (Cinchona spp.)；FEMA 编号 2283。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0253",
@@ -5243,7 +5243,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N257",
     "flavorCode": "N257",
     "flavorNameCn": "金钮扣油树脂",
-    "flavorNameEn": "Jambuoleoresin(Spilanthesacmeliaoleracea)",
+    "flavorNameEn": "Jambu oleoresin (Spilanthes acmeliaoleracea)",
     "femaNumber": "3783",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5252,7 +5252,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "253N257金钮扣油树脂Jambuoleoresin(Spilanthesacmeliaoleracea)3783",
     "rowName": "金钮扣油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 253；编码 N257；香料中文名称 金钮扣油树脂；香料英文名称 Jambuoleoresin(Spilanthesacmeliaoleracea)；FEMA 编号 3783。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 253；编码 N257；香料中文名称 金钮扣油树脂；香料英文名称 Jambu oleoresin (Spilanthes acmeliaoleracea)；FEMA 编号 3783。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0254",
@@ -5260,7 +5260,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N258",
     "flavorCode": "N258",
     "flavorNameCn": "奎宁盐酸盐",
-    "flavorNameEn": "Quininehydrochloride",
+    "flavorNameEn": "Quinine hydrochloride",
     "femaNumber": "2976",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5269,7 +5269,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "254N258奎宁盐酸盐Quininehydrochloride2976",
     "rowName": "奎宁盐酸盐",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 254；编码 N258；香料中文名称 奎宁盐酸盐；香料英文名称 Quininehydrochloride；FEMA 编号 2976。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 254；编码 N258；香料中文名称 奎宁盐酸盐；香料英文名称 Quinine hydrochloride；FEMA 编号 2976。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0255",
@@ -5277,7 +5277,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N260",
     "flavorCode": "N260",
     "flavorNameCn": "洋葱油树脂",
-    "flavorNameEn": "Onionoleoresin(AlliumcepaL.)",
+    "flavorNameEn": "Onion oleoresin (Allium cepa L.)",
     "femaNumber": "—",
     "pdfPage": 162,
     "standardPage": 159,
@@ -5286,7 +5286,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "255N260洋葱油树脂Onionoleoresin(AlliumcepaL.)—",
     "rowName": "洋葱油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 255；编码 N260；香料中文名称 洋葱油树脂；香料英文名称 Onionoleoresin(AlliumcepaL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 255；编码 N260；香料中文名称 洋葱油树脂；香料英文名称 Onion oleoresin (Allium cepa L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0256",
@@ -5294,7 +5294,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N261",
     "flavorCode": "N261",
     "flavorNameCn": "茶树油(又名互叶白千层油)",
-    "flavorNameEn": "Teatreeoil(Melaleucaalternifolia)",
+    "flavorNameEn": "Tea tree oil (Melaleuca alternifolia)",
     "femaNumber": "3902",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5303,7 +5303,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "茶树油(又名互叶白千层256N261Teatreeoil(Melaleucaalternifolia)3902油)",
     "rowName": "茶树油(又名互叶白千层油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 256；编码 N261；香料中文名称 茶树油(又名互叶白千层油)；香料英文名称 Teatreeoil(Melaleucaalternifolia)；FEMA 编号 3902。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 256；编码 N261；香料中文名称 茶树油(又名互叶白千层油)；香料英文名称 Tea tree oil (Melaleuca alternifolia)；FEMA 编号 3902。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0257",
@@ -5311,7 +5311,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N262",
     "flavorCode": "N262",
     "flavorNameCn": "除萜白柠檬油",
-    "flavorNameEn": "Limeoil,expressedterpeneless(CitrusaurantifoliaSwingle)",
+    "flavorNameEn": "Lime oil, expressed terpeneless (Citrus aurantifolia Swingle)",
     "femaNumber": "2632",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5320,7 +5320,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Limeoil,expressedterpeneless(Citrusaurantifolia257N262除萜白柠檬油2632Swingle)",
     "rowName": "除萜白柠檬油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 257；编码 N262；香料中文名称 除萜白柠檬油；香料英文名称 Limeoil,expressedterpeneless(CitrusaurantifoliaSwingle)；FEMA 编号 2632。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 257；编码 N262；香料中文名称 除萜白柠檬油；香料英文名称 Lime oil, expressed terpeneless (Citrus aurantifolia Swingle)；FEMA 编号 2632。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0258",
@@ -5328,7 +5328,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N263",
     "flavorCode": "N263",
     "flavorNameCn": "除萜甜橙皮油",
-    "flavorNameEn": "Orangepeeloil,sweet,terpeneless(CitrussinensisL.Osbeck)",
+    "flavorNameEn": "Orange peel oil, sweet, terpeneless (Citrus sinensis L. Osbeck)",
     "femaNumber": "2826",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5337,7 +5337,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Orangepeeloil,sweet,terpeneless(Citrussinensis258N263除萜甜橙皮油2826L.Osbeck)",
     "rowName": "除萜甜橙皮油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 258；编码 N263；香料中文名称 除萜甜橙皮油；香料英文名称 Orangepeeloil,sweet,terpeneless(CitrussinensisL.Osbeck)；FEMA 编号 2826。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 258；编码 N263；香料中文名称 除萜甜橙皮油；香料英文名称 Orange peel oil, sweet, terpeneless (Citrus sinensis L. Osbeck)；FEMA 编号 2826。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0259",
@@ -5345,7 +5345,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N265",
     "flavorCode": "N265",
     "flavorNameCn": "黄芥末提取物/黄芥末油树脂",
-    "flavorNameEn": "Mustardextract/oleoresin,yellow(Brassicaspp.)",
+    "flavorNameEn": "Mustard extract/oleoresin, yellow (Brassica spp.)",
     "femaNumber": "—",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5354,7 +5354,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "黄芥末提取物/黄芥末油259N265Mustardextract/oleoresin,yellow(Brassicaspp.)—树脂",
     "rowName": "黄芥末提取物/黄芥末油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 259；编码 N265；香料中文名称 黄芥末提取物/黄芥末油树脂；香料英文名称 Mustardextract/oleoresin,yellow(Brassicaspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 259；编码 N265；香料中文名称 黄芥末提取物/黄芥末油树脂；香料英文名称 Mustard extract/oleoresin, yellow (Brassica spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0260",
@@ -5362,7 +5362,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N266",
     "flavorCode": "N266",
     "flavorNameCn": "棕芥末提取物",
-    "flavorNameEn": "Mustardextract,brown(Brassicaspp.)",
+    "flavorNameEn": "Mustard extract, brown (Brassica spp.)",
     "femaNumber": "—",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5371,7 +5371,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "260N266棕芥末提取物Mustardextract,brown(Brassicaspp.)—",
     "rowName": "棕芥末提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 260；编码 N266；香料中文名称 棕芥末提取物；香料英文名称 Mustardextract,brown(Brassicaspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 260；编码 N266；香料中文名称 棕芥末提取物；香料英文名称 Mustard extract, brown (Brassica spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0261",
@@ -5379,7 +5379,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N267",
     "flavorCode": "N267",
     "flavorNameCn": "焦木酸",
-    "flavorNameEn": "Pyroligneousacid",
+    "flavorNameEn": "Pyroligneous acid",
     "femaNumber": "2967",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5388,7 +5388,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "261N267焦木酸Pyroligneousacid2967",
     "rowName": "焦木酸",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 261；编码 N267；香料中文名称 焦木酸；香料英文名称 Pyroligneousacid；FEMA 编号 2967。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 261；编码 N267；香料中文名称 焦木酸；香料英文名称 Pyroligneous acid；FEMA 编号 2967。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0262",
@@ -5396,7 +5396,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N268",
     "flavorCode": "N268",
     "flavorNameCn": "紫苏油",
-    "flavorNameEn": "Perillaleafoil(Shisooil)(Perillafrutescens)",
+    "flavorNameEn": "Perilla leaf oil (Shiso oil) (Perilla frutescens)",
     "femaNumber": "4013",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5405,7 +5405,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "262N268紫苏油Perillaleafoil(Shisooil)(Perillafrutescens)4013",
     "rowName": "紫苏油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 262；编码 N268；香料中文名称 紫苏油；香料英文名称 Perillaleafoil(Shisooil)(Perillafrutescens)；FEMA 编号 4013。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 262；编码 N268；香料中文名称 紫苏油；香料英文名称 Perilla leaf oil (Shiso oil) (Perilla frutescens)；FEMA 编号 4013。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0263",
@@ -5413,7 +5413,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N269",
     "flavorCode": "N269",
     "flavorNameCn": "葡萄柚油萜烯",
-    "flavorNameEn": "Grapefruitoilterpenes(CitrusparadisiMacf)",
+    "flavorNameEn": "Grapefruit oil terpenes (Citrus paradisi Macf)",
     "femaNumber": "—",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5422,7 +5422,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "263N269葡萄柚油萜烯Grapefruitoilterpenes(CitrusparadisiMacf)—",
     "rowName": "葡萄柚油萜烯",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 263；编码 N269；香料中文名称 葡萄柚油萜烯；香料英文名称 Grapefruitoilterpenes(CitrusparadisiMacf)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 263；编码 N269；香料中文名称 葡萄柚油萜烯；香料英文名称 Grapefruit oil terpenes (Citrus paradisi Macf)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0264",
@@ -5430,7 +5430,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N270",
     "flavorCode": "N270",
     "flavorNameCn": "黑胡椒油树脂/黑胡椒提取物",
-    "flavorNameEn": "Pepperoleoresin/extract,black(PipernigrumL.)",
+    "flavorNameEn": "Pepper oleoresin/extract, black (Piper nigrum L.)",
     "femaNumber": "2846",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5439,7 +5439,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "黑胡椒油树脂/黑胡椒提264N270Pepperoleoresin/extract,black(PipernigrumL.)2846取物",
     "rowName": "黑胡椒油树脂/黑胡椒提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 264；编码 N270；香料中文名称 黑胡椒油树脂/黑胡椒提取物；香料英文名称 Pepperoleoresin/extract,black(PipernigrumL.)；FEMA 编号 2846。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 264；编码 N270；香料中文名称 黑胡椒油树脂/黑胡椒提取物；香料英文名称 Pepper oleoresin/extract, black (Piper nigrum L.)；FEMA 编号 2846。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0265",
@@ -5447,7 +5447,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N271",
     "flavorCode": "N271",
     "flavorNameCn": "榄香油/提取物/香树脂",
-    "flavorNameEn": "Elemioil/extract/resinoid(CanariumcimmuneorIuzonicumMiq)",
+    "flavorNameEn": "Elemi oil/extract/resinoid (Canarium cimmuneor Iuzonicum Miq)",
     "femaNumber": "2408",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5456,7 +5456,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Elemioil/extract/resinoid(Canariumcimmuneor265N271榄香油/提取物/香树脂2408IuzonicumMiq)",
     "rowName": "榄香油/提取物/香树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 265；编码 N271；香料中文名称 榄香油/提取物/香树脂；香料英文名称 Elemioil/extract/resinoid(CanariumcimmuneorIuzonicumMiq)；FEMA 编号 2408。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 265；编码 N271；香料中文名称 榄香油/提取物/香树脂；香料英文名称 Elemi oil/extract/resinoid (Canarium cimmuneor Iuzonicum Miq)；FEMA 编号 2408。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0266",
@@ -5464,7 +5464,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N272",
     "flavorCode": "N272",
     "flavorNameCn": "蜂蜡净油",
-    "flavorNameEn": "Beeswaxabsolute(ApismelliferaL.)",
+    "flavorNameEn": "Beeswax absolute (Apismellifera L.)",
     "femaNumber": "2126",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5473,7 +5473,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "266N272蜂蜡净油Beeswaxabsolute(ApismelliferaL.)2126",
     "rowName": "蜂蜡净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 266；编码 N272；香料中文名称 蜂蜡净油；香料英文名称 Beeswaxabsolute(ApismelliferaL.)；FEMA 编号 2126。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 266；编码 N272；香料中文名称 蜂蜡净油；香料英文名称 Beeswax absolute (Apismellifera L.)；FEMA 编号 2126。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0267",
@@ -5481,7 +5481,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N273",
     "flavorCode": "N273",
     "flavorNameCn": "赖百当净油(又名岩蔷薇净油)",
-    "flavorNameEn": "Labdanumabsolute(Cistusspp.)",
+    "flavorNameEn": "Labdanum absolute (Cistus spp.)",
     "femaNumber": "2608",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5490,7 +5490,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "赖百当净油(又名岩蔷薇267N273Labdanumabsolute(Cistusspp.)2608净油)",
     "rowName": "赖百当净油(又名岩蔷薇净油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 267；编码 N273；香料中文名称 赖百当净油(又名岩蔷薇净油)；香料英文名称 Labdanumabsolute(Cistusspp.)；FEMA 编号 2608。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 267；编码 N273；香料中文名称 赖百当净油(又名岩蔷薇净油)；香料英文名称 Labdanum absolute (Cistus spp.)；FEMA 编号 2608。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0268",
@@ -5498,7 +5498,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N274",
     "flavorCode": "N274",
     "flavorNameCn": "鼠尾草油(又名药鼠尾草油)",
-    "flavorNameEn": "Sageoil(SalviaofficinalisL.)",
+    "flavorNameEn": "Sage oil (Salvia officinalis L.)",
     "femaNumber": "3001",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5507,7 +5507,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "鼠尾草油(又名药鼠尾草268N274Sageoil(SalviaofficinalisL.)3001油)",
     "rowName": "鼠尾草油(又名药鼠尾草油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 268；编码 N274；香料中文名称 鼠尾草油(又名药鼠尾草油)；香料英文名称 Sageoil(SalviaofficinalisL.)；FEMA 编号 3001。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 268；编码 N274；香料中文名称 鼠尾草油(又名药鼠尾草油)；香料英文名称 Sage oil (Salvia officinalis L.)；FEMA 编号 3001。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0269",
@@ -5515,7 +5515,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N275",
     "flavorCode": "N275",
     "flavorNameCn": "蜡菊净油",
-    "flavorNameEn": "Helichrysumabsolute(Helichrysumaugustifoli-um)",
+    "flavorNameEn": "Helichrysum absolute (Helichrysum augustifoli-um)",
     "femaNumber": "—",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5524,7 +5524,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Helichrysumabsolute(Helichrysumaugustifoli-269N275蜡菊净油—um)",
     "rowName": "蜡菊净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 269；编码 N275；香料中文名称 蜡菊净油；香料英文名称 Helichrysumabsolute(Helichrysumaugustifoli-um)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 269；编码 N275；香料中文名称 蜡菊净油；香料英文名称 Helichrysum absolute (Helichrysum augustifoli-um)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0270",
@@ -5532,7 +5532,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N276",
     "flavorCode": "N276",
     "flavorNameCn": "糖蜜提取物",
-    "flavorNameEn": "Molassesextract",
+    "flavorNameEn": "Molasses extract",
     "femaNumber": "—",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5541,7 +5541,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "270N276糖蜜提取物Molassesextract—",
     "rowName": "糖蜜提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 270；编码 N276；香料中文名称 糖蜜提取物；香料英文名称 Molassesextract；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 270；编码 N276；香料中文名称 糖蜜提取物；香料英文名称 Molasses extract；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0271",
@@ -5549,7 +5549,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N277",
     "flavorCode": "N277",
     "flavorNameCn": "檀香醇(包括α-檀香醇、β-檀香醇)",
-    "flavorNameEn": "Santalol,α-andβ-",
+    "flavorNameEn": "Santalol, α-andβ-",
     "femaNumber": "3006",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5558,7 +5558,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "檀香醇(包括α-檀香醇、271N277Santalol,α-andβ-3006β-檀香醇)",
     "rowName": "檀香醇(包括α-檀香醇、β-檀香醇)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 271；编码 N277；香料中文名称 檀香醇(包括α-檀香醇、β-檀香醇)；香料英文名称 Santalol,α-andβ-；FEMA 编号 3006。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 271；编码 N277；香料中文名称 檀香醇(包括α-檀香醇、β-檀香醇)；香料英文名称 Santalol, α-andβ-；FEMA 编号 3006。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0272",
@@ -5566,7 +5566,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N278",
     "flavorCode": "N278",
     "flavorNameCn": "山达草流浸膏",
-    "flavorNameEn": "Yerbasantafluidextract[Eriodictyoncalifornicum(HookandArn)Torr]",
+    "flavorNameEn": "Yerba santa fluid extract [Eriodictyon californicum (Hook and Arn) Torr]",
     "femaNumber": "3118",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5575,7 +5575,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Yerbasantafluidextract[Eriodictyoncalifornicum272N278山达草流浸膏3118(HookandArn)Torr]",
     "rowName": "山达草流浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 272；编码 N278；香料中文名称 山达草流浸膏；香料英文名称 Yerbasantafluidextract[Eriodictyoncalifornicum(HookandArn)Torr]；FEMA 编号 3118。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 272；编码 N278；香料中文名称 山达草流浸膏；香料英文名称 Yerba santa fluid extract [Eriodictyon californicum (Hook and Arn) Torr]；FEMA 编号 3118。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0273",
@@ -5583,7 +5583,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N279",
     "flavorCode": "N279",
     "flavorNameCn": "苜蓿提取物",
-    "flavorNameEn": "Alfalfaextract(MedicagosativaL.)",
+    "flavorNameEn": "Alfalfa extract (Medicago sativa L.)",
     "femaNumber": "2013",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5592,7 +5592,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "273N279苜蓿提取物Alfalfaextract(MedicagosativaL.)2013",
     "rowName": "苜蓿提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 273；编码 N279；香料中文名称 苜蓿提取物；香料英文名称 Alfalfaextract(MedicagosativaL.)；FEMA 编号 2013。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 273；编码 N279；香料中文名称 苜蓿提取物；香料英文名称 Alfalfa extract (Medicago sativa L.)；FEMA 编号 2013。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0274",
@@ -5600,7 +5600,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N281",
     "flavorCode": "N281",
     "flavorNameCn": "众香子油树脂/提取物",
-    "flavorNameEn": "Allspiceoleoresin/extract(PimentaofficinalisLindl.)",
+    "flavorNameEn": "Allspice oleoresin/extract (Pimenta officinalis Lindl.)",
     "femaNumber": "2019",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5609,7 +5609,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Allspiceoleoresin/extract(Pimentaofficinalis274N281众香子油树脂/提取物2019Lindl.)",
     "rowName": "众香子油树脂/提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 274；编码 N281；香料中文名称 众香子油树脂/提取物；香料英文名称 Allspiceoleoresin/extract(PimentaofficinalisLindl.)；FEMA 编号 2019。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 274；编码 N281；香料中文名称 众香子油树脂/提取物；香料英文名称 Allspice oleoresin/extract (Pimenta officinalis Lindl.)；FEMA 编号 2019。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0275",
@@ -5617,7 +5617,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N282",
     "flavorCode": "N282",
     "flavorNameCn": "黄葵籽净油",
-    "flavorNameEn": "Ambretteseedabsolute(HibiscusabelmoschusL.)",
+    "flavorNameEn": "Ambrette seed absolute (Hibiscus abelmoschus L.)",
     "femaNumber": "2050",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5626,7 +5626,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "275N282黄葵籽净油Ambretteseedabsolute(HibiscusabelmoschusL.)2050",
     "rowName": "黄葵籽净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 275；编码 N282；香料中文名称 黄葵籽净油；香料英文名称 Ambretteseedabsolute(HibiscusabelmoschusL.)；FEMA 编号 2050。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 275；编码 N282；香料中文名称 黄葵籽净油；香料英文名称 Ambrette seed absolute (Hibiscus abelmoschus L.)；FEMA 编号 2050。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0276",
@@ -5634,7 +5634,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N283",
     "flavorCode": "N283",
     "flavorNameCn": "秘鲁香膏油",
-    "flavorNameEn": "Balsamoil,Peru(MyroxylonpereiraeKlotzsch)",
+    "flavorNameEn": "Balsam oil, Peru (Myroxylon pereirae Klotzsch)",
     "femaNumber": "2117",
     "pdfPage": 163,
     "standardPage": 160,
@@ -5643,7 +5643,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "276N283秘鲁香膏油Balsamoil,Peru(MyroxylonpereiraeKlotzsch)2117",
     "rowName": "秘鲁香膏油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 276；编码 N283；香料中文名称 秘鲁香膏油；香料英文名称 Balsamoil,Peru(MyroxylonpereiraeKlotzsch)；FEMA 编号 2117。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 276；编码 N283；香料中文名称 秘鲁香膏油；香料英文名称 Balsam oil, Peru (Myroxylon pereirae Klotzsch)；FEMA 编号 2117。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0277",
@@ -5651,7 +5651,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N284",
     "flavorCode": "N284",
     "flavorNameCn": "罗勒提取物",
-    "flavorNameEn": "Basilextract(OcimumbasilicumL.)",
+    "flavorNameEn": "Basil extract (Ocimum basilicum L.)",
     "femaNumber": "2120",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5660,7 +5660,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "277N284罗勒提取物Basilextract(OcimumbasilicumL.)2120",
     "rowName": "罗勒提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 277；编码 N284；香料中文名称 罗勒提取物；香料英文名称 Basilextract(OcimumbasilicumL.)；FEMA 编号 2120。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 277；编码 N284；香料中文名称 罗勒提取物；香料英文名称 Basil extract (Ocimum basilicum L.)；FEMA 编号 2120。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0278",
@@ -5668,7 +5668,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N285",
     "flavorCode": "N285",
     "flavorNameCn": "芹菜籽固体提取物",
-    "flavorNameEn": "Celeryseedextractsolid(ApiumgraveolensL.)",
+    "flavorNameEn": "Celery seed extract solid (Apium graveolens L.)",
     "femaNumber": "2270",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5677,7 +5677,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "278N285芹菜籽固体提取物Celeryseedextractsolid(ApiumgraveolensL.)2270",
     "rowName": "芹菜籽固体提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 278；编码 N285；香料中文名称 芹菜籽固体提取物；香料英文名称 Celeryseedextractsolid(ApiumgraveolensL.)；FEMA 编号 2270。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 278；编码 N285；香料中文名称 芹菜籽固体提取物；香料英文名称 Celery seed extract solid (Apium graveolens L.)；FEMA 编号 2270。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0279",
@@ -5685,7 +5685,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N286",
     "flavorCode": "N286",
     "flavorNameCn": "芹菜籽(含CO2)提取物",
-    "flavorNameEn": "Celeryseed(CO2)Extract(ApiumgraveolensL.)",
+    "flavorNameEn": "Celery seed (CO2) Extract (Apium graveolens L.)",
     "femaNumber": "2269",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5694,7 +5694,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "279N286芹菜籽(含CO2)提取物Celeryseed(CO2)Extract(ApiumgraveolensL.)2269",
     "rowName": "芹菜籽(含CO2)提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 279；编码 N286；香料中文名称 芹菜籽(含CO2)提取物；香料英文名称 Celeryseed(CO2)Extract(ApiumgraveolensL.)；FEMA 编号 2269。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 279；编码 N286；香料中文名称 芹菜籽(含CO2)提取物；香料英文名称 Celery seed (CO2) Extract (Apium graveolens L.)；FEMA 编号 2269。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0280",
@@ -5702,7 +5702,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N287",
     "flavorCode": "N287",
     "flavorNameCn": "母菊(匈牙利春黄菊)花油",
-    "flavorNameEn": "Chamomilefloweroil(Hungarian)(MatricariachamomillaL.)",
+    "flavorNameEn": "Chamomile flower oil (Hungarian) (Matricaria chamomilla L.)",
     "femaNumber": "2273",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5711,7 +5711,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "母菊(匈牙利春黄菊)Chamomilefloweroil(Hungarian)(Matricaria280N2872273花油chamomillaL.)",
     "rowName": "母菊(匈牙利春黄菊)花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 280；编码 N287；香料中文名称 母菊(匈牙利春黄菊)花油；香料英文名称 Chamomilefloweroil(Hungarian)(MatricariachamomillaL.)；FEMA 编号 2273。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 280；编码 N287；香料中文名称 母菊(匈牙利春黄菊)花油；香料英文名称 Chamomile flower oil (Hungarian) (Matricaria chamomilla L.)；FEMA 编号 2273。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0281",
@@ -5719,7 +5719,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N288",
     "flavorCode": "N288",
     "flavorNameCn": "黄色金鸡纳树皮提取物",
-    "flavorNameEn": "Cinchonabarkextract(yellow)(Cinchonaspp.)",
+    "flavorNameEn": "Cinchona bark extract (yellow) (Cinchona spp.)",
     "femaNumber": "2284",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5728,7 +5728,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "281N288黄色金鸡纳树皮提取物Cinchonabarkextract(yellow)(Cinchonaspp.)2284",
     "rowName": "黄色金鸡纳树皮提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 281；编码 N288；香料中文名称 黄色金鸡纳树皮提取物；香料英文名称 Cinchonabarkextract(yellow)(Cinchonaspp.)；FEMA 编号 2284。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 281；编码 N288；香料中文名称 黄色金鸡纳树皮提取物；香料英文名称 Cinchona bark extract (yellow) (Cinchona spp.)；FEMA 编号 2284。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0282",
@@ -5736,7 +5736,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N289",
     "flavorCode": "N289",
     "flavorNameCn": "丁香花蕾油树脂",
-    "flavorNameEn": "Clovebudoleoresin(Eugeniaspp.)",
+    "flavorNameEn": "Clove bud oleoresin (Eugenia spp.)",
     "femaNumber": "2324",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5745,7 +5745,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "282N289丁香花蕾油树脂Clovebudoleoresin(Eugeniaspp.)2324",
     "rowName": "丁香花蕾油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 282；编码 N289；香料中文名称 丁香花蕾油树脂；香料英文名称 Clovebudoleoresin(Eugeniaspp.)；FEMA 编号 2324。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 282；编码 N289；香料中文名称 丁香花蕾油树脂；香料英文名称 Clove bud oleoresin (Eugenia spp.)；FEMA 编号 2324。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0283",
@@ -5753,7 +5753,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N290",
     "flavorCode": "N290",
     "flavorNameCn": "红三叶草提取物(固体)",
-    "flavorNameEn": "Clovertopsredextractsolid(TrifoliumpratenseL.)",
+    "flavorNameEn": "Clover tops red extract solid (Trifolium pratense L.)",
     "femaNumber": "2326",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5762,7 +5762,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "283N290红三叶草提取物(固体)Clovertopsredextractsolid(TrifoliumpratenseL.)2326",
     "rowName": "红三叶草提取物(固体)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 283；编码 N290；香料中文名称 红三叶草提取物(固体)；香料英文名称 Clovertopsredextractsolid(TrifoliumpratenseL.)；FEMA 编号 2326。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 283；编码 N290；香料中文名称 红三叶草提取物(固体)；香料英文名称 Clover tops red extract solid (Trifolium pratense L.)；FEMA 编号 2326。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0284",
@@ -5770,7 +5770,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N291",
     "flavorCode": "N291",
     "flavorNameCn": "蒲公英流浸膏",
-    "flavorNameEn": "Dandelionfluidextract(Taraxacumspp.)",
+    "flavorNameEn": "Dandelion fluid extract (Taraxacum spp.)",
     "femaNumber": "2357",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5779,7 +5779,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "284N291蒲公英流浸膏Dandelionfluidextract(Taraxacumspp.)2357",
     "rowName": "蒲公英流浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 284；编码 N291；香料中文名称 蒲公英流浸膏；香料英文名称 Dandelionfluidextract(Taraxacumspp.)；FEMA 编号 2357。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 284；编码 N291；香料中文名称 蒲公英流浸膏；香料英文名称 Dandelion fluid extract (Taraxacum spp.)；FEMA 编号 2357。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0285",
@@ -5787,7 +5787,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N292",
     "flavorCode": "N292",
     "flavorNameCn": "蒲公英根固体提取物",
-    "flavorNameEn": "Dandelionrootsolidextract(Taraxacumspp.)",
+    "flavorNameEn": "Dandelion root solid extract (Taraxacum spp.)",
     "femaNumber": "2358",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5796,7 +5796,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "285N292蒲公英根固体提取物Dandelionrootsolidextract(Taraxacumspp.)2358",
     "rowName": "蒲公英根固体提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 285；编码 N292；香料中文名称 蒲公英根固体提取物；香料英文名称 Dandelionrootsolidextract(Taraxacumspp.)；FEMA 编号 2358。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 285；编码 N292；香料中文名称 蒲公英根固体提取物；香料英文名称 Dandelion root solid extract (Taraxacum spp.)；FEMA 编号 2358。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0286",
@@ -5804,7 +5804,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N293",
     "flavorCode": "N293",
     "flavorNameCn": "加拿大飞蓬草油",
-    "flavorNameEn": "Fleabaneoil(Erigeroncanadensis)",
+    "flavorNameEn": "Fleabane oil (Erigeron canadensis)",
     "femaNumber": "2409",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5813,7 +5813,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "286N293加拿大飞蓬草油Fleabaneoil(Erigeroncanadensis)2409",
     "rowName": "加拿大飞蓬草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 286；编码 N293；香料中文名称 加拿大飞蓬草油；香料英文名称 Fleabaneoil(Erigeroncanadensis)；FEMA 编号 2409。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 286；编码 N293；香料中文名称 加拿大飞蓬草油；香料英文名称 Fleabane oil (Erigeron canadensis)；FEMA 编号 2409。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0287",
@@ -5821,7 +5821,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N294",
     "flavorCode": "N294",
     "flavorNameCn": "穗花槭提取物(固体)",
-    "flavorNameEn": "Mountainmapleextractsolid(AcerspicatumLam.)",
+    "flavorNameEn": "Mountain maple extract solid (Acer spicatum Lam.)",
     "femaNumber": "2757",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5830,7 +5830,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "287N294穗花槭提取物(固体)Mountainmapleextractsolid(AcerspicatumLam.)2757",
     "rowName": "穗花槭提取物(固体)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 287；编码 N294；香料中文名称 穗花槭提取物(固体)；香料英文名称 Mountainmapleextractsolid(AcerspicatumLam.)；FEMA 编号 2757。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 287；编码 N294；香料中文名称 穗花槭提取物(固体)；香料英文名称 Mountain maple extract solid (Acer spicatum Lam.)；FEMA 编号 2757。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0288",
@@ -5838,7 +5838,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N295",
     "flavorCode": "N295",
     "flavorNameCn": "芸香油",
-    "flavorNameEn": "Rueoil(RutagraveolensL.)",
+    "flavorNameEn": "Rue oil (Ruta graveolens L.)",
     "femaNumber": "2995",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5847,7 +5847,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "288N295芸香油Rueoil(RutagraveolensL.)2995",
     "rowName": "芸香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 288；编码 N295；香料中文名称 芸香油；香料英文名称 Rueoil(RutagraveolensL.)；FEMA 编号 2995。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 288；编码 N295；香料中文名称 芸香油；香料英文名称 Rue oil (Ruta graveolens L.)；FEMA 编号 2995。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0289",
@@ -5855,7 +5855,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N296",
     "flavorCode": "N296",
     "flavorNameCn": "鼠尾草油树脂/提取物",
-    "flavorNameEn": "Sageoleoresin/extract(SalviaofficinalisL.)",
+    "flavorNameEn": "Sage oleoresin/extract (Salvia officinalis L.)",
     "femaNumber": "3002",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5864,7 +5864,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "289N296鼠尾草油树脂/提取物Sageoleoresin/extract(SalviaofficinalisL.)3002",
     "rowName": "鼠尾草油树脂/提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 289；编码 N296；香料中文名称 鼠尾草油树脂/提取物；香料英文名称 Sageoleoresin/extract(SalviaofficinalisL.)；FEMA 编号 3002。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 289；编码 N296；香料中文名称 鼠尾草油树脂/提取物；香料英文名称 Sage oleoresin/extract (Salvia officinalis L.)；FEMA 编号 3002。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0290",
@@ -5872,7 +5872,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N297",
     "flavorCode": "N297",
     "flavorNameCn": "菝葜提取物",
-    "flavorNameEn": "Sarsaparillaextract(Smilaxspp.)",
+    "flavorNameEn": "Sarsaparilla extract (Smilax spp.)",
     "femaNumber": "3009",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5881,7 +5881,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "290N297菝葜提取物Sarsaparillaextract(Smilaxspp.)3009",
     "rowName": "菝葜提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 290；编码 N297；香料中文名称 菝葜提取物；香料英文名称 Sarsaparillaextract(Smilaxspp.)；FEMA 编号 3009。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 290；编码 N297；香料中文名称 菝葜提取物；香料英文名称 Sarsaparilla extract (Smilax spp.)；FEMA 编号 3009。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0291",
@@ -5889,7 +5889,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N298",
     "flavorCode": "N298",
     "flavorNameCn": "水蒸气蒸馏松节油",
-    "flavorNameEn": "Turpentine,steam-distilled(Pinusspp.)",
+    "flavorNameEn": "Turpentine, steam-distilled (Pinus spp.)",
     "femaNumber": "3089",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5898,7 +5898,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "291N298水蒸气蒸馏松节油Turpentine,steam-distilled(Pinusspp.)3089",
     "rowName": "水蒸气蒸馏松节油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 291；编码 N298；香料中文名称 水蒸气蒸馏松节油；香料英文名称 Turpentine,steam-distilled(Pinusspp.)；FEMA 编号 3089。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 291；编码 N298；香料中文名称 水蒸气蒸馏松节油；香料英文名称 Turpentine, steam-distilled (Pinus spp.)；FEMA 编号 3089。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0292",
@@ -5906,7 +5906,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N299",
     "flavorCode": "N299",
     "flavorNameCn": "缬草根提取物",
-    "flavorNameEn": "Valerianrootextract(ValerianaofficinalisL.)",
+    "flavorNameEn": "Valerian root extract (Valeriana officinalis L.)",
     "femaNumber": "3099",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5915,7 +5915,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "292N299缬草根提取物Valerianrootextract(ValerianaofficinalisL.)3099",
     "rowName": "缬草根提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 292；编码 N299；香料中文名称 缬草根提取物；香料英文名称 Valerianrootextract(ValerianaofficinalisL.)；FEMA 编号 3099。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 292；编码 N299；香料中文名称 缬草根提取物；香料英文名称 Valerian root extract (Valeriana officinalis L.)；FEMA 编号 3099。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0293",
@@ -5923,7 +5923,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N300",
     "flavorCode": "N300",
     "flavorNameCn": "香荚兰油树脂",
-    "flavorNameEn": "Vanillaoleoresin(Vanillafragrans)",
+    "flavorNameEn": "Vanilla oleoresin (Vanilla fragrans)",
     "femaNumber": "3106",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5932,7 +5932,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "293N300香荚兰油树脂Vanillaoleoresin(Vanillafragrans)3106",
     "rowName": "香荚兰油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 293；编码 N300；香料中文名称 香荚兰油树脂；香料英文名称 Vanillaoleoresin(Vanillafragrans)；FEMA 编号 3106。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 293；编码 N300；香料中文名称 香荚兰油树脂；香料英文名称 Vanilla oleoresin (Vanilla fragrans)；FEMA 编号 3106。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0294",
@@ -5940,7 +5940,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N301",
     "flavorCode": "N301",
     "flavorNameCn": "紫罗兰叶净油",
-    "flavorNameEn": "Violetleavesabsolute(ViolaodorataL.)",
+    "flavorNameEn": "Violet leaves absolute (Viola odorata L.)",
     "femaNumber": "3110",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5949,7 +5949,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "294N301紫罗兰叶净油Violetleavesabsolute(ViolaodorataL.)3110",
     "rowName": "紫罗兰叶净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 294；编码 N301；香料中文名称 紫罗兰叶净油；香料英文名称 Violetleavesabsolute(ViolaodorataL.)；FEMA 编号 3110。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 294；编码 N301；香料中文名称 紫罗兰叶净油；香料英文名称 Violet leaves absolute (Viola odorata L.)；FEMA 编号 3110。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0295",
@@ -5957,7 +5957,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N302",
     "flavorCode": "N302",
     "flavorNameCn": "洋艾油",
-    "flavorNameEn": "Wormwoodoil(ArtemisiaabsinthiumL.)",
+    "flavorNameEn": "Wormwood oil (Artemisia absinthium L.)",
     "femaNumber": "3116",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5966,7 +5966,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "295N302洋艾油Wormwoodoil(ArtemisiaabsinthiumL.)3116",
     "rowName": "洋艾油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 295；编码 N302；香料中文名称 洋艾油；香料英文名称 Wormwoodoil(ArtemisiaabsinthiumL.)；FEMA 编号 3116。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 295；编码 N302；香料中文名称 洋艾油；香料英文名称 Wormwood oil (Artemisia absinthium L.)；FEMA 编号 3116。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0296",
@@ -5974,7 +5974,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N304",
     "flavorCode": "N304",
     "flavorNameCn": "橘柚油",
-    "flavorNameEn": "Tangelooil",
+    "flavorNameEn": "Tangelo oil",
     "femaNumber": "—",
     "pdfPage": 164,
     "standardPage": 161,
@@ -5983,7 +5983,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "296N304橘柚油Tangelooil—",
     "rowName": "橘柚油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 296；编码 N304；香料中文名称 橘柚油；香料英文名称 Tangelooil；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 296；编码 N304；香料中文名称 橘柚油；香料英文名称 Tangelo oil；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0297",
@@ -5991,7 +5991,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N305",
     "flavorCode": "N305",
     "flavorNameCn": "晚香玉净油",
-    "flavorNameEn": "Tuberoseabsolute(PolianthestuberosaL.)",
+    "flavorNameEn": "Tuberose absolute (Polianthes tuberosa L.)",
     "femaNumber": "—",
     "pdfPage": 164,
     "standardPage": 161,
@@ -6000,7 +6000,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "297N305晚香玉净油Tuberoseabsolute(PolianthestuberosaL.)—",
     "rowName": "晚香玉净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 297；编码 N305；香料中文名称 晚香玉净油；香料英文名称 Tuberoseabsolute(PolianthestuberosaL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 297；编码 N305；香料中文名称 晚香玉净油；香料英文名称 Tuberose absolute (Polianthes tuberosa L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0298",
@@ -6008,7 +6008,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N306",
     "flavorCode": "N306",
     "flavorNameCn": "美国栗树叶提取物",
-    "flavorNameEn": "Chestnutleavesextract[Castaneadentate(Marsh.)Borkh.]",
+    "flavorNameEn": "Chestnut leaves extract [Castanea dentate (Marsh.) Borkh.]",
     "femaNumber": "—",
     "pdfPage": 164,
     "standardPage": 161,
@@ -6017,7 +6017,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Chestnutleavesextract[Castaneadentate(Marsh.)298N306美国栗树叶提取物—Borkh.]",
     "rowName": "美国栗树叶提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 298；编码 N306；香料中文名称 美国栗树叶提取物；香料英文名称 Chestnutleavesextract[Castaneadentate(Marsh.)Borkh.]；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 298；编码 N306；香料中文名称 美国栗树叶提取物；香料英文名称 Chestnut leaves extract [Castanea dentate (Marsh.) Borkh.]；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0299",
@@ -6025,7 +6025,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N307",
     "flavorCode": "N307",
     "flavorNameCn": "古巴香脂油",
-    "flavorNameEn": "Copaibaoil(SouthAmericanspp.ofCopaifera)",
+    "flavorNameEn": "Copaiba oil (South American spp. of Copaifera)",
     "femaNumber": "—",
     "pdfPage": 164,
     "standardPage": 161,
@@ -6034,7 +6034,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "299N307古巴香脂油Copaibaoil(SouthAmericanspp.ofCopaifera)—",
     "rowName": "古巴香脂油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 299；编码 N307；香料中文名称 古巴香脂油；香料英文名称 Copaibaoil(SouthAmericanspp.ofCopaifera)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 299；编码 N307；香料中文名称 古巴香脂油；香料英文名称 Copaiba oil (South American spp. of Copaifera)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0300",
@@ -6042,7 +6042,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N308",
     "flavorCode": "N308",
     "flavorNameCn": "达迷草叶",
-    "flavorNameEn": "Damianaleaves(TurneradiffusaWilld.)",
+    "flavorNameEn": "Damiana leaves (Turnera diffusa Willd.)",
     "femaNumber": "—",
     "pdfPage": 164,
     "standardPage": 161,
@@ -6051,7 +6051,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "300N308达迷草叶Damianaleaves(TurneradiffusaWilld.)—",
     "rowName": "达迷草叶",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 300；编码 N308；香料中文名称 达迷草叶；香料英文名称 Damianaleaves(TurneradiffusaWilld.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 300；编码 N308；香料中文名称 达迷草叶；香料英文名称 Damiana leaves (Turnera diffusa Willd.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0301",
@@ -6059,7 +6059,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N309",
     "flavorCode": "N309",
     "flavorNameCn": "母菊(匈牙利春黄菊)花净油",
-    "flavorNameEn": "Chamomileflowerabsolute(Hungarian)(MatricariachamomillaL.)",
+    "flavorNameEn": "Chamomile flower absolute (Hungarian) (Matricaria chamomilla L.)",
     "femaNumber": "—",
     "pdfPage": 164,
     "standardPage": 161,
@@ -6068,7 +6068,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "母菊(匈牙利春黄菊)花Chamomileflowerabsolute(Hungarian)(Matricaria301N309—净油chamomillaL.)",
     "rowName": "母菊(匈牙利春黄菊)花净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 301；编码 N309；香料中文名称 母菊(匈牙利春黄菊)花净油；香料英文名称 Chamomileflowerabsolute(Hungarian)(MatricariachamomillaL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 301；编码 N309；香料中文名称 母菊(匈牙利春黄菊)花净油；香料英文名称 Chamomile flower absolute (Hungarian) (Matricaria chamomilla L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0302",
@@ -6076,7 +6076,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N310",
     "flavorCode": "N310",
     "flavorNameCn": "接骨木花提取物",
-    "flavorNameEn": "Elderflowersextract(SambucuscanadensisL.andS.nigraL.)",
+    "flavorNameEn": "Elder flowers extract (Sambucus canadensis L. and S. nigra L.)",
     "femaNumber": "—",
     "pdfPage": 164,
     "standardPage": 161,
@@ -6085,7 +6085,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Elderflowersextract(SambucuscanadensisL.and302N310接骨木花提取物—S.nigraL.)",
     "rowName": "接骨木花提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 302；编码 N310；香料中文名称 接骨木花提取物；香料英文名称 Elderflowersextract(SambucuscanadensisL.andS.nigraL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 302；编码 N310；香料中文名称 接骨木花提取物；香料英文名称 Elder flowers extract (Sambucus canadensis L. and S. nigra L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0303",
@@ -6093,7 +6093,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N311",
     "flavorCode": "N311",
     "flavorNameCn": "防风根油(又名没药油)",
-    "flavorNameEn": "Opoponaxoil(Commiphoraspp.)",
+    "flavorNameEn": "Opoponax oil (Commiphora spp.)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6102,7 +6102,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "303N311防风根油(又名没药油)Opoponaxoil(Commiphoraspp.)—",
     "rowName": "防风根油(又名没药油)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 303；编码 N311；香料中文名称 防风根油(又名没药油)；香料英文名称 Opoponaxoil(Commiphoraspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 303；编码 N311；香料中文名称 防风根油(又名没药油)；香料英文名称 Opoponax oil (Commiphora spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0304",
@@ -6110,7 +6110,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N312",
     "flavorCode": "N312",
     "flavorNameCn": "藏红花提取物",
-    "flavorNameEn": "Saffronextract(CrocussativusL.)",
+    "flavorNameEn": "Saffron extract (Crocus sativus L.)",
     "femaNumber": "2999",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6119,7 +6119,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "304N312藏红花提取物Saffronextract(CrocussativusL.)2999",
     "rowName": "藏红花提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 304；编码 N312；香料中文名称 藏红花提取物；香料英文名称 Saffronextract(CrocussativusL.)；FEMA 编号 2999。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 304；编码 N312；香料中文名称 藏红花提取物；香料英文名称 Saffron extract (Crocus sativus L.)；FEMA 编号 2999。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0305",
@@ -6127,7 +6127,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N313",
     "flavorCode": "N313",
     "flavorNameCn": "香叶提取物",
-    "flavorNameEn": "Geraniumextract(Pelargonliumspp.)",
+    "flavorNameEn": "Geranium extract (Pelargonium spp.)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6136,7 +6136,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "305N313香叶提取物Geraniumextract(Pelargonliumspp.)—",
     "rowName": "香叶提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 305；编码 N313；香料中文名称 香叶提取物；香料英文名称 Geraniumextract(Pelargonliumspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 305；编码 N313；香料中文名称 香叶提取物；香料英文名称 Geranium extract (Pelargonium spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0306",
@@ -6144,7 +6144,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N314",
     "flavorCode": "N314",
     "flavorNameCn": "葫芦巴油树脂",
-    "flavorNameEn": "Fenugreekoleoresin(TrigonellafoenumgraecumL.)",
+    "flavorNameEn": "Fenugreek oleoresin (Trigonella foenumgraecum L.)",
     "femaNumber": "2486",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6153,7 +6153,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "306N314葫芦巴油树脂Fenugreekoleoresin(TrigonellafoenumgraecumL.)2486",
     "rowName": "葫芦巴油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 306；编码 N314；香料中文名称 葫芦巴油树脂；香料英文名称 Fenugreekoleoresin(TrigonellafoenumgraecumL.)；FEMA 编号 2486。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 306；编码 N314；香料中文名称 葫芦巴油树脂；香料英文名称 Fenugreek oleoresin (Trigonella foenumgraecum L.)；FEMA 编号 2486。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0307",
@@ -6161,7 +6161,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N315",
     "flavorCode": "N315",
     "flavorNameCn": "柠檬提取物",
-    "flavorNameEn": "Lemonextract[Citruslimon(L.)Burm.f.]",
+    "flavorNameEn": "Lemon extract [Citrus limon (L.) Burm.f.]",
     "femaNumber": "2623",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6170,7 +6170,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "307N315柠檬提取物Lemonextract[Citruslimon(L.)Burm.f.]2623",
     "rowName": "柠檬提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 307；编码 N315；香料中文名称 柠檬提取物；香料英文名称 Lemonextract[Citruslimon(L.)Burm.f.]；FEMA 编号 2623。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 307；编码 N315；香料中文名称 柠檬提取物；香料英文名称 Lemon extract [Citrus limon (L.) Burm.f.]；FEMA 编号 2623。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0308",
@@ -6178,7 +6178,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N316",
     "flavorCode": "N316",
     "flavorNameCn": "德国鸢尾树脂",
-    "flavorNameEn": "Orrisresinoid(IrisgermanicalL.)",
+    "flavorNameEn": "Orris resinoid (Iris germanical L.)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6187,7 +6187,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "308N316德国鸢尾树脂Orrisresinoid(IrisgermanicalL.)—",
     "rowName": "德国鸢尾树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 308；编码 N316；香料中文名称 德国鸢尾树脂；香料英文名称 Orrisresinoid(IrisgermanicalL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 308；编码 N316；香料中文名称 德国鸢尾树脂；香料英文名称 Orris resinoid (Iris germanical L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0309",
@@ -6195,7 +6195,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N317",
     "flavorCode": "N317",
     "flavorNameCn": "罗望子提取物(浸膏)",
-    "flavorNameEn": "Tamarindextract(TamarindusindicaL.)",
+    "flavorNameEn": "Tamarind extract (Tamarindus indica L.)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6204,7 +6204,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "309N317罗望子提取物(浸膏)Tamarindextract(TamarindusindicaL.)—",
     "rowName": "罗望子提取物(浸膏)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 309；编码 N317；香料中文名称 罗望子提取物(浸膏)；香料英文名称 Tamarindextract(TamarindusindicaL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 309；编码 N317；香料中文名称 罗望子提取物(浸膏)；香料英文名称 Tamarind extract (Tamarindus indica L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0310",
@@ -6212,7 +6212,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N318",
     "flavorCode": "N318",
     "flavorNameCn": "辣根油",
-    "flavorNameEn": "Horseradishoil(ArmoracialapathifoliaGilib)",
+    "flavorNameEn": "Horseradish oil (Armoracia lapathifolia Gilib)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6221,7 +6221,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "310N318辣根油Horseradishoil(ArmoracialapathifoliaGilib)—",
     "rowName": "辣根油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 310；编码 N318；香料中文名称 辣根油；香料英文名称 Horseradishoil(ArmoracialapathifoliaGilib)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 310；编码 N318；香料中文名称 辣根油；香料英文名称 Horseradish oil (Armoracia lapathifolia Gilib)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0311",
@@ -6229,7 +6229,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N319",
     "flavorCode": "N319",
     "flavorNameCn": "葫芦巴籽浸膏",
-    "flavorNameEn": "Fenugreekseedextract(TrigonellafoenumgraecumL.)",
+    "flavorNameEn": "Fenugreek seed extract (Trigonella foenumgraecum L.)",
     "femaNumber": "2485",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6238,7 +6238,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "311N319葫芦巴籽浸膏Fenugreekseedextract(TrigonellafoenumgraecumL.)2485",
     "rowName": "葫芦巴籽浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 311；编码 N319；香料中文名称 葫芦巴籽浸膏；香料英文名称 Fenugreekseedextract(TrigonellafoenumgraecumL.)；FEMA 编号 2485。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 311；编码 N319；香料中文名称 葫芦巴籽浸膏；香料英文名称 Fenugreek seed extract (Trigonella foenumgraecum L.)；FEMA 编号 2485。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0312",
@@ -6246,7 +6246,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N320",
     "flavorCode": "N320",
     "flavorNameCn": "芹菜叶油",
-    "flavorNameEn": "Celeryleafoil(ApiumgraveolensL.)",
+    "flavorNameEn": "Celery leaf oil (Apium graveolens L.)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6255,7 +6255,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "312N320芹菜叶油Celeryleafoil(ApiumgraveolensL.)—",
     "rowName": "芹菜叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 312；编码 N320；香料中文名称 芹菜叶油；香料英文名称 Celeryleafoil(ApiumgraveolensL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 312；编码 N320；香料中文名称 芹菜叶油；香料英文名称 Celery leaf oil (Apium graveolens L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0313",
@@ -6263,7 +6263,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N321",
     "flavorCode": "N321",
     "flavorNameCn": "柏木油萜烯",
-    "flavorNameEn": "Cedarwoodoilterpenes",
+    "flavorNameEn": "Cedar wood oil terpenes",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6272,7 +6272,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "313N321柏木油萜烯Cedarwoodoilterpenes—",
     "rowName": "柏木油萜烯",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 313；编码 N321；香料中文名称 柏木油萜烯；香料英文名称 Cedarwoodoilterpenes；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 313；编码 N321；香料中文名称 柏木油萜烯；香料英文名称 Cedar wood oil terpenes；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0314",
@@ -6280,7 +6280,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N322",
     "flavorCode": "N322",
     "flavorNameCn": "肉豆蔻油树脂",
-    "flavorNameEn": "Nutmegoleoresin(MyristicafragransHoutt)",
+    "flavorNameEn": "Nutmeg oleoresin (Myristica fragrans Houtt)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6289,7 +6289,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "314N322肉豆蔻油树脂Nutmegoleoresin(MyristicafragransHoutt)—",
     "rowName": "肉豆蔻油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 314；编码 N322；香料中文名称 肉豆蔻油树脂；香料英文名称 Nutmegoleoresin(MyristicafragransHoutt)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 314；编码 N322；香料中文名称 肉豆蔻油树脂；香料英文名称 Nutmeg oleoresin (Myristica fragrans Houtt)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0315",
@@ -6297,7 +6297,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N324",
     "flavorCode": "N324",
     "flavorNameCn": "芫荽油/油树脂",
-    "flavorNameEn": "Corianderoil/oleoresin(CoriandrumsativumL.)",
+    "flavorNameEn": "Coriander oil/oleoresin (Coriandrum sativum L.)",
     "femaNumber": "2334",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6306,7 +6306,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "315N324芫荽油/油树脂Corianderoil/oleoresin(CoriandrumsativumL.)2334",
     "rowName": "芫荽油/油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 315；编码 N324；香料中文名称 芫荽油/油树脂；香料英文名称 Corianderoil/oleoresin(CoriandrumsativumL.)；FEMA 编号 2334。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 315；编码 N324；香料中文名称 芫荽油/油树脂；香料英文名称 Coriander oil/oleoresin (Coriandrum sativum L.)；FEMA 编号 2334。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0316",
@@ -6314,7 +6314,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N326",
     "flavorCode": "N326",
     "flavorNameCn": "韭葱油",
-    "flavorNameEn": "Leekoil(Alliumporrum)",
+    "flavorNameEn": "Leek oil (Allium porrum)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6323,7 +6323,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "316N326韭葱油Leekoil(Alliumporrum)—",
     "rowName": "韭葱油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 316；编码 N326；香料中文名称 韭葱油；香料英文名称 Leekoil(Alliumporrum)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 316；编码 N326；香料中文名称 韭葱油；香料英文名称 Leek oil (Allium porrum)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0317",
@@ -6331,7 +6331,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N327",
     "flavorCode": "N327",
     "flavorNameCn": "甜橙皮提取物",
-    "flavorNameEn": "Orangepeelextract,sweet[Citrussinensis(L.)Osbeck]",
+    "flavorNameEn": "Orange peel extract, sweet [Citrus sinensis (L.) Osbeck]",
     "femaNumber": "2824",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6340,7 +6340,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Orangepeelextract,sweet[Citrussinensis(L.)317N327甜橙皮提取物2824Osbeck]",
     "rowName": "甜橙皮提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 317；编码 N327；香料中文名称 甜橙皮提取物；香料英文名称 Orangepeelextract,sweet[Citrussinensis(L.)Osbeck]；FEMA 编号 2824。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 317；编码 N327；香料中文名称 甜橙皮提取物；香料英文名称 Orange peel extract, sweet [Citrus sinensis (L.) Osbeck]；FEMA 编号 2824。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0318",
@@ -6348,7 +6348,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N329",
     "flavorCode": "N329",
     "flavorNameCn": "香橙皮油",
-    "flavorNameEn": "Citrusjunospeeloil",
+    "flavorNameEn": "Citrus junos peel oil",
     "femaNumber": "2318",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6357,7 +6357,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "318N329香橙皮油Citrusjunospeeloil2318",
     "rowName": "香橙皮油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 318；编码 N329；香料中文名称 香橙皮油；香料英文名称 Citrusjunospeeloil；FEMA 编号 2318。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 318；编码 N329；香料中文名称 香橙皮油；香料英文名称 Citrus junos peel oil；FEMA 编号 2318。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0319",
@@ -6365,7 +6365,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N330",
     "flavorCode": "N330",
     "flavorNameCn": "海藻净油",
-    "flavorNameEn": "Alguesabsolute",
+    "flavorNameEn": "Algues absolute",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6374,7 +6374,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "319N330海藻净油Alguesabsolute—",
     "rowName": "海藻净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 319；编码 N330；香料中文名称 海藻净油；香料英文名称 Alguesabsolute；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 319；编码 N330；香料中文名称 海藻净油；香料英文名称 Algues absolute；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0320",
@@ -6382,7 +6382,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N331",
     "flavorCode": "N331",
     "flavorNameCn": "墨西哥鼠尾草油树脂(又名棘枝油树脂)",
-    "flavorNameEn": "Oreganooleoresin(Lippiaspp.)",
+    "flavorNameEn": "Oregano oleoresin (Lippia spp.)",
     "femaNumber": "2827",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6391,7 +6391,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "墨西哥鼠尾草油树脂(又320N331Oreganooleoresin(Lippiaspp.)2827名棘枝油树脂)",
     "rowName": "墨西哥鼠尾草油树脂(又名棘枝油树脂)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 320；编码 N331；香料中文名称 墨西哥鼠尾草油树脂(又名棘枝油树脂)；香料英文名称 Oreganooleoresin(Lippiaspp.)；FEMA 编号 2827。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 320；编码 N331；香料中文名称 墨西哥鼠尾草油树脂(又名棘枝油树脂)；香料英文名称 Oregano oleoresin (Lippia spp.)；FEMA 编号 2827。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0321",
@@ -6399,7 +6399,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N332",
     "flavorCode": "N332",
     "flavorNameCn": "甘草酸铵",
-    "flavorNameEn": "Glycyrrhizin,ammoniated(Glycyrrhizaspp.)",
+    "flavorNameEn": "Glycyrrhizin, ammoniated (Glycyrrhiza spp.)",
     "femaNumber": "2528",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6408,7 +6408,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "321N332甘草酸铵Glycyrrhizin,ammoniated(Glycyrrhizaspp.)2528",
     "rowName": "甘草酸铵",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 321；编码 N332；香料中文名称 甘草酸铵；香料英文名称 Glycyrrhizin,ammoniated(Glycyrrhizaspp.)；FEMA 编号 2528。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 321；编码 N332；香料中文名称 甘草酸铵；香料英文名称 Glycyrrhizin, ammoniated (Glycyrrhiza spp.)；FEMA 编号 2528。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0322",
@@ -6416,7 +6416,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N333",
     "flavorCode": "N333",
     "flavorNameCn": "冬香草油",
-    "flavorNameEn": "Savorywinteroil(SaturejamontanaL.)",
+    "flavorNameEn": "Savory winter oil (Satureja montana L.)",
     "femaNumber": "3016",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6425,7 +6425,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "322N333冬香草油Savorywinteroil(SaturejamontanaL.)3016",
     "rowName": "冬香草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 322；编码 N333；香料中文名称 冬香草油；香料英文名称 Savorywinteroil(SaturejamontanaL.)；FEMA 编号 3016。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 322；编码 N333；香料中文名称 冬香草油；香料英文名称 Savory winter oil (Satureja montana L.)；FEMA 编号 3016。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0323",
@@ -6433,7 +6433,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N334",
     "flavorCode": "N334",
     "flavorNameCn": "苏合香",
-    "flavorNameEn": "Styrax(Liquidambarspp.)",
+    "flavorNameEn": "Styrax (Liquidambar spp.)",
     "femaNumber": "3036",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6442,7 +6442,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "323N334苏合香Styrax(Liquidambarspp.)3036",
     "rowName": "苏合香",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 323；编码 N334；香料中文名称 苏合香；香料英文名称 Styrax(Liquidambarspp.)；FEMA 编号 3036。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 323；编码 N334；香料中文名称 苏合香；香料英文名称 Styrax (Liquidambar spp.)；FEMA 编号 3036。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0324",
@@ -6450,7 +6450,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N335",
     "flavorCode": "N335",
     "flavorNameCn": "阿魏液态提取物(流浸膏)",
-    "flavorNameEn": "Asafoetidafluidextract(FerulaassafoetidaL.)",
+    "flavorNameEn": "Asafoetida fluid extract (Ferula assafoetida L.)",
     "femaNumber": "2106",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6459,7 +6459,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "阿魏液态提取物(流浸324N335Asafoetidafluidextract(FerulaassafoetidaL.)2106膏)",
     "rowName": "阿魏液态提取物(流浸膏)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 324；编码 N335；香料中文名称 阿魏液态提取物(流浸膏)；香料英文名称 Asafoetidafluidextract(FerulaassafoetidaL.)；FEMA 编号 2106。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 324；编码 N335；香料中文名称 阿魏液态提取物(流浸膏)；香料英文名称 Asafoetida fluid extract (Ferula assafoetida L.)；FEMA 编号 2106。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0325",
@@ -6467,7 +6467,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N336",
     "flavorCode": "N336",
     "flavorNameCn": "桃树叶净油",
-    "flavorNameEn": "Peachtreeleafabsolute(PrunuspersicaL.Batsch)",
+    "flavorNameEn": "Peach tree leaf absolute (Prunus persica L. Batsch)",
     "femaNumber": "—",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6476,7 +6476,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "325N336桃树叶净油Peachtreeleafabsolute(PrunuspersicaL.Batsch)—",
     "rowName": "桃树叶净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 325；编码 N336；香料中文名称 桃树叶净油；香料英文名称 Peachtreeleafabsolute(PrunuspersicaL.Batsch)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 325；编码 N336；香料中文名称 桃树叶净油；香料英文名称 Peach tree leaf absolute (Prunus persica L. Batsch)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0326",
@@ -6484,7 +6484,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N337",
     "flavorCode": "N337",
     "flavorNameCn": "白藓牛至",
-    "flavorNameEn": "Dittanyofcrete(OriganumdictamnusL.)",
+    "flavorNameEn": "Dittanyofcrete (Origanum dictamnus L.)",
     "femaNumber": "2399",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6493,7 +6493,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "326N337白藓牛至Dittanyofcrete(OriganumdictamnusL.)2399",
     "rowName": "白藓牛至",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 326；编码 N337；香料中文名称 白藓牛至；香料英文名称 Dittanyofcrete(OriganumdictamnusL.)；FEMA 编号 2399。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 326；编码 N337；香料中文名称 白藓牛至；香料英文名称 Dittanyofcrete (Origanum dictamnus L.)；FEMA 编号 2399。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0327",
@@ -6501,7 +6501,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N338",
     "flavorCode": "N338",
     "flavorNameCn": "酒花油",
-    "flavorNameEn": "Hopsoil(HumuluslupulusL.)",
+    "flavorNameEn": "Hops oil (Humulus lupulus L.)",
     "femaNumber": "2580",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6510,7 +6510,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "327N338酒花油Hopsoil(HumuluslupulusL.)2580",
     "rowName": "酒花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 327；编码 N338；香料中文名称 酒花油；香料英文名称 Hopsoil(HumuluslupulusL.)；FEMA 编号 2580。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 327；编码 N338；香料中文名称 酒花油；香料英文名称 Hops oil (Humulus lupulus L.)；FEMA 编号 2580。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0328",
@@ -6518,7 +6518,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N339",
     "flavorCode": "N339",
     "flavorNameCn": "赖百当油",
-    "flavorNameEn": "Labdanumoil(Cistusladaniferus)",
+    "flavorNameEn": "Labdanum oil (Cistus ladaniferus)",
     "femaNumber": "2609",
     "pdfPage": 165,
     "standardPage": 162,
@@ -6527,7 +6527,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "328N339赖百当油Labdanumoil(Cistusladaniferus)2609",
     "rowName": "赖百当油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 328；编码 N339；香料中文名称 赖百当油；香料英文名称 Labdanumoil(Cistusladaniferus)；FEMA 编号 2609。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 328；编码 N339；香料中文名称 赖百当油；香料英文名称 Labdanum oil (Cistus ladaniferus)；FEMA 编号 2609。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0329",
@@ -6535,7 +6535,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N340",
     "flavorCode": "N340",
     "flavorNameCn": "薰衣草净油",
-    "flavorNameEn": "Lavenderabsolute(Lavandulaangustidolia)",
+    "flavorNameEn": "Lavender absolute (Lavandula angustidolia)",
     "femaNumber": "2620",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6544,7 +6544,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "329N340薰衣草净油Lavenderabsolute(Lavandulaangustidolia)2620",
     "rowName": "薰衣草净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 329；编码 N340；香料中文名称 薰衣草净油；香料英文名称 Lavenderabsolute(Lavandulaangustidolia)；FEMA 编号 2620。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 329；编码 N340；香料中文名称 薰衣草净油；香料英文名称 Lavender absolute (Lavandula angustidolia)；FEMA 编号 2620。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0330",
@@ -6552,7 +6552,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N341",
     "flavorCode": "N341",
     "flavorNameCn": "没药树脂提取物",
-    "flavorNameEn": "Opoponaxextractresinoid(Commiphoraspp.)",
+    "flavorNameEn": "Opoponax extract resinoid (Commiphora spp.)",
     "femaNumber": "—",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6561,7 +6561,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "330N341没药树脂提取物Opoponaxextractresinoid(Commiphoraspp.)—",
     "rowName": "没药树脂提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 330；编码 N341；香料中文名称 没药树脂提取物；香料英文名称 Opoponaxextractresinoid(Commiphoraspp.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 330；编码 N341；香料中文名称 没药树脂提取物；香料英文名称 Opoponax extract resinoid (Commiphora spp.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0331",
@@ -6569,7 +6569,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N342",
     "flavorCode": "N342",
     "flavorNameCn": "花椒提取物",
-    "flavorNameEn": "Ashbark,prickly,extract(Zanthoxylumspp.)",
+    "flavorNameEn": "Ashbark, prickly, extract (Zanthoxylum spp.)",
     "femaNumber": "4754",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6578,7 +6578,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "2110331N342花椒提取物Ashbark,prickly,extract(Zanthoxylumspp.)4754",
     "rowName": "花椒提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 331；编码 N342；香料中文名称 花椒提取物；香料英文名称 Ashbark,prickly,extract(Zanthoxylumspp.)；FEMA 编号 4754。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 331；编码 N342；香料中文名称 花椒提取物；香料英文名称 Ashbark, prickly, extract (Zanthoxylum spp.)；FEMA 编号 4754。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0332",
@@ -6586,7 +6586,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N343",
     "flavorCode": "N343",
     "flavorNameCn": "蓖麻油",
-    "flavorNameEn": "Castoroil(Ricinuscommunis)",
+    "flavorNameEn": "Castor oil (Ricinus communis)",
     "femaNumber": "2263",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6595,7 +6595,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "332N343蓖麻油Castoroil(Ricinuscommunis)2263",
     "rowName": "蓖麻油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 332；编码 N343；香料中文名称 蓖麻油；香料英文名称 Castoroil(Ricinuscommunis)；FEMA 编号 2263。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 332；编码 N343；香料中文名称 蓖麻油；香料英文名称 Castor oil (Ricinus communis)；FEMA 编号 2263。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0333",
@@ -6603,7 +6603,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N344",
     "flavorCode": "N344",
     "flavorNameCn": "儿茶粉",
-    "flavorNameEn": "Catechupowder(AcaciacatechuWilld.)",
+    "flavorNameEn": "Catechupowder (Acacia catechu Willd.)",
     "femaNumber": "2265",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6612,7 +6612,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "333N344儿茶粉Catechupowder(AcaciacatechuWilld.)2265",
     "rowName": "儿茶粉",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 333；编码 N344；香料中文名称 儿茶粉；香料英文名称 Catechupowder(AcaciacatechuWilld.)；FEMA 编号 2265。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 333；编码 N344；香料中文名称 儿茶粉；香料英文名称 Catechupowder (Acacia catechu Willd.)；FEMA 编号 2265。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0334",
@@ -6620,7 +6620,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N345",
     "flavorCode": "N345",
     "flavorNameCn": "苦艾",
-    "flavorNameEn": "Wormwood(ArtemisiaabsinthiumL.)",
+    "flavorNameEn": "Wormwood (Artemisia absinthium L.)",
     "femaNumber": "3114",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6629,7 +6629,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "334N345苦艾Wormwood(ArtemisiaabsinthiumL.)3114",
     "rowName": "苦艾",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 334；编码 N345；香料中文名称 苦艾；香料英文名称 Wormwood(ArtemisiaabsinthiumL.)；FEMA 编号 3114。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 334；编码 N345；香料中文名称 苦艾；香料英文名称 Wormwood (Artemisia absinthium L.)；FEMA 编号 3114。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0335",
@@ -6637,7 +6637,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N346",
     "flavorCode": "N346",
     "flavorNameCn": "苦橙花油",
-    "flavorNameEn": "Nerolibigaradeoil(CitrusaurantiumL.)",
+    "flavorNameEn": "Neroli bigarade oil (Citrus aurantium L.)",
     "femaNumber": "2771",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6646,7 +6646,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "335N346苦橙花油Nerolibigaradeoil(CitrusaurantiumL.)2771",
     "rowName": "苦橙花油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 335；编码 N346；香料中文名称 苦橙花油；香料英文名称 Nerolibigaradeoil(CitrusaurantiumL.)；FEMA 编号 2771。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 335；编码 N346；香料中文名称 苦橙花油；香料英文名称 Neroli bigarade oil (Citrus aurantium L.)；FEMA 编号 2771。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0336",
@@ -6654,7 +6654,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N347",
     "flavorCode": "N347",
     "flavorNameCn": "达瓦树胶",
-    "flavorNameEn": "Ghattigum(AnogeissuslatifoliaWall.)",
+    "flavorNameEn": "Ghatti gum (Anogeissus latifolia Wall.)",
     "femaNumber": "2519",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6663,7 +6663,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "336N347达瓦树胶Ghattigum(AnogeissuslatifoliaWall.)2519",
     "rowName": "达瓦树胶",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 336；编码 N347；香料中文名称 达瓦树胶；香料英文名称 Ghattigum(AnogeissuslatifoliaWall.)；FEMA 编号 2519。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 336；编码 N347；香料中文名称 达瓦树胶；香料英文名称 Ghatti gum (Anogeissus latifolia Wall.)；FEMA 编号 2519。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0337",
@@ -6671,7 +6671,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N348",
     "flavorCode": "N348",
     "flavorNameCn": "苦艾提取物",
-    "flavorNameEn": "Wormwoodextract(ArtemisiaabsinthiumL.)",
+    "flavorNameEn": "Wormwood extract (Artemisia absinthium L.)",
     "femaNumber": "3115",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6680,7 +6680,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "337N348苦艾提取物Wormwoodextract(ArtemisiaabsinthiumL.)3115",
     "rowName": "苦艾提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 337；编码 N348；香料中文名称 苦艾提取物；香料英文名称 Wormwoodextract(ArtemisiaabsinthiumL.)；FEMA 编号 3115。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 337；编码 N348；香料中文名称 苦艾提取物；香料英文名称 Wormwood extract (Artemisia absinthium L.)；FEMA 编号 3115。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0338",
@@ -6688,7 +6688,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N349",
     "flavorCode": "N349",
     "flavorNameCn": "刺柏提取物",
-    "flavorNameEn": "Juniperextract(JuniperuscommunisL.)",
+    "flavorNameEn": "Juniper extract (Juniperus communis L.)",
     "femaNumber": "2603",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6697,7 +6697,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "338N349刺柏提取物Juniperextract(JuniperuscommunisL.)2603",
     "rowName": "刺柏提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 338；编码 N349；香料中文名称 刺柏提取物；香料英文名称 Juniperextract(JuniperuscommunisL.)；FEMA 编号 2603。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 338；编码 N349；香料中文名称 刺柏提取物；香料英文名称 Juniper extract (Juniperus communis L.)；FEMA 编号 2603。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0339",
@@ -6705,7 +6705,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N350",
     "flavorCode": "N350",
     "flavorNameCn": "甘草提取物(粉)",
-    "flavorNameEn": "Licoriceextractpowder(GlycyrrhizaglabraL.)",
+    "flavorNameEn": "Licorice extract powder (Glycyrrhiza glabra L.)",
     "femaNumber": "2629",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6714,7 +6714,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "339N350甘草提取物(粉)Licoriceextractpowder(GlycyrrhizaglabraL.)2629",
     "rowName": "甘草提取物(粉)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 339；编码 N350；香料中文名称 甘草提取物(粉)；香料英文名称 Licoriceextractpowder(GlycyrrhizaglabraL.)；FEMA 编号 2629。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 339；编码 N350；香料中文名称 甘草提取物(粉)；香料英文名称 Licorice extract powder (Glycyrrhiza glabra L.)；FEMA 编号 2629。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0340",
@@ -6722,7 +6722,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N351",
     "flavorCode": "N351",
     "flavorNameCn": "甜菜碱(天然提取)",
-    "flavorNameEn": "Betaine(NaturalExtract)",
+    "flavorNameEn": "Betaine (Natural Extract)",
     "femaNumber": "4223",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6731,7 +6731,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "340N351甜菜碱(天然提取)Betaine(NaturalExtract)4223",
     "rowName": "甜菜碱(天然提取)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 340；编码 N351；香料中文名称 甜菜碱(天然提取)；香料英文名称 Betaine(NaturalExtract)；FEMA 编号 4223。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 340；编码 N351；香料中文名称 甜菜碱(天然提取)；香料英文名称 Betaine (Natural Extract)；FEMA 编号 4223。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0341",
@@ -6739,7 +6739,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N352",
     "flavorCode": "N352",
     "flavorNameCn": "松焦油",
-    "flavorNameEn": "Pinetaroil(Pinusspp.)",
+    "flavorNameEn": "Pine tar oil (Pinus spp.)",
     "femaNumber": "2907",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6748,7 +6748,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "341N352松焦油Pinetaroil(Pinusspp.)2907",
     "rowName": "松焦油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 341；编码 N352；香料中文名称 松焦油；香料英文名称 Pinetaroil(Pinusspp.)；FEMA 编号 2907。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 341；编码 N352；香料中文名称 松焦油；香料英文名称 Pine tar oil (Pinus spp.)；FEMA 编号 2907。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0342",
@@ -6756,7 +6756,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N353",
     "flavorCode": "N353",
     "flavorNameCn": "橡苔净油",
-    "flavorNameEn": "Oakmossabsolute(Everniaspp.)",
+    "flavorNameEn": "Oakmoss absolute (Evernia spp.)",
     "femaNumber": "2795",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6765,7 +6765,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "342N353橡苔净油Oakmossabsolute(Everniaspp.)2795",
     "rowName": "橡苔净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 342；编码 N353；香料中文名称 橡苔净油；香料英文名称 Oakmossabsolute(Everniaspp.)；FEMA 编号 2795。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 342；编码 N353；香料中文名称 橡苔净油；香料英文名称 Oakmoss absolute (Evernia spp.)；FEMA 编号 2795。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0343",
@@ -6773,7 +6773,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N354",
     "flavorCode": "N354",
     "flavorNameCn": "苏格兰留兰香油",
-    "flavorNameEn": "Scotchspearmintoil(MenthacardiacaL.)",
+    "flavorNameEn": "Scotch spearmint oil (Mentha cardiaca L.)",
     "femaNumber": "4221",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6782,7 +6782,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "343N354苏格兰留兰香油Scotchspearmintoil(MenthacardiacaL.)4221",
     "rowName": "苏格兰留兰香油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 343；编码 N354；香料中文名称 苏格兰留兰香油；香料英文名称 Scotchspearmintoil(MenthacardiacaL.)；FEMA 编号 4221。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 343；编码 N354；香料中文名称 苏格兰留兰香油；香料英文名称 Scotch spearmint oil (Mentha cardiaca L.)；FEMA 编号 4221。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0344",
@@ -6790,7 +6790,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N355",
     "flavorCode": "N355",
     "flavorNameCn": "海索草提取物(又名神香草提取物)",
-    "flavorNameEn": "Hyssopextract(HyssopusofficinalisL.)",
+    "flavorNameEn": "Hyssop extract (Hyssopus officinalis L.)",
     "femaNumber": "2590",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6799,7 +6799,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "海索草提取物(又名神香344N355Hyssopextract(HyssopusofficinalisL.)2590草提取物)",
     "rowName": "海索草提取物(又名神香草提取物)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 344；编码 N355；香料中文名称 海索草提取物(又名神香草提取物)；香料英文名称 Hyssopextract(HyssopusofficinalisL.)；FEMA 编号 2590。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 344；编码 N355；香料中文名称 海索草提取物(又名神香草提取物)；香料英文名称 Hyssop extract (Hyssopus officinalis L.)；FEMA 编号 2590。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0345",
@@ -6807,7 +6807,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N356",
     "flavorCode": "N356",
     "flavorNameCn": "安古树皮提取物",
-    "flavorNameEn": "Angosturaextract(GalipeaoffincinalisHancock)",
+    "flavorNameEn": "Angostura extract (Galipea offincinalis Hancock)",
     "femaNumber": "2092",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6816,7 +6816,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "345N356安古树皮提取物Angosturaextract(GalipeaoffincinalisHancock)2092",
     "rowName": "安古树皮提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 345；编码 N356；香料中文名称 安古树皮提取物；香料英文名称 Angosturaextract(GalipeaoffincinalisHancock)；FEMA 编号 2092。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 345；编码 N356；香料中文名称 安古树皮提取物；香料英文名称 Angostura extract (Galipea offincinalis Hancock)；FEMA 编号 2092。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0346",
@@ -6824,7 +6824,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N357",
     "flavorCode": "N357",
     "flavorNameCn": "德国春黄菊花(母菊花)提取物",
-    "flavorNameEn": "Chamomile(German)extract(Matricariachamo-millaL.)",
+    "flavorNameEn": "Chamomile (German) extract (Matricaria chamo-milla L.)",
     "femaNumber": "—",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6833,7 +6833,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "德国春黄菊花(母菊花)Chamomile(German)extract(Matricariachamo-346N357—提取物millaL.)",
     "rowName": "德国春黄菊花(母菊花)提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 346；编码 N357；香料中文名称 德国春黄菊花(母菊花)提取物；香料英文名称 Chamomile(German)extract(Matricariachamo-millaL.)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 346；编码 N357；香料中文名称 德国春黄菊花(母菊花)提取物；香料英文名称 Chamomile (German) extract (Matricaria chamo-milla L.)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0347",
@@ -6875,7 +6875,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N361",
     "flavorCode": "N361",
     "flavorNameCn": "灵猫净油",
-    "flavorNameEn": "Civetabsolute(ViverracivettaSchreberV.zibethaSchreber)",
+    "flavorNameEn": "Civet absolute (Viverra civetta Schreber V. zibetha Schreber)",
     "femaNumber": "2319",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6884,7 +6884,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Civetabsolute(ViverracivettaSchreberV.zibetha349N361灵猫净油2319Schreber)",
     "rowName": "灵猫净油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 349；编码 N361；香料中文名称 灵猫净油；香料英文名称 Civetabsolute(ViverracivettaSchreberV.zibethaSchreber)；FEMA 编号 2319。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 349；编码 N361；香料中文名称 灵猫净油；香料英文名称 Civet absolute (Viverra civetta Schreber V. zibetha Schreber)；FEMA 编号 2319。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0350",
@@ -6892,7 +6892,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N362",
     "flavorCode": "N362",
     "flavorNameCn": "胭脂树提取物",
-    "flavorNameEn": "Annattoextract(BixaorellanaL.)",
+    "flavorNameEn": "Annatto extract (Bixa orellana L.)",
     "femaNumber": "2103",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6901,7 +6901,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "350N362胭脂树提取物Annattoextract(BixaorellanaL.)2103",
     "rowName": "胭脂树提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 350；编码 N362；香料中文名称 胭脂树提取物；香料英文名称 Annattoextract(BixaorellanaL.)；FEMA 编号 2103。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 350；编码 N362；香料中文名称 胭脂树提取物；香料英文名称 Annatto extract (Bixa orellana L.)；FEMA 编号 2103。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0351",
@@ -6909,7 +6909,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N363",
     "flavorCode": "N363",
     "flavorNameCn": "卡黎皮提取物",
-    "flavorNameEn": "Cascarillabarkextract(Crotonspp.)",
+    "flavorNameEn": "Cascarilla bark extract (Croton spp.)",
     "femaNumber": "2254",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6918,7 +6918,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "351N363卡黎皮提取物Cascarillabarkextract(Crotonspp.)2254",
     "rowName": "卡黎皮提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 351；编码 N363；香料中文名称 卡黎皮提取物；香料英文名称 Cascarillabarkextract(Crotonspp.)；FEMA 编号 2254。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 351；编码 N363；香料中文名称 卡黎皮提取物；香料英文名称 Cascarilla bark extract (Croton spp.)；FEMA 编号 2254。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0352",
@@ -6926,7 +6926,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N364",
     "flavorCode": "N364",
     "flavorNameCn": "肉桂皮油/油树脂",
-    "flavorNameEn": "Cinnamonbarkoil/oleoresin(Cinnamomaumspp.)",
+    "flavorNameEn": "Cinnamon bark oil/oleoresin (Cinnamomum spp.)",
     "femaNumber": "2290",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6935,7 +6935,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "352N364肉桂皮油/油树脂Cinnamonbarkoil/oleoresin(Cinnamomaumspp.)2290",
     "rowName": "肉桂皮油/油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 352；编码 N364；香料中文名称 肉桂皮油/油树脂；香料英文名称 Cinnamonbarkoil/oleoresin(Cinnamomaumspp.)；FEMA 编号 2290。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 352；编码 N364；香料中文名称 肉桂皮油/油树脂；香料英文名称 Cinnamon bark oil/oleoresin (Cinnamomum spp.)；FEMA 编号 2290。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0353",
@@ -6943,7 +6943,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N365",
     "flavorCode": "N365",
     "flavorNameCn": "刺梧桐树胶",
-    "flavorNameEn": "Karayagum(Sterculiaurens)",
+    "flavorNameEn": "Karaya gum (Sterculia urens)",
     "femaNumber": "2605",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6952,7 +6952,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "353N365刺梧桐树胶Karayagum(Sterculiaurens)2605",
     "rowName": "刺梧桐树胶",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 353；编码 N365；香料中文名称 刺梧桐树胶；香料英文名称 Karayagum(Sterculiaurens)；FEMA 编号 2605。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 353；编码 N365；香料中文名称 刺梧桐树胶；香料英文名称 Karaya gum (Sterculia urens)；FEMA 编号 2605。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0354",
@@ -6960,7 +6960,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N366",
     "flavorCode": "N366",
     "flavorNameCn": "橘叶油",
-    "flavorNameEn": "Petitgrainmandarinoil(CitrusreticulateBlancovar.mandarin)",
+    "flavorNameEn": "Petitgrain mandarin oil (Citrus reticulate Blanco var. mandarin)",
     "femaNumber": "2854",
     "pdfPage": 166,
     "standardPage": 163,
@@ -6969,7 +6969,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Petitgrainmandarinoil(CitrusreticulateBlanco354N366橘叶油2854var.mandarin)",
     "rowName": "橘叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 354；编码 N366；香料中文名称 橘叶油；香料英文名称 Petitgrainmandarinoil(CitrusreticulateBlancovar.mandarin)；FEMA 编号 2854。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 354；编码 N366；香料中文名称 橘叶油；香料英文名称 Petitgrain mandarin oil (Citrus reticulate Blanco var. mandarin)；FEMA 编号 2854。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0355",
@@ -6977,7 +6977,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N367",
     "flavorCode": "N367",
     "flavorNameCn": "欧洲山松针叶油",
-    "flavorNameEn": "Pineneedleoil,dwarf,oil[Pinusmugoturravar.pumilio(Haenke)Zenari]",
+    "flavorNameEn": "Pine needle oil, dwarf, oil [Pinus mugo turra var. pumilio (Haenke) Zenari]",
     "femaNumber": "2904",
     "pdfPage": 167,
     "standardPage": 164,
@@ -6986,7 +6986,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Pineneedleoil,dwarf,oil[Pinusmugoturra355N367欧洲山松针叶油2904var.pumilio(Haenke)Zenari]",
     "rowName": "欧洲山松针叶油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 355；编码 N367；香料中文名称 欧洲山松针叶油；香料英文名称 Pineneedleoil,dwarf,oil[Pinusmugoturravar.pumilio(Haenke)Zenari]；FEMA 编号 2904。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 355；编码 N367；香料中文名称 欧洲山松针叶油；香料英文名称 Pine needle oil, dwarf, oil [Pinus mugo turra var. pumilio (Haenke) Zenari]；FEMA 编号 2904。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0356",
@@ -6994,7 +6994,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N368",
     "flavorCode": "N368",
     "flavorNameCn": "玫瑰果籽提取物",
-    "flavorNameEn": "Rosehipsextract(Rosaspp.)",
+    "flavorNameEn": "Rose hips extract (Rosa spp.)",
     "femaNumber": "2990",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7003,7 +7003,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "356N368玫瑰果籽提取物Rosehipsextract(Rosaspp.)2990",
     "rowName": "玫瑰果籽提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 356；编码 N368；香料中文名称 玫瑰果籽提取物；香料英文名称 Rosehipsextract(Rosaspp.)；FEMA 编号 2990。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 356；编码 N368；香料中文名称 玫瑰果籽提取物；香料英文名称 Rose hips extract (Rosa spp.)；FEMA 编号 2990。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0357",
@@ -7011,7 +7011,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N369",
     "flavorCode": "N369",
     "flavorNameCn": "夏香草油",
-    "flavorNameEn": "Savorysummeroil(SaturejahortensisL.)",
+    "flavorNameEn": "Savory summer oil (Satureja hortensis L.)",
     "femaNumber": "3013",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7020,7 +7020,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "357N369夏香草油Savorysummeroil(SaturejahortensisL.)3013",
     "rowName": "夏香草油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 357；编码 N369；香料中文名称 夏香草油；香料英文名称 Savorysummeroil(SaturejahortensisL.)；FEMA 编号 3013。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 357；编码 N369；香料中文名称 夏香草油；香料英文名称 Savory summer oil (Satureja hortensis L.)；FEMA 编号 3013。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0358",
@@ -7028,7 +7028,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N370",
     "flavorCode": "N370",
     "flavorNameCn": "加拿大细辛油",
-    "flavorNameEn": "Snakerootoil,Canadian(AsarumcanadenseL.)",
+    "flavorNameEn": "Snakeroot oil, Canadian (Asarum canadense L.)",
     "femaNumber": "3023",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7037,7 +7037,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "358N370加拿大细辛油Snakerootoil,Canadian(AsarumcanadenseL.)3023",
     "rowName": "加拿大细辛油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 358；编码 N370；香料中文名称 加拿大细辛油；香料英文名称 Snakerootoil,Canadian(AsarumcanadenseL.)；FEMA 编号 3023。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 358；编码 N370；香料中文名称 加拿大细辛油；香料英文名称 Snakeroot oil, Canadian (Asarum canadense L.)；FEMA 编号 3023。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0359",
@@ -7045,7 +7045,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N371",
     "flavorCode": "N371",
     "flavorNameCn": "单宁酸",
-    "flavorNameEn": "Tannicacid",
+    "flavorNameEn": "Tannic acid",
     "femaNumber": "3042",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7054,7 +7054,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "359N371单宁酸Tannicacid3042",
     "rowName": "单宁酸",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 359；编码 N371；香料中文名称 单宁酸；香料英文名称 Tannicacid；FEMA 编号 3042。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 359；编码 N371；香料中文名称 单宁酸；香料英文名称 Tannic acid；FEMA 编号 3042。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0360",
@@ -7062,7 +7062,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N372",
     "flavorCode": "N372",
     "flavorNameCn": "黄蓍胶",
-    "flavorNameEn": "Tragacanthgum(Astragalusspp.)",
+    "flavorNameEn": "Tragacanth gum (Astragalus spp.)",
     "femaNumber": "3079",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7071,7 +7071,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "360N372黄蓍胶Tragacanthgum(Astragalusspp.)3079",
     "rowName": "黄蓍胶",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 360；编码 N372；香料中文名称 黄蓍胶；香料英文名称 Tragacanthgum(Astragalusspp.)；FEMA 编号 3079。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 360；编码 N372；香料中文名称 黄蓍胶；香料英文名称 Tragacanth gum (Astragalus spp.)；FEMA 编号 3079。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0361",
@@ -7079,7 +7079,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N373",
     "flavorCode": "N373",
     "flavorNameCn": "甘牛至油树脂/提取物",
-    "flavorNameEn": "Marjoramoleoresin/extract[MajoranahortensisMoench(OriganummajoranaL.)]",
+    "flavorNameEn": "Marjoram oleoresin/extract [Majorana hortensis Moench (Origanum majorana L.)]",
     "femaNumber": "2659",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7088,7 +7088,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Marjoramoleoresin/extract[Majoranahortensis361N373甘牛至油树脂/提取物2659Moench(OriganummajoranaL.)]",
     "rowName": "甘牛至油树脂/提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 361；编码 N373；香料中文名称 甘牛至油树脂/提取物；香料英文名称 Marjoramoleoresin/extract[MajoranahortensisMoench(OriganummajoranaL.)]；FEMA 编号 2659。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 361；编码 N373；香料中文名称 甘牛至油树脂/提取物；香料英文名称 Marjoram oleoresin/extract [Majorana hortensis Moench (Origanum majorana L.)]；FEMA 编号 2659。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0362",
@@ -7096,7 +7096,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N374",
     "flavorCode": "N374",
     "flavorNameCn": "摩洛哥豆蔻提取物",
-    "flavorNameEn": "Grainsofparadiseextract[Aframomummelegueta(Rosc.)K.Schum]",
+    "flavorNameEn": "Grains of paradise extract [Aframomum melegueta (Rosc.) K. Schum]",
     "femaNumber": "2529",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7105,7 +7105,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Grainsofparadiseextract[Aframomummelegueta362N374摩洛哥豆蔻提取物2529(Rosc.)K.Schum]",
     "rowName": "摩洛哥豆蔻提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 362；编码 N374；香料中文名称 摩洛哥豆蔻提取物；香料英文名称 Grainsofparadiseextract[Aframomummelegueta(Rosc.)K.Schum]；FEMA 编号 2529。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 362；编码 N374；香料中文名称 摩洛哥豆蔻提取物；香料英文名称 Grains of paradise extract [Aframomum melegueta (Rosc.) K. Schum]；FEMA 编号 2529。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0363",
@@ -7130,7 +7130,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N377",
     "flavorCode": "N377",
     "flavorNameCn": "芝麻(CO2)提取物",
-    "flavorNameEn": "SesameCO2extract",
+    "flavorNameEn": "Sesame CO2extract",
     "femaNumber": "—",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7139,7 +7139,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "364N377芝麻(CO2)提取物SesameCO2extract—",
     "rowName": "芝麻(CO2)提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 364；编码 N377；香料中文名称 芝麻(CO2)提取物；香料英文名称 SesameCO2extract；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 364；编码 N377；香料中文名称 芝麻(CO2)提取物；香料英文名称 Sesame CO2extract；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0365",
@@ -7164,7 +7164,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N379",
     "flavorCode": "N379",
     "flavorNameCn": "干制鲣鱼(CO2)提取物",
-    "flavorNameEn": "KatsuobushiCO2extract",
+    "flavorNameEn": "Katsuobushi CO2extract",
     "femaNumber": "—",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7173,7 +7173,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "366N379干制鲣鱼(CO2)提取物KatsuobushiCO2extract—",
     "rowName": "干制鲣鱼(CO2)提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 366；编码 N379；香料中文名称 干制鲣鱼(CO2)提取物；香料英文名称 KatsuobushiCO2extract；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 366；编码 N379；香料中文名称 干制鲣鱼(CO2)提取物；香料英文名称 Katsuobushi CO2extract；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0367",
@@ -7198,7 +7198,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N381",
     "flavorCode": "N381",
     "flavorNameCn": "豆豉油树脂",
-    "flavorNameEn": "Toushioleoresin(Douchioleoresin)",
+    "flavorNameEn": "Toushi oleoresin (Douchi oleoresin)",
     "femaNumber": "—",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7207,7 +7207,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "368N381豆豉油树脂Toushioleoresin(Douchioleoresin)—",
     "rowName": "豆豉油树脂",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 368；编码 N381；香料中文名称 豆豉油树脂；香料英文名称 Toushioleoresin(Douchioleoresin)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 368；编码 N381；香料中文名称 豆豉油树脂；香料英文名称 Toushi oleoresin (Douchi oleoresin)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0369",
@@ -7215,7 +7215,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N382",
     "flavorCode": "N382",
     "flavorNameCn": "药蜀葵",
-    "flavorNameEn": "Althearoot(AltheaofficinalisL.)",
+    "flavorNameEn": "Althea root (Althea officinalis L.)",
     "femaNumber": "2048",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7224,7 +7224,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "369N382药蜀葵Althearoot(AltheaofficinalisL.)2048",
     "rowName": "药蜀葵",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 369；编码 N382；香料中文名称 药蜀葵；香料英文名称 Althearoot(AltheaofficinalisL.)；FEMA 编号 2048。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 369；编码 N382；香料中文名称 药蜀葵；香料英文名称 Althea root (Althea officinalis L.)；FEMA 编号 2048。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0370",
@@ -7232,7 +7232,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N383",
     "flavorCode": "N383",
     "flavorNameCn": "香蜂草",
-    "flavorNameEn": "Balm(MelissaofficinalisL.)",
+    "flavorNameEn": "Balm (Melissa officinalis L.)",
     "femaNumber": "2111",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7241,7 +7241,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "370N383香蜂草Balm(MelissaofficinalisL.)2111",
     "rowName": "香蜂草",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 370；编码 N383；香料中文名称 香蜂草；香料英文名称 Balm(MelissaofficinalisL.)；FEMA 编号 2111。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 370；编码 N383；香料中文名称 香蜂草；香料英文名称 Balm (Melissa officinalis L.)；FEMA 编号 2111。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0371",
@@ -7249,7 +7249,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N384",
     "flavorCode": "N384",
     "flavorNameCn": "白千层油",
-    "flavorNameEn": "Cajeputoil(MelaleucacajuputiPowell)",
+    "flavorNameEn": "Cajeput oil (Melaleuca cajuputi Powell)",
     "femaNumber": "2225",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7258,7 +7258,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "371N384白千层油Cajeputoil(MelaleucacajuputiPowell)2225",
     "rowName": "白千层油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 371；编码 N384；香料中文名称 白千层油；香料英文名称 Cajeputoil(MelaleucacajuputiPowell)；FEMA 编号 2225。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 371；编码 N384；香料中文名称 白千层油；香料英文名称 Cajeput oil (Melaleuca cajuputi Powell)；FEMA 编号 2225。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0372",
@@ -7266,7 +7266,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N388",
     "flavorCode": "N388",
     "flavorNameCn": "毕澄茄",
-    "flavorNameEn": "Cubebs(PipercubebaL.f.)",
+    "flavorNameEn": "Cubebs (Piper cubeba L.f.)",
     "femaNumber": "2338",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7275,7 +7275,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "372N388毕澄茄Cubebs(PipercubebaL.f.)2338",
     "rowName": "毕澄茄",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 372；编码 N388；香料中文名称 毕澄茄；香料英文名称 Cubebs(PipercubebaL.f.)；FEMA 编号 2338。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 372；编码 N388；香料中文名称 毕澄茄；香料英文名称 Cubebs (Piper cubeba L.f.)；FEMA 编号 2338。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0373",
@@ -7283,7 +7283,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N389",
     "flavorCode": "N389",
     "flavorNameCn": "芦荟提取物",
-    "flavorNameEn": "Aloeextract(Aloespp.)",
+    "flavorNameEn": "Aloe extract (Aloe spp.)",
     "femaNumber": "2047",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7292,7 +7292,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "373N389芦荟提取物Aloeextract(Aloespp.)2047",
     "rowName": "芦荟提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 373；编码 N389；香料中文名称 芦荟提取物；香料英文名称 Aloeextract(Aloespp.)；FEMA 编号 2047。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 373；编码 N389；香料中文名称 芦荟提取物；香料英文名称 Aloe extract (Aloe spp.)；FEMA 编号 2047。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0374",
@@ -7300,7 +7300,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N390",
     "flavorCode": "N390",
     "flavorNameCn": "龙涎香酊",
-    "flavorNameEn": "Ambergristincture",
+    "flavorNameEn": "Ambergris tincture",
     "femaNumber": "2049",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7309,7 +7309,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "374N390龙涎香酊Ambergristincture2049",
     "rowName": "龙涎香酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 374；编码 N390；香料中文名称 龙涎香酊；香料英文名称 Ambergristincture；FEMA 编号 2049。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 374；编码 N390；香料中文名称 龙涎香酊；香料英文名称 Ambergris tincture；FEMA 编号 2049。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0375",
@@ -7317,7 +7317,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N391",
     "flavorCode": "N391",
     "flavorNameCn": "黄葵酊",
-    "flavorNameEn": "Ambrettetincture(HibiscusabelmoschusL.)",
+    "flavorNameEn": "Ambrette tincture (Hibiscus abelmoschus L.)",
     "femaNumber": "2052",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7326,7 +7326,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "375N391黄葵酊Ambrettetincture(HibiscusabelmoschusL.)2052",
     "rowName": "黄葵酊",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 375；编码 N391；香料中文名称 黄葵酊；香料英文名称 Ambrettetincture(HibiscusabelmoschusL.)；FEMA 编号 2052。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 375；编码 N391；香料中文名称 黄葵酊；香料英文名称 Ambrette tincture (Hibiscus abelmoschus L.)；FEMA 编号 2052。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0376",
@@ -7334,7 +7334,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N392",
     "flavorCode": "N392",
     "flavorNameCn": "燕根(萝藦科植物)提取物",
-    "flavorNameEn": "Swallowroot(Decalepishamiltonii)extract",
+    "flavorNameEn": "Swallow root (Decalepis hamiltonii) extract",
     "femaNumber": "4283",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7343,7 +7343,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "燕根(萝藦科植物)提376N392Swallowroot(Decalepishamiltonii)extract4283取物",
     "rowName": "燕根(萝藦科植物)提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 376；编码 N392；香料中文名称 燕根(萝藦科植物)提取物；香料英文名称 Swallowroot(Decalepishamiltonii)extract；FEMA 编号 4283。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 376；编码 N392；香料中文名称 燕根(萝藦科植物)提取物；香料英文名称 Swallow root (Decalepis hamiltonii) extract；FEMA 编号 4283。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0377",
@@ -7351,7 +7351,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N393",
     "flavorCode": "N393",
     "flavorNameCn": "红枣浸膏",
-    "flavorNameEn": "Dateconcrete(Ziziphusjujuba)",
+    "flavorNameEn": "Date concrete (Ziziphus jujuba)",
     "femaNumber": "—",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7360,7 +7360,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "377N393红枣浸膏Dateconcrete(Ziziphusjujuba)—",
     "rowName": "红枣浸膏",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 377；编码 N393；香料中文名称 红枣浸膏；香料英文名称 Dateconcrete(Ziziphusjujuba)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 377；编码 N393；香料中文名称 红枣浸膏；香料英文名称 Date concrete (Ziziphus jujuba)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0378",
@@ -7385,7 +7385,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N395",
     "flavorCode": "N395",
     "flavorNameCn": "β-愈疮木烯",
-    "flavorNameEn": "β-GuaieneGuaia-1(5),7(11)-diene",
+    "flavorNameEn": "β-Guaiene Guaia-1(5),7(11)-diene",
     "femaNumber": "—",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7394,7 +7394,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "β-Guaiene379N395β-愈疮木烯—Guaia-1(5),7(11)-diene",
     "rowName": "β-愈疮木烯",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 379；编码 N395；香料中文名称 β-愈疮木烯；香料英文名称 β-GuaieneGuaia-1(5),7(11)-diene；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 379；编码 N395；香料中文名称 β-愈疮木烯；香料英文名称 β-Guaiene Guaia-1(5),7(11)-diene；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0380",
@@ -7402,7 +7402,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N396",
     "flavorCode": "N396",
     "flavorNameCn": "褐藻胶",
-    "flavorNameEn": "Algin(Laminariaspp.andotherkelps)",
+    "flavorNameEn": "Algin (Laminaria spp. and other kelps)",
     "femaNumber": "2014",
     "pdfPage": 167,
     "standardPage": 164,
@@ -7411,7 +7411,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "380N396褐藻胶Algin(Laminariaspp.andotherkelps)2014",
     "rowName": "褐藻胶",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 380；编码 N396；香料中文名称 褐藻胶；香料英文名称 Algin(Laminariaspp.andotherkelps)；FEMA 编号 2014。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 380；编码 N396；香料中文名称 褐藻胶；香料英文名称 Algin (Laminaria spp. and other kelps)；FEMA 编号 2014。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0381",
@@ -7419,7 +7419,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N397",
     "flavorCode": "N397",
     "flavorNameCn": "香厚壳桂皮油",
-    "flavorNameEn": "Massoiabarkoil(Cryptocaryamassoio)",
+    "flavorNameEn": "Massoia bark oil (Cryptocarya massoio)",
     "femaNumber": "3747",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7428,7 +7428,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "381N397香厚壳桂皮油Massoiabarkoil(Cryptocaryamassoio)3747",
     "rowName": "香厚壳桂皮油",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 381；编码 N397；香料中文名称 香厚壳桂皮油；香料英文名称 Massoiabarkoil(Cryptocaryamassoio)；FEMA 编号 3747。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 381；编码 N397；香料中文名称 香厚壳桂皮油；香料英文名称 Massoia bark oil (Cryptocarya massoio)；FEMA 编号 3747。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0382",
@@ -7453,7 +7453,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N399",
     "flavorCode": "N399",
     "flavorNameCn": "酶处理异槲皮苷",
-    "flavorNameEn": "Isoquercitrin,enzymaticallymodified",
+    "flavorNameEn": "Isoquercitrin, enzymaticallymodified",
     "femaNumber": "4225",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7462,7 +7462,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "383N399酶处理异槲皮苷Isoquercitrin,enzymaticallymodified4225",
     "rowName": "酶处理异槲皮苷",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 383；编码 N399；香料中文名称 酶处理异槲皮苷；香料英文名称 Isoquercitrin,enzymaticallymodified；FEMA 编号 4225。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 383；编码 N399；香料中文名称 酶处理异槲皮苷；香料英文名称 Isoquercitrin, enzymaticallymodified；FEMA 编号 4225。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0384",
@@ -7470,7 +7470,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N400",
     "flavorCode": "N400",
     "flavorNameCn": "葡萄籽提取物",
-    "flavorNameEn": "Grapeseedextract(Vitisvinifera)",
+    "flavorNameEn": "Grape seed extract (Vitis vinifera)",
     "femaNumber": "4045",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7479,7 +7479,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "384N400葡萄籽提取物Grapeseedextract(Vitisvinifera)4045",
     "rowName": "葡萄籽提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 384；编码 N400；香料中文名称 葡萄籽提取物；香料英文名称 Grapeseedextract(Vitisvinifera)；FEMA 编号 4045。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 384；编码 N400；香料中文名称 葡萄籽提取物；香料英文名称 Grape seed extract (Vitis vinifera)；FEMA 编号 4045。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0385",
@@ -7487,7 +7487,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N401",
     "flavorCode": "N401",
     "flavorNameCn": "留兰香提取物",
-    "flavorNameEn": "Spearmintextract(MenthaspicataL.)",
+    "flavorNameEn": "Spearmint extract (Mentha spicata L.)",
     "femaNumber": "3031",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7496,7 +7496,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "385N401留兰香提取物Spearmintextract(MenthaspicataL.)3031",
     "rowName": "留兰香提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 385；编码 N401；香料中文名称 留兰香提取物；香料英文名称 Spearmintextract(MenthaspicataL.)；FEMA 编号 3031。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 385；编码 N401；香料中文名称 留兰香提取物；香料英文名称 Spearmint extract (Mentha spicata L.)；FEMA 编号 3031。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0386",
@@ -7504,7 +7504,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N402",
     "flavorCode": "N402",
     "flavorNameCn": "杂醇油(精制过)",
-    "flavorNameEn": "Fuseloil,refined",
+    "flavorNameEn": "Fusel oil, refined",
     "femaNumber": "2497",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7513,7 +7513,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "386N402杂醇油(精制过)Fuseloil,refined2497",
     "rowName": "杂醇油(精制过)",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 386；编码 N402；香料中文名称 杂醇油(精制过)；香料英文名称 Fuseloil,refined；FEMA 编号 2497。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 386；编码 N402；香料中文名称 杂醇油(精制过)；香料英文名称 Fusel oil, refined；FEMA 编号 2497。"
   },
   {
     "id": "gb2760-2024-b2-natural-flavor-0387",
@@ -7538,7 +7538,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     "rowCode": "N404",
     "flavorCode": "N404",
     "flavorNameCn": "非洲竹芋提取物",
-    "flavorNameEn": "Katemfefruitextract(Thaumatococcusdanielliifruitextract)",
+    "flavorNameEn": "Katemfe fruit extract (Thaumatococcus daniellii fruit extract)",
     "femaNumber": "4831",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7547,7 +7547,7 @@ export const gb2760OfficialB2NaturalFlavorRows = [
     ],
     "rawRowText": "Katemfefruitextract388N404非洲竹芋提取物4831(Thaumatococcusdanielliifruitextract)",
     "rowName": "非洲竹芋提取物",
-    "rawSourceText": "GB 2760-2024 表 B.2：序号 388；编码 N404；香料中文名称 非洲竹芋提取物；香料英文名称 Katemfefruitextract(Thaumatococcusdanielliifruitextract)；FEMA 编号 4831。"
+    "rawSourceText": "GB 2760-2024 表 B.2：序号 388；编码 N404；香料中文名称 非洲竹芋提取物；香料英文名称 Katemfe fruit extract (Thaumatococcus daniellii fruit extract)；FEMA 编号 4831。"
   }
 ];
 
@@ -7558,7 +7558,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0001",
     "flavorCode": "S0001",
     "flavorNameCn": "丙二醇",
-    "flavorNameEn": "1,2-Propanediol(Propyleneglycol)",
+    "flavorNameEn": "1,2-Propanediol (Propylene glycol)",
     "femaNumber": "2940",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7567,7 +7567,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1S0001丙二醇1,2-Propanediol(Propyleneglycol)2940",
     "rowName": "丙二醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1；编码 S0001；香料中文名称 丙二醇；香料英文名称 1,2-Propanediol(Propyleneglycol)；FEMA 编号 2940。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1；编码 S0001；香料中文名称 丙二醇；香料英文名称 1,2-Propanediol (Propylene glycol)；FEMA 编号 2940。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0002",
@@ -7575,7 +7575,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0002",
     "flavorCode": "S0002",
     "flavorNameCn": "甘油(又名丙三醇)",
-    "flavorNameEn": "Glycerine(Glycerol)",
+    "flavorNameEn": "Glycerine (Glycerol)",
     "femaNumber": "2525",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7584,7 +7584,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2S0002甘油(又名丙三醇)Glycerine(Glycerol)2525",
     "rowName": "甘油(又名丙三醇)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 2；编码 S0002；香料中文名称 甘油(又名丙三醇)；香料英文名称 Glycerine(Glycerol)；FEMA 编号 2525。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 2；编码 S0002；香料中文名称 甘油(又名丙三醇)；香料英文名称 Glycerine (Glycerol)；FEMA 编号 2525。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0003",
@@ -7592,7 +7592,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0003",
     "flavorCode": "S0003",
     "flavorNameCn": "异丙醇",
-    "flavorNameEn": "Isopropylalcohol",
+    "flavorNameEn": "Isopropyl alcohol",
     "femaNumber": "2929",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7601,7 +7601,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3S0003异丙醇Isopropylalcohol2929",
     "rowName": "异丙醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 3；编码 S0003；香料中文名称 异丙醇；香料英文名称 Isopropylalcohol；FEMA 编号 2929。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 3；编码 S0003；香料中文名称 异丙醇；香料英文名称 Isopropyl alcohol；FEMA 编号 2929。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0004",
@@ -7609,7 +7609,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0004",
     "flavorCode": "S0004",
     "flavorNameCn": "正丁醇",
-    "flavorNameEn": "1-Butanol(Butylalcohol)",
+    "flavorNameEn": "1-Butanol (Butyl alcohol)",
     "femaNumber": "2178",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7618,7 +7618,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4S0004正丁醇1-Butanol(Butylalcohol)2178",
     "rowName": "正丁醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 4；编码 S0004；香料中文名称 正丁醇；香料英文名称 1-Butanol(Butylalcohol)；FEMA 编号 2178。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 4；编码 S0004；香料中文名称 正丁醇；香料英文名称 1-Butanol (Butyl alcohol)；FEMA 编号 2178。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0005",
@@ -7626,7 +7626,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0005",
     "flavorCode": "S0005",
     "flavorNameCn": "异丁醇",
-    "flavorNameEn": "Isobutylalcohol",
+    "flavorNameEn": "Isobutyl alcohol",
     "femaNumber": "2179",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7635,7 +7635,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "5S0005异丁醇Isobutylalcohol2179",
     "rowName": "异丁醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 5；编码 S0005；香料中文名称 异丁醇；香料英文名称 Isobutylalcohol；FEMA 编号 2179。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 5；编码 S0005；香料中文名称 异丁醇；香料英文名称 Isobutyl alcohol；FEMA 编号 2179。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0006",
@@ -7643,7 +7643,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0006",
     "flavorCode": "S0006",
     "flavorNameCn": "正戊醇",
-    "flavorNameEn": "1-Pentanol(Amylalcohol)",
+    "flavorNameEn": "1-Pentanol (Amyl alcohol)",
     "femaNumber": "2056",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7652,7 +7652,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "6S0006正戊醇1-Pentanol(Amylalcohol)2056",
     "rowName": "正戊醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 6；编码 S0006；香料中文名称 正戊醇；香料英文名称 1-Pentanol(Amylalcohol)；FEMA 编号 2056。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 6；编码 S0006；香料中文名称 正戊醇；香料英文名称 1-Pentanol (Amyl alcohol)；FEMA 编号 2056。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0007",
@@ -7677,7 +7677,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0008",
     "flavorCode": "S0008",
     "flavorNameCn": "异戊醇",
-    "flavorNameEn": "Isoamylalcohol",
+    "flavorNameEn": "Isoamyl alcohol",
     "femaNumber": "2057",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7686,7 +7686,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "8S0008异戊醇Isoamylalcohol2057",
     "rowName": "异戊醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 8；编码 S0008；香料中文名称 异戊醇；香料英文名称 Isoamylalcohol；FEMA 编号 2057。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 8；编码 S0008；香料中文名称 异戊醇；香料英文名称 Isoamyl alcohol；FEMA 编号 2057。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0009",
@@ -7711,7 +7711,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0010",
     "flavorCode": "S0010",
     "flavorNameCn": "正己醇",
-    "flavorNameEn": "1-Hexanol(Hexylalcohol)",
+    "flavorNameEn": "1-Hexanol (Hexyl alcohol)",
     "femaNumber": "2567",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7720,7 +7720,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "10S0010正己醇1-Hexanol(Hexylalcohol)2567",
     "rowName": "正己醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 10；编码 S0010；香料中文名称 正己醇；香料英文名称 1-Hexanol(Hexylalcohol)；FEMA 编号 2567。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 10；编码 S0010；香料中文名称 正己醇；香料英文名称 1-Hexanol (Hexyl alcohol)；FEMA 编号 2567。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0011",
@@ -7762,7 +7762,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0013",
     "flavorCode": "S0013",
     "flavorNameCn": "正庚醇",
-    "flavorNameEn": "1-Heptanol(Heptylalcohol)",
+    "flavorNameEn": "1-Heptanol (Heptyl alcohol)",
     "femaNumber": "2548",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7771,7 +7771,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "13S0013正庚醇1-Heptanol(Heptylalcohol)2548",
     "rowName": "正庚醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 13；编码 S0013；香料中文名称 正庚醇；香料英文名称 1-Heptanol(Heptylalcohol)；FEMA 编号 2548。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 13；编码 S0013；香料中文名称 正庚醇；香料英文名称 1-Heptanol (Heptyl alcohol)；FEMA 编号 2548。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0014",
@@ -7779,7 +7779,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0014",
     "flavorCode": "S0014",
     "flavorNameCn": "正辛醇",
-    "flavorNameEn": "1-Octanol(Octylalcohol)",
+    "flavorNameEn": "1-Octanol (Octyl alcohol)",
     "femaNumber": "2800",
     "pdfPage": 168,
     "standardPage": 165,
@@ -7788,7 +7788,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "14S0014正辛醇1-Octanol(Octylalcohol)2800",
     "rowName": "正辛醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 14；编码 S0014；香料中文名称 正辛醇；香料英文名称 1-Octanol(Octylalcohol)；FEMA 编号 2800。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 14；编码 S0014；香料中文名称 正辛醇；香料英文名称 1-Octanol (Octyl alcohol)；FEMA 编号 2800。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0015",
@@ -7847,7 +7847,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0018",
     "flavorCode": "S0018",
     "flavorNameCn": "正壬醇",
-    "flavorNameEn": "1-Nonanol(Nonylalcohol)",
+    "flavorNameEn": "1-Nonanol (Nonyl alcohol)",
     "femaNumber": "2789",
     "pdfPage": 169,
     "standardPage": 166,
@@ -7856,7 +7856,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "18S0018正壬醇1-Nonanol(Nonylalcohol)2789",
     "rowName": "正壬醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 18；编码 S0018；香料中文名称 正壬醇；香料英文名称 1-Nonanol(Nonylalcohol)；FEMA 编号 2789。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 18；编码 S0018；香料中文名称 正壬醇；香料英文名称 1-Nonanol (Nonyl alcohol)；FEMA 编号 2789。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0019",
@@ -7915,7 +7915,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0022",
     "flavorCode": "S0022",
     "flavorNameCn": "正癸醇",
-    "flavorNameEn": "1-Decanol(Decylalcohol)",
+    "flavorNameEn": "1-Decanol (Decyl alcohol)",
     "femaNumber": "2365",
     "pdfPage": 169,
     "standardPage": 166,
@@ -7924,7 +7924,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "22S0022正癸醇1-Decanol(Decylalcohol)2365",
     "rowName": "正癸醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 22；编码 S0022；香料中文名称 正癸醇；香料英文名称 1-Decanol(Decylalcohol)；FEMA 编号 2365。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 22；编码 S0022；香料中文名称 正癸醇；香料英文名称 1-Decanol (Decyl alcohol)；FEMA 编号 2365。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0023",
@@ -7932,7 +7932,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0023",
     "flavorCode": "S0023",
     "flavorNameCn": "十一醇",
-    "flavorNameEn": "Undecylalcohol",
+    "flavorNameEn": "Undecyl alcohol",
     "femaNumber": "3097",
     "pdfPage": 169,
     "standardPage": 166,
@@ -7941,7 +7941,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "23S0023十一醇Undecylalcohol3097",
     "rowName": "十一醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 23；编码 S0023；香料中文名称 十一醇；香料英文名称 Undecylalcohol；FEMA 编号 3097。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 23；编码 S0023；香料中文名称 十一醇；香料英文名称 Undecyl alcohol；FEMA 编号 3097。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0024",
@@ -7949,7 +7949,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0024",
     "flavorCode": "S0024",
     "flavorNameCn": "月桂醇(又名十二醇)",
-    "flavorNameEn": "Laurylalcohol(Dodecylalcohol)",
+    "flavorNameEn": "Lauryl alcohol (Dodecyl alcohol)",
     "femaNumber": "2617",
     "pdfPage": 169,
     "standardPage": 166,
@@ -7958,7 +7958,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "24S0024月桂醇(又名十二醇)Laurylalcohol(Dodecylalcohol)2617",
     "rowName": "月桂醇(又名十二醇)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 24；编码 S0024；香料中文名称 月桂醇(又名十二醇)；香料英文名称 Laurylalcohol(Dodecylalcohol)；FEMA 编号 2617。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 24；编码 S0024；香料中文名称 月桂醇(又名十二醇)；香料英文名称 Lauryl alcohol (Dodecyl alcohol)；FEMA 编号 2617。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0025",
@@ -7983,7 +7983,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0026",
     "flavorCode": "S0026",
     "flavorNameCn": "小茴香醇",
-    "flavorNameEn": "Fenchylalcohol",
+    "flavorNameEn": "Fenchyl alcohol",
     "femaNumber": "2480",
     "pdfPage": 169,
     "standardPage": 166,
@@ -7992,7 +7992,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "26S0026小茴香醇Fenchylalcohol2480",
     "rowName": "小茴香醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 26；编码 S0026；香料中文名称 小茴香醇；香料英文名称 Fenchylalcohol；FEMA 编号 2480。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 26；编码 S0026；香料中文名称 小茴香醇；香料英文名称 Fenchyl alcohol；FEMA 编号 2480。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0027",
@@ -8000,7 +8000,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0027",
     "flavorCode": "S0027",
     "flavorNameCn": "叶醇(又名顺式-3-己烯-1-醇)",
-    "flavorNameEn": "Leafalcohol(cis-3-Hexen-1-ol)",
+    "flavorNameEn": "Leaf alcohol (cis-3-Hexen-1-ol)",
     "femaNumber": "2563",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8009,7 +8009,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "27S0027叶醇(又名顺式-3-己烯-1-醇)Leafalcohol(cis-3-Hexen-1-ol)2563",
     "rowName": "叶醇(又名顺式-3-己烯-1-醇)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 27；编码 S0027；香料中文名称 叶醇(又名顺式-3-己烯-1-醇)；香料英文名称 Leafalcohol(cis-3-Hexen-1-ol)；FEMA 编号 2563。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 27；编码 S0027；香料中文名称 叶醇(又名顺式-3-己烯-1-醇)；香料英文名称 Leaf alcohol (cis-3-Hexen-1-ol)；FEMA 编号 2563。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0028",
@@ -8051,7 +8051,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0030",
     "flavorCode": "S0030",
     "flavorNameCn": "氧化芳樟醇",
-    "flavorNameEn": "Linalooloxide",
+    "flavorNameEn": "Linalool oxide",
     "femaNumber": "3746",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8060,7 +8060,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "30S0030氧化芳樟醇Linalooloxide3746",
     "rowName": "氧化芳樟醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 30；编码 S0030；香料中文名称 氧化芳樟醇；香料英文名称 Linalooloxide；FEMA 编号 3746。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 30；编码 S0030；香料中文名称 氧化芳樟醇；香料英文名称 Linalool oxide；FEMA 编号 3746。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0031",
@@ -8085,7 +8085,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0032",
     "flavorCode": "S0032",
     "flavorNameCn": "苏合香醇(又名α-甲基苄醇)",
-    "flavorNameEn": "Styralylalcohol(α-Methylbenzylalcohol)",
+    "flavorNameEn": "Styralyl alcohol (α-Methylbenzyl alcohol)",
     "femaNumber": "2685",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8094,7 +8094,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "32S0032苏合香醇(又名α-甲基苄醇)Styralylalcohol(α-Methylbenzylalcohol)2685",
     "rowName": "苏合香醇(又名α-甲基苄醇)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 32；编码 S0032；香料中文名称 苏合香醇(又名α-甲基苄醇)；香料英文名称 Styralylalcohol(α-Methylbenzylalcohol)；FEMA 编号 2685。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 32；编码 S0032；香料中文名称 苏合香醇(又名α-甲基苄醇)；香料英文名称 Styralyl alcohol (α-Methylbenzyl alcohol)；FEMA 编号 2685。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0033",
@@ -8102,7 +8102,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0033",
     "flavorCode": "S0033",
     "flavorNameCn": "苯甲醇",
-    "flavorNameEn": "Benzylalcohol",
+    "flavorNameEn": "Benzyl alcohol",
     "femaNumber": "2137",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8111,7 +8111,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "33S0033苯甲醇Benzylalcohol2137",
     "rowName": "苯甲醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 33；编码 S0033；香料中文名称 苯甲醇；香料英文名称 Benzylalcohol；FEMA 编号 2137。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 33；编码 S0033；香料中文名称 苯甲醇；香料英文名称 Benzyl alcohol；FEMA 编号 2137。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0034",
@@ -8119,7 +8119,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0034",
     "flavorCode": "S0034",
     "flavorNameCn": "苯乙醇",
-    "flavorNameEn": "Phenethylalcohol",
+    "flavorNameEn": "Phenethyl alcohol",
     "femaNumber": "2858",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8128,7 +8128,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "34S0034苯乙醇Phenethylalcohol2858",
     "rowName": "苯乙醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 34；编码 S0034；香料中文名称 苯乙醇；香料英文名称 Phenethylalcohol；FEMA 编号 2858。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 34；编码 S0034；香料中文名称 苯乙醇；香料英文名称 Phenethyl alcohol；FEMA 编号 2858。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0035",
@@ -8136,7 +8136,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0035",
     "flavorCode": "S0035",
     "flavorNameCn": "苯丙醇",
-    "flavorNameEn": "Phenylpropylalcohol",
+    "flavorNameEn": "Phenylpropyl alcohol",
     "femaNumber": "2885",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8145,7 +8145,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "35S0035苯丙醇Phenylpropylalcohol2885",
     "rowName": "苯丙醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 35；编码 S0035；香料中文名称 苯丙醇；香料英文名称 Phenylpropylalcohol；FEMA 编号 2885。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 35；编码 S0035；香料中文名称 苯丙醇；香料英文名称 Phenylpropyl alcohol；FEMA 编号 2885。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0036",
@@ -8238,7 +8238,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0041",
     "flavorCode": "S0041",
     "flavorNameCn": "茴香醇",
-    "flavorNameEn": "Anisylalcohol",
+    "flavorNameEn": "Anisyl alcohol",
     "femaNumber": "2099",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8247,7 +8247,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "41S0041茴香醇Anisylalcohol2099",
     "rowName": "茴香醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 41；编码 S0041；香料中文名称 茴香醇；香料英文名称 Anisylalcohol；FEMA 编号 2099。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 41；编码 S0041；香料中文名称 茴香醇；香料英文名称 Anisyl alcohol；FEMA 编号 2099。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0042",
@@ -8255,7 +8255,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0042",
     "flavorCode": "S0042",
     "flavorNameCn": "肉桂醇",
-    "flavorNameEn": "Cinnamicalcohol",
+    "flavorNameEn": "Cinnamic alcohol",
     "femaNumber": "2294",
     "pdfPage": 169,
     "standardPage": 166,
@@ -8264,7 +8264,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "42S0042肉桂醇Cinnamicalcohol2294",
     "rowName": "肉桂醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 42；编码 S0042；香料中文名称 肉桂醇；香料英文名称 Cinnamicalcohol；FEMA 编号 2294。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 42；编码 S0042；香料中文名称 肉桂醇；香料英文名称 Cinnamic alcohol；FEMA 编号 2294。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0043",
@@ -8374,7 +8374,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0049",
     "flavorCode": "S0049",
     "flavorNameCn": "正丙醇",
-    "flavorNameEn": "1-Propanol(Propylalcohol)",
+    "flavorNameEn": "1-Propanol (Propyl alcohol)",
     "femaNumber": "2928",
     "pdfPage": 170,
     "standardPage": 167,
@@ -8383,7 +8383,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "49S0049正丙醇1-Propanol(Propylalcohol)2928",
     "rowName": "正丙醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 49；编码 S0049；香料中文名称 正丙醇；香料英文名称 1-Propanol(Propylalcohol)；FEMA 编号 2928。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 49；编码 S0049；香料中文名称 正丙醇；香料英文名称 1-Propanol (Propyl alcohol)；FEMA 编号 2928。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0050",
@@ -8510,7 +8510,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0057",
     "flavorCode": "S0057",
     "flavorNameCn": "对,α-二甲基苄醇",
-    "flavorNameEn": "p,α-Dimethylbenzylalcohol",
+    "flavorNameEn": "p,α-Dimethylbenzyl alcohol",
     "femaNumber": "3139",
     "pdfPage": 170,
     "standardPage": 167,
@@ -8519,7 +8519,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "57S0057对,α-二甲基苄醇p,α-Dimethylbenzylalcohol3139",
     "rowName": "对,α-二甲基苄醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 57；编码 S0057；香料中文名称 对,α-二甲基苄醇；香料英文名称 p,α-Dimethylbenzylalcohol；FEMA 编号 3139。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 57；编码 S0057；香料中文名称 对,α-二甲基苄醇；香料英文名称 p,α-Dimethylbenzyl alcohol；FEMA 编号 3139。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0058",
@@ -8527,7 +8527,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0058",
     "flavorCode": "S0058",
     "flavorNameCn": "对-异丙基苄醇",
-    "flavorNameEn": "p-Isopropylbenzylalcohol",
+    "flavorNameEn": "p-Isopropylbenzyl alcohol",
     "femaNumber": "2933",
     "pdfPage": 170,
     "standardPage": 167,
@@ -8536,7 +8536,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "58S0058对-异丙基苄醇p-Isopropylbenzylalcohol2933",
     "rowName": "对-异丙基苄醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 58；编码 S0058；香料中文名称 对-异丙基苄醇；香料英文名称 p-Isopropylbenzylalcohol；FEMA 编号 2933。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 58；编码 S0058；香料中文名称 对-异丙基苄醇；香料英文名称 p-Isopropylbenzyl alcohol；FEMA 编号 2933。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0059",
@@ -8544,7 +8544,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0059",
     "flavorCode": "S0059",
     "flavorNameCn": "对,α,α-三甲基苄醇",
-    "flavorNameEn": "p,α,α-Trimethylbenzylalcohol",
+    "flavorNameEn": "p,α,α-Trimethylbenzyl alcohol",
     "femaNumber": "3242",
     "pdfPage": 170,
     "standardPage": 167,
@@ -8553,7 +8553,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "59S0059对,α,α-三甲基苄醇p,α,α-Trimethylbenzylalcohol3242",
     "rowName": "对,α,α-三甲基苄醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 59；编码 S0059；香料中文名称 对,α,α-三甲基苄醇；香料英文名称 p,α,α-Trimethylbenzylalcohol；FEMA 编号 3242。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 59；编码 S0059；香料中文名称 对,α,α-三甲基苄醇；香料英文名称 p,α,α-Trimethylbenzyl alcohol；FEMA 编号 3242。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0060",
@@ -8561,7 +8561,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0060",
     "flavorCode": "S0060",
     "flavorNameCn": "β-石竹烯醇",
-    "flavorNameEn": "β-Caryophyllenealcohol",
+    "flavorNameEn": "β-Caryophyllene alcohol",
     "femaNumber": "4410",
     "pdfPage": 170,
     "standardPage": 167,
@@ -8570,7 +8570,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "60S0060β-石竹烯醇β-Caryophyllenealcohol4410",
     "rowName": "β-石竹烯醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 60；编码 S0060；香料中文名称 β-石竹烯醇；香料英文名称 β-Caryophyllenealcohol；FEMA 编号 4410。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 60；编码 S0060；香料中文名称 β-石竹烯醇；香料英文名称 β-Caryophyllene alcohol；FEMA 编号 4410。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0061",
@@ -8646,7 +8646,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0065",
     "flavorCode": "S0065",
     "flavorNameCn": "紫苏醇",
-    "flavorNameEn": "Perillaalcohol",
+    "flavorNameEn": "Perilla alcohol",
     "femaNumber": "2664",
     "pdfPage": 170,
     "standardPage": 167,
@@ -8655,7 +8655,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "65S0065紫苏醇Perillaalcohol2664",
     "rowName": "紫苏醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 65；编码 S0065；香料中文名称 紫苏醇；香料英文名称 Perillaalcohol；FEMA 编号 2664。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 65；编码 S0065；香料中文名称 紫苏醇；香料英文名称 Perilla alcohol；FEMA 编号 2664。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0066",
@@ -8731,7 +8731,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0070",
     "flavorCode": "S0070",
     "flavorNameCn": "反式,反式-2,4-癸二烯醇",
-    "flavorNameEn": "(E,E)-2,4-Decadien-1-ol(trans,trans-2,4-Decadien-1-ol)",
+    "flavorNameEn": "(E,E)-2,4-Decadien-1-ol (trans,trans-2,4-Decadien-1-ol)",
     "femaNumber": "3911",
     "pdfPage": 170,
     "standardPage": 167,
@@ -8740,7 +8740,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "(E,E)-2,4-Decadien-1-ol(trans,trans-2,4-70S0070反式,反式-2,4-癸二烯醇3911Decadien-1-ol)",
     "rowName": "反式,反式-2,4-癸二烯醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 70；编码 S0070；香料中文名称 反式,反式-2,4-癸二烯醇；香料英文名称 (E,E)-2,4-Decadien-1-ol(trans,trans-2,4-Decadien-1-ol)；FEMA 编号 3911。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 70；编码 S0070；香料中文名称 反式,反式-2,4-癸二烯醇；香料英文名称 (E,E)-2,4-Decadien-1-ol (trans,trans-2,4-Decadien-1-ol)；FEMA 编号 3911。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0071",
@@ -8782,7 +8782,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0073",
     "flavorCode": "S0073",
     "flavorNameCn": "对--1,8(10)二烯-9-醇[又名对-1,8(10)薄荷二烯-9-醇]",
-    "flavorNameEn": "Menthadienol[p-mentha-1,8(10)-dien-9-ol]",
+    "flavorNameEn": "Menthadienol [p-mentha-1,8(10)-dien-9-ol]",
     "femaNumber": "—",
     "pdfPage": 171,
     "standardPage": 168,
@@ -8791,7 +8791,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "对--1,8(10)二烯-9-醇[又名73S0073Menthadienol[p-mentha-1,8(10)-dien-9-ol]—对-1,8(10)薄荷二烯-9-醇]",
     "rowName": "对--1,8(10)二烯-9-醇[又名对-1,8(10)薄荷二烯-9-醇]",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 73；编码 S0073；香料中文名称 对--1,8(10)二烯-9-醇[又名对-1,8(10)薄荷二烯-9-醇]；香料英文名称 Menthadienol[p-mentha-1,8(10)-dien-9-ol]；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 73；编码 S0073；香料中文名称 对--1,8(10)二烯-9-醇[又名对-1,8(10)薄荷二烯-9-醇]；香料英文名称 Menthadienol [p-mentha-1,8(10)-dien-9-ol]；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0074",
@@ -8816,7 +8816,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0075",
     "flavorCode": "S0075",
     "flavorNameCn": "脱氢芳樟醇",
-    "flavorNameEn": "Dehydrolinalool[(E)-3,7-Dimethyl-1,5,7-octatrien-3-ol]",
+    "flavorNameEn": "Dehydrolinalool [(E)-3,7-Dimethyl-1,5,7-octatrien-3-ol]",
     "femaNumber": "3830",
     "pdfPage": 171,
     "standardPage": 168,
@@ -8825,7 +8825,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Dehydrolinalool[(E)-3,7-Dimethyl-1,5,7-75S0075脱氢芳樟醇3830octatrien-3-ol]",
     "rowName": "脱氢芳樟醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 75；编码 S0075；香料中文名称 脱氢芳樟醇；香料英文名称 Dehydrolinalool[(E)-3,7-Dimethyl-1,5,7-octatrien-3-ol]；FEMA 编号 3830。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 75；编码 S0075；香料中文名称 脱氢芳樟醇；香料英文名称 Dehydrolinalool [(E)-3,7-Dimethyl-1,5,7-octatrien-3-ol]；FEMA 编号 3830。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0076",
@@ -8952,7 +8952,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0083",
     "flavorCode": "S0083",
     "flavorNameCn": "朗姆醚(又名乙醇氧化水合物)",
-    "flavorNameEn": "Rumether(Ethyloxyhydrate)",
+    "flavorNameEn": "Rumether (Ethyloxyhydrate)",
     "femaNumber": "2996",
     "pdfPage": 171,
     "standardPage": 168,
@@ -8961,7 +8961,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "83S0083朗姆醚(又名乙醇氧化水合物)Rumether(Ethyloxyhydrate)2996",
     "rowName": "朗姆醚(又名乙醇氧化水合物)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 83；编码 S0083；香料中文名称 朗姆醚(又名乙醇氧化水合物)；香料英文名称 Rumether(Ethyloxyhydrate)；FEMA 编号 2996。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 83；编码 S0083；香料中文名称 朗姆醚(又名乙醇氧化水合物)；香料英文名称 Rumether (Ethyloxyhydrate)；FEMA 编号 2996。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0084",
@@ -9037,7 +9037,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0088",
     "flavorCode": "S0088",
     "flavorNameCn": "橙花醚",
-    "flavorNameEn": "Neroloxide",
+    "flavorNameEn": "Nerol oxide",
     "femaNumber": "3661",
     "pdfPage": 171,
     "standardPage": 168,
@@ -9046,7 +9046,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "88S0088橙花醚Neroloxide3661",
     "rowName": "橙花醚",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 88；编码 S0088；香料中文名称 橙花醚；香料英文名称 Neroloxide；FEMA 编号 3661。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 88；编码 S0088；香料中文名称 橙花醚；香料英文名称 Nerol oxide；FEMA 编号 3661。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0089",
@@ -9768,7 +9768,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0131",
     "flavorCode": "S0131",
     "flavorNameCn": "2-己烯醛(又名叶醛)",
-    "flavorNameEn": "2-Hexenal(Leafaldehyde)",
+    "flavorNameEn": "2-Hexenal (Leafaldehyde)",
     "femaNumber": "2560",
     "pdfPage": 173,
     "standardPage": 170,
@@ -9777,7 +9777,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "131S01312-己烯醛(又名叶醛)2-Hexenal(Leafaldehyde)2560",
     "rowName": "2-己烯醛(又名叶醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 131；编码 S0131；香料中文名称 2-己烯醛(又名叶醛)；香料英文名称 2-Hexenal(Leafaldehyde)；FEMA 编号 2560。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 131；编码 S0131；香料中文名称 2-己烯醛(又名叶醛)；香料英文名称 2-Hexenal (Leafaldehyde)；FEMA 编号 2560。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0132",
@@ -10023,7 +10023,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0146",
     "flavorCode": "S0146",
     "flavorNameCn": "甲基壬乙醛(又名2-甲基十一醛)",
-    "flavorNameEn": "Methylnonylacetaldehyde(2-Methylundeca-nal)",
+    "flavorNameEn": "Methylnonylacetaldehyde (2-Methylundeca-nal)",
     "femaNumber": "2749",
     "pdfPage": 173,
     "standardPage": 170,
@@ -10032,7 +10032,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "甲基壬乙醛(又名2-甲基十一Methylnonylacetaldehyde(2-Methylundeca-146S01462749醛)nal)",
     "rowName": "甲基壬乙醛(又名2-甲基十一醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 146；编码 S0146；香料中文名称 甲基壬乙醛(又名2-甲基十一醛)；香料英文名称 Methylnonylacetaldehyde(2-Methylundeca-nal)；FEMA 编号 2749。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 146；编码 S0146；香料中文名称 甲基壬乙醛(又名2-甲基十一醛)；香料英文名称 Methylnonylacetaldehyde (2-Methylundeca-nal)；FEMA 编号 2749。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0147",
@@ -10074,7 +10074,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0149",
     "flavorCode": "S0149",
     "flavorNameCn": "反式-2-反式-4-壬二烯醛",
-    "flavorNameEn": "2,4-Nonadienal(trans-2-trans-4-Nonadien-al)",
+    "flavorNameEn": "2,4-Nonadienal (trans-2-trans-4-Nonadien-al)",
     "femaNumber": "3212",
     "pdfPage": 173,
     "standardPage": 170,
@@ -10083,7 +10083,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,4-Nonadienal(trans-2-trans-4-Nonadien-149S0149反式-2-反式-4-壬二烯醛3212al)",
     "rowName": "反式-2-反式-4-壬二烯醛",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 149；编码 S0149；香料中文名称 反式-2-反式-4-壬二烯醛；香料英文名称 2,4-Nonadienal(trans-2-trans-4-Nonadien-al)；FEMA 编号 3212。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 149；编码 S0149；香料中文名称 反式-2-反式-4-壬二烯醛；香料英文名称 2,4-Nonadienal (trans-2-trans-4-Nonadien-al)；FEMA 编号 3212。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0150",
@@ -10108,7 +10108,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0151",
     "flavorCode": "S0151",
     "flavorNameCn": "甲酸桃金娘烯酯",
-    "flavorNameEn": "Myrtenylformate",
+    "flavorNameEn": "Myrtenyl formate",
     "femaNumber": "3405",
     "pdfPage": 173,
     "standardPage": 170,
@@ -10117,7 +10117,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "151S0151甲酸桃金娘烯酯Myrtenylformate3405",
     "rowName": "甲酸桃金娘烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 151；编码 S0151；香料中文名称 甲酸桃金娘烯酯；香料英文名称 Myrtenylformate；FEMA 编号 3405。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 151；编码 S0151；香料中文名称 甲酸桃金娘烯酯；香料英文名称 Myrtenyl formate；FEMA 编号 3405。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0152",
@@ -10125,7 +10125,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0152",
     "flavorCode": "S0152",
     "flavorNameCn": "正癸醛(又名癸醛)",
-    "flavorNameEn": "n-Decylaldehyde(Decanal)",
+    "flavorNameEn": "n-Decylaldehyde (Decanal)",
     "femaNumber": "2362",
     "pdfPage": 173,
     "standardPage": 170,
@@ -10134,7 +10134,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "152S0152正癸醛(又名癸醛)n-Decylaldehyde(Decanal)2362",
     "rowName": "正癸醛(又名癸醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 152；编码 S0152；香料中文名称 正癸醛(又名癸醛)；香料英文名称 n-Decylaldehyde(Decanal)；FEMA 编号 2362。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 152；编码 S0152；香料中文名称 正癸醛(又名癸醛)；香料英文名称 n-Decylaldehyde (Decanal)；FEMA 编号 2362。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0153",
@@ -10295,7 +10295,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0162",
     "flavorCode": "S0162",
     "flavorNameCn": "桃醛(又名γ-十一烷内酯)",
-    "flavorNameEn": "Peachaldehyde(γ-Undecalactone)",
+    "flavorNameEn": "Peachaldehyde (γ-Undecalactone)",
     "femaNumber": "3091",
     "pdfPage": 174,
     "standardPage": 171,
@@ -10304,7 +10304,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "162S0162桃醛(又名γ-十一烷内酯)Peachaldehyde(γ-Undecalactone)3091",
     "rowName": "桃醛(又名γ-十一烷内酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 162；编码 S0162；香料中文名称 桃醛(又名γ-十一烷内酯)；香料英文名称 Peachaldehyde(γ-Undecalactone)；FEMA 编号 3091。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 162；编码 S0162；香料中文名称 桃醛(又名γ-十一烷内酯)；香料英文名称 Peachaldehyde (γ-Undecalactone)；FEMA 编号 3091。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0163",
@@ -10363,7 +10363,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0166",
     "flavorCode": "S0166",
     "flavorNameCn": "甲基苯甲醛(邻、对、间位混合物)",
-    "flavorNameEn": "Tolualdehydes(mixedo,m,p)",
+    "flavorNameEn": "Tolualdehydes (mixedo,m,p)",
     "femaNumber": "3068",
     "pdfPage": 174,
     "standardPage": 171,
@@ -10372,7 +10372,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "甲基苯甲醛(邻、对、间位混合166S0166Tolualdehydes(mixedo,m,p)3068物)",
     "rowName": "甲基苯甲醛(邻、对、间位混合物)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 166；编码 S0166；香料中文名称 甲基苯甲醛(邻、对、间位混合物)；香料英文名称 Tolualdehydes(mixedo,m,p)；FEMA 编号 3068。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 166；编码 S0166；香料中文名称 甲基苯甲醛(邻、对、间位混合物)；香料英文名称 Tolualdehydes (mixedo,m,p)；FEMA 编号 3068。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0167",
@@ -10431,7 +10431,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0170",
     "flavorCode": "S0170",
     "flavorNameCn": "苯丙醛(又名3-苯基丙醛)",
-    "flavorNameEn": "Phenylpropylaldehyde(3-Phenylpropional-dehyde)",
+    "flavorNameEn": "Phenylpropylaldehyde (3-Phenylpropional-dehyde)",
     "femaNumber": "2887",
     "pdfPage": 174,
     "standardPage": 171,
@@ -10440,7 +10440,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Phenylpropylaldehyde(3-Phenylpropional-170S0170苯丙醛(又名3-苯基丙醛)2887dehyde)",
     "rowName": "苯丙醛(又名3-苯基丙醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 170；编码 S0170；香料中文名称 苯丙醛(又名3-苯基丙醛)；香料英文名称 Phenylpropylaldehyde(3-Phenylpropional-dehyde)；FEMA 编号 2887。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 170；编码 S0170；香料中文名称 苯丙醛(又名3-苯基丙醛)；香料英文名称 Phenylpropylaldehyde (3-Phenylpropional-dehyde)；FEMA 编号 2887。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0171",
@@ -10516,7 +10516,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0175",
     "flavorCode": "S0175",
     "flavorNameCn": "洋茉莉醛(又名胡椒醛)",
-    "flavorNameEn": "Heliotropin(Piperonal)",
+    "flavorNameEn": "Heliotropin (Piperonal)",
     "femaNumber": "2911",
     "pdfPage": 174,
     "standardPage": 171,
@@ -10525,7 +10525,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "175S0175洋茉莉醛(又名胡椒醛)Heliotropin(Piperonal)2911",
     "rowName": "洋茉莉醛(又名胡椒醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 175；编码 S0175；香料中文名称 洋茉莉醛(又名胡椒醛)；香料英文名称 Heliotropin(Piperonal)；FEMA 编号 2911。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 175；编码 S0175；香料中文名称 洋茉莉醛(又名胡椒醛)；香料英文名称 Heliotropin (Piperonal)；FEMA 编号 2911。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0176",
@@ -11009,7 +11009,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0204",
     "flavorCode": "S0204",
     "flavorNameCn": "3-羟基-2-丁酮(又名乙偶姻)",
-    "flavorNameEn": "3-Hydroxy-2-butanone(Acetoin)",
+    "flavorNameEn": "3-Hydroxy-2-butanone (Acetoin)",
     "femaNumber": "2008",
     "pdfPage": 175,
     "standardPage": 172,
@@ -11018,7 +11018,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "204S02043-羟基-2-丁酮(又名乙偶姻)3-Hydroxy-2-butanone(Acetoin)2008",
     "rowName": "3-羟基-2-丁酮(又名乙偶姻)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 204；编码 S0204；香料中文名称 3-羟基-2-丁酮(又名乙偶姻)；香料英文名称 3-Hydroxy-2-butanone(Acetoin)；FEMA 编号 2008。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 204；编码 S0204；香料中文名称 3-羟基-2-丁酮(又名乙偶姻)；香料英文名称 3-Hydroxy-2-butanone (Acetoin)；FEMA 编号 2008。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0205",
@@ -11060,7 +11060,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0207",
     "flavorCode": "S0207",
     "flavorNameCn": "丁二酮2,3-丁二酮",
-    "flavorNameEn": "Diacetyl2,3-Diketobutane",
+    "flavorNameEn": "Diacetyl 2,3-Diketobutane",
     "femaNumber": "2370",
     "pdfPage": 175,
     "standardPage": 172,
@@ -11069,7 +11069,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "丁二酮Diacetyl207S020723702,3-丁二酮2,3-Diketobutane",
     "rowName": "丁二酮2,3-丁二酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 207；编码 S0207；香料中文名称 丁二酮2,3-丁二酮；香料英文名称 Diacetyl2,3-Diketobutane；FEMA 编号 2370。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 207；编码 S0207；香料中文名称 丁二酮2,3-丁二酮；香料英文名称 Diacetyl 2,3-Diketobutane；FEMA 编号 2370。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0208",
@@ -11145,7 +11145,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0212",
     "flavorCode": "S0212",
     "flavorNameCn": "甲基环戊烯醇酮(又名3-甲基-2-羟基-2-环戊烯-1-酮)",
-    "flavorNameEn": "Methylcyclopentenolone(3-methyl-2-hydroxy-2-cyclopenten-1-one)",
+    "flavorNameEn": "Methylcyclopentenolone (3-methyl-2-hydroxy-2-cyclopenten-1-one)",
     "femaNumber": "2700",
     "pdfPage": 176,
     "standardPage": 173,
@@ -11154,7 +11154,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "甲基环戊烯醇酮(又名3-甲基-2-Methylcyclopentenolone(3-methyl-2-hydroxy-212S02122700羟基-2-环戊烯-1-酮)2-cyclopenten-1-one)",
     "rowName": "甲基环戊烯醇酮(又名3-甲基-2-羟基-2-环戊烯-1-酮)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 212；编码 S0212；香料中文名称 甲基环戊烯醇酮(又名3-甲基-2-羟基-2-环戊烯-1-酮)；香料英文名称 Methylcyclopentenolone(3-methyl-2-hydroxy-2-cyclopenten-1-one)；FEMA 编号 2700。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 212；编码 S0212；香料中文名称 甲基环戊烯醇酮(又名3-甲基-2-羟基-2-环戊烯-1-酮)；香料英文名称 Methylcyclopentenolone (3-methyl-2-hydroxy-2-cyclopenten-1-one)；FEMA 编号 2700。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0213",
@@ -11230,7 +11230,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0217",
     "flavorCode": "S0217",
     "flavorNameCn": "3-庚烯-2-酮",
-    "flavorNameEn": "3-Hepten-2-one(Methylpentenylketone)",
+    "flavorNameEn": "3-Hepten-2-one (Methylpentenylketone)",
     "femaNumber": "3400",
     "pdfPage": 176,
     "standardPage": 173,
@@ -11239,7 +11239,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "217S02173-庚烯-2-酮3-Hepten-2-one(Methylpentenylketone)3400",
     "rowName": "3-庚烯-2-酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 217；编码 S0217；香料中文名称 3-庚烯-2-酮；香料英文名称 3-Hepten-2-one(Methylpentenylketone)；FEMA 编号 3400。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 217；编码 S0217；香料中文名称 3-庚烯-2-酮；香料英文名称 3-Hepten-2-one (Methylpentenylketone)；FEMA 编号 3400。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0218",
@@ -11383,7 +11383,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0226",
     "flavorCode": "S0226",
     "flavorNameCn": "4-甲基苯乙酮对-甲基苯乙酮",
-    "flavorNameEn": "4-Methylacetophenonep-Methylacetophenone",
+    "flavorNameEn": "4-Methylacetophenone p-Methylacetophenone",
     "femaNumber": "2677",
     "pdfPage": 176,
     "standardPage": 173,
@@ -11392,7 +11392,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-甲基苯乙酮4-Methylacetophenone226S02262677对-甲基苯乙酮p-Methylacetophenone",
     "rowName": "4-甲基苯乙酮对-甲基苯乙酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 226；编码 S0226；香料中文名称 4-甲基苯乙酮对-甲基苯乙酮；香料英文名称 4-Methylacetophenonep-Methylacetophenone；FEMA 编号 2677。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 226；编码 S0226；香料中文名称 4-甲基苯乙酮对-甲基苯乙酮；香料英文名称 4-Methylacetophenone p-Methylacetophenone；FEMA 编号 2677。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0227",
@@ -11434,7 +11434,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0229",
     "flavorCode": "S0229",
     "flavorNameCn": "覆盆子酮(又名悬钩子酮)",
-    "flavorNameEn": "Raspberryketone[4-(p-Hydroxyphenyl)-2-butanone]",
+    "flavorNameEn": "Raspberryketone [4-(p-Hydroxyphenyl)-2-butanone]",
     "femaNumber": "2588",
     "pdfPage": 176,
     "standardPage": 173,
@@ -11443,7 +11443,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Raspberryketone[4-(p-Hydroxyphenyl)-2-229S0229覆盆子酮(又名悬钩子酮)2588butanone]",
     "rowName": "覆盆子酮(又名悬钩子酮)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 229；编码 S0229；香料中文名称 覆盆子酮(又名悬钩子酮)；香料英文名称 Raspberryketone[4-(p-Hydroxyphenyl)-2-butanone]；FEMA 编号 2588。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 229；编码 S0229；香料中文名称 覆盆子酮(又名悬钩子酮)；香料英文名称 Raspberryketone [4-(p-Hydroxyphenyl)-2-butanone]；FEMA 编号 2588。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0230",
@@ -11672,7 +11672,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0243",
     "flavorCode": "S0243",
     "flavorNameCn": "4,5-二氢-3(2H)-噻吩酮(四氢噻吩-3-酮)",
-    "flavorNameEn": "4,5-Dihydro-3-(2H)thiophenone(Tetra-hydrothiophen-3-one)",
+    "flavorNameEn": "4,5-Dihydro-3-(2H)thiophenone (Tetra-hydrothiophen-3-one)",
     "femaNumber": "3266",
     "pdfPage": 177,
     "standardPage": 174,
@@ -11681,7 +11681,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4,5-二氢-3(2H)-噻吩酮(四氢4,5-Dihydro-3-(2H)thiophenone(Tetra-243S02433266噻吩-3-酮)hydrothiophen-3-one)",
     "rowName": "4,5-二氢-3(2H)-噻吩酮(四氢噻吩-3-酮)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 243；编码 S0243；香料中文名称 4,5-二氢-3(2H)-噻吩酮(四氢噻吩-3-酮)；香料英文名称 4,5-Dihydro-3-(2H)thiophenone(Tetra-hydrothiophen-3-one)；FEMA 编号 3266。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 243；编码 S0243；香料中文名称 4,5-二氢-3(2H)-噻吩酮(四氢噻吩-3-酮)；香料英文名称 4,5-Dihydro-3-(2H)thiophenone (Tetra-hydrothiophen-3-one)；FEMA 编号 3266。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0244",
@@ -12114,7 +12114,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0269",
     "flavorCode": "S0269",
     "flavorNameCn": "新甲基橙皮苷二氢查耳酮",
-    "flavorNameEn": "NeohesperidindihydrochalconeNeohesperidinDHC",
+    "flavorNameEn": "Neohesperidindihydrochalcone Neohesperidin DHC",
     "femaNumber": "3811",
     "pdfPage": 178,
     "standardPage": 175,
@@ -12123,7 +12123,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Neohesperidindihydrochalcone269S0269新甲基橙皮苷二氢查耳酮3811NeohesperidinDHC",
     "rowName": "新甲基橙皮苷二氢查耳酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 269；编码 S0269；香料中文名称 新甲基橙皮苷二氢查耳酮；香料英文名称 NeohesperidindihydrochalconeNeohesperidinDHC；FEMA 编号 3811。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 269；编码 S0269；香料中文名称 新甲基橙皮苷二氢查耳酮；香料英文名称 Neohesperidindihydrochalcone Neohesperidin DHC；FEMA 编号 3811。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0270",
@@ -12148,7 +12148,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0271",
     "flavorCode": "S0271",
     "flavorNameCn": "β-突厥酮[又名4-(2,6,6-三甲基环己-1-烯基)丁-2-烯-4-酮]",
-    "flavorNameEn": "β-Damascone[4-(2,6,6-Trimethylcyclohex-1-enyl)but-2-en-4-one]",
+    "flavorNameEn": "β-Damascone [4-(2,6,6-Trimethylcyclohex-1-enyl)but-2-en-4-one]",
     "femaNumber": "3243",
     "pdfPage": 178,
     "standardPage": 175,
@@ -12157,7 +12157,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "β-突厥酮[又名4-(2,6,6-三甲基β-Damascone[4-(2,6,6-Trimethylcyclohex-271S02713243环己-1-烯基)丁-2-烯-4-酮]1-enyl)but-2-en-4-one]",
     "rowName": "β-突厥酮[又名4-(2,6,6-三甲基环己-1-烯基)丁-2-烯-4-酮]",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 271；编码 S0271；香料中文名称 β-突厥酮[又名4-(2,6,6-三甲基环己-1-烯基)丁-2-烯-4-酮]；香料英文名称 β-Damascone[4-(2,6,6-Trimethylcyclohex-1-enyl)but-2-en-4-one]；FEMA 编号 3243。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 271；编码 S0271；香料中文名称 β-突厥酮[又名4-(2,6,6-三甲基环己-1-烯基)丁-2-烯-4-酮]；香料英文名称 β-Damascone [4-(2,6,6-Trimethylcyclohex-1-enyl)but-2-en-4-one]；FEMA 编号 3243。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0272",
@@ -12284,7 +12284,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0279",
     "flavorCode": "S0279",
     "flavorNameCn": "4,5,6,7-四氢-3,6-二甲基苯并呋喃(又名薄荷呋喃)",
-    "flavorNameEn": "4,5,6,7-Tetrahydro-3,6-dimethylbenzofuran(Menthofuran)",
+    "flavorNameEn": "4,5,6,7-Tetrahydro-3,6-dimethylbenzofuran (Menthofuran)",
     "femaNumber": "3235",
     "pdfPage": 178,
     "standardPage": 175,
@@ -12293,7 +12293,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4,5,6,7-四氢-3,6-二甲基苯并4,5,6,7-Tetrahydro-3,6-dimethylbenzofuran279S02793235呋喃(又名薄荷呋喃)(Menthofuran)",
     "rowName": "4,5,6,7-四氢-3,6-二甲基苯并呋喃(又名薄荷呋喃)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 279；编码 S0279；香料中文名称 4,5,6,7-四氢-3,6-二甲基苯并呋喃(又名薄荷呋喃)；香料英文名称 4,5,6,7-Tetrahydro-3,6-dimethylbenzofuran(Menthofuran)；FEMA 编号 3235。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 279；编码 S0279；香料中文名称 4,5,6,7-四氢-3,6-二甲基苯并呋喃(又名薄荷呋喃)；香料英文名称 4,5,6,7-Tetrahydro-3,6-dimethylbenzofuran (Menthofuran)；FEMA 编号 3235。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0280",
@@ -12522,7 +12522,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0293",
     "flavorCode": "S0293",
     "flavorNameCn": "乙酸",
-    "flavorNameEn": "Aceticacid",
+    "flavorNameEn": "Acetic acid",
     "femaNumber": "2006",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12531,7 +12531,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "293S0293乙酸Aceticacid2006",
     "rowName": "乙酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 293；编码 S0293；香料中文名称 乙酸；香料英文名称 Aceticacid；FEMA 编号 2006。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 293；编码 S0293；香料中文名称 乙酸；香料英文名称 Acetic acid；FEMA 编号 2006。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0294",
@@ -12539,7 +12539,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0294",
     "flavorCode": "S0294",
     "flavorNameCn": "丙酸",
-    "flavorNameEn": "Propionicacid",
+    "flavorNameEn": "Propionic acid",
     "femaNumber": "2924",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12548,7 +12548,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "294S0294丙酸Propionicacid2924",
     "rowName": "丙酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 294；编码 S0294；香料中文名称 丙酸；香料英文名称 Propionicacid；FEMA 编号 2924。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 294；编码 S0294；香料中文名称 丙酸；香料英文名称 Propionic acid；FEMA 编号 2924。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0295",
@@ -12556,7 +12556,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0295",
     "flavorCode": "S0295",
     "flavorNameCn": "丙酮酸",
-    "flavorNameEn": "Pyruvicacid",
+    "flavorNameEn": "Pyruvic acid",
     "femaNumber": "2970",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12565,7 +12565,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "295S0295丙酮酸Pyruvicacid2970",
     "rowName": "丙酮酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 295；编码 S0295；香料中文名称 丙酮酸；香料英文名称 Pyruvicacid；FEMA 编号 2970。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 295；编码 S0295；香料中文名称 丙酮酸；香料英文名称 Pyruvic acid；FEMA 编号 2970。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0296",
@@ -12573,7 +12573,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0296",
     "flavorCode": "S0296",
     "flavorNameCn": "丁酸",
-    "flavorNameEn": "Butyricacid",
+    "flavorNameEn": "Butyric acid",
     "femaNumber": "2221",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12582,7 +12582,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "296S0296丁酸Butyricacid2221",
     "rowName": "丁酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 296；编码 S0296；香料中文名称 丁酸；香料英文名称 Butyricacid；FEMA 编号 2221。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 296；编码 S0296；香料中文名称 丁酸；香料英文名称 Butyric acid；FEMA 编号 2221。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0297",
@@ -12590,7 +12590,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0297",
     "flavorCode": "S0297",
     "flavorNameCn": "异丁酸",
-    "flavorNameEn": "Isobutyricacid",
+    "flavorNameEn": "Isobutyric acid",
     "femaNumber": "2222",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12599,7 +12599,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "297S0297异丁酸Isobutyricacid2222",
     "rowName": "异丁酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 297；编码 S0297；香料中文名称 异丁酸；香料英文名称 Isobutyricacid；FEMA 编号 2222。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 297；编码 S0297；香料中文名称 异丁酸；香料英文名称 Isobutyric acid；FEMA 编号 2222。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0298",
@@ -12607,7 +12607,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0298",
     "flavorCode": "S0298",
     "flavorNameCn": "2-甲基丁酸",
-    "flavorNameEn": "2-Methylbutyricacid",
+    "flavorNameEn": "2-Methylbutyric acid",
     "femaNumber": "2695",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12616,7 +12616,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "298S02982-甲基丁酸2-Methylbutyricacid2695",
     "rowName": "2-甲基丁酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 298；编码 S0298；香料中文名称 2-甲基丁酸；香料英文名称 2-Methylbutyricacid；FEMA 编号 2695。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 298；编码 S0298；香料中文名称 2-甲基丁酸；香料英文名称 2-Methylbutyric acid；FEMA 编号 2695。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0299",
@@ -12624,7 +12624,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0299",
     "flavorCode": "S0299",
     "flavorNameCn": "2-乙基丁酸",
-    "flavorNameEn": "2-Ethylbutyricacid",
+    "flavorNameEn": "2-Ethylbutyric acid",
     "femaNumber": "2429",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12633,7 +12633,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "299S02992-乙基丁酸2-Ethylbutyricacid2429",
     "rowName": "2-乙基丁酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 299；编码 S0299；香料中文名称 2-乙基丁酸；香料英文名称 2-Ethylbutyricacid；FEMA 编号 2429。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 299；编码 S0299；香料中文名称 2-乙基丁酸；香料英文名称 2-Ethylbutyric acid；FEMA 编号 2429。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0300",
@@ -12641,7 +12641,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0300",
     "flavorCode": "S0300",
     "flavorNameCn": "戊酸",
-    "flavorNameEn": "Valericacid",
+    "flavorNameEn": "Valeric acid",
     "femaNumber": "3101",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12650,7 +12650,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "300S0300戊酸Valericacid3101",
     "rowName": "戊酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 300；编码 S0300；香料中文名称 戊酸；香料英文名称 Valericacid；FEMA 编号 3101。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 300；编码 S0300；香料中文名称 戊酸；香料英文名称 Valeric acid；FEMA 编号 3101。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0301",
@@ -12658,7 +12658,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0301",
     "flavorCode": "S0301",
     "flavorNameCn": "2-甲基戊酸",
-    "flavorNameEn": "2-Methylvalericacid",
+    "flavorNameEn": "2-Methylvaleric acid",
     "femaNumber": "2754",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12667,7 +12667,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "301S03012-甲基戊酸2-Methylvalericacid2754",
     "rowName": "2-甲基戊酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 301；编码 S0301；香料中文名称 2-甲基戊酸；香料英文名称 2-Methylvalericacid；FEMA 编号 2754。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 301；编码 S0301；香料中文名称 2-甲基戊酸；香料英文名称 2-Methylvaleric acid；FEMA 编号 2754。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0302",
@@ -12675,7 +12675,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0302",
     "flavorCode": "S0302",
     "flavorNameCn": "2-甲基-2-戊烯酸(又名草莓酸)",
-    "flavorNameEn": "2-Methyl-2-pentenoicacid(Strawberriff)",
+    "flavorNameEn": "2-Methyl-2-pentenoic acid (Strawberriff)",
     "femaNumber": "3195",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12684,7 +12684,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "302S03022-甲基-2-戊烯酸(又名草莓酸)2-Methyl-2-pentenoicacid(Strawberriff)3195",
     "rowName": "2-甲基-2-戊烯酸(又名草莓酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 302；编码 S0302；香料中文名称 2-甲基-2-戊烯酸(又名草莓酸)；香料英文名称 2-Methyl-2-pentenoicacid(Strawberriff)；FEMA 编号 3195。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 302；编码 S0302；香料中文名称 2-甲基-2-戊烯酸(又名草莓酸)；香料英文名称 2-Methyl-2-pentenoic acid (Strawberriff)；FEMA 编号 3195。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0303",
@@ -12692,7 +12692,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0303",
     "flavorCode": "S0303",
     "flavorNameCn": "异戊酸",
-    "flavorNameEn": "Isovalericacid",
+    "flavorNameEn": "Isovaleric acid",
     "femaNumber": "3102",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12701,7 +12701,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "303S0303异戊酸Isovalericacid3102",
     "rowName": "异戊酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 303；编码 S0303；香料中文名称 异戊酸；香料英文名称 Isovalericacid；FEMA 编号 3102。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 303；编码 S0303；香料中文名称 异戊酸；香料英文名称 Isovaleric acid；FEMA 编号 3102。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0304",
@@ -12709,7 +12709,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0304",
     "flavorCode": "S0304",
     "flavorNameCn": "己酸",
-    "flavorNameEn": "Hexanoicacid",
+    "flavorNameEn": "Hexanoic acid",
     "femaNumber": "2559",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12718,7 +12718,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "304S0304己酸Hexanoicacid2559",
     "rowName": "己酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 304；编码 S0304；香料中文名称 己酸；香料英文名称 Hexanoicacid；FEMA 编号 2559。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 304；编码 S0304；香料中文名称 己酸；香料英文名称 Hexanoic acid；FEMA 编号 2559。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0305",
@@ -12726,7 +12726,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0305",
     "flavorCode": "S0305",
     "flavorNameCn": "己二酸",
-    "flavorNameEn": "Adipicacid",
+    "flavorNameEn": "Adipic acid",
     "femaNumber": "2011",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12735,7 +12735,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "305S0305己二酸Adipicacid2011",
     "rowName": "己二酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 305；编码 S0305；香料中文名称 己二酸；香料英文名称 Adipicacid；FEMA 编号 2011。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 305；编码 S0305；香料中文名称 己二酸；香料英文名称 Adipic acid；FEMA 编号 2011。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0306",
@@ -12743,7 +12743,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0306",
     "flavorCode": "S0306",
     "flavorNameCn": "反式-2-己烯酸",
-    "flavorNameEn": "trans-2-Hexenoicacid",
+    "flavorNameEn": "trans-2-Hexenoic acid",
     "femaNumber": "3169",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12752,7 +12752,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "306S0306反式-2-己烯酸trans-2-Hexenoicacid3169",
     "rowName": "反式-2-己烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 306；编码 S0306；香料中文名称 反式-2-己烯酸；香料英文名称 trans-2-Hexenoicacid；FEMA 编号 3169。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 306；编码 S0306；香料中文名称 反式-2-己烯酸；香料英文名称 trans-2-Hexenoic acid；FEMA 编号 3169。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0307",
@@ -12760,7 +12760,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0307",
     "flavorCode": "S0307",
     "flavorNameCn": "3-己烯酸",
-    "flavorNameEn": "3-Hexenoicacid",
+    "flavorNameEn": "3-Hexenoic acid",
     "femaNumber": "3170",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12769,7 +12769,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "307S03073-己烯酸3-Hexenoicacid3170",
     "rowName": "3-己烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 307；编码 S0307；香料中文名称 3-己烯酸；香料英文名称 3-Hexenoicacid；FEMA 编号 3170。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 307；编码 S0307；香料中文名称 3-己烯酸；香料英文名称 3-Hexenoic acid；FEMA 编号 3170。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0308",
@@ -12777,7 +12777,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0308",
     "flavorCode": "S0308",
     "flavorNameCn": "庚酸",
-    "flavorNameEn": "Heptanoicacid",
+    "flavorNameEn": "Heptanoic acid",
     "femaNumber": "3348",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12786,7 +12786,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "308S0308庚酸Heptanoicacid3348",
     "rowName": "庚酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 308；编码 S0308；香料中文名称 庚酸；香料英文名称 Heptanoicacid；FEMA 编号 3348。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 308；编码 S0308；香料中文名称 庚酸；香料英文名称 Heptanoic acid；FEMA 编号 3348。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0309",
@@ -12794,7 +12794,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0309",
     "flavorCode": "S0309",
     "flavorNameCn": "辛酸",
-    "flavorNameEn": "Octanoicacid",
+    "flavorNameEn": "Octanoic acid",
     "femaNumber": "2799",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12803,7 +12803,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "309S0309辛酸Octanoicacid2799",
     "rowName": "辛酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 309；编码 S0309；香料中文名称 辛酸；香料英文名称 Octanoicacid；FEMA 编号 2799。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 309；编码 S0309；香料中文名称 辛酸；香料英文名称 Octanoic acid；FEMA 编号 2799。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0310",
@@ -12811,7 +12811,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0310",
     "flavorCode": "S0310",
     "flavorNameCn": "壬酸",
-    "flavorNameEn": "Nonoicacid",
+    "flavorNameEn": "Nonoic acid",
     "femaNumber": "2784",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12820,7 +12820,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "310S0310壬酸Nonoicacid2784",
     "rowName": "壬酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 310；编码 S0310；香料中文名称 壬酸；香料英文名称 Nonoicacid；FEMA 编号 2784。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 310；编码 S0310；香料中文名称 壬酸；香料英文名称 Nonoic acid；FEMA 编号 2784。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0311",
@@ -12828,7 +12828,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0311",
     "flavorCode": "S0311",
     "flavorNameCn": "癸酸",
-    "flavorNameEn": "Decanoicacid",
+    "flavorNameEn": "Decanoic acid",
     "femaNumber": "2364",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12837,7 +12837,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "311S0311癸酸Decanoicacid2364",
     "rowName": "癸酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 311；编码 S0311；香料中文名称 癸酸；香料英文名称 Decanoicacid；FEMA 编号 2364。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 311；编码 S0311；香料中文名称 癸酸；香料英文名称 Decanoic acid；FEMA 编号 2364。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0312",
@@ -12845,7 +12845,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0312",
     "flavorCode": "S0312",
     "flavorNameCn": "十二酸(又名月桂酸)",
-    "flavorNameEn": "Dodecanoicacid(Lauricacid)",
+    "flavorNameEn": "Dodecanoic acid (Lauric acid)",
     "femaNumber": "2614",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12854,7 +12854,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "312S0312十二酸(又名月桂酸)Dodecanoicacid(Lauricacid)2614",
     "rowName": "十二酸(又名月桂酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 312；编码 S0312；香料中文名称 十二酸(又名月桂酸)；香料英文名称 Dodecanoicacid(Lauricacid)；FEMA 编号 2614。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 312；编码 S0312；香料中文名称 十二酸(又名月桂酸)；香料英文名称 Dodecanoic acid (Lauric acid)；FEMA 编号 2614。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0313",
@@ -12862,7 +12862,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0313",
     "flavorCode": "S0313",
     "flavorNameCn": "十四酸(又名肉豆蔻酸)",
-    "flavorNameEn": "Tetradecanoicacid(Myristicacid)",
+    "flavorNameEn": "Tetradecanoic acid (Myristic acid)",
     "femaNumber": "2764",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12871,7 +12871,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "313S0313十四酸(又名肉豆蔻酸)Tetradecanoicacid(Myristicacid)2764",
     "rowName": "十四酸(又名肉豆蔻酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 313；编码 S0313；香料中文名称 十四酸(又名肉豆蔻酸)；香料英文名称 Tetradecanoicacid(Myristicacid)；FEMA 编号 2764。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 313；编码 S0313；香料中文名称 十四酸(又名肉豆蔻酸)；香料英文名称 Tetradecanoic acid (Myristic acid)；FEMA 编号 2764。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0314",
@@ -12879,7 +12879,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0314",
     "flavorCode": "S0314",
     "flavorNameCn": "十六酸(又名棕榈酸)",
-    "flavorNameEn": "Hexadecylicacid(Palmiticacid)",
+    "flavorNameEn": "Hexadecylic acid (Palmitic acid)",
     "femaNumber": "2832",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12888,7 +12888,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "314S0314十六酸(又名棕榈酸)Hexadecylicacid(Palmiticacid)2832",
     "rowName": "十六酸(又名棕榈酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 314；编码 S0314；香料中文名称 十六酸(又名棕榈酸)；香料英文名称 Hexadecylicacid(Palmiticacid)；FEMA 编号 2832。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 314；编码 S0314；香料中文名称 十六酸(又名棕榈酸)；香料英文名称 Hexadecylic acid (Palmitic acid)；FEMA 编号 2832。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0315",
@@ -12896,7 +12896,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0315",
     "flavorCode": "S0315",
     "flavorNameCn": "苯甲酸",
-    "flavorNameEn": "Benzoicacid",
+    "flavorNameEn": "Benzoic acid",
     "femaNumber": "2131",
     "pdfPage": 179,
     "standardPage": 176,
@@ -12905,7 +12905,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "315S0315苯甲酸Benzoicacid2131",
     "rowName": "苯甲酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 315；编码 S0315；香料中文名称 苯甲酸；香料英文名称 Benzoicacid；FEMA 编号 2131。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 315；编码 S0315；香料中文名称 苯甲酸；香料英文名称 Benzoic acid；FEMA 编号 2131。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0316",
@@ -12913,7 +12913,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0316",
     "flavorCode": "S0316",
     "flavorNameCn": "苯乙酸",
-    "flavorNameEn": "Phenylaceticacid",
+    "flavorNameEn": "Phenylacetic acid",
     "femaNumber": "2878",
     "pdfPage": 180,
     "standardPage": 177,
@@ -12922,7 +12922,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "316S0316苯乙酸Phenylaceticacid2878",
     "rowName": "苯乙酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 316；编码 S0316；香料中文名称 苯乙酸；香料英文名称 Phenylaceticacid；FEMA 编号 2878。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 316；编码 S0316；香料中文名称 苯乙酸；香料英文名称 Phenylacetic acid；FEMA 编号 2878。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0317",
@@ -12930,7 +12930,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0317",
     "flavorCode": "S0317",
     "flavorNameCn": "柠檬酸",
-    "flavorNameEn": "Citricacid",
+    "flavorNameEn": "Citric acid",
     "femaNumber": "2306",
     "pdfPage": 180,
     "standardPage": 177,
@@ -12939,7 +12939,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "317S0317柠檬酸Citricacid2306",
     "rowName": "柠檬酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 317；编码 S0317；香料中文名称 柠檬酸；香料英文名称 Citricacid；FEMA 编号 2306。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 317；编码 S0317；香料中文名称 柠檬酸；香料英文名称 Citric acid；FEMA 编号 2306。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0318",
@@ -12947,7 +12947,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0318",
     "flavorCode": "S0318",
     "flavorNameCn": "肉桂酸",
-    "flavorNameEn": "Cinnamicacid",
+    "flavorNameEn": "Cinnamic acid",
     "femaNumber": "2288",
     "pdfPage": 180,
     "standardPage": 177,
@@ -12956,7 +12956,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "318S0318肉桂酸Cinnamicacid2288",
     "rowName": "肉桂酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 318；编码 S0318；香料中文名称 肉桂酸；香料英文名称 Cinnamicacid；FEMA 编号 2288。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 318；编码 S0318；香料中文名称 肉桂酸；香料英文名称 Cinnamic acid；FEMA 编号 2288。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0319",
@@ -12964,7 +12964,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0319",
     "flavorCode": "S0319",
     "flavorNameCn": "富马酸",
-    "flavorNameEn": "Fumaricacid",
+    "flavorNameEn": "Fumaric acid",
     "femaNumber": "2488",
     "pdfPage": 180,
     "standardPage": 177,
@@ -12973,7 +12973,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "319S0319富马酸Fumaricacid2488",
     "rowName": "富马酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 319；编码 S0319；香料中文名称 富马酸；香料英文名称 Fumaricacid；FEMA 编号 2488。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 319；编码 S0319；香料中文名称 富马酸；香料英文名称 Fumaric acid；FEMA 编号 2488。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0320",
@@ -12981,7 +12981,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0320",
     "flavorCode": "S0320",
     "flavorNameCn": "3-甲基戊酸(又名酐酪酸)",
-    "flavorNameEn": "3-Methylpentanoicacid",
+    "flavorNameEn": "3-Methylpentanoic acid",
     "femaNumber": "3437",
     "pdfPage": 180,
     "standardPage": 177,
@@ -12990,7 +12990,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "320S03203-甲基戊酸(又名酐酪酸)3-Methylpentanoicacid3437",
     "rowName": "3-甲基戊酸(又名酐酪酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 320；编码 S0320；香料中文名称 3-甲基戊酸(又名酐酪酸)；香料英文名称 3-Methylpentanoicacid；FEMA 编号 3437。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 320；编码 S0320；香料中文名称 3-甲基戊酸(又名酐酪酸)；香料英文名称 3-Methylpentanoic acid；FEMA 编号 3437。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0321",
@@ -13066,7 +13066,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0325",
     "flavorCode": "S0325",
     "flavorNameCn": "L-谷氨酸",
-    "flavorNameEn": "L-Glutamicacid",
+    "flavorNameEn": "L-Glutamic acid",
     "femaNumber": "3285",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13075,7 +13075,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "325S0325L-谷氨酸L-Glutamicacid3285",
     "rowName": "L-谷氨酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 325；编码 S0325；香料中文名称 L-谷氨酸；香料英文名称 L-Glutamicacid；FEMA 编号 3285。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 325；编码 S0325；香料中文名称 L-谷氨酸；香料英文名称 L-Glutamic acid；FEMA 编号 3285。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0326",
@@ -13117,7 +13117,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0328",
     "flavorCode": "S0328",
     "flavorNameCn": "乙酰丙酸",
-    "flavorNameEn": "Levulinicacid",
+    "flavorNameEn": "Levulinic acid",
     "femaNumber": "2627",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13126,7 +13126,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "328S0328乙酰丙酸Levulinicacid2627",
     "rowName": "乙酰丙酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 328；编码 S0328；香料中文名称 乙酰丙酸；香料英文名称 Levulinicacid；FEMA 编号 2627。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 328；编码 S0328；香料中文名称 乙酰丙酸；香料英文名称 Levulinic acid；FEMA 编号 2627。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0329",
@@ -13134,7 +13134,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0329",
     "flavorCode": "S0329",
     "flavorNameCn": "2-氧代丁酸",
-    "flavorNameEn": "2-Oxobutyricacid",
+    "flavorNameEn": "2-Oxobutyric acid",
     "femaNumber": "3723",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13143,7 +13143,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "329S03292-氧代丁酸2-Oxobutyricacid3723",
     "rowName": "2-氧代丁酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 329；编码 S0329；香料中文名称 2-氧代丁酸；香料英文名称 2-Oxobutyricacid；FEMA 编号 3723。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 329；编码 S0329；香料中文名称 2-氧代丁酸；香料英文名称 2-Oxobutyric acid；FEMA 编号 3723。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0330",
@@ -13151,7 +13151,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0330",
     "flavorCode": "S0330",
     "flavorNameCn": "2-甲基己酸",
-    "flavorNameEn": "2-Methylhexanoicacid",
+    "flavorNameEn": "2-Methylhexanoic acid",
     "femaNumber": "3191",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13160,7 +13160,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "330S03302-甲基己酸2-Methylhexanoicacid3191",
     "rowName": "2-甲基己酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 330；编码 S0330；香料中文名称 2-甲基己酸；香料英文名称 2-Methylhexanoicacid；FEMA 编号 3191。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 330；编码 S0330；香料中文名称 2-甲基己酸；香料英文名称 2-Methylhexanoic acid；FEMA 编号 3191。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0331",
@@ -13168,7 +13168,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0331",
     "flavorCode": "S0331",
     "flavorNameCn": "2-甲基庚酸",
-    "flavorNameEn": "2-Methyloenanthicacid",
+    "flavorNameEn": "2-Methyloenanthic acid",
     "femaNumber": "2706",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13177,7 +13177,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "331S03312-甲基庚酸2-Methyloenanthicacid2706",
     "rowName": "2-甲基庚酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 331；编码 S0331；香料中文名称 2-甲基庚酸；香料英文名称 2-Methyloenanthicacid；FEMA 编号 2706。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 331；编码 S0331；香料中文名称 2-甲基庚酸；香料英文名称 2-Methyloenanthic acid；FEMA 编号 2706。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0332",
@@ -13185,7 +13185,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0332",
     "flavorCode": "S0332",
     "flavorNameCn": "4-甲基辛酸",
-    "flavorNameEn": "4-Methyloctanoicacid",
+    "flavorNameEn": "4-Methyloctanoic acid",
     "femaNumber": "3575",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13194,7 +13194,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "332S03324-甲基辛酸4-Methyloctanoicacid3575",
     "rowName": "4-甲基辛酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 332；编码 S0332；香料中文名称 4-甲基辛酸；香料英文名称 4-Methyloctanoicacid；FEMA 编号 3575。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 332；编码 S0332；香料中文名称 4-甲基辛酸；香料英文名称 4-Methyloctanoic acid；FEMA 编号 3575。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0333",
@@ -13202,7 +13202,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0333",
     "flavorCode": "S0333",
     "flavorNameCn": "3,7-二甲基-6-辛烯酸",
-    "flavorNameEn": "3,7-Dimethyl-6-octenoicacid",
+    "flavorNameEn": "3,7-Dimethyl-6-octenoic acid",
     "femaNumber": "3142",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13211,7 +13211,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "333S03333,7-二甲基-6-辛烯酸3,7-Dimethyl-6-octenoicacid3142",
     "rowName": "3,7-二甲基-6-辛烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 333；编码 S0333；香料中文名称 3,7-二甲基-6-辛烯酸；香料英文名称 3,7-Dimethyl-6-octenoicacid；FEMA 编号 3142。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 333；编码 S0333；香料中文名称 3,7-二甲基-6-辛烯酸；香料英文名称 3,7-Dimethyl-6-octenoic acid；FEMA 编号 3142。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0334",
@@ -13219,7 +13219,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0334",
     "flavorCode": "S0334",
     "flavorNameCn": "9-癸烯酸",
-    "flavorNameEn": "9-Decenoicacid",
+    "flavorNameEn": "9-Decenoic acid",
     "femaNumber": "3660",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13228,7 +13228,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "334S03349-癸烯酸9-Decenoicacid3660",
     "rowName": "9-癸烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 334；编码 S0334；香料中文名称 9-癸烯酸；香料英文名称 9-Decenoicacid；FEMA 编号 3660。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 334；编码 S0334；香料中文名称 9-癸烯酸；香料英文名称 9-Decenoic acid；FEMA 编号 3660。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0335",
@@ -13236,7 +13236,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0335",
     "flavorCode": "S0335",
     "flavorNameCn": "十一酸",
-    "flavorNameEn": "Undecanoicacid",
+    "flavorNameEn": "Undecanoic acid",
     "femaNumber": "3245",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13245,7 +13245,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "335S0335十一酸Undecanoicacid3245",
     "rowName": "十一酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 335；编码 S0335；香料中文名称 十一酸；香料英文名称 Undecanoicacid；FEMA 编号 3245。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 335；编码 S0335；香料中文名称 十一酸；香料英文名称 Undecanoic acid；FEMA 编号 3245。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0336",
@@ -13253,7 +13253,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0336",
     "flavorCode": "S0336",
     "flavorNameCn": "10-十一碳烯酸",
-    "flavorNameEn": "10-Undecenoicacid",
+    "flavorNameEn": "10-Undecenoic acid",
     "femaNumber": "3247",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13262,7 +13262,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "336S033610-十一碳烯酸10-Undecenoicacid3247",
     "rowName": "10-十一碳烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 336；编码 S0336；香料中文名称 10-十一碳烯酸；香料英文名称 10-Undecenoicacid；FEMA 编号 3247。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 336；编码 S0336；香料中文名称 10-十一碳烯酸；香料英文名称 10-Undecenoic acid；FEMA 编号 3247。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0337",
@@ -13270,7 +13270,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0337",
     "flavorCode": "S0337",
     "flavorNameCn": "3-苯丙酸",
-    "flavorNameEn": "3-Phenylpropionicacid",
+    "flavorNameEn": "3-Phenylpropionic acid",
     "femaNumber": "2889",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13279,7 +13279,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "337S03373-苯丙酸3-Phenylpropionicacid2889",
     "rowName": "3-苯丙酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 337；编码 S0337；香料中文名称 3-苯丙酸；香料英文名称 3-Phenylpropionicacid；FEMA 编号 2889。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 337；编码 S0337；香料中文名称 3-苯丙酸；香料英文名称 3-Phenylpropionic acid；FEMA 编号 2889。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0338",
@@ -13287,7 +13287,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0338",
     "flavorCode": "S0338",
     "flavorNameCn": "乳酸",
-    "flavorNameEn": "Lacticacid",
+    "flavorNameEn": "Lactic acid",
     "femaNumber": "2611",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13296,7 +13296,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "338S0338乳酸Lacticacid2611",
     "rowName": "乳酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 338；编码 S0338；香料中文名称 乳酸；香料英文名称 Lacticacid；FEMA 编号 2611。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 338；编码 S0338；香料中文名称 乳酸；香料英文名称 Lactic acid；FEMA 编号 2611。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0339",
@@ -13355,7 +13355,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0342",
     "flavorCode": "S0342",
     "flavorNameCn": "L-和DL-丙氨酸",
-    "flavorNameEn": "L-andDL-Alanine",
+    "flavorNameEn": "L-and DL-Alanine",
     "femaNumber": "3818",
     "pdfPage": 180,
     "standardPage": 177,
@@ -13364,7 +13364,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "342S0342L-和DL-丙氨酸L-andDL-Alanine3818",
     "rowName": "L-和DL-丙氨酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 342；编码 S0342；香料中文名称 L-和DL-丙氨酸；香料英文名称 L-andDL-Alanine；FEMA 编号 3818。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 342；编码 S0342；香料中文名称 L-和DL-丙氨酸；香料英文名称 L-and DL-Alanine；FEMA 编号 3818。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0343",
@@ -13406,7 +13406,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0345",
     "flavorCode": "S0345",
     "flavorNameCn": "3-甲基巴豆酸",
-    "flavorNameEn": "3-Methylcrotonicacid",
+    "flavorNameEn": "3-Methylcrotonic acid",
     "femaNumber": "3187",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13415,7 +13415,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "345S03453-甲基巴豆酸3-Methylcrotonicacid3187",
     "rowName": "3-甲基巴豆酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 345；编码 S0345；香料中文名称 3-甲基巴豆酸；香料英文名称 3-Methylcrotonicacid；FEMA 编号 3187。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 345；编码 S0345；香料中文名称 3-甲基巴豆酸；香料英文名称 3-Methylcrotonic acid；FEMA 编号 3187。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0346",
@@ -13423,7 +13423,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0346",
     "flavorCode": "S0346",
     "flavorNameCn": "甲酸",
-    "flavorNameEn": "Formicacid",
+    "flavorNameEn": "Formic acid",
     "femaNumber": "2487",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13432,7 +13432,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "346S0346甲酸Formicacid2487",
     "rowName": "甲酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 346；编码 S0346；香料中文名称 甲酸；香料英文名称 Formicacid；FEMA 编号 2487。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 346；编码 S0346；香料中文名称 甲酸；香料英文名称 Formic acid；FEMA 编号 2487。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0347",
@@ -13440,7 +13440,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0347",
     "flavorCode": "S0347",
     "flavorNameCn": "4-甲基壬酸",
-    "flavorNameEn": "4-Methylnonanoicacid",
+    "flavorNameEn": "4-Methylnonanoic acid",
     "femaNumber": "3574",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13449,7 +13449,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "347S03474-甲基壬酸4-Methylnonanoicacid3574",
     "rowName": "4-甲基壬酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 347；编码 S0347；香料中文名称 4-甲基壬酸；香料英文名称 4-Methylnonanoicacid；FEMA 编号 3574。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 347；编码 S0347；香料中文名称 4-甲基壬酸；香料英文名称 4-Methylnonanoic acid；FEMA 编号 3574。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0348",
@@ -13457,7 +13457,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0348",
     "flavorCode": "S0348",
     "flavorNameCn": "异己酸",
-    "flavorNameEn": "Isohexanoicacid",
+    "flavorNameEn": "Isohexanoic acid",
     "femaNumber": "3463",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13466,7 +13466,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "348S0348异己酸Isohexanoicacid3463",
     "rowName": "异己酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 348；编码 S0348；香料中文名称 异己酸；香料英文名称 Isohexanoicacid；FEMA 编号 3463。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 348；编码 S0348；香料中文名称 异己酸；香料英文名称 Isohexanoic acid；FEMA 编号 3463。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0349",
@@ -13474,7 +13474,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0349",
     "flavorCode": "S0349",
     "flavorNameCn": "2-羟基苯甲酸(又名水杨酸)",
-    "flavorNameEn": "2-Hydroxybenzoicacid(Salicylicacid)",
+    "flavorNameEn": "2-Hydroxybenzoic acid (Salicylic acid)",
     "femaNumber": "3985",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13483,7 +13483,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "349S03492-羟基苯甲酸(又名水杨酸)2-Hydroxybenzoicacid(Salicylicacid)3985",
     "rowName": "2-羟基苯甲酸(又名水杨酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 349；编码 S0349；香料中文名称 2-羟基苯甲酸(又名水杨酸)；香料英文名称 2-Hydroxybenzoicacid(Salicylicacid)；FEMA 编号 3985。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 349；编码 S0349；香料中文名称 2-羟基苯甲酸(又名水杨酸)；香料英文名称 2-Hydroxybenzoic acid (Salicylic acid)；FEMA 编号 3985。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0350",
@@ -13491,7 +13491,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0350",
     "flavorCode": "S0350",
     "flavorNameCn": "惕各酸",
-    "flavorNameEn": "Tiglicacid",
+    "flavorNameEn": "Tiglic acid",
     "femaNumber": "3599",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13500,7 +13500,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "350S0350惕各酸Tiglicacid3599",
     "rowName": "惕各酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 350；编码 S0350；香料中文名称 惕各酸；香料英文名称 Tiglicacid；FEMA 编号 3599。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 350；编码 S0350；香料中文名称 惕各酸；香料英文名称 Tiglic acid；FEMA 编号 3599。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0351",
@@ -13508,7 +13508,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0351",
     "flavorCode": "S0351",
     "flavorNameCn": "琥珀酸",
-    "flavorNameEn": "Succinicacid",
+    "flavorNameEn": "Succinic acid",
     "femaNumber": "4719",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13517,7 +13517,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "351S0351琥珀酸Succinicacid4719",
     "rowName": "琥珀酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 351；编码 S0351；香料中文名称 琥珀酸；香料英文名称 Succinicacid；FEMA 编号 4719。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 351；编码 S0351；香料中文名称 琥珀酸；香料英文名称 Succinic acid；FEMA 编号 4719。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0352",
@@ -13525,7 +13525,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0352",
     "flavorCode": "S0352",
     "flavorNameCn": "硬脂酸",
-    "flavorNameEn": "Stearicacid",
+    "flavorNameEn": "Stearic acid",
     "femaNumber": "3035",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13534,7 +13534,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "352S0352硬脂酸Stearicacid3035",
     "rowName": "硬脂酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 352；编码 S0352；香料中文名称 硬脂酸；香料英文名称 Stearicacid；FEMA 编号 3035。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 352；编码 S0352；香料中文名称 硬脂酸；香料英文名称 Stearic acid；FEMA 编号 3035。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0353",
@@ -13542,7 +13542,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0353",
     "flavorCode": "S0353",
     "flavorNameCn": "甲酸乙酯",
-    "flavorNameEn": "Ethylformate",
+    "flavorNameEn": "Ethyl formate",
     "femaNumber": "2434",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13551,7 +13551,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "353S0353甲酸乙酯Ethylformate2434",
     "rowName": "甲酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 353；编码 S0353；香料中文名称 甲酸乙酯；香料英文名称 Ethylformate；FEMA 编号 2434。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 353；编码 S0353；香料中文名称 甲酸乙酯；香料英文名称 Ethyl formate；FEMA 编号 2434。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0354",
@@ -13559,7 +13559,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0354",
     "flavorCode": "S0354",
     "flavorNameCn": "甲酸丁酯",
-    "flavorNameEn": "Butylformate",
+    "flavorNameEn": "Butyl formate",
     "femaNumber": "2196",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13568,7 +13568,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "354S0354甲酸丁酯Butylformate2196",
     "rowName": "甲酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 354；编码 S0354；香料中文名称 甲酸丁酯；香料英文名称 Butylformate；FEMA 编号 2196。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 354；编码 S0354；香料中文名称 甲酸丁酯；香料英文名称 Butyl formate；FEMA 编号 2196。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0355",
@@ -13576,7 +13576,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0355",
     "flavorCode": "S0355",
     "flavorNameCn": "甲酸戊酯",
-    "flavorNameEn": "Amylformate",
+    "flavorNameEn": "Amyl formate",
     "femaNumber": "2068",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13585,7 +13585,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "355S0355甲酸戊酯Amylformate2068",
     "rowName": "甲酸戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 355；编码 S0355；香料中文名称 甲酸戊酯；香料英文名称 Amylformate；FEMA 编号 2068。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 355；编码 S0355；香料中文名称 甲酸戊酯；香料英文名称 Amyl formate；FEMA 编号 2068。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0356",
@@ -13593,7 +13593,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0356",
     "flavorCode": "S0356",
     "flavorNameCn": "甲酸异戊酯",
-    "flavorNameEn": "Isoamylformate",
+    "flavorNameEn": "Isoamyl formate",
     "femaNumber": "2069",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13602,7 +13602,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "356S0356甲酸异戊酯Isoamylformate2069",
     "rowName": "甲酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 356；编码 S0356；香料中文名称 甲酸异戊酯；香料英文名称 Isoamylformate；FEMA 编号 2069。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 356；编码 S0356；香料中文名称 甲酸异戊酯；香料英文名称 Isoamyl formate；FEMA 编号 2069。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0357",
@@ -13610,7 +13610,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0357",
     "flavorCode": "S0357",
     "flavorNameCn": "甲酸己酯",
-    "flavorNameEn": "Hexylformate",
+    "flavorNameEn": "Hexyl formate",
     "femaNumber": "2570",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13619,7 +13619,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "357S0357甲酸己酯Hexylformate2570",
     "rowName": "甲酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 357；编码 S0357；香料中文名称 甲酸己酯；香料英文名称 Hexylformate；FEMA 编号 2570。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 357；编码 S0357；香料中文名称 甲酸己酯；香料英文名称 Hexyl formate；FEMA 编号 2570。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0358",
@@ -13627,7 +13627,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0358",
     "flavorCode": "S0358",
     "flavorNameCn": "甲酸苄酯",
-    "flavorNameEn": "Benzylformate",
+    "flavorNameEn": "Benzyl formate",
     "femaNumber": "2145",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13636,7 +13636,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "358S0358甲酸苄酯Benzylformate2145",
     "rowName": "甲酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 358；编码 S0358；香料中文名称 甲酸苄酯；香料英文名称 Benzylformate；FEMA 编号 2145。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 358；编码 S0358；香料中文名称 甲酸苄酯；香料英文名称 Benzyl formate；FEMA 编号 2145。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0359",
@@ -13644,7 +13644,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0359",
     "flavorCode": "S0359",
     "flavorNameCn": "甲酸香叶酯",
-    "flavorNameEn": "Geranylformate",
+    "flavorNameEn": "Geranyl formate",
     "femaNumber": "2514",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13653,7 +13653,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "359S0359甲酸香叶酯Geranylformate2514",
     "rowName": "甲酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 359；编码 S0359；香料中文名称 甲酸香叶酯；香料英文名称 Geranylformate；FEMA 编号 2514。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 359；编码 S0359；香料中文名称 甲酸香叶酯；香料英文名称 Geranyl formate；FEMA 编号 2514。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0360",
@@ -13661,7 +13661,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0360",
     "flavorCode": "S0360",
     "flavorNameCn": "甲酸香茅酯",
-    "flavorNameEn": "Citronellylformate",
+    "flavorNameEn": "Citronellyl formate",
     "femaNumber": "2314",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13670,7 +13670,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "360S0360甲酸香茅酯Citronellylformate2314",
     "rowName": "甲酸香茅酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 360；编码 S0360；香料中文名称 甲酸香茅酯；香料英文名称 Citronellylformate；FEMA 编号 2314。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 360；编码 S0360；香料中文名称 甲酸香茅酯；香料英文名称 Citronellyl formate；FEMA 编号 2314。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0361",
@@ -13678,7 +13678,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0361",
     "flavorCode": "S0361",
     "flavorNameCn": "甲酸苯乙酯",
-    "flavorNameEn": "Phenethylformate",
+    "flavorNameEn": "Phenethyl formate",
     "femaNumber": "2864",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13687,7 +13687,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "361S0361甲酸苯乙酯Phenethylformate2864",
     "rowName": "甲酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 361；编码 S0361；香料中文名称 甲酸苯乙酯；香料英文名称 Phenethylformate；FEMA 编号 2864。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 361；编码 S0361；香料中文名称 甲酸苯乙酯；香料英文名称 Phenethyl formate；FEMA 编号 2864。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0362",
@@ -13695,7 +13695,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0362",
     "flavorCode": "S0362",
     "flavorNameCn": "甲酸芳樟酯",
-    "flavorNameEn": "Linalylformate",
+    "flavorNameEn": "Linalyl formate",
     "femaNumber": "2642",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13704,7 +13704,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "362S0362甲酸芳樟酯Linalylformate2642",
     "rowName": "甲酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 362；编码 S0362；香料中文名称 甲酸芳樟酯；香料英文名称 Linalylformate；FEMA 编号 2642。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 362；编码 S0362；香料中文名称 甲酸芳樟酯；香料英文名称 Linalyl formate；FEMA 编号 2642。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0363",
@@ -13712,7 +13712,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0363",
     "flavorCode": "S0363",
     "flavorNameCn": "乙酸甲酯",
-    "flavorNameEn": "Methylacetate",
+    "flavorNameEn": "Methyl acetate",
     "femaNumber": "2676",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13721,7 +13721,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "363S0363乙酸甲酯Methylacetate2676",
     "rowName": "乙酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 363；编码 S0363；香料中文名称 乙酸甲酯；香料英文名称 Methylacetate；FEMA 编号 2676。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 363；编码 S0363；香料中文名称 乙酸甲酯；香料英文名称 Methyl acetate；FEMA 编号 2676。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0364",
@@ -13729,7 +13729,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0364",
     "flavorCode": "S0364",
     "flavorNameCn": "乙酸乙酯",
-    "flavorNameEn": "Ethylacetate",
+    "flavorNameEn": "Ethyl acetate",
     "femaNumber": "2414",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13738,7 +13738,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "364S0364乙酸乙酯Ethylacetate2414",
     "rowName": "乙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 364；编码 S0364；香料中文名称 乙酸乙酯；香料英文名称 Ethylacetate；FEMA 编号 2414。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 364；编码 S0364；香料中文名称 乙酸乙酯；香料英文名称 Ethyl acetate；FEMA 编号 2414。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0365",
@@ -13746,7 +13746,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0365",
     "flavorCode": "S0365",
     "flavorNameCn": "乙酰乙酸乙酯",
-    "flavorNameEn": "Ethylacetoacetate",
+    "flavorNameEn": "Ethyl acetoacetate",
     "femaNumber": "2415",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13755,7 +13755,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "365S0365乙酰乙酸乙酯Ethylacetoacetate2415",
     "rowName": "乙酰乙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 365；编码 S0365；香料中文名称 乙酰乙酸乙酯；香料英文名称 Ethylacetoacetate；FEMA 编号 2415。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 365；编码 S0365；香料中文名称 乙酰乙酸乙酯；香料英文名称 Ethyl acetoacetate；FEMA 编号 2415。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0366",
@@ -13763,7 +13763,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0366",
     "flavorCode": "S0366",
     "flavorNameCn": "乙酸丙酯",
-    "flavorNameEn": "Propylacetate",
+    "flavorNameEn": "Propyl acetate",
     "femaNumber": "2925",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13772,7 +13772,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "366S0366乙酸丙酯Propylacetate2925",
     "rowName": "乙酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 366；编码 S0366；香料中文名称 乙酸丙酯；香料英文名称 Propylacetate；FEMA 编号 2925。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 366；编码 S0366；香料中文名称 乙酸丙酯；香料英文名称 Propyl acetate；FEMA 编号 2925。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0367",
@@ -13780,7 +13780,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0367",
     "flavorCode": "S0367",
     "flavorNameCn": "乙酸异丙酯",
-    "flavorNameEn": "Isopropylacetate",
+    "flavorNameEn": "Isopropyl acetate",
     "femaNumber": "2926",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13789,7 +13789,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "367S0367乙酸异丙酯Isopropylacetate2926",
     "rowName": "乙酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 367；编码 S0367；香料中文名称 乙酸异丙酯；香料英文名称 Isopropylacetate；FEMA 编号 2926。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 367；编码 S0367；香料中文名称 乙酸异丙酯；香料英文名称 Isopropyl acetate；FEMA 编号 2926。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0368",
@@ -13797,7 +13797,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0368",
     "flavorCode": "S0368",
     "flavorNameCn": "乙酸烯丙酯",
-    "flavorNameEn": "Allylacetate",
+    "flavorNameEn": "Allyl acetate",
     "femaNumber": "—",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13806,7 +13806,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "368S0368乙酸烯丙酯Allylacetate—",
     "rowName": "乙酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 368；编码 S0368；香料中文名称 乙酸烯丙酯；香料英文名称 Allylacetate；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 368；编码 S0368；香料中文名称 乙酸烯丙酯；香料英文名称 Allyl acetate；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0369",
@@ -13814,7 +13814,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0369",
     "flavorCode": "S0369",
     "flavorNameCn": "乙酰丙酸乙酯",
-    "flavorNameEn": "Ethylacetylpropanoate",
+    "flavorNameEn": "Ethylacetyl propanoate",
     "femaNumber": "2442",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13823,7 +13823,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "369S0369乙酰丙酸乙酯Ethylacetylpropanoate2442",
     "rowName": "乙酰丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 369；编码 S0369；香料中文名称 乙酰丙酸乙酯；香料英文名称 Ethylacetylpropanoate；FEMA 编号 2442。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 369；编码 S0369；香料中文名称 乙酰丙酸乙酯；香料英文名称 Ethylacetyl propanoate；FEMA 编号 2442。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0370",
@@ -13831,7 +13831,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0370",
     "flavorCode": "S0370",
     "flavorNameCn": "乙酸丁酯",
-    "flavorNameEn": "Butylacetate",
+    "flavorNameEn": "Butyl acetate",
     "femaNumber": "2174",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13840,7 +13840,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "370S0370乙酸丁酯Butylacetate2174",
     "rowName": "乙酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 370；编码 S0370；香料中文名称 乙酸丁酯；香料英文名称 Butylacetate；FEMA 编号 2174。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 370；编码 S0370；香料中文名称 乙酸丁酯；香料英文名称 Butyl acetate；FEMA 编号 2174。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0371",
@@ -13848,7 +13848,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0371",
     "flavorCode": "S0371",
     "flavorNameCn": "乙酸异丁酯",
-    "flavorNameEn": "Isobutylacetate",
+    "flavorNameEn": "Isobutyl acetate",
     "femaNumber": "2175",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13857,7 +13857,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "371S0371乙酸异丁酯Isobutylacetate2175",
     "rowName": "乙酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 371；编码 S0371；香料中文名称 乙酸异丁酯；香料英文名称 Isobutylacetate；FEMA 编号 2175。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 371；编码 S0371；香料中文名称 乙酸异丁酯；香料英文名称 Isobutyl acetate；FEMA 编号 2175。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0372",
@@ -13865,7 +13865,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0372",
     "flavorCode": "S0372",
     "flavorNameCn": "乙酸异戊酯",
-    "flavorNameEn": "Isoamylacetate",
+    "flavorNameEn": "Isoamyl acetate",
     "femaNumber": "2055",
     "pdfPage": 181,
     "standardPage": 178,
@@ -13874,7 +13874,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "372S0372乙酸异戊酯Isoamylacetate2055",
     "rowName": "乙酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 372；编码 S0372；香料中文名称 乙酸异戊酯；香料英文名称 Isoamylacetate；FEMA 编号 2055。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 372；编码 S0372；香料中文名称 乙酸异戊酯；香料英文名称 Isoamyl acetate；FEMA 编号 2055。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0373",
@@ -13882,7 +13882,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0373",
     "flavorCode": "S0373",
     "flavorNameCn": "乙酸己酯",
-    "flavorNameEn": "Hexylacetate",
+    "flavorNameEn": "Hexyl acetate",
     "femaNumber": "2565",
     "pdfPage": 182,
     "standardPage": 179,
@@ -13891,7 +13891,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "373S0373乙酸己酯Hexylacetate2565",
     "rowName": "乙酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 373；编码 S0373；香料中文名称 乙酸己酯；香料英文名称 Hexylacetate；FEMA 编号 2565。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 373；编码 S0373；香料中文名称 乙酸己酯；香料英文名称 Hexyl acetate；FEMA 编号 2565。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0374",
@@ -13899,7 +13899,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0374",
     "flavorCode": "S0374",
     "flavorNameCn": "乙酸2-己烯酯",
-    "flavorNameEn": "2-Hexen-1-ylacetate",
+    "flavorNameEn": "2-Hexen-1-yl acetate",
     "femaNumber": "2564",
     "pdfPage": 182,
     "standardPage": 179,
@@ -13908,7 +13908,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "374S0374乙酸2-己烯酯2-Hexen-1-ylacetate2564",
     "rowName": "乙酸2-己烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 374；编码 S0374；香料中文名称 乙酸2-己烯酯；香料英文名称 2-Hexen-1-ylacetate；FEMA 编号 2564。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 374；编码 S0374；香料中文名称 乙酸2-己烯酯；香料英文名称 2-Hexen-1-yl acetate；FEMA 编号 2564。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0375",
@@ -13916,7 +13916,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0375",
     "flavorCode": "S0375",
     "flavorNameCn": "乙酸庚酯",
-    "flavorNameEn": "Heptylacetate",
+    "flavorNameEn": "Heptyl acetate",
     "femaNumber": "2547",
     "pdfPage": 182,
     "standardPage": 179,
@@ -13925,7 +13925,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "375S0375乙酸庚酯Heptylacetate2547",
     "rowName": "乙酸庚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 375；编码 S0375；香料中文名称 乙酸庚酯；香料英文名称 Heptylacetate；FEMA 编号 2547。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 375；编码 S0375；香料中文名称 乙酸庚酯；香料英文名称 Heptyl acetate；FEMA 编号 2547。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0376",
@@ -13933,7 +13933,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0376",
     "flavorCode": "S0376",
     "flavorNameCn": "乙酸辛酯",
-    "flavorNameEn": "Octylacetate",
+    "flavorNameEn": "Octyl acetate",
     "femaNumber": "2806",
     "pdfPage": 182,
     "standardPage": 179,
@@ -13942,7 +13942,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "376S0376乙酸辛酯Octylacetate2806",
     "rowName": "乙酸辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 376；编码 S0376；香料中文名称 乙酸辛酯；香料英文名称 Octylacetate；FEMA 编号 2806。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 376；编码 S0376；香料中文名称 乙酸辛酯；香料英文名称 Octyl acetate；FEMA 编号 2806。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0377",
@@ -13950,7 +13950,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0377",
     "flavorCode": "S0377",
     "flavorNameCn": "乙酸3-辛酯",
-    "flavorNameEn": "3-Octylacetate",
+    "flavorNameEn": "3-Octyl acetate",
     "femaNumber": "3583",
     "pdfPage": 182,
     "standardPage": 179,
@@ -13959,7 +13959,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "377S0377乙酸3-辛酯3-Octylacetate3583",
     "rowName": "乙酸3-辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 377；编码 S0377；香料中文名称 乙酸3-辛酯；香料英文名称 3-Octylacetate；FEMA 编号 3583。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 377；编码 S0377；香料中文名称 乙酸3-辛酯；香料英文名称 3-Octyl acetate；FEMA 编号 3583。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0378",
@@ -13967,7 +13967,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0378",
     "flavorCode": "S0378",
     "flavorNameCn": "1-辛烯-3-醇乙酸酯",
-    "flavorNameEn": "1-Octen-3-ylacetate",
+    "flavorNameEn": "1-Octen-3-yl acetate",
     "femaNumber": "3582",
     "pdfPage": 182,
     "standardPage": 179,
@@ -13976,7 +13976,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "378S03781-辛烯-3-醇乙酸酯1-Octen-3-ylacetate3582",
     "rowName": "1-辛烯-3-醇乙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 378；编码 S0378；香料中文名称 1-辛烯-3-醇乙酸酯；香料英文名称 1-Octen-3-ylacetate；FEMA 编号 3582。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 378；编码 S0378；香料中文名称 1-辛烯-3-醇乙酸酯；香料英文名称 1-Octen-3-yl acetate；FEMA 编号 3582。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0379",
@@ -13984,7 +13984,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0379",
     "flavorCode": "S0379",
     "flavorNameCn": "乙酸壬酯",
-    "flavorNameEn": "Nonylacetate",
+    "flavorNameEn": "Nonyl acetate",
     "femaNumber": "2788",
     "pdfPage": 182,
     "standardPage": 179,
@@ -13993,7 +13993,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "379S0379乙酸壬酯Nonylacetate2788",
     "rowName": "乙酸壬酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 379；编码 S0379；香料中文名称 乙酸壬酯；香料英文名称 Nonylacetate；FEMA 编号 2788。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 379；编码 S0379；香料中文名称 乙酸壬酯；香料英文名称 Nonyl acetate；FEMA 编号 2788。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0380",
@@ -14001,7 +14001,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0380",
     "flavorCode": "S0380",
     "flavorNameCn": "2-丁烯酸己酯",
-    "flavorNameEn": "n-Hexyl2-butenoate",
+    "flavorNameEn": "n-Hexyl 2-butenoate",
     "femaNumber": "3354",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14010,7 +14010,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "380S03802-丁烯酸己酯n-Hexyl2-butenoate3354",
     "rowName": "2-丁烯酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 380；编码 S0380；香料中文名称 2-丁烯酸己酯；香料英文名称 n-Hexyl2-butenoate；FEMA 编号 3354。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 380；编码 S0380；香料中文名称 2-丁烯酸己酯；香料英文名称 n-Hexyl 2-butenoate；FEMA 编号 3354。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0381",
@@ -14018,7 +14018,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0381",
     "flavorCode": "S0381",
     "flavorNameCn": "乙酸癸酯",
-    "flavorNameEn": "Decylacetate",
+    "flavorNameEn": "Decyl acetate",
     "femaNumber": "2367",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14027,7 +14027,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "381S0381乙酸癸酯Decylacetate2367",
     "rowName": "乙酸癸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 381；编码 S0381；香料中文名称 乙酸癸酯；香料英文名称 Decylacetate；FEMA 编号 2367。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 381；编码 S0381；香料中文名称 乙酸癸酯；香料英文名称 Decyl acetate；FEMA 编号 2367。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0382",
@@ -14035,7 +14035,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0382",
     "flavorCode": "S0382",
     "flavorNameCn": "乙酸苄酯",
-    "flavorNameEn": "Benzylacetate",
+    "flavorNameEn": "Benzyl acetate",
     "femaNumber": "2135",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14044,7 +14044,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "382S0382乙酸苄酯Benzylacetate2135",
     "rowName": "乙酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 382；编码 S0382；香料中文名称 乙酸苄酯；香料英文名称 Benzylacetate；FEMA 编号 2135。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 382；编码 S0382；香料中文名称 乙酸苄酯；香料英文名称 Benzyl acetate；FEMA 编号 2135。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0383",
@@ -14052,7 +14052,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0383",
     "flavorCode": "S0383",
     "flavorNameCn": "乙酸苯乙酯",
-    "flavorNameEn": "Phenethylacetate",
+    "flavorNameEn": "Phenethyl acetate",
     "femaNumber": "2857",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14061,7 +14061,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "383S0383乙酸苯乙酯Phenethylacetate2857",
     "rowName": "乙酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 383；编码 S0383；香料中文名称 乙酸苯乙酯；香料英文名称 Phenethylacetate；FEMA 编号 2857。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 383；编码 S0383；香料中文名称 乙酸苯乙酯；香料英文名称 Phenethyl acetate；FEMA 编号 2857。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0384",
@@ -14069,7 +14069,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0384",
     "flavorCode": "S0384",
     "flavorNameCn": "乙酸茴香酯",
-    "flavorNameEn": "Anisylacetate",
+    "flavorNameEn": "Anisyl acetate",
     "femaNumber": "2098",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14078,7 +14078,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "384S0384乙酸茴香酯Anisylacetate2098",
     "rowName": "乙酸茴香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 384；编码 S0384；香料中文名称 乙酸茴香酯；香料英文名称 Anisylacetate；FEMA 编号 2098。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 384；编码 S0384；香料中文名称 乙酸茴香酯；香料英文名称 Anisyl acetate；FEMA 编号 2098。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0385",
@@ -14086,7 +14086,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0385",
     "flavorCode": "S0385",
     "flavorNameCn": "乙酸龙脑酯",
-    "flavorNameEn": "Bornylacetate",
+    "flavorNameEn": "Bornyl acetate",
     "femaNumber": "2159",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14095,7 +14095,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "385S0385乙酸龙脑酯Bornylacetate2159",
     "rowName": "乙酸龙脑酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 385；编码 S0385；香料中文名称 乙酸龙脑酯；香料英文名称 Bornylacetate；FEMA 编号 2159。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 385；编码 S0385；香料中文名称 乙酸龙脑酯；香料英文名称 Bornyl acetate；FEMA 编号 2159。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0386",
@@ -14103,7 +14103,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0386",
     "flavorCode": "S0386",
     "flavorNameCn": "乙酸薄荷酯",
-    "flavorNameEn": "Mentholacetate",
+    "flavorNameEn": "Menthol acetate",
     "femaNumber": "2668",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14112,7 +14112,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "386S0386乙酸薄荷酯Mentholacetate2668",
     "rowName": "乙酸薄荷酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 386；编码 S0386；香料中文名称 乙酸薄荷酯；香料英文名称 Mentholacetate；FEMA 编号 2668。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 386；编码 S0386；香料中文名称 乙酸薄荷酯；香料英文名称 Menthol acetate；FEMA 编号 2668。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0387",
@@ -14120,7 +14120,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0387",
     "flavorCode": "S0387",
     "flavorNameCn": "乙酸肉桂酯",
-    "flavorNameEn": "Cinnamylacetate",
+    "flavorNameEn": "Cinnamyl acetate",
     "femaNumber": "2293",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14129,7 +14129,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "387S0387乙酸肉桂酯Cinnamylacetate2293",
     "rowName": "乙酸肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 387；编码 S0387；香料中文名称 乙酸肉桂酯；香料英文名称 Cinnamylacetate；FEMA 编号 2293。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 387；编码 S0387；香料中文名称 乙酸肉桂酯；香料英文名称 Cinnamyl acetate；FEMA 编号 2293。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0388",
@@ -14137,7 +14137,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0388",
     "flavorCode": "S0388",
     "flavorNameCn": "乙酸香茅酯",
-    "flavorNameEn": "Citronellylacetate",
+    "flavorNameEn": "Citronellyl acetate",
     "femaNumber": "2311",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14146,7 +14146,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "388S0388乙酸香茅酯Citronellylacetate2311",
     "rowName": "乙酸香茅酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 388；编码 S0388；香料中文名称 乙酸香茅酯；香料英文名称 Citronellylacetate；FEMA 编号 2311。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 388；编码 S0388；香料中文名称 乙酸香茅酯；香料英文名称 Citronellyl acetate；FEMA 编号 2311。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0389",
@@ -14154,7 +14154,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0389",
     "flavorCode": "S0389",
     "flavorNameCn": "乙酸香叶酯",
-    "flavorNameEn": "Geranylacetate",
+    "flavorNameEn": "Geranyl acetate",
     "femaNumber": "2509",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14163,7 +14163,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "389S0389乙酸香叶酯Geranylacetate2509",
     "rowName": "乙酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 389；编码 S0389；香料中文名称 乙酸香叶酯；香料英文名称 Geranylacetate；FEMA 编号 2509。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 389；编码 S0389；香料中文名称 乙酸香叶酯；香料英文名称 Geranyl acetate；FEMA 编号 2509。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0390",
@@ -14171,7 +14171,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0390",
     "flavorCode": "S0390",
     "flavorNameCn": "乙酸对-甲酚酯",
-    "flavorNameEn": "p-Cresylacetate",
+    "flavorNameEn": "p-Cresyl acetate",
     "femaNumber": "3073",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14180,7 +14180,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "390S0390乙酸对-甲酚酯p-Cresylacetate3073",
     "rowName": "乙酸对-甲酚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 390；编码 S0390；香料中文名称 乙酸对-甲酚酯；香料英文名称 p-Cresylacetate；FEMA 编号 3073。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 390；编码 S0390；香料中文名称 乙酸对-甲酚酯；香料英文名称 p-Cresyl acetate；FEMA 编号 3073。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0391",
@@ -14188,7 +14188,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0391",
     "flavorCode": "S0391",
     "flavorNameCn": "乙酸苏合香酯",
-    "flavorNameEn": "Styrallylacetate",
+    "flavorNameEn": "Styrallyl acetate",
     "femaNumber": "2684",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14197,7 +14197,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "391S0391乙酸苏合香酯Styrallylacetate2684",
     "rowName": "乙酸苏合香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 391；编码 S0391；香料中文名称 乙酸苏合香酯；香料英文名称 Styrallylacetate；FEMA 编号 2684。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 391；编码 S0391；香料中文名称 乙酸苏合香酯；香料英文名称 Styrallyl acetate；FEMA 编号 2684。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0392",
@@ -14205,7 +14205,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0392",
     "flavorCode": "S0392",
     "flavorNameCn": "乙酸橙花酯",
-    "flavorNameEn": "Nerylacetate",
+    "flavorNameEn": "Neryl acetate",
     "femaNumber": "2773",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14214,7 +14214,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "392S0392乙酸橙花酯Nerylacetate2773",
     "rowName": "乙酸橙花酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 392；编码 S0392；香料中文名称 乙酸橙花酯；香料英文名称 Nerylacetate；FEMA 编号 2773。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 392；编码 S0392；香料中文名称 乙酸橙花酯；香料英文名称 Neryl acetate；FEMA 编号 2773。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0393",
@@ -14222,7 +14222,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0393",
     "flavorCode": "S0393",
     "flavorNameCn": "乙酸松油酯",
-    "flavorNameEn": "Terpinylacetate",
+    "flavorNameEn": "Terpinyl acetate",
     "femaNumber": "3047",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14231,7 +14231,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "393S0393乙酸松油酯Terpinylacetate3047",
     "rowName": "乙酸松油酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 393；编码 S0393；香料中文名称 乙酸松油酯；香料英文名称 Terpinylacetate；FEMA 编号 3047。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 393；编码 S0393；香料中文名称 乙酸松油酯；香料英文名称 Terpinyl acetate；FEMA 编号 3047。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0394",
@@ -14239,7 +14239,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0394",
     "flavorCode": "S0394",
     "flavorNameCn": "异丁酸肉桂酯",
-    "flavorNameEn": "Cinnamylisobutyrate",
+    "flavorNameEn": "Cinnamyl isobutyrate",
     "femaNumber": "2297",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14248,7 +14248,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "394S0394异丁酸肉桂酯Cinnamylisobutyrate2297",
     "rowName": "异丁酸肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 394；编码 S0394；香料中文名称 异丁酸肉桂酯；香料英文名称 Cinnamylisobutyrate；FEMA 编号 2297。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 394；编码 S0394；香料中文名称 异丁酸肉桂酯；香料英文名称 Cinnamyl isobutyrate；FEMA 编号 2297。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0395",
@@ -14256,7 +14256,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0395",
     "flavorCode": "S0395",
     "flavorNameCn": "顺式-3-己烯-1-醇乙酸酯(又名乙酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexen-1-ylacetate(Leafacetate)",
+    "flavorNameEn": "cis-3-Hexen-1-yl acetate (Leafacetate)",
     "femaNumber": "3171",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14265,7 +14265,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "顺式-3-己烯-1-醇乙酸酯(又名乙395S0395cis-3-Hexen-1-ylacetate(Leafacetate)3171酸叶醇酯)",
     "rowName": "顺式-3-己烯-1-醇乙酸酯(又名乙酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 395；编码 S0395；香料中文名称 顺式-3-己烯-1-醇乙酸酯(又名乙酸叶醇酯)；香料英文名称 cis-3-Hexen-1-ylacetate(Leafacetate)；FEMA 编号 3171。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 395；编码 S0395；香料中文名称 顺式-3-己烯-1-醇乙酸酯(又名乙酸叶醇酯)；香料英文名称 cis-3-Hexen-1-yl acetate (Leafacetate)；FEMA 编号 3171。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0396",
@@ -14273,7 +14273,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0396",
     "flavorCode": "S0396",
     "flavorNameCn": "乙酸糠酯",
-    "flavorNameEn": "Furfurylacetate",
+    "flavorNameEn": "Furfuryl acetate",
     "femaNumber": "2490",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14282,7 +14282,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "396S0396乙酸糠酯Furfurylacetate2490",
     "rowName": "乙酸糠酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 396；编码 S0396；香料中文名称 乙酸糠酯；香料英文名称 Furfurylacetate；FEMA 编号 2490。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 396；编码 S0396；香料中文名称 乙酸糠酯；香料英文名称 Furfuryl acetate；FEMA 编号 2490。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0397",
@@ -14290,7 +14290,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0397",
     "flavorCode": "S0397",
     "flavorNameCn": "庚酸烯丙酯",
-    "flavorNameEn": "Allylheptanoate",
+    "flavorNameEn": "Allyl heptanoate",
     "femaNumber": "2031",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14299,7 +14299,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "397S0397庚酸烯丙酯Allylheptanoate2031",
     "rowName": "庚酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 397；编码 S0397；香料中文名称 庚酸烯丙酯；香料英文名称 Allylheptanoate；FEMA 编号 2031。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 397；编码 S0397；香料中文名称 庚酸烯丙酯；香料英文名称 Allyl heptanoate；FEMA 编号 2031。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0398",
@@ -14307,7 +14307,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0398",
     "flavorCode": "S0398",
     "flavorNameCn": "乙酸芳樟酯",
-    "flavorNameEn": "Linalylacetate",
+    "flavorNameEn": "Linalyl acetate",
     "femaNumber": "2636",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14316,7 +14316,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "398S0398乙酸芳樟酯Linalylacetate2636",
     "rowName": "乙酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 398；编码 S0398；香料中文名称 乙酸芳樟酯；香料英文名称 Linalylacetate；FEMA 编号 2636。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 398；编码 S0398；香料中文名称 乙酸芳樟酯；香料英文名称 Linalyl acetate；FEMA 编号 2636。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0399",
@@ -14324,7 +14324,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0399",
     "flavorCode": "S0399",
     "flavorNameCn": "乙酸葛缕酯",
-    "flavorNameEn": "Carvylacetate",
+    "flavorNameEn": "Carvyl acetate",
     "femaNumber": "2250",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14333,7 +14333,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "399S0399乙酸葛缕酯Carvylacetate2250",
     "rowName": "乙酸葛缕酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 399；编码 S0399；香料中文名称 乙酸葛缕酯；香料英文名称 Carvylacetate；FEMA 编号 2250。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 399；编码 S0399；香料中文名称 乙酸葛缕酯；香料英文名称 Carvyl acetate；FEMA 编号 2250。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0400",
@@ -14341,7 +14341,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0400",
     "flavorCode": "S0400",
     "flavorNameCn": "乙酸二氢葛缕酯",
-    "flavorNameEn": "Dihydrocarvylacetate",
+    "flavorNameEn": "Dihydrocarvyl acetate",
     "femaNumber": "2380",
     "pdfPage": 182,
     "standardPage": 179,
@@ -14350,7 +14350,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "400S0400乙酸二氢葛缕酯Dihydrocarvylacetate2380",
     "rowName": "乙酸二氢葛缕酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 400；编码 S0400；香料中文名称 乙酸二氢葛缕酯；香料英文名称 Dihydrocarvylacetate；FEMA 编号 2380。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 400；编码 S0400；香料中文名称 乙酸二氢葛缕酯；香料英文名称 Dihydrocarvyl acetate；FEMA 编号 2380。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0401",
@@ -14358,7 +14358,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0401",
     "flavorCode": "S0401",
     "flavorNameCn": "苯乙酸丁酯",
-    "flavorNameEn": "Butylphenylacetate",
+    "flavorNameEn": "Butyl phenylacetate",
     "femaNumber": "2209",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14367,7 +14367,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "401S0401苯乙酸丁酯Butylphenylacetate2209",
     "rowName": "苯乙酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 401；编码 S0401；香料中文名称 苯乙酸丁酯；香料英文名称 Butylphenylacetate；FEMA 编号 2209。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 401；编码 S0401；香料中文名称 苯乙酸丁酯；香料英文名称 Butyl phenylacetate；FEMA 编号 2209。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0402",
@@ -14375,7 +14375,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0402",
     "flavorCode": "S0402",
     "flavorNameCn": "丙酸乙酯",
-    "flavorNameEn": "Ethylpropionate",
+    "flavorNameEn": "Ethyl propionate",
     "femaNumber": "2456",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14384,7 +14384,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "402S0402丙酸乙酯Ethylpropionate2456",
     "rowName": "丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 402；编码 S0402；香料中文名称 丙酸乙酯；香料英文名称 Ethylpropionate；FEMA 编号 2456。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 402；编码 S0402；香料中文名称 丙酸乙酯；香料英文名称 Ethyl propionate；FEMA 编号 2456。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0403",
@@ -14392,7 +14392,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0403",
     "flavorCode": "S0403",
     "flavorNameCn": "丙二酸二乙酯",
-    "flavorNameEn": "Diethylmalonate",
+    "flavorNameEn": "Diethyl malonate",
     "femaNumber": "2375",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14401,7 +14401,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "403S0403丙二酸二乙酯Diethylmalonate2375",
     "rowName": "丙二酸二乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 403；编码 S0403；香料中文名称 丙二酸二乙酯；香料英文名称 Diethylmalonate；FEMA 编号 2375。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 403；编码 S0403；香料中文名称 丙二酸二乙酯；香料英文名称 Diethyl malonate；FEMA 编号 2375。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0404",
@@ -14409,7 +14409,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0404",
     "flavorCode": "S0404",
     "flavorNameCn": "丙酸异丁酯",
-    "flavorNameEn": "Isobutylpropionate",
+    "flavorNameEn": "Isobutyl propionate",
     "femaNumber": "2212",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14418,7 +14418,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "404S0404丙酸异丁酯Isobutylpropionate2212",
     "rowName": "丙酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 404；编码 S0404；香料中文名称 丙酸异丁酯；香料英文名称 Isobutylpropionate；FEMA 编号 2212。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 404；编码 S0404；香料中文名称 丙酸异丁酯；香料英文名称 Isobutyl propionate；FEMA 编号 2212。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0405",
@@ -14426,7 +14426,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0405",
     "flavorCode": "S0405",
     "flavorNameCn": "丙酸异戊酯",
-    "flavorNameEn": "Isoamylpropionate",
+    "flavorNameEn": "Isoamyl propionate",
     "femaNumber": "2082",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14435,7 +14435,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "405S0405丙酸异戊酯Isoamylpropionate2082",
     "rowName": "丙酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 405；编码 S0405；香料中文名称 丙酸异戊酯；香料英文名称 Isoamylpropionate；FEMA 编号 2082。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 405；编码 S0405；香料中文名称 丙酸异戊酯；香料英文名称 Isoamyl propionate；FEMA 编号 2082。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0406",
@@ -14443,7 +14443,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0406",
     "flavorCode": "S0406",
     "flavorNameCn": "丙酸顺式-3-己烯酯和丙酸反式-2-己烯酯",
-    "flavorNameEn": "cis-3-Hexenylpropionateandtrans-2-Hexenylpropionate",
+    "flavorNameEn": "cis-3-Hexenyl propionate and trans-2-Hexenyl propionate",
     "femaNumber": "3778",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14452,7 +14452,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "丙酸顺式-3-己烯酯和丙酸反式-cis-3-Hexenylpropionateandtrans-2-406S040637782-己烯酯Hexenylpropionate",
     "rowName": "丙酸顺式-3-己烯酯和丙酸反式-2-己烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 406；编码 S0406；香料中文名称 丙酸顺式-3-己烯酯和丙酸反式-2-己烯酯；香料英文名称 cis-3-Hexenylpropionateandtrans-2-Hexenylpropionate；FEMA 编号 3778。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 406；编码 S0406；香料中文名称 丙酸顺式-3-己烯酯和丙酸反式-2-己烯酯；香料英文名称 cis-3-Hexenyl propionate and trans-2-Hexenyl propionate；FEMA 编号 3778。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0407",
@@ -14460,7 +14460,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0407",
     "flavorCode": "S0407",
     "flavorNameCn": "丙酸香叶酯",
-    "flavorNameEn": "Geranylpropionate",
+    "flavorNameEn": "Geranyl propionate",
     "femaNumber": "2517",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14469,7 +14469,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "407S0407丙酸香叶酯Geranylpropionate2517",
     "rowName": "丙酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 407；编码 S0407；香料中文名称 丙酸香叶酯；香料英文名称 Geranylpropionate；FEMA 编号 2517。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 407；编码 S0407；香料中文名称 丙酸香叶酯；香料英文名称 Geranyl propionate；FEMA 编号 2517。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0408",
@@ -14477,7 +14477,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0408",
     "flavorCode": "S0408",
     "flavorNameCn": "丙酸香茅酯",
-    "flavorNameEn": "Citronellylpropionate",
+    "flavorNameEn": "Citronellyl propionate",
     "femaNumber": "2316",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14486,7 +14486,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "408S0408丙酸香茅酯Citronellylpropionate2316",
     "rowName": "丙酸香茅酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 408；编码 S0408；香料中文名称 丙酸香茅酯；香料英文名称 Citronellylpropionate；FEMA 编号 2316。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 408；编码 S0408；香料中文名称 丙酸香茅酯；香料英文名称 Citronellyl propionate；FEMA 编号 2316。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0409",
@@ -14494,7 +14494,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0409",
     "flavorCode": "S0409",
     "flavorNameCn": "丙酸苄酯",
-    "flavorNameEn": "Benzylpropionate",
+    "flavorNameEn": "Benzyl propionate",
     "femaNumber": "2150",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14503,7 +14503,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "409S0409丙酸苄酯Benzylpropionate2150",
     "rowName": "丙酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 409；编码 S0409；香料中文名称 丙酸苄酯；香料英文名称 Benzylpropionate；FEMA 编号 2150。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 409；编码 S0409；香料中文名称 丙酸苄酯；香料英文名称 Benzyl propionate；FEMA 编号 2150。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0410",
@@ -14511,7 +14511,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0410",
     "flavorCode": "S0410",
     "flavorNameCn": "丙酸苯乙酯",
-    "flavorNameEn": "Phenethylpropionate",
+    "flavorNameEn": "Phenethyl propionate",
     "femaNumber": "2867",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14520,7 +14520,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "410S0410丙酸苯乙酯Phenethylpropionate2867",
     "rowName": "丙酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 410；编码 S0410；香料中文名称 丙酸苯乙酯；香料英文名称 Phenethylpropionate；FEMA 编号 2867。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 410；编码 S0410；香料中文名称 丙酸苯乙酯；香料英文名称 Phenethyl propionate；FEMA 编号 2867。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0411",
@@ -14528,7 +14528,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0411",
     "flavorCode": "S0411",
     "flavorNameCn": "丙酸芳樟酯",
-    "flavorNameEn": "Linalylpropionate",
+    "flavorNameEn": "Linalyl propionate",
     "femaNumber": "2645",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14537,7 +14537,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "411S0411丙酸芳樟酯Linalylpropionate2645",
     "rowName": "丙酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 411；编码 S0411；香料中文名称 丙酸芳樟酯；香料英文名称 Linalylpropionate；FEMA 编号 2645。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 411；编码 S0411；香料中文名称 丙酸芳樟酯；香料英文名称 Linalyl propionate；FEMA 编号 2645。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0412",
@@ -14545,7 +14545,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0412",
     "flavorCode": "S0412",
     "flavorNameCn": "丁酸甲酯",
-    "flavorNameEn": "Methylbutyrate",
+    "flavorNameEn": "Methyl butyrate",
     "femaNumber": "2693",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14554,7 +14554,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "412S0412丁酸甲酯Methylbutyrate2693",
     "rowName": "丁酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 412；编码 S0412；香料中文名称 丁酸甲酯；香料英文名称 Methylbutyrate；FEMA 编号 2693。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 412；编码 S0412；香料中文名称 丁酸甲酯；香料英文名称 Methyl butyrate；FEMA 编号 2693。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0413",
@@ -14562,7 +14562,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0413",
     "flavorCode": "S0413",
     "flavorNameCn": "2-甲基丁酸甲酯",
-    "flavorNameEn": "Methyl2-methylbutyrate",
+    "flavorNameEn": "Methyl 2-methylbutyrate",
     "femaNumber": "2719",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14571,7 +14571,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "413S04132-甲基丁酸甲酯Methyl2-methylbutyrate2719",
     "rowName": "2-甲基丁酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 413；编码 S0413；香料中文名称 2-甲基丁酸甲酯；香料英文名称 Methyl2-methylbutyrate；FEMA 编号 2719。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 413；编码 S0413；香料中文名称 2-甲基丁酸甲酯；香料英文名称 Methyl 2-methylbutyrate；FEMA 编号 2719。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0414",
@@ -14579,7 +14579,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0414",
     "flavorCode": "S0414",
     "flavorNameCn": "丁酸乙酯",
-    "flavorNameEn": "Ethylbutyrate",
+    "flavorNameEn": "Ethyl butyrate",
     "femaNumber": "2427",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14588,7 +14588,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "414S0414丁酸乙酯Ethylbutyrate2427",
     "rowName": "丁酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 414；编码 S0414；香料中文名称 丁酸乙酯；香料英文名称 Ethylbutyrate；FEMA 编号 2427。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 414；编码 S0414；香料中文名称 丁酸乙酯；香料英文名称 Ethyl butyrate；FEMA 编号 2427。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0415",
@@ -14596,7 +14596,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0415",
     "flavorCode": "S0415",
     "flavorNameCn": "异丁酸乙酯",
-    "flavorNameEn": "Ethylisobutyrate",
+    "flavorNameEn": "Ethyl isobutyrate",
     "femaNumber": "2428",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14605,7 +14605,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "415S0415异丁酸乙酯Ethylisobutyrate2428",
     "rowName": "异丁酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 415；编码 S0415；香料中文名称 异丁酸乙酯；香料英文名称 Ethylisobutyrate；FEMA 编号 2428。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 415；编码 S0415；香料中文名称 异丁酸乙酯；香料英文名称 Ethyl isobutyrate；FEMA 编号 2428。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0416",
@@ -14613,7 +14613,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0416",
     "flavorCode": "S0416",
     "flavorNameCn": "2-甲基丁酸乙酯",
-    "flavorNameEn": "Ethyl2-methylbutyrate",
+    "flavorNameEn": "Ethyl 2-methylbutyrate",
     "femaNumber": "2443",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14622,7 +14622,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "416S04162-甲基丁酸乙酯Ethyl2-methylbutyrate2443",
     "rowName": "2-甲基丁酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 416；编码 S0416；香料中文名称 2-甲基丁酸乙酯；香料英文名称 Ethyl2-methylbutyrate；FEMA 编号 2443。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 416；编码 S0416；香料中文名称 2-甲基丁酸乙酯；香料英文名称 Ethyl 2-methylbutyrate；FEMA 编号 2443。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0417",
@@ -14630,7 +14630,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0417",
     "flavorCode": "S0417",
     "flavorNameCn": "3-羟基丁酸乙酯",
-    "flavorNameEn": "Ethyl3-hydroxybutyrate",
+    "flavorNameEn": "Ethyl 3-hydroxybutyrate",
     "femaNumber": "3428",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14639,7 +14639,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "417S04173-羟基丁酸乙酯Ethyl3-hydroxybutyrate3428",
     "rowName": "3-羟基丁酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 417；编码 S0417；香料中文名称 3-羟基丁酸乙酯；香料英文名称 Ethyl3-hydroxybutyrate；FEMA 编号 3428。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 417；编码 S0417；香料中文名称 3-羟基丁酸乙酯；香料英文名称 Ethyl 3-hydroxybutyrate；FEMA 编号 3428。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0418",
@@ -14647,7 +14647,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0418",
     "flavorCode": "S0418",
     "flavorNameCn": "丁二酸二乙酯",
-    "flavorNameEn": "Diethylsuccinate",
+    "flavorNameEn": "Diethyl succinate",
     "femaNumber": "2377",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14656,7 +14656,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "418S0418丁二酸二乙酯Diethylsuccinate2377",
     "rowName": "丁二酸二乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 418；编码 S0418；香料中文名称 丁二酸二乙酯；香料英文名称 Diethylsuccinate；FEMA 编号 2377。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 418；编码 S0418；香料中文名称 丁二酸二乙酯；香料英文名称 Diethyl succinate；FEMA 编号 2377。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0419",
@@ -14664,7 +14664,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0419",
     "flavorCode": "S0419",
     "flavorNameCn": "异丁酸甲酯",
-    "flavorNameEn": "Methylisobutyrate",
+    "flavorNameEn": "Methyl isobutyrate",
     "femaNumber": "2694",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14673,7 +14673,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "419S0419异丁酸甲酯Methylisobutyrate2694",
     "rowName": "异丁酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 419；编码 S0419；香料中文名称 异丁酸甲酯；香料英文名称 Methylisobutyrate；FEMA 编号 2694。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 419；编码 S0419；香料中文名称 异丁酸甲酯；香料英文名称 Methyl isobutyrate；FEMA 编号 2694。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0420",
@@ -14681,7 +14681,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0420",
     "flavorCode": "S0420",
     "flavorNameCn": "丁酸丁酯",
-    "flavorNameEn": "Butylbutyrate",
+    "flavorNameEn": "Butyl butyrate",
     "femaNumber": "2186",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14690,7 +14690,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "420S0420丁酸丁酯Butylbutyrate2186",
     "rowName": "丁酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 420；编码 S0420；香料中文名称 丁酸丁酯；香料英文名称 Butylbutyrate；FEMA 编号 2186。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 420；编码 S0420；香料中文名称 丁酸丁酯；香料英文名称 Butyl butyrate；FEMA 编号 2186。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0421",
@@ -14698,7 +14698,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0421",
     "flavorCode": "S0421",
     "flavorNameCn": "丁酸异丁酯",
-    "flavorNameEn": "Isobutylbutyrate",
+    "flavorNameEn": "Isobutyl butyrate",
     "femaNumber": "2187",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14707,7 +14707,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "421S0421丁酸异丁酯Isobutylbutyrate2187",
     "rowName": "丁酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 421；编码 S0421；香料中文名称 丁酸异丁酯；香料英文名称 Isobutylbutyrate；FEMA 编号 2187。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 421；编码 S0421；香料中文名称 丁酸异丁酯；香料英文名称 Isobutyl butyrate；FEMA 编号 2187。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0422",
@@ -14715,7 +14715,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0422",
     "flavorCode": "S0422",
     "flavorNameCn": "2-甲基丁酸丁酯",
-    "flavorNameEn": "n-Butyl2-methylbutyrate",
+    "flavorNameEn": "n-Butyl 2-methylbutyrate",
     "femaNumber": "3393",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14724,7 +14724,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "422S04222-甲基丁酸丁酯n-Butyl2-methylbutyrate3393",
     "rowName": "2-甲基丁酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 422；编码 S0422；香料中文名称 2-甲基丁酸丁酯；香料英文名称 n-Butyl2-methylbutyrate；FEMA 编号 3393。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 422；编码 S0422；香料中文名称 2-甲基丁酸丁酯；香料英文名称 n-Butyl 2-methylbutyrate；FEMA 编号 3393。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0423",
@@ -14732,7 +14732,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0423",
     "flavorCode": "S0423",
     "flavorNameCn": "2-甲基丁酸2-甲基丁酯",
-    "flavorNameEn": "2-Methylbutyl2-methylbutyrate",
+    "flavorNameEn": "2-Methylbutyl 2-methylbutyrate",
     "femaNumber": "3359",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14741,7 +14741,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "423S04232-甲基丁酸2-甲基丁酯2-Methylbutyl2-methylbutyrate3359",
     "rowName": "2-甲基丁酸2-甲基丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 423；编码 S0423；香料中文名称 2-甲基丁酸2-甲基丁酯；香料英文名称 2-Methylbutyl2-methylbutyrate；FEMA 编号 3359。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 423；编码 S0423；香料中文名称 2-甲基丁酸2-甲基丁酯；香料英文名称 2-Methylbutyl 2-methylbutyrate；FEMA 编号 3359。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0424",
@@ -14749,7 +14749,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0424",
     "flavorCode": "S0424",
     "flavorNameCn": "异丁酸丁酯",
-    "flavorNameEn": "Butylisobutyrate",
+    "flavorNameEn": "Butyl isobutyrate",
     "femaNumber": "2188",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14758,7 +14758,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "424S0424异丁酸丁酯Butylisobutyrate2188",
     "rowName": "异丁酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 424；编码 S0424；香料中文名称 异丁酸丁酯；香料英文名称 Butylisobutyrate；FEMA 编号 2188。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 424；编码 S0424；香料中文名称 异丁酸丁酯；香料英文名称 Butyl isobutyrate；FEMA 编号 2188。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0425",
@@ -14766,7 +14766,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0425",
     "flavorCode": "S0425",
     "flavorNameCn": "丁酸戊酯",
-    "flavorNameEn": "Amylbutyrate",
+    "flavorNameEn": "Amyl butyrate",
     "femaNumber": "2059",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14775,7 +14775,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "425S0425丁酸戊酯Amylbutyrate2059",
     "rowName": "丁酸戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 425；编码 S0425；香料中文名称 丁酸戊酯；香料英文名称 Amylbutyrate；FEMA 编号 2059。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 425；编码 S0425；香料中文名称 丁酸戊酯；香料英文名称 Amyl butyrate；FEMA 编号 2059。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0426",
@@ -14783,7 +14783,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0426",
     "flavorCode": "S0426",
     "flavorNameCn": "丁酸异戊酯",
-    "flavorNameEn": "Isoamylbutyrate",
+    "flavorNameEn": "Isoamyl butyrate",
     "femaNumber": "2060",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14792,7 +14792,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "426S0426丁酸异戊酯Isoamylbutyrate2060",
     "rowName": "丁酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 426；编码 S0426；香料中文名称 丁酸异戊酯；香料英文名称 Isoamylbutyrate；FEMA 编号 2060。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 426；编码 S0426；香料中文名称 丁酸异戊酯；香料英文名称 Isoamyl butyrate；FEMA 编号 2060。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0427",
@@ -14800,7 +14800,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0427",
     "flavorCode": "S0427",
     "flavorNameCn": "2-甲基丁酸异戊酯",
-    "flavorNameEn": "Isoamyl2-methylbutanoate",
+    "flavorNameEn": "Isoamyl 2-methylbutanoate",
     "femaNumber": "3505",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14809,7 +14809,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "427S04272-甲基丁酸异戊酯Isoamyl2-methylbutanoate3505",
     "rowName": "2-甲基丁酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 427；编码 S0427；香料中文名称 2-甲基丁酸异戊酯；香料英文名称 Isoamyl2-methylbutanoate；FEMA 编号 3505。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 427；编码 S0427；香料中文名称 2-甲基丁酸异戊酯；香料英文名称 Isoamyl 2-methylbutanoate；FEMA 编号 3505。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0428",
@@ -14817,7 +14817,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0428",
     "flavorCode": "S0428",
     "flavorNameCn": "异丁酸异戊酯",
-    "flavorNameEn": "Isopentylisobutyrate",
+    "flavorNameEn": "Isopentyl isobutyrate",
     "femaNumber": "3507",
     "pdfPage": 183,
     "standardPage": 180,
@@ -14826,7 +14826,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "428S0428异丁酸异戊酯Isopentylisobutyrate3507",
     "rowName": "异丁酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 428；编码 S0428；香料中文名称 异丁酸异戊酯；香料英文名称 Isopentylisobutyrate；FEMA 编号 3507。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 428；编码 S0428；香料中文名称 异丁酸异戊酯；香料英文名称 Isopentyl isobutyrate；FEMA 编号 3507。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0429",
@@ -14834,7 +14834,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0429",
     "flavorCode": "S0429",
     "flavorNameCn": "丁酸己酯",
-    "flavorNameEn": "Hexylbutyrate",
+    "flavorNameEn": "Hexyl butyrate",
     "femaNumber": "2568",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14843,7 +14843,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "429S0429丁酸己酯Hexylbutyrate2568",
     "rowName": "丁酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 429；编码 S0429；香料中文名称 丁酸己酯；香料英文名称 Hexylbutyrate；FEMA 编号 2568。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 429；编码 S0429；香料中文名称 丁酸己酯；香料英文名称 Hexyl butyrate；FEMA 编号 2568。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0430",
@@ -14851,7 +14851,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0430",
     "flavorCode": "S0430",
     "flavorNameCn": "2-甲基丁酸己酯",
-    "flavorNameEn": "Hexyl2-methylbutyrate",
+    "flavorNameEn": "Hexyl 2-methylbutyrate",
     "femaNumber": "3499",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14860,7 +14860,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "430S04302-甲基丁酸己酯Hexyl2-methylbutyrate3499",
     "rowName": "2-甲基丁酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 430；编码 S0430；香料中文名称 2-甲基丁酸己酯；香料英文名称 Hexyl2-methylbutyrate；FEMA 编号 3499。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 430；编码 S0430；香料中文名称 2-甲基丁酸己酯；香料英文名称 Hexyl 2-methylbutyrate；FEMA 编号 3499。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0431",
@@ -14868,7 +14868,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0431",
     "flavorCode": "S0431",
     "flavorNameCn": "丁酸顺式-3-己烯酯(又名丁酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenylbutyrate(Leafbutyrate)",
+    "flavorNameEn": "cis-3-Hexenyl butyrate (Leafbutyrate)",
     "femaNumber": "3402",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14877,7 +14877,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "丁酸顺式-3-己烯酯(又名丁酸叶431S0431cis-3-Hexenylbutyrate(Leafbutyrate)3402醇酯)",
     "rowName": "丁酸顺式-3-己烯酯(又名丁酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 431；编码 S0431；香料中文名称 丁酸顺式-3-己烯酯(又名丁酸叶醇酯)；香料英文名称 cis-3-Hexenylbutyrate(Leafbutyrate)；FEMA 编号 3402。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 431；编码 S0431；香料中文名称 丁酸顺式-3-己烯酯(又名丁酸叶醇酯)；香料英文名称 cis-3-Hexenyl butyrate (Leafbutyrate)；FEMA 编号 3402。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0432",
@@ -14885,7 +14885,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0432",
     "flavorCode": "S0432",
     "flavorNameCn": "2-甲基丁酸-3-己烯酯",
-    "flavorNameEn": "3-Hexenyl2-methylbutanoate",
+    "flavorNameEn": "3-Hexenyl 2-methylbutanoate",
     "femaNumber": "3497",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14894,7 +14894,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "432S04322-甲基丁酸-3-己烯酯3-Hexenyl2-methylbutanoate3497",
     "rowName": "2-甲基丁酸-3-己烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 432；编码 S0432；香料中文名称 2-甲基丁酸-3-己烯酯；香料英文名称 3-Hexenyl2-methylbutanoate；FEMA 编号 3497。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 432；编码 S0432；香料中文名称 2-甲基丁酸-3-己烯酯；香料英文名称 3-Hexenyl 2-methylbutanoate；FEMA 编号 3497。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0433",
@@ -14902,7 +14902,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0433",
     "flavorCode": "S0433",
     "flavorNameCn": "异丁酸庚酯",
-    "flavorNameEn": "Heptylisobutyrate",
+    "flavorNameEn": "Heptyl isobutyrate",
     "femaNumber": "2550",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14911,7 +14911,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "433S0433异丁酸庚酯Heptylisobutyrate2550",
     "rowName": "异丁酸庚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 433；编码 S0433；香料中文名称 异丁酸庚酯；香料英文名称 Heptylisobutyrate；FEMA 编号 2550。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 433；编码 S0433；香料中文名称 异丁酸庚酯；香料英文名称 Heptyl isobutyrate；FEMA 编号 2550。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0434",
@@ -14919,7 +14919,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0434",
     "flavorCode": "S0434",
     "flavorNameCn": "2-甲基丁酸辛酯",
-    "flavorNameEn": "Octyl2-methylbutyrate",
+    "flavorNameEn": "Octyl 2-methylbutyrate",
     "femaNumber": "3604",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14928,7 +14928,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "434S04342-甲基丁酸辛酯Octyl2-methylbutyrate3604",
     "rowName": "2-甲基丁酸辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 434；编码 S0434；香料中文名称 2-甲基丁酸辛酯；香料英文名称 Octyl2-methylbutyrate；FEMA 编号 3604。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 434；编码 S0434；香料中文名称 2-甲基丁酸辛酯；香料英文名称 Octyl 2-methylbutyrate；FEMA 编号 3604。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0435",
@@ -14936,7 +14936,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0435",
     "flavorCode": "S0435",
     "flavorNameCn": "1-辛烯-3-醇丁酸酯",
-    "flavorNameEn": "1-Octen-3-ylbutyrate",
+    "flavorNameEn": "1-Octen-3-yl butyrate",
     "femaNumber": "3612",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14945,7 +14945,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "435S04351-辛烯-3-醇丁酸酯1-Octen-3-ylbutyrate3612",
     "rowName": "1-辛烯-3-醇丁酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 435；编码 S0435；香料中文名称 1-辛烯-3-醇丁酸酯；香料英文名称 1-Octen-3-ylbutyrate；FEMA 编号 3612。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 435；编码 S0435；香料中文名称 1-辛烯-3-醇丁酸酯；香料英文名称 1-Octen-3-yl butyrate；FEMA 编号 3612。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0436",
@@ -14953,7 +14953,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0436",
     "flavorCode": "S0436",
     "flavorNameCn": "丁酸苄酯",
-    "flavorNameEn": "Benzylbutyrate",
+    "flavorNameEn": "Benzyl butyrate",
     "femaNumber": "2140",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14962,7 +14962,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "436S0436丁酸苄酯Benzylbutyrate2140",
     "rowName": "丁酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 436；编码 S0436；香料中文名称 丁酸苄酯；香料英文名称 Benzylbutyrate；FEMA 编号 2140。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 436；编码 S0436；香料中文名称 丁酸苄酯；香料英文名称 Benzyl butyrate；FEMA 编号 2140。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0437",
@@ -14970,7 +14970,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0437",
     "flavorCode": "S0437",
     "flavorNameCn": "异丁酸苄酯",
-    "flavorNameEn": "Benzylisobutyrate",
+    "flavorNameEn": "Benzyl isobutyrate",
     "femaNumber": "2141",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14979,7 +14979,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "437S0437异丁酸苄酯Benzylisobutyrate2141",
     "rowName": "异丁酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 437；编码 S0437；香料中文名称 异丁酸苄酯；香料英文名称 Benzylisobutyrate；FEMA 编号 2141。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 437；编码 S0437；香料中文名称 异丁酸苄酯；香料英文名称 Benzyl isobutyrate；FEMA 编号 2141。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0438",
@@ -14987,7 +14987,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0438",
     "flavorCode": "S0438",
     "flavorNameCn": "丁酸苯乙酯",
-    "flavorNameEn": "Phenethylbutyrate",
+    "flavorNameEn": "Phenethyl butyrate",
     "femaNumber": "2861",
     "pdfPage": 184,
     "standardPage": 181,
@@ -14996,7 +14996,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "438S0438丁酸苯乙酯Phenethylbutyrate2861",
     "rowName": "丁酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 438；编码 S0438；香料中文名称 丁酸苯乙酯；香料英文名称 Phenethylbutyrate；FEMA 编号 2861。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 438；编码 S0438；香料中文名称 丁酸苯乙酯；香料英文名称 Phenethyl butyrate；FEMA 编号 2861。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0439",
@@ -15004,7 +15004,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0439",
     "flavorCode": "S0439",
     "flavorNameCn": "2-甲基丁酸苯乙酯",
-    "flavorNameEn": "Phenethyl2-methylbutyrate",
+    "flavorNameEn": "Phenethyl 2-methylbutyrate",
     "femaNumber": "3632",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15013,7 +15013,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "439S04392-甲基丁酸苯乙酯Phenethyl2-methylbutyrate3632",
     "rowName": "2-甲基丁酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 439；编码 S0439；香料中文名称 2-甲基丁酸苯乙酯；香料英文名称 Phenethyl2-methylbutyrate；FEMA 编号 3632。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 439；编码 S0439；香料中文名称 2-甲基丁酸苯乙酯；香料英文名称 Phenethyl 2-methylbutyrate；FEMA 编号 3632。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0440",
@@ -15021,7 +15021,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0440",
     "flavorCode": "S0440",
     "flavorNameCn": "异丁酸苯乙酯",
-    "flavorNameEn": "Phenethylisobutyrate",
+    "flavorNameEn": "Phenethyl isobutyrate",
     "femaNumber": "2862",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15030,7 +15030,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "440S0440异丁酸苯乙酯Phenethylisobutyrate2862",
     "rowName": "异丁酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 440；编码 S0440；香料中文名称 异丁酸苯乙酯；香料英文名称 Phenethylisobutyrate；FEMA 编号 2862。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 440；编码 S0440；香料中文名称 异丁酸苯乙酯；香料英文名称 Phenethyl isobutyrate；FEMA 编号 2862。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0441",
@@ -15038,7 +15038,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0441",
     "flavorCode": "S0441",
     "flavorNameCn": "丁酸香叶酯",
-    "flavorNameEn": "Geranylbutyrate",
+    "flavorNameEn": "Geranyl butyrate",
     "femaNumber": "2512",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15047,7 +15047,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "441S0441丁酸香叶酯Geranylbutyrate2512",
     "rowName": "丁酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 441；编码 S0441；香料中文名称 丁酸香叶酯；香料英文名称 Geranylbutyrate；FEMA 编号 2512。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 441；编码 S0441；香料中文名称 丁酸香叶酯；香料英文名称 Geranyl butyrate；FEMA 编号 2512。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0442",
@@ -15055,7 +15055,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0442",
     "flavorCode": "S0442",
     "flavorNameCn": "异丁酸香叶酯",
-    "flavorNameEn": "Geranylisobutyrate",
+    "flavorNameEn": "Geranyl isobutyrate",
     "femaNumber": "2513",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15064,7 +15064,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "442S0442异丁酸香叶酯Geranylisobutyrate2513",
     "rowName": "异丁酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 442；编码 S0442；香料中文名称 异丁酸香叶酯；香料英文名称 Geranylisobutyrate；FEMA 编号 2513。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 442；编码 S0442；香料中文名称 异丁酸香叶酯；香料英文名称 Geranyl isobutyrate；FEMA 编号 2513。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0443",
@@ -15072,7 +15072,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0443",
     "flavorCode": "S0443",
     "flavorNameCn": "丁酸芳樟酯",
-    "flavorNameEn": "Linalylbutyrate",
+    "flavorNameEn": "Linalyl butyrate",
     "femaNumber": "2639",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15081,7 +15081,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "443S0443丁酸芳樟酯Linalylbutyrate2639",
     "rowName": "丁酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 443；编码 S0443；香料中文名称 丁酸芳樟酯；香料英文名称 Linalylbutyrate；FEMA 编号 2639。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 443；编码 S0443；香料中文名称 丁酸芳樟酯；香料英文名称 Linalyl butyrate；FEMA 编号 2639。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0444",
@@ -15089,7 +15089,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0444",
     "flavorCode": "S0444",
     "flavorNameCn": "异丁酸芳樟酯",
-    "flavorNameEn": "Linalylisobutyrate",
+    "flavorNameEn": "Linalyl isobutyrate",
     "femaNumber": "2640",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15098,7 +15098,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "444S0444异丁酸芳樟酯Linalylisobutyrate2640",
     "rowName": "异丁酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 444；编码 S0444；香料中文名称 异丁酸芳樟酯；香料英文名称 Linalylisobutyrate；FEMA 编号 2640。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 444；编码 S0444；香料中文名称 异丁酸芳樟酯；香料英文名称 Linalyl isobutyrate；FEMA 编号 2640。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0445",
@@ -15123,7 +15123,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0446",
     "flavorCode": "S0446",
     "flavorNameCn": "异丁酸橙花酯",
-    "flavorNameEn": "Nerylisobutyrate",
+    "flavorNameEn": "Neryl isobutyrate",
     "femaNumber": "2775",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15132,7 +15132,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "446S0446异丁酸橙花酯Nerylisobutyrate2775",
     "rowName": "异丁酸橙花酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 446；编码 S0446；香料中文名称 异丁酸橙花酯；香料英文名称 Nerylisobutyrate；FEMA 编号 2775。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 446；编码 S0446；香料中文名称 异丁酸橙花酯；香料英文名称 Neryl isobutyrate；FEMA 编号 2775。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0447",
@@ -15140,7 +15140,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0447",
     "flavorCode": "S0447",
     "flavorNameCn": "正戊酸乙酯",
-    "flavorNameEn": "Ethylvalerate",
+    "flavorNameEn": "Ethyl valerate",
     "femaNumber": "2462",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15149,7 +15149,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "447S0447正戊酸乙酯Ethylvalerate2462",
     "rowName": "正戊酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 447；编码 S0447；香料中文名称 正戊酸乙酯；香料英文名称 Ethylvalerate；FEMA 编号 2462。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 447；编码 S0447；香料中文名称 正戊酸乙酯；香料英文名称 Ethyl valerate；FEMA 编号 2462。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0448",
@@ -15157,7 +15157,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0448",
     "flavorCode": "S0448",
     "flavorNameCn": "丁酰乳酸丁酯",
-    "flavorNameEn": "Butylbutyryllactate",
+    "flavorNameEn": "Butylbutyryl lactate",
     "femaNumber": "2190",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15166,7 +15166,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "448S0448丁酰乳酸丁酯Butylbutyryllactate2190",
     "rowName": "丁酰乳酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 448；编码 S0448；香料中文名称 丁酰乳酸丁酯；香料英文名称 Butylbutyryllactate；FEMA 编号 2190。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 448；编码 S0448；香料中文名称 丁酰乳酸丁酯；香料英文名称 Butylbutyryl lactate；FEMA 编号 2190。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0449",
@@ -15174,7 +15174,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0449",
     "flavorCode": "S0449",
     "flavorNameCn": "异戊酸乙酯",
-    "flavorNameEn": "Ethylisovalerate",
+    "flavorNameEn": "Ethyl isovalerate",
     "femaNumber": "2463",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15183,7 +15183,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "449S0449异戊酸乙酯Ethylisovalerate2463",
     "rowName": "异戊酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 449；编码 S0449；香料中文名称 异戊酸乙酯；香料英文名称 Ethylisovalerate；FEMA 编号 2463。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 449；编码 S0449；香料中文名称 异戊酸乙酯；香料英文名称 Ethyl isovalerate；FEMA 编号 2463。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0450",
@@ -15191,7 +15191,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0450",
     "flavorCode": "S0450",
     "flavorNameCn": "水杨酸丁酯(又名柳酸丁酯)",
-    "flavorNameEn": "Butylsalicylate",
+    "flavorNameEn": "Butyl salicylate",
     "femaNumber": "3650",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15200,7 +15200,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "450S0450水杨酸丁酯(又名柳酸丁酯)Butylsalicylate3650",
     "rowName": "水杨酸丁酯(又名柳酸丁酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 450；编码 S0450；香料中文名称 水杨酸丁酯(又名柳酸丁酯)；香料英文名称 Butylsalicylate；FEMA 编号 3650。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 450；编码 S0450；香料中文名称 水杨酸丁酯(又名柳酸丁酯)；香料英文名称 Butyl salicylate；FEMA 编号 3650。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0451",
@@ -15208,7 +15208,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0451",
     "flavorCode": "S0451",
     "flavorNameCn": "异戊酸丁酯",
-    "flavorNameEn": "Butylisovalerate",
+    "flavorNameEn": "Butyl isovalerate",
     "femaNumber": "2218",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15217,7 +15217,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "451S0451异戊酸丁酯Butylisovalerate2218",
     "rowName": "异戊酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 451；编码 S0451；香料中文名称 异戊酸丁酯；香料英文名称 Butylisovalerate；FEMA 编号 2218。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 451；编码 S0451；香料中文名称 异戊酸丁酯；香料英文名称 Butyl isovalerate；FEMA 编号 2218。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0452",
@@ -15225,7 +15225,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0452",
     "flavorCode": "S0452",
     "flavorNameCn": "异戊酸异戊酯",
-    "flavorNameEn": "Isoamylisovalerate",
+    "flavorNameEn": "Isoamyl isovalerate",
     "femaNumber": "2085",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15234,7 +15234,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "452S0452异戊酸异戊酯Isoamylisovalerate2085",
     "rowName": "异戊酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 452；编码 S0452；香料中文名称 异戊酸异戊酯；香料英文名称 Isoamylisovalerate；FEMA 编号 2085。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 452；编码 S0452；香料中文名称 异戊酸异戊酯；香料英文名称 Isoamyl isovalerate；FEMA 编号 2085。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0453",
@@ -15242,7 +15242,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0453",
     "flavorCode": "S0453",
     "flavorNameCn": "异戊酸3-己烯酯",
-    "flavorNameEn": "3-Hexenylisovalerate",
+    "flavorNameEn": "3-Hexenyl isovalerate",
     "femaNumber": "3498",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15251,7 +15251,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "453S0453异戊酸3-己烯酯3-Hexenylisovalerate3498",
     "rowName": "异戊酸3-己烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 453；编码 S0453；香料中文名称 异戊酸3-己烯酯；香料英文名称 3-Hexenylisovalerate；FEMA 编号 3498。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 453；编码 S0453；香料中文名称 异戊酸3-己烯酯；香料英文名称 3-Hexenyl isovalerate；FEMA 编号 3498。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0454",
@@ -15259,7 +15259,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0454",
     "flavorCode": "S0454",
     "flavorNameCn": "异戊酸壬酯",
-    "flavorNameEn": "Nonylisovalerate",
+    "flavorNameEn": "Nonyl isovalerate",
     "femaNumber": "2791",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15268,7 +15268,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "454S0454异戊酸壬酯Nonylisovalerate2791",
     "rowName": "异戊酸壬酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 454；编码 S0454；香料中文名称 异戊酸壬酯；香料英文名称 Nonylisovalerate；FEMA 编号 2791。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 454；编码 S0454；香料中文名称 异戊酸壬酯；香料英文名称 Nonyl isovalerate；FEMA 编号 2791。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0455",
@@ -15276,7 +15276,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0455",
     "flavorCode": "S0455",
     "flavorNameCn": "异戊酸苯乙酯",
-    "flavorNameEn": "Phenethylisovalerate",
+    "flavorNameEn": "Phenethyl isovalerate",
     "femaNumber": "2871",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15285,7 +15285,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "455S0455异戊酸苯乙酯Phenethylisovalerate2871",
     "rowName": "异戊酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 455；编码 S0455；香料中文名称 异戊酸苯乙酯；香料英文名称 Phenethylisovalerate；FEMA 编号 2871。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 455；编码 S0455；香料中文名称 异戊酸苯乙酯；香料英文名称 Phenethyl isovalerate；FEMA 编号 2871。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0456",
@@ -15293,7 +15293,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0456",
     "flavorCode": "S0456",
     "flavorNameCn": "异戊酸香叶酯",
-    "flavorNameEn": "Geranylisovalerate",
+    "flavorNameEn": "Geranyl isovalerate",
     "femaNumber": "2518",
     "pdfPage": 184,
     "standardPage": 181,
@@ -15302,7 +15302,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "456S0456异戊酸香叶酯Geranylisovalerate2518",
     "rowName": "异戊酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 456；编码 S0456；香料中文名称 异戊酸香叶酯；香料英文名称 Geranylisovalerate；FEMA 编号 2518。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 456；编码 S0456；香料中文名称 异戊酸香叶酯；香料英文名称 Geranyl isovalerate；FEMA 编号 2518。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0457",
@@ -15327,7 +15327,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0458",
     "flavorCode": "S0458",
     "flavorNameCn": "2-己烯酸甲酯",
-    "flavorNameEn": "Methyl2-hexenoate",
+    "flavorNameEn": "Methyl 2-hexenoate",
     "femaNumber": "2709",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15336,7 +15336,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "458S04582-己烯酸甲酯Methyl2-hexenoate2709",
     "rowName": "2-己烯酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 458；编码 S0458；香料中文名称 2-己烯酸甲酯；香料英文名称 Methyl2-hexenoate；FEMA 编号 2709。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 458；编码 S0458；香料中文名称 2-己烯酸甲酯；香料英文名称 Methyl 2-hexenoate；FEMA 编号 2709。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0459",
@@ -15344,7 +15344,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0459",
     "flavorCode": "S0459",
     "flavorNameCn": "己酸乙酯",
-    "flavorNameEn": "Ethylhexanoate(Ethylcaproate)",
+    "flavorNameEn": "Ethylhexanoate (Ethyl caproate)",
     "femaNumber": "2439",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15353,7 +15353,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "459S0459己酸乙酯Ethylhexanoate(Ethylcaproate)2439",
     "rowName": "己酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 459；编码 S0459；香料中文名称 己酸乙酯；香料英文名称 Ethylhexanoate(Ethylcaproate)；FEMA 编号 2439。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 459；编码 S0459；香料中文名称 己酸乙酯；香料英文名称 Ethylhexanoate (Ethyl caproate)；FEMA 编号 2439。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0460",
@@ -15361,7 +15361,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0460",
     "flavorCode": "S0460",
     "flavorNameCn": "3-己烯酸乙酯",
-    "flavorNameEn": "Ethyl3-hexenoate",
+    "flavorNameEn": "Ethyl 3-hexenoate",
     "femaNumber": "3342",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15370,7 +15370,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "460S04603-己烯酸乙酯Ethyl3-hexenoate3342",
     "rowName": "3-己烯酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 460；编码 S0460；香料中文名称 3-己烯酸乙酯；香料英文名称 Ethyl3-hexenoate；FEMA 编号 3342。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 460；编码 S0460；香料中文名称 3-己烯酸乙酯；香料英文名称 Ethyl 3-hexenoate；FEMA 编号 3342。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0461",
@@ -15378,7 +15378,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0461",
     "flavorCode": "S0461",
     "flavorNameCn": "3-羟基己酸乙酯",
-    "flavorNameEn": "Ethyl3-hydroxyhexanoate",
+    "flavorNameEn": "Ethyl 3-hydroxyhexanoate",
     "femaNumber": "3545",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15387,7 +15387,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "461S04613-羟基己酸乙酯Ethyl3-hydroxyhexanoate3545",
     "rowName": "3-羟基己酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 461；编码 S0461；香料中文名称 3-羟基己酸乙酯；香料英文名称 Ethyl3-hydroxyhexanoate；FEMA 编号 3545。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 461；编码 S0461；香料中文名称 3-羟基己酸乙酯；香料英文名称 Ethyl 3-hydroxyhexanoate；FEMA 编号 3545。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0462",
@@ -15480,7 +15480,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0467",
     "flavorCode": "S0467",
     "flavorNameCn": "己酸顺式-3-己烯酯(又名己酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenylhexanoate(Leafhexanoate)",
+    "flavorNameEn": "cis-3-Hexenylhexanoate (Leafhexanoate)",
     "femaNumber": "3403",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15489,7 +15489,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "己酸顺式-3-己烯酯(又名己酸叶467S0467cis-3-Hexenylhexanoate(Leafhexanoate)3403醇酯)",
     "rowName": "己酸顺式-3-己烯酯(又名己酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 467；编码 S0467；香料中文名称 己酸顺式-3-己烯酯(又名己酸叶醇酯)；香料英文名称 cis-3-Hexenylhexanoate(Leafhexanoate)；FEMA 编号 3403。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 467；编码 S0467；香料中文名称 己酸顺式-3-己烯酯(又名己酸叶醇酯)；香料英文名称 cis-3-Hexenylhexanoate (Leafhexanoate)；FEMA 编号 3403。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0468",
@@ -15497,7 +15497,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0468",
     "flavorCode": "S0468",
     "flavorNameCn": "庚酸乙酯",
-    "flavorNameEn": "Ethylheptanoate",
+    "flavorNameEn": "Ethyl heptanoate",
     "femaNumber": "2437",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15506,7 +15506,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "468S0468庚酸乙酯Ethylheptanoate2437",
     "rowName": "庚酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 468；编码 S0468；香料中文名称 庚酸乙酯；香料英文名称 Ethylheptanoate；FEMA 编号 2437。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 468；编码 S0468；香料中文名称 庚酸乙酯；香料英文名称 Ethyl heptanoate；FEMA 编号 2437。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0469",
@@ -15514,7 +15514,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0469",
     "flavorCode": "S0469",
     "flavorNameCn": "庚酸丙酯",
-    "flavorNameEn": "Propylheptanoate",
+    "flavorNameEn": "Propyl heptanoate",
     "femaNumber": "2948",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15523,7 +15523,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "469S0469庚酸丙酯Propylheptanoate2948",
     "rowName": "庚酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 469；编码 S0469；香料中文名称 庚酸丙酯；香料英文名称 Propylheptanoate；FEMA 编号 2948。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 469；编码 S0469；香料中文名称 庚酸丙酯；香料英文名称 Propyl heptanoate；FEMA 编号 2948。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0470",
@@ -15531,7 +15531,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0470",
     "flavorCode": "S0470",
     "flavorNameCn": "庚酸丁酯",
-    "flavorNameEn": "Butylheptanoate",
+    "flavorNameEn": "Butyl heptanoate",
     "femaNumber": "2199",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15540,7 +15540,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "470S0470庚酸丁酯Butylheptanoate2199",
     "rowName": "庚酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 470；编码 S0470；香料中文名称 庚酸丁酯；香料英文名称 Butylheptanoate；FEMA 编号 2199。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 470；编码 S0470；香料中文名称 庚酸丁酯；香料英文名称 Butyl heptanoate；FEMA 编号 2199。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0471",
@@ -15565,7 +15565,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0472",
     "flavorCode": "S0472",
     "flavorNameCn": "辛酸甲酯",
-    "flavorNameEn": "Methylcaprylate",
+    "flavorNameEn": "Methyl caprylate",
     "femaNumber": "2728",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15574,7 +15574,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "472S0472辛酸甲酯Methylcaprylate2728",
     "rowName": "辛酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 472；编码 S0472；香料中文名称 辛酸甲酯；香料英文名称 Methylcaprylate；FEMA 编号 2728。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 472；编码 S0472；香料中文名称 辛酸甲酯；香料英文名称 Methyl caprylate；FEMA 编号 2728。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0473",
@@ -15582,7 +15582,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0473",
     "flavorCode": "S0473",
     "flavorNameCn": "辛酸乙酯",
-    "flavorNameEn": "Ethylcaprylate",
+    "flavorNameEn": "Ethyl caprylate",
     "femaNumber": "2449",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15591,7 +15591,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "473S0473辛酸乙酯Ethylcaprylate2449",
     "rowName": "辛酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 473；编码 S0473；香料中文名称 辛酸乙酯；香料英文名称 Ethylcaprylate；FEMA 编号 2449。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 473；编码 S0473；香料中文名称 辛酸乙酯；香料英文名称 Ethyl caprylate；FEMA 编号 2449。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0474",
@@ -15633,7 +15633,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0476",
     "flavorCode": "S0476",
     "flavorNameCn": "辛酸异戊酯",
-    "flavorNameEn": "Isoamyloctanoate",
+    "flavorNameEn": "Isoamyl octanoate",
     "femaNumber": "2080",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15642,7 +15642,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "476S0476辛酸异戊酯Isoamyloctanoate2080",
     "rowName": "辛酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 476；编码 S0476；香料中文名称 辛酸异戊酯；香料英文名称 Isoamyloctanoate；FEMA 编号 2080。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 476；编码 S0476；香料中文名称 辛酸异戊酯；香料英文名称 Isoamyl octanoate；FEMA 编号 2080。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0477",
@@ -15650,7 +15650,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0477",
     "flavorCode": "S0477",
     "flavorNameCn": "辛酸壬酯",
-    "flavorNameEn": "Nonyloctanoate",
+    "flavorNameEn": "Nonyl octanoate",
     "femaNumber": "2790",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15659,7 +15659,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "477S0477辛酸壬酯Nonyloctanoate2790",
     "rowName": "辛酸壬酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 477；编码 S0477；香料中文名称 辛酸壬酯；香料英文名称 Nonyloctanoate；FEMA 编号 2790。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 477；编码 S0477；香料中文名称 辛酸壬酯；香料英文名称 Nonyl octanoate；FEMA 编号 2790。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0478",
@@ -15667,7 +15667,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0478",
     "flavorCode": "S0478",
     "flavorNameCn": "辛酸苯乙酯",
-    "flavorNameEn": "Phenethyloctanoate",
+    "flavorNameEn": "Phenethyl octanoate",
     "femaNumber": "3222",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15676,7 +15676,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "478S0478辛酸苯乙酯Phenethyloctanoate3222",
     "rowName": "辛酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 478；编码 S0478；香料中文名称 辛酸苯乙酯；香料英文名称 Phenethyloctanoate；FEMA 编号 3222。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 478；编码 S0478；香料中文名称 辛酸苯乙酯；香料英文名称 Phenethyl octanoate；FEMA 编号 3222。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0479",
@@ -15684,7 +15684,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0479",
     "flavorCode": "S0479",
     "flavorNameCn": "2-壬烯酸甲酯",
-    "flavorNameEn": "Methyl2-nonenoate",
+    "flavorNameEn": "Methyl 2-nonenoate",
     "femaNumber": "2725",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15693,7 +15693,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "479S04792-壬烯酸甲酯Methyl2-nonenoate2725",
     "rowName": "2-壬烯酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 479；编码 S0479；香料中文名称 2-壬烯酸甲酯；香料英文名称 Methyl2-nonenoate；FEMA 编号 2725。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 479；编码 S0479；香料中文名称 2-壬烯酸甲酯；香料英文名称 Methyl 2-nonenoate；FEMA 编号 2725。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0480",
@@ -15718,7 +15718,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0481",
     "flavorCode": "S0481",
     "flavorNameCn": "癸酸乙酯",
-    "flavorNameEn": "Ethyldecanoate",
+    "flavorNameEn": "Ethyl decanoate",
     "femaNumber": "2432",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15727,7 +15727,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "481S0481癸酸乙酯Ethyldecanoate2432",
     "rowName": "癸酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 481；编码 S0481；香料中文名称 癸酸乙酯；香料英文名称 Ethyldecanoate；FEMA 编号 2432。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 481；编码 S0481；香料中文名称 癸酸乙酯；香料英文名称 Ethyl decanoate；FEMA 编号 2432。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0482",
@@ -15752,7 +15752,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0483",
     "flavorCode": "S0483",
     "flavorNameCn": "十二酸乙酯(又名月桂酸乙酯)",
-    "flavorNameEn": "Ethyldodecanoate(Ethyllaurate)",
+    "flavorNameEn": "Ethyl dodecanoate (Ethyl laurate)",
     "femaNumber": "2441",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15761,7 +15761,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "483S0483十二酸乙酯(又名月桂酸乙酯)Ethyldodecanoate(Ethyllaurate)2441",
     "rowName": "十二酸乙酯(又名月桂酸乙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 483；编码 S0483；香料中文名称 十二酸乙酯(又名月桂酸乙酯)；香料英文名称 Ethyldodecanoate(Ethyllaurate)；FEMA 编号 2441。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 483；编码 S0483；香料中文名称 十二酸乙酯(又名月桂酸乙酯)；香料英文名称 Ethyl dodecanoate (Ethyl laurate)；FEMA 编号 2441。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0484",
@@ -15769,7 +15769,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0484",
     "flavorCode": "S0484",
     "flavorNameCn": "十四酸甲酯(又名肉豆蔻酸甲酯)",
-    "flavorNameEn": "Methyltetradecanoate(Methtylmyristate)",
+    "flavorNameEn": "Methyl tetradecanoate (Methyl myristate)",
     "femaNumber": "2722",
     "pdfPage": 185,
     "standardPage": 182,
@@ -15778,7 +15778,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "十四酸甲酯(又名肉豆蔻酸甲484S0484Methyltetradecanoate(Methtylmyristate)2722酯)",
     "rowName": "十四酸甲酯(又名肉豆蔻酸甲酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 484；编码 S0484；香料中文名称 十四酸甲酯(又名肉豆蔻酸甲酯)；香料英文名称 Methyltetradecanoate(Methtylmyristate)；FEMA 编号 2722。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 484；编码 S0484；香料中文名称 十四酸甲酯(又名肉豆蔻酸甲酯)；香料英文名称 Methyl tetradecanoate (Methyl myristate)；FEMA 编号 2722。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0485",
@@ -15786,7 +15786,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0485",
     "flavorCode": "S0485",
     "flavorNameCn": "苯甲酸甲酯",
-    "flavorNameEn": "Methylbenzoate",
+    "flavorNameEn": "Methyl benzoate",
     "femaNumber": "2683",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15795,7 +15795,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "485S0485苯甲酸甲酯Methylbenzoate2683",
     "rowName": "苯甲酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 485；编码 S0485；香料中文名称 苯甲酸甲酯；香料英文名称 Methylbenzoate；FEMA 编号 2683。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 485；编码 S0485；香料中文名称 苯甲酸甲酯；香料英文名称 Methyl benzoate；FEMA 编号 2683。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0486",
@@ -15803,7 +15803,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0486",
     "flavorCode": "S0486",
     "flavorNameCn": "苯甲酸乙酯",
-    "flavorNameEn": "Ethylbenzoate",
+    "flavorNameEn": "Ethyl benzoate",
     "femaNumber": "2422",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15812,7 +15812,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "486S0486苯甲酸乙酯Ethylbenzoate2422",
     "rowName": "苯甲酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 486；编码 S0486；香料中文名称 苯甲酸乙酯；香料英文名称 Ethylbenzoate；FEMA 编号 2422。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 486；编码 S0486；香料中文名称 苯甲酸乙酯；香料英文名称 Ethyl benzoate；FEMA 编号 2422。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0487",
@@ -15820,7 +15820,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0487",
     "flavorCode": "S0487",
     "flavorNameCn": "苯甲酸丙酯",
-    "flavorNameEn": "Propylbenzoate",
+    "flavorNameEn": "Propyl benzoate",
     "femaNumber": "2931",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15829,7 +15829,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "487S0487苯甲酸丙酯Propylbenzoate2931",
     "rowName": "苯甲酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 487；编码 S0487；香料中文名称 苯甲酸丙酯；香料英文名称 Propylbenzoate；FEMA 编号 2931。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 487；编码 S0487；香料中文名称 苯甲酸丙酯；香料英文名称 Propyl benzoate；FEMA 编号 2931。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0488",
@@ -15837,7 +15837,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0488",
     "flavorCode": "S0488",
     "flavorNameCn": "苯甲酸己酯",
-    "flavorNameEn": "Hexylbenzoate",
+    "flavorNameEn": "Hexyl benzoate",
     "femaNumber": "3691",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15846,7 +15846,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "488S0488苯甲酸己酯Hexylbenzoate3691",
     "rowName": "苯甲酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 488；编码 S0488；香料中文名称 苯甲酸己酯；香料英文名称 Hexylbenzoate；FEMA 编号 3691。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 488；编码 S0488；香料中文名称 苯甲酸己酯；香料英文名称 Hexyl benzoate；FEMA 编号 3691。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0489",
@@ -15854,7 +15854,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0489",
     "flavorCode": "S0489",
     "flavorNameCn": "苯甲酸苄酯",
-    "flavorNameEn": "Benzylbenzoate",
+    "flavorNameEn": "Benzyl benzoate",
     "femaNumber": "2138",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15863,7 +15863,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "489S0489苯甲酸苄酯Benzylbenzoate2138",
     "rowName": "苯甲酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 489；编码 S0489；香料中文名称 苯甲酸苄酯；香料英文名称 Benzylbenzoate；FEMA 编号 2138。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 489；编码 S0489；香料中文名称 苯甲酸苄酯；香料英文名称 Benzyl benzoate；FEMA 编号 2138。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0490",
@@ -15871,7 +15871,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0490",
     "flavorCode": "S0490",
     "flavorNameCn": "苯甲酸顺式-3-己烯酯(又名苯甲酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenylbenzoate(Leafbenzoate)",
+    "flavorNameEn": "cis-3-Hexenyl benzoate (Leafbenzoate)",
     "femaNumber": "3688",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15880,7 +15880,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "苯甲酸顺式-3-己烯酯(又名苯甲490S0490cis-3-Hexenylbenzoate(Leafbenzoate)3688酸叶醇酯)",
     "rowName": "苯甲酸顺式-3-己烯酯(又名苯甲酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 490；编码 S0490；香料中文名称 苯甲酸顺式-3-己烯酯(又名苯甲酸叶醇酯)；香料英文名称 cis-3-Hexenylbenzoate(Leafbenzoate)；FEMA 编号 3688。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 490；编码 S0490；香料中文名称 苯甲酸顺式-3-己烯酯(又名苯甲酸叶醇酯)；香料英文名称 cis-3-Hexenyl benzoate (Leafbenzoate)；FEMA 编号 3688。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0491",
@@ -15905,7 +15905,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0492",
     "flavorCode": "S0492",
     "flavorNameCn": "苯乙酸甲酯",
-    "flavorNameEn": "Methylphenylacetate",
+    "flavorNameEn": "Methyl phenylacetate",
     "femaNumber": "2733",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15914,7 +15914,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "492S0492苯乙酸甲酯Methylphenylacetate2733",
     "rowName": "苯乙酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 492；编码 S0492；香料中文名称 苯乙酸甲酯；香料英文名称 Methylphenylacetate；FEMA 编号 2733。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 492；编码 S0492；香料中文名称 苯乙酸甲酯；香料英文名称 Methyl phenylacetate；FEMA 编号 2733。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0493",
@@ -15922,7 +15922,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0493",
     "flavorCode": "S0493",
     "flavorNameCn": "苯乙酸乙酯",
-    "flavorNameEn": "Ethylphenylacetate",
+    "flavorNameEn": "Ethyl phenylacetate",
     "femaNumber": "2452",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15931,7 +15931,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "493S0493苯乙酸乙酯Ethylphenylacetate2452",
     "rowName": "苯乙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 493；编码 S0493；香料中文名称 苯乙酸乙酯；香料英文名称 Ethylphenylacetate；FEMA 编号 2452。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 493；编码 S0493；香料中文名称 苯乙酸乙酯；香料英文名称 Ethyl phenylacetate；FEMA 编号 2452。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0494",
@@ -15939,7 +15939,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0494",
     "flavorCode": "S0494",
     "flavorNameCn": "苯乙酸异戊酯",
-    "flavorNameEn": "Isoamylphenylacetate",
+    "flavorNameEn": "Isoamyl phenylacetate",
     "femaNumber": "2081",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15948,7 +15948,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "494S0494苯乙酸异戊酯Isoamylphenylacetate2081",
     "rowName": "苯乙酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 494；编码 S0494；香料中文名称 苯乙酸异戊酯；香料英文名称 Isoamylphenylacetate；FEMA 编号 2081。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 494；编码 S0494；香料中文名称 苯乙酸异戊酯；香料英文名称 Isoamyl phenylacetate；FEMA 编号 2081。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0495",
@@ -15956,7 +15956,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0495",
     "flavorCode": "S0495",
     "flavorNameCn": "苯乙酸苯乙酯",
-    "flavorNameEn": "Phenethylphenylacetate",
+    "flavorNameEn": "Phenethyl phenylacetate",
     "femaNumber": "2866",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15965,7 +15965,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "495S0495苯乙酸苯乙酯Phenethylphenylacetate2866",
     "rowName": "苯乙酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 495；编码 S0495；香料中文名称 苯乙酸苯乙酯；香料英文名称 Phenethylphenylacetate；FEMA 编号 2866。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 495；编码 S0495；香料中文名称 苯乙酸苯乙酯；香料英文名称 Phenethyl phenylacetate；FEMA 编号 2866。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0496",
@@ -15973,7 +15973,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0496",
     "flavorCode": "S0496",
     "flavorNameCn": "惕各酸乙酯",
-    "flavorNameEn": "Ethyltiglate",
+    "flavorNameEn": "Ethyl tiglate",
     "femaNumber": "2460",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15982,7 +15982,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "496S0496惕各酸乙酯Ethyltiglate2460",
     "rowName": "惕各酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 496；编码 S0496；香料中文名称 惕各酸乙酯；香料英文名称 Ethyltiglate；FEMA 编号 2460。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 496；编码 S0496；香料中文名称 惕各酸乙酯；香料英文名称 Ethyl tiglate；FEMA 编号 2460。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0497",
@@ -15990,7 +15990,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0497",
     "flavorCode": "S0497",
     "flavorNameCn": "惕各酸苄酯",
-    "flavorNameEn": "Benzyltiglate",
+    "flavorNameEn": "Benzyl tiglate",
     "femaNumber": "3330",
     "pdfPage": 186,
     "standardPage": 183,
@@ -15999,7 +15999,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "497S0497惕各酸苄酯Benzyltiglate3330",
     "rowName": "惕各酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 497；编码 S0497；香料中文名称 惕各酸苄酯；香料英文名称 Benzyltiglate；FEMA 编号 3330。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 497；编码 S0497；香料中文名称 惕各酸苄酯；香料英文名称 Benzyl tiglate；FEMA 编号 3330。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0498",
@@ -16007,7 +16007,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0498",
     "flavorCode": "S0498",
     "flavorNameCn": "乳酸乙酯",
-    "flavorNameEn": "Ethyllactate",
+    "flavorNameEn": "Ethyl lactate",
     "femaNumber": "2440",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16016,7 +16016,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "498S0498乳酸乙酯Ethyllactate2440",
     "rowName": "乳酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 498；编码 S0498；香料中文名称 乳酸乙酯；香料英文名称 Ethyllactate；FEMA 编号 2440。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 498；编码 S0498；香料中文名称 乳酸乙酯；香料英文名称 Ethyl lactate；FEMA 编号 2440。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0499",
@@ -16024,7 +16024,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0499",
     "flavorCode": "S0499",
     "flavorNameCn": "乳酸丁酯",
-    "flavorNameEn": "Butyllactate",
+    "flavorNameEn": "Butyl lactate",
     "femaNumber": "2205",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16033,7 +16033,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "499S0499乳酸丁酯Butyllactate2205",
     "rowName": "乳酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 499；编码 S0499；香料中文名称 乳酸丁酯；香料英文名称 Butyllactate；FEMA 编号 2205。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 499；编码 S0499；香料中文名称 乳酸丁酯；香料英文名称 Butyl lactate；FEMA 编号 2205。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0500",
@@ -16041,7 +16041,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0500",
     "flavorCode": "S0500",
     "flavorNameCn": "肉桂酸甲酯",
-    "flavorNameEn": "Methylcinnamate",
+    "flavorNameEn": "Methyl cinnamate",
     "femaNumber": "2698",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16050,7 +16050,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "500S0500肉桂酸甲酯Methylcinnamate2698",
     "rowName": "肉桂酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 500；编码 S0500；香料中文名称 肉桂酸甲酯；香料英文名称 Methylcinnamate；FEMA 编号 2698。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 500；编码 S0500；香料中文名称 肉桂酸甲酯；香料英文名称 Methyl cinnamate；FEMA 编号 2698。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0501",
@@ -16058,7 +16058,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0501",
     "flavorCode": "S0501",
     "flavorNameCn": "肉桂酸乙酯",
-    "flavorNameEn": "Ethylcinnamate",
+    "flavorNameEn": "Ethyl cinnamate",
     "femaNumber": "2430",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16067,7 +16067,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "501S0501肉桂酸乙酯Ethylcinnamate2430",
     "rowName": "肉桂酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 501；编码 S0501；香料中文名称 肉桂酸乙酯；香料英文名称 Ethylcinnamate；FEMA 编号 2430。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 501；编码 S0501；香料中文名称 肉桂酸乙酯；香料英文名称 Ethyl cinnamate；FEMA 编号 2430。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0502",
@@ -16075,7 +16075,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0502",
     "flavorCode": "S0502",
     "flavorNameCn": "肉桂酸苄酯",
-    "flavorNameEn": "Benzylcinnamate",
+    "flavorNameEn": "Benzyl cinnamate",
     "femaNumber": "2142",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16084,7 +16084,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "502S0502肉桂酸苄酯Benzylcinnamate2142",
     "rowName": "肉桂酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 502；编码 S0502；香料中文名称 肉桂酸苄酯；香料英文名称 Benzylcinnamate；FEMA 编号 2142。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 502；编码 S0502；香料中文名称 肉桂酸苄酯；香料英文名称 Benzyl cinnamate；FEMA 编号 2142。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0503",
@@ -16092,7 +16092,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0503",
     "flavorCode": "S0503",
     "flavorNameCn": "肉桂酸苯乙酯",
-    "flavorNameEn": "Phenethylcinnamate",
+    "flavorNameEn": "Phenethyl cinnamate",
     "femaNumber": "2863",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16101,7 +16101,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "503S0503肉桂酸苯乙酯Phenethylcinnamate2863",
     "rowName": "肉桂酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 503；编码 S0503；香料中文名称 肉桂酸苯乙酯；香料英文名称 Phenethylcinnamate；FEMA 编号 2863。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 503；编码 S0503；香料中文名称 肉桂酸苯乙酯；香料英文名称 Phenethyl cinnamate；FEMA 编号 2863。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0504",
@@ -16109,7 +16109,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0504",
     "flavorCode": "S0504",
     "flavorNameCn": "肉桂酸肉桂酯",
-    "flavorNameEn": "Cinnamylcinnamate",
+    "flavorNameEn": "Cinnamyl cinnamate",
     "femaNumber": "2298",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16118,7 +16118,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "504S0504肉桂酸肉桂酯Cinnamylcinnamate2298",
     "rowName": "肉桂酸肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 504；编码 S0504；香料中文名称 肉桂酸肉桂酯；香料英文名称 Cinnamylcinnamate；FEMA 编号 2298。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 504；编码 S0504；香料中文名称 肉桂酸肉桂酯；香料英文名称 Cinnamyl cinnamate；FEMA 编号 2298。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0505",
@@ -16126,7 +16126,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0505",
     "flavorCode": "S0505",
     "flavorNameCn": "水杨酸甲酯(又名柳酸甲酯)",
-    "flavorNameEn": "Methylsalicylate",
+    "flavorNameEn": "Methyl salicylate",
     "femaNumber": "2745",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16135,7 +16135,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "505S0505水杨酸甲酯(又名柳酸甲酯)Methylsalicylate2745",
     "rowName": "水杨酸甲酯(又名柳酸甲酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 505；编码 S0505；香料中文名称 水杨酸甲酯(又名柳酸甲酯)；香料英文名称 Methylsalicylate；FEMA 编号 2745。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 505；编码 S0505；香料中文名称 水杨酸甲酯(又名柳酸甲酯)；香料英文名称 Methyl salicylate；FEMA 编号 2745。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0506",
@@ -16143,7 +16143,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0506",
     "flavorCode": "S0506",
     "flavorNameCn": "水杨酸乙酯(又名柳酸乙酯)",
-    "flavorNameEn": "Ethylsalicylate",
+    "flavorNameEn": "Ethyl salicylate",
     "femaNumber": "2458",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16152,7 +16152,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "506S0506水杨酸乙酯(又名柳酸乙酯)Ethylsalicylate2458",
     "rowName": "水杨酸乙酯(又名柳酸乙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 506；编码 S0506；香料中文名称 水杨酸乙酯(又名柳酸乙酯)；香料英文名称 Ethylsalicylate；FEMA 编号 2458。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 506；编码 S0506；香料中文名称 水杨酸乙酯(又名柳酸乙酯)；香料英文名称 Ethyl salicylate；FEMA 编号 2458。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0507",
@@ -16160,7 +16160,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0507",
     "flavorCode": "S0507",
     "flavorNameCn": "水杨酸异戊酯(又名柳酸异戊酯)",
-    "flavorNameEn": "Isoamylsalicylate",
+    "flavorNameEn": "Isoamyl salicylate",
     "femaNumber": "2084",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16169,7 +16169,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "水杨酸异戊酯(又名柳酸异戊507S0507Isoamylsalicylate2084酯)",
     "rowName": "水杨酸异戊酯(又名柳酸异戊酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 507；编码 S0507；香料中文名称 水杨酸异戊酯(又名柳酸异戊酯)；香料英文名称 Isoamylsalicylate；FEMA 编号 2084。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 507；编码 S0507；香料中文名称 水杨酸异戊酯(又名柳酸异戊酯)；香料英文名称 Isoamyl salicylate；FEMA 编号 2084。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0508",
@@ -16177,7 +16177,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0508",
     "flavorCode": "S0508",
     "flavorNameCn": "十四酸乙酯(又名肉豆蔻酸乙酯)",
-    "flavorNameEn": "Ethyltetradecanoate(Ethylmyristate)",
+    "flavorNameEn": "Ethyl tetradecanoate (Ethyl myristate)",
     "femaNumber": "2445",
     "pdfPage": 186,
     "standardPage": 183,
@@ -16186,7 +16186,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "十四酸乙酯(又名肉豆蔻酸乙508S0508Ethyltetradecanoate(Ethylmyristate)2445酯)",
     "rowName": "十四酸乙酯(又名肉豆蔻酸乙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 508；编码 S0508；香料中文名称 十四酸乙酯(又名肉豆蔻酸乙酯)；香料英文名称 Ethyltetradecanoate(Ethylmyristate)；FEMA 编号 2445。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 508；编码 S0508；香料中文名称 十四酸乙酯(又名肉豆蔻酸乙酯)；香料英文名称 Ethyl tetradecanoate (Ethyl myristate)；FEMA 编号 2445。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0509",
@@ -16245,7 +16245,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0512",
     "flavorCode": "S0512",
     "flavorNameCn": "椰子油混合酸乙酯",
-    "flavorNameEn": "Ethylesterofcoconutoilmixedacid",
+    "flavorNameEn": "Ethylesterofcoconutoilmixed acid",
     "femaNumber": "—",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16254,7 +16254,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "512S0512椰子油混合酸乙酯Ethylesterofcoconutoilmixedacid—",
     "rowName": "椰子油混合酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 512；编码 S0512；香料中文名称 椰子油混合酸乙酯；香料英文名称 Ethylesterofcoconutoilmixedacid；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 512；编码 S0512；香料中文名称 椰子油混合酸乙酯；香料英文名称 Ethylesterofcoconutoilmixed acid；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0513",
@@ -16279,7 +16279,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0514",
     "flavorCode": "S0514",
     "flavorNameCn": "甲酸大茴香酯",
-    "flavorNameEn": "Anisylformate",
+    "flavorNameEn": "Anisyl formate",
     "femaNumber": "2101",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16288,7 +16288,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "514S0514甲酸大茴香酯Anisylformate2101",
     "rowName": "甲酸大茴香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 514；编码 S0514；香料中文名称 甲酸大茴香酯；香料英文名称 Anisylformate；FEMA 编号 2101。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 514；编码 S0514；香料中文名称 甲酸大茴香酯；香料英文名称 Anisyl formate；FEMA 编号 2101。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0515",
@@ -16296,7 +16296,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0515",
     "flavorCode": "S0515",
     "flavorNameCn": "甲酸顺式-3-己烯酯(又名甲酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenylformate(Leafformate)",
+    "flavorNameEn": "cis-3-Hexenyl formate (Leafformate)",
     "femaNumber": "3353",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16305,7 +16305,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "甲酸顺式-3-己烯酯(又名甲酸叶515S0515cis-3-Hexenylformate(Leafformate)3353醇酯)",
     "rowName": "甲酸顺式-3-己烯酯(又名甲酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 515；编码 S0515；香料中文名称 甲酸顺式-3-己烯酯(又名甲酸叶醇酯)；香料英文名称 cis-3-Hexenylformate(Leafformate)；FEMA 编号 3353。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 515；编码 S0515；香料中文名称 甲酸顺式-3-己烯酯(又名甲酸叶醇酯)；香料英文名称 cis-3-Hexenyl formate (Leafformate)；FEMA 编号 3353。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0516",
@@ -16313,7 +16313,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0516",
     "flavorCode": "S0516",
     "flavorNameCn": "乙酸2-甲基丁酯",
-    "flavorNameEn": "2-Methylbutylacetate",
+    "flavorNameEn": "2-Methylbutyl acetate",
     "femaNumber": "3644",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16322,7 +16322,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "516S0516乙酸2-甲基丁酯2-Methylbutylacetate3644",
     "rowName": "乙酸2-甲基丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 516；编码 S0516；香料中文名称 乙酸2-甲基丁酯；香料英文名称 2-Methylbutylacetate；FEMA 编号 3644。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 516；编码 S0516；香料中文名称 乙酸2-甲基丁酯；香料英文名称 2-Methylbutyl acetate；FEMA 编号 3644。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0517",
@@ -16330,7 +16330,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0517",
     "flavorCode": "S0517",
     "flavorNameCn": "乙酸3-苯丙酯",
-    "flavorNameEn": "3-Phenylpropylacetate",
+    "flavorNameEn": "3-Phenylpropyl acetate",
     "femaNumber": "2890",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16339,7 +16339,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "517S0517乙酸3-苯丙酯3-Phenylpropylacetate2890",
     "rowName": "乙酸3-苯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 517；编码 S0517；香料中文名称 乙酸3-苯丙酯；香料英文名称 3-Phenylpropylacetate；FEMA 编号 2890。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 517；编码 S0517；香料中文名称 乙酸3-苯丙酯；香料英文名称 3-Phenylpropyl acetate；FEMA 编号 2890。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0518",
@@ -16347,7 +16347,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0518",
     "flavorCode": "S0518",
     "flavorNameCn": "乙酸丁香酯",
-    "flavorNameEn": "Eugenylacetate",
+    "flavorNameEn": "Eugenyl acetate",
     "femaNumber": "2469",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16356,7 +16356,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "518S0518乙酸丁香酯Eugenylacetate2469",
     "rowName": "乙酸丁香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 518；编码 S0518；香料中文名称 乙酸丁香酯；香料英文名称 Eugenylacetate；FEMA 编号 2469。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 518；编码 S0518；香料中文名称 乙酸丁香酯；香料英文名称 Eugenyl acetate；FEMA 编号 2469。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0519",
@@ -16381,7 +16381,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0520",
     "flavorCode": "S0520",
     "flavorNameCn": "乙酸异胡薄荷酯",
-    "flavorNameEn": "Isopulegylacetate",
+    "flavorNameEn": "Isopulegyl acetate",
     "femaNumber": "2965",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16390,7 +16390,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "520S0520乙酸异胡薄荷酯Isopulegylacetate2965",
     "rowName": "乙酸异胡薄荷酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 520；编码 S0520；香料中文名称 乙酸异胡薄荷酯；香料英文名称 Isopulegylacetate；FEMA 编号 2965。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 520；编码 S0520；香料中文名称 乙酸异胡薄荷酯；香料英文名称 Isopulegyl acetate；FEMA 编号 2965。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0521",
@@ -16398,7 +16398,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0521",
     "flavorCode": "S0521",
     "flavorNameCn": "乙酸1,3,3-三甲基-2-降龙脑酯",
-    "flavorNameEn": "1,3,3-Trimethyl-2-norbornanylacetate",
+    "flavorNameEn": "1,3,3-Trimethyl-2-norbornanyl acetate",
     "femaNumber": "3390",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16407,7 +16407,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "521S0521乙酸1,3,3-三甲基-2-降龙脑酯1,3,3-Trimethyl-2-norbornanylacetate3390",
     "rowName": "乙酸1,3,3-三甲基-2-降龙脑酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 521；编码 S0521；香料中文名称 乙酸1,3,3-三甲基-2-降龙脑酯；香料英文名称 1,3,3-Trimethyl-2-norbornanylacetate；FEMA 编号 3390。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 521；编码 S0521；香料中文名称 乙酸1,3,3-三甲基-2-降龙脑酯；香料英文名称 1,3,3-Trimethyl-2-norbornanyl acetate；FEMA 编号 3390。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0522",
@@ -16415,7 +16415,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0522",
     "flavorCode": "S0522",
     "flavorNameCn": "丙酸甲酯",
-    "flavorNameEn": "Methylpropionate",
+    "flavorNameEn": "Methyl propionate",
     "femaNumber": "2742",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16424,7 +16424,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "522S0522丙酸甲酯Methylpropionate2742",
     "rowName": "丙酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 522；编码 S0522；香料中文名称 丙酸甲酯；香料英文名称 Methylpropionate；FEMA 编号 2742。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 522；编码 S0522；香料中文名称 丙酸甲酯；香料英文名称 Methyl propionate；FEMA 编号 2742。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0523",
@@ -16449,7 +16449,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0524",
     "flavorCode": "S0524",
     "flavorNameCn": "乳酸顺式-3-己烯酯(又名乳酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenyllactate(Leaflactate)",
+    "flavorNameEn": "cis-3-Hexenyl lactate (Leaflactate)",
     "femaNumber": "3690",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16458,7 +16458,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "乳酸顺式-3-己烯酯(又名乳酸叶524S0524cis-3-Hexenyllactate(Leaflactate)3690醇酯)",
     "rowName": "乳酸顺式-3-己烯酯(又名乳酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 524；编码 S0524；香料中文名称 乳酸顺式-3-己烯酯(又名乳酸叶醇酯)；香料英文名称 cis-3-Hexenyllactate(Leaflactate)；FEMA 编号 3690。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 524；编码 S0524；香料中文名称 乳酸顺式-3-己烯酯(又名乳酸叶醇酯)；香料英文名称 cis-3-Hexenyl lactate (Leaflactate)；FEMA 编号 3690。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0525",
@@ -16466,7 +16466,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0525",
     "flavorCode": "S0525",
     "flavorNameCn": "丙酸癸酯",
-    "flavorNameEn": "Decylpropionate",
+    "flavorNameEn": "Decyl propionate",
     "femaNumber": "2369",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16475,7 +16475,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "525S0525丙酸癸酯Decylpropionate2369",
     "rowName": "丙酸癸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 525；编码 S0525；香料中文名称 丙酸癸酯；香料英文名称 Decylpropionate；FEMA 编号 2369。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 525；编码 S0525；香料中文名称 丙酸癸酯；香料英文名称 Decyl propionate；FEMA 编号 2369。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0526",
@@ -16500,7 +16500,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0527",
     "flavorCode": "S0527",
     "flavorNameCn": "丁酸丙酯",
-    "flavorNameEn": "Propylbutyrate",
+    "flavorNameEn": "Propyl butyrate",
     "femaNumber": "2934",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16509,7 +16509,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "527S0527丁酸丙酯Propylbutyrate2934",
     "rowName": "丁酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 527；编码 S0527；香料中文名称 丁酸丙酯；香料英文名称 Propylbutyrate；FEMA 编号 2934。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 527；编码 S0527；香料中文名称 丁酸丙酯；香料英文名称 Propyl butyrate；FEMA 编号 2934。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0528",
@@ -16517,7 +16517,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0528",
     "flavorCode": "S0528",
     "flavorNameCn": "异丁酸异丙酯",
-    "flavorNameEn": "Isopropylisobutyrate",
+    "flavorNameEn": "Isopropyl isobutyrate",
     "femaNumber": "2937",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16526,7 +16526,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "528S0528异丁酸异丙酯Isopropylisobutyrate2937",
     "rowName": "异丁酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 528；编码 S0528；香料中文名称 异丁酸异丙酯；香料英文名称 Isopropylisobutyrate；FEMA 编号 2937。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 528；编码 S0528；香料中文名称 异丁酸异丙酯；香料英文名称 Isopropyl isobutyrate；FEMA 编号 2937。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0529",
@@ -16534,7 +16534,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0529",
     "flavorCode": "S0529",
     "flavorNameCn": "2-甲基丁酸异丙酯",
-    "flavorNameEn": "Isopropyl2-methylbutyrate",
+    "flavorNameEn": "Isopropyl 2-methylbutyrate",
     "femaNumber": "3699",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16543,7 +16543,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "529S05292-甲基丁酸异丙酯Isopropyl2-methylbutyrate3699",
     "rowName": "2-甲基丁酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 529；编码 S0529；香料中文名称 2-甲基丁酸异丙酯；香料英文名称 Isopropyl2-methylbutyrate；FEMA 编号 3699。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 529；编码 S0529；香料中文名称 2-甲基丁酸异丙酯；香料英文名称 Isopropyl 2-methylbutyrate；FEMA 编号 3699。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0530",
@@ -16551,7 +16551,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0530",
     "flavorCode": "S0530",
     "flavorNameCn": "异丁酸己酯",
-    "flavorNameEn": "Hexylisobutyrate",
+    "flavorNameEn": "Hexyl isobutyrate",
     "femaNumber": "3172",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16560,7 +16560,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "530S0530异丁酸己酯Hexylisobutyrate3172",
     "rowName": "异丁酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 530；编码 S0530；香料中文名称 异丁酸己酯；香料英文名称 Hexylisobutyrate；FEMA 编号 3172。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 530；编码 S0530；香料中文名称 异丁酸己酯；香料英文名称 Hexyl isobutyrate；FEMA 编号 3172。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0531",
@@ -16568,7 +16568,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0531",
     "flavorCode": "S0531",
     "flavorNameCn": "丁酸庚酯",
-    "flavorNameEn": "Heptylbutyrate",
+    "flavorNameEn": "Heptyl butyrate",
     "femaNumber": "2549",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16577,7 +16577,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "531S0531丁酸庚酯Heptylbutyrate2549",
     "rowName": "丁酸庚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 531；编码 S0531；香料中文名称 丁酸庚酯；香料英文名称 Heptylbutyrate；FEMA 编号 2549。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 531；编码 S0531；香料中文名称 丁酸庚酯；香料英文名称 Heptyl butyrate；FEMA 编号 2549。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0532",
@@ -16585,7 +16585,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0532",
     "flavorCode": "S0532",
     "flavorNameCn": "异丁酸辛酯",
-    "flavorNameEn": "Octylisobutyrate",
+    "flavorNameEn": "Octyl isobutyrate",
     "femaNumber": "2808",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16594,7 +16594,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "532S0532异丁酸辛酯Octylisobutyrate2808",
     "rowName": "异丁酸辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 532；编码 S0532；香料中文名称 异丁酸辛酯；香料英文名称 Octylisobutyrate；FEMA 编号 2808。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 532；编码 S0532；香料中文名称 异丁酸辛酯；香料英文名称 Octyl isobutyrate；FEMA 编号 2808。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0533",
@@ -16602,7 +16602,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0533",
     "flavorCode": "S0533",
     "flavorNameCn": "异丁酸-3-苯丙酯",
-    "flavorNameEn": "3-Phenylpropylisobutyrate",
+    "flavorNameEn": "3-Phenylpropyl isobutyrate",
     "femaNumber": "2893",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16611,7 +16611,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "533S0533异丁酸-3-苯丙酯3-Phenylpropylisobutyrate2893",
     "rowName": "异丁酸-3-苯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 533；编码 S0533；香料中文名称 异丁酸-3-苯丙酯；香料英文名称 3-Phenylpropylisobutyrate；FEMA 编号 2893。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 533；编码 S0533；香料中文名称 异丁酸-3-苯丙酯；香料英文名称 3-Phenylpropyl isobutyrate；FEMA 编号 2893。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0534",
@@ -16619,7 +16619,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0534",
     "flavorCode": "S0534",
     "flavorNameCn": "丁酸香茅酯",
-    "flavorNameEn": "Citronellylbutyrate",
+    "flavorNameEn": "Citronellyl butyrate",
     "femaNumber": "2312",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16628,7 +16628,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "534S0534丁酸香茅酯Citronellylbutyrate2312",
     "rowName": "丁酸香茅酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 534；编码 S0534；香料中文名称 丁酸香茅酯；香料英文名称 Citronellylbutyrate；FEMA 编号 2312。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 534；编码 S0534；香料中文名称 丁酸香茅酯；香料英文名称 Citronellyl butyrate；FEMA 编号 2312。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0535",
@@ -16636,7 +16636,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0535",
     "flavorCode": "S0535",
     "flavorNameCn": "丁酸肉桂酯",
-    "flavorNameEn": "Cinnamylbutyrate",
+    "flavorNameEn": "Cinnamyl butyrate",
     "femaNumber": "2296",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16645,7 +16645,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "535S0535丁酸肉桂酯Cinnamylbutyrate2296",
     "rowName": "丁酸肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 535；编码 S0535；香料中文名称 丁酸肉桂酯；香料英文名称 Cinnamylbutyrate；FEMA 编号 2296。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 535；编码 S0535；香料中文名称 丁酸肉桂酯；香料英文名称 Cinnamyl butyrate；FEMA 编号 2296。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0536",
@@ -16653,7 +16653,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0536",
     "flavorCode": "S0536",
     "flavorNameCn": "异戊酸甲酯",
-    "flavorNameEn": "Methylisovalerate",
+    "flavorNameEn": "Methyl isovalerate",
     "femaNumber": "2753",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16662,7 +16662,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "536S0536异戊酸甲酯Methylisovalerate2753",
     "rowName": "异戊酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 536；编码 S0536；香料中文名称 异戊酸甲酯；香料英文名称 Methylisovalerate；FEMA 编号 2753。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 536；编码 S0536；香料中文名称 异戊酸甲酯；香料英文名称 Methyl isovalerate；FEMA 编号 2753。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0537",
@@ -16670,7 +16670,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0537",
     "flavorCode": "S0537",
     "flavorNameCn": "异戊酸异丁酯",
-    "flavorNameEn": "Isobutylisovalerate",
+    "flavorNameEn": "Isobutyl isovalerate",
     "femaNumber": "3369",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16679,7 +16679,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "537S0537异戊酸异丁酯Isobutylisovalerate3369",
     "rowName": "异戊酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 537；编码 S0537；香料中文名称 异戊酸异丁酯；香料英文名称 Isobutylisovalerate；FEMA 编号 3369。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 537；编码 S0537；香料中文名称 异戊酸异丁酯；香料英文名称 Isobutyl isovalerate；FEMA 编号 3369。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0538",
@@ -16687,7 +16687,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0538",
     "flavorCode": "S0538",
     "flavorNameCn": "异戊酸2-甲基丁酯",
-    "flavorNameEn": "2-Methylbutylisovalerate",
+    "flavorNameEn": "2-Methylbutyl isovalerate",
     "femaNumber": "3506",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16696,7 +16696,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "538S0538异戊酸2-甲基丁酯2-Methylbutylisovalerate3506",
     "rowName": "异戊酸2-甲基丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 538；编码 S0538；香料中文名称 异戊酸2-甲基丁酯；香料英文名称 2-Methylbutylisovalerate；FEMA 编号 3506。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 538；编码 S0538；香料中文名称 异戊酸2-甲基丁酯；香料英文名称 2-Methylbutyl isovalerate；FEMA 编号 3506。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0539",
@@ -16704,7 +16704,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0539",
     "flavorCode": "S0539",
     "flavorNameCn": "异戊酸苄酯",
-    "flavorNameEn": "Benzylisovalerate",
+    "flavorNameEn": "Benzyl isovalerate",
     "femaNumber": "2152",
     "pdfPage": 187,
     "standardPage": 184,
@@ -16713,7 +16713,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "539S0539异戊酸苄酯Benzylisovalerate2152",
     "rowName": "异戊酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 539；编码 S0539；香料中文名称 异戊酸苄酯；香料英文名称 Benzylisovalerate；FEMA 编号 2152。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 539；编码 S0539；香料中文名称 异戊酸苄酯；香料英文名称 Benzyl isovalerate；FEMA 编号 2152。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0540",
@@ -16738,7 +16738,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0541",
     "flavorCode": "S0541",
     "flavorNameCn": "异戊酸肉桂酯",
-    "flavorNameEn": "Cinnamylisovalerate",
+    "flavorNameEn": "Cinnamyl isovalerate",
     "femaNumber": "2302",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16747,7 +16747,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "541S0541异戊酸肉桂酯Cinnamylisovalerate2302",
     "rowName": "异戊酸肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 541；编码 S0541；香料中文名称 异戊酸肉桂酯；香料英文名称 Cinnamylisovalerate；FEMA 编号 2302。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 541；编码 S0541；香料中文名称 异戊酸肉桂酯；香料英文名称 Cinnamyl isovalerate；FEMA 编号 2302。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0542",
@@ -16755,7 +16755,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0542",
     "flavorCode": "S0542",
     "flavorNameCn": "异戊酸薄荷酯",
-    "flavorNameEn": "Menthylisovalerate",
+    "flavorNameEn": "Menthyl isovalerate",
     "femaNumber": "2669",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16764,7 +16764,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "542S0542异戊酸薄荷酯Menthylisovalerate2669",
     "rowName": "异戊酸薄荷酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 542；编码 S0542；香料中文名称 异戊酸薄荷酯；香料英文名称 Menthylisovalerate；FEMA 编号 2669。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 542；编码 S0542；香料中文名称 异戊酸薄荷酯；香料英文名称 Menthyl isovalerate；FEMA 编号 2669。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0543",
@@ -16772,7 +16772,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0543",
     "flavorCode": "S0543",
     "flavorNameCn": "3-己烯酸甲酯",
-    "flavorNameEn": "Methyl3-hexenoate",
+    "flavorNameEn": "Methyl 3-hexenoate",
     "femaNumber": "3364",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16781,7 +16781,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "543S05433-己烯酸甲酯Methyl3-hexenoate3364",
     "rowName": "3-己烯酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 543；编码 S0543；香料中文名称 3-己烯酸甲酯；香料英文名称 Methyl3-hexenoate；FEMA 编号 3364。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 543；编码 S0543；香料中文名称 3-己烯酸甲酯；香料英文名称 Methyl 3-hexenoate；FEMA 编号 3364。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0544",
@@ -16789,7 +16789,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0544",
     "flavorCode": "S0544",
     "flavorNameCn": "正己酸异丁酯",
-    "flavorNameEn": "Isobutylcaproate",
+    "flavorNameEn": "Isobutyl caproate",
     "femaNumber": "2202",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16798,7 +16798,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "544S0544正己酸异丁酯Isobutylcaproate2202",
     "rowName": "正己酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 544；编码 S0544；香料中文名称 正己酸异丁酯；香料英文名称 Isobutylcaproate；FEMA 编号 2202。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 544；编码 S0544；香料中文名称 正己酸异丁酯；香料英文名称 Isobutyl caproate；FEMA 编号 2202。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0545",
@@ -16857,7 +16857,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0548",
     "flavorCode": "S0548",
     "flavorNameCn": "3-壬烯酸甲酯",
-    "flavorNameEn": "Methyl3-nonenoate",
+    "flavorNameEn": "Methyl 3-nonenoate",
     "femaNumber": "3710",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16866,7 +16866,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "548S05483-壬烯酸甲酯Methyl3-nonenoate3710",
     "rowName": "3-壬烯酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 548；编码 S0548；香料中文名称 3-壬烯酸甲酯；香料英文名称 Methyl3-nonenoate；FEMA 编号 3710。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 548；编码 S0548；香料中文名称 3-壬烯酸甲酯；香料英文名称 Methyl 3-nonenoate；FEMA 编号 3710。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0549",
@@ -16874,7 +16874,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0549",
     "flavorCode": "S0549",
     "flavorNameCn": "9-十一烯酸甲酯",
-    "flavorNameEn": "Methyl9-undecenoate",
+    "flavorNameEn": "Methyl 9-undecenoate",
     "femaNumber": "2750",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16883,7 +16883,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "549S05499-十一烯酸甲酯Methyl9-undecenoate2750",
     "rowName": "9-十一烯酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 549；编码 S0549；香料中文名称 9-十一烯酸甲酯；香料英文名称 Methyl9-undecenoate；FEMA 编号 2750。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 549；编码 S0549；香料中文名称 9-十一烯酸甲酯；香料英文名称 Methyl 9-undecenoate；FEMA 编号 2750。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0550",
@@ -16908,7 +16908,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0551",
     "flavorCode": "S0551",
     "flavorNameCn": "十四酸异丙酯(又名肉豆蔻酸异丙酯)",
-    "flavorNameEn": "Isopropyltetradecanoate(Isopropylmyris-tate)",
+    "flavorNameEn": "Isopropyl tetradecanoate (Isopropyl myris-tate)",
     "femaNumber": "3556",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16917,7 +16917,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "十四酸异丙酯(又名肉豆蔻酸异Isopropyltetradecanoate(Isopropylmyris-551S05513556丙酯)tate)",
     "rowName": "十四酸异丙酯(又名肉豆蔻酸异丙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 551；编码 S0551；香料中文名称 十四酸异丙酯(又名肉豆蔻酸异丙酯)；香料英文名称 Isopropyltetradecanoate(Isopropylmyris-tate)；FEMA 编号 3556。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 551；编码 S0551；香料中文名称 十四酸异丙酯(又名肉豆蔻酸异丙酯)；香料英文名称 Isopropyl tetradecanoate (Isopropyl myris-tate)；FEMA 编号 3556。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0552",
@@ -16925,7 +16925,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0552",
     "flavorCode": "S0552",
     "flavorNameCn": "N-甲基邻氨基苯甲酸甲酯",
-    "flavorNameEn": "MethylN-methylanthranilate(Dimethylanthranilate)",
+    "flavorNameEn": "Methyl N-methylanthranilate (Dimethylanthranilate)",
     "femaNumber": "2718",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16934,7 +16934,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "MethylN-methylanthranilate552S0552N-甲基邻氨基苯甲酸甲酯2718(Dimethylanthranilate)",
     "rowName": "N-甲基邻氨基苯甲酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 552；编码 S0552；香料中文名称 N-甲基邻氨基苯甲酸甲酯；香料英文名称 MethylN-methylanthranilate(Dimethylanthranilate)；FEMA 编号 2718。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 552；编码 S0552；香料中文名称 N-甲基邻氨基苯甲酸甲酯；香料英文名称 Methyl N-methylanthranilate (Dimethylanthranilate)；FEMA 编号 2718。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0553",
@@ -16959,7 +16959,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0554",
     "flavorCode": "S0554",
     "flavorNameCn": "苯甲酸异戊酯",
-    "flavorNameEn": "Isoamylbenzoate",
+    "flavorNameEn": "Isoamyl benzoate",
     "femaNumber": "2058",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16968,7 +16968,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "554S0554苯甲酸异戊酯Isoamylbenzoate2058",
     "rowName": "苯甲酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 554；编码 S0554；香料中文名称 苯甲酸异戊酯；香料英文名称 Isoamylbenzoate；FEMA 编号 2058。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 554；编码 S0554；香料中文名称 苯甲酸异戊酯；香料英文名称 Isoamyl benzoate；FEMA 编号 2058。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0555",
@@ -16976,7 +16976,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0555",
     "flavorCode": "S0555",
     "flavorNameCn": "苯甲酸苯乙酯",
-    "flavorNameEn": "Phenethylbenzoate",
+    "flavorNameEn": "Phenethyl benzoate",
     "femaNumber": "2860",
     "pdfPage": 188,
     "standardPage": 185,
@@ -16985,7 +16985,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "555S0555苯甲酸苯乙酯Phenethylbenzoate2860",
     "rowName": "苯甲酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 555；编码 S0555；香料中文名称 苯甲酸苯乙酯；香料英文名称 Phenethylbenzoate；FEMA 编号 2860。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 555；编码 S0555；香料中文名称 苯甲酸苯乙酯；香料英文名称 Phenethyl benzoate；FEMA 编号 2860。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0556",
@@ -16993,7 +16993,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0556",
     "flavorCode": "S0556",
     "flavorNameCn": "苯乙酸异丁酯",
-    "flavorNameEn": "Isobutylphenylacetate",
+    "flavorNameEn": "Isobutyl phenylacetate",
     "femaNumber": "2210",
     "pdfPage": 188,
     "standardPage": 185,
@@ -17002,7 +17002,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "556S0556苯乙酸异丁酯Isobutylphenylacetate2210",
     "rowName": "苯乙酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 556；编码 S0556；香料中文名称 苯乙酸异丁酯；香料英文名称 Isobutylphenylacetate；FEMA 编号 2210。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 556；编码 S0556；香料中文名称 苯乙酸异丁酯；香料英文名称 Isobutyl phenylacetate；FEMA 编号 2210。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0557",
@@ -17010,7 +17010,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0557",
     "flavorCode": "S0557",
     "flavorNameCn": "苯乙酸己酯",
-    "flavorNameEn": "Hexylphenylacetate",
+    "flavorNameEn": "Hexyl phenylacetate",
     "femaNumber": "3457",
     "pdfPage": 188,
     "standardPage": 185,
@@ -17019,7 +17019,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "557S0557苯乙酸己酯Hexylphenylacetate3457",
     "rowName": "苯乙酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 557；编码 S0557；香料中文名称 苯乙酸己酯；香料英文名称 Hexylphenylacetate；FEMA 编号 3457。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 557；编码 S0557；香料中文名称 苯乙酸己酯；香料英文名称 Hexyl phenylacetate；FEMA 编号 3457。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0558",
@@ -17027,7 +17027,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0558",
     "flavorCode": "S0558",
     "flavorNameCn": "苯丙酸乙酯(又名氢化肉桂酸乙酯)",
-    "flavorNameEn": "Ethyl3-phenylpropionate(Ethylhydrocin-namate)",
+    "flavorNameEn": "Ethyl 3-phenylpropionate (Ethyl hydrocinnamate)",
     "femaNumber": "2455",
     "pdfPage": 188,
     "standardPage": 185,
@@ -17036,7 +17036,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "苯丙酸乙酯(又名氢化肉桂酸乙Ethyl3-phenylpropionate(Ethylhydrocin-558S05582455酯)namate)",
     "rowName": "苯丙酸乙酯(又名氢化肉桂酸乙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 558；编码 S0558；香料中文名称 苯丙酸乙酯(又名氢化肉桂酸乙酯)；香料英文名称 Ethyl3-phenylpropionate(Ethylhydrocin-namate)；FEMA 编号 2455。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 558；编码 S0558；香料中文名称 苯丙酸乙酯(又名氢化肉桂酸乙酯)；香料英文名称 Ethyl 3-phenylpropionate (Ethyl hydrocinnamate)；FEMA 编号 2455。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0559",
@@ -17095,7 +17095,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0562",
     "flavorCode": "S0562",
     "flavorNameCn": "水杨酸苯乙酯",
-    "flavorNameEn": "Phenethylsalicylate",
+    "flavorNameEn": "Phenethyl salicylate",
     "femaNumber": "2868",
     "pdfPage": 188,
     "standardPage": 185,
@@ -17104,7 +17104,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "562S0562水杨酸苯乙酯Phenethylsalicylate2868",
     "rowName": "水杨酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 562；编码 S0562；香料中文名称 水杨酸苯乙酯；香料英文名称 Phenethylsalicylate；FEMA 编号 2868。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 562；编码 S0562；香料中文名称 水杨酸苯乙酯；香料英文名称 Phenethyl salicylate；FEMA 编号 2868。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0563",
@@ -17112,7 +17112,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0563",
     "flavorCode": "S0563",
     "flavorNameCn": "十二酸异戊酯(又名月桂酸异戊酯)",
-    "flavorNameEn": "Isoamyldodecanoate(Isoamyllaurate)",
+    "flavorNameEn": "Isoamyl dodecanoate (Isoamyl laurate)",
     "femaNumber": "2077",
     "pdfPage": 188,
     "standardPage": 185,
@@ -17121,7 +17121,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "十二酸异戊酯(又名月桂酸异戊563S0563Isoamyldodecanoate(Isoamyllaurate)2077酯)",
     "rowName": "十二酸异戊酯(又名月桂酸异戊酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 563；编码 S0563；香料中文名称 十二酸异戊酯(又名月桂酸异戊酯)；香料英文名称 Isoamyldodecanoate(Isoamyllaurate)；FEMA 编号 2077。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 563；编码 S0563；香料中文名称 十二酸异戊酯(又名月桂酸异戊酯)；香料英文名称 Isoamyl dodecanoate (Isoamyl laurate)；FEMA 编号 2077。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0564",
@@ -17129,7 +17129,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0564",
     "flavorCode": "S0564",
     "flavorNameCn": "亚油酸甲酯(48%),亚麻酸甲酯(52%)混合物",
-    "flavorNameEn": "Methyllinoleate(48%)methyllinolenate(52%)mixture",
+    "flavorNameEn": "Methyllinoleate(48%) methyllinolenate (52%) mixture",
     "femaNumber": "3411",
     "pdfPage": 188,
     "standardPage": 185,
@@ -17138,7 +17138,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "亚油酸甲酯(48%),亚麻酸甲酯Methyllinoleate(48%)methyllinolenate564S05643411(52%)混合物(52%)mixture",
     "rowName": "亚油酸甲酯(48%),亚麻酸甲酯(52%)混合物",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 564；编码 S0564；香料中文名称 亚油酸甲酯(48%),亚麻酸甲酯(52%)混合物；香料英文名称 Methyllinoleate(48%)methyllinolenate(52%)mixture；FEMA 编号 3411。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 564；编码 S0564；香料中文名称 亚油酸甲酯(48%),亚麻酸甲酯(52%)混合物；香料英文名称 Methyllinoleate(48%) methyllinolenate (52%) mixture；FEMA 编号 3411。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0565",
@@ -17163,7 +17163,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0566",
     "flavorCode": "S0566",
     "flavorNameCn": "水杨酸苄酯(又名柳酸苄酯)",
-    "flavorNameEn": "Benzylsalicylate",
+    "flavorNameEn": "Benzyl salicylate",
     "femaNumber": "2151",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17172,7 +17172,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "566S0566水杨酸苄酯(又名柳酸苄酯)Benzylsalicylate2151",
     "rowName": "水杨酸苄酯(又名柳酸苄酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 566；编码 S0566；香料中文名称 水杨酸苄酯(又名柳酸苄酯)；香料英文名称 Benzylsalicylate；FEMA 编号 2151。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 566；编码 S0566；香料中文名称 水杨酸苄酯(又名柳酸苄酯)；香料英文名称 Benzyl salicylate；FEMA 编号 2151。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0567",
@@ -17180,7 +17180,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0567",
     "flavorCode": "S0567",
     "flavorNameCn": "肉桂酸异丁酯",
-    "flavorNameEn": "Isobutylcinnamate",
+    "flavorNameEn": "Isobutyl cinnamate",
     "femaNumber": "2193",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17189,7 +17189,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "567S0567肉桂酸异丁酯Isobutylcinnamate2193",
     "rowName": "肉桂酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 567；编码 S0567；香料中文名称 肉桂酸异丁酯；香料英文名称 Isobutylcinnamate；FEMA 编号 2193。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 567；编码 S0567；香料中文名称 肉桂酸异丁酯；香料英文名称 Isobutyl cinnamate；FEMA 编号 2193。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0568",
@@ -17197,7 +17197,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0568",
     "flavorCode": "S0568",
     "flavorNameCn": "肉桂酸3-苯丙酯",
-    "flavorNameEn": "3-Phenylpropylcinnamate",
+    "flavorNameEn": "3-Phenylpropyl cinnamate",
     "femaNumber": "2894",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17206,7 +17206,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "568S0568肉桂酸3-苯丙酯3-Phenylpropylcinnamate2894",
     "rowName": "肉桂酸3-苯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 568；编码 S0568；香料中文名称 肉桂酸3-苯丙酯；香料英文名称 3-Phenylpropylcinnamate；FEMA 编号 2894。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 568；编码 S0568；香料中文名称 肉桂酸3-苯丙酯；香料英文名称 3-Phenylpropyl cinnamate；FEMA 编号 2894。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0569",
@@ -17248,7 +17248,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0571",
     "flavorCode": "S0571",
     "flavorNameCn": "惕各酸苯乙酯",
-    "flavorNameEn": "Phenethyltiglate",
+    "flavorNameEn": "Phenethyl tiglate",
     "femaNumber": "2870",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17257,7 +17257,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "571S0571惕各酸苯乙酯Phenethyltiglate2870",
     "rowName": "惕各酸苯乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 571；编码 S0571；香料中文名称 惕各酸苯乙酯；香料英文名称 Phenethyltiglate；FEMA 编号 2870。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 571；编码 S0571；香料中文名称 惕各酸苯乙酯；香料英文名称 Phenethyl tiglate；FEMA 编号 2870。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0572",
@@ -17282,7 +17282,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0574",
     "flavorCode": "S0574",
     "flavorNameCn": "丁酸茴香酯",
-    "flavorNameEn": "Anisylbutyrate",
+    "flavorNameEn": "Anisyl butyrate",
     "femaNumber": "2100",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17291,7 +17291,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "573S0574丁酸茴香酯Anisylbutyrate2100",
     "rowName": "丁酸茴香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 573；编码 S0574；香料中文名称 丁酸茴香酯；香料英文名称 Anisylbutyrate；FEMA 编号 2100。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 573；编码 S0574；香料中文名称 丁酸茴香酯；香料英文名称 Anisyl butyrate；FEMA 编号 2100。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0574",
@@ -17299,7 +17299,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0575",
     "flavorCode": "S0575",
     "flavorNameCn": "异戊酸龙脑酯",
-    "flavorNameEn": "Bornylisovalerate",
+    "flavorNameEn": "Bornyl isovalerate",
     "femaNumber": "2165",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17308,7 +17308,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "574S0575异戊酸龙脑酯Bornylisovalerate2165",
     "rowName": "异戊酸龙脑酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 574；编码 S0575；香料中文名称 异戊酸龙脑酯；香料英文名称 Bornylisovalerate；FEMA 编号 2165。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 574；编码 S0575；香料中文名称 异戊酸龙脑酯；香料英文名称 Bornyl isovalerate；FEMA 编号 2165。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0575",
@@ -17333,7 +17333,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0577",
     "flavorCode": "S0577",
     "flavorNameCn": "苯甲酸异丁酯",
-    "flavorNameEn": "Isobutylbenzoate",
+    "flavorNameEn": "Isobutyl benzoate",
     "femaNumber": "2185",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17342,7 +17342,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "576S0577苯甲酸异丁酯Isobutylbenzoate2185",
     "rowName": "苯甲酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 576；编码 S0577；香料中文名称 苯甲酸异丁酯；香料英文名称 Isobutylbenzoate；FEMA 编号 2185。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 576；编码 S0577；香料中文名称 苯甲酸异丁酯；香料英文名称 Isobutyl benzoate；FEMA 编号 2185。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0577",
@@ -17350,7 +17350,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0578",
     "flavorCode": "S0578",
     "flavorNameCn": "甲酸橙花酯",
-    "flavorNameEn": "Nerylformate",
+    "flavorNameEn": "Neryl formate",
     "femaNumber": "2776",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17359,7 +17359,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "577S0578甲酸橙花酯Nerylformate2776",
     "rowName": "甲酸橙花酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 577；编码 S0578；香料中文名称 甲酸橙花酯；香料英文名称 Nerylformate；FEMA 编号 2776。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 577；编码 S0578；香料中文名称 甲酸橙花酯；香料英文名称 Neryl formate；FEMA 编号 2776。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0578",
@@ -17367,7 +17367,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0579",
     "flavorCode": "S0579",
     "flavorNameCn": "乙酸甲基苄醇酯(邻、间、对位混合物)",
-    "flavorNameEn": "Methylbenzylacetate(mixedo-,m-,p-)",
+    "flavorNameEn": "Methylbenzyl acetate (mixedo-,m-,p-)",
     "femaNumber": "3702",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17376,7 +17376,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "乙酸甲基苄醇酯(邻、间、对位混578S0579Methylbenzylacetate(mixedo-,m-,p-)3702合物)",
     "rowName": "乙酸甲基苄醇酯(邻、间、对位混合物)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 578；编码 S0579；香料中文名称 乙酸甲基苄醇酯(邻、间、对位混合物)；香料英文名称 Methylbenzylacetate(mixedo-,m-,p-)；FEMA 编号 3702。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 578；编码 S0579；香料中文名称 乙酸甲基苄醇酯(邻、间、对位混合物)；香料英文名称 Methylbenzyl acetate (mixedo-,m-,p-)；FEMA 编号 3702。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0579",
@@ -17418,7 +17418,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0582",
     "flavorCode": "S0582",
     "flavorNameCn": "丙酸丙酯",
-    "flavorNameEn": "Propylpropionate",
+    "flavorNameEn": "Propyl propionate",
     "femaNumber": "2958",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17427,7 +17427,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "581S0582丙酸丙酯Propylpropionate2958",
     "rowName": "丙酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 581；编码 S0582；香料中文名称 丙酸丙酯；香料英文名称 Propylpropionate；FEMA 编号 2958。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 581；编码 S0582；香料中文名称 丙酸丙酯；香料英文名称 Propyl propionate；FEMA 编号 2958。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0582",
@@ -17435,7 +17435,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0583",
     "flavorCode": "S0583",
     "flavorNameCn": "丙酸丁酯",
-    "flavorNameEn": "Butylpropionate",
+    "flavorNameEn": "Butyl propionate",
     "femaNumber": "2211",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17444,7 +17444,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "582S0583丙酸丁酯Butylpropionate2211",
     "rowName": "丙酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 582；编码 S0583；香料中文名称 丙酸丁酯；香料英文名称 Butylpropionate；FEMA 编号 2211。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 582；编码 S0583；香料中文名称 丙酸丁酯；香料英文名称 Butyl propionate；FEMA 编号 2211。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0583",
@@ -17452,7 +17452,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0584",
     "flavorCode": "S0584",
     "flavorNameCn": "丙酸己酯",
-    "flavorNameEn": "Hexylpropionate",
+    "flavorNameEn": "Hexyl propionate",
     "femaNumber": "2576",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17461,7 +17461,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "583S0584丙酸己酯Hexylpropionate2576",
     "rowName": "丙酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 583；编码 S0584；香料中文名称 丙酸己酯；香料英文名称 Hexylpropionate；FEMA 编号 2576。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 583；编码 S0584；香料中文名称 丙酸己酯；香料英文名称 Hexyl propionate；FEMA 编号 2576。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0584",
@@ -17486,7 +17486,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0586",
     "flavorCode": "S0586",
     "flavorNameCn": "丁酸辛酯",
-    "flavorNameEn": "Octylbutyrate",
+    "flavorNameEn": "Octyl butyrate",
     "femaNumber": "2807",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17495,7 +17495,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "585S0586丁酸辛酯Octylbutyrate2807",
     "rowName": "丁酸辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 585；编码 S0586；香料中文名称 丁酸辛酯；香料英文名称 Octylbutyrate；FEMA 编号 2807。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 585；编码 S0586；香料中文名称 丁酸辛酯；香料英文名称 Octyl butyrate；FEMA 编号 2807。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0586",
@@ -17503,7 +17503,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0587",
     "flavorCode": "S0587",
     "flavorNameCn": "异丁酸丙酯",
-    "flavorNameEn": "n-Propylisobutyrate",
+    "flavorNameEn": "n-Propyl isobutyrate",
     "femaNumber": "2936",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17512,7 +17512,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "586S0587异丁酸丙酯n-Propylisobutyrate2936",
     "rowName": "异丁酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 586；编码 S0587；香料中文名称 异丁酸丙酯；香料英文名称 n-Propylisobutyrate；FEMA 编号 2936。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 586；编码 S0587；香料中文名称 异丁酸丙酯；香料英文名称 n-Propyl isobutyrate；FEMA 编号 2936。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0587",
@@ -17520,7 +17520,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0588",
     "flavorCode": "S0588",
     "flavorNameCn": "异丁酸异丁酯",
-    "flavorNameEn": "Isobutylisobutyrate",
+    "flavorNameEn": "Isobutyl isobutyrate",
     "femaNumber": "2189",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17529,7 +17529,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "587S0588异丁酸异丁酯Isobutylisobutyrate2189",
     "rowName": "异丁酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 587；编码 S0588；香料中文名称 异丁酸异丁酯；香料英文名称 Isobutylisobutyrate；FEMA 编号 2189。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 587；编码 S0588；香料中文名称 异丁酸异丁酯；香料英文名称 Isobutyl isobutyrate；FEMA 编号 2189。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0588",
@@ -17537,7 +17537,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0589",
     "flavorCode": "S0589",
     "flavorNameCn": "异丁酸香茅酯",
-    "flavorNameEn": "Citronellylisobutyrate",
+    "flavorNameEn": "Citronellyl isobutyrate",
     "femaNumber": "2313",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17546,7 +17546,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "588S0589异丁酸香茅酯Citronellylisobutyrate2313",
     "rowName": "异丁酸香茅酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 588；编码 S0589；香料中文名称 异丁酸香茅酯；香料英文名称 Citronellylisobutyrate；FEMA 编号 2313。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 588；编码 S0589；香料中文名称 异丁酸香茅酯；香料英文名称 Citronellyl isobutyrate；FEMA 编号 2313。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0589",
@@ -17554,7 +17554,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0590",
     "flavorCode": "S0590",
     "flavorNameCn": "反式-2-丁烯酸顺式-3-己烯酯(又名反式-2-丁烯酸叶醇酯)",
-    "flavorNameEn": "(Z)-3-Hexenyl(E)-2-butenoate[Leaf(E)-2-butenoate]",
+    "flavorNameEn": "(Z)-3-Hexenyl (E)-2-butenoate [Leaf (E)-2-butenoate]",
     "femaNumber": "3982",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17563,7 +17563,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "反式-2-丁烯酸顺式-3-己烯酯(又(Z)-3-Hexenyl(E)-2-butenoate[Leaf(E)-589S05903982名反式-2-丁烯酸叶醇酯)2-butenoate]",
     "rowName": "反式-2-丁烯酸顺式-3-己烯酯(又名反式-2-丁烯酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 589；编码 S0590；香料中文名称 反式-2-丁烯酸顺式-3-己烯酯(又名反式-2-丁烯酸叶醇酯)；香料英文名称 (Z)-3-Hexenyl(E)-2-butenoate[Leaf(E)-2-butenoate]；FEMA 编号 3982。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 589；编码 S0590；香料中文名称 反式-2-丁烯酸顺式-3-己烯酯(又名反式-2-丁烯酸叶醇酯)；香料英文名称 (Z)-3-Hexenyl (E)-2-butenoate [Leaf (E)-2-butenoate]；FEMA 编号 3982。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0590",
@@ -17571,7 +17571,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0591",
     "flavorCode": "S0591",
     "flavorNameCn": "丁二酸单薄荷酯(又名琥珀酸单薄荷酯)",
-    "flavorNameEn": "Diethylbutanedioate(Mono-menthylsucci-nate)",
+    "flavorNameEn": "Diethylbutanedioate (Mono-menthylsucci-nate)",
     "femaNumber": "3810",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17580,7 +17580,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "丁二酸单薄荷酯(又名琥珀酸单Diethylbutanedioate(Mono-menthylsucci-590S05913810薄荷酯)nate)",
     "rowName": "丁二酸单薄荷酯(又名琥珀酸单薄荷酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 590；编码 S0591；香料中文名称 丁二酸单薄荷酯(又名琥珀酸单薄荷酯)；香料英文名称 Diethylbutanedioate(Mono-menthylsucci-nate)；FEMA 编号 3810。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 590；编码 S0591；香料中文名称 丁二酸单薄荷酯(又名琥珀酸单薄荷酯)；香料英文名称 Diethylbutanedioate (Mono-menthylsucci-nate)；FEMA 编号 3810。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0591",
@@ -17588,7 +17588,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0592",
     "flavorCode": "S0592",
     "flavorNameCn": "正戊酸正戊酯",
-    "flavorNameEn": "Pentylvalerate",
+    "flavorNameEn": "Pentyl valerate",
     "femaNumber": "—",
     "pdfPage": 189,
     "standardPage": 186,
@@ -17597,7 +17597,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "591S0592正戊酸正戊酯Pentylvalerate—",
     "rowName": "正戊酸正戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 591；编码 S0592；香料中文名称 正戊酸正戊酯；香料英文名称 Pentylvalerate；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 591；编码 S0592；香料中文名称 正戊酸正戊酯；香料英文名称 Pentyl valerate；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0592",
@@ -17605,7 +17605,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0593",
     "flavorCode": "S0593",
     "flavorNameCn": "异戊酸辛酯",
-    "flavorNameEn": "Octylisovalerate",
+    "flavorNameEn": "Octyl isovalerate",
     "femaNumber": "2814",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17614,7 +17614,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "592S0593异戊酸辛酯Octylisovalerate2814",
     "rowName": "异戊酸辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 592；编码 S0593；香料中文名称 异戊酸辛酯；香料英文名称 Octylisovalerate；FEMA 编号 2814。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 592；编码 S0593；香料中文名称 异戊酸辛酯；香料英文名称 Octyl isovalerate；FEMA 编号 2814。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0593",
@@ -17656,7 +17656,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0596",
     "flavorCode": "S0596",
     "flavorNameCn": "异丁酸叶醇酯(又名顺式-3-己烯醇异丁酸酯)",
-    "flavorNameEn": "Leafisobutyrate[(Z)-3-Hexenylisobu-tyrate]",
+    "flavorNameEn": "Leafisobutyrate [(Z)-3-Hexenylisobu-tyrate]",
     "femaNumber": "3929",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17665,7 +17665,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "异丁酸叶醇酯(又名顺式-3-己烯Leafisobutyrate[(Z)-3-Hexenylisobu-595S05963929醇异丁酸酯)tyrate]",
     "rowName": "异丁酸叶醇酯(又名顺式-3-己烯醇异丁酸酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 595；编码 S0596；香料中文名称 异丁酸叶醇酯(又名顺式-3-己烯醇异丁酸酯)；香料英文名称 Leafisobutyrate[(Z)-3-Hexenylisobu-tyrate]；FEMA 编号 3929。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 595；编码 S0596；香料中文名称 异丁酸叶醇酯(又名顺式-3-己烯醇异丁酸酯)；香料英文名称 Leafisobutyrate [(Z)-3-Hexenylisobu-tyrate]；FEMA 编号 3929。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0596",
@@ -17673,7 +17673,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0597",
     "flavorCode": "S0597",
     "flavorNameCn": "辛酸己酯",
-    "flavorNameEn": "Hexyloctanoate",
+    "flavorNameEn": "Hexyl octanoate",
     "femaNumber": "2575",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17682,7 +17682,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "596S0597辛酸己酯Hexyloctanoate2575",
     "rowName": "辛酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 596；编码 S0597；香料中文名称 辛酸己酯；香料英文名称 Hexyloctanoate；FEMA 编号 2575。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 596；编码 S0597；香料中文名称 辛酸己酯；香料英文名称 Hexyl octanoate；FEMA 编号 2575。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0597",
@@ -17707,7 +17707,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0599",
     "flavorCode": "S0599",
     "flavorNameCn": "2,4,7-癸三烯酸乙酯",
-    "flavorNameEn": "Ethyl2,4,7-decatrienoate",
+    "flavorNameEn": "Ethyl 2,4,7-decatrienoate",
     "femaNumber": "3832",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17716,7 +17716,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "598S05992,4,7-癸三烯酸乙酯Ethyl2,4,7-decatrienoate3832",
     "rowName": "2,4,7-癸三烯酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 598；编码 S0599；香料中文名称 2,4,7-癸三烯酸乙酯；香料英文名称 Ethyl2,4,7-decatrienoate；FEMA 编号 3832。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 598；编码 S0599；香料中文名称 2,4,7-癸三烯酸乙酯；香料英文名称 Ethyl 2,4,7-decatrienoate；FEMA 编号 3832。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0599",
@@ -17724,7 +17724,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0600",
     "flavorCode": "S0600",
     "flavorNameCn": "苯甲酸芳樟酯",
-    "flavorNameEn": "Linalylbenzoate",
+    "flavorNameEn": "Linalyl benzoate",
     "femaNumber": "2638",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17733,7 +17733,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "599S0600苯甲酸芳樟酯Linalylbenzoate2638",
     "rowName": "苯甲酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 599；编码 S0600；香料中文名称 苯甲酸芳樟酯；香料英文名称 Linalylbenzoate；FEMA 编号 2638。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 599；编码 S0600；香料中文名称 苯甲酸芳樟酯；香料英文名称 Linalyl benzoate；FEMA 编号 2638。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0600",
@@ -17741,7 +17741,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0601",
     "flavorCode": "S0601",
     "flavorNameCn": "反式-2-甲基2-丁烯酸顺式-3-己烯酯(又名惕各酸叶醇酯)",
-    "flavorNameEn": "(Z)-3-Hexenyl(E)-2-methyl2-butenoate(Leaftiglate)",
+    "flavorNameEn": "(Z)-3-Hexenyl (E)-2-methyl 2-butenoate (Leaf tiglate)",
     "femaNumber": "3931",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17750,7 +17750,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "反式-2-甲基2-丁烯酸顺式-3-己(Z)-3-Hexenyl(E)-2-methyl2-butenoate(Leaf600S06013931烯酯(又名惕各酸叶醇酯)tiglate)",
     "rowName": "反式-2-甲基2-丁烯酸顺式-3-己烯酯(又名惕各酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 600；编码 S0601；香料中文名称 反式-2-甲基2-丁烯酸顺式-3-己烯酯(又名惕各酸叶醇酯)；香料英文名称 (Z)-3-Hexenyl(E)-2-methyl2-butenoate(Leaftiglate)；FEMA 编号 3931。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 600；编码 S0601；香料中文名称 反式-2-甲基2-丁烯酸顺式-3-己烯酯(又名惕各酸叶醇酯)；香料英文名称 (Z)-3-Hexenyl (E)-2-methyl 2-butenoate (Leaf tiglate)；FEMA 编号 3931。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0601",
@@ -17758,7 +17758,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0602",
     "flavorCode": "S0602",
     "flavorNameCn": "2-丁烯酸异丁酯",
-    "flavorNameEn": "Isobutyl2-butenoate",
+    "flavorNameEn": "Isobutyl 2-butenoate",
     "femaNumber": "3432",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17767,7 +17767,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "601S06022-丁烯酸异丁酯Isobutyl2-butenoate3432",
     "rowName": "2-丁烯酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 601；编码 S0602；香料中文名称 2-丁烯酸异丁酯；香料英文名称 Isobutyl2-butenoate；FEMA 编号 3432。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 601；编码 S0602；香料中文名称 2-丁烯酸异丁酯；香料英文名称 Isobutyl 2-butenoate；FEMA 编号 3432。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0602",
@@ -17775,7 +17775,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0603",
     "flavorCode": "S0603",
     "flavorNameCn": "3-甲基丁酸己酯",
-    "flavorNameEn": "Hexyl3-methylbutanoate",
+    "flavorNameEn": "Hexyl 3-methylbutanoate",
     "femaNumber": "3500",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17784,7 +17784,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "602S06033-甲基丁酸己酯Hexyl3-methylbutanoate3500",
     "rowName": "3-甲基丁酸己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 602；编码 S0603；香料中文名称 3-甲基丁酸己酯；香料英文名称 Hexyl3-methylbutanoate；FEMA 编号 3500。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 602；编码 S0603；香料中文名称 3-甲基丁酸己酯；香料英文名称 Hexyl 3-methylbutanoate；FEMA 编号 3500。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0603",
@@ -17792,7 +17792,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0604",
     "flavorCode": "S0604",
     "flavorNameCn": "顺式-3-己烯酸顺式-3-己烯酯(又名顺式-3-己烯酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenylcis-3-hexenoate(Leafcis-3-hexenoate)",
+    "flavorNameEn": "cis-3-Hexenylcis-3-hexenoate (Leafcis-3-hexenoate)",
     "femaNumber": "3689",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17801,7 +17801,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "顺式-3-己烯酸顺式-3-己烯酯(又cis-3-Hexenylcis-3-hexenoate(Leafcis-3-603S06043689名顺式-3-己烯酸叶醇酯)hexenoate)",
     "rowName": "顺式-3-己烯酸顺式-3-己烯酯(又名顺式-3-己烯酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 603；编码 S0604；香料中文名称 顺式-3-己烯酸顺式-3-己烯酯(又名顺式-3-己烯酸叶醇酯)；香料英文名称 cis-3-Hexenylcis-3-hexenoate(Leafcis-3-hexenoate)；FEMA 编号 3689。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 603；编码 S0604；香料中文名称 顺式-3-己烯酸顺式-3-己烯酯(又名顺式-3-己烯酸叶醇酯)；香料英文名称 cis-3-Hexenylcis-3-hexenoate (Leafcis-3-hexenoate)；FEMA 编号 3689。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0604",
@@ -17809,7 +17809,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0605",
     "flavorCode": "S0605",
     "flavorNameCn": "3-羟基己酸甲酯",
-    "flavorNameEn": "Methyl3-hydroxyhexanoate",
+    "flavorNameEn": "Methyl 3-hydroxyhexanoate",
     "femaNumber": "3508",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17818,7 +17818,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "604S06053-羟基己酸甲酯Methyl3-hydroxyhexanoate3508",
     "rowName": "3-羟基己酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 604；编码 S0605；香料中文名称 3-羟基己酸甲酯；香料英文名称 Methyl3-hydroxyhexanoate；FEMA 编号 3508。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 604；编码 S0605；香料中文名称 3-羟基己酸甲酯；香料英文名称 Methyl 3-hydroxyhexanoate；FEMA 编号 3508。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0605",
@@ -17826,7 +17826,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0606",
     "flavorCode": "S0606",
     "flavorNameCn": "苯甲酸香叶酯",
-    "flavorNameEn": "Geranylbenzoate",
+    "flavorNameEn": "Geranyl benzoate",
     "femaNumber": "2511",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17835,7 +17835,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "605S0606苯甲酸香叶酯Geranylbenzoate2511",
     "rowName": "苯甲酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 605；编码 S0606；香料中文名称 苯甲酸香叶酯；香料英文名称 Geranylbenzoate；FEMA 编号 2511。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 605；编码 S0606；香料中文名称 苯甲酸香叶酯；香料英文名称 Geranyl benzoate；FEMA 编号 2511。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0606",
@@ -17843,7 +17843,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0607",
     "flavorCode": "S0607",
     "flavorNameCn": "琥珀酸二甲酯",
-    "flavorNameEn": "Dimethylsuccinate",
+    "flavorNameEn": "Dimethyl succinate",
     "femaNumber": "2396",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17852,7 +17852,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "606S0607琥珀酸二甲酯Dimethylsuccinate2396",
     "rowName": "琥珀酸二甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 606；编码 S0607；香料中文名称 琥珀酸二甲酯；香料英文名称 Dimethylsuccinate；FEMA 编号 2396。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 606；编码 S0607；香料中文名称 琥珀酸二甲酯；香料英文名称 Dimethyl succinate；FEMA 编号 2396。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0607",
@@ -17877,7 +17877,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0609",
     "flavorCode": "S0609",
     "flavorNameCn": "3-甲基-2-丁烯-1-醇乙酸酯(又名乙酸异戊烯酯)",
-    "flavorNameEn": "3-Methyl-2-buten-1-olacetate(Prenylace-tate)",
+    "flavorNameEn": "3-Methyl-2-buten-1-olacetate (Prenylace-tate)",
     "femaNumber": "4202",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17886,7 +17886,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-甲基-2-丁烯-1-醇乙酸酯(又名3-Methyl-2-buten-1-olacetate(Prenylace-608S06094202乙酸异戊烯酯)tate)",
     "rowName": "3-甲基-2-丁烯-1-醇乙酸酯(又名乙酸异戊烯酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 608；编码 S0609；香料中文名称 3-甲基-2-丁烯-1-醇乙酸酯(又名乙酸异戊烯酯)；香料英文名称 3-Methyl-2-buten-1-olacetate(Prenylace-tate)；FEMA 编号 4202。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 608；编码 S0609；香料中文名称 3-甲基-2-丁烯-1-醇乙酸酯(又名乙酸异戊烯酯)；香料英文名称 3-Methyl-2-buten-1-olacetate (Prenylace-tate)；FEMA 编号 4202。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0609",
@@ -17911,7 +17911,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0611",
     "flavorCode": "S0611",
     "flavorNameCn": "甲酸龙脑酯",
-    "flavorNameEn": "Bornylformate",
+    "flavorNameEn": "Bornyl formate",
     "femaNumber": "2161",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17920,7 +17920,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "610S0611甲酸龙脑酯Bornylformate2161",
     "rowName": "甲酸龙脑酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 610；编码 S0611；香料中文名称 甲酸龙脑酯；香料英文名称 Bornylformate；FEMA 编号 2161。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 610；编码 S0611；香料中文名称 甲酸龙脑酯；香料英文名称 Bornyl formate；FEMA 编号 2161。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0611",
@@ -17928,7 +17928,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0612",
     "flavorCode": "S0612",
     "flavorNameCn": "顺式-4-庚烯酸乙酯",
-    "flavorNameEn": "Ethyl(Z)-hept-4-enoate",
+    "flavorNameEn": "Ethyl (Z)-hept-4-enoate",
     "femaNumber": "3975",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17937,7 +17937,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "611S0612顺式-4-庚烯酸乙酯Ethyl(Z)-hept-4-enoate3975",
     "rowName": "顺式-4-庚烯酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 611；编码 S0612；香料中文名称 顺式-4-庚烯酸乙酯；香料英文名称 Ethyl(Z)-hept-4-enoate；FEMA 编号 3975。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 611；编码 S0612；香料中文名称 顺式-4-庚烯酸乙酯；香料英文名称 Ethyl (Z)-hept-4-enoate；FEMA 编号 3975。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0612",
@@ -17945,7 +17945,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0613",
     "flavorCode": "S0613",
     "flavorNameCn": "辛酸戊酯",
-    "flavorNameEn": "Amyloctanoate",
+    "flavorNameEn": "Amyl octanoate",
     "femaNumber": "2079",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17954,7 +17954,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "612S0613辛酸戊酯Amyloctanoate2079",
     "rowName": "辛酸戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 612；编码 S0613；香料中文名称 辛酸戊酯；香料英文名称 Amyloctanoate；FEMA 编号 2079。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 612；编码 S0613；香料中文名称 辛酸戊酯；香料英文名称 Amyl octanoate；FEMA 编号 2079。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0613",
@@ -17962,7 +17962,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0614",
     "flavorCode": "S0614",
     "flavorNameCn": "4-甲基戊酸甲酯",
-    "flavorNameEn": "Methyl4-methylvalerate",
+    "flavorNameEn": "Methyl 4-methylvalerate",
     "femaNumber": "2721",
     "pdfPage": 190,
     "standardPage": 187,
@@ -17971,7 +17971,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "613S06144-甲基戊酸甲酯Methyl4-methylvalerate2721",
     "rowName": "4-甲基戊酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 613；编码 S0614；香料中文名称 4-甲基戊酸甲酯；香料英文名称 Methyl4-methylvalerate；FEMA 编号 2721。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 613；编码 S0614；香料中文名称 4-甲基戊酸甲酯；香料英文名称 Methyl 4-methylvalerate；FEMA 编号 2721。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0614",
@@ -17996,7 +17996,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0616",
     "flavorCode": "S0616",
     "flavorNameCn": "丙酸肉桂酯",
-    "flavorNameEn": "Cinnamylpropionate",
+    "flavorNameEn": "Cinnamyl propionate",
     "femaNumber": "2301",
     "pdfPage": 190,
     "standardPage": 187,
@@ -18005,7 +18005,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "615S0616丙酸肉桂酯Cinnamylpropionate2301",
     "rowName": "丙酸肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 615；编码 S0616；香料中文名称 丙酸肉桂酯；香料英文名称 Cinnamylpropionate；FEMA 编号 2301。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 615；编码 S0616；香料中文名称 丙酸肉桂酯；香料英文名称 Cinnamyl propionate；FEMA 编号 2301。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0616",
@@ -18013,7 +18013,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0617",
     "flavorCode": "S0617",
     "flavorNameCn": "异丁酸甲基苯基原酯(又名异丁酸苏合香酯)",
-    "flavorNameEn": "Methylphenylcarbinylisobutyrate(Styral-lylisobutyrate)",
+    "flavorNameEn": "Methylphenylcarbinyl isobutyrate (Styral-lyl isobutyrate)",
     "femaNumber": "2687",
     "pdfPage": 190,
     "standardPage": 187,
@@ -18022,7 +18022,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "异丁酸甲基苯基原酯(又名异丁Methylphenylcarbinylisobutyrate(Styral-616S06172687酸苏合香酯)lylisobutyrate)",
     "rowName": "异丁酸甲基苯基原酯(又名异丁酸苏合香酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 616；编码 S0617；香料中文名称 异丁酸甲基苯基原酯(又名异丁酸苏合香酯)；香料英文名称 Methylphenylcarbinylisobutyrate(Styral-lylisobutyrate)；FEMA 编号 2687。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 616；编码 S0617；香料中文名称 异丁酸甲基苯基原酯(又名异丁酸苏合香酯)；香料英文名称 Methylphenylcarbinyl isobutyrate (Styral-lyl isobutyrate)；FEMA 编号 2687。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0617",
@@ -18030,7 +18030,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0618",
     "flavorCode": "S0618",
     "flavorNameCn": "异丁酸十二酯",
-    "flavorNameEn": "Dodecylisobutyrate",
+    "flavorNameEn": "Dodecyl isobutyrate",
     "femaNumber": "3452",
     "pdfPage": 190,
     "standardPage": 187,
@@ -18039,7 +18039,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "617S0618异丁酸十二酯Dodecylisobutyrate3452",
     "rowName": "异丁酸十二酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 617；编码 S0618；香料中文名称 异丁酸十二酯；香料英文名称 Dodecylisobutyrate；FEMA 编号 3452。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 617；编码 S0618；香料中文名称 异丁酸十二酯；香料英文名称 Dodecyl isobutyrate；FEMA 编号 3452。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0618",
@@ -18047,7 +18047,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0619",
     "flavorCode": "S0619",
     "flavorNameCn": "异丁酸松油酯",
-    "flavorNameEn": "Terpinylisobutyrate",
+    "flavorNameEn": "Terpinyl isobutyrate",
     "femaNumber": "3050",
     "pdfPage": 191,
     "standardPage": 188,
@@ -18056,7 +18056,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "618S0619异丁酸松油酯Terpinylisobutyrate3050",
     "rowName": "异丁酸松油酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 618；编码 S0619；香料中文名称 异丁酸松油酯；香料英文名称 Terpinylisobutyrate；FEMA 编号 3050。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 618；编码 S0619；香料中文名称 异丁酸松油酯；香料英文名称 Terpinyl isobutyrate；FEMA 编号 3050。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0619",
@@ -18064,7 +18064,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0620",
     "flavorCode": "S0620",
     "flavorNameCn": "水杨酸异丁酯",
-    "flavorNameEn": "Isobutylsalicylate",
+    "flavorNameEn": "Isobutyl salicylate",
     "femaNumber": "2213",
     "pdfPage": 191,
     "standardPage": 188,
@@ -18073,7 +18073,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "619S0620水杨酸异丁酯Isobutylsalicylate2213",
     "rowName": "水杨酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 619；编码 S0620；香料中文名称 水杨酸异丁酯；香料英文名称 Isobutylsalicylate；FEMA 编号 2213。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 619；编码 S0620；香料中文名称 水杨酸异丁酯；香料英文名称 Isobutyl salicylate；FEMA 编号 2213。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0620",
@@ -18081,7 +18081,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0621",
     "flavorCode": "S0621",
     "flavorNameCn": "肉桂酸异戊酯",
-    "flavorNameEn": "Isoamylcinnamate",
+    "flavorNameEn": "Isoamyl cinnamate",
     "femaNumber": "2063",
     "pdfPage": 191,
     "standardPage": 188,
@@ -18090,7 +18090,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "620S0621肉桂酸异戊酯Isoamylcinnamate2063",
     "rowName": "肉桂酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 620；编码 S0621；香料中文名称 肉桂酸异戊酯；香料英文名称 Isoamylcinnamate；FEMA 编号 2063。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 620；编码 S0621；香料中文名称 肉桂酸异戊酯；香料英文名称 Isoamyl cinnamate；FEMA 编号 2063。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0621",
@@ -18098,7 +18098,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0622",
     "flavorCode": "S0622",
     "flavorNameCn": "乙酸异龙脑酯",
-    "flavorNameEn": "Isobornylacetate",
+    "flavorNameEn": "Isobornyl acetate",
     "femaNumber": "2160",
     "pdfPage": 191,
     "standardPage": 188,
@@ -18107,7 +18107,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "621S0622乙酸异龙脑酯Isobornylacetate2160",
     "rowName": "乙酸异龙脑酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 621；编码 S0622；香料中文名称 乙酸异龙脑酯；香料英文名称 Isobornylacetate；FEMA 编号 2160。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 621；编码 S0622；香料中文名称 乙酸异龙脑酯；香料英文名称 Isobornyl acetate；FEMA 编号 2160。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0622",
@@ -18370,7 +18370,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0638",
     "flavorCode": "S0638",
     "flavorNameCn": "5-羟基-2-癸烯酸δ-内酯",
-    "flavorNameEn": "5-Hydroxy-2-decenoicacidδ-lactone(Coco-lactone)",
+    "flavorNameEn": "5-Hydroxy-2-decenoic acid δ-lactone (Coco-lactone)",
     "femaNumber": "3744",
     "pdfPage": 191,
     "standardPage": 188,
@@ -18379,7 +18379,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "5-Hydroxy-2-decenoicacidδ-lactone(Coco-637S06385-羟基-2-癸烯酸δ-内酯3744lactone)",
     "rowName": "5-羟基-2-癸烯酸δ-内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 637；编码 S0638；香料中文名称 5-羟基-2-癸烯酸δ-内酯；香料英文名称 5-Hydroxy-2-decenoicacidδ-lactone(Coco-lactone)；FEMA 编号 3744。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 637；编码 S0638；香料中文名称 5-羟基-2-癸烯酸δ-内酯；香料英文名称 5-Hydroxy-2-decenoic acid δ-lactone (Coco-lactone)；FEMA 编号 3744。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0638",
@@ -18472,7 +18472,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0644",
     "flavorCode": "S0644",
     "flavorNameCn": "5-羟基-2,4-癸二烯酸内酯(又名6-戊基-α-吡喃酮)",
-    "flavorNameEn": "5-Hydroxy-2,4-decadienoicacidlactone(6-Pentyl-α-pyrone)",
+    "flavorNameEn": "5-Hydroxy-2,4-decadienoicacidlactone (6-Pentyl-α-pyrone)",
     "femaNumber": "3696",
     "pdfPage": 191,
     "standardPage": 188,
@@ -18481,7 +18481,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "5-羟基-2,4-癸二烯酸内酯(又名5-Hydroxy-2,4-decadienoicacidlactone(6-643S064436966-戊基-α-吡喃酮)Pentyl-α-pyrone)",
     "rowName": "5-羟基-2,4-癸二烯酸内酯(又名6-戊基-α-吡喃酮)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 643；编码 S0644；香料中文名称 5-羟基-2,4-癸二烯酸内酯(又名6-戊基-α-吡喃酮)；香料英文名称 5-Hydroxy-2,4-decadienoicacidlactone(6-Pentyl-α-pyrone)；FEMA 编号 3696。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 643；编码 S0644；香料中文名称 5-羟基-2,4-癸二烯酸内酯(又名6-戊基-α-吡喃酮)；香料英文名称 5-Hydroxy-2,4-decadienoicacidlactone (6-Pentyl-α-pyrone)；FEMA 编号 3696。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0644",
@@ -18489,7 +18489,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0645",
     "flavorCode": "S0645",
     "flavorNameCn": "5-羟基-7-癸烯酸内酯(又名茉莉内酯)",
-    "flavorNameEn": "5-Hydroxy-7-decenoicacidlactone(Jasminelactone)",
+    "flavorNameEn": "5-Hydroxy-7-decenoicacidlactone (Jasmine lactone)",
     "femaNumber": "3745",
     "pdfPage": 191,
     "standardPage": 188,
@@ -18498,7 +18498,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "5-羟基-7-癸烯酸内酯(又名茉莉5-Hydroxy-7-decenoicacidlactone(Jasmine644S06453745内酯)lactone)",
     "rowName": "5-羟基-7-癸烯酸内酯(又名茉莉内酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 644；编码 S0645；香料中文名称 5-羟基-7-癸烯酸内酯(又名茉莉内酯)；香料英文名称 5-Hydroxy-7-decenoicacidlactone(Jasminelactone)；FEMA 编号 3745。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 644；编码 S0645；香料中文名称 5-羟基-7-癸烯酸内酯(又名茉莉内酯)；香料英文名称 5-Hydroxy-7-decenoicacidlactone (Jasmine lactone)；FEMA 编号 3745。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0645",
@@ -18523,7 +18523,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0647",
     "flavorCode": "S0647",
     "flavorNameCn": "二氢猕猴桃内酯[又名(+/-)-2,6,6-三甲基-2-羟基环亚己基乙酸γ-内酯]",
-    "flavorNameEn": "Dihydroactinidiolide[(+/-)-(2,6,6-Trim-ethyl-2-hydroxycyclohexylidene)aceticacidγ-lactone]",
+    "flavorNameEn": "Dihydroactinidiolide [(+/-)-(2,6,6-Trim-ethyl-2-hydroxycyclohexylidene)acetic acid γ-lactone]",
     "femaNumber": "4020",
     "pdfPage": 192,
     "standardPage": 189,
@@ -18532,7 +18532,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "二氢猕猴桃内酯[又名(+/-)-Dihydroactinidiolide[(+/-)-(2,6,6-Trim-646S06472,6,6-三甲基-2-羟基环亚己基ethyl-2-hydroxycyclohexylidene)aceticacid4020乙酸γ-内酯]γ-lactone]",
     "rowName": "二氢猕猴桃内酯[又名(+/-)-2,6,6-三甲基-2-羟基环亚己基乙酸γ-内酯]",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 646；编码 S0647；香料中文名称 二氢猕猴桃内酯[又名(+/-)-2,6,6-三甲基-2-羟基环亚己基乙酸γ-内酯]；香料英文名称 Dihydroactinidiolide[(+/-)-(2,6,6-Trim-ethyl-2-hydroxycyclohexylidene)aceticacidγ-lactone]；FEMA 编号 4020。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 646；编码 S0647；香料中文名称 二氢猕猴桃内酯[又名(+/-)-2,6,6-三甲基-2-羟基环亚己基乙酸γ-内酯]；香料英文名称 Dihydroactinidiolide [(+/-)-(2,6,6-Trim-ethyl-2-hydroxycyclohexylidene)acetic acid γ-lactone]；FEMA 编号 4020。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0647",
@@ -18812,7 +18812,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0664",
     "flavorCode": "S0664",
     "flavorNameCn": "2-甲酰基-6,6-二甲基双环[3.1.1]庚-2-烯(又名桃金娘烯醛)",
-    "flavorNameEn": "2-Formyl-6,6-dimethylbicyclo[3.1.1]-hept-2-ene(Myrtenal)",
+    "flavorNameEn": "2-Formyl-6,6-dimethylbicyclo[3.1.1]-hept-2-ene (Myrtenal)",
     "femaNumber": "3395",
     "pdfPage": 192,
     "standardPage": 189,
@@ -18821,7 +18821,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-甲酰基-6,6-二甲基双环[3.2-Formyl-6,6-dimethylbicyclo[3.1.1]-hept-663S066433951.1]庚-2-烯(又名桃金娘烯醛)2-ene(Myrtenal)",
     "rowName": "2-甲酰基-6,6-二甲基双环[3.1.1]庚-2-烯(又名桃金娘烯醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 663；编码 S0664；香料中文名称 2-甲酰基-6,6-二甲基双环[3.1.1]庚-2-烯(又名桃金娘烯醛)；香料英文名称 2-Formyl-6,6-dimethylbicyclo[3.1.1]-hept-2-ene(Myrtenal)；FEMA 编号 3395。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 663；编码 S0664；香料中文名称 2-甲酰基-6,6-二甲基双环[3.1.1]庚-2-烯(又名桃金娘烯醛)；香料英文名称 2-Formyl-6,6-dimethylbicyclo[3.1.1]-hept-2-ene (Myrtenal)；FEMA 编号 3395。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0664",
@@ -18829,7 +18829,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0665",
     "flavorCode": "S0665",
     "flavorNameCn": "茶螺烷[又名1-氧杂螺-(4,5)-2,6,10,10-四甲基-6-癸烯]",
-    "flavorNameEn": "Theaspirane[2,6,10,10-Tetramethyl-1-ox-aspiro(4,5)-dec-6-ene]",
+    "flavorNameEn": "Theaspirane [2,6,10,10-Tetramethyl-1-ox-aspiro(4,5)-dec-6-ene]",
     "femaNumber": "3774",
     "pdfPage": 192,
     "standardPage": 189,
@@ -18838,7 +18838,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "茶螺烷[又名1-氧杂螺-(4,5)-Theaspirane[2,6,10,10-Tetramethyl-1-ox-664S066537742,6,10,10-四甲基-6-癸烯]aspiro(4,5)-dec-6-ene]",
     "rowName": "茶螺烷[又名1-氧杂螺-(4,5)-2,6,10,10-四甲基-6-癸烯]",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 664；编码 S0665；香料中文名称 茶螺烷[又名1-氧杂螺-(4,5)-2,6,10,10-四甲基-6-癸烯]；香料英文名称 Theaspirane[2,6,10,10-Tetramethyl-1-ox-aspiro(4,5)-dec-6-ene]；FEMA 编号 3774。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 664；编码 S0665；香料中文名称 茶螺烷[又名1-氧杂螺-(4,5)-2,6,10,10-四甲基-6-癸烯]；香料英文名称 Theaspirane [2,6,10,10-Tetramethyl-1-ox-aspiro(4,5)-dec-6-ene]；FEMA 编号 3774。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0665",
@@ -19152,7 +19152,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0684",
     "flavorCode": "S0684",
     "flavorNameCn": "氧化石竹烯",
-    "flavorNameEn": "Caryophylleneoxide",
+    "flavorNameEn": "Caryophyllene oxide",
     "femaNumber": "4085",
     "pdfPage": 193,
     "standardPage": 190,
@@ -19161,7 +19161,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "683S0684氧化石竹烯Caryophylleneoxide4085",
     "rowName": "氧化石竹烯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 683；编码 S0684；香料中文名称 氧化石竹烯；香料英文名称 Caryophylleneoxide；FEMA 编号 4085。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 683；编码 S0684；香料中文名称 氧化石竹烯；香料英文名称 Caryophyllene oxide；FEMA 编号 4085。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0684",
@@ -19169,7 +19169,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0685",
     "flavorCode": "S0685",
     "flavorNameCn": "2,4,6-三甲基-1,3,5-三氧杂环己烷(又名三聚乙醛)",
-    "flavorNameEn": "2,4,6-Trimethyl-1,3,5-trioxacyclohexane(Paraldehyde)",
+    "flavorNameEn": "2,4,6-Trimethyl-1,3,5-trioxacyclohexane (Paraldehyde)",
     "femaNumber": "4010",
     "pdfPage": 193,
     "standardPage": 190,
@@ -19178,7 +19178,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,4,6-三甲基-1,3,5-三氧杂环2,4,6-Trimethyl-1,3,5-trioxacyclohexane684S06854010己烷(又名三聚乙醛)(Paraldehyde)",
     "rowName": "2,4,6-三甲基-1,3,5-三氧杂环己烷(又名三聚乙醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 684；编码 S0685；香料中文名称 2,4,6-三甲基-1,3,5-三氧杂环己烷(又名三聚乙醛)；香料英文名称 2,4,6-Trimethyl-1,3,5-trioxacyclohexane(Paraldehyde)；FEMA 编号 4010。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 684；编码 S0685；香料中文名称 2,4,6-三甲基-1,3,5-三氧杂环己烷(又名三聚乙醛)；香料英文名称 2,4,6-Trimethyl-1,3,5-trioxacyclohexane (Paraldehyde)；FEMA 编号 4010。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0685",
@@ -19356,7 +19356,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0696",
     "flavorCode": "S0696",
     "flavorNameCn": "二丁基硫醚",
-    "flavorNameEn": "Dibutylsulfide2,2'-(Thiodimethylene)-difuran",
+    "flavorNameEn": "Dibutylsulfide 2,2'-(Thiodimethylene)-difuran",
     "femaNumber": "2215",
     "pdfPage": 193,
     "standardPage": 190,
@@ -19365,7 +19365,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "695S0696二丁基硫醚Dibutylsulfide22152,2'-(Thiodimethylene)-difuran",
     "rowName": "二丁基硫醚",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 695；编码 S0696；香料中文名称 二丁基硫醚；香料英文名称 Dibutylsulfide2,2'-(Thiodimethylene)-difuran；FEMA 编号 2215。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 695；编码 S0696；香料中文名称 二丁基硫醚；香料英文名称 Dibutylsulfide 2,2'-(Thiodimethylene)-difuran；FEMA 编号 2215。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0696",
@@ -19373,7 +19373,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0697",
     "flavorCode": "S0697",
     "flavorNameCn": "2,2'-(硫代二亚甲基)-二呋喃二糠基硫醚",
-    "flavorNameEn": "2-FurfurylmonosufideBis(2-furfuryl)sulfideDifurfurylsulphide",
+    "flavorNameEn": "2-Furfurylmonosufide Bis(2-furfuryl) sulfide Difurfurylsulphide",
     "femaNumber": "3238",
     "pdfPage": 193,
     "standardPage": 190,
@@ -19382,7 +19382,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,2'-(硫代二亚甲基)-二呋喃2-Furfurylmonosufide696S06973238二糠基硫醚Bis(2-furfuryl)sulfideDifurfurylsulphide",
     "rowName": "2,2'-(硫代二亚甲基)-二呋喃二糠基硫醚",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 696；编码 S0697；香料中文名称 2,2'-(硫代二亚甲基)-二呋喃二糠基硫醚；香料英文名称 2-FurfurylmonosufideBis(2-furfuryl)sulfideDifurfurylsulphide；FEMA 编号 3238。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 696；编码 S0697；香料中文名称 2,2'-(硫代二亚甲基)-二呋喃二糠基硫醚；香料英文名称 2-Furfurylmonosufide Bis(2-furfuryl) sulfide Difurfurylsulphide；FEMA 编号 3238。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0697",
@@ -19475,7 +19475,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0703",
     "flavorCode": "S0703",
     "flavorNameCn": "3-甲硫基丙酸甲酯",
-    "flavorNameEn": "Methyl3-methylthiopropionate",
+    "flavorNameEn": "Methyl 3-methylthiopropionate",
     "femaNumber": "2720",
     "pdfPage": 194,
     "standardPage": 191,
@@ -19484,7 +19484,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "702S07033-甲硫基丙酸甲酯Methyl3-methylthiopropionate2720",
     "rowName": "3-甲硫基丙酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 702；编码 S0703；香料中文名称 3-甲硫基丙酸甲酯；香料英文名称 Methyl3-methylthiopropionate；FEMA 编号 2720。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 702；编码 S0703；香料中文名称 3-甲硫基丙酸甲酯；香料英文名称 Methyl 3-methylthiopropionate；FEMA 编号 2720。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0703",
@@ -19492,7 +19492,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0704",
     "flavorCode": "S0704",
     "flavorNameCn": "3-甲硫基丙酸乙酯",
-    "flavorNameEn": "Ethyl3-methylthiopropionate",
+    "flavorNameEn": "Ethyl 3-methylthiopropionate",
     "femaNumber": "3343",
     "pdfPage": 194,
     "standardPage": 191,
@@ -19501,7 +19501,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "703S07043-甲硫基丙酸乙酯Ethyl3-methylthiopropionate3343",
     "rowName": "3-甲硫基丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 703；编码 S0704；香料中文名称 3-甲硫基丙酸乙酯；香料英文名称 Ethyl3-methylthiopropionate；FEMA 编号 3343。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 703；编码 S0704；香料中文名称 3-甲硫基丙酸乙酯；香料英文名称 Ethyl 3-methylthiopropionate；FEMA 编号 3343。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0704",
@@ -19543,7 +19543,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0707",
     "flavorCode": "S0707",
     "flavorNameCn": "玫瑰醚",
-    "flavorNameEn": "Roseoxide",
+    "flavorNameEn": "Rose oxide",
     "femaNumber": "3236",
     "pdfPage": 194,
     "standardPage": 191,
@@ -19552,7 +19552,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "706S0707玫瑰醚Roseoxide3236",
     "rowName": "玫瑰醚",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 706；编码 S0707；香料中文名称 玫瑰醚；香料英文名称 Roseoxide；FEMA 编号 3236。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 706；编码 S0707；香料中文名称 玫瑰醚；香料英文名称 Rose oxide；FEMA 编号 3236。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0707",
@@ -20274,7 +20274,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0750",
     "flavorCode": "S0750",
     "flavorNameCn": "双(2-甲基-3-呋喃基)二硫醚",
-    "flavorNameEn": "Bis(2-methyl-3-furyl)disulfide",
+    "flavorNameEn": "Bis(2-methyl-3-furyl) disulfide",
     "femaNumber": "3259",
     "pdfPage": 195,
     "standardPage": 192,
@@ -20283,7 +20283,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "749S0750双(2-甲基-3-呋喃基)二硫醚Bis(2-methyl-3-furyl)disulfide3259",
     "rowName": "双(2-甲基-3-呋喃基)二硫醚",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 749；编码 S0750；香料中文名称 双(2-甲基-3-呋喃基)二硫醚；香料英文名称 Bis(2-methyl-3-furyl)disulfide；FEMA 编号 3259。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 749；编码 S0750；香料中文名称 双(2-甲基-3-呋喃基)二硫醚；香料英文名称 Bis(2-methyl-3-furyl) disulfide；FEMA 编号 3259。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0750",
@@ -20393,7 +20393,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0757",
     "flavorCode": "S0757",
     "flavorNameCn": "糠酸甲酯",
-    "flavorNameEn": "Methyl2-furoate",
+    "flavorNameEn": "Methyl 2-furoate",
     "femaNumber": "2703",
     "pdfPage": 196,
     "standardPage": 193,
@@ -20402,7 +20402,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "756S0757糠酸甲酯Methyl2-furoate2703",
     "rowName": "糠酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 756；编码 S0757；香料中文名称 糠酸甲酯；香料英文名称 Methyl2-furoate；FEMA 编号 2703。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 756；编码 S0757；香料中文名称 糠酸甲酯；香料英文名称 Methyl 2-furoate；FEMA 编号 2703。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0757",
@@ -20444,7 +20444,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0760",
     "flavorCode": "S0760",
     "flavorNameCn": "3-巯基丙酸乙酯",
-    "flavorNameEn": "Ethyl3-mercaptopropionate",
+    "flavorNameEn": "Ethyl 3-mercaptopropionate",
     "femaNumber": "3677",
     "pdfPage": 196,
     "standardPage": 193,
@@ -20453,7 +20453,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "759S07603-巯基丙酸乙酯Ethyl3-mercaptopropionate3677",
     "rowName": "3-巯基丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 759；编码 S0760；香料中文名称 3-巯基丙酸乙酯；香料英文名称 Ethyl3-mercaptopropionate；FEMA 编号 3677。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 759；编码 S0760；香料中文名称 3-巯基丙酸乙酯；香料英文名称 Ethyl 3-mercaptopropionate；FEMA 编号 3677。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0760",
@@ -20495,7 +20495,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0763",
     "flavorCode": "S0763",
     "flavorNameCn": "2-硫代糠酸甲酯",
-    "flavorNameEn": "Methyl2-thiofuroate",
+    "flavorNameEn": "Methyl 2-thiofuroate",
     "femaNumber": "3311",
     "pdfPage": 196,
     "standardPage": 193,
@@ -20504,7 +20504,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "762S07632-硫代糠酸甲酯Methyl2-thiofuroate3311",
     "rowName": "2-硫代糠酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 762；编码 S0763；香料中文名称 2-硫代糠酸甲酯；香料英文名称 Methyl2-thiofuroate；FEMA 编号 3311。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 762；编码 S0763；香料中文名称 2-硫代糠酸甲酯；香料英文名称 Methyl 2-thiofuroate；FEMA 编号 3311。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0763",
@@ -20784,7 +20784,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0780",
     "flavorCode": "S0780",
     "flavorNameCn": "甲酸肉桂酯",
-    "flavorNameEn": "Cinnamylformate",
+    "flavorNameEn": "Cinnamyl formate",
     "femaNumber": "2299",
     "pdfPage": 196,
     "standardPage": 193,
@@ -20793,7 +20793,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "779S0780甲酸肉桂酯Cinnamylformate2299",
     "rowName": "甲酸肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 779；编码 S0780；香料中文名称 甲酸肉桂酯；香料英文名称 Cinnamylformate；FEMA 编号 2299。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 779；编码 S0780；香料中文名称 甲酸肉桂酯；香料英文名称 Cinnamyl formate；FEMA 编号 2299。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0780",
@@ -20937,7 +20937,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0789",
     "flavorCode": "S0789",
     "flavorNameCn": "2-(甲硫基)乙酸乙酯",
-    "flavorNameEn": "Ethyl2-(methylthio)acetate",
+    "flavorNameEn": "Ethyl 2-(methylthio)acetate",
     "femaNumber": "3835",
     "pdfPage": 197,
     "standardPage": 194,
@@ -20946,7 +20946,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "788S07892-(甲硫基)乙酸乙酯Ethyl2-(methylthio)acetate3835",
     "rowName": "2-(甲硫基)乙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 788；编码 S0789；香料中文名称 2-(甲硫基)乙酸乙酯；香料英文名称 Ethyl2-(methylthio)acetate；FEMA 编号 3835。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 788；编码 S0789；香料中文名称 2-(甲硫基)乙酸乙酯；香料英文名称 Ethyl 2-(methylthio)acetate；FEMA 编号 3835。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0789",
@@ -20954,7 +20954,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0790",
     "flavorCode": "S0790",
     "flavorNameCn": "乙酸3-巯基己酯",
-    "flavorNameEn": "3-Mercaptohexylacetate",
+    "flavorNameEn": "3-Mercaptohexyl acetate",
     "femaNumber": "3851",
     "pdfPage": 197,
     "standardPage": 194,
@@ -20963,7 +20963,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "789S0790乙酸3-巯基己酯3-Mercaptohexylacetate3851",
     "rowName": "乙酸3-巯基己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 789；编码 S0790；香料中文名称 乙酸3-巯基己酯；香料英文名称 3-Mercaptohexylacetate；FEMA 编号 3851。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 789；编码 S0790；香料中文名称 乙酸3-巯基己酯；香料英文名称 3-Mercaptohexyl acetate；FEMA 编号 3851。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0790",
@@ -20971,7 +20971,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0791",
     "flavorCode": "S0791",
     "flavorNameCn": "2-(甲基二硫基)丙酸乙酯",
-    "flavorNameEn": "Ethyl2-(methyldithio)propionate",
+    "flavorNameEn": "Ethyl 2-(methyldithio)propionate",
     "femaNumber": "3834",
     "pdfPage": 197,
     "standardPage": 194,
@@ -20980,7 +20980,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "790S07912-(甲基二硫基)丙酸乙酯Ethyl2-(methyldithio)propionate3834",
     "rowName": "2-(甲基二硫基)丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 790；编码 S0791；香料中文名称 2-(甲基二硫基)丙酸乙酯；香料英文名称 Ethyl2-(methyldithio)propionate；FEMA 编号 3834。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 790；编码 S0791；香料中文名称 2-(甲基二硫基)丙酸乙酯；香料英文名称 Ethyl 2-(methyldithio)propionate；FEMA 编号 3834。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0791",
@@ -20988,7 +20988,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0792",
     "flavorCode": "S0792",
     "flavorNameCn": "3-(甲硫基)丁酸乙酯",
-    "flavorNameEn": "Ethyl3-(methylthio)butyrate",
+    "flavorNameEn": "Ethyl 3-(methylthio)butyrate",
     "femaNumber": "3836",
     "pdfPage": 197,
     "standardPage": 194,
@@ -20997,7 +20997,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "791S07923-(甲硫基)丁酸乙酯Ethyl3-(methylthio)butyrate3836",
     "rowName": "3-(甲硫基)丁酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 791；编码 S0792；香料中文名称 3-(甲硫基)丁酸乙酯；香料英文名称 Ethyl3-(methylthio)butyrate；FEMA 编号 3836。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 791；编码 S0792；香料中文名称 3-(甲硫基)丁酸乙酯；香料英文名称 Ethyl 3-(methylthio)butyrate；FEMA 编号 3836。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0792",
@@ -21005,7 +21005,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0793",
     "flavorCode": "S0793",
     "flavorNameCn": "丁酸3-巯基己酯",
-    "flavorNameEn": "3-Mercaptohexylbutyrate",
+    "flavorNameEn": "3-Mercaptohexyl butyrate",
     "femaNumber": "3852",
     "pdfPage": 197,
     "standardPage": 194,
@@ -21014,7 +21014,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "792S0793丁酸3-巯基己酯3-Mercaptohexylbutyrate3852",
     "rowName": "丁酸3-巯基己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 792；编码 S0793；香料中文名称 丁酸3-巯基己酯；香料英文名称 3-Mercaptohexylbutyrate；FEMA 编号 3852。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 792；编码 S0793；香料中文名称 丁酸3-巯基己酯；香料英文名称 3-Mercaptohexyl butyrate；FEMA 编号 3852。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0793",
@@ -21039,7 +21039,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0795",
     "flavorCode": "S0795",
     "flavorNameCn": "糠醇",
-    "flavorNameEn": "Furfurylalcohol",
+    "flavorNameEn": "Furfuryl alcohol",
     "femaNumber": "2491",
     "pdfPage": 197,
     "standardPage": 194,
@@ -21048,7 +21048,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "794S0795糠醇Furfurylalcohol2491",
     "rowName": "糠醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 794；编码 S0795；香料中文名称 糠醇；香料英文名称 Furfurylalcohol；FEMA 编号 2491。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 794；编码 S0795；香料中文名称 糠醇；香料英文名称 Furfuryl alcohol；FEMA 编号 2491。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0795",
@@ -21056,7 +21056,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0796",
     "flavorCode": "S0796",
     "flavorNameCn": "四氢糠醇",
-    "flavorNameEn": "Tetrahydrofurfurylalcohol",
+    "flavorNameEn": "Tetrahydrofurfuryl alcohol",
     "femaNumber": "3056",
     "pdfPage": 197,
     "standardPage": 194,
@@ -21065,7 +21065,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "795S0796四氢糠醇Tetrahydrofurfurylalcohol3056",
     "rowName": "四氢糠醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 795；编码 S0796；香料中文名称 四氢糠醇；香料英文名称 Tetrahydrofurfurylalcohol；FEMA 编号 3056。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 795；编码 S0796；香料中文名称 四氢糠醇；香料英文名称 Tetrahydrofurfuryl alcohol；FEMA 编号 3056。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0796",
@@ -21073,7 +21073,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0797",
     "flavorCode": "S0797",
     "flavorNameCn": "牛磺酸(又名2-氨基乙基磺酸)",
-    "flavorNameEn": "Taurine(2-AminoethylsulfonicAcid)",
+    "flavorNameEn": "Taurine(2-Aminoethylsulfonic Acid)",
     "femaNumber": "3813",
     "pdfPage": 197,
     "standardPage": 194,
@@ -21082,7 +21082,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "796S0797牛磺酸(又名2-氨基乙基磺酸)Taurine(2-AminoethylsulfonicAcid)3813",
     "rowName": "牛磺酸(又名2-氨基乙基磺酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 796；编码 S0797；香料中文名称 牛磺酸(又名2-氨基乙基磺酸)；香料英文名称 Taurine(2-AminoethylsulfonicAcid)；FEMA 编号 3813。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 796；编码 S0797；香料中文名称 牛磺酸(又名2-氨基乙基磺酸)；香料英文名称 Taurine(2-Aminoethylsulfonic Acid)；FEMA 编号 3813。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0797",
@@ -21379,7 +21379,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0815",
     "flavorCode": "S0815",
     "flavorNameCn": "二烯丙基四硫醚(又名二烯丙基聚硫醚)",
-    "flavorNameEn": "Diallyltetrasulfide(Diallylpolysulfide)",
+    "flavorNameEn": "Diallyltetrasulfide (Diallylpolysulfide)",
     "femaNumber": "3533",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21388,7 +21388,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "二烯丙基四硫醚(又名二烯丙基814S0815Diallyltetrasulfide(Diallylpolysulfide)3533聚硫醚)",
     "rowName": "二烯丙基四硫醚(又名二烯丙基聚硫醚)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 814；编码 S0815；香料中文名称 二烯丙基四硫醚(又名二烯丙基聚硫醚)；香料英文名称 Diallyltetrasulfide(Diallylpolysulfide)；FEMA 编号 3533。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 814；编码 S0815；香料中文名称 二烯丙基四硫醚(又名二烯丙基聚硫醚)；香料英文名称 Diallyltetrasulfide (Diallylpolysulfide)；FEMA 编号 3533。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0815",
@@ -21430,7 +21430,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0818",
     "flavorCode": "S0818",
     "flavorNameCn": "乙酸环己酯",
-    "flavorNameEn": "Cyclohexylacetate",
+    "flavorNameEn": "Cyclohexyl acetate",
     "femaNumber": "2349",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21439,7 +21439,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "817S0818乙酸环己酯Cyclohexylacetate2349",
     "rowName": "乙酸环己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 817；编码 S0818；香料中文名称 乙酸环己酯；香料英文名称 Cyclohexylacetate；FEMA 编号 2349。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 817；编码 S0818；香料中文名称 乙酸环己酯；香料英文名称 Cyclohexyl acetate；FEMA 编号 2349。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0818",
@@ -21481,7 +21481,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0821",
     "flavorCode": "S0821",
     "flavorNameCn": "甲酸3-巯基3-甲基丁酯",
-    "flavorNameEn": "3-Mercapto-3-methyl-butylformate",
+    "flavorNameEn": "3-Mercapto-3-methyl-butyl formate",
     "femaNumber": "3855",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21490,7 +21490,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "820S0821甲酸3-巯基3-甲基丁酯3-Mercapto-3-methyl-butylformate3855",
     "rowName": "甲酸3-巯基3-甲基丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 820；编码 S0821；香料中文名称 甲酸3-巯基3-甲基丁酯；香料英文名称 3-Mercapto-3-methyl-butylformate；FEMA 编号 3855。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 820；编码 S0821；香料中文名称 甲酸3-巯基3-甲基丁酯；香料英文名称 3-Mercapto-3-methyl-butyl formate；FEMA 编号 3855。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0821",
@@ -21498,7 +21498,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0822",
     "flavorCode": "S0822",
     "flavorNameCn": "乙酸3-甲硫基丙酯",
-    "flavorNameEn": "3-(Methylthio)propylacetate",
+    "flavorNameEn": "3-(Methylthio)propyl acetate",
     "femaNumber": "3883",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21507,7 +21507,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "821S0822乙酸3-甲硫基丙酯3-(Methylthio)propylacetate3883",
     "rowName": "乙酸3-甲硫基丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 821；编码 S0822；香料中文名称 乙酸3-甲硫基丙酯；香料英文名称 3-(Methylthio)propylacetate；FEMA 编号 3883。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 821；编码 S0822；香料中文名称 乙酸3-甲硫基丙酯；香料英文名称 3-(Methylthio)propyl acetate；FEMA 编号 3883。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0822",
@@ -21515,7 +21515,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0823",
     "flavorCode": "S0823",
     "flavorNameCn": "3-甲基硫代丁酸S-甲酯(又名异戊酸甲硫醇酯)",
-    "flavorNameEn": "S-Methyl3-methylbutanethioate(Methylthi-olisovalerate)",
+    "flavorNameEn": "S-Methyl3-methylbutanethioate (Methylthi-olisovalerate)",
     "femaNumber": "3864",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21524,7 +21524,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-甲基硫代丁酸S-甲酯(又名异S-Methyl3-methylbutanethioate(Methylthi-822S08233864戊酸甲硫醇酯)olisovalerate)",
     "rowName": "3-甲基硫代丁酸S-甲酯(又名异戊酸甲硫醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 822；编码 S0823；香料中文名称 3-甲基硫代丁酸S-甲酯(又名异戊酸甲硫醇酯)；香料英文名称 S-Methyl3-methylbutanethioate(Methylthi-olisovalerate)；FEMA 编号 3864。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 822；编码 S0823；香料中文名称 3-甲基硫代丁酸S-甲酯(又名异戊酸甲硫醇酯)；香料英文名称 S-Methyl3-methylbutanethioate (Methylthi-olisovalerate)；FEMA 编号 3864。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0823",
@@ -21549,7 +21549,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0825",
     "flavorCode": "S0825",
     "flavorNameCn": "2-甲硫基丁酸甲酯",
-    "flavorNameEn": "Methyl2-methythiobutyrate",
+    "flavorNameEn": "Methyl 2-methythiobutyrate",
     "femaNumber": "3708",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21558,7 +21558,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "824S08252-甲硫基丁酸甲酯Methyl2-methythiobutyrate3708",
     "rowName": "2-甲硫基丁酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 824；编码 S0825；香料中文名称 2-甲硫基丁酸甲酯；香料英文名称 Methyl2-methythiobutyrate；FEMA 编号 3708。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 824；编码 S0825；香料中文名称 2-甲硫基丁酸甲酯；香料英文名称 Methyl 2-methythiobutyrate；FEMA 编号 3708。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0825",
@@ -21566,7 +21566,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0826",
     "flavorCode": "S0826",
     "flavorNameCn": "3-甲硫基-1-己醇乙酸酯",
-    "flavorNameEn": "3-(Methylthio)-1-hexylacetate",
+    "flavorNameEn": "3-(Methylthio)-1-hexyl acetate",
     "femaNumber": "3789",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21575,7 +21575,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "825S08263-甲硫基-1-己醇乙酸酯3-(Methylthio)-1-hexylacetate3789",
     "rowName": "3-甲硫基-1-己醇乙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 825；编码 S0826；香料中文名称 3-甲硫基-1-己醇乙酸酯；香料英文名称 3-(Methylthio)-1-hexylacetate；FEMA 编号 3789。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 825；编码 S0826；香料中文名称 3-甲硫基-1-己醇乙酸酯；香料英文名称 3-(Methylthio)-1-hexyl acetate；FEMA 编号 3789。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0826",
@@ -21600,7 +21600,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0828",
     "flavorCode": "S0828",
     "flavorNameCn": "(5H)-5-甲基-6,7-二氢环戊基并(b)吡嗪",
-    "flavorNameEn": "(5H)-5-Methyl-6,7-dihydro-cyclopenta(b)pyrazine",
+    "flavorNameEn": "(5H)-5-Methyl-6,7-dihydro-cyclopenta (b) pyrazine",
     "femaNumber": "3306",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21609,7 +21609,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "(5H)-5-甲基-6,7-二氢环戊基并(5H)-5-Methyl-6,7-dihydro-cyclopenta(b)827S08283306(b)吡嗪pyrazine",
     "rowName": "(5H)-5-甲基-6,7-二氢环戊基并(b)吡嗪",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 827；编码 S0828；香料中文名称 (5H)-5-甲基-6,7-二氢环戊基并(b)吡嗪；香料英文名称 (5H)-5-Methyl-6,7-dihydro-cyclopenta(b)pyrazine；FEMA 编号 3306。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 827；编码 S0828；香料中文名称 (5H)-5-甲基-6,7-二氢环戊基并(b)吡嗪；香料英文名称 (5H)-5-Methyl-6,7-dihydro-cyclopenta (b) pyrazine；FEMA 编号 3306。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0828",
@@ -21685,7 +21685,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0833",
     "flavorCode": "S0833",
     "flavorNameCn": "四氢吡咯(吡咯烷)",
-    "flavorNameEn": "Tetrahydropyrrole(Pyrrolidine)",
+    "flavorNameEn": "Tetrahydropyrrole (Pyrrolidine)",
     "femaNumber": "3523",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21694,7 +21694,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "832S0833四氢吡咯(吡咯烷)Tetrahydropyrrole(Pyrrolidine)3523",
     "rowName": "四氢吡咯(吡咯烷)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 832；编码 S0833；香料中文名称 四氢吡咯(吡咯烷)；香料英文名称 Tetrahydropyrrole(Pyrrolidine)；FEMA 编号 3523。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 832；编码 S0833；香料中文名称 四氢吡咯(吡咯烷)；香料英文名称 Tetrahydropyrrole (Pyrrolidine)；FEMA 编号 3523。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0833",
@@ -21753,7 +21753,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0837",
     "flavorCode": "S0837",
     "flavorNameCn": "2-巯基丙酸乙酯",
-    "flavorNameEn": "Ethyl2-mercaptopropionate",
+    "flavorNameEn": "Ethyl 2-mercaptopropionate",
     "femaNumber": "3279",
     "pdfPage": 198,
     "standardPage": 195,
@@ -21762,7 +21762,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "836S08372-巯基丙酸乙酯Ethyl2-mercaptopropionate3279",
     "rowName": "2-巯基丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 836；编码 S0837；香料中文名称 2-巯基丙酸乙酯；香料英文名称 Ethyl2-mercaptopropionate；FEMA 编号 3279。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 836；编码 S0837；香料中文名称 2-巯基丙酸乙酯；香料英文名称 Ethyl 2-mercaptopropionate；FEMA 编号 3279。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0837",
@@ -21906,7 +21906,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0846",
     "flavorCode": "S0846",
     "flavorNameCn": "d-胡椒酮(又名对--1-烯-3-酮)",
-    "flavorNameEn": "d-Piperitone(p-menth-1-en-3-one)",
+    "flavorNameEn": "d-Piperitone (p-menth-1-en-3-one)",
     "femaNumber": "2910",
     "pdfPage": 199,
     "standardPage": 196,
@@ -21915,7 +21915,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "845S0846d-胡椒酮(又名对--1-烯-3-酮)d-Piperitone(p-menth-1-en-3-one)2910",
     "rowName": "d-胡椒酮(又名对--1-烯-3-酮)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 845；编码 S0846；香料中文名称 d-胡椒酮(又名对--1-烯-3-酮)；香料英文名称 d-Piperitone(p-menth-1-en-3-one)；FEMA 编号 2910。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 845；编码 S0846；香料中文名称 d-胡椒酮(又名对--1-烯-3-酮)；香料英文名称 d-Piperitone (p-menth-1-en-3-one)；FEMA 编号 2910。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0846",
@@ -21923,7 +21923,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0847",
     "flavorCode": "S0847",
     "flavorNameCn": "胡椒烯酮[又名对--1,4(8)-二烯-3-酮]",
-    "flavorNameEn": "Piperitenone(p-Mentha-1,4(8)-dien-3-one)",
+    "flavorNameEn": "Piperitenone (p-Mentha-1,4(8)-dien-3-one)",
     "femaNumber": "3560",
     "pdfPage": 199,
     "standardPage": 196,
@@ -21932,7 +21932,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "胡椒烯酮[又名对--1,4(8)-二846S0847Piperitenone(p-Mentha-1,4(8)-dien-3-one)3560烯-3-酮]",
     "rowName": "胡椒烯酮[又名对--1,4(8)-二烯-3-酮]",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 846；编码 S0847；香料中文名称 胡椒烯酮[又名对--1,4(8)-二烯-3-酮]；香料英文名称 Piperitenone(p-Mentha-1,4(8)-dien-3-one)；FEMA 编号 3560。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 846；编码 S0847；香料中文名称 胡椒烯酮[又名对--1,4(8)-二烯-3-酮]；香料英文名称 Piperitenone (p-Mentha-1,4(8)-dien-3-one)；FEMA 编号 3560。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0847",
@@ -21940,7 +21940,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0848",
     "flavorCode": "S0848",
     "flavorNameCn": "L-天冬氨酸",
-    "flavorNameEn": "L-Asparticacid",
+    "flavorNameEn": "L-Aspartic acid",
     "femaNumber": "3656",
     "pdfPage": 199,
     "standardPage": 196,
@@ -21949,7 +21949,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "847S0848L-天冬氨酸L-Asparticacid3656",
     "rowName": "L-天冬氨酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 847；编码 S0848；香料中文名称 L-天冬氨酸；香料英文名称 L-Asparticacid；FEMA 编号 3656。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 847；编码 S0848；香料中文名称 L-天冬氨酸；香料英文名称 L-Aspartic acid；FEMA 编号 3656。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0848",
@@ -21974,7 +21974,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0850",
     "flavorCode": "S0850",
     "flavorNameCn": "焦木酸提取物",
-    "flavorNameEn": "Pyroligneousacidextract",
+    "flavorNameEn": "Pyroligneous acid extract",
     "femaNumber": "2968",
     "pdfPage": 199,
     "standardPage": 196,
@@ -21983,7 +21983,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "849S0850焦木酸提取物Pyroligneousacidextract2968",
     "rowName": "焦木酸提取物",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 849；编码 S0850；香料中文名称 焦木酸提取物；香料英文名称 Pyroligneousacidextract；FEMA 编号 2968。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 849；编码 S0850；香料中文名称 焦木酸提取物；香料英文名称 Pyroligneous acid extract；FEMA 编号 2968。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0850",
@@ -22110,7 +22110,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0858",
     "flavorCode": "S0858",
     "flavorNameCn": "(+/-)二氢薄荷内酯",
-    "flavorNameEn": "(+/-)Dihydromintlactone",
+    "flavorNameEn": "(+/-) Dihydromintlactone",
     "femaNumber": "4032",
     "pdfPage": 199,
     "standardPage": 196,
@@ -22119,7 +22119,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "857S0858(+/-)二氢薄荷内酯(+/-)Dihydromintlactone4032",
     "rowName": "(+/-)二氢薄荷内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 857；编码 S0858；香料中文名称 (+/-)二氢薄荷内酯；香料英文名称 (+/-)Dihydromintlactone；FEMA 编号 4032。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 857；编码 S0858；香料中文名称 (+/-)二氢薄荷内酯；香料英文名称 (+/-) Dihydromintlactone；FEMA 编号 4032。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0858",
@@ -22246,7 +22246,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0866",
     "flavorCode": "S0866",
     "flavorNameCn": "反式-2-辛烯-1-醇",
-    "flavorNameEn": "(E)-2-Octen-1-ol(trans-2-Octen-1-ol)",
+    "flavorNameEn": "(E)-2-Octen-1-ol (trans-2-Octen-1-ol)",
     "femaNumber": "3887",
     "pdfPage": 200,
     "standardPage": 197,
@@ -22255,7 +22255,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "865S0866反式-2-辛烯-1-醇(E)-2-Octen-1-ol(trans-2-Octen-1-ol)3887",
     "rowName": "反式-2-辛烯-1-醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 865；编码 S0866；香料中文名称 反式-2-辛烯-1-醇；香料英文名称 (E)-2-Octen-1-ol(trans-2-Octen-1-ol)；FEMA 编号 3887。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 865；编码 S0866；香料中文名称 反式-2-辛烯-1-醇；香料英文名称 (E)-2-Octen-1-ol (trans-2-Octen-1-ol)；FEMA 编号 3887。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0866",
@@ -22416,7 +22416,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0876",
     "flavorCode": "S0876",
     "flavorNameCn": "2-甲基-3-戊烯酸",
-    "flavorNameEn": "2-Methyl-3-pentenoicacid",
+    "flavorNameEn": "2-Methyl-3-pentenoic acid",
     "femaNumber": "3464",
     "pdfPage": 200,
     "standardPage": 197,
@@ -22425,7 +22425,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "875S08762-甲基-3-戊烯酸2-Methyl-3-pentenoicacid3464",
     "rowName": "2-甲基-3-戊烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 875；编码 S0876；香料中文名称 2-甲基-3-戊烯酸；香料英文名称 2-Methyl-3-pentenoicacid；FEMA 编号 3464。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 875；编码 S0876；香料中文名称 2-甲基-3-戊烯酸；香料英文名称 2-Methyl-3-pentenoic acid；FEMA 编号 3464。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0876",
@@ -22450,7 +22450,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0878",
     "flavorCode": "S0878",
     "flavorNameCn": "2-氧代戊二酸",
-    "flavorNameEn": "2-Oxopentanedioicacid",
+    "flavorNameEn": "2-Oxopentanedioic acid",
     "femaNumber": "3891",
     "pdfPage": 200,
     "standardPage": 197,
@@ -22459,7 +22459,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "877S08782-氧代戊二酸2-Oxopentanedioicacid3891",
     "rowName": "2-氧代戊二酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 877；编码 S0878；香料中文名称 2-氧代戊二酸；香料英文名称 2-Oxopentanedioicacid；FEMA 编号 3891。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 877；编码 S0878；香料中文名称 2-氧代戊二酸；香料英文名称 2-Oxopentanedioic acid；FEMA 编号 3891。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0878",
@@ -22467,7 +22467,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0879",
     "flavorCode": "S0879",
     "flavorNameCn": "4-茴香酸",
-    "flavorNameEn": "4-Anisicacid",
+    "flavorNameEn": "4-Anisic acid",
     "femaNumber": "3945",
     "pdfPage": 200,
     "standardPage": 197,
@@ -22476,7 +22476,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "878S08794-茴香酸4-Anisicacid3945",
     "rowName": "4-茴香酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 878；编码 S0879；香料中文名称 4-茴香酸；香料英文名称 4-Anisicacid；FEMA 编号 3945。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 878；编码 S0879；香料中文名称 4-茴香酸；香料英文名称 4-Anisic acid；FEMA 编号 3945。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0879",
@@ -22484,7 +22484,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0880",
     "flavorCode": "S0880",
     "flavorNameCn": "亚油酸",
-    "flavorNameEn": "Linoleicacid",
+    "flavorNameEn": "Linoleic acid",
     "femaNumber": "3380",
     "pdfPage": 200,
     "standardPage": 197,
@@ -22493,7 +22493,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "879S0880亚油酸Linoleicacid3380",
     "rowName": "亚油酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 879；编码 S0880；香料中文名称 亚油酸；香料英文名称 Linoleicacid；FEMA 编号 3380。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 879；编码 S0880；香料中文名称 亚油酸；香料英文名称 Linoleic acid；FEMA 编号 3380。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0880",
@@ -22501,7 +22501,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0881",
     "flavorCode": "S0881",
     "flavorNameCn": "甘草酸",
-    "flavorNameEn": "Glycyrrhizicacid",
+    "flavorNameEn": "Glycyrrhizic acid",
     "femaNumber": "—",
     "pdfPage": 200,
     "standardPage": 197,
@@ -22510,7 +22510,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "880S0881甘草酸Glycyrrhizicacid—",
     "rowName": "甘草酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 880；编码 S0881；香料中文名称 甘草酸；香料英文名称 Glycyrrhizicacid；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 880；编码 S0881；香料中文名称 甘草酸；香料英文名称 Glycyrrhizic acid；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0881",
@@ -22637,7 +22637,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0889",
     "flavorCode": "S0889",
     "flavorNameCn": "d,l-(3-氨基-3-羧基丙基)二甲基氯化锍(又名甲基蛋氨酸-氯化锍)",
-    "flavorNameEn": "d,l-(3-Amino-3-carboxypropyl)dimethyl-sulfoniumchloride(d,l-Methylmethioninesulfoniumchloride)",
+    "flavorNameEn": "d,l-(3-Amino-3-carboxypropyl)dimethyl-sulfonium chloride (d,l-Methylmethionine sulfonium chloride)",
     "femaNumber": "3445",
     "pdfPage": 200,
     "standardPage": 197,
@@ -22646,7 +22646,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "d,l-(3-氨基-3-羧基丙基)二甲d,l-(3-Amino-3-carboxypropyl)dimethyl-888S0889基氯化锍(又名甲基蛋氨酸-氯化sulfoniumchloride(d,l-Methylmethionine3445锍)sulfoniumchloride)",
     "rowName": "d,l-(3-氨基-3-羧基丙基)二甲基氯化锍(又名甲基蛋氨酸-氯化锍)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 888；编码 S0889；香料中文名称 d,l-(3-氨基-3-羧基丙基)二甲基氯化锍(又名甲基蛋氨酸-氯化锍)；香料英文名称 d,l-(3-Amino-3-carboxypropyl)dimethyl-sulfoniumchloride(d,l-Methylmethioninesulfoniumchloride)；FEMA 编号 3445。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 888；编码 S0889；香料中文名称 d,l-(3-氨基-3-羧基丙基)二甲基氯化锍(又名甲基蛋氨酸-氯化锍)；香料英文名称 d,l-(3-Amino-3-carboxypropyl)dimethyl-sulfonium chloride (d,l-Methylmethionine sulfonium chloride)；FEMA 编号 3445。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0889",
@@ -22926,7 +22926,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0906",
     "flavorCode": "S0906",
     "flavorNameCn": "甲酸丙酯",
-    "flavorNameEn": "Propylformate",
+    "flavorNameEn": "Propyl formate",
     "femaNumber": "2943",
     "pdfPage": 201,
     "standardPage": 198,
@@ -22935,7 +22935,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "905S0906甲酸丙酯Propylformate2943",
     "rowName": "甲酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 905；编码 S0906；香料中文名称 甲酸丙酯；香料英文名称 Propylformate；FEMA 编号 2943。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 905；编码 S0906；香料中文名称 甲酸丙酯；香料英文名称 Propyl formate；FEMA 编号 2943。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0906",
@@ -22977,7 +22977,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0909",
     "flavorCode": "S0909",
     "flavorNameCn": "十二酸甲酯(又名月桂酸甲酯)",
-    "flavorNameEn": "Methyldodecanoate(Methyllaurate)",
+    "flavorNameEn": "Methyl dodecanoate (Methyl laurate)",
     "femaNumber": "2715",
     "pdfPage": 201,
     "standardPage": 198,
@@ -22986,7 +22986,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "908S0909十二酸甲酯(又名月桂酸甲酯)Methyldodecanoate(Methyllaurate)2715",
     "rowName": "十二酸甲酯(又名月桂酸甲酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 908；编码 S0909；香料中文名称 十二酸甲酯(又名月桂酸甲酯)；香料英文名称 Methyldodecanoate(Methyllaurate)；FEMA 编号 2715。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 908；编码 S0909；香料中文名称 十二酸甲酯(又名月桂酸甲酯)；香料英文名称 Methyl dodecanoate (Methyl laurate)；FEMA 编号 2715。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0909",
@@ -22994,7 +22994,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0910",
     "flavorCode": "S0910",
     "flavorNameCn": "乙酸紫苏酯(又名对-1,8-二烯-7-醇乙酸酯)",
-    "flavorNameEn": "Perillylacetate(p-Mentha-1,8-dien-7-ylace-tate)",
+    "flavorNameEn": "Perillyl acetate (p-Mentha-1,8-dien-7-ylace-tate)",
     "femaNumber": "3561",
     "pdfPage": 201,
     "standardPage": 198,
@@ -23003,7 +23003,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "乙酸紫苏酯(又名对-1,8-二烯-Perillylacetate(p-Mentha-1,8-dien-7-ylace-909S091035617-醇乙酸酯)tate)",
     "rowName": "乙酸紫苏酯(又名对-1,8-二烯-7-醇乙酸酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 909；编码 S0910；香料中文名称 乙酸紫苏酯(又名对-1,8-二烯-7-醇乙酸酯)；香料英文名称 Perillylacetate(p-Mentha-1,8-dien-7-ylace-tate)；FEMA 编号 3561。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 909；编码 S0910；香料中文名称 乙酸紫苏酯(又名对-1,8-二烯-7-醇乙酸酯)；香料英文名称 Perillyl acetate (p-Mentha-1,8-dien-7-ylace-tate)；FEMA 编号 3561。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0910",
@@ -23062,7 +23062,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0914",
     "flavorCode": "S0914",
     "flavorNameCn": "甲酸异丙酯",
-    "flavorNameEn": "Isopropylformate",
+    "flavorNameEn": "Isopropyl formate",
     "femaNumber": "2944",
     "pdfPage": 201,
     "standardPage": 198,
@@ -23071,7 +23071,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "913S0914甲酸异丙酯Isopropylformate2944",
     "rowName": "甲酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 913；编码 S0914；香料中文名称 甲酸异丙酯；香料英文名称 Isopropylformate；FEMA 编号 2944。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 913；编码 S0914；香料中文名称 甲酸异丙酯；香料英文名称 Isopropyl formate；FEMA 编号 2944。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0914",
@@ -23130,7 +23130,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0918",
     "flavorCode": "S0918",
     "flavorNameCn": "乙酸十二醇酯",
-    "flavorNameEn": "Dodecylacetate",
+    "flavorNameEn": "Dodecyl acetate",
     "femaNumber": "2616",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23139,7 +23139,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "917S0918乙酸十二醇酯Dodecylacetate2616",
     "rowName": "乙酸十二醇酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 917；编码 S0918；香料中文名称 乙酸十二醇酯；香料英文名称 Dodecylacetate；FEMA 编号 2616。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 917；编码 S0918；香料中文名称 乙酸十二醇酯；香料英文名称 Dodecyl acetate；FEMA 编号 2616。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0918",
@@ -23164,7 +23164,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0920",
     "flavorCode": "S0920",
     "flavorNameCn": "辛酸辛酯",
-    "flavorNameEn": "Octylcaprylate",
+    "flavorNameEn": "Octyl caprylate",
     "femaNumber": "2811",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23173,7 +23173,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "919S0920辛酸辛酯Octylcaprylate2811",
     "rowName": "辛酸辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 919；编码 S0920；香料中文名称 辛酸辛酯；香料英文名称 Octylcaprylate；FEMA 编号 2811。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 919；编码 S0920；香料中文名称 辛酸辛酯；香料英文名称 Octyl caprylate；FEMA 编号 2811。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0920",
@@ -23198,7 +23198,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0922",
     "flavorCode": "S0922",
     "flavorNameCn": "丙酸异丙酯",
-    "flavorNameEn": "Isopropylpropionate",
+    "flavorNameEn": "Isopropyl propionate",
     "femaNumber": "2959",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23207,7 +23207,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "921S0922丙酸异丙酯Isopropylpropionate2959",
     "rowName": "丙酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 921；编码 S0922；香料中文名称 丙酸异丙酯；香料英文名称 Isopropylpropionate；FEMA 编号 2959。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 921；编码 S0922；香料中文名称 丙酸异丙酯；香料英文名称 Isopropyl propionate；FEMA 编号 2959。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0922",
@@ -23215,7 +23215,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0923",
     "flavorCode": "S0923",
     "flavorNameCn": "丁酸反式-2-己烯酯",
-    "flavorNameEn": "trans-2-Hexenylbutyrate",
+    "flavorNameEn": "trans-2-Hexenyl butyrate",
     "femaNumber": "3926",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23224,7 +23224,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "922S0923丁酸反式-2-己烯酯trans-2-Hexenylbutyrate3926",
     "rowName": "丁酸反式-2-己烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 922；编码 S0923；香料中文名称 丁酸反式-2-己烯酯；香料英文名称 trans-2-Hexenylbutyrate；FEMA 编号 3926。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 922；编码 S0923；香料中文名称 丁酸反式-2-己烯酯；香料英文名称 trans-2-Hexenyl butyrate；FEMA 编号 3926。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0923",
@@ -23232,7 +23232,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0924",
     "flavorCode": "S0924",
     "flavorNameCn": "异硫氰酸丁酯",
-    "flavorNameEn": "ButylIsothiocyanate",
+    "flavorNameEn": "Butyl Isothiocyanate",
     "femaNumber": "4082",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23241,7 +23241,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "923S0924异硫氰酸丁酯ButylIsothiocyanate4082",
     "rowName": "异硫氰酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 923；编码 S0924；香料中文名称 异硫氰酸丁酯；香料英文名称 ButylIsothiocyanate；FEMA 编号 4082。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 923；编码 S0924；香料中文名称 异硫氰酸丁酯；香料英文名称 Butyl Isothiocyanate；FEMA 编号 4082。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0924",
@@ -23334,7 +23334,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0930",
     "flavorCode": "S0930",
     "flavorNameCn": "乙酸l-龙脑酯",
-    "flavorNameEn": "l-Bornylacetate",
+    "flavorNameEn": "l-Bornyl acetate",
     "femaNumber": "4080",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23343,7 +23343,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "929S0930乙酸l-龙脑酯l-Bornylacetate4080",
     "rowName": "乙酸l-龙脑酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 929；编码 S0930；香料中文名称 乙酸l-龙脑酯；香料英文名称 l-Bornylacetate；FEMA 编号 4080。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 929；编码 S0930；香料中文名称 乙酸l-龙脑酯；香料英文名称 l-Bornyl acetate；FEMA 编号 4080。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0930",
@@ -23402,7 +23402,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0934",
     "flavorCode": "S0934",
     "flavorNameCn": "香叶酸",
-    "flavorNameEn": "Geranicacid",
+    "flavorNameEn": "Geranic acid",
     "femaNumber": "4121",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23411,7 +23411,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "933S0934香叶酸Geranicacid4121",
     "rowName": "香叶酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 933；编码 S0934；香料中文名称 香叶酸；香料英文名称 Geranicacid；FEMA 编号 4121。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 933；编码 S0934；香料中文名称 香叶酸；香料英文名称 Geranic acid；FEMA 编号 4121。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0934",
@@ -23453,7 +23453,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0937",
     "flavorCode": "S0937",
     "flavorNameCn": "异丁酸异龙脑酯",
-    "flavorNameEn": "Isobornylisobutyrate",
+    "flavorNameEn": "Isobornyl isobutyrate",
     "femaNumber": "4146",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23462,7 +23462,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "936S0937异丁酸异龙脑酯Isobornylisobutyrate4146",
     "rowName": "异丁酸异龙脑酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 936；编码 S0937；香料中文名称 异丁酸异龙脑酯；香料英文名称 Isobornylisobutyrate；FEMA 编号 4146。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 936；编码 S0937；香料中文名称 异丁酸异龙脑酯；香料英文名称 Isobornyl isobutyrate；FEMA 编号 4146。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0937",
@@ -23470,7 +23470,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0938",
     "flavorCode": "S0938",
     "flavorNameCn": "N-甲基邻氨基苯甲酸异丁酯",
-    "flavorNameEn": "IsobutylN-methylanthranilate",
+    "flavorNameEn": "Isobutyl N-methylanthranilate",
     "femaNumber": "4149",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23479,7 +23479,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "937S0938N-甲基邻氨基苯甲酸异丁酯IsobutylN-methylanthranilate4149",
     "rowName": "N-甲基邻氨基苯甲酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 937；编码 S0938；香料中文名称 N-甲基邻氨基苯甲酸异丁酯；香料英文名称 IsobutylN-methylanthranilate；FEMA 编号 4149。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 937；编码 S0938；香料中文名称 N-甲基邻氨基苯甲酸异丁酯；香料英文名称 Isobutyl N-methylanthranilate；FEMA 编号 4149。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0938",
@@ -23487,7 +23487,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0939",
     "flavorCode": "S0939",
     "flavorNameCn": "丁酸3-(甲硫基)丙酯",
-    "flavorNameEn": "Methionylbutyrate[3-(Methylthio)propylbutyrate]",
+    "flavorNameEn": "Methionyl butyrate [3-(Methylthio)propyl butyrate]",
     "femaNumber": "4160",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23496,7 +23496,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Methionylbutyrate[3-(Methylthio)propyl938S0939丁酸3-(甲硫基)丙酯4160butyrate]",
     "rowName": "丁酸3-(甲硫基)丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 938；编码 S0939；香料中文名称 丁酸3-(甲硫基)丙酯；香料英文名称 Methionylbutyrate[3-(Methylthio)propylbutyrate]；FEMA 编号 4160。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 938；编码 S0939；香料中文名称 丁酸3-(甲硫基)丙酯；香料英文名称 Methionyl butyrate [3-(Methylthio)propyl butyrate]；FEMA 编号 4160。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0939",
@@ -23538,7 +23538,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0942",
     "flavorCode": "S0942",
     "flavorNameCn": "N-乙酰基邻氨基苯甲酸甲酯",
-    "flavorNameEn": "MethylN-acetylanthranilate",
+    "flavorNameEn": "Methyl N-acetylanthranilate",
     "femaNumber": "4170",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23547,7 +23547,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "941S0942N-乙酰基邻氨基苯甲酸甲酯MethylN-acetylanthranilate4170",
     "rowName": "N-乙酰基邻氨基苯甲酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 941；编码 S0942；香料中文名称 N-乙酰基邻氨基苯甲酸甲酯；香料英文名称 MethylN-acetylanthranilate；FEMA 编号 4170。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 941；编码 S0942；香料中文名称 N-乙酰基邻氨基苯甲酸甲酯；香料英文名称 Methyl N-acetylanthranilate；FEMA 编号 4170。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0942",
@@ -23572,7 +23572,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0944",
     "flavorCode": "S0944",
     "flavorNameCn": "乙酸植醇酯",
-    "flavorNameEn": "Phytylacetate",
+    "flavorNameEn": "Phytyl acetate",
     "femaNumber": "4197",
     "pdfPage": 202,
     "standardPage": 199,
@@ -23581,7 +23581,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "943S0944乙酸植醇酯Phytylacetate4197",
     "rowName": "乙酸植醇酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 943；编码 S0944；香料中文名称 乙酸植醇酯；香料英文名称 Phytylacetate；FEMA 编号 4197。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 943；编码 S0944；香料中文名称 乙酸植醇酯；香料英文名称 Phytyl acetate；FEMA 编号 4197。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0944",
@@ -23623,7 +23623,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0947",
     "flavorCode": "S0947",
     "flavorNameCn": "丙酸茴香酯",
-    "flavorNameEn": "Anisylpropionate",
+    "flavorNameEn": "Anisyl propionate",
     "femaNumber": "2102",
     "pdfPage": 203,
     "standardPage": 200,
@@ -23632,7 +23632,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "946S0947丙酸茴香酯Anisylpropionate2102",
     "rowName": "丙酸茴香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 946；编码 S0947；香料中文名称 丙酸茴香酯；香料英文名称 Anisylpropionate；FEMA 编号 2102。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 946；编码 S0947；香料中文名称 丙酸茴香酯；香料英文名称 Anisyl propionate；FEMA 编号 2102。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0947",
@@ -23691,7 +23691,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0951",
     "flavorCode": "S0951",
     "flavorNameCn": "2(4)-异丙基-4(2),6-二甲基二氢(4H)-1,3,5-二噻嗪",
-    "flavorNameEn": "2(4)-Isopropyl-4(2),6-dimethyldihydro(4H)-1,3,5-dithiazine",
+    "flavorNameEn": "2(4)-Isopropyl-4(2),6-dimethyldihydro (4H)-1,3,5-dithiazine",
     "femaNumber": "3782",
     "pdfPage": 203,
     "standardPage": 200,
@@ -23700,7 +23700,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2(4)-异丙基-4(2),6-二甲基二2(4)-Isopropyl-4(2),6-dimethyldihydro950S09513782氢(4H)-1,3,5-二噻嗪(4H)-1,3,5-dithiazine",
     "rowName": "2(4)-异丙基-4(2),6-二甲基二氢(4H)-1,3,5-二噻嗪",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 950；编码 S0951；香料中文名称 2(4)-异丙基-4(2),6-二甲基二氢(4H)-1,3,5-二噻嗪；香料英文名称 2(4)-Isopropyl-4(2),6-dimethyldihydro(4H)-1,3,5-dithiazine；FEMA 编号 3782。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 950；编码 S0951；香料中文名称 2(4)-异丙基-4(2),6-二甲基二氢(4H)-1,3,5-二噻嗪；香料英文名称 2(4)-Isopropyl-4(2),6-dimethyldihydro (4H)-1,3,5-dithiazine；FEMA 编号 3782。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0951",
@@ -23708,7 +23708,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0952",
     "flavorCode": "S0952",
     "flavorNameCn": "丁酸松油酯",
-    "flavorNameEn": "Terpinylbutyrate",
+    "flavorNameEn": "Terpinyl butyrate",
     "femaNumber": "3049",
     "pdfPage": 203,
     "standardPage": 200,
@@ -23717,7 +23717,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "951S0952丁酸松油酯Terpinylbutyrate3049",
     "rowName": "丁酸松油酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 951；编码 S0952；香料中文名称 丁酸松油酯；香料英文名称 Terpinylbutyrate；FEMA 编号 3049。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 951；编码 S0952；香料中文名称 丁酸松油酯；香料英文名称 Terpinyl butyrate；FEMA 编号 3049。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0952",
@@ -23759,7 +23759,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0955",
     "flavorCode": "S0955",
     "flavorNameCn": "(6R)-3-甲基-6-(1-甲基乙基)-2-环己烯-1-酮",
-    "flavorNameEn": "2-Cyclohexen-1-one,3-methyl-6-(1-methylethyl)-,(6R)-",
+    "flavorNameEn": "2-Cyclohexen-1-one,3-methyl-6-(1-methylethyl)-, (6R)-",
     "femaNumber": "4200",
     "pdfPage": 203,
     "standardPage": 200,
@@ -23768,7 +23768,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "(6R)-3-甲基-6-(1-甲基乙基)-2-2-Cyclohexen-1-one,3-methyl-6-(1-methylethyl)-,954S09554200环己烯-1-酮(6R)-",
     "rowName": "(6R)-3-甲基-6-(1-甲基乙基)-2-环己烯-1-酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 954；编码 S0955；香料中文名称 (6R)-3-甲基-6-(1-甲基乙基)-2-环己烯-1-酮；香料英文名称 2-Cyclohexen-1-one,3-methyl-6-(1-methylethyl)-,(6R)-；FEMA 编号 4200。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 954；编码 S0955；香料中文名称 (6R)-3-甲基-6-(1-甲基乙基)-2-环己烯-1-酮；香料英文名称 2-Cyclohexen-1-one,3-methyl-6-(1-methylethyl)-, (6R)-；FEMA 编号 4200。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0955",
@@ -23793,7 +23793,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0957",
     "flavorCode": "S0957",
     "flavorNameCn": "对-1-烯-9-醇乙酸酯(又名对-1-薄荷烯-9-醇乙酸酯)",
-    "flavorNameEn": "1-p-Menthen-9-ylacetate",
+    "flavorNameEn": "1-p-Menthen-9-yl acetate",
     "femaNumber": "3566",
     "pdfPage": 203,
     "standardPage": 200,
@@ -23802,7 +23802,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "对-1-烯-9-醇乙酸酯(又名对-1-956S09571-p-Menthen-9-ylacetate3566薄荷烯-9-醇乙酸酯)",
     "rowName": "对-1-烯-9-醇乙酸酯(又名对-1-薄荷烯-9-醇乙酸酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 956；编码 S0957；香料中文名称 对-1-烯-9-醇乙酸酯(又名对-1-薄荷烯-9-醇乙酸酯)；香料英文名称 1-p-Menthen-9-ylacetate；FEMA 编号 3566。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 956；编码 S0957；香料中文名称 对-1-烯-9-醇乙酸酯(又名对-1-薄荷烯-9-醇乙酸酯)；香料英文名称 1-p-Menthen-9-yl acetate；FEMA 编号 3566。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0957",
@@ -23810,7 +23810,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0958",
     "flavorCode": "S0958",
     "flavorNameCn": "乙酸2-辛烯醇酯",
-    "flavorNameEn": "2-Octen-1-ylacetate",
+    "flavorNameEn": "2-Octen-1-yl acetate",
     "femaNumber": "3516",
     "pdfPage": 203,
     "standardPage": 200,
@@ -23819,7 +23819,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "957S0958乙酸2-辛烯醇酯2-Octen-1-ylacetate3516",
     "rowName": "乙酸2-辛烯醇酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 957；编码 S0958；香料中文名称 乙酸2-辛烯醇酯；香料英文名称 2-Octen-1-ylacetate；FEMA 编号 3516。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 957；编码 S0958；香料中文名称 乙酸2-辛烯醇酯；香料英文名称 2-Octen-1-yl acetate；FEMA 编号 3516。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0958",
@@ -23844,7 +23844,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0960",
     "flavorCode": "S0960",
     "flavorNameCn": "十八酸丁酯(又名硬脂酸丁酯)",
-    "flavorNameEn": "Butyloctadecanoate(Butylstearate)",
+    "flavorNameEn": "Butyloctadecanoate (Butylstearate)",
     "femaNumber": "2214",
     "pdfPage": 203,
     "standardPage": 200,
@@ -23853,7 +23853,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "959S0960十八酸丁酯(又名硬脂酸丁酯)Butyloctadecanoate(Butylstearate)2214",
     "rowName": "十八酸丁酯(又名硬脂酸丁酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 959；编码 S0960；香料中文名称 十八酸丁酯(又名硬脂酸丁酯)；香料英文名称 Butyloctadecanoate(Butylstearate)；FEMA 编号 2214。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 959；编码 S0960；香料中文名称 十八酸丁酯(又名硬脂酸丁酯)；香料英文名称 Butyloctadecanoate (Butylstearate)；FEMA 编号 2214。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0960",
@@ -23997,7 +23997,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0969",
     "flavorCode": "S0969",
     "flavorNameCn": "4-乙基辛酸",
-    "flavorNameEn": "4-Ethyloctanoicacid",
+    "flavorNameEn": "4-Ethyloctanoic acid",
     "femaNumber": "3800",
     "pdfPage": 203,
     "standardPage": 200,
@@ -24006,7 +24006,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "968S09694-乙基辛酸4-Ethyloctanoicacid3800",
     "rowName": "4-乙基辛酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 968；编码 S0969；香料中文名称 4-乙基辛酸；香料英文名称 4-Ethyloctanoicacid；FEMA 编号 3800。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 968；编码 S0969；香料中文名称 4-乙基辛酸；香料英文名称 4-Ethyloctanoic acid；FEMA 编号 3800。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0969",
@@ -24065,7 +24065,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0973",
     "flavorCode": "S0973",
     "flavorNameCn": "异戊酸糠酯",
-    "flavorNameEn": "Furfurylisovalerate",
+    "flavorNameEn": "Furfuryl isovalerate",
     "femaNumber": "3283",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24074,7 +24074,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "972S0973异戊酸糠酯Furfurylisovalerate3283",
     "rowName": "异戊酸糠酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 972；编码 S0973；香料中文名称 异戊酸糠酯；香料英文名称 Furfurylisovalerate；FEMA 编号 3283。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 972；编码 S0973；香料中文名称 异戊酸糠酯；香料英文名称 Furfuryl isovalerate；FEMA 编号 3283。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0973",
@@ -24082,7 +24082,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0974",
     "flavorCode": "S0974",
     "flavorNameCn": "异戊酸芳樟酯",
-    "flavorNameEn": "Linalylisovalerate",
+    "flavorNameEn": "Linalyl isovalerate",
     "femaNumber": "2646",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24091,7 +24091,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "973S0974异戊酸芳樟酯Linalylisovalerate2646",
     "rowName": "异戊酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 973；编码 S0974；香料中文名称 异戊酸芳樟酯；香料英文名称 Linalylisovalerate；FEMA 编号 2646。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 973；编码 S0974；香料中文名称 异戊酸芳樟酯；香料英文名称 Linalyl isovalerate；FEMA 编号 2646。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0974",
@@ -24167,7 +24167,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0979",
     "flavorCode": "S0979",
     "flavorNameCn": "庚酸甲酯",
-    "flavorNameEn": "Methylheptanoate",
+    "flavorNameEn": "Methyl heptanoate",
     "femaNumber": "2705",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24176,7 +24176,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "978S0979庚酸甲酯Methylheptanoate2705",
     "rowName": "庚酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 978；编码 S0979；香料中文名称 庚酸甲酯；香料英文名称 Methylheptanoate；FEMA 编号 2705。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 978；编码 S0979；香料中文名称 庚酸甲酯；香料英文名称 Methyl heptanoate；FEMA 编号 2705。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0979",
@@ -24184,7 +24184,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0980",
     "flavorCode": "S0980",
     "flavorNameCn": "顺式-3-己烯醇丙酸酯",
-    "flavorNameEn": "(Z)-3-Hexenylpropionate",
+    "flavorNameEn": "(Z)-3-Hexenyl propionate",
     "femaNumber": "3933",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24193,7 +24193,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "979S0980顺式-3-己烯醇丙酸酯(Z)-3-Hexenylpropionate3933",
     "rowName": "顺式-3-己烯醇丙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 979；编码 S0980；香料中文名称 顺式-3-己烯醇丙酸酯；香料英文名称 (Z)-3-Hexenylpropionate；FEMA 编号 3933。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 979；编码 S0980；香料中文名称 顺式-3-己烯醇丙酸酯；香料英文名称 (Z)-3-Hexenyl propionate；FEMA 编号 3933。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0980",
@@ -24235,7 +24235,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0983",
     "flavorCode": "S0983",
     "flavorNameCn": "盐酸硫胺素",
-    "flavorNameEn": "Thiaminehydrochloride",
+    "flavorNameEn": "Thiamine hydrochloride",
     "femaNumber": "3322",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24244,7 +24244,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "982S0983盐酸硫胺素Thiaminehydrochloride3322",
     "rowName": "盐酸硫胺素",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 982；编码 S0983；香料中文名称 盐酸硫胺素；香料英文名称 Thiaminehydrochloride；FEMA 编号 3322。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 982；编码 S0983；香料中文名称 盐酸硫胺素；香料英文名称 Thiamine hydrochloride；FEMA 编号 3322。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0983",
@@ -24320,7 +24320,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0988",
     "flavorCode": "S0988",
     "flavorNameCn": "2-甲基戊酸乙酯",
-    "flavorNameEn": "Ethyl2-methylpentanoate",
+    "flavorNameEn": "Ethyl 2-methylpentanoate",
     "femaNumber": "3488",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24329,7 +24329,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "987S09882-甲基戊酸乙酯Ethyl2-methylpentanoate3488",
     "rowName": "2-甲基戊酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 987；编码 S0988；香料中文名称 2-甲基戊酸乙酯；香料英文名称 Ethyl2-methylpentanoate；FEMA 编号 3488。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 987；编码 S0988；香料中文名称 2-甲基戊酸乙酯；香料英文名称 Ethyl 2-methylpentanoate；FEMA 编号 3488。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0988",
@@ -24354,7 +24354,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0990",
     "flavorCode": "S0990",
     "flavorNameCn": "乳酸l-薄荷酯",
-    "flavorNameEn": "l-Menthyllactate",
+    "flavorNameEn": "l-Menthyl lactate",
     "femaNumber": "3748",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24363,7 +24363,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "989S0990乳酸l-薄荷酯l-Menthyllactate3748",
     "rowName": "乳酸l-薄荷酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 989；编码 S0990；香料中文名称 乳酸l-薄荷酯；香料英文名称 l-Menthyllactate；FEMA 编号 3748。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 989；编码 S0990；香料中文名称 乳酸l-薄荷酯；香料英文名称 l-Menthyl lactate；FEMA 编号 3748。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0990",
@@ -24405,7 +24405,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S0993",
     "flavorCode": "S0993",
     "flavorNameCn": "乙酸正戊酯",
-    "flavorNameEn": "Pentylacetate",
+    "flavorNameEn": "Pentyl acetate",
     "femaNumber": "—",
     "pdfPage": 204,
     "standardPage": 201,
@@ -24414,7 +24414,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "992S0993乙酸正戊酯Pentylacetate—",
     "rowName": "乙酸正戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 992；编码 S0993；香料中文名称 乙酸正戊酯；香料英文名称 Pentylacetate；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 992；编码 S0993；香料中文名称 乙酸正戊酯；香料英文名称 Pentyl acetate；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-0993",
@@ -24541,7 +24541,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1001",
     "flavorCode": "S1001",
     "flavorNameCn": "丙酮酸顺式-3-己烯酯(又名丙酮酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenylpyrovate(Leafpyrovate)",
+    "flavorNameEn": "cis-3-Hexenylpyrovate (Leafpyrovate)",
     "femaNumber": "3934",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24550,7 +24550,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "丙酮酸顺式-3-己烯酯(又名丙酮1000S1001cis-3-Hexenylpyrovate(Leafpyrovate)3934酸叶醇酯)",
     "rowName": "丙酮酸顺式-3-己烯酯(又名丙酮酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1000；编码 S1001；香料中文名称 丙酮酸顺式-3-己烯酯(又名丙酮酸叶醇酯)；香料英文名称 cis-3-Hexenylpyrovate(Leafpyrovate)；FEMA 编号 3934。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1000；编码 S1001；香料中文名称 丙酮酸顺式-3-己烯酯(又名丙酮酸叶醇酯)；香料英文名称 cis-3-Hexenylpyrovate (Leafpyrovate)；FEMA 编号 3934。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1001",
@@ -24609,7 +24609,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1005",
     "flavorCode": "S1005",
     "flavorNameCn": "3,7-二甲基-2,6-辛二烯酸甲酯(又名香叶酸甲酯)",
-    "flavorNameEn": "Methyl3,7-dimethyl-2,6-octadienoate(methylgeranate)",
+    "flavorNameEn": "Methyl3,7-dimethyl-2,6-octadienoate (methyl geranate)",
     "femaNumber": "—",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24618,7 +24618,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3,7-二甲基-2,6-辛二烯酸甲酯Methyl3,7-dimethyl-2,6-octadienoate(methyl1004S1005—(又名香叶酸甲酯)geranate)",
     "rowName": "3,7-二甲基-2,6-辛二烯酸甲酯(又名香叶酸甲酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1004；编码 S1005；香料中文名称 3,7-二甲基-2,6-辛二烯酸甲酯(又名香叶酸甲酯)；香料英文名称 Methyl3,7-dimethyl-2,6-octadienoate(methylgeranate)；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1004；编码 S1005；香料中文名称 3,7-二甲基-2,6-辛二烯酸甲酯(又名香叶酸甲酯)；香料英文名称 Methyl3,7-dimethyl-2,6-octadienoate (methyl geranate)；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1005",
@@ -24626,7 +24626,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1006",
     "flavorCode": "S1006",
     "flavorNameCn": "反式和顺式-4,8-二甲基-3,7-壬二烯-2-酮",
-    "flavorNameEn": "(E)and(Z)-4,8-Dimethyl-3,7-nonadien-2-one",
+    "flavorNameEn": "(E) and (Z)-4,8-Dimethyl-3,7-nonadien-2-one",
     "femaNumber": "3969",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24635,7 +24635,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "反式和顺式-4,8-二甲基-3,7-壬(E)and(Z)-4,8-Dimethyl-3,7-nonadien-1005S10063969二烯-2-酮2-one",
     "rowName": "反式和顺式-4,8-二甲基-3,7-壬二烯-2-酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1005；编码 S1006；香料中文名称 反式和顺式-4,8-二甲基-3,7-壬二烯-2-酮；香料英文名称 (E)and(Z)-4,8-Dimethyl-3,7-nonadien-2-one；FEMA 编号 3969。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1005；编码 S1006；香料中文名称 反式和顺式-4,8-二甲基-3,7-壬二烯-2-酮；香料英文名称 (E) and (Z)-4,8-Dimethyl-3,7-nonadien-2-one；FEMA 编号 3969。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1006",
@@ -24660,7 +24660,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1008",
     "flavorCode": "S1008",
     "flavorNameCn": "戊酸异戊酯",
-    "flavorNameEn": "Isoamylvalerate",
+    "flavorNameEn": "Isoamyl valerate",
     "femaNumber": "—",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24669,7 +24669,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1007S1008戊酸异戊酯Isoamylvalerate—",
     "rowName": "戊酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1007；编码 S1008；香料中文名称 戊酸异戊酯；香料英文名称 Isoamylvalerate；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1007；编码 S1008；香料中文名称 戊酸异戊酯；香料英文名称 Isoamyl valerate；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1008",
@@ -24677,7 +24677,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1009",
     "flavorCode": "S1009",
     "flavorNameCn": "丙酸反式-2-己烯酯",
-    "flavorNameEn": "trans-2-Hexenylpropionate2-Hexen-1-ol,propanoate,(E)",
+    "flavorNameEn": "trans-2-Hexenyl propionate 2-Hexen-1-ol,propanoate,(E)",
     "femaNumber": "3932",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24686,7 +24686,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "trans-2-Hexenylpropionate1008S1009丙酸反式-2-己烯酯39322-Hexen-1-ol,propanoate,(E)",
     "rowName": "丙酸反式-2-己烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1008；编码 S1009；香料中文名称 丙酸反式-2-己烯酯；香料英文名称 trans-2-Hexenylpropionate2-Hexen-1-ol,propanoate,(E)；FEMA 编号 3932。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1008；编码 S1009；香料中文名称 丙酸反式-2-己烯酯；香料英文名称 trans-2-Hexenyl propionate 2-Hexen-1-ol,propanoate,(E)；FEMA 编号 3932。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1009",
@@ -24711,7 +24711,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1011",
     "flavorCode": "S1011",
     "flavorNameCn": "戊酸甲酯",
-    "flavorNameEn": "Methylvalerate",
+    "flavorNameEn": "Methyl valerate",
     "femaNumber": "2752",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24720,7 +24720,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1010S1011戊酸甲酯Methylvalerate2752",
     "rowName": "戊酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1010；编码 S1011；香料中文名称 戊酸甲酯；香料英文名称 Methylvalerate；FEMA 编号 2752。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1010；编码 S1011；香料中文名称 戊酸甲酯；香料英文名称 Methyl valerate；FEMA 编号 2752。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1011",
@@ -24728,7 +24728,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1012",
     "flavorCode": "S1012",
     "flavorNameCn": "丁酸异丙酯",
-    "flavorNameEn": "Isopropylbutyrate",
+    "flavorNameEn": "Isopropyl butyrate",
     "femaNumber": "2935",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24737,7 +24737,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1011S1012丁酸异丙酯Isopropylbutyrate2935",
     "rowName": "丁酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1011；编码 S1012；香料中文名称 丁酸异丙酯；香料英文名称 Isopropylbutyrate；FEMA 编号 2935。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1011；编码 S1012；香料中文名称 丁酸异丙酯；香料英文名称 Isopropyl butyrate；FEMA 编号 2935。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1012",
@@ -24796,7 +24796,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1016",
     "flavorCode": "S1016",
     "flavorNameCn": "苯乙酸顺式-3-己烯酯(又名苯乙酸叶醇酯)",
-    "flavorNameEn": "cis-3-Hexenylphenylacetate(Leafphenylac-etate)",
+    "flavorNameEn": "cis-3-Hexenyl phenylacetate (Leafphenylac-etate)",
     "femaNumber": "3633",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24805,7 +24805,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "苯乙酸顺式-3-己烯酯(又名苯乙cis-3-Hexenylphenylacetate(Leafphenylac-1015S10163633酸叶醇酯)etate)",
     "rowName": "苯乙酸顺式-3-己烯酯(又名苯乙酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1015；编码 S1016；香料中文名称 苯乙酸顺式-3-己烯酯(又名苯乙酸叶醇酯)；香料英文名称 cis-3-Hexenylphenylacetate(Leafphenylac-etate)；FEMA 编号 3633。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1015；编码 S1016；香料中文名称 苯乙酸顺式-3-己烯酯(又名苯乙酸叶醇酯)；香料英文名称 cis-3-Hexenyl phenylacetate (Leafphenylac-etate)；FEMA 编号 3633。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1016",
@@ -24813,7 +24813,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1017",
     "flavorCode": "S1017",
     "flavorNameCn": "乙酸3-(乙酰巯基)己酯",
-    "flavorNameEn": "3-Acetylmercaptohexylacetate",
+    "flavorNameEn": "3-Acetylmercaptohexyl acetate",
     "femaNumber": "3816",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24822,7 +24822,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1016S1017乙酸3-(乙酰巯基)己酯3-Acetylmercaptohexylacetate3816",
     "rowName": "乙酸3-(乙酰巯基)己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1016；编码 S1017；香料中文名称 乙酸3-(乙酰巯基)己酯；香料英文名称 3-Acetylmercaptohexylacetate；FEMA 编号 3816。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1016；编码 S1017；香料中文名称 乙酸3-(乙酰巯基)己酯；香料英文名称 3-Acetylmercaptohexyl acetate；FEMA 编号 3816。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1017",
@@ -24830,7 +24830,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1018",
     "flavorCode": "S1018",
     "flavorNameCn": "己酸甲硫醇酯",
-    "flavorNameEn": "S-Methylhexanethioate(methylthiohexano-ate)",
+    "flavorNameEn": "S-Methylhexanethioate (methylthiohexano-ate)",
     "femaNumber": "3862",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24839,7 +24839,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "S-Methylhexanethioate(methylthiohexano-1017S1018己酸甲硫醇酯3862ate)",
     "rowName": "己酸甲硫醇酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1017；编码 S1018；香料中文名称 己酸甲硫醇酯；香料英文名称 S-Methylhexanethioate(methylthiohexano-ate)；FEMA 编号 3862。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1017；编码 S1018；香料中文名称 己酸甲硫醇酯；香料英文名称 S-Methylhexanethioate (methylthiohexano-ate)；FEMA 编号 3862。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1018",
@@ -24847,7 +24847,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1019",
     "flavorCode": "S1019",
     "flavorNameCn": "反式-2-丁烯酸(又名巴豆酸)",
-    "flavorNameEn": "(E)-2-Butenoicacid(Crotonicacid)",
+    "flavorNameEn": "(E)-2-Butenoic acid (Crotonic acid)",
     "femaNumber": "3908",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24856,7 +24856,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1018S1019反式-2-丁烯酸(又名巴豆酸)(E)-2-Butenoicacid(Crotonicacid)3908",
     "rowName": "反式-2-丁烯酸(又名巴豆酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1018；编码 S1019；香料中文名称 反式-2-丁烯酸(又名巴豆酸)；香料英文名称 (E)-2-Butenoicacid(Crotonicacid)；FEMA 编号 3908。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1018；编码 S1019；香料中文名称 反式-2-丁烯酸(又名巴豆酸)；香料英文名称 (E)-2-Butenoic acid (Crotonic acid)；FEMA 编号 3908。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1019",
@@ -24864,7 +24864,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1020",
     "flavorCode": "S1020",
     "flavorNameCn": "戊酸顺式-3-己烯酯(又名戊酸叶醇酯)",
-    "flavorNameEn": "(Z)-3-Hexenylvalerate(Leafvalerate)",
+    "flavorNameEn": "(Z)-3-Hexenyl valerate (Leafvalerate)",
     "femaNumber": "3936",
     "pdfPage": 205,
     "standardPage": 202,
@@ -24873,7 +24873,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "戊酸顺式-3-己烯酯(又名戊酸叶1019S1020(Z)-3-Hexenylvalerate(Leafvalerate)3936醇酯)",
     "rowName": "戊酸顺式-3-己烯酯(又名戊酸叶醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1019；编码 S1020；香料中文名称 戊酸顺式-3-己烯酯(又名戊酸叶醇酯)；香料英文名称 (Z)-3-Hexenylvalerate(Leafvalerate)；FEMA 编号 3936。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1019；编码 S1020；香料中文名称 戊酸顺式-3-己烯酯(又名戊酸叶醇酯)；香料英文名称 (Z)-3-Hexenyl valerate (Leafvalerate)；FEMA 编号 3936。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1020",
@@ -24915,7 +24915,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1023",
     "flavorCode": "S1023",
     "flavorNameCn": "2,8-表硫-顺式-对-烷4,7,7-三甲基-6-硫杂双环[3.2.1]辛烷硫代桉叶素",
-    "flavorNameEn": "2,8-Epithio-cis-p-menthane4,7,7-Trimethyl-6-thiabicyclo[3.2.1]octaneThiocineole",
+    "flavorNameEn": "2,8-Epithio-cis-p-menthane 4,7,7-Trimethyl-6-thiabicyclo[3.2.1]octane Thiocineole",
     "femaNumber": "4108",
     "pdfPage": 206,
     "standardPage": 203,
@@ -24924,7 +24924,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,8-表硫-顺式-对-烷4,7,7-三2,8-Epithio-cis-p-menthane1022S1023甲基-6-硫杂双环[3.2.1]辛烷4,7,7-Trimethyl-6-thiabicyclo[3.2.1]octane4108硫代桉叶素Thiocineole",
     "rowName": "2,8-表硫-顺式-对-烷4,7,7-三甲基-6-硫杂双环[3.2.1]辛烷硫代桉叶素",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1022；编码 S1023；香料中文名称 2,8-表硫-顺式-对-烷4,7,7-三甲基-6-硫杂双环[3.2.1]辛烷硫代桉叶素；香料英文名称 2,8-Epithio-cis-p-menthane4,7,7-Trimethyl-6-thiabicyclo[3.2.1]octaneThiocineole；FEMA 编号 4108。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1022；编码 S1023；香料中文名称 2,8-表硫-顺式-对-烷4,7,7-三甲基-6-硫杂双环[3.2.1]辛烷硫代桉叶素；香料英文名称 2,8-Epithio-cis-p-menthane 4,7,7-Trimethyl-6-thiabicyclo[3.2.1]octane Thiocineole；FEMA 编号 4108。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1023",
@@ -24932,7 +24932,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1024",
     "flavorCode": "S1024",
     "flavorNameCn": "癸酸甲酯",
-    "flavorNameEn": "Methyldecanoate",
+    "flavorNameEn": "Methyl decanoate",
     "femaNumber": "—",
     "pdfPage": 206,
     "standardPage": 203,
@@ -24941,7 +24941,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1023S1024癸酸甲酯Methyldecanoate—",
     "rowName": "癸酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1023；编码 S1024；香料中文名称 癸酸甲酯；香料英文名称 Methyldecanoate；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1023；编码 S1024；香料中文名称 癸酸甲酯；香料英文名称 Methyl decanoate；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1024",
@@ -24949,7 +24949,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1025",
     "flavorCode": "S1025",
     "flavorNameCn": "甲酸异丁酯",
-    "flavorNameEn": "Isobutylformate",
+    "flavorNameEn": "Isobutyl formate",
     "femaNumber": "2197",
     "pdfPage": 206,
     "standardPage": 203,
@@ -24958,7 +24958,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1024S1025甲酸异丁酯Isobutylformate2197",
     "rowName": "甲酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1024；编码 S1025；香料中文名称 甲酸异丁酯；香料英文名称 Isobutylformate；FEMA 编号 2197。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1024；编码 S1025；香料中文名称 甲酸异丁酯；香料英文名称 Isobutyl formate；FEMA 编号 2197。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1025",
@@ -24983,7 +24983,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1027",
     "flavorCode": "S1027",
     "flavorNameCn": "戊酸丁酯",
-    "flavorNameEn": "Butylvalerate",
+    "flavorNameEn": "Butyl valerate",
     "femaNumber": "2217",
     "pdfPage": 206,
     "standardPage": 203,
@@ -24992,7 +24992,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1026S1027戊酸丁酯Butylvalerate2217",
     "rowName": "戊酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1026；编码 S1027；香料中文名称 戊酸丁酯；香料英文名称 Butylvalerate；FEMA 编号 2217。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1026；编码 S1027；香料中文名称 戊酸丁酯；香料英文名称 Butyl valerate；FEMA 编号 2217。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1027",
@@ -25000,7 +25000,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1028",
     "flavorCode": "S1028",
     "flavorNameCn": "丁酸环己酯",
-    "flavorNameEn": "Cyclohexylbutyrate",
+    "flavorNameEn": "Cyclohexyl butyrate",
     "femaNumber": "2351",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25009,7 +25009,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1027S1028丁酸环己酯Cyclohexylbutyrate2351",
     "rowName": "丁酸环己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1027；编码 S1028；香料中文名称 丁酸环己酯；香料英文名称 Cyclohexylbutyrate；FEMA 编号 2351。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1027；编码 S1028；香料中文名称 丁酸环己酯；香料英文名称 Cyclohexyl butyrate；FEMA 编号 2351。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1028",
@@ -25017,7 +25017,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1029",
     "flavorCode": "S1029",
     "flavorNameCn": "山梨酸乙酯(又名2,4-己二烯酸乙酯)",
-    "flavorNameEn": "Ethylsorbate(Ethyl2,4-hexadiencate)",
+    "flavorNameEn": "Ethyl sorbate (Ethyl2,4-hexadiencate)",
     "femaNumber": "2459",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25026,7 +25026,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "山梨酸乙酯(又名2,4-己二烯酸1028S1029Ethylsorbate(Ethyl2,4-hexadiencate)2459乙酯)",
     "rowName": "山梨酸乙酯(又名2,4-己二烯酸乙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1028；编码 S1029；香料中文名称 山梨酸乙酯(又名2,4-己二烯酸乙酯)；香料英文名称 Ethylsorbate(Ethyl2,4-hexadiencate)；FEMA 编号 2459。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1028；编码 S1029；香料中文名称 山梨酸乙酯(又名2,4-己二烯酸乙酯)；香料英文名称 Ethyl sorbate (Ethyl2,4-hexadiencate)；FEMA 编号 2459。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1029",
@@ -25085,7 +25085,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1033",
     "flavorCode": "S1033",
     "flavorNameCn": "丙酸橙花酯",
-    "flavorNameEn": "Nerylpropionate",
+    "flavorNameEn": "Neryl propionate",
     "femaNumber": "2777",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25094,7 +25094,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1032S1033丙酸橙花酯Nerylpropionate2777",
     "rowName": "丙酸橙花酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1032；编码 S1033；香料中文名称 丙酸橙花酯；香料英文名称 Nerylpropionate；FEMA 编号 2777。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1032；编码 S1033；香料中文名称 丙酸橙花酯；香料英文名称 Neryl propionate；FEMA 编号 2777。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1033",
@@ -25102,7 +25102,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1034",
     "flavorCode": "S1034",
     "flavorNameCn": "肉桂酸丙酯",
-    "flavorNameEn": "Propylcinnamate",
+    "flavorNameEn": "Propyl cinnamate",
     "femaNumber": "2938",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25111,7 +25111,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1033S1034肉桂酸丙酯Propylcinnamate2938",
     "rowName": "肉桂酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1033；编码 S1034；香料中文名称 肉桂酸丙酯；香料英文名称 Propylcinnamate；FEMA 编号 2938。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1033；编码 S1034；香料中文名称 肉桂酸丙酯；香料英文名称 Propyl cinnamate；FEMA 编号 2938。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1034",
@@ -25119,7 +25119,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1035",
     "flavorCode": "S1035",
     "flavorNameCn": "丁酸玫瑰酯",
-    "flavorNameEn": "Rhodinylbutyrate",
+    "flavorNameEn": "Rhodinyl butyrate",
     "femaNumber": "2982",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25128,7 +25128,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1034S1035丁酸玫瑰酯Rhodinylbutyrate2982",
     "rowName": "丁酸玫瑰酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1034；编码 S1035；香料中文名称 丁酸玫瑰酯；香料英文名称 Rhodinylbutyrate；FEMA 编号 2982。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1034；编码 S1035；香料中文名称 丁酸玫瑰酯；香料英文名称 Rhodinyl butyrate；FEMA 编号 2982。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1035",
@@ -25136,7 +25136,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1036",
     "flavorCode": "S1036",
     "flavorNameCn": "异丁酸玫瑰酯",
-    "flavorNameEn": "Rhodinylisobutyrate",
+    "flavorNameEn": "Rhodinyl isobutyrate",
     "femaNumber": "2983",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25145,7 +25145,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1035S1036异丁酸玫瑰酯Rhodinylisobutyrate2983",
     "rowName": "异丁酸玫瑰酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1035；编码 S1036；香料中文名称 异丁酸玫瑰酯；香料英文名称 Rhodinylisobutyrate；FEMA 编号 2983。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1035；编码 S1036；香料中文名称 异丁酸玫瑰酯；香料英文名称 Rhodinyl isobutyrate；FEMA 编号 2983。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1036",
@@ -25153,7 +25153,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1037",
     "flavorCode": "S1037",
     "flavorNameCn": "丙酸松油酯",
-    "flavorNameEn": "Terpinylpropionate",
+    "flavorNameEn": "Terpinyl propionate",
     "femaNumber": "3053",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25162,7 +25162,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1036S1037丙酸松油酯Terpinylpropionate3053",
     "rowName": "丙酸松油酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1036；编码 S1037；香料中文名称 丙酸松油酯；香料英文名称 Terpinylpropionate；FEMA 编号 3053。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1036；编码 S1037；香料中文名称 丙酸松油酯；香料英文名称 Terpinyl propionate；FEMA 编号 3053。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1037",
@@ -25170,7 +25170,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1038",
     "flavorCode": "S1038",
     "flavorNameCn": "丙酸糠酯",
-    "flavorNameEn": "Furfurylpropionate",
+    "flavorNameEn": "Furfuryl propionate",
     "femaNumber": "3346",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25179,7 +25179,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1037S1038丙酸糠酯Furfurylpropionate3346",
     "rowName": "丙酸糠酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1037；编码 S1038；香料中文名称 丙酸糠酯；香料英文名称 Furfurylpropionate；FEMA 编号 3346。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1037；编码 S1038；香料中文名称 丙酸糠酯；香料英文名称 Furfuryl propionate；FEMA 编号 3346。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1038",
@@ -25187,7 +25187,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1039",
     "flavorCode": "S1039",
     "flavorNameCn": "戊酸糠酯",
-    "flavorNameEn": "Furfurylpentanoate",
+    "flavorNameEn": "Furfuryl pentanoate",
     "femaNumber": "3397",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25196,7 +25196,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1038S1039戊酸糠酯Furfurylpentanoate3397",
     "rowName": "戊酸糠酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1038；编码 S1039；香料中文名称 戊酸糠酯；香料英文名称 Furfurylpentanoate；FEMA 编号 3397。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1038；编码 S1039；香料中文名称 戊酸糠酯；香料英文名称 Furfuryl pentanoate；FEMA 编号 3397。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1039",
@@ -25255,7 +25255,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1043",
     "flavorCode": "S1043",
     "flavorNameCn": "2,4-癸二烯酸丙酯",
-    "flavorNameEn": "Propyl2,4-decadienoate",
+    "flavorNameEn": "Propyl 2,4-decadienoate",
     "femaNumber": "3648",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25264,7 +25264,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1042S10432,4-癸二烯酸丙酯Propyl2,4-decadienoate3648",
     "rowName": "2,4-癸二烯酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1042；编码 S1043；香料中文名称 2,4-癸二烯酸丙酯；香料英文名称 Propyl2,4-decadienoate；FEMA 编号 3648。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1042；编码 S1043；香料中文名称 2,4-癸二烯酸丙酯；香料英文名称 Propyl 2,4-decadienoate；FEMA 编号 3648。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1043",
@@ -25306,7 +25306,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1046",
     "flavorCode": "S1046",
     "flavorNameCn": "2-羟基-4-甲基戊酸甲酯",
-    "flavorNameEn": "Methyl2-hydroxy-4-methylpentanoate",
+    "flavorNameEn": "Methyl 2-hydroxy-4-methyl pentanoate",
     "femaNumber": "3706",
     "pdfPage": 206,
     "standardPage": 203,
@@ -25315,7 +25315,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1045S10462-羟基-4-甲基戊酸甲酯Methyl2-hydroxy-4-methylpentanoate3706",
     "rowName": "2-羟基-4-甲基戊酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1045；编码 S1046；香料中文名称 2-羟基-4-甲基戊酸甲酯；香料英文名称 Methyl2-hydroxy-4-methylpentanoate；FEMA 编号 3706。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1045；编码 S1046；香料中文名称 2-羟基-4-甲基戊酸甲酯；香料英文名称 Methyl 2-hydroxy-4-methyl pentanoate；FEMA 编号 3706。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1046",
@@ -25357,7 +25357,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1049",
     "flavorCode": "S1049",
     "flavorNameCn": "香紫苏内酯",
-    "flavorNameEn": "Sclareolide[Decahydro-3a,6,6,9a-tetrameth-ylnaphtho(2,1b)furan-2(1H)-one]",
+    "flavorNameEn": "Sclareolide [Decahydro-3a,6,6,9a-tetrameth-ylnaphtho(2,1b) furan-2(1H)-one]",
     "femaNumber": "3794",
     "pdfPage": 207,
     "standardPage": 204,
@@ -25366,7 +25366,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Sclareolide[Decahydro-3a,6,6,9a-tetrameth-1048S1049香紫苏内酯3794ylnaphtho(2,1b)furan-2(1H)-one]",
     "rowName": "香紫苏内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1048；编码 S1049；香料中文名称 香紫苏内酯；香料英文名称 Sclareolide[Decahydro-3a,6,6,9a-tetrameth-ylnaphtho(2,1b)furan-2(1H)-one]；FEMA 编号 3794。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1048；编码 S1049；香料中文名称 香紫苏内酯；香料英文名称 Sclareolide [Decahydro-3a,6,6,9a-tetrameth-ylnaphtho(2,1b) furan-2(1H)-one]；FEMA 编号 3794。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1049",
@@ -25391,7 +25391,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1051",
     "flavorCode": "S1051",
     "flavorNameCn": "反式-2-己烯酸顺式-3-己烯酯",
-    "flavorNameEn": "(Z)-3-Hexenyl(E)-2-hexenoate",
+    "flavorNameEn": "(Z)-3-Hexenyl (E)-2-hexenoate",
     "femaNumber": "3928",
     "pdfPage": 207,
     "standardPage": 204,
@@ -25400,7 +25400,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1050S1051反式-2-己烯酸顺式-3-己烯酯(Z)-3-Hexenyl(E)-2-hexenoate3928",
     "rowName": "反式-2-己烯酸顺式-3-己烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1050；编码 S1051；香料中文名称 反式-2-己烯酸顺式-3-己烯酯；香料英文名称 (Z)-3-Hexenyl(E)-2-hexenoate；FEMA 编号 3928。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1050；编码 S1051；香料中文名称 反式-2-己烯酸顺式-3-己烯酯；香料英文名称 (Z)-3-Hexenyl (E)-2-hexenoate；FEMA 编号 3928。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1051",
@@ -25459,7 +25459,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1055",
     "flavorCode": "S1055",
     "flavorNameCn": "(±)3-巯基丁酸乙酯",
-    "flavorNameEn": "(±)-Ethyl3-mercaptobutyrate",
+    "flavorNameEn": "(±)-Ethyl 3-mercaptobutyrate",
     "femaNumber": "3977",
     "pdfPage": 207,
     "standardPage": 204,
@@ -25468,7 +25468,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1054S1055(±)3-巯基丁酸乙酯(±)-Ethyl3-mercaptobutyrate3977",
     "rowName": "(±)3-巯基丁酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1054；编码 S1055；香料中文名称 (±)3-巯基丁酸乙酯；香料英文名称 (±)-Ethyl3-mercaptobutyrate；FEMA 编号 3977。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1054；编码 S1055；香料中文名称 (±)3-巯基丁酸乙酯；香料英文名称 (±)-Ethyl 3-mercaptobutyrate；FEMA 编号 3977。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1055",
@@ -25544,7 +25544,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1060",
     "flavorCode": "S1060",
     "flavorNameCn": "2-(2-羟基-4-甲基-3-环己烯基)-丙酸γ-内酯",
-    "flavorNameEn": "2-(2-Hydroxy-4-methyl-3-cyclohexenyl)-propi-onicacidγ-lactone(WineLactone)",
+    "flavorNameEn": "2-(2-Hydroxy-4-methyl-3-cyclohexenyl)-propi-onic acid γ-lactone (Wine Lactone)",
     "femaNumber": "4140",
     "pdfPage": 207,
     "standardPage": 204,
@@ -25553,7 +25553,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-(2-羟基-4-甲基-3-环己烯基)-2-(2-Hydroxy-4-methyl-3-cyclohexenyl)-propi-1059S10604140丙酸γ-内酯onicacidγ-lactone(WineLactone)",
     "rowName": "2-(2-羟基-4-甲基-3-环己烯基)-丙酸γ-内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1059；编码 S1060；香料中文名称 2-(2-羟基-4-甲基-3-环己烯基)-丙酸γ-内酯；香料英文名称 2-(2-Hydroxy-4-methyl-3-cyclohexenyl)-propi-onicacidγ-lactone(WineLactone)；FEMA 编号 4140。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1059；编码 S1060；香料中文名称 2-(2-羟基-4-甲基-3-环己烯基)-丙酸γ-内酯；香料英文名称 2-(2-Hydroxy-4-methyl-3-cyclohexenyl)-propi-onic acid γ-lactone (Wine Lactone)；FEMA 编号 4140。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1060",
@@ -25561,7 +25561,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1061",
     "flavorCode": "S1061",
     "flavorNameCn": "l-基甲基醚(又名2-异丙基-5-甲基环己基甲基醚)",
-    "flavorNameEn": "l-Menthylmethylether(2-Isopropyl-5-methylcyclohexylmethylehter)",
+    "flavorNameEn": "l-Menthyl methyl ether (2-Isopropyl-5-methylcyclohexylmethylehter)",
     "femaNumber": "4054",
     "pdfPage": 207,
     "standardPage": 204,
@@ -25570,7 +25570,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "l-基甲基醚(又名2-异丙基-5-l-Menthylmethylether(2-Isopropyl-5-1060S10614054甲基环己基甲基醚)methylcyclohexylmethylehter)",
     "rowName": "l-基甲基醚(又名2-异丙基-5-甲基环己基甲基醚)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1060；编码 S1061；香料中文名称 l-基甲基醚(又名2-异丙基-5-甲基环己基甲基醚)；香料英文名称 l-Menthylmethylether(2-Isopropyl-5-methylcyclohexylmethylehter)；FEMA 编号 4054。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1060；编码 S1061；香料中文名称 l-基甲基醚(又名2-异丙基-5-甲基环己基甲基醚)；香料英文名称 l-Menthyl methyl ether (2-Isopropyl-5-methylcyclohexylmethylehter)；FEMA 编号 4054。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1061",
@@ -25765,7 +25765,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1073",
     "flavorCode": "S1073",
     "flavorNameCn": "晚香玉内酯{又名二氢-5-[(Z,Z)-2,5-辛二烯-2(3H)-呋喃酮}",
-    "flavorNameEn": "TuberoseLactone{Dihydro-5-[(Z,Z)-octa-2,5-dienyl]-2(3H)-furanone}",
+    "flavorNameEn": "Tuberose Lactone{Dihydro-5-[(Z,Z)-octa-2,5-dienyl]-2(3H)-furanone}",
     "femaNumber": "4067",
     "pdfPage": 208,
     "standardPage": 205,
@@ -25774,7 +25774,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "晚香玉内酯{又名二氢-5-TuberoseLactone{Dihydro-5-[(Z,Z)-octa-1072S1073[(Z,Z)-2,5-辛二烯-2(3H)-呋40672,5-dienyl]-2(3H)-furanone}喃酮}",
     "rowName": "晚香玉内酯{又名二氢-5-[(Z,Z)-2,5-辛二烯-2(3H)-呋喃酮}",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1072；编码 S1073；香料中文名称 晚香玉内酯{又名二氢-5-[(Z,Z)-2,5-辛二烯-2(3H)-呋喃酮}；香料英文名称 TuberoseLactone{Dihydro-5-[(Z,Z)-octa-2,5-dienyl]-2(3H)-furanone}；FEMA 编号 4067。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1072；编码 S1073；香料中文名称 晚香玉内酯{又名二氢-5-[(Z,Z)-2,5-辛二烯-2(3H)-呋喃酮}；香料英文名称 Tuberose Lactone{Dihydro-5-[(Z,Z)-octa-2,5-dienyl]-2(3H)-furanone}；FEMA 编号 4067。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1073",
@@ -25782,7 +25782,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1074",
     "flavorCode": "S1074",
     "flavorNameCn": "4-甲基-2-戊基-1,3-二氧戊环(又名己醛1,2-丙二醇缩醛)",
-    "flavorNameEn": "4-Methyl-2-pentyl-1,3-dioxolane(Hexanalpropyleneglycolacetal)",
+    "flavorNameEn": "4-Methyl-2-pentyl-1,3-dioxolane (Hexanal propyleneglycolacetal)",
     "femaNumber": "3630",
     "pdfPage": 208,
     "standardPage": 205,
@@ -25791,7 +25791,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-甲基-2-戊基-1,3-二氧戊环(又4-Methyl-2-pentyl-1,3-dioxolane(Hexanal1073S10743630名己醛1,2-丙二醇缩醛)propyleneglycolacetal)",
     "rowName": "4-甲基-2-戊基-1,3-二氧戊环(又名己醛1,2-丙二醇缩醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1073；编码 S1074；香料中文名称 4-甲基-2-戊基-1,3-二氧戊环(又名己醛1,2-丙二醇缩醛)；香料英文名称 4-Methyl-2-pentyl-1,3-dioxolane(Hexanalpropyleneglycolacetal)；FEMA 编号 3630。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1073；编码 S1074；香料中文名称 4-甲基-2-戊基-1,3-二氧戊环(又名己醛1,2-丙二醇缩醛)；香料英文名称 4-Methyl-2-pentyl-1,3-dioxolane (Hexanal propyleneglycolacetal)；FEMA 编号 3630。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1074",
@@ -25799,7 +25799,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1075",
     "flavorCode": "S1075",
     "flavorNameCn": "乙酸3-巯基庚酯",
-    "flavorNameEn": "3-Mercaptoheptylacetate",
+    "flavorNameEn": "3-Mercaptoheptyl acetate",
     "femaNumber": "4289",
     "pdfPage": 208,
     "standardPage": 205,
@@ -25808,7 +25808,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1074S1075乙酸3-巯基庚酯3-Mercaptoheptylacetate4289",
     "rowName": "乙酸3-巯基庚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1074；编码 S1075；香料中文名称 乙酸3-巯基庚酯；香料英文名称 3-Mercaptoheptylacetate；FEMA 编号 4289。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1074；编码 S1075；香料中文名称 乙酸3-巯基庚酯；香料英文名称 3-Mercaptoheptyl acetate；FEMA 编号 4289。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1075",
@@ -25918,7 +25918,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1082",
     "flavorCode": "S1082",
     "flavorNameCn": "顺式-9-十八烯醇乙酸酯(又名乙酸油醇酯)",
-    "flavorNameEn": "cis-9-Octadecenylacetate(Oleylacetate)",
+    "flavorNameEn": "cis-9-Octadecenyl acetate (Oleyl acetate)",
     "femaNumber": "4359",
     "pdfPage": 208,
     "standardPage": 205,
@@ -25927,7 +25927,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "顺式-9-十八烯醇乙酸酯(又名乙1081S1082cis-9-Octadecenylacetate(Oleylacetate)4359酸油醇酯)",
     "rowName": "顺式-9-十八烯醇乙酸酯(又名乙酸油醇酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1081；编码 S1082；香料中文名称 顺式-9-十八烯醇乙酸酯(又名乙酸油醇酯)；香料英文名称 cis-9-Octadecenylacetate(Oleylacetate)；FEMA 编号 4359。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1081；编码 S1082；香料中文名称 顺式-9-十八烯醇乙酸酯(又名乙酸油醇酯)；香料英文名称 cis-9-Octadecenyl acetate (Oleyl acetate)；FEMA 编号 4359。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1082",
@@ -26122,7 +26122,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1094",
     "flavorCode": "S1094",
     "flavorNameCn": "2-异丁基-4-甲基-1,3-二氧戊环(又名异戊醛1,2-丙二醇缩醛)",
-    "flavorNameEn": "2-Isobutyl-4-methyl-1,3-dioxolane(Isovaler-aldehydepropyleneglycolacetal)",
+    "flavorNameEn": "2-Isobutyl-4-methyl-1,3-dioxolane (Isovaler-aldehydepropyleneglycolacetal)",
     "femaNumber": "4286",
     "pdfPage": 208,
     "standardPage": 205,
@@ -26131,7 +26131,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-异丁基-4-甲基-1,3-二氧戊环2-Isobutyl-4-methyl-1,3-dioxolane(Isovaler-1093S10944286(又名异戊醛1,2-丙二醇缩醛)aldehydepropyleneglycolacetal)",
     "rowName": "2-异丁基-4-甲基-1,3-二氧戊环(又名异戊醛1,2-丙二醇缩醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1093；编码 S1094；香料中文名称 2-异丁基-4-甲基-1,3-二氧戊环(又名异戊醛1,2-丙二醇缩醛)；香料英文名称 2-Isobutyl-4-methyl-1,3-dioxolane(Isovaler-aldehydepropyleneglycolacetal)；FEMA 编号 4286。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1093；编码 S1094；香料中文名称 2-异丁基-4-甲基-1,3-二氧戊环(又名异戊醛1,2-丙二醇缩醛)；香料英文名称 2-Isobutyl-4-methyl-1,3-dioxolane (Isovaler-aldehydepropyleneglycolacetal)；FEMA 编号 4286。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1094",
@@ -26139,7 +26139,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1095",
     "flavorCode": "S1095",
     "flavorNameCn": "顺式和反式-2-异丙基-4-甲基-1,3-二氧戊环(又名异丁醛1,2-丙二醇缩醛)",
-    "flavorNameEn": "cis-andtrans-2-Isopropyl-4-methyl-1,3-di-oxolane(Isobutyraldehydepropyleneglycolacetal)",
+    "flavorNameEn": "cis-and trans-2-Isopropyl-4-methyl-1,3-di-oxolane (Isobutyraldehydepropyleneglycol acetal)",
     "femaNumber": "4287",
     "pdfPage": 208,
     "standardPage": 205,
@@ -26148,7 +26148,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "顺式和反式-2-异丙基-4-甲基-cis-andtrans-2-Isopropyl-4-methyl-1,3-di-1094S10951,3-二氧戊环(又名异丁醛1,2-oxolane(Isobutyraldehydepropyleneglycol4287丙二醇缩醛)acetal)",
     "rowName": "顺式和反式-2-异丙基-4-甲基-1,3-二氧戊环(又名异丁醛1,2-丙二醇缩醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1094；编码 S1095；香料中文名称 顺式和反式-2-异丙基-4-甲基-1,3-二氧戊环(又名异丁醛1,2-丙二醇缩醛)；香料英文名称 cis-andtrans-2-Isopropyl-4-methyl-1,3-di-oxolane(Isobutyraldehydepropyleneglycolacetal)；FEMA 编号 4287。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1094；编码 S1095；香料中文名称 顺式和反式-2-异丙基-4-甲基-1,3-二氧戊环(又名异丁醛1,2-丙二醇缩醛)；香料英文名称 cis-and trans-2-Isopropyl-4-methyl-1,3-di-oxolane (Isobutyraldehydepropyleneglycol acetal)；FEMA 编号 4287。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1095",
@@ -26156,7 +26156,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1096",
     "flavorCode": "S1096",
     "flavorNameCn": "4-氨基丁酸(又名γ-氨基丁酸)",
-    "flavorNameEn": "4-Aminobutyricacid(Gamma-Aminobutyricacid)",
+    "flavorNameEn": "4-Aminobutyric acid (Gamma-Aminobutyric acid)",
     "femaNumber": "4288",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26165,7 +26165,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-Aminobutyricacid(Gamma-Aminobutyric1095S10964-氨基丁酸(又名γ-氨基丁酸)4288acid)",
     "rowName": "4-氨基丁酸(又名γ-氨基丁酸)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1095；编码 S1096；香料中文名称 4-氨基丁酸(又名γ-氨基丁酸)；香料英文名称 4-Aminobutyricacid(Gamma-Aminobutyricacid)；FEMA 编号 4288。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1095；编码 S1096；香料中文名称 4-氨基丁酸(又名γ-氨基丁酸)；香料英文名称 4-Aminobutyric acid (Gamma-Aminobutyric acid)；FEMA 编号 4288。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1096",
@@ -26190,7 +26190,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1098",
     "flavorCode": "S1098",
     "flavorNameCn": "二-(1-丙烯基)硫醚(异构体混合物)",
-    "flavorNameEn": "Di-(1-propenyl)-sulfide(mixtureofiso-mers)",
+    "flavorNameEn": "Di-(1-propenyl)-sulfide (mixtureofiso-mers)",
     "femaNumber": "4386",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26199,7 +26199,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "二-(1-丙烯基)硫醚(异构体混合Di-(1-propenyl)-sulfide(mixtureofiso-1097S10984386物)mers)",
     "rowName": "二-(1-丙烯基)硫醚(异构体混合物)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1097；编码 S1098；香料中文名称 二-(1-丙烯基)硫醚(异构体混合物)；香料英文名称 Di-(1-propenyl)-sulfide(mixtureofiso-mers)；FEMA 编号 4386。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1097；编码 S1098；香料中文名称 二-(1-丙烯基)硫醚(异构体混合物)；香料英文名称 Di-(1-propenyl)-sulfide (mixtureofiso-mers)；FEMA 编号 4386。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1098",
@@ -26207,7 +26207,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1099",
     "flavorCode": "S1099",
     "flavorNameCn": "乙酸2-戊酯",
-    "flavorNameEn": "2-Pentylacetate",
+    "flavorNameEn": "2-Pentyl acetate",
     "femaNumber": "4012",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26216,7 +26216,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1098S1099乙酸2-戊酯2-Pentylacetate4012",
     "rowName": "乙酸2-戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1098；编码 S1099；香料中文名称 乙酸2-戊酯；香料英文名称 2-Pentylacetate；FEMA 编号 4012。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1098；编码 S1099；香料中文名称 乙酸2-戊酯；香料英文名称 2-Pentyl acetate；FEMA 编号 4012。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1099",
@@ -26241,7 +26241,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1101",
     "flavorCode": "S1101",
     "flavorNameCn": "2,8-二硫杂-4-壬烯-4-甲醛[5-(甲硫基)-2-(甲硫基甲基)-2-戊烯醛]",
-    "flavorNameEn": "2,8-Dithianon-4-en-4-carboxaldehyde5-(Meth-ylthio)-2-(methylthiomethyl)-2-pentenalMe-thialdol",
+    "flavorNameEn": "2,8-Dithianon-4-en-4-carboxaldehyde5-(Meth-ylthio)-2-(methylthiomethyl)-2-pentenal Me-thialdol",
     "femaNumber": "3483",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26250,7 +26250,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,8-二硫杂-4-壬烯-4-甲醛[5-2,8-Dithianon-4-en-4-carboxaldehyde5-(Meth-1100S1101(甲硫基)-2-(甲硫基甲基)-2-戊ylthio)-2-(methylthiomethyl)-2-pentenalMe-3483烯醛]thialdol",
     "rowName": "2,8-二硫杂-4-壬烯-4-甲醛[5-(甲硫基)-2-(甲硫基甲基)-2-戊烯醛]",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1100；编码 S1101；香料中文名称 2,8-二硫杂-4-壬烯-4-甲醛[5-(甲硫基)-2-(甲硫基甲基)-2-戊烯醛]；香料英文名称 2,8-Dithianon-4-en-4-carboxaldehyde5-(Meth-ylthio)-2-(methylthiomethyl)-2-pentenalMe-thialdol；FEMA 编号 3483。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1100；编码 S1101；香料中文名称 2,8-二硫杂-4-壬烯-4-甲醛[5-(甲硫基)-2-(甲硫基甲基)-2-戊烯醛]；香料英文名称 2,8-Dithianon-4-en-4-carboxaldehyde5-(Meth-ylthio)-2-(methylthiomethyl)-2-pentenal Me-thialdol；FEMA 编号 3483。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1101",
@@ -26292,7 +26292,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1104",
     "flavorCode": "S1104",
     "flavorNameCn": "(E)-2-癸烯酸",
-    "flavorNameEn": "(E)-2-Decenoicacid",
+    "flavorNameEn": "(E)-2-Decenoic acid",
     "femaNumber": "3913",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26301,7 +26301,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1103S1104(E)-2-癸烯酸(E)-2-Decenoicacid3913",
     "rowName": "(E)-2-癸烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1103；编码 S1104；香料中文名称 (E)-2-癸烯酸；香料英文名称 (E)-2-Decenoicacid；FEMA 编号 3913。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1103；编码 S1104；香料中文名称 (E)-2-癸烯酸；香料英文名称 (E)-2-Decenoic acid；FEMA 编号 3913。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1104",
@@ -26394,7 +26394,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1110",
     "flavorCode": "S1110",
     "flavorNameCn": "8-罗勒烯醇乙酸酯(又名2,6-二甲基-2,5,7-辛三烯-1-醇乙酸酯)",
-    "flavorNameEn": "8-Ocimenylacetate(2,6-Dimethyl-2,5,7-oc-tatriene-1-ylacetate)",
+    "flavorNameEn": "8-Ocimenyl acetate(2,6-Dimethyl-2,5,7-oc-tatriene-1-yl acetate)",
     "femaNumber": "3886",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26403,7 +26403,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "8-罗勒烯醇乙酸酯(又名2,6-二8-Ocimenylacetate(2,6-Dimethyl-2,5,7-oc-1109S11103886甲基-2,5,7-辛三烯-1-醇乙酸酯)tatriene-1-ylacetate)",
     "rowName": "8-罗勒烯醇乙酸酯(又名2,6-二甲基-2,5,7-辛三烯-1-醇乙酸酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1109；编码 S1110；香料中文名称 8-罗勒烯醇乙酸酯(又名2,6-二甲基-2,5,7-辛三烯-1-醇乙酸酯)；香料英文名称 8-Ocimenylacetate(2,6-Dimethyl-2,5,7-oc-tatriene-1-ylacetate)；FEMA 编号 3886。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1109；编码 S1110；香料中文名称 8-罗勒烯醇乙酸酯(又名2,6-二甲基-2,5,7-辛三烯-1-醇乙酸酯)；香料英文名称 8-Ocimenyl acetate(2,6-Dimethyl-2,5,7-oc-tatriene-1-yl acetate)；FEMA 编号 3886。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1110",
@@ -26496,7 +26496,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1116",
     "flavorCode": "S1116",
     "flavorNameCn": "反式-2-顺式-4-癸二烯酸甲酯",
-    "flavorNameEn": "Methyl(E)-2-(Z)-4-decadienoate",
+    "flavorNameEn": "Methyl (E)-2-(Z)-4-decadienoate",
     "femaNumber": "3859",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26505,7 +26505,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1115S1116反式-2-顺式-4-癸二烯酸甲酯Methyl(E)-2-(Z)-4-decadienoate3859",
     "rowName": "反式-2-顺式-4-癸二烯酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1115；编码 S1116；香料中文名称 反式-2-顺式-4-癸二烯酸甲酯；香料英文名称 Methyl(E)-2-(Z)-4-decadienoate；FEMA 编号 3859。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1115；编码 S1116；香料中文名称 反式-2-顺式-4-癸二烯酸甲酯；香料英文名称 Methyl (E)-2-(Z)-4-decadienoate；FEMA 编号 3859。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1116",
@@ -26513,7 +26513,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1117",
     "flavorCode": "S1117",
     "flavorNameCn": "2-(4-甲基-2-羟基苯基)-丙酸-γ-内酯",
-    "flavorNameEn": "2-(4-Methyl-2-hydroxyphenyl)propionicacid-γ-lactone",
+    "flavorNameEn": "2-(4-Methyl-2-hydroxyphenyl)propionic acid- γ-lactone",
     "femaNumber": "3863",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26522,7 +26522,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-(4-甲基-2-羟基苯基)-丙酸-γ-2-(4-Methyl-2-hydroxyphenyl)propionicacid-1116S11173863内酯γ-lactone",
     "rowName": "2-(4-甲基-2-羟基苯基)-丙酸-γ-内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1116；编码 S1117；香料中文名称 2-(4-甲基-2-羟基苯基)-丙酸-γ-内酯；香料英文名称 2-(4-Methyl-2-hydroxyphenyl)propionicacid-γ-lactone；FEMA 编号 3863。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1116；编码 S1117；香料中文名称 2-(4-甲基-2-羟基苯基)-丙酸-γ-内酯；香料英文名称 2-(4-Methyl-2-hydroxyphenyl)propionic acid- γ-lactone；FEMA 编号 3863。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1117",
@@ -26530,7 +26530,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1118",
     "flavorCode": "S1118",
     "flavorNameCn": "丙酸顺式-5-辛烯酯",
-    "flavorNameEn": "(Z)-5-Octenylpropionate",
+    "flavorNameEn": "(Z)-5-Octenyl propionate",
     "femaNumber": "3890",
     "pdfPage": 209,
     "standardPage": 206,
@@ -26539,7 +26539,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1117S1118丙酸顺式-5-辛烯酯(Z)-5-Octenylpropionate3890",
     "rowName": "丙酸顺式-5-辛烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1117；编码 S1118；香料中文名称 丙酸顺式-5-辛烯酯；香料英文名称 (Z)-5-Octenylpropionate；FEMA 编号 3890。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1117；编码 S1118；香料中文名称 丙酸顺式-5-辛烯酯；香料英文名称 (Z)-5-Octenyl propionate；FEMA 编号 3890。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1118",
@@ -26547,7 +26547,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1119",
     "flavorCode": "S1119",
     "flavorNameCn": "3-甲基-2-丁烯硫醇乙酸酯",
-    "flavorNameEn": "3-Methyl-2-butenylthioacetate(Prenylthio-acetate)",
+    "flavorNameEn": "3-Methyl-2-butenylthioacetate (Prenylthio-acetate)",
     "femaNumber": "3895",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26556,7 +26556,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-Methyl-2-butenylthioacetate(Prenylthio-1118S11193-甲基-2-丁烯硫醇乙酸酯3895acetate)",
     "rowName": "3-甲基-2-丁烯硫醇乙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1118；编码 S1119；香料中文名称 3-甲基-2-丁烯硫醇乙酸酯；香料英文名称 3-Methyl-2-butenylthioacetate(Prenylthio-acetate)；FEMA 编号 3895。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1118；编码 S1119；香料中文名称 3-甲基-2-丁烯硫醇乙酸酯；香料英文名称 3-Methyl-2-butenylthioacetate (Prenylthio-acetate)；FEMA 编号 3895。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1119",
@@ -26632,7 +26632,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1124",
     "flavorCode": "S1124",
     "flavorNameCn": "3,6-二乙基-1,2,4,5-四硫杂环己烷与3,5-二乙基-1,2,4-三硫杂环戊烷的混合物",
-    "flavorNameEn": "Mixtureof3,6-Diethyl-1,2,4,5-tetrathianeand3,5-diethyl-1,2,4-trithiolane",
+    "flavorNameEn": "Mixtureof3,6-Diethyl-1,2,4,5-tetrathiane and3,5-diethyl-1,2,4-trithiolane",
     "femaNumber": "4094",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26641,7 +26641,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3,6-二乙基-1,2,4,5-四硫杂环Mixtureof3,6-Diethyl-1,2,4,5-tetrathiane1123S1124己烷与3,5-二乙基-1,2,4-三硫4094and3,5-diethyl-1,2,4-trithiolane杂环戊烷的混合物",
     "rowName": "3,6-二乙基-1,2,4,5-四硫杂环己烷与3,5-二乙基-1,2,4-三硫杂环戊烷的混合物",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1123；编码 S1124；香料中文名称 3,6-二乙基-1,2,4,5-四硫杂环己烷与3,5-二乙基-1,2,4-三硫杂环戊烷的混合物；香料英文名称 Mixtureof3,6-Diethyl-1,2,4,5-tetrathianeand3,5-diethyl-1,2,4-trithiolane；FEMA 编号 4094。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1123；编码 S1124；香料中文名称 3,6-二乙基-1,2,4,5-四硫杂环己烷与3,5-二乙基-1,2,4-三硫杂环戊烷的混合物；香料英文名称 Mixtureof3,6-Diethyl-1,2,4,5-tetrathiane and3,5-diethyl-1,2,4-trithiolane；FEMA 编号 4094。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1124",
@@ -26649,7 +26649,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1125",
     "flavorCode": "S1125",
     "flavorNameCn": "2,5-二羟基-1,4-二噻烷(又名巯基乙醛二聚体)",
-    "flavorNameEn": "2,5-Dihydroxy-1,4-dithiane(Mercaptoacet-aldehydedimer)",
+    "flavorNameEn": "2,5-Dihydroxy-1,4-dithiane (Mercaptoacet-aldehydedimer)",
     "femaNumber": "3826",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26658,7 +26658,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,5-二羟基-1,4-二噻烷(又名巯2,5-Dihydroxy-1,4-dithiane(Mercaptoacet-1124S11253826基乙醛二聚体)aldehydedimer)",
     "rowName": "2,5-二羟基-1,4-二噻烷(又名巯基乙醛二聚体)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1124；编码 S1125；香料中文名称 2,5-二羟基-1,4-二噻烷(又名巯基乙醛二聚体)；香料英文名称 2,5-Dihydroxy-1,4-dithiane(Mercaptoacet-aldehydedimer)；FEMA 编号 3826。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1124；编码 S1125；香料中文名称 2,5-二羟基-1,4-二噻烷(又名巯基乙醛二聚体)；香料英文名称 2,5-Dihydroxy-1,4-dithiane (Mercaptoacet-aldehydedimer)；FEMA 编号 3826。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1125",
@@ -26666,7 +26666,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1126",
     "flavorCode": "S1126",
     "flavorNameCn": "3-己烯醛(反式/顺式混合物)",
-    "flavorNameEn": "3-Hexenal(trans/cismix)",
+    "flavorNameEn": "3-Hexenal (trans/cis mix)",
     "femaNumber": "3923",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26675,7 +26675,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1125S11263-己烯醛(反式/顺式混合物)3-Hexenal(trans/cismix)3923",
     "rowName": "3-己烯醛(反式/顺式混合物)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1125；编码 S1126；香料中文名称 3-己烯醛(反式/顺式混合物)；香料英文名称 3-Hexenal(trans/cismix)；FEMA 编号 3923。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1125；编码 S1126；香料中文名称 3-己烯醛(反式/顺式混合物)；香料英文名称 3-Hexenal (trans/cis mix)；FEMA 编号 3923。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1126",
@@ -26717,7 +26717,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1129",
     "flavorCode": "S1129",
     "flavorNameCn": "2-(4-羟基苯基)-乙胺(又名酪胺)",
-    "flavorNameEn": "2-(4-hydroxyphenyl)ethylamine(Tyramine)",
+    "flavorNameEn": "2-(4-hydroxyphenyl)ethylamine (Tyramine)",
     "femaNumber": "4215",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26726,7 +26726,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-(4-羟基苯基)-乙胺(又名酪1128S11292-(4-hydroxyphenyl)ethylamine(Tyramine)4215胺)",
     "rowName": "2-(4-羟基苯基)-乙胺(又名酪胺)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1128；编码 S1129；香料中文名称 2-(4-羟基苯基)-乙胺(又名酪胺)；香料英文名称 2-(4-hydroxyphenyl)ethylamine(Tyramine)；FEMA 编号 4215。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1128；编码 S1129；香料中文名称 2-(4-羟基苯基)-乙胺(又名酪胺)；香料英文名称 2-(4-hydroxyphenyl)ethylamine (Tyramine)；FEMA 编号 4215。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1129",
@@ -26734,7 +26734,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1130",
     "flavorCode": "S1130",
     "flavorNameCn": "4[(2-呋喃甲基)硫基]-2-戊酮(又名4-糠硫基-2-戊酮)",
-    "flavorNameEn": "4-[(2-Furanmethyl)thio]-2-pentanone(4-Furfurylthio-2-pentanone)",
+    "flavorNameEn": "4-[(2-Furanmethyl) thio]-2-pentanone (4-Furfurylthio-2-pentanone)",
     "femaNumber": "3840",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26743,7 +26743,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4[(2-呋喃甲基)硫基]-2-戊酮4-[(2-Furanmethyl)thio]-2-pentanone(4-1129S11303840(又名4-糠硫基-2-戊酮)Furfurylthio-2-pentanone)",
     "rowName": "4[(2-呋喃甲基)硫基]-2-戊酮(又名4-糠硫基-2-戊酮)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1129；编码 S1130；香料中文名称 4[(2-呋喃甲基)硫基]-2-戊酮(又名4-糠硫基-2-戊酮)；香料英文名称 4-[(2-Furanmethyl)thio]-2-pentanone(4-Furfurylthio-2-pentanone)；FEMA 编号 3840。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1129；编码 S1130；香料中文名称 4[(2-呋喃甲基)硫基]-2-戊酮(又名4-糠硫基-2-戊酮)；香料英文名称 4-[(2-Furanmethyl) thio]-2-pentanone (4-Furfurylthio-2-pentanone)；FEMA 编号 3840。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1130",
@@ -26768,7 +26768,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1132",
     "flavorCode": "S1132",
     "flavorNameCn": "2,6-二甲基-4-庚酮",
-    "flavorNameEn": "2,6-Dimethyl-4-heptanone(Diisobutylke-tone)",
+    "flavorNameEn": "2,6-Dimethyl-4-heptanone (Diisobutylke-tone)",
     "femaNumber": "3537",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26777,7 +26777,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,6-Dimethyl-4-heptanone(Diisobutylke-1131S11322,6-二甲基-4-庚酮3537tone)",
     "rowName": "2,6-二甲基-4-庚酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1131；编码 S1132；香料中文名称 2,6-二甲基-4-庚酮；香料英文名称 2,6-Dimethyl-4-heptanone(Diisobutylke-tone)；FEMA 编号 3537。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1131；编码 S1132；香料中文名称 2,6-二甲基-4-庚酮；香料英文名称 2,6-Dimethyl-4-heptanone (Diisobutylke-tone)；FEMA 编号 3537。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1132",
@@ -26819,7 +26819,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1135",
     "flavorCode": "S1135",
     "flavorNameCn": "甲酸松油酯",
-    "flavorNameEn": "terpinylformate",
+    "flavorNameEn": "terpinyl formate",
     "femaNumber": "3052",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26828,7 +26828,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1134S1135甲酸松油酯terpinylformate3052",
     "rowName": "甲酸松油酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1134；编码 S1135；香料中文名称 甲酸松油酯；香料英文名称 terpinylformate；FEMA 编号 3052。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1134；编码 S1135；香料中文名称 甲酸松油酯；香料英文名称 terpinyl formate；FEMA 编号 3052。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1135",
@@ -26938,7 +26938,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1142",
     "flavorCode": "S1142",
     "flavorNameCn": "1-乙基-2-甲酰基吡咯(又名茶吡咯)",
-    "flavorNameEn": "1-ethyl-2-formylpyrrole(Teapyrrole)",
+    "flavorNameEn": "1-ethyl-2-formylpyrrole (Teapyrrole)",
     "femaNumber": "4317",
     "pdfPage": 210,
     "standardPage": 207,
@@ -26947,7 +26947,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1-乙基-2-甲酰基吡咯(又名茶吡1141S11421-ethyl-2-formylpyrrole(Teapyrrole)4317咯)",
     "rowName": "1-乙基-2-甲酰基吡咯(又名茶吡咯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1141；编码 S1142；香料中文名称 1-乙基-2-甲酰基吡咯(又名茶吡咯)；香料英文名称 1-ethyl-2-formylpyrrole(Teapyrrole)；FEMA 编号 4317。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1141；编码 S1142；香料中文名称 1-乙基-2-甲酰基吡咯(又名茶吡咯)；香料英文名称 1-ethyl-2-formylpyrrole (Teapyrrole)；FEMA 编号 4317。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1142",
@@ -26955,7 +26955,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1143",
     "flavorCode": "S1143",
     "flavorNameCn": "2-(4-甲基-5-噻唑基)乙醇辛酸酯",
-    "flavorNameEn": "2-(4-methyl-5-thiazolyl)ethyloctanoate",
+    "flavorNameEn": "2-(4-methyl-5-thiazolyl)ethyl octanoate",
     "femaNumber": "4280",
     "pdfPage": 211,
     "standardPage": 208,
@@ -26964,7 +26964,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1142S11432-(4-甲基-5-噻唑基)乙醇辛酸酯2-(4-methyl-5-thiazolyl)ethyloctanoate4280",
     "rowName": "2-(4-甲基-5-噻唑基)乙醇辛酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1142；编码 S1143；香料中文名称 2-(4-甲基-5-噻唑基)乙醇辛酸酯；香料英文名称 2-(4-methyl-5-thiazolyl)ethyloctanoate；FEMA 编号 4280。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1142；编码 S1143；香料中文名称 2-(4-甲基-5-噻唑基)乙醇辛酸酯；香料英文名称 2-(4-methyl-5-thiazolyl)ethyl octanoate；FEMA 编号 4280。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1143",
@@ -27074,7 +27074,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1150",
     "flavorCode": "S1150",
     "flavorNameCn": "山梨酸甲酯",
-    "flavorNameEn": "methylsorbate",
+    "flavorNameEn": "methyl sorbate",
     "femaNumber": "3714",
     "pdfPage": 211,
     "standardPage": 208,
@@ -27083,7 +27083,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1149S1150山梨酸甲酯methylsorbate3714",
     "rowName": "山梨酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1149；编码 S1150；香料中文名称 山梨酸甲酯；香料英文名称 methylsorbate；FEMA 编号 3714。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1149；编码 S1150；香料中文名称 山梨酸甲酯；香料英文名称 methyl sorbate；FEMA 编号 3714。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1150",
@@ -27125,7 +27125,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1153",
     "flavorCode": "S1153",
     "flavorNameCn": "乙酸桃金娘烯酯",
-    "flavorNameEn": "myrtenylacetate",
+    "flavorNameEn": "myrtenyl acetate",
     "femaNumber": "3765",
     "pdfPage": 211,
     "standardPage": 208,
@@ -27134,7 +27134,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1152S1153乙酸桃金娘烯酯myrtenylacetate3765",
     "rowName": "乙酸桃金娘烯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1152；编码 S1153；香料中文名称 乙酸桃金娘烯酯；香料英文名称 myrtenylacetate；FEMA 编号 3765。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1152；编码 S1153；香料中文名称 乙酸桃金娘烯酯；香料英文名称 myrtenyl acetate；FEMA 编号 3765。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1153",
@@ -27159,7 +27159,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1155",
     "flavorCode": "S1155",
     "flavorNameCn": "2-(4-甲基-5-噻唑基)乙醇丁酸酯",
-    "flavorNameEn": "2-(4-methyl-5-thiazolyl)ethylbutyrate",
+    "flavorNameEn": "2-(4-methyl-5-thiazolyl)ethyl butyrate",
     "femaNumber": "4277",
     "pdfPage": 211,
     "standardPage": 208,
@@ -27168,7 +27168,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1154S11552-(4-甲基-5-噻唑基)乙醇丁酸酯2-(4-methyl-5-thiazolyl)ethylbutyrate4277",
     "rowName": "2-(4-甲基-5-噻唑基)乙醇丁酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1154；编码 S1155；香料中文名称 2-(4-甲基-5-噻唑基)乙醇丁酸酯；香料英文名称 2-(4-methyl-5-thiazolyl)ethylbutyrate；FEMA 编号 4277。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1154；编码 S1155；香料中文名称 2-(4-甲基-5-噻唑基)乙醇丁酸酯；香料英文名称 2-(4-methyl-5-thiazolyl)ethyl butyrate；FEMA 编号 4277。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1155",
@@ -27312,7 +27312,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1164",
     "flavorCode": "S1164",
     "flavorNameCn": "3-丙烯基-6-乙氧基苯酚(又名丙烯基乙基愈创木酚)",
-    "flavorNameEn": "3-Propenyl-6-ethoxyphenol(Propenylguaethol)",
+    "flavorNameEn": "3-Propenyl-6-ethoxyphenol (Propenylguaethol)",
     "femaNumber": "2922",
     "pdfPage": 211,
     "standardPage": 208,
@@ -27321,7 +27321,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-丙烯基-6-乙氧基苯酚(又名丙1163S11643-Propenyl-6-ethoxyphenol(Propenylguaethol)2922烯基乙基愈创木酚)",
     "rowName": "3-丙烯基-6-乙氧基苯酚(又名丙烯基乙基愈创木酚)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1163；编码 S1164；香料中文名称 3-丙烯基-6-乙氧基苯酚(又名丙烯基乙基愈创木酚)；香料英文名称 3-Propenyl-6-ethoxyphenol(Propenylguaethol)；FEMA 编号 2922。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1163；编码 S1164；香料中文名称 3-丙烯基-6-乙氧基苯酚(又名丙烯基乙基愈创木酚)；香料英文名称 3-Propenyl-6-ethoxyphenol (Propenylguaethol)；FEMA 编号 2922。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1164",
@@ -27414,7 +27414,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1170",
     "flavorCode": "S1170",
     "flavorNameCn": "十六醛(又名杨梅醛)",
-    "flavorNameEn": "AldehydeC-16pure(socalled)(Strawberryaldehyde)",
+    "flavorNameEn": "Aldehyde C-16pure (socalled) (Strawberry aldehyde)",
     "femaNumber": "2444",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27423,7 +27423,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "AldehydeC-16pure(socalled)(Strawberry1169S1170十六醛(又名杨梅醛)2444aldehyde)",
     "rowName": "十六醛(又名杨梅醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1169；编码 S1170；香料中文名称 十六醛(又名杨梅醛)；香料英文名称 AldehydeC-16pure(socalled)(Strawberryaldehyde)；FEMA 编号 2444。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1169；编码 S1170；香料中文名称 十六醛(又名杨梅醛)；香料英文名称 Aldehyde C-16pure (socalled) (Strawberry aldehyde)；FEMA 编号 2444。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1170",
@@ -27499,7 +27499,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1175",
     "flavorCode": "S1175",
     "flavorNameCn": "l-薄荷酮甘油缩酮",
-    "flavorNameEn": "l-Menthone1,2-glycerolKetal",
+    "flavorNameEn": "l-Menthone1,2-glycerol Ketal",
     "femaNumber": "3807",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27508,7 +27508,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1174S1175l-薄荷酮甘油缩酮l-Menthone1,2-glycerolKetal3807",
     "rowName": "l-薄荷酮甘油缩酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1174；编码 S1175；香料中文名称 l-薄荷酮甘油缩酮；香料英文名称 l-Menthone1,2-glycerolKetal；FEMA 编号 3807。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1174；编码 S1175；香料中文名称 l-薄荷酮甘油缩酮；香料英文名称 l-Menthone1,2-glycerol Ketal；FEMA 编号 3807。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1175",
@@ -27550,7 +27550,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1178",
     "flavorCode": "S1178",
     "flavorNameCn": "d,l-薄荷酮甘油缩酮",
-    "flavorNameEn": "d,l-Menthone1,2-glycerolKetal",
+    "flavorNameEn": "d,l-Menthone1,2-glycerol Ketal",
     "femaNumber": "3808",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27559,7 +27559,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1177S1178d,l-薄荷酮甘油缩酮d,l-Menthone1,2-glycerolKetal3808",
     "rowName": "d,l-薄荷酮甘油缩酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1177；编码 S1178；香料中文名称 d,l-薄荷酮甘油缩酮；香料英文名称 d,l-Menthone1,2-glycerolKetal；FEMA 编号 3808。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1177；编码 S1178；香料中文名称 d,l-薄荷酮甘油缩酮；香料英文名称 d,l-Menthone1,2-glycerol Ketal；FEMA 编号 3808。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1178",
@@ -27635,7 +27635,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1183",
     "flavorCode": "S1183",
     "flavorNameCn": "2-巯基丙酸",
-    "flavorNameEn": "2-Mercaptopropionicacid",
+    "flavorNameEn": "2-Mercaptopropionic acid",
     "femaNumber": "3180",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27644,7 +27644,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1182S11832-巯基丙酸2-Mercaptopropionicacid3180",
     "rowName": "2-巯基丙酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1182；编码 S1183；香料中文名称 2-巯基丙酸；香料英文名称 2-Mercaptopropionicacid；FEMA 编号 3180。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1182；编码 S1183；香料中文名称 2-巯基丙酸；香料英文名称 2-Mercaptopropionic acid；FEMA 编号 3180。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1183",
@@ -27652,7 +27652,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1184",
     "flavorCode": "S1184",
     "flavorNameCn": "2-甲基-4-戊烯酸",
-    "flavorNameEn": "2-Methyl-4-pentenoicacid",
+    "flavorNameEn": "2-Methyl-4-pentenoic acid",
     "femaNumber": "3511",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27661,7 +27661,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1183S11842-甲基-4-戊烯酸2-Methyl-4-pentenoicacid3511",
     "rowName": "2-甲基-4-戊烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1183；编码 S1184；香料中文名称 2-甲基-4-戊烯酸；香料英文名称 2-Methyl-4-pentenoicacid；FEMA 编号 3511。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1183；编码 S1184；香料中文名称 2-甲基-4-戊烯酸；香料英文名称 2-Methyl-4-pentenoic acid；FEMA 编号 3511。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1184",
@@ -27669,7 +27669,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1185",
     "flavorCode": "S1185",
     "flavorNameCn": "乙酸二甲基苄基原酯",
-    "flavorNameEn": "Benzyldimethylcarbinylacetate",
+    "flavorNameEn": "Benzyldimethylcarbinyl acetate",
     "femaNumber": "2392",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27678,7 +27678,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1184S1185乙酸二甲基苄基原酯Benzyldimethylcarbinylacetate2392",
     "rowName": "乙酸二甲基苄基原酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1184；编码 S1185；香料中文名称 乙酸二甲基苄基原酯；香料英文名称 Benzyldimethylcarbinylacetate；FEMA 编号 2392。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1184；编码 S1185；香料中文名称 乙酸二甲基苄基原酯；香料英文名称 Benzyldimethylcarbinyl acetate；FEMA 编号 2392。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1185",
@@ -27703,7 +27703,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1187",
     "flavorCode": "S1187",
     "flavorNameCn": "乙酸玫瑰酯",
-    "flavorNameEn": "Rhodinylacetate",
+    "flavorNameEn": "Rhodinyl acetate",
     "femaNumber": "2981",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27712,7 +27712,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1186S1187乙酸玫瑰酯Rhodinylacetate2981",
     "rowName": "乙酸玫瑰酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1186；编码 S1187；香料中文名称 乙酸玫瑰酯；香料英文名称 Rhodinylacetate；FEMA 编号 2981。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1186；编码 S1187；香料中文名称 乙酸玫瑰酯；香料英文名称 Rhodinyl acetate；FEMA 编号 2981。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1187",
@@ -27720,7 +27720,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1188",
     "flavorCode": "S1188",
     "flavorNameCn": "3-(2-呋喃基)丙酸乙酯",
-    "flavorNameEn": "Ethyl3(2-furyl)propanoate",
+    "flavorNameEn": "Ethyl 3(2-furyl)propanoate",
     "femaNumber": "2435",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27729,7 +27729,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1187S11883-(2-呋喃基)丙酸乙酯Ethyl3(2-furyl)propanoate2435",
     "rowName": "3-(2-呋喃基)丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1187；编码 S1188；香料中文名称 3-(2-呋喃基)丙酸乙酯；香料英文名称 Ethyl3(2-furyl)propanoate；FEMA 编号 2435。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1187；编码 S1188；香料中文名称 3-(2-呋喃基)丙酸乙酯；香料英文名称 Ethyl 3(2-furyl)propanoate；FEMA 编号 2435。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1188",
@@ -27737,7 +27737,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1189",
     "flavorCode": "S1189",
     "flavorNameCn": "丙酸烯丙酯",
-    "flavorNameEn": "Allylpropionate",
+    "flavorNameEn": "Allyl propionate",
     "femaNumber": "2040",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27746,7 +27746,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1188S1189丙酸烯丙酯Allylpropionate2040",
     "rowName": "丙酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1188；编码 S1189；香料中文名称 丙酸烯丙酯；香料英文名称 Allylpropionate；FEMA 编号 2040。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1188；编码 S1189；香料中文名称 丙酸烯丙酯；香料英文名称 Allyl propionate；FEMA 编号 2040。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1189",
@@ -27754,7 +27754,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1190",
     "flavorCode": "S1190",
     "flavorNameCn": "3-环己基丙酸烯丙酯",
-    "flavorNameEn": "Allyl3-cyclohexylpropionate",
+    "flavorNameEn": "Allyl 3-cyclohexylpropionate",
     "femaNumber": "2026",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27763,7 +27763,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1189S11903-环己基丙酸烯丙酯Allyl3-cyclohexylpropionate2026",
     "rowName": "3-环己基丙酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1189；编码 S1190；香料中文名称 3-环己基丙酸烯丙酯；香料英文名称 Allyl3-cyclohexylpropionate；FEMA 编号 2026。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1189；编码 S1190；香料中文名称 3-环己基丙酸烯丙酯；香料英文名称 Allyl 3-cyclohexylpropionate；FEMA 编号 2026。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1190",
@@ -27771,7 +27771,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1191",
     "flavorCode": "S1191",
     "flavorNameCn": "3-(2-呋喃基)丙酸异丁酯",
-    "flavorNameEn": "Isobutyl3-(2-furan)propionate",
+    "flavorNameEn": "Isobutyl 3-(2-furan)propionate",
     "femaNumber": "2198",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27780,7 +27780,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1190S11913-(2-呋喃基)丙酸异丁酯Isobutyl3-(2-furan)propionate2198",
     "rowName": "3-(2-呋喃基)丙酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1190；编码 S1191；香料中文名称 3-(2-呋喃基)丙酸异丁酯；香料英文名称 Isobutyl3-(2-furan)propionate；FEMA 编号 2198。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1190；编码 S1191；香料中文名称 3-(2-呋喃基)丙酸异丁酯；香料英文名称 Isobutyl 3-(2-furan)propionate；FEMA 编号 2198。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1191",
@@ -27805,7 +27805,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1193",
     "flavorCode": "S1193",
     "flavorNameCn": "丁酸二甲基苄基原酯",
-    "flavorNameEn": "Dimethylbenzylcarbinylbutyrate",
+    "flavorNameEn": "Dimethylbenzylcarbinyl butyrate",
     "femaNumber": "2394",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27814,7 +27814,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1192S1193丁酸二甲基苄基原酯Dimethylbenzylcarbinylbutyrate2394",
     "rowName": "丁酸二甲基苄基原酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1192；编码 S1193；香料中文名称 丁酸二甲基苄基原酯；香料英文名称 Dimethylbenzylcarbinylbutyrate；FEMA 编号 2394。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1192；编码 S1193；香料中文名称 丁酸二甲基苄基原酯；香料英文名称 Dimethylbenzylcarbinyl butyrate；FEMA 编号 2394。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1193",
@@ -27839,7 +27839,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1195",
     "flavorCode": "S1195",
     "flavorNameCn": "1,3-壬二醇乙酸酯(混合酯)",
-    "flavorNameEn": "1,3-Nonanediolacetate(mixedesters)",
+    "flavorNameEn": "1,3-Nonanediolacetate (mixedesters)",
     "femaNumber": "2783",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27848,7 +27848,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1194S11951,3-壬二醇乙酸酯(混合酯)1,3-Nonanediolacetate(mixedesters)2783",
     "rowName": "1,3-壬二醇乙酸酯(混合酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1194；编码 S1195；香料中文名称 1,3-壬二醇乙酸酯(混合酯)；香料英文名称 1,3-Nonanediolacetate(mixedesters)；FEMA 编号 2783。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1194；编码 S1195；香料中文名称 1,3-壬二醇乙酸酯(混合酯)；香料英文名称 1,3-Nonanediolacetate (mixedesters)；FEMA 编号 2783。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1195",
@@ -27856,7 +27856,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1196",
     "flavorCode": "S1196",
     "flavorNameCn": "丁酸苏合香酯",
-    "flavorNameEn": "Styralylbutyrate",
+    "flavorNameEn": "Styralyl butyrate",
     "femaNumber": "2686",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27865,7 +27865,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1195S1196丁酸苏合香酯Styralylbutyrate2686",
     "rowName": "丁酸苏合香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1195；编码 S1196；香料中文名称 丁酸苏合香酯；香料英文名称 Styralylbutyrate；FEMA 编号 2686。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1195；编码 S1196；香料中文名称 丁酸苏合香酯；香料英文名称 Styralyl butyrate；FEMA 编号 2686。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1196",
@@ -27873,7 +27873,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1197",
     "flavorCode": "S1197",
     "flavorNameCn": "乙酸柏木酯",
-    "flavorNameEn": "Cedrylacetate",
+    "flavorNameEn": "Cedryl acetate",
     "femaNumber": "—",
     "pdfPage": 212,
     "standardPage": 209,
@@ -27882,7 +27882,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1196S1197乙酸柏木酯Cedrylacetate—",
     "rowName": "乙酸柏木酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1196；编码 S1197；香料中文名称 乙酸柏木酯；香料英文名称 Cedrylacetate；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1196；编码 S1197；香料中文名称 乙酸柏木酯；香料英文名称 Cedryl acetate；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1197",
@@ -27924,7 +27924,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1200",
     "flavorCode": "S1200",
     "flavorNameCn": "乙酸四氢糠酯",
-    "flavorNameEn": "Tetrahydrofurfurylacetate",
+    "flavorNameEn": "Tetrahydrofurfuryl acetate",
     "femaNumber": "3055",
     "pdfPage": 213,
     "standardPage": 210,
@@ -27933,7 +27933,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1199S1200乙酸四氢糠酯Tetrahydrofurfurylacetate3055",
     "rowName": "乙酸四氢糠酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1199；编码 S1200；香料中文名称 乙酸四氢糠酯；香料英文名称 Tetrahydrofurfurylacetate；FEMA 编号 3055。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1199；编码 S1200；香料中文名称 乙酸四氢糠酯；香料英文名称 Tetrahydrofurfuryl acetate；FEMA 编号 3055。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1200",
@@ -27992,7 +27992,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1204",
     "flavorCode": "S1204",
     "flavorNameCn": "10-十一烯酸乙酯",
-    "flavorNameEn": "Ethyl10-undecenoate",
+    "flavorNameEn": "Ethyl 10-undecenoate",
     "femaNumber": "2461",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28001,7 +28001,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1203S120410-十一烯酸乙酯Ethyl10-undecenoate2461",
     "rowName": "10-十一烯酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1203；编码 S1204；香料中文名称 10-十一烯酸乙酯；香料英文名称 Ethyl10-undecenoate；FEMA 编号 2461。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1203；编码 S1204；香料中文名称 10-十一烯酸乙酯；香料英文名称 Ethyl 10-undecenoate；FEMA 编号 2461。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1204",
@@ -28009,7 +28009,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1205",
     "flavorCode": "S1205",
     "flavorNameCn": "苯乙酸烯丙酯",
-    "flavorNameEn": "Allylphenylacetate",
+    "flavorNameEn": "Allyl phenylacetate",
     "femaNumber": "2039",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28018,7 +28018,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1204S1205苯乙酸烯丙酯Allylphenylacetate2039",
     "rowName": "苯乙酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1204；编码 S1205；香料中文名称 苯乙酸烯丙酯；香料英文名称 Allylphenylacetate；FEMA 编号 2039。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1204；编码 S1205；香料中文名称 苯乙酸烯丙酯；香料英文名称 Allyl phenylacetate；FEMA 编号 2039。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1205",
@@ -28043,7 +28043,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1207",
     "flavorCode": "S1207",
     "flavorNameCn": "苯乙酸香叶酯",
-    "flavorNameEn": "Geranylphenylacetate",
+    "flavorNameEn": "Geranyl phenylacetate",
     "femaNumber": "2516",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28052,7 +28052,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1206S1207苯乙酸香叶酯Geranylphenylacetate2516",
     "rowName": "苯乙酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1206；编码 S1207；香料中文名称 苯乙酸香叶酯；香料英文名称 Geranylphenylacetate；FEMA 编号 2516。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1206；编码 S1207；香料中文名称 苯乙酸香叶酯；香料英文名称 Geranyl phenylacetate；FEMA 编号 2516。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1207",
@@ -28060,7 +28060,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1208",
     "flavorCode": "S1208",
     "flavorNameCn": "苯乙酸对-甲酚酯",
-    "flavorNameEn": "p-Cresylphenylacetate",
+    "flavorNameEn": "p-Cresyl phenylacetate",
     "femaNumber": "3077",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28069,7 +28069,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1207S1208苯乙酸对-甲酚酯p-Cresylphenylacetate3077",
     "rowName": "苯乙酸对-甲酚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1207；编码 S1208；香料中文名称 苯乙酸对-甲酚酯；香料英文名称 p-Cresylphenylacetate；FEMA 编号 3077。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1207；编码 S1208；香料中文名称 苯乙酸对-甲酚酯；香料英文名称 p-Cresyl phenylacetate；FEMA 编号 3077。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1208",
@@ -28077,7 +28077,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1209",
     "flavorCode": "S1209",
     "flavorNameCn": "4-苯基丁酸甲酯(又名苯丁酸甲酯)",
-    "flavorNameEn": "Methyl4-phenylbutyrate",
+    "flavorNameEn": "Methyl 4-phenylbutyrate",
     "femaNumber": "2739",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28086,7 +28086,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-苯基丁酸甲酯(又名苯丁酸甲1208S1209Methyl4-phenylbutyrate2739酯)",
     "rowName": "4-苯基丁酸甲酯(又名苯丁酸甲酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1208；编码 S1209；香料中文名称 4-苯基丁酸甲酯(又名苯丁酸甲酯)；香料英文名称 Methyl4-phenylbutyrate；FEMA 编号 2739。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1208；编码 S1209；香料中文名称 4-苯基丁酸甲酯(又名苯丁酸甲酯)；香料英文名称 Methyl 4-phenylbutyrate；FEMA 编号 2739。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1209",
@@ -28094,7 +28094,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1210",
     "flavorCode": "S1210",
     "flavorNameCn": "4-苯基丁酸乙酯(又名苯丁酸乙酯)",
-    "flavorNameEn": "Ethyl4-phenylbutyrate",
+    "flavorNameEn": "Ethyl 4-phenylbutyrate",
     "femaNumber": "2453",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28103,7 +28103,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-苯基丁酸乙酯(又名苯丁酸乙1209S1210Ethyl4-phenylbutyrate2453酯)",
     "rowName": "4-苯基丁酸乙酯(又名苯丁酸乙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1209；编码 S1210；香料中文名称 4-苯基丁酸乙酯(又名苯丁酸乙酯)；香料英文名称 Ethyl4-phenylbutyrate；FEMA 编号 2453。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1209；编码 S1210；香料中文名称 4-苯基丁酸乙酯(又名苯丁酸乙酯)；香料英文名称 Ethyl 4-phenylbutyrate；FEMA 编号 2453。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1210",
@@ -28111,7 +28111,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1211",
     "flavorCode": "S1211",
     "flavorNameCn": "肉桂酸烯丙酯",
-    "flavorNameEn": "Allylcinnamate",
+    "flavorNameEn": "Allyl cinnamate",
     "femaNumber": "2022",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28120,7 +28120,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1210S1211肉桂酸烯丙酯Allylcinnamate2022",
     "rowName": "肉桂酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1210；编码 S1211；香料中文名称 肉桂酸烯丙酯；香料英文名称 Allylcinnamate；FEMA 编号 2022。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1210；编码 S1211；香料中文名称 肉桂酸烯丙酯；香料英文名称 Allyl cinnamate；FEMA 编号 2022。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1211",
@@ -28162,7 +28162,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1214",
     "flavorCode": "S1214",
     "flavorNameCn": "庚酸戊酯",
-    "flavorNameEn": "Amylheptanoate",
+    "flavorNameEn": "Amyl heptanoate",
     "femaNumber": "2073",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28171,7 +28171,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1213S1214庚酸戊酯Amylheptanoate2073",
     "rowName": "庚酸戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1213；编码 S1214；香料中文名称 庚酸戊酯；香料英文名称 Amylheptanoate；FEMA 编号 2073。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1213；编码 S1214；香料中文名称 庚酸戊酯；香料英文名称 Amyl heptanoate；FEMA 编号 2073。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1214",
@@ -28196,7 +28196,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1216",
     "flavorCode": "S1216",
     "flavorNameCn": "2,5-二甲基-3-氧代(2H)-4-呋喃丁酸酯",
-    "flavorNameEn": "2,5-Dimethyl-3-Oxo-(2H)-fur-4-ylbutyrate",
+    "flavorNameEn": "2,5-Dimethyl-3-Oxo-(2H)-fur-4-yl butyrate",
     "femaNumber": "3970",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28205,7 +28205,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,5-二甲基-3-氧代(2H)-4-呋喃1215S12162,5-Dimethyl-3-Oxo-(2H)-fur-4-ylbutyrate3970丁酸酯",
     "rowName": "2,5-二甲基-3-氧代(2H)-4-呋喃丁酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1215；编码 S1216；香料中文名称 2,5-二甲基-3-氧代(2H)-4-呋喃丁酸酯；香料英文名称 2,5-Dimethyl-3-Oxo-(2H)-fur-4-ylbutyrate；FEMA 编号 3970。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1215；编码 S1216；香料中文名称 2,5-二甲基-3-氧代(2H)-4-呋喃丁酸酯；香料英文名称 2,5-Dimethyl-3-Oxo-(2H)-fur-4-yl butyrate；FEMA 编号 3970。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1216",
@@ -28230,7 +28230,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1218",
     "flavorCode": "S1218",
     "flavorNameCn": "2-甲基-3(5或6)-糠硫基吡嗪",
-    "flavorNameEn": "2-Methyl-3,5-or6-(furfurylthio)-pyrazine(mixtureofisomers)",
+    "flavorNameEn": "2-Methyl-3,5-or6-(furfurylthio)-pyrazine (mixtureofisomers)",
     "femaNumber": "3189",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28239,7 +28239,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-Methyl-3,5-or6-(furfurylthio)-pyrazine1217S12182-甲基-3(5或6)-糠硫基吡嗪3189(mixtureofisomers)",
     "rowName": "2-甲基-3(5或6)-糠硫基吡嗪",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1217；编码 S1218；香料中文名称 2-甲基-3(5或6)-糠硫基吡嗪；香料英文名称 2-Methyl-3,5-or6-(furfurylthio)-pyrazine(mixtureofisomers)；FEMA 编号 3189。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1217；编码 S1218；香料中文名称 2-甲基-3(5或6)-糠硫基吡嗪；香料英文名称 2-Methyl-3,5-or6-(furfurylthio)-pyrazine (mixtureofisomers)；FEMA 编号 3189。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1218",
@@ -28247,7 +28247,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1219",
     "flavorCode": "S1219",
     "flavorNameCn": "2-甲基(或乙基)-3(5或6)-甲氧基吡嗪",
-    "flavorNameEn": "2-Methyl(orethyl)-3(5or6)-methoxy-pyrazine",
+    "flavorNameEn": "2-Methyl (orethyl)-3(5or6)-methoxy-pyrazine",
     "femaNumber": "3280",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28256,7 +28256,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-甲基(或乙基)-3(5或6)-甲氧2-Methyl(orethyl)-3(5or6)-methoxy-1218S12193280基吡嗪pyrazine",
     "rowName": "2-甲基(或乙基)-3(5或6)-甲氧基吡嗪",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1218；编码 S1219；香料中文名称 2-甲基(或乙基)-3(5或6)-甲氧基吡嗪；香料英文名称 2-Methyl(orethyl)-3(5or6)-methoxy-pyrazine；FEMA 编号 3280。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1218；编码 S1219；香料中文名称 2-甲基(或乙基)-3(5或6)-甲氧基吡嗪；香料英文名称 2-Methyl (orethyl)-3(5or6)-methoxy-pyrazine；FEMA 编号 3280。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1219",
@@ -28281,7 +28281,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1221",
     "flavorCode": "S1221",
     "flavorNameCn": "5,7-二氢-2-甲基噻吩并(3,4-d)嘧啶",
-    "flavorNameEn": "5,7-Dihydro-2-methylthieno(3,4-d)pyrimi-dine",
+    "flavorNameEn": "5,7-Dihydro-2-methylthieno(3,4-d) pyrimi-dine",
     "femaNumber": "3338",
     "pdfPage": 213,
     "standardPage": 210,
@@ -28290,7 +28290,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "5,7-二氢-2-甲基噻吩并(3,4-d)5,7-Dihydro-2-methylthieno(3,4-d)pyrimi-1220S12213338嘧啶dine",
     "rowName": "5,7-二氢-2-甲基噻吩并(3,4-d)嘧啶",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1220；编码 S1221；香料中文名称 5,7-二氢-2-甲基噻吩并(3,4-d)嘧啶；香料英文名称 5,7-Dihydro-2-methylthieno(3,4-d)pyrimi-dine；FEMA 编号 3338。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1220；编码 S1221；香料中文名称 5,7-二氢-2-甲基噻吩并(3,4-d)嘧啶；香料英文名称 5,7-Dihydro-2-methylthieno(3,4-d) pyrimi-dine；FEMA 编号 3338。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1221",
@@ -28332,7 +28332,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1224",
     "flavorCode": "S1224",
     "flavorNameCn": "乙酸异丁香酯",
-    "flavorNameEn": "Isoeugenylacetate",
+    "flavorNameEn": "Isoeugenyl acetate",
     "femaNumber": "2470",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28341,7 +28341,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1223S1224乙酸异丁香酯Isoeugenylacetate2470",
     "rowName": "乙酸异丁香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1223；编码 S1224；香料中文名称 乙酸异丁香酯；香料英文名称 Isoeugenylacetate；FEMA 编号 2470。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1223；编码 S1224；香料中文名称 乙酸异丁香酯；香料英文名称 Isoeugenyl acetate；FEMA 编号 2470。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1224",
@@ -28349,7 +28349,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1225",
     "flavorCode": "S1225",
     "flavorNameCn": "3-甲基丁酸对-甲酚酯(又名异戊酸对甲酚酯)",
-    "flavorNameEn": "p-Methylphenyl3-methylbutyrate(p-Cresylisovalerate)",
+    "flavorNameEn": "p-Methylphenyl 3-methylbutyrate (p-Cresyl isovalerate)",
     "femaNumber": "3387",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28358,7 +28358,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-甲基丁酸对-甲酚酯(又名异戊p-Methylphenyl3-methylbutyrate(p-Cresyl1224S12253387酸对甲酚酯)isovalerate)",
     "rowName": "3-甲基丁酸对-甲酚酯(又名异戊酸对甲酚酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1224；编码 S1225；香料中文名称 3-甲基丁酸对-甲酚酯(又名异戊酸对甲酚酯)；香料英文名称 p-Methylphenyl3-methylbutyrate(p-Cresylisovalerate)；FEMA 编号 3387。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1224；编码 S1225；香料中文名称 3-甲基丁酸对-甲酚酯(又名异戊酸对甲酚酯)；香料英文名称 p-Methylphenyl 3-methylbutyrate (p-Cresyl isovalerate)；FEMA 编号 3387。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1225",
@@ -28417,7 +28417,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1229",
     "flavorCode": "S1229",
     "flavorNameCn": "人造康乃克油",
-    "flavorNameEn": "Artificialcognacoil",
+    "flavorNameEn": "Artificial cognac oil",
     "femaNumber": "—",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28426,7 +28426,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1228S1229人造康乃克油Artificialcognacoil—",
     "rowName": "人造康乃克油",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1228；编码 S1229；香料中文名称 人造康乃克油；香料英文名称 Artificialcognacoil；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1228；编码 S1229；香料中文名称 人造康乃克油；香料英文名称 Artificial cognac oil；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1229",
@@ -28434,7 +28434,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1230",
     "flavorCode": "S1230",
     "flavorNameCn": "山楂核烟熏香味料Ⅰ号",
-    "flavorNameEn": "SmokingflavoringsNo.Ⅰmadefromhawthornkernels",
+    "flavorNameEn": "Smoking flavorings No.Ⅰ made from hawthornkernels",
     "femaNumber": "—",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28443,7 +28443,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "SmokingflavoringsNo.Ⅰmadefrom1229S1230山楂核烟熏香味料Ⅰ号—hawthornkernels",
     "rowName": "山楂核烟熏香味料Ⅰ号",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1229；编码 S1230；香料中文名称 山楂核烟熏香味料Ⅰ号；香料英文名称 SmokingflavoringsNo.Ⅰmadefromhawthornkernels；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1229；编码 S1230；香料中文名称 山楂核烟熏香味料Ⅰ号；香料英文名称 Smoking flavorings No.Ⅰ made from hawthornkernels；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1230",
@@ -28451,7 +28451,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1231",
     "flavorCode": "S1231",
     "flavorNameCn": "山楂核烟熏香味料Ⅱ号",
-    "flavorNameEn": "SmokingflavoringsNo.Ⅱmadefromhawthornkernels",
+    "flavorNameEn": "Smoking flavorings No.Ⅱ made from hawthornkernels",
     "femaNumber": "—",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28460,7 +28460,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "SmokingflavoringsNo.Ⅱmadefrom1230S1231山楂核烟熏香味料Ⅱ号—hawthornkernels",
     "rowName": "山楂核烟熏香味料Ⅱ号",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1230；编码 S1231；香料中文名称 山楂核烟熏香味料Ⅱ号；香料英文名称 SmokingflavoringsNo.Ⅱmadefromhawthornkernels；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1230；编码 S1231；香料中文名称 山楂核烟熏香味料Ⅱ号；香料英文名称 Smoking flavorings No.Ⅱ made from hawthornkernels；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1231",
@@ -28468,7 +28468,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1232",
     "flavorCode": "S1232",
     "flavorNameCn": "苄基异丁基原醇(又名α-异丁基苯乙醇)",
-    "flavorNameEn": "Isobutylbenzylcarbinol(α-Butylisophenethylalcohol)",
+    "flavorNameEn": "Isobutylbenzylcarbinol (α-Butylisophenethyl alcohol)",
     "femaNumber": "2208",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28477,7 +28477,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "苄基异丁基原醇(又名α-异丁基Isobutylbenzylcarbinol(α-Butylisophenethyl1231S12322208苯乙醇)alcohol)",
     "rowName": "苄基异丁基原醇(又名α-异丁基苯乙醇)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1231；编码 S1232；香料中文名称 苄基异丁基原醇(又名α-异丁基苯乙醇)；香料英文名称 Isobutylbenzylcarbinol(α-Butylisophenethylalcohol)；FEMA 编号 2208。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1231；编码 S1232；香料中文名称 苄基异丁基原醇(又名α-异丁基苯乙醇)；香料英文名称 Isobutylbenzylcarbinol (α-Butylisophenethyl alcohol)；FEMA 编号 2208。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1232",
@@ -28519,7 +28519,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1235",
     "flavorCode": "S1235",
     "flavorNameCn": "l-薄荷醇丙二醇碳酸酯",
-    "flavorNameEn": "l-Menthol1-(or2-)-propyleneglycolcar-bonate",
+    "flavorNameEn": "l-Menthol1-(or2-)-propylene glycolcar-bonate",
     "femaNumber": "3806",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28528,7 +28528,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "l-Menthol1-(or2-)-propyleneglycolcar-1234S1235l-薄荷醇丙二醇碳酸酯3806bonate",
     "rowName": "l-薄荷醇丙二醇碳酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1234；编码 S1235；香料中文名称 l-薄荷醇丙二醇碳酸酯；香料英文名称 l-Menthol1-(or2-)-propyleneglycolcar-bonate；FEMA 编号 3806。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1234；编码 S1235；香料中文名称 l-薄荷醇丙二醇碳酸酯；香料英文名称 l-Menthol1-(or2-)-propylene glycolcar-bonate；FEMA 编号 3806。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1235",
@@ -28536,7 +28536,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1236",
     "flavorCode": "S1236",
     "flavorNameCn": "辛酸烯丙酯",
-    "flavorNameEn": "Allyloctanoate",
+    "flavorNameEn": "Allyl octanoate",
     "femaNumber": "2037",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28545,7 +28545,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1235S1236辛酸烯丙酯Allyloctanoate2037",
     "rowName": "辛酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1235；编码 S1236；香料中文名称 辛酸烯丙酯；香料英文名称 Allyloctanoate；FEMA 编号 2037。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1235；编码 S1236；香料中文名称 辛酸烯丙酯；香料英文名称 Allyl octanoate；FEMA 编号 2037。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1236",
@@ -28553,7 +28553,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1237",
     "flavorCode": "S1237",
     "flavorNameCn": "α-丙基苯乙醇",
-    "flavorNameEn": "α-Propylphenethylalcohol",
+    "flavorNameEn": "α-Propylphenethyl alcohol",
     "femaNumber": "2953",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28562,7 +28562,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1236S1237α-丙基苯乙醇α-Propylphenethylalcohol2953",
     "rowName": "α-丙基苯乙醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1236；编码 S1237；香料中文名称 α-丙基苯乙醇；香料英文名称 α-Propylphenethylalcohol；FEMA 编号 2953。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1236；编码 S1237；香料中文名称 α-丙基苯乙醇；香料英文名称 α-Propylphenethyl alcohol；FEMA 编号 2953。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1237",
@@ -28570,7 +28570,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1238",
     "flavorCode": "S1238",
     "flavorNameCn": "龙葵醇(又名β-甲基苯乙醇)",
-    "flavorNameEn": "Hydratropylalcohol(β-Methylphenethylal-cohol)",
+    "flavorNameEn": "Hydratropyl alcohol (β-Methylphenethylal-cohol)",
     "femaNumber": "2732",
     "pdfPage": 214,
     "standardPage": 211,
@@ -28579,7 +28579,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Hydratropylalcohol(β-Methylphenethylal-1237S1238龙葵醇(又名β-甲基苯乙醇)2732cohol)",
     "rowName": "龙葵醇(又名β-甲基苯乙醇)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1237；编码 S1238；香料中文名称 龙葵醇(又名β-甲基苯乙醇)；香料英文名称 Hydratropylalcohol(β-Methylphenethylal-cohol)；FEMA 编号 2732。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1237；编码 S1238；香料中文名称 龙葵醇(又名β-甲基苯乙醇)；香料英文名称 Hydratropyl alcohol (β-Methylphenethylal-cohol)；FEMA 编号 2732。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1238",
@@ -28740,7 +28740,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1248",
     "flavorCode": "S1248",
     "flavorNameCn": "2-甲基-3-(对甲基苯基)丙醛",
-    "flavorNameEn": "2-Methyl-3-(p-methylphenyl)propanalSati-naldehyde",
+    "flavorNameEn": "2-Methyl-3-(p-methylphenyl)propanal Sati-naldehyde",
     "femaNumber": "2748",
     "pdfPage": 215,
     "standardPage": 212,
@@ -28749,7 +28749,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-Methyl-3-(p-methylphenyl)propanalSati-1247S12482-甲基-3-(对甲基苯基)丙醛2748naldehyde",
     "rowName": "2-甲基-3-(对甲基苯基)丙醛",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1247；编码 S1248；香料中文名称 2-甲基-3-(对甲基苯基)丙醛；香料英文名称 2-Methyl-3-(p-methylphenyl)propanalSati-naldehyde；FEMA 编号 2748。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1247；编码 S1248；香料中文名称 2-甲基-3-(对甲基苯基)丙醛；香料英文名称 2-Methyl-3-(p-methylphenyl)propanal Sati-naldehyde；FEMA 编号 2748。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1248",
@@ -29114,7 +29114,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1270",
     "flavorCode": "S1270",
     "flavorNameCn": "烯丙基乙酸",
-    "flavorNameEn": "Allylaceticacid",
+    "flavorNameEn": "Allylacetic acid",
     "femaNumber": "2843",
     "pdfPage": 215,
     "standardPage": 212,
@@ -29123,7 +29123,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1269S1270烯丙基乙酸Allylaceticacid2843",
     "rowName": "烯丙基乙酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1269；编码 S1270；香料中文名称 烯丙基乙酸；香料英文名称 Allylaceticacid；FEMA 编号 2843。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1269；编码 S1270；香料中文名称 烯丙基乙酸；香料英文名称 Allylacetic acid；FEMA 编号 2843。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1270",
@@ -29131,7 +29131,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1271",
     "flavorCode": "S1271",
     "flavorNameCn": "甲酸二甲基苄基原酯",
-    "flavorNameEn": "Dimethylbenzylcarbinylformate",
+    "flavorNameEn": "Dimethylbenzylcarbinyl formate",
     "femaNumber": "2395",
     "pdfPage": 215,
     "standardPage": 212,
@@ -29140,7 +29140,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1270S1271甲酸二甲基苄基原酯Dimethylbenzylcarbinylformate2395",
     "rowName": "甲酸二甲基苄基原酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1270；编码 S1271；香料中文名称 甲酸二甲基苄基原酯；香料英文名称 Dimethylbenzylcarbinylformate；FEMA 编号 2395。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1270；编码 S1271；香料中文名称 甲酸二甲基苄基原酯；香料英文名称 Dimethylbenzylcarbinyl formate；FEMA 编号 2395。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1271",
@@ -29182,7 +29182,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1274",
     "flavorCode": "S1274",
     "flavorNameCn": "乙酸环己基乙酯",
-    "flavorNameEn": "Cyclohexaneethylacetate",
+    "flavorNameEn": "Cyclohexaneethyl acetate",
     "femaNumber": "2348",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29191,7 +29191,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1273S1274乙酸环己基乙酯Cyclohexaneethylacetate2348",
     "rowName": "乙酸环己基乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1273；编码 S1274；香料中文名称 乙酸环己基乙酯；香料英文名称 Cyclohexaneethylacetate；FEMA 编号 2348。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1273；编码 S1274；香料中文名称 乙酸环己基乙酯；香料英文名称 Cyclohexaneethyl acetate；FEMA 编号 2348。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1274",
@@ -29216,7 +29216,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1276",
     "flavorCode": "S1276",
     "flavorNameCn": "乙酸二甲基苯乙基原酯",
-    "flavorNameEn": "Dimethylphenethylcarbinylacetate",
+    "flavorNameEn": "Dimethylphenethylcarbinyl acetate",
     "femaNumber": "2735",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29225,7 +29225,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1275S1276乙酸二甲基苯乙基原酯Dimethylphenethylcarbinylacetate2735",
     "rowName": "乙酸二甲基苯乙基原酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1275；编码 S1276；香料中文名称 乙酸二甲基苯乙基原酯；香料英文名称 Dimethylphenethylcarbinylacetate；FEMA 编号 2735。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1275；编码 S1276；香料中文名称 乙酸二甲基苯乙基原酯；香料英文名称 Dimethylphenethylcarbinyl acetate；FEMA 编号 2735。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1276",
@@ -29233,7 +29233,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1277",
     "flavorCode": "S1277",
     "flavorNameCn": "丙酸甲基苯基原酯",
-    "flavorNameEn": "Methylphenylcarbinylpropionate",
+    "flavorNameEn": "Methylphenylcarbinyl propionate",
     "femaNumber": "2689",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29242,7 +29242,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1276S1277丙酸甲基苯基原酯Methylphenylcarbinylpropionate2689",
     "rowName": "丙酸甲基苯基原酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1276；编码 S1277；香料中文名称 丙酸甲基苯基原酯；香料英文名称 Methylphenylcarbinylpropionate；FEMA 编号 2689。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1276；编码 S1277；香料中文名称 丙酸甲基苯基原酯；香料英文名称 Methylphenylcarbinyl propionate；FEMA 编号 2689。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1277",
@@ -29250,7 +29250,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1278",
     "flavorCode": "S1278",
     "flavorNameCn": "2-呋喃基丙烯酸丙酯",
-    "flavorNameEn": "Propyl2-furanacrylate",
+    "flavorNameEn": "Propyl 2-furanacrylate",
     "femaNumber": "2945",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29259,7 +29259,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1277S12782-呋喃基丙烯酸丙酯Propyl2-furanacrylate2945",
     "rowName": "2-呋喃基丙烯酸丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1277；编码 S1278；香料中文名称 2-呋喃基丙烯酸丙酯；香料英文名称 Propyl2-furanacrylate；FEMA 编号 2945。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1277；编码 S1278；香料中文名称 2-呋喃基丙烯酸丙酯；香料英文名称 Propyl 2-furanacrylate；FEMA 编号 2945。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1278",
@@ -29267,7 +29267,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1279",
     "flavorCode": "S1279",
     "flavorNameCn": "异丁酸二甲基苯乙基原酯",
-    "flavorNameEn": "Dimethylphenethylcarbinylisobutyrate",
+    "flavorNameEn": "Dimethylphenethylcarbinyl isobutyrate",
     "femaNumber": "2736",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29276,7 +29276,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1278S1279异丁酸二甲基苯乙基原酯Dimethylphenethylcarbinylisobutyrate2736",
     "rowName": "异丁酸二甲基苯乙基原酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1278；编码 S1279；香料中文名称 异丁酸二甲基苯乙基原酯；香料英文名称 Dimethylphenethylcarbinylisobutyrate；FEMA 编号 2736。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1278；编码 S1279；香料中文名称 异丁酸二甲基苯乙基原酯；香料英文名称 Dimethylphenethylcarbinyl isobutyrate；FEMA 编号 2736。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1279",
@@ -29284,7 +29284,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1280",
     "flavorCode": "S1280",
     "flavorNameCn": "异丁酸2-苯氧基乙酯",
-    "flavorNameEn": "2-Phenoxyethylisobutyrate",
+    "flavorNameEn": "2-Phenoxyethyl isobutyrate",
     "femaNumber": "2873",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29293,7 +29293,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1279S1280异丁酸2-苯氧基乙酯2-Phenoxyethylisobutyrate2873",
     "rowName": "异丁酸2-苯氧基乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1279；编码 S1280；香料中文名称 异丁酸2-苯氧基乙酯；香料英文名称 2-Phenoxyethylisobutyrate；FEMA 编号 2873。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1279；编码 S1280；香料中文名称 异丁酸2-苯氧基乙酯；香料英文名称 2-Phenoxyethyl isobutyrate；FEMA 编号 2873。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1280",
@@ -29335,7 +29335,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1283",
     "flavorCode": "S1283",
     "flavorNameCn": "对-叔丁基苯乙酸甲酯",
-    "flavorNameEn": "Methylp-tert-butylphenylacetate",
+    "flavorNameEn": "Methylp-tert-butyl phenylacetate",
     "femaNumber": "2690",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29344,7 +29344,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1282S1283对-叔丁基苯乙酸甲酯Methylp-tert-butylphenylacetate2690",
     "rowName": "对-叔丁基苯乙酸甲酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1282；编码 S1283；香料中文名称 对-叔丁基苯乙酸甲酯；香料英文名称 Methylp-tert-butylphenylacetate；FEMA 编号 2690。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1282；编码 S1283；香料中文名称 对-叔丁基苯乙酸甲酯；香料英文名称 Methylp-tert-butyl phenylacetate；FEMA 编号 2690。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1283",
@@ -29369,7 +29369,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1285",
     "flavorCode": "S1285",
     "flavorNameCn": "苯乙酸辛酯",
-    "flavorNameEn": "Octylphenylacetate",
+    "flavorNameEn": "Octyl phenylacetate",
     "femaNumber": "2812",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29378,7 +29378,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1284S1285苯乙酸辛酯Octylphenylacetate2812",
     "rowName": "苯乙酸辛酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1284；编码 S1285；香料中文名称 苯乙酸辛酯；香料英文名称 Octylphenylacetate；FEMA 编号 2812。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1284；编码 S1285；香料中文名称 苯乙酸辛酯；香料英文名称 Octyl phenylacetate；FEMA 编号 2812。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1285",
@@ -29386,7 +29386,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1286",
     "flavorCode": "S1286",
     "flavorNameCn": "苯乙酸苄酯",
-    "flavorNameEn": "Benzylphenylacetate",
+    "flavorNameEn": "Benzyl phenylacetate",
     "femaNumber": "2149",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29395,7 +29395,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1285S1286苯乙酸苄酯Benzylphenylacetate2149",
     "rowName": "苯乙酸苄酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1285；编码 S1286；香料中文名称 苯乙酸苄酯；香料英文名称 Benzylphenylacetate；FEMA 编号 2149。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1285；编码 S1286；香料中文名称 苯乙酸苄酯；香料英文名称 Benzyl phenylacetate；FEMA 编号 2149。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1286",
@@ -29403,7 +29403,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1287",
     "flavorCode": "S1287",
     "flavorNameCn": "苯乙酸芳樟酯",
-    "flavorNameEn": "Linalylphenylacetate",
+    "flavorNameEn": "Linalyl phenylacetate",
     "femaNumber": "3501",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29412,7 +29412,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1286S1287苯乙酸芳樟酯Linalylphenylacetate3501",
     "rowName": "苯乙酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1286；编码 S1287；香料中文名称 苯乙酸芳樟酯；香料英文名称 Linalylphenylacetate；FEMA 编号 3501。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1286；编码 S1287；香料中文名称 苯乙酸芳樟酯；香料英文名称 Linalyl phenylacetate；FEMA 编号 3501。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1287",
@@ -29420,7 +29420,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1288",
     "flavorCode": "S1288",
     "flavorNameCn": "苯乙酸香茅酯",
-    "flavorNameEn": "Citronellylphenylacetate",
+    "flavorNameEn": "Citronellyl phenylacetate",
     "femaNumber": "2315",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29429,7 +29429,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1287S1288苯乙酸香茅酯Citronellylphenylacetate2315",
     "rowName": "苯乙酸香茅酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1287；编码 S1288；香料中文名称 苯乙酸香茅酯；香料英文名称 Citronellylphenylacetate；FEMA 编号 2315。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1287；编码 S1288；香料中文名称 苯乙酸香茅酯；香料英文名称 Citronellyl phenylacetate；FEMA 编号 2315。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1288",
@@ -29437,7 +29437,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1289",
     "flavorCode": "S1289",
     "flavorNameCn": "苯乙酸愈创木酚酯",
-    "flavorNameEn": "Guaiacylphenylacetate",
+    "flavorNameEn": "Guaiacyl phenylacetate",
     "femaNumber": "2535",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29446,7 +29446,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1288S1289苯乙酸愈创木酚酯Guaiacylphenylacetate2535",
     "rowName": "苯乙酸愈创木酚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1288；编码 S1289；香料中文名称 苯乙酸愈创木酚酯；香料英文名称 Guaiacylphenylacetate；FEMA 编号 2535。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1288；编码 S1289；香料中文名称 苯乙酸愈创木酚酯；香料英文名称 Guaiacyl phenylacetate；FEMA 编号 2535。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1289",
@@ -29454,7 +29454,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1290",
     "flavorCode": "S1290",
     "flavorNameCn": "3-甲基2-丁烯酸2-苯乙酯(又名千里酸苯乙酯)",
-    "flavorNameEn": "2-phenethyl3-Methyl-2-butenoate(Phenethylsenecioate)",
+    "flavorNameEn": "2-phenethyl 3-Methyl-2-butenoate (Phenethyl senecioate)",
     "femaNumber": "2869",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29463,7 +29463,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-甲基2-丁烯酸2-苯乙酯(又名2-phenethyl3-Methyl-2-butenoate(Phenethyl1289S12902869千里酸苯乙酯)senecioate)",
     "rowName": "3-甲基2-丁烯酸2-苯乙酯(又名千里酸苯乙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1289；编码 S1290；香料中文名称 3-甲基2-丁烯酸2-苯乙酯(又名千里酸苯乙酯)；香料英文名称 2-phenethyl3-Methyl-2-butenoate(Phenethylsenecioate)；FEMA 编号 2869。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1289；编码 S1290；香料中文名称 3-甲基2-丁烯酸2-苯乙酯(又名千里酸苯乙酯)；香料英文名称 2-phenethyl 3-Methyl-2-butenoate (Phenethyl senecioate)；FEMA 编号 2869。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1290",
@@ -29471,7 +29471,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1291",
     "flavorCode": "S1291",
     "flavorNameCn": "3-苯基缩水甘油酸乙酯",
-    "flavorNameEn": "Ethyl3-phenylglycidate",
+    "flavorNameEn": "Ethyl 3-phenylglycidate",
     "femaNumber": "2454",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29480,7 +29480,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1290S12913-苯基缩水甘油酸乙酯Ethyl3-phenylglycidate2454",
     "rowName": "3-苯基缩水甘油酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1290；编码 S1291；香料中文名称 3-苯基缩水甘油酸乙酯；香料英文名称 Ethyl3-phenylglycidate；FEMA 编号 2454。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1290；编码 S1291；香料中文名称 3-苯基缩水甘油酸乙酯；香料英文名称 Ethyl 3-phenylglycidate；FEMA 编号 2454。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1291",
@@ -29488,7 +29488,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1292",
     "flavorCode": "S1292",
     "flavorNameCn": "肉桂酸芳樟酯",
-    "flavorNameEn": "Linalylcinnamate",
+    "flavorNameEn": "Linalyl cinnamate",
     "femaNumber": "2641",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29497,7 +29497,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1291S1292肉桂酸芳樟酯Linalylcinnamate2641",
     "rowName": "肉桂酸芳樟酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1291；编码 S1292；香料中文名称 肉桂酸芳樟酯；香料英文名称 Linalylcinnamate；FEMA 编号 2641。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1291；编码 S1292；香料中文名称 肉桂酸芳樟酯；香料英文名称 Linalyl cinnamate；FEMA 编号 2641。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1292",
@@ -29505,7 +29505,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1293",
     "flavorCode": "S1293",
     "flavorNameCn": "1,2-二[(1'-乙氧基)-乙氧基]丙烷",
-    "flavorNameEn": "1,2-Di[(1'-ethoxy)ethoxy]propane",
+    "flavorNameEn": "1,2-Di [(1'-ethoxy) ethoxy]propane",
     "femaNumber": "3534",
     "pdfPage": 216,
     "standardPage": 213,
@@ -29514,7 +29514,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1,2-二[(1'-乙氧基)-乙氧基]1292S12931,2-Di[(1'-ethoxy)ethoxy]propane3534丙烷",
     "rowName": "1,2-二[(1'-乙氧基)-乙氧基]丙烷",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1292；编码 S1293；香料中文名称 1,2-二[(1'-乙氧基)-乙氧基]丙烷；香料英文名称 1,2-Di[(1'-ethoxy)ethoxy]propane；FEMA 编号 3534。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1292；编码 S1293；香料中文名称 1,2-二[(1'-乙氧基)-乙氧基]丙烷；香料英文名称 1,2-Di [(1'-ethoxy) ethoxy]propane；FEMA 编号 3534。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1293",
@@ -29641,7 +29641,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1301",
     "flavorCode": "S1301",
     "flavorNameCn": "环己烷基甲酸",
-    "flavorNameEn": "Cyclohexanecarboxylicacid",
+    "flavorNameEn": "Cyclohexanecarboxylic acid",
     "femaNumber": "3531",
     "pdfPage": 217,
     "standardPage": 214,
@@ -29650,7 +29650,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1300S1301环己烷基甲酸Cyclohexanecarboxylicacid3531",
     "rowName": "环己烷基甲酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1300；编码 S1301；香料中文名称 环己烷基甲酸；香料英文名称 Cyclohexanecarboxylicacid；FEMA 编号 3531。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1300；编码 S1301；香料中文名称 环己烷基甲酸；香料英文名称 Cyclohexanecarboxylic acid；FEMA 编号 3531。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1301",
@@ -29658,7 +29658,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1302",
     "flavorCode": "S1302",
     "flavorNameCn": "5和6-癸烯酸(又名牛奶内酯)",
-    "flavorNameEn": "5-and6-Decenoicacid(Milklactone)",
+    "flavorNameEn": "5-and6-Decenoic acid (Milklactone)",
     "femaNumber": "3742",
     "pdfPage": 217,
     "standardPage": 214,
@@ -29667,7 +29667,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1301S13025和6-癸烯酸(又名牛奶内酯)5-and6-Decenoicacid(Milklactone)3742",
     "rowName": "5和6-癸烯酸(又名牛奶内酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1301；编码 S1302；香料中文名称 5和6-癸烯酸(又名牛奶内酯)；香料英文名称 5-and6-Decenoicacid(Milklactone)；FEMA 编号 3742。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1301；编码 S1302；香料中文名称 5和6-癸烯酸(又名牛奶内酯)；香料英文名称 5-and6-Decenoic acid (Milklactone)；FEMA 编号 3742。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1302",
@@ -29692,7 +29692,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1304",
     "flavorCode": "S1304",
     "flavorNameCn": "丁酸烯丙酯",
-    "flavorNameEn": "Allylbutyrate",
+    "flavorNameEn": "Allyl butyrate",
     "femaNumber": "2021",
     "pdfPage": 217,
     "standardPage": 214,
@@ -29701,7 +29701,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1303S1304丁酸烯丙酯Allylbutyrate2021",
     "rowName": "丁酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1303；编码 S1304；香料中文名称 丁酸烯丙酯；香料英文名称 Allylbutyrate；FEMA 编号 2021。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1303；编码 S1304；香料中文名称 丁酸烯丙酯；香料英文名称 Allyl butyrate；FEMA 编号 2021。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1304",
@@ -29743,7 +29743,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1307",
     "flavorCode": "S1307",
     "flavorNameCn": "苯甲酰基乙酸乙酯",
-    "flavorNameEn": "Ethylbenzoylacetate",
+    "flavorNameEn": "Ethylbenzoyl acetate",
     "femaNumber": "2423",
     "pdfPage": 217,
     "standardPage": 214,
@@ -29752,7 +29752,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1306S1307苯甲酰基乙酸乙酯Ethylbenzoylacetate2423",
     "rowName": "苯甲酰基乙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1306；编码 S1307；香料中文名称 苯甲酰基乙酸乙酯；香料英文名称 Ethylbenzoylacetate；FEMA 编号 2423。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1306；编码 S1307；香料中文名称 苯甲酰基乙酸乙酯；香料英文名称 Ethylbenzoyl acetate；FEMA 编号 2423。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1307",
@@ -29828,7 +29828,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1312",
     "flavorCode": "S1312",
     "flavorNameCn": "双-(2,5-二甲基-3-呋喃基)二硫醚",
-    "flavorNameEn": "Bis(2,5-dimethyl-3-furyl)disufide",
+    "flavorNameEn": "Bis(2,5-dimethyl-3-furyl) disufide",
     "femaNumber": "3476",
     "pdfPage": 217,
     "standardPage": 214,
@@ -29837,7 +29837,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "双-(2,5-二甲基-3-呋喃基)二1311S1312Bis(2,5-dimethyl-3-furyl)disufide3476硫醚",
     "rowName": "双-(2,5-二甲基-3-呋喃基)二硫醚",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1311；编码 S1312；香料中文名称 双-(2,5-二甲基-3-呋喃基)二硫醚；香料英文名称 Bis(2,5-dimethyl-3-furyl)disufide；FEMA 编号 3476。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1311；编码 S1312；香料中文名称 双-(2,5-二甲基-3-呋喃基)二硫醚；香料英文名称 Bis(2,5-dimethyl-3-furyl) disufide；FEMA 编号 3476。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1312",
@@ -29947,7 +29947,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1319",
     "flavorCode": "S1319",
     "flavorNameCn": "3-糠硫基丙酸乙酯",
-    "flavorNameEn": "Ethyl3-(furfurylthio)propionate",
+    "flavorNameEn": "Ethyl 3-(furfurylthio)propionate",
     "femaNumber": "3674",
     "pdfPage": 217,
     "standardPage": 214,
@@ -29956,7 +29956,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1318S13193-糠硫基丙酸乙酯Ethyl3-(furfurylthio)propionate3674",
     "rowName": "3-糠硫基丙酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1318；编码 S1319；香料中文名称 3-糠硫基丙酸乙酯；香料英文名称 Ethyl3-(furfurylthio)propionate；FEMA 编号 3674。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1318；编码 S1319；香料中文名称 3-糠硫基丙酸乙酯；香料英文名称 Ethyl 3-(furfurylthio)propionate；FEMA 编号 3674。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1319",
@@ -30066,7 +30066,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1326",
     "flavorCode": "S1326",
     "flavorNameCn": "水杨酸苯酯",
-    "flavorNameEn": "Phenylsalicylate",
+    "flavorNameEn": "Phenyl salicylate",
     "femaNumber": "3960",
     "pdfPage": 217,
     "standardPage": 214,
@@ -30075,7 +30075,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1325S1326水杨酸苯酯Phenylsalicylate3960",
     "rowName": "水杨酸苯酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1325；编码 S1326；香料中文名称 水杨酸苯酯；香料英文名称 Phenylsalicylate；FEMA 编号 3960。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1325；编码 S1326；香料中文名称 水杨酸苯酯；香料英文名称 Phenyl salicylate；FEMA 编号 3960。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1326",
@@ -30134,7 +30134,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1330",
     "flavorCode": "S1330",
     "flavorNameCn": "异丁酸对-甲酚酯",
-    "flavorNameEn": "p-Tolylisobutyrate",
+    "flavorNameEn": "p-Tolyl isobutyrate",
     "femaNumber": "3075",
     "pdfPage": 218,
     "standardPage": 215,
@@ -30143,7 +30143,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1329S1330异丁酸对-甲酚酯p-Tolylisobutyrate3075",
     "rowName": "异丁酸对-甲酚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1329；编码 S1330；香料中文名称 异丁酸对-甲酚酯；香料英文名称 p-Tolylisobutyrate；FEMA 编号 3075。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1329；编码 S1330；香料中文名称 异丁酸对-甲酚酯；香料英文名称 p-Tolyl isobutyrate；FEMA 编号 3075。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1330",
@@ -30151,7 +30151,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1331",
     "flavorCode": "S1331",
     "flavorNameCn": "异丁酸邻-甲酚酯",
-    "flavorNameEn": "o-Tolylisobutyrate",
+    "flavorNameEn": "o-Tolyl isobutyrate",
     "femaNumber": "3753",
     "pdfPage": 218,
     "standardPage": 215,
@@ -30160,7 +30160,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1330S1331异丁酸邻-甲酚酯o-Tolylisobutyrate3753",
     "rowName": "异丁酸邻-甲酚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1330；编码 S1331；香料中文名称 异丁酸邻-甲酚酯；香料英文名称 o-Tolylisobutyrate；FEMA 编号 3753。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1330；编码 S1331；香料中文名称 异丁酸邻-甲酚酯；香料英文名称 o-Tolyl isobutyrate；FEMA 编号 3753。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1331",
@@ -30338,7 +30338,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1342",
     "flavorCode": "S1342",
     "flavorNameCn": "3-[(2-甲基-3-呋喃)硫基]-2-丁酮",
-    "flavorNameEn": "(+/-)-3-[(2-Methyl-3-furyl)thio]-2-buta-none",
+    "flavorNameEn": "(+/-)-3-[(2-Methyl-3-furyl) thio]-2-buta-none",
     "femaNumber": "4056",
     "pdfPage": 218,
     "standardPage": 215,
@@ -30347,7 +30347,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-[(2-甲基-3-呋喃)硫基]-2-(+/-)-3-[(2-Methyl-3-furyl)thio]-2-buta-1341S13424056丁酮none",
     "rowName": "3-[(2-甲基-3-呋喃)硫基]-2-丁酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1341；编码 S1342；香料中文名称 3-[(2-甲基-3-呋喃)硫基]-2-丁酮；香料英文名称 (+/-)-3-[(2-Methyl-3-furyl)thio]-2-buta-none；FEMA 编号 4056。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1341；编码 S1342；香料中文名称 3-[(2-甲基-3-呋喃)硫基]-2-丁酮；香料英文名称 (+/-)-3-[(2-Methyl-3-furyl) thio]-2-buta-none；FEMA 编号 4056。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1342",
@@ -30389,7 +30389,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1345",
     "flavorCode": "S1345",
     "flavorNameCn": "丙酸四氢糠酯",
-    "flavorNameEn": "Tetrahydrofurfurylpropionate",
+    "flavorNameEn": "Tetrahydrofurfuryl propionate",
     "femaNumber": "3058",
     "pdfPage": 218,
     "standardPage": 215,
@@ -30398,7 +30398,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1344S1345丙酸四氢糠酯Tetrahydrofurfurylpropionate3058",
     "rowName": "丙酸四氢糠酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1344；编码 S1345；香料中文名称 丙酸四氢糠酯；香料英文名称 Tetrahydrofurfurylpropionate；FEMA 编号 3058。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1344；编码 S1345；香料中文名称 丙酸四氢糠酯；香料英文名称 Tetrahydrofurfuryl propionate；FEMA 编号 3058。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1345",
@@ -30406,7 +30406,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1346",
     "flavorCode": "S1346",
     "flavorNameCn": "异戊酸烯丙酯",
-    "flavorNameEn": "Allylisovalerate",
+    "flavorNameEn": "Allyl isovalerate",
     "femaNumber": "2045",
     "pdfPage": 218,
     "standardPage": 215,
@@ -30415,7 +30415,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1345S1346异戊酸烯丙酯Allylisovalerate2045",
     "rowName": "异戊酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1345；编码 S1346；香料中文名称 异戊酸烯丙酯；香料英文名称 Allylisovalerate；FEMA 编号 2045。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1345；编码 S1346；香料中文名称 异戊酸烯丙酯；香料英文名称 Allyl isovalerate；FEMA 编号 2045。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1346",
@@ -30457,7 +30457,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1349",
     "flavorCode": "S1349",
     "flavorNameCn": "辛酸糠酯",
-    "flavorNameEn": "Furfuryloctanoate",
+    "flavorNameEn": "Furfuryl octanoate",
     "femaNumber": "3396",
     "pdfPage": 218,
     "standardPage": 215,
@@ -30466,7 +30466,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1348S1349辛酸糠酯Furfuryloctanoate3396",
     "rowName": "辛酸糠酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1348；编码 S1349；香料中文名称 辛酸糠酯；香料英文名称 Furfuryloctanoate；FEMA 编号 3396。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1348；编码 S1349；香料中文名称 辛酸糠酯；香料英文名称 Furfuryl octanoate；FEMA 编号 3396。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1349",
@@ -30525,7 +30525,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1353",
     "flavorCode": "S1353",
     "flavorNameCn": "10-十一烯酸丁酯",
-    "flavorNameEn": "Butyl10-undecylenate",
+    "flavorNameEn": "Butyl 10-undecylenate",
     "femaNumber": "2216",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30534,7 +30534,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1352S135310-十一烯酸丁酯Butyl10-undecylenate2216",
     "rowName": "10-十一烯酸丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1352；编码 S1353；香料中文名称 10-十一烯酸丁酯；香料英文名称 Butyl10-undecylenate；FEMA 编号 2216。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1352；编码 S1353；香料中文名称 10-十一烯酸丁酯；香料英文名称 Butyl 10-undecylenate；FEMA 编号 2216。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1353",
@@ -30542,7 +30542,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1354",
     "flavorCode": "S1354",
     "flavorNameCn": "乙酸檀香酯",
-    "flavorNameEn": "Santalylacetate",
+    "flavorNameEn": "Santalyl acetate",
     "femaNumber": "3007",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30551,7 +30551,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1353S1354乙酸檀香酯Santalylacetate3007",
     "rowName": "乙酸檀香酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1353；编码 S1354；香料中文名称 乙酸檀香酯；香料英文名称 Santalylacetate；FEMA 编号 3007。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1353；编码 S1354；香料中文名称 乙酸檀香酯；香料英文名称 Santalyl acetate；FEMA 编号 3007。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1354",
@@ -30559,7 +30559,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1355",
     "flavorCode": "S1355",
     "flavorNameCn": "2-乙基丁酸香叶酯",
-    "flavorNameEn": "Geranyl2-ethylbutyrate",
+    "flavorNameEn": "Geranyl 2-ethylbutyrate",
     "femaNumber": "3339",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30568,7 +30568,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1354S13552-乙基丁酸香叶酯Geranyl2-ethylbutyrate3339",
     "rowName": "2-乙基丁酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1354；编码 S1355；香料中文名称 2-乙基丁酸香叶酯；香料英文名称 Geranyl2-ethylbutyrate；FEMA 编号 3339。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1354；编码 S1355；香料中文名称 2-乙基丁酸香叶酯；香料英文名称 Geranyl 2-ethylbutyrate；FEMA 编号 3339。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1355",
@@ -30627,7 +30627,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1359",
     "flavorCode": "S1359",
     "flavorNameCn": "赤、苏-3-巯基-2-甲基丁-1-醇(又名3-巯基-2-甲基丁醇)",
-    "flavorNameEn": "rythroandthreo-3-Mercapto-2-methylbutan-1-ol(3-Mercapto-2-methylbutylalcohol)",
+    "flavorNameEn": "erythro and threo-3-Mercapto-2-methylbutan-1-ol(3-Mercapto-2-methylbutyl alcohol)",
     "femaNumber": "3993",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30636,7 +30636,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "赤、苏-3-巯基-2-甲基丁-1-醇(又rythroandthreo-3-Mercapto-2-methylbutan-1358S13593993名3-巯基-2-甲基丁醇)1-ol(3-Mercapto-2-methylbutylalcohol)",
     "rowName": "赤、苏-3-巯基-2-甲基丁-1-醇(又名3-巯基-2-甲基丁醇)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1358；编码 S1359；香料中文名称 赤、苏-3-巯基-2-甲基丁-1-醇(又名3-巯基-2-甲基丁醇)；香料英文名称 rythroandthreo-3-Mercapto-2-methylbutan-1-ol(3-Mercapto-2-methylbutylalcohol)；FEMA 编号 3993。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1358；编码 S1359；香料中文名称 赤、苏-3-巯基-2-甲基丁-1-醇(又名3-巯基-2-甲基丁醇)；香料英文名称 erythro and threo-3-Mercapto-2-methylbutan-1-ol(3-Mercapto-2-methylbutyl alcohol)；FEMA 编号 3993。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1359",
@@ -30661,7 +30661,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1361",
     "flavorCode": "S1361",
     "flavorNameCn": "α-戊基肉桂醇",
-    "flavorNameEn": "α-Amylcinnamylalcohol",
+    "flavorNameEn": "α-Amylcinnamyl alcohol",
     "femaNumber": "2065",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30670,7 +30670,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1360S1361α-戊基肉桂醇α-Amylcinnamylalcohol2065",
     "rowName": "α-戊基肉桂醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1360；编码 S1361；香料中文名称 α-戊基肉桂醇；香料英文名称 α-Amylcinnamylalcohol；FEMA 编号 2065。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1360；编码 S1361；香料中文名称 α-戊基肉桂醇；香料英文名称 α-Amylcinnamyl alcohol；FEMA 编号 2065。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1361",
@@ -30763,7 +30763,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1367",
     "flavorCode": "S1367",
     "flavorNameCn": "辛烯基琥珀酸单阿拉伯胶酯",
-    "flavorNameEn": "GumArabic,hydrogenoctenylbutanedioate",
+    "flavorNameEn": "Gum Arabic,hydrogenoctenylbutanedioate",
     "femaNumber": "4227",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30772,7 +30772,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1366S1367辛烯基琥珀酸单阿拉伯胶酯GumArabic,hydrogenoctenylbutanedioate4227",
     "rowName": "辛烯基琥珀酸单阿拉伯胶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1366；编码 S1367；香料中文名称 辛烯基琥珀酸单阿拉伯胶酯；香料英文名称 GumArabic,hydrogenoctenylbutanedioate；FEMA 编号 4227。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1366；编码 S1367；香料中文名称 辛烯基琥珀酸单阿拉伯胶酯；香料英文名称 Gum Arabic,hydrogenoctenylbutanedioate；FEMA 编号 4227。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1367",
@@ -30848,7 +30848,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1372",
     "flavorCode": "S1372",
     "flavorNameCn": "5-羟基-十二酸甘油酯",
-    "flavorNameEn": "Glyceryl5-hydroxydodecanoate",
+    "flavorNameEn": "Glyceryl 5-hydroxydodecanoate",
     "femaNumber": "3686",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30857,7 +30857,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1371S13725-羟基-十二酸甘油酯Glyceryl5-hydroxydodecanoate3686",
     "rowName": "5-羟基-十二酸甘油酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1371；编码 S1372；香料中文名称 5-羟基-十二酸甘油酯；香料英文名称 Glyceryl5-hydroxydodecanoate；FEMA 编号 3686。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1371；编码 S1372；香料中文名称 5-羟基-十二酸甘油酯；香料英文名称 Glyceryl 5-hydroxydodecanoate；FEMA 编号 3686。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1372",
@@ -30899,7 +30899,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1375",
     "flavorCode": "S1375",
     "flavorNameCn": "5-羟基癸酸甘油酯",
-    "flavorNameEn": "Glyceryl5-hydroxydecanoate",
+    "flavorNameEn": "Glyceryl 5-hydroxydecanoate",
     "femaNumber": "3685",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30908,7 +30908,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1374S13755-羟基癸酸甘油酯Glyceryl5-hydroxydecanoate3685",
     "rowName": "5-羟基癸酸甘油酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1374；编码 S1375；香料中文名称 5-羟基癸酸甘油酯；香料英文名称 Glyceryl5-hydroxydecanoate；FEMA 编号 3685。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1374；编码 S1375；香料中文名称 5-羟基癸酸甘油酯；香料英文名称 Glyceryl 5-hydroxydecanoate；FEMA 编号 3685。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1375",
@@ -30916,7 +30916,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1376",
     "flavorCode": "S1376",
     "flavorNameCn": "丙酸3-苯基丙酯",
-    "flavorNameEn": "3-Phenylpropylpropionate",
+    "flavorNameEn": "3-Phenylpropyl propionate",
     "femaNumber": "2897",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30925,7 +30925,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1375S1376丙酸3-苯基丙酯3-Phenylpropylpropionate2897",
     "rowName": "丙酸3-苯基丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1375；编码 S1376；香料中文名称 丙酸3-苯基丙酯；香料英文名称 3-Phenylpropylpropionate；FEMA 编号 2897。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1375；编码 S1376；香料中文名称 丙酸3-苯基丙酯；香料英文名称 3-Phenylpropyl propionate；FEMA 编号 2897。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1376",
@@ -30933,7 +30933,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1377",
     "flavorCode": "S1377",
     "flavorNameCn": "肉桂酸异丙酯",
-    "flavorNameEn": "Isopropylcinnamate",
+    "flavorNameEn": "Isopropyl cinnamate",
     "femaNumber": "2939",
     "pdfPage": 219,
     "standardPage": 216,
@@ -30942,7 +30942,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1376S1377肉桂酸异丙酯Isopropylcinnamate2939",
     "rowName": "肉桂酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1376；编码 S1377；香料中文名称 肉桂酸异丙酯；香料英文名称 Isopropylcinnamate；FEMA 编号 2939。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1376；编码 S1377；香料中文名称 肉桂酸异丙酯；香料英文名称 Isopropyl cinnamate；FEMA 编号 2939。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1377",
@@ -31035,7 +31035,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1383",
     "flavorCode": "S1383",
     "flavorNameCn": "2,4-二甲基-1,3-二氧戊环(又名乙醛1,2-丙二醇缩醛)",
-    "flavorNameEn": "2,4-Dimethyl-1,3-dioxolane(Acetaldehydepropyleneglycolacetal)",
+    "flavorNameEn": "2,4-Dimethyl-1,3-dioxolane (Acetaldehyde propyleneglycolacetal)",
     "femaNumber": "4099",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31044,7 +31044,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2,4-二甲基-1,3-二氧戊环(又名2,4-Dimethyl-1,3-dioxolane(Acetaldehyde1382S13834099乙醛1,2-丙二醇缩醛)propyleneglycolacetal)",
     "rowName": "2,4-二甲基-1,3-二氧戊环(又名乙醛1,2-丙二醇缩醛)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1382；编码 S1383；香料中文名称 2,4-二甲基-1,3-二氧戊环(又名乙醛1,2-丙二醇缩醛)；香料英文名称 2,4-Dimethyl-1,3-dioxolane(Acetaldehydepropyleneglycolacetal)；FEMA 编号 4099。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1382；编码 S1383；香料中文名称 2,4-二甲基-1,3-二氧戊环(又名乙醛1,2-丙二醇缩醛)；香料英文名称 2,4-Dimethyl-1,3-dioxolane (Acetaldehyde propyleneglycolacetal)；FEMA 编号 4099。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1383",
@@ -31120,7 +31120,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1388",
     "flavorCode": "S1388",
     "flavorNameCn": "甲基苯甲醛甘油缩醛(邻、间、对异构体混合物)",
-    "flavorNameEn": "Tolualdehydeglycerylacetal(o-,m-,p-mixedisomers)",
+    "flavorNameEn": "Tolualdehyde glycerylacetal (o-,m-,p-mixedisomers)",
     "femaNumber": "3067",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31129,7 +31129,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "甲基苯甲醛甘油缩醛(邻、间、对Tolualdehydeglycerylacetal(o-,m-,p-1387S13883067异构体混合物)mixedisomers)",
     "rowName": "甲基苯甲醛甘油缩醛(邻、间、对异构体混合物)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1387；编码 S1388；香料中文名称 甲基苯甲醛甘油缩醛(邻、间、对异构体混合物)；香料英文名称 Tolualdehydeglycerylacetal(o-,m-,p-mixedisomers)；FEMA 编号 3067。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1387；编码 S1388；香料中文名称 甲基苯甲醛甘油缩醛(邻、间、对异构体混合物)；香料英文名称 Tolualdehyde glycerylacetal (o-,m-,p-mixedisomers)；FEMA 编号 3067。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1388",
@@ -31137,7 +31137,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1389",
     "flavorCode": "S1389",
     "flavorNameCn": "(+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇",
-    "flavorNameEn": "(+/-)-trans-andcis-4,8-Dimethyl-3,7-nona-dien-2-ol",
+    "flavorNameEn": "(+/-)-trans-and cis-4,8-Dimethyl-3,7-nona-dien-2-ol",
     "femaNumber": "4102",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31146,7 +31146,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "(+/-)-反式和顺式-4,8-二甲(+/-)-trans-andcis-4,8-Dimethyl-3,1388S13894102基-3,7-壬二烯-2-醇7-nona-dien-2-ol",
     "rowName": "(+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1388；编码 S1389；香料中文名称 (+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇；香料英文名称 (+/-)-trans-andcis-4,8-Dimethyl-3,7-nona-dien-2-ol；FEMA 编号 4102。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1388；编码 S1389；香料中文名称 (+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇；香料英文名称 (+/-)-trans-and cis-4,8-Dimethyl-3,7-nona-dien-2-ol；FEMA 编号 4102。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1389",
@@ -31154,7 +31154,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1390",
     "flavorCode": "S1390",
     "flavorNameCn": "(+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇乙酸酯",
-    "flavorNameEn": "(+/-)-trans-andcis-4,8-Dimethyl-3,7-nona-dien-2-ylacetate",
+    "flavorNameEn": "(+/-)-trans-and cis-4,8-Dimethyl-3,7-nona-dien-2-yl acetate",
     "femaNumber": "4103",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31163,7 +31163,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "(+/-)-反式和顺式-4,8-二甲(+/-)-trans-andcis-4,8-Dimethyl-3,1389S13904103基-3,7-壬二烯-2-醇乙酸酯7-nona-dien-2-ylacetate",
     "rowName": "(+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇乙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1389；编码 S1390；香料中文名称 (+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇乙酸酯；香料英文名称 (+/-)-trans-andcis-4,8-Dimethyl-3,7-nona-dien-2-ylacetate；FEMA 编号 4103。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1389；编码 S1390；香料中文名称 (+/-)-反式和顺式-4,8-二甲基-3,7-壬二烯-2-醇乙酸酯；香料英文名称 (+/-)-trans-and cis-4,8-Dimethyl-3,7-nona-dien-2-yl acetate；FEMA 编号 4103。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1390",
@@ -31188,7 +31188,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1392",
     "flavorCode": "S1392",
     "flavorNameCn": "2-(4-甲基-5-噻唑基)乙醇癸酸酯",
-    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethyldecanoate",
+    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethyl decanoate",
     "femaNumber": "4281",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31197,7 +31197,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1391S13922-(4-甲基-5-噻唑基)乙醇癸酸酯2-(4-Methyl-5-thiazolyl)ethyldecanoate4281",
     "rowName": "2-(4-甲基-5-噻唑基)乙醇癸酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1391；编码 S1392；香料中文名称 2-(4-甲基-5-噻唑基)乙醇癸酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethyldecanoate；FEMA 编号 4281。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1391；编码 S1392；香料中文名称 2-(4-甲基-5-噻唑基)乙醇癸酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethyl decanoate；FEMA 编号 4281。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1392",
@@ -31205,7 +31205,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1393",
     "flavorCode": "S1393",
     "flavorNameCn": "2-(4-甲基-5-噻唑基)乙醇异丁酸酯",
-    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethylisobutyrate",
+    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethyl isobutyrate",
     "femaNumber": "4278",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31214,7 +31214,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "2-(4-甲基-5-噻唑基)乙醇异丁1392S13932-(4-Methyl-5-thiazolyl)ethylisobutyrate4278酸酯",
     "rowName": "2-(4-甲基-5-噻唑基)乙醇异丁酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1392；编码 S1393；香料中文名称 2-(4-甲基-5-噻唑基)乙醇异丁酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethylisobutyrate；FEMA 编号 4278。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1392；编码 S1393；香料中文名称 2-(4-甲基-5-噻唑基)乙醇异丁酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethyl isobutyrate；FEMA 编号 4278。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1393",
@@ -31222,7 +31222,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1394",
     "flavorCode": "S1394",
     "flavorNameCn": "2-(4-甲基-5-噻唑基)乙醇甲酸酯",
-    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethylformate",
+    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethyl formate",
     "femaNumber": "4275",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31231,7 +31231,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1393S13942-(4-甲基-5-噻唑基)乙醇甲酸酯2-(4-Methyl-5-thiazolyl)ethylformate4275",
     "rowName": "2-(4-甲基-5-噻唑基)乙醇甲酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1393；编码 S1394；香料中文名称 2-(4-甲基-5-噻唑基)乙醇甲酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethylformate；FEMA 编号 4275。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1393；编码 S1394；香料中文名称 2-(4-甲基-5-噻唑基)乙醇甲酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethyl formate；FEMA 编号 4275。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1394",
@@ -31239,7 +31239,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1395",
     "flavorCode": "S1395",
     "flavorNameCn": "异戊酸3-苯丙酯",
-    "flavorNameEn": "3-Phenylpropylisovalerate",
+    "flavorNameEn": "3-Phenylpropyl isovalerate",
     "femaNumber": "2899",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31248,7 +31248,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1394S1395异戊酸3-苯丙酯3-Phenylpropylisovalerate2899",
     "rowName": "异戊酸3-苯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1394；编码 S1395；香料中文名称 异戊酸3-苯丙酯；香料英文名称 3-Phenylpropylisovalerate；FEMA 编号 2899。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1394；编码 S1395；香料中文名称 异戊酸3-苯丙酯；香料英文名称 3-Phenylpropyl isovalerate；FEMA 编号 2899。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1395",
@@ -31256,7 +31256,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1396",
     "flavorCode": "S1396",
     "flavorNameCn": "dl-薄荷脑(+/-)-1,2-丙二醇碳酸酯",
-    "flavorNameEn": "dl-Metho(+/-)-propyleneglycolcarbon-ate",
+    "flavorNameEn": "dl-Metho (+/-)-propyleneglycolcarbon-ate",
     "femaNumber": "3992",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31265,7 +31265,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "dl-薄荷脑(+/-)-1,2-丙二醇dl-Metho(+/-)-propyleneglycolcarbon-1395S13963992碳酸酯ate",
     "rowName": "dl-薄荷脑(+/-)-1,2-丙二醇碳酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1395；编码 S1396；香料中文名称 dl-薄荷脑(+/-)-1,2-丙二醇碳酸酯；香料英文名称 dl-Metho(+/-)-propyleneglycolcarbon-ate；FEMA 编号 3992。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1395；编码 S1396；香料中文名称 dl-薄荷脑(+/-)-1,2-丙二醇碳酸酯；香料英文名称 dl-Metho (+/-)-propyleneglycolcarbon-ate；FEMA 编号 3992。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1396",
@@ -31273,7 +31273,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1397",
     "flavorCode": "S1397",
     "flavorNameCn": "乙酸1-乙氧基乙醇酯",
-    "flavorNameEn": "1-Ethoxyethylacetate",
+    "flavorNameEn": "1-Ethoxyethyl acetate",
     "femaNumber": "4069",
     "pdfPage": 220,
     "standardPage": 217,
@@ -31282,7 +31282,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1396S1397乙酸1-乙氧基乙醇酯1-Ethoxyethylacetate4069",
     "rowName": "乙酸1-乙氧基乙醇酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1396；编码 S1397；香料中文名称 乙酸1-乙氧基乙醇酯；香料英文名称 1-Ethoxyethylacetate；FEMA 编号 4069。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1396；编码 S1397；香料中文名称 乙酸1-乙氧基乙醇酯；香料英文名称 1-Ethoxyethyl acetate；FEMA 编号 4069。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1397",
@@ -31392,7 +31392,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1404",
     "flavorCode": "S1404",
     "flavorNameCn": "2-乙基丁酸烯丙酯",
-    "flavorNameEn": "Allyl2-ethylbutyrate",
+    "flavorNameEn": "Allyl 2-ethylbutyrate",
     "femaNumber": "2029",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31401,7 +31401,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1403S14042-乙基丁酸烯丙酯Allyl2-ethylbutyrate2029",
     "rowName": "2-乙基丁酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1403；编码 S1404；香料中文名称 2-乙基丁酸烯丙酯；香料英文名称 Allyl2-ethylbutyrate；FEMA 编号 2029。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1403；编码 S1404；香料中文名称 2-乙基丁酸烯丙酯；香料英文名称 Allyl 2-ethylbutyrate；FEMA 编号 2029。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1404",
@@ -31409,7 +31409,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1405",
     "flavorCode": "S1405",
     "flavorNameCn": "惕各酸烯丙酯(又名反式-2-甲基-2-丁烯酸烯丙酯)",
-    "flavorNameEn": "Allyltiglate(Allyltrans-2-methyl-2-buteno-ate)",
+    "flavorNameEn": "Allyl tiglate (Allyltrans-2-methyl-2-buteno-ate)",
     "femaNumber": "2043",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31418,7 +31418,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "惕各酸烯丙酯(又名反式-2-甲Allyltiglate(Allyltrans-2-methyl-2-buteno-1404S14052043基-2-丁烯酸烯丙酯)ate)",
     "rowName": "惕各酸烯丙酯(又名反式-2-甲基-2-丁烯酸烯丙酯)",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1404；编码 S1405；香料中文名称 惕各酸烯丙酯(又名反式-2-甲基-2-丁烯酸烯丙酯)；香料英文名称 Allyltiglate(Allyltrans-2-methyl-2-buteno-ate)；FEMA 编号 2043。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1404；编码 S1405；香料中文名称 惕各酸烯丙酯(又名反式-2-甲基-2-丁烯酸烯丙酯)；香料英文名称 Allyl tiglate (Allyltrans-2-methyl-2-buteno-ate)；FEMA 编号 2043。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1405",
@@ -31426,7 +31426,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1406",
     "flavorCode": "S1406",
     "flavorNameCn": "10-十一烯酸烯丙酯",
-    "flavorNameEn": "Allyl10-undecenoate",
+    "flavorNameEn": "Allyl 10-undecenoate",
     "femaNumber": "2044",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31435,7 +31435,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1405S140610-十一烯酸烯丙酯Allyl10-undecenoate2044",
     "rowName": "10-十一烯酸烯丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1405；编码 S1406；香料中文名称 10-十一烯酸烯丙酯；香料英文名称 Allyl10-undecenoate；FEMA 编号 2044。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1405；编码 S1406；香料中文名称 10-十一烯酸烯丙酯；香料英文名称 Allyl 10-undecenoate；FEMA 编号 2044。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1406",
@@ -31460,7 +31460,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1408",
     "flavorCode": "S1408",
     "flavorNameCn": "乙酸α-戊基肉桂酯",
-    "flavorNameEn": "α-Amylcinnamylacetate",
+    "flavorNameEn": "α-Amylcinnamyl acetate",
     "femaNumber": "2064",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31469,7 +31469,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1407S1408乙酸α-戊基肉桂酯α-Amylcinnamylacetate2064",
     "rowName": "乙酸α-戊基肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1407；编码 S1408；香料中文名称 乙酸α-戊基肉桂酯；香料英文名称 α-Amylcinnamylacetate；FEMA 编号 2064。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1407；编码 S1408；香料中文名称 乙酸α-戊基肉桂酯；香料英文名称 α-Amylcinnamyl acetate；FEMA 编号 2064。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1408",
@@ -31477,7 +31477,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1409",
     "flavorCode": "S1409",
     "flavorNameCn": "甲酸α-戊基肉桂酯",
-    "flavorNameEn": "α-Amylcinnamylformate",
+    "flavorNameEn": "α-Amylcinnamyl formate",
     "femaNumber": "2066",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31486,7 +31486,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1408S1409甲酸α-戊基肉桂酯α-Amylcinnamylformate2066",
     "rowName": "甲酸α-戊基肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1408；编码 S1409；香料中文名称 甲酸α-戊基肉桂酯；香料英文名称 α-Amylcinnamylformate；FEMA 编号 2066。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1408；编码 S1409；香料中文名称 甲酸α-戊基肉桂酯；香料英文名称 α-Amylcinnamyl formate；FEMA 编号 2066。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1409",
@@ -31494,7 +31494,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1410",
     "flavorCode": "S1410",
     "flavorNameCn": "异戊酸α-戊基肉桂酯",
-    "flavorNameEn": "α-Amylcinnamylisovalerate",
+    "flavorNameEn": "α-Amylcinnamyl isovalerate",
     "femaNumber": "2067",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31503,7 +31503,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1409S1410异戊酸α-戊基肉桂酯α-Amylcinnamylisovalerate2067",
     "rowName": "异戊酸α-戊基肉桂酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1409；编码 S1410；香料中文名称 异戊酸α-戊基肉桂酯；香料英文名称 α-Amylcinnamylisovalerate；FEMA 编号 2067。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1409；编码 S1410；香料中文名称 异戊酸α-戊基肉桂酯；香料英文名称 α-Amylcinnamyl isovalerate；FEMA 编号 2067。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1410",
@@ -31511,7 +31511,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1411",
     "flavorCode": "S1411",
     "flavorNameCn": "4(2-呋喃基)丁酸异戊酯",
-    "flavorNameEn": "Isoamyl4(2-furan)butyrate",
+    "flavorNameEn": "Isoamyl 4(2-furan)butyrate",
     "femaNumber": "2070",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31520,7 +31520,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1410S14114(2-呋喃基)丁酸异戊酯Isoamyl4(2-furan)butyrate2070",
     "rowName": "4(2-呋喃基)丁酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1410；编码 S1411；香料中文名称 4(2-呋喃基)丁酸异戊酯；香料英文名称 Isoamyl4(2-furan)butyrate；FEMA 编号 2070。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1410；编码 S1411；香料中文名称 4(2-呋喃基)丁酸异戊酯；香料英文名称 Isoamyl 4(2-furan)butyrate；FEMA 编号 2070。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1411",
@@ -31528,7 +31528,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1412",
     "flavorCode": "S1412",
     "flavorNameCn": "3(2-呋喃基)丙酸异戊酯",
-    "flavorNameEn": "Isoamyl3(2-furan)propionate",
+    "flavorNameEn": "Isoamyl 3(2-furan)propionate",
     "femaNumber": "2071",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31537,7 +31537,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1411S14123(2-呋喃基)丙酸异戊酯Isoamyl3(2-furan)propionate2071",
     "rowName": "3(2-呋喃基)丙酸异戊酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1411；编码 S1412；香料中文名称 3(2-呋喃基)丙酸异戊酯；香料英文名称 Isoamyl3(2-furan)propionate；FEMA 编号 2071。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1411；编码 S1412；香料中文名称 3(2-呋喃基)丙酸异戊酯；香料英文名称 Isoamyl 3(2-furan)propionate；FEMA 编号 2071。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1412",
@@ -31630,7 +31630,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1418",
     "flavorCode": "S1418",
     "flavorNameCn": "硬木烟熏香味料SmokEzC-10",
-    "flavorNameEn": "SmokEzC-10",
+    "flavorNameEn": "Smok Ez C-10",
     "femaNumber": "—",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31639,7 +31639,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1417S1418硬木烟熏香味料SmokEzC-10SmokEzC-10—",
     "rowName": "硬木烟熏香味料SmokEzC-10",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1417；编码 S1418；香料中文名称 硬木烟熏香味料SmokEzC-10；香料英文名称 SmokEzC-10；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1417；编码 S1418；香料中文名称 硬木烟熏香味料SmokEzC-10；香料英文名称 Smok Ez C-10；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1418",
@@ -31647,7 +31647,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1419",
     "flavorCode": "S1419",
     "flavorNameCn": "硬木烟熏香味料SEF7525",
-    "flavorNameEn": "ScansmokeSEF7525",
+    "flavorNameEn": "Scansmoke SEF7525",
     "femaNumber": "—",
     "pdfPage": 221,
     "standardPage": 218,
@@ -31656,7 +31656,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1418S1419硬木烟熏香味料SEF7525ScansmokeSEF7525—",
     "rowName": "硬木烟熏香味料SEF7525",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1418；编码 S1419；香料中文名称 硬木烟熏香味料SEF7525；香料英文名称 ScansmokeSEF7525；FEMA 编号 —。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1418；编码 S1419；香料中文名称 硬木烟熏香味料SEF7525；香料英文名称 Scansmoke SEF7525；FEMA 编号 —。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1419",
@@ -31766,7 +31766,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1426",
     "flavorCode": "S1426",
     "flavorNameCn": "顺式和反式-2-庚基环丙烷羧酸",
-    "flavorNameEn": "cis-andtrans-2-Heptylcyclopropanecarbox-ylicacid",
+    "flavorNameEn": "cis-andtrans-2-Heptylcyclopropanecarbox-ylic acid",
     "femaNumber": "4130",
     "pdfPage": 222,
     "standardPage": 219,
@@ -31775,7 +31775,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "cis-andtrans-2-Heptylcyclopropanecarbox-1425S1426顺式和反式-2-庚基环丙烷羧酸4130ylicacid",
     "rowName": "顺式和反式-2-庚基环丙烷羧酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1425；编码 S1426；香料中文名称 顺式和反式-2-庚基环丙烷羧酸；香料英文名称 cis-andtrans-2-Heptylcyclopropanecarbox-ylicacid；FEMA 编号 4130。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1425；编码 S1426；香料中文名称 顺式和反式-2-庚基环丙烷羧酸；香料英文名称 cis-andtrans-2-Heptylcyclopropanecarbox-ylic acid；FEMA 编号 4130。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1426",
@@ -31783,7 +31783,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1427",
     "flavorCode": "S1427",
     "flavorNameCn": "5-羟基-4-甲基己酸δ-内酯",
-    "flavorNameEn": "5-Hydroxy-4-methylhexanoicacidδ-lactone",
+    "flavorNameEn": "5-Hydroxy-4-methylhexanoic acid δ-lactone",
     "femaNumber": "4141",
     "pdfPage": 222,
     "standardPage": 219,
@@ -31792,7 +31792,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1426S14275-羟基-4-甲基己酸δ-内酯5-Hydroxy-4-methylhexanoicacidδ-lactone4141",
     "rowName": "5-羟基-4-甲基己酸δ-内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1426；编码 S1427；香料中文名称 5-羟基-4-甲基己酸δ-内酯；香料英文名称 5-Hydroxy-4-methylhexanoicacidδ-lactone；FEMA 编号 4141。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1426；编码 S1427；香料中文名称 5-羟基-4-甲基己酸δ-内酯；香料英文名称 5-Hydroxy-4-methylhexanoic acid δ-lactone；FEMA 编号 4141。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1427",
@@ -31885,7 +31885,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1433",
     "flavorCode": "S1433",
     "flavorNameCn": "4-羟基-2-丁烯酸γ-内酯[又名2(5H)-呋喃酮]",
-    "flavorNameEn": "4-Hydroxy-2-butenoicacidγ-lactone[2(5H)-furanone]",
+    "flavorNameEn": "4-Hydroxy-2-butenoic acid γ-lactone [2(5H)-furanone]",
     "femaNumber": "4138",
     "pdfPage": 222,
     "standardPage": 219,
@@ -31894,7 +31894,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-羟基-2-丁烯酸γ-内酯[又名24-Hydroxy-2-butenoicacidγ-lactone[2(5H)-1432S14334138(5H)-呋喃酮]furanone]",
     "rowName": "4-羟基-2-丁烯酸γ-内酯[又名2(5H)-呋喃酮]",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1432；编码 S1433；香料中文名称 4-羟基-2-丁烯酸γ-内酯[又名2(5H)-呋喃酮]；香料英文名称 4-Hydroxy-2-butenoicacidγ-lactone[2(5H)-furanone]；FEMA 编号 4138。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1432；编码 S1433；香料中文名称 4-羟基-2-丁烯酸γ-内酯[又名2(5H)-呋喃酮]；香料英文名称 4-Hydroxy-2-butenoic acid γ-lactone [2(5H)-furanone]；FEMA 编号 4138。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1433",
@@ -31902,7 +31902,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1434",
     "flavorCode": "S1434",
     "flavorNameCn": "(+/-)-3-甲硫基丁酸异丁酯",
-    "flavorNameEn": "(+/-)-Isobutyl3-methylthiobutyrate",
+    "flavorNameEn": "(+/-)-Isobutyl 3-methylthiobutyrate",
     "femaNumber": "4150",
     "pdfPage": 222,
     "standardPage": 219,
@@ -31911,7 +31911,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1433S1434(+/-)-3-甲硫基丁酸异丁酯(+/-)-Isobutyl3-methylthiobutyrate4150",
     "rowName": "(+/-)-3-甲硫基丁酸异丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1433；编码 S1434；香料中文名称 (+/-)-3-甲硫基丁酸异丁酯；香料英文名称 (+/-)-Isobutyl3-methylthiobutyrate；FEMA 编号 4150。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1433；编码 S1434；香料中文名称 (+/-)-3-甲硫基丁酸异丁酯；香料英文名称 (+/-)-Isobutyl 3-methylthiobutyrate；FEMA 编号 4150。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1434",
@@ -31987,7 +31987,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1439",
     "flavorCode": "S1439",
     "flavorNameCn": "异戊酸环己酯",
-    "flavorNameEn": "Cyclohexylisovalerate",
+    "flavorNameEn": "Cyclohexyl isovalerate",
     "femaNumber": "2355",
     "pdfPage": 222,
     "standardPage": 219,
@@ -31996,7 +31996,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1438S1439异戊酸环己酯Cyclohexylisovalerate2355",
     "rowName": "异戊酸环己酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1438；编码 S1439；香料中文名称 异戊酸环己酯；香料英文名称 Cyclohexylisovalerate；FEMA 编号 2355。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1438；编码 S1439；香料中文名称 异戊酸环己酯；香料英文名称 Cyclohexyl isovalerate；FEMA 编号 2355。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1439",
@@ -32021,7 +32021,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1441",
     "flavorCode": "S1441",
     "flavorNameCn": "双(2-甲基-3-呋喃基)四硫醚",
-    "flavorNameEn": "Bis(2-methyl-3-furyl)tetrasulfide",
+    "flavorNameEn": "Bis(2-methyl-3-furyl) tetrasulfide",
     "femaNumber": "3260",
     "pdfPage": 222,
     "standardPage": 219,
@@ -32030,7 +32030,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1440S1441双(2-甲基-3-呋喃基)四硫醚Bis(2-methyl-3-furyl)tetrasulfide3260",
     "rowName": "双(2-甲基-3-呋喃基)四硫醚",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1440；编码 S1441；香料中文名称 双(2-甲基-3-呋喃基)四硫醚；香料英文名称 Bis(2-methyl-3-furyl)tetrasulfide；FEMA 编号 3260。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1440；编码 S1441；香料中文名称 双(2-甲基-3-呋喃基)四硫醚；香料英文名称 Bis(2-methyl-3-furyl) tetrasulfide；FEMA 编号 3260。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1441",
@@ -32038,7 +32038,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1442",
     "flavorCode": "S1442",
     "flavorNameCn": "辛酸对-甲酚酯",
-    "flavorNameEn": "p-Tolyloctanoate",
+    "flavorNameEn": "p-Tolyl octanoate",
     "femaNumber": "3733",
     "pdfPage": 222,
     "standardPage": 219,
@@ -32047,7 +32047,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1441S1442辛酸对-甲酚酯p-Tolyloctanoate3733",
     "rowName": "辛酸对-甲酚酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1441；编码 S1442；香料中文名称 辛酸对-甲酚酯；香料英文名称 p-Tolyloctanoate；FEMA 编号 3733。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1441；编码 S1442；香料中文名称 辛酸对-甲酚酯；香料英文名称 p-Tolyl octanoate；FEMA 编号 3733。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1442",
@@ -32089,7 +32089,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1445",
     "flavorCode": "S1445",
     "flavorNameCn": "(+/-)反式和顺式-2-己烯醛丙二醇缩醛",
-    "flavorNameEn": "(+/-)trans-andcis-2-Hexenalpropyleneglycolacetal",
+    "flavorNameEn": "(+/-) trans-andcis-2-Hexenalpropylene glycolacetal",
     "femaNumber": "4272",
     "pdfPage": 222,
     "standardPage": 219,
@@ -32098,7 +32098,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "(+/-)反式和顺式-2-己烯醛丙(+/-)trans-andcis-2-Hexenalpropylene1444S14454272二醇缩醛glycolacetal",
     "rowName": "(+/-)反式和顺式-2-己烯醛丙二醇缩醛",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1444；编码 S1445；香料中文名称 (+/-)反式和顺式-2-己烯醛丙二醇缩醛；香料英文名称 (+/-)trans-andcis-2-Hexenalpropyleneglycolacetal；FEMA 编号 4272。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1444；编码 S1445；香料中文名称 (+/-)反式和顺式-2-己烯醛丙二醇缩醛；香料英文名称 (+/-) trans-andcis-2-Hexenalpropylene glycolacetal；FEMA 编号 4272。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1445",
@@ -32106,7 +32106,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1446",
     "flavorCode": "S1446",
     "flavorNameCn": "乙酸2-乙基丁酯",
-    "flavorNameEn": "2-Ethylbutylacetate",
+    "flavorNameEn": "2-Ethylbutyl acetate",
     "femaNumber": "2425",
     "pdfPage": 222,
     "standardPage": 219,
@@ -32115,7 +32115,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1445S1446乙酸2-乙基丁酯2-Ethylbutylacetate2425",
     "rowName": "乙酸2-乙基丁酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1445；编码 S1446；香料中文名称 乙酸2-乙基丁酯；香料英文名称 2-Ethylbutylacetate；FEMA 编号 2425。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1445；编码 S1446；香料中文名称 乙酸2-乙基丁酯；香料英文名称 2-Ethylbutyl acetate；FEMA 编号 2425。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1446",
@@ -32208,7 +32208,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1452",
     "flavorCode": "S1452",
     "flavorNameCn": "3-巯基-3-甲基-1-丁醇乙酸酯",
-    "flavorNameEn": "3-Mercapto-3-methyl-1-butylacetate",
+    "flavorNameEn": "3-Mercapto-3-methyl-1-butyl acetate",
     "femaNumber": "4324",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32217,7 +32217,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1451S14523-巯基-3-甲基-1-丁醇乙酸酯3-Mercapto-3-methyl-1-butylacetate4324",
     "rowName": "3-巯基-3-甲基-1-丁醇乙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1451；编码 S1452；香料中文名称 3-巯基-3-甲基-1-丁醇乙酸酯；香料英文名称 3-Mercapto-3-methyl-1-butylacetate；FEMA 编号 4324。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1451；编码 S1452；香料中文名称 3-巯基-3-甲基-1-丁醇乙酸酯；香料英文名称 3-Mercapto-3-methyl-1-butyl acetate；FEMA 编号 4324。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1452",
@@ -32225,7 +32225,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1453",
     "flavorCode": "S1453",
     "flavorNameCn": "(R,S)-3-羟基丁酸l-薄荷酯",
-    "flavorNameEn": "l-Menthyl(R,S)-3-hydroxybutyrate",
+    "flavorNameEn": "l-Menthyl (R,S)-3-hydroxybutyrate",
     "femaNumber": "4308",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32234,7 +32234,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1452S1453(R,S)-3-羟基丁酸l-薄荷酯l-Menthyl(R,S)-3-hydroxybutyrate4308",
     "rowName": "(R,S)-3-羟基丁酸l-薄荷酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1452；编码 S1453；香料中文名称 (R,S)-3-羟基丁酸l-薄荷酯；香料英文名称 l-Menthyl(R,S)-3-hydroxybutyrate；FEMA 编号 4308。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1452；编码 S1453；香料中文名称 (R,S)-3-羟基丁酸l-薄荷酯；香料英文名称 l-Menthyl (R,S)-3-hydroxybutyrate；FEMA 编号 4308。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1453",
@@ -32242,7 +32242,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1454",
     "flavorCode": "S1454",
     "flavorNameCn": "异戊酸异丙酯",
-    "flavorNameEn": "Isopropylisovalerate",
+    "flavorNameEn": "Isopropyl isovalerate",
     "femaNumber": "2961",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32251,7 +32251,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1453S1454异戊酸异丙酯Isopropylisovalerate2961",
     "rowName": "异戊酸异丙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1453；编码 S1454；香料中文名称 异戊酸异丙酯；香料英文名称 Isopropylisovalerate；FEMA 编号 2961。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1453；编码 S1454；香料中文名称 异戊酸异丙酯；香料英文名称 Isopropyl isovalerate；FEMA 编号 2961。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1454",
@@ -32259,7 +32259,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1455",
     "flavorCode": "S1455",
     "flavorNameCn": "顺式-4-癸烯醇乙酸酯",
-    "flavorNameEn": "cis-4-Decenylacetate",
+    "flavorNameEn": "cis-4-Decenyl acetate",
     "femaNumber": "3967",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32268,7 +32268,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1454S1455顺式-4-癸烯醇乙酸酯cis-4-Decenylacetate3967",
     "rowName": "顺式-4-癸烯醇乙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1454；编码 S1455；香料中文名称 顺式-4-癸烯醇乙酸酯；香料英文名称 cis-4-Decenylacetate；FEMA 编号 3967。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1454；编码 S1455；香料中文名称 顺式-4-癸烯醇乙酸酯；香料英文名称 cis-4-Decenyl acetate；FEMA 编号 3967。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1455",
@@ -32276,7 +32276,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1456",
     "flavorCode": "S1456",
     "flavorNameCn": "惕各酸香叶酯",
-    "flavorNameEn": "Geranyltiglate",
+    "flavorNameEn": "Geranyl tiglate",
     "femaNumber": "4044",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32285,7 +32285,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1455S1456惕各酸香叶酯Geranyltiglate4044",
     "rowName": "惕各酸香叶酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1455；编码 S1456；香料中文名称 惕各酸香叶酯；香料英文名称 Geranyltiglate；FEMA 编号 4044。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1455；编码 S1456；香料中文名称 惕各酸香叶酯；香料英文名称 Geranyl tiglate；FEMA 编号 4044。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1456",
@@ -32293,7 +32293,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1457",
     "flavorCode": "S1457",
     "flavorNameCn": "N-苯甲酰邻氨基苯甲酸",
-    "flavorNameEn": "N-Benzoylanthranilicacid",
+    "flavorNameEn": "N-Benzoylanthranilic acid",
     "femaNumber": "4078",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32302,7 +32302,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1456S1457N-苯甲酰邻氨基苯甲酸N-Benzoylanthranilicacid4078",
     "rowName": "N-苯甲酰邻氨基苯甲酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1456；编码 S1457；香料中文名称 N-苯甲酰邻氨基苯甲酸；香料英文名称 N-Benzoylanthranilicacid；FEMA 编号 4078。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1456；编码 S1457；香料中文名称 N-苯甲酰邻氨基苯甲酸；香料英文名称 N-Benzoylanthranilic acid；FEMA 编号 4078。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1457",
@@ -32344,7 +32344,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1460",
     "flavorCode": "S1460",
     "flavorNameCn": "甲硫基甲醇丁酸酯",
-    "flavorNameEn": "Methylthiomethylbutyrate",
+    "flavorNameEn": "Methylthiomethyl butyrate",
     "femaNumber": "3879",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32353,7 +32353,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1459S1460甲硫基甲醇丁酸酯Methylthiomethylbutyrate3879",
     "rowName": "甲硫基甲醇丁酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1459；编码 S1460；香料中文名称 甲硫基甲醇丁酸酯；香料英文名称 Methylthiomethylbutyrate；FEMA 编号 3879。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1459；编码 S1460；香料中文名称 甲硫基甲醇丁酸酯；香料英文名称 Methylthiomethyl butyrate；FEMA 编号 3879。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1460",
@@ -32412,7 +32412,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1464",
     "flavorCode": "S1464",
     "flavorNameCn": "4-羟基-4-甲基-7-顺式-癸烯酸γ-内酯",
-    "flavorNameEn": "4-Hydroxy-4-methyl-7-cis-decenoicacidgammalactone",
+    "flavorNameEn": "4-Hydroxy-4-methyl-7-cis-decenoicacidgamma lactone",
     "femaNumber": "3937",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32421,7 +32421,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-羟基-4-甲基-7-顺式-癸烯酸γ-4-Hydroxy-4-methyl-7-cis-decenoicacidgamma1463S14643937内酯lactone",
     "rowName": "4-羟基-4-甲基-7-顺式-癸烯酸γ-内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1463；编码 S1464；香料中文名称 4-羟基-4-甲基-7-顺式-癸烯酸γ-内酯；香料英文名称 4-Hydroxy-4-methyl-7-cis-decenoicacidgammalactone；FEMA 编号 3937。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1463；编码 S1464；香料中文名称 4-羟基-4-甲基-7-顺式-癸烯酸γ-内酯；香料英文名称 4-Hydroxy-4-methyl-7-cis-decenoicacidgamma lactone；FEMA 编号 3937。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1464",
@@ -32531,7 +32531,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1471",
     "flavorCode": "S1471",
     "flavorNameCn": "4-氨基-5,6-二甲基噻吩并[2,3-d]嘧啶-2(1H)-酮盐酸盐",
-    "flavorNameEn": "4-Amino-5,6-dimethylthieno[2,3-d]pyrimidin-2(1H)-onehydrochloride",
+    "flavorNameEn": "4-Amino-5,6-dimethylthieno[2,3-d]pyrimidin-2(1H)-one hydrochloride",
     "femaNumber": "4669",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32540,7 +32540,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-氨基-5,6-二甲基噻吩并[2,3-4-Amino-5,6-dimethylthieno[2,3-d]pyrimidin-1470S14714669d]嘧啶-2(1H)-酮盐酸盐2(1H)-onehydrochloride",
     "rowName": "4-氨基-5,6-二甲基噻吩并[2,3-d]嘧啶-2(1H)-酮盐酸盐",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1470；编码 S1471；香料中文名称 4-氨基-5,6-二甲基噻吩并[2,3-d]嘧啶-2(1H)-酮盐酸盐；香料英文名称 4-Amino-5,6-dimethylthieno[2,3-d]pyrimidin-2(1H)-onehydrochloride；FEMA 编号 4669。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1470；编码 S1471；香料中文名称 4-氨基-5,6-二甲基噻吩并[2,3-d]嘧啶-2(1H)-酮盐酸盐；香料英文名称 4-Amino-5,6-dimethylthieno[2,3-d]pyrimidin-2(1H)-one hydrochloride；FEMA 编号 4669。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1471",
@@ -32548,7 +32548,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1472",
     "flavorCode": "S1472",
     "flavorNameCn": "3-[(4-氨基-2,2-二氧-1H-2,1,3-苯并噻二嗪-5-基)氧]-2,2-二甲基-N-丙基丙酰胺",
-    "flavorNameEn": "3-[(4-Amino-2,2-dioxido-1H-2,1,3-benzoth-iadiazin-5-yl)oxy]-2,2-dimethyl-N-propylpro-panamide",
+    "flavorNameEn": "3-[(4-Amino-2,2-dioxido-1H-2,1,3-benzoth-iadiazin-5-yl) oxy]-2,2-dimethyl-N-propylpro-panamide",
     "femaNumber": "4701",
     "pdfPage": 223,
     "standardPage": 220,
@@ -32557,7 +32557,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-[(4-氨基-2,2-二氧-1H-2,1,3-3-[(4-Amino-2,2-dioxido-1H-2,1,3-benzoth-1471S1472苯并噻二嗪-5-基)氧]-2,2-二甲iadiazin-5-yl)oxy]-2,2-dimethyl-N-propylpro-4701基-N-丙基丙酰胺panamide",
     "rowName": "3-[(4-氨基-2,2-二氧-1H-2,1,3-苯并噻二嗪-5-基)氧]-2,2-二甲基-N-丙基丙酰胺",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1471；编码 S1472；香料中文名称 3-[(4-氨基-2,2-二氧-1H-2,1,3-苯并噻二嗪-5-基)氧]-2,2-二甲基-N-丙基丙酰胺；香料英文名称 3-[(4-Amino-2,2-dioxido-1H-2,1,3-benzoth-iadiazin-5-yl)oxy]-2,2-dimethyl-N-propylpro-panamide；FEMA 编号 4701。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1471；编码 S1472；香料中文名称 3-[(4-氨基-2,2-二氧-1H-2,1,3-苯并噻二嗪-5-基)氧]-2,2-二甲基-N-丙基丙酰胺；香料英文名称 3-[(4-Amino-2,2-dioxido-1H-2,1,3-benzoth-iadiazin-5-yl) oxy]-2,2-dimethyl-N-propylpro-panamide；FEMA 编号 4701。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1472",
@@ -32616,7 +32616,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1476",
     "flavorCode": "S1476",
     "flavorNameCn": "(2S,5R)-N-[4-(2-氨基-2-氧代乙基)苯基]-5-甲基-2-(丙基-2-)环己烷甲酰胺",
-    "flavorNameEn": "(2S,5R)-N-[4-(2-Amino-2-oxoethyl)phenyl]-5-methyl-2-(propan-2-yl)cyclohexanecar-boxamide",
+    "flavorNameEn": "(2S,5R)-N-[4-(2-Amino-2-oxoethyl)phenyl]-5-methyl-2-(propan-2-yl) cyclohexanecar-boxamide",
     "femaNumber": "4684",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32625,7 +32625,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "(2S,5R)-N-[4-(2-氨基-2-氧代(2S,5R)-N-[4-(2-Amino-2-oxoethyl)phenyl]-1475S1476乙基)苯基]-5-甲基-2-(丙基-2-)5-methyl-2-(propan-2-yl)cyclohexanecar-4684环己烷甲酰胺boxamide",
     "rowName": "(2S,5R)-N-[4-(2-氨基-2-氧代乙基)苯基]-5-甲基-2-(丙基-2-)环己烷甲酰胺",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1475；编码 S1476；香料中文名称 (2S,5R)-N-[4-(2-氨基-2-氧代乙基)苯基]-5-甲基-2-(丙基-2-)环己烷甲酰胺；香料英文名称 (2S,5R)-N-[4-(2-Amino-2-oxoethyl)phenyl]-5-methyl-2-(propan-2-yl)cyclohexanecar-boxamide；FEMA 编号 4684。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1475；编码 S1476；香料中文名称 (2S,5R)-N-[4-(2-氨基-2-氧代乙基)苯基]-5-甲基-2-(丙基-2-)环己烷甲酰胺；香料英文名称 (2S,5R)-N-[4-(2-Amino-2-oxoethyl)phenyl]-5-methyl-2-(propan-2-yl) cyclohexanecar-boxamide；FEMA 编号 4684。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1476",
@@ -32701,7 +32701,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1481",
     "flavorCode": "S1481",
     "flavorNameCn": "香兰醇",
-    "flavorNameEn": "Vanillylalcohol",
+    "flavorNameEn": "Vanillyl alcohol",
     "femaNumber": "3737",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32710,7 +32710,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1480S1481香兰醇Vanillylalcohol3737",
     "rowName": "香兰醇",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1480；编码 S1481；香料中文名称 香兰醇；香料英文名称 Vanillylalcohol；FEMA 编号 3737。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1480；编码 S1481；香料中文名称 香兰醇；香料英文名称 Vanillyl alcohol；FEMA 编号 3737。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1481",
@@ -32718,7 +32718,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1482",
     "flavorCode": "S1482",
     "flavorNameCn": "6-[5(6)-癸烯酰氧基]癸酸",
-    "flavorNameEn": "6-[5(6)-Decenoyloxy]decanoicacid",
+    "flavorNameEn": "6-[5(6)-Decenoyloxy]decanoic acid",
     "femaNumber": "4442",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32727,7 +32727,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1481S14826-[5(6)-癸烯酰氧基]癸酸6-[5(6)-Decenoyloxy]decanoicacid4442",
     "rowName": "6-[5(6)-癸烯酰氧基]癸酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1481；编码 S1482；香料中文名称 6-[5(6)-癸烯酰氧基]癸酸；香料英文名称 6-[5(6)-Decenoyloxy]decanoicacid；FEMA 编号 4442。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1481；编码 S1482；香料中文名称 6-[5(6)-癸烯酰氧基]癸酸；香料英文名称 6-[5(6)-Decenoyloxy]decanoic acid；FEMA 编号 4442。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1482",
@@ -32735,7 +32735,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1484",
     "flavorCode": "S1484",
     "flavorNameCn": "3-{1-[(3,5-二甲基-1,2-唑-4-基)甲基]-1H-吡唑-4-基}-1-(3-羟基苄基)咪唑啉-2,4-二酮",
-    "flavorNameEn": "3-{1-[(3,5-Dimethyl-1,2-oxazol-4-yl)methyl]-1H-pyrazol-4-yl}-1-(3-hydroxybenzyl)imidazo-lidine-2,4-dione",
+    "flavorNameEn": "3-{1-[(3,5-Dimethyl-1,2-oxazol-4-yl) methyl]-1H-pyrazol-4-yl}-1-(3-hydroxybenzyl)imidazo-lidine-2,4-dione",
     "femaNumber": "4725",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32744,7 +32744,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "3-{1-[(3,5-二甲基-1,2-唑-4-3-{1-[(3,5-Dimethyl-1,2-oxazol-4-yl)methyl]-1482S1484基)甲基]-1H-吡唑-4-基}-1-(3-1H-pyrazol-4-yl}-1-(3-hydroxybenzyl)imidazo-4725羟基苄基)咪唑啉-2,4-二酮lidine-2,4-dione",
     "rowName": "3-{1-[(3,5-二甲基-1,2-唑-4-基)甲基]-1H-吡唑-4-基}-1-(3-羟基苄基)咪唑啉-2,4-二酮",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1482；编码 S1484；香料中文名称 3-{1-[(3,5-二甲基-1,2-唑-4-基)甲基]-1H-吡唑-4-基}-1-(3-羟基苄基)咪唑啉-2,4-二酮；香料英文名称 3-{1-[(3,5-Dimethyl-1,2-oxazol-4-yl)methyl]-1H-pyrazol-4-yl}-1-(3-hydroxybenzyl)imidazo-lidine-2,4-dione；FEMA 编号 4725。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1482；编码 S1484；香料中文名称 3-{1-[(3,5-二甲基-1,2-唑-4-基)甲基]-1H-吡唑-4-基}-1-(3-羟基苄基)咪唑啉-2,4-二酮；香料英文名称 3-{1-[(3,5-Dimethyl-1,2-oxazol-4-yl) methyl]-1H-pyrazol-4-yl}-1-(3-hydroxybenzyl)imidazo-lidine-2,4-dione；FEMA 编号 4725。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1483",
@@ -32752,7 +32752,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1485",
     "flavorCode": "S1485",
     "flavorNameCn": "4-氨基-5-[3-(异丙基氨基)-2,2-二甲基-3-氧代丙氧基]-2-甲基喹啉-3-羧酸硫酸盐",
-    "flavorNameEn": "4-Amino-5-(3-(isopropylamino)-2,2-dimethyl-3-oxopropoxy)-2-methylquinoline-3-carboxylicacidsulfate",
+    "flavorNameEn": "4-Amino-5-(3-(isopropylamino)-2,2-dimethyl-3-oxopropoxy)-2-methylquinoline-3-carboxylic acidsulfate",
     "femaNumber": "4774",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32761,7 +32761,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-氨基-5-[3-(异丙基氨基)-2,2-4-Amino-5-(3-(isopropylamino)-2,2-dimethyl-1483S1485二甲基-3-氧代丙氧基]-2-甲基喹3-oxopropoxy)-2-methylquinoline-3-carboxylic4774啉-3-羧酸硫酸盐acidsulfate",
     "rowName": "4-氨基-5-[3-(异丙基氨基)-2,2-二甲基-3-氧代丙氧基]-2-甲基喹啉-3-羧酸硫酸盐",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1483；编码 S1485；香料中文名称 4-氨基-5-[3-(异丙基氨基)-2,2-二甲基-3-氧代丙氧基]-2-甲基喹啉-3-羧酸硫酸盐；香料英文名称 4-Amino-5-(3-(isopropylamino)-2,2-dimethyl-3-oxopropoxy)-2-methylquinoline-3-carboxylicacidsulfate；FEMA 编号 4774。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1483；编码 S1485；香料中文名称 4-氨基-5-[3-(异丙基氨基)-2,2-二甲基-3-氧代丙氧基]-2-甲基喹啉-3-羧酸硫酸盐；香料英文名称 4-Amino-5-(3-(isopropylamino)-2,2-dimethyl-3-oxopropoxy)-2-methylquinoline-3-carboxylic acidsulfate；FEMA 编号 4774。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1484",
@@ -32803,7 +32803,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1488",
     "flavorCode": "S1488",
     "flavorNameCn": "N-(2-异丙基-5-甲基环己基)环丙基甲酰胺",
-    "flavorNameEn": "Cyclopropanecarboxylicacid(2-isopropyl-5-methyl-cyclohexyl)-amide",
+    "flavorNameEn": "Cyclopropanecarboxylic acid(2-isopropyl-5-methyl-cyclohexyl)-amide",
     "femaNumber": "4558",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32812,7 +32812,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "N-(2-异丙基-5-甲基环己基)环Cyclopropanecarboxylicacid(2-isopropyl-5-1486S14884558丙基甲酰胺methyl-cyclohexyl)-amide",
     "rowName": "N-(2-异丙基-5-甲基环己基)环丙基甲酰胺",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1486；编码 S1488；香料中文名称 N-(2-异丙基-5-甲基环己基)环丙基甲酰胺；香料英文名称 Cyclopropanecarboxylicacid(2-isopropyl-5-methyl-cyclohexyl)-amide；FEMA 编号 4558。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1486；编码 S1488；香料中文名称 N-(2-异丙基-5-甲基环己基)环丙基甲酰胺；香料英文名称 Cyclopropanecarboxylic acid(2-isopropyl-5-methyl-cyclohexyl)-amide；FEMA 编号 4558。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1487",
@@ -32820,7 +32820,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1489",
     "flavorCode": "S1489",
     "flavorNameCn": "4-羟基-4-甲基-5-己烯酸γ-内酯",
-    "flavorNameEn": "4-Hydroxy-4-methyl-5-hexenoicacidgammalactone",
+    "flavorNameEn": "4-Hydroxy-4-methyl-5-hexenoicacidgamma lactone",
     "femaNumber": "4051",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32829,7 +32829,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "4-Hydroxy-4-methyl-5-hexenoicacidgamma1487S14894-羟基-4-甲基-5-己烯酸γ-内酯4051lactone",
     "rowName": "4-羟基-4-甲基-5-己烯酸γ-内酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1487；编码 S1489；香料中文名称 4-羟基-4-甲基-5-己烯酸γ-内酯；香料英文名称 4-Hydroxy-4-methyl-5-hexenoicacidgammalactone；FEMA 编号 4051。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1487；编码 S1489；香料中文名称 4-羟基-4-甲基-5-己烯酸γ-内酯；香料英文名称 4-Hydroxy-4-methyl-5-hexenoicacidgamma lactone；FEMA 编号 4051。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1488",
@@ -32854,7 +32854,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1491",
     "flavorCode": "S1491",
     "flavorNameCn": "4-癸烯酸",
-    "flavorNameEn": "4-Decenoicacid",
+    "flavorNameEn": "4-Decenoic acid",
     "femaNumber": "3914",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32863,7 +32863,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1489S14914-癸烯酸4-Decenoicacid3914",
     "rowName": "4-癸烯酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1489；编码 S1491；香料中文名称 4-癸烯酸；香料英文名称 4-Decenoicacid；FEMA 编号 3914。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1489；编码 S1491；香料中文名称 4-癸烯酸；香料英文名称 4-Decenoic acid；FEMA 编号 3914。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1490",
@@ -32871,7 +32871,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1492",
     "flavorCode": "S1492",
     "flavorNameCn": "2-(4-甲基-5-噻唑基)乙醇丙酸酯",
-    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethylpropionate",
+    "flavorNameEn": "2-(4-Methyl-5-thiazolyl)ethyl propionate",
     "femaNumber": "4276",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32880,7 +32880,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1490S14922-(4-甲基-5-噻唑基)乙醇丙酸酯2-(4-Methyl-5-thiazolyl)ethylpropionate4276",
     "rowName": "2-(4-甲基-5-噻唑基)乙醇丙酸酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1490；编码 S1492；香料中文名称 2-(4-甲基-5-噻唑基)乙醇丙酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethylpropionate；FEMA 编号 4276。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1490；编码 S1492；香料中文名称 2-(4-甲基-5-噻唑基)乙醇丙酸酯；香料英文名称 2-(4-Methyl-5-thiazolyl)ethyl propionate；FEMA 编号 4276。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1491",
@@ -32905,7 +32905,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1494",
     "flavorCode": "S1494",
     "flavorNameCn": "5-羟基癸酸乙酯",
-    "flavorNameEn": "Ethyl5-hydroxydecanoate",
+    "flavorNameEn": "Ethyl 5-hydroxydecanoate",
     "femaNumber": "4444",
     "pdfPage": 224,
     "standardPage": 221,
@@ -32914,7 +32914,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "1492S14945-羟基癸酸乙酯Ethyl5-hydroxydecanoate4444",
     "rowName": "5-羟基癸酸乙酯",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1492；编码 S1494；香料中文名称 5-羟基癸酸乙酯；香料英文名称 Ethyl5-hydroxydecanoate；FEMA 编号 4444。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1492；编码 S1494；香料中文名称 5-羟基癸酸乙酯；香料英文名称 Ethyl 5-hydroxydecanoate；FEMA 编号 4444。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1493",
@@ -32956,7 +32956,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1497",
     "flavorCode": "S1497",
     "flavorNameCn": "大茴香脑",
-    "flavorNameEn": "trans-AnetholeAnisecamphor",
+    "flavorNameEn": "trans-Anethole Anisecamphor",
     "femaNumber": "2086",
     "pdfPage": 225,
     "standardPage": 222,
@@ -32965,7 +32965,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "trans-Anethole1495S1497大茴香脑2086Anisecamphor",
     "rowName": "大茴香脑",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1495；编码 S1497；香料中文名称 大茴香脑；香料英文名称 trans-AnetholeAnisecamphor；FEMA 编号 2086。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1495；编码 S1497；香料中文名称 大茴香脑；香料英文名称 trans-Anethole Anisecamphor；FEMA 编号 2086。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1496",
@@ -33058,7 +33058,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     "rowCode": "S1503",
     "flavorCode": "S1503",
     "flavorNameCn": "L-γ-谷氨酰-L-缬氨酰-甘氨酸",
-    "flavorNameEn": "Glutamyl-valyl-glycine(L-gamma-glutamyl-L-valyl-glycine)",
+    "flavorNameEn": "Glutamyl-valyl-glycine (L-gamma-glutamyl-L-valyl-glycine)",
     "femaNumber": "4709",
     "pdfPage": 225,
     "standardPage": 222,
@@ -33067,7 +33067,7 @@ export const gb2760OfficialB3SyntheticFlavorRows = [
     ],
     "rawRowText": "Glutamyl-valyl-glycine(L-gamma-glutamyl-1501S1503L-γ-谷氨酰-L-缬氨酰-甘氨酸4709L-valyl-glycine)",
     "rowName": "L-γ-谷氨酰-L-缬氨酰-甘氨酸",
-    "rawSourceText": "GB 2760-2024 表 B.3：序号 1501；编码 S1503；香料中文名称 L-γ-谷氨酰-L-缬氨酰-甘氨酸；香料英文名称 Glutamyl-valyl-glycine(L-gamma-glutamyl-L-valyl-glycine)；FEMA 编号 4709。"
+    "rawSourceText": "GB 2760-2024 表 B.3：序号 1501；编码 S1503；香料中文名称 L-γ-谷氨酰-L-缬氨酰-甘氨酸；香料英文名称 Glutamyl-valyl-glycine (L-gamma-glutamyl-L-valyl-glycine)；FEMA 编号 4709。"
   },
   {
     "id": "gb2760-2024-b3-synthetic-flavor-1502",
@@ -33144,14 +33144,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "2",
     "rowName": "甘油(又名丙三醇)",
     "processingAidNameCn": "甘油(又名丙三醇)",
-    "processingAidNameEn": "glycerine(glycerol)",
+    "processingAidNameEn": "glycerine (glycerol)",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "2甘油(又名丙三醇)glycerine(glycerol)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 2；助剂中文名称 甘油(又名丙三醇)；助剂英文名称 glycerine(glycerol)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 2；助剂中文名称 甘油(又名丙三醇)；助剂英文名称 glycerine (glycerol)；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-003",
@@ -33189,14 +33189,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "5",
     "rowName": "单,双甘油脂肪酸酯",
     "processingAidNameCn": "单,双甘油脂肪酸酯",
-    "processingAidNameEn": "mono-anddiglyceridesoffattyacids",
+    "processingAidNameEn": "mono- and diglycerides of fatty acids",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "5单,双甘油脂肪酸酯mono-anddiglyceridesoffattyacids",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 5；助剂中文名称 单,双甘油脂肪酸酯；助剂英文名称 mono-anddiglyceridesoffattyacids；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 5；助剂中文名称 单,双甘油脂肪酸酯；助剂英文名称 mono- and diglycerides of fatty acids；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-006",
@@ -33219,14 +33219,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "7",
     "rowName": "二氧化硅",
     "processingAidNameCn": "二氧化硅",
-    "processingAidNameEn": "silicondioxide",
+    "processingAidNameEn": "silicon dioxide",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "7二氧化硅silicondioxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 7；助剂中文名称 二氧化硅；助剂英文名称 silicondioxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 7；助剂中文名称 二氧化硅；助剂英文名称 silicon dioxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-008",
@@ -33234,14 +33234,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "8",
     "rowName": "二氧化碳",
     "processingAidNameCn": "二氧化碳",
-    "processingAidNameEn": "carbondioxide",
+    "processingAidNameEn": "carbon dioxide",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "8二氧化碳carbondioxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 8；助剂中文名称 二氧化碳；助剂英文名称 carbondioxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 8；助剂中文名称 二氧化碳；助剂英文名称 carbon dioxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-009",
@@ -33249,14 +33249,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "9",
     "rowName": "硅藻土",
     "processingAidNameCn": "硅藻土",
-    "processingAidNameEn": "diatomaceousearth",
+    "processingAidNameEn": "diatomaceous earth",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "9硅藻土diatomaceousearth",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 9；助剂中文名称 硅藻土；助剂英文名称 diatomaceousearth；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 9；助剂中文名称 硅藻土；助剂英文名称 diatomaceous earth；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-010",
@@ -33264,14 +33264,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "10",
     "rowName": "活性炭",
     "processingAidNameCn": "活性炭",
-    "processingAidNameEn": "activatedcarbon",
+    "processingAidNameEn": "activated carbon",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "10活性炭activatedcarbon",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 10；助剂中文名称 活性炭；助剂英文名称 activatedcarbon；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 10；助剂中文名称 活性炭；助剂英文名称 activated carbon；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-011",
@@ -33294,14 +33294,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "12",
     "rowName": "硫酸钙",
     "processingAidNameCn": "硫酸钙",
-    "processingAidNameEn": "calciumsulfate",
+    "processingAidNameEn": "calcium sulfate",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "12硫酸钙calciumsulfate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 12；助剂中文名称 硫酸钙；助剂英文名称 calciumsulfate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 12；助剂中文名称 硫酸钙；助剂英文名称 calcium sulfate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-013",
@@ -33309,14 +33309,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "13",
     "rowName": "硫酸镁",
     "processingAidNameCn": "硫酸镁",
-    "processingAidNameEn": "magnesiumsulfate",
+    "processingAidNameEn": "magnesium sulfate",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "13硫酸镁magnesiumsulfate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 13；助剂中文名称 硫酸镁；助剂英文名称 magnesiumsulfate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 13；助剂中文名称 硫酸镁；助剂英文名称 magnesium sulfate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-014",
@@ -33324,14 +33324,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "14",
     "rowName": "硫酸钠",
     "processingAidNameCn": "硫酸钠",
-    "processingAidNameEn": "sodiumsulfate",
+    "processingAidNameEn": "sodium sulfate",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "14硫酸钠sodiumsulfate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 14；助剂中文名称 硫酸钠；助剂英文名称 sodiumsulfate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 14；助剂中文名称 硫酸钠；助剂英文名称 sodium sulfate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-015",
@@ -33339,14 +33339,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "15",
     "rowName": "氯化铵",
     "processingAidNameCn": "氯化铵",
-    "processingAidNameEn": "ammoniumchloride",
+    "processingAidNameEn": "ammonium chloride",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "15氯化铵ammoniumchloride",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 15；助剂中文名称 氯化铵；助剂英文名称 ammoniumchloride；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 15；助剂中文名称 氯化铵；助剂英文名称 ammonium chloride；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-016",
@@ -33354,14 +33354,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "16",
     "rowName": "氯化钙",
     "processingAidNameCn": "氯化钙",
-    "processingAidNameEn": "calciumchloride",
+    "processingAidNameEn": "calcium chloride",
     "pdfPage": 226,
     "standardPage": 223,
     "pdfPages": [
       226
     ],
     "rawRowText": "16氯化钙calciumchloride",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 16；助剂中文名称 氯化钙；助剂英文名称 calciumchloride；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 16；助剂中文名称 氯化钙；助剂英文名称 calcium chloride；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-017",
@@ -33369,14 +33369,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "17",
     "rowName": "氯化钾",
     "processingAidNameCn": "氯化钾",
-    "processingAidNameEn": "potassiumchloride",
+    "processingAidNameEn": "potassium chloride",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "17氯化钾potassiumchloride",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 17；助剂中文名称 氯化钾；助剂英文名称 potassiumchloride；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 17；助剂中文名称 氯化钾；助剂英文名称 potassium chloride；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-018",
@@ -33384,14 +33384,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "18",
     "rowName": "柠檬酸",
     "processingAidNameCn": "柠檬酸",
-    "processingAidNameEn": "citricacid",
+    "processingAidNameEn": "citric acid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "18柠檬酸citricacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 18；助剂中文名称 柠檬酸；助剂英文名称 citricacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 18；助剂中文名称 柠檬酸；助剂英文名称 citric acid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-019",
@@ -33414,14 +33414,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "20",
     "rowName": "氢氧化钙",
     "processingAidNameCn": "氢氧化钙",
-    "processingAidNameEn": "calciumhydroxide",
+    "processingAidNameEn": "calcium hydroxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "20氢氧化钙calciumhydroxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 20；助剂中文名称 氢氧化钙；助剂英文名称 calciumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 20；助剂中文名称 氢氧化钙；助剂英文名称 calcium hydroxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-021",
@@ -33429,14 +33429,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "21",
     "rowName": "氢氧化钾",
     "processingAidNameCn": "氢氧化钾",
-    "processingAidNameEn": "potassiumhydroxide",
+    "processingAidNameEn": "potassium hydroxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "21氢氧化钾potassiumhydroxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 21；助剂中文名称 氢氧化钾；助剂英文名称 potassiumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 21；助剂中文名称 氢氧化钾；助剂英文名称 potassium hydroxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-022",
@@ -33444,14 +33444,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "22",
     "rowName": "氢氧化钠",
     "processingAidNameCn": "氢氧化钠",
-    "processingAidNameEn": "sodiumhydroxide",
+    "processingAidNameEn": "sodium hydroxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "22氢氧化钠sodiumhydroxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 22；助剂中文名称 氢氧化钠；助剂英文名称 sodiumhydroxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 22；助剂中文名称 氢氧化钠；助剂英文名称 sodium hydroxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-023",
@@ -33459,14 +33459,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "23",
     "rowName": "乳酸",
     "processingAidNameCn": "乳酸",
-    "processingAidNameEn": "lacticacid",
+    "processingAidNameEn": "lactic acid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "23乳酸lacticacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 23；助剂中文名称 乳酸；助剂英文名称 lacticacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 23；助剂中文名称 乳酸；助剂英文名称 lactic acid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-024",
@@ -33474,14 +33474,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "24",
     "rowName": "硅酸镁",
     "processingAidNameCn": "硅酸镁",
-    "processingAidNameEn": "magnesiumtrisilicate",
+    "processingAidNameEn": "magnesium trisilicate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "24硅酸镁magnesiumtrisilicate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 24；助剂中文名称 硅酸镁；助剂英文名称 magnesiumtrisilicate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 24；助剂中文名称 硅酸镁；助剂英文名称 magnesium trisilicate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-025",
@@ -33489,14 +33489,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "25",
     "rowName": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)",
     "processingAidNameCn": "碳酸钙(包括轻质碳酸钙,重质碳酸钙)",
-    "processingAidNameEn": "calciumcarbonate(light,heavy)",
+    "processingAidNameEn": "calcium carbonate (light, heavy)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "25碳酸钙(包括轻质碳酸钙,重质碳酸钙)calciumcarbonate(light,heavy)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 25；助剂中文名称 碳酸钙(包括轻质碳酸钙,重质碳酸钙)；助剂英文名称 calciumcarbonate(light,heavy)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 25；助剂中文名称 碳酸钙(包括轻质碳酸钙,重质碳酸钙)；助剂英文名称 calcium carbonate (light, heavy)；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-026",
@@ -33504,14 +33504,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "26",
     "rowName": "碳酸钾",
     "processingAidNameCn": "碳酸钾",
-    "processingAidNameEn": "potassiumcarbonate",
+    "processingAidNameEn": "potassium carbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "26碳酸钾potassiumcarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 26；助剂中文名称 碳酸钾；助剂英文名称 potassiumcarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 26；助剂中文名称 碳酸钾；助剂英文名称 potassium carbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-027",
@@ -33519,14 +33519,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "27",
     "rowName": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)",
     "processingAidNameCn": "碳酸镁(包括轻质碳酸镁,重质碳酸镁)",
-    "processingAidNameEn": "magnesiumcarbonate(light,heavy)",
+    "processingAidNameEn": "magnesium carbonate (light, heavy)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "27碳酸镁(包括轻质碳酸镁,重质碳酸镁)magnesiumcarbonate(light,heavy)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 27；助剂中文名称 碳酸镁(包括轻质碳酸镁,重质碳酸镁)；助剂英文名称 magnesiumcarbonate(light,heavy)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 27；助剂中文名称 碳酸镁(包括轻质碳酸镁,重质碳酸镁)；助剂英文名称 magnesium carbonate (light, heavy)；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-028",
@@ -33534,14 +33534,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "28",
     "rowName": "碳酸钠",
     "processingAidNameCn": "碳酸钠",
-    "processingAidNameEn": "sodiumcarbonate",
+    "processingAidNameEn": "sodium carbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "28碳酸钠sodiumcarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 28；助剂中文名称 碳酸钠；助剂英文名称 sodiumcarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 28；助剂中文名称 碳酸钠；助剂英文名称 sodium carbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-029",
@@ -33549,14 +33549,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "29",
     "rowName": "碳酸氢钾",
     "processingAidNameCn": "碳酸氢钾",
-    "processingAidNameEn": "potassiumhydrogencarbonate",
+    "processingAidNameEn": "potassium hydrogen carbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "29碳酸氢钾potassiumhydrogencarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 29；助剂中文名称 碳酸氢钾；助剂英文名称 potassiumhydrogencarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 29；助剂中文名称 碳酸氢钾；助剂英文名称 potassium hydrogen carbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-030",
@@ -33564,14 +33564,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "30",
     "rowName": "碳酸氢钠",
     "processingAidNameCn": "碳酸氢钠",
-    "processingAidNameEn": "sodiumhydrogencarbonate",
+    "processingAidNameEn": "sodium hydrogen carbonate",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "30碳酸氢钠sodiumhydrogencarbonate",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 30；助剂中文名称 碳酸氢钠；助剂英文名称 sodiumhydrogencarbonate；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 30；助剂中文名称 碳酸氢钠；助剂英文名称 sodium hydrogen carbonate；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-031",
@@ -33594,14 +33594,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "32",
     "rowName": "盐酸",
     "processingAidNameCn": "盐酸",
-    "processingAidNameEn": "hydrochloricacid",
+    "processingAidNameEn": "hydrochloric acid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "32盐酸hydrochloricacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 32；助剂中文名称 盐酸；助剂英文名称 hydrochloricacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 32；助剂中文名称 盐酸；助剂英文名称 hydrochloric acid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-033",
@@ -33609,14 +33609,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "33",
     "rowName": "氧化钙",
     "processingAidNameCn": "氧化钙",
-    "processingAidNameEn": "calciumoxide",
+    "processingAidNameEn": "calcium oxide",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "33氧化钙calciumoxide",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 33；助剂中文名称 氧化钙；助剂英文名称 calciumoxide；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 33；助剂中文名称 氧化钙；助剂英文名称 calcium oxide；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-034",
@@ -33624,14 +33624,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "34",
     "rowName": "氧化镁(包括重质氧化镁,轻质氧化镁)",
     "processingAidNameCn": "氧化镁(包括重质氧化镁,轻质氧化镁)",
-    "processingAidNameEn": "magnesiumoxide(heavy,light)",
+    "processingAidNameEn": "magnesium oxide (heavy, light)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "34氧化镁(包括重质氧化镁,轻质氧化镁)magnesiumoxide(heavy,light)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 34；助剂中文名称 氧化镁(包括重质氧化镁,轻质氧化镁)；助剂英文名称 magnesiumoxide(heavy,light)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 34；助剂中文名称 氧化镁(包括重质氧化镁,轻质氧化镁)；助剂英文名称 magnesium oxide (heavy, light)；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-035",
@@ -33654,14 +33654,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "36",
     "rowName": "冰乙酸(又名冰醋酸)",
     "processingAidNameCn": "冰乙酸(又名冰醋酸)",
-    "processingAidNameEn": "aceticacid",
+    "processingAidNameEn": "acetic acid",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "36冰乙酸(又名冰醋酸)aceticacid",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 36；助剂中文名称 冰乙酸(又名冰醋酸)；助剂英文名称 aceticacid；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 36；助剂中文名称 冰乙酸(又名冰醋酸)；助剂英文名称 acetic acid；可在各类食品加工过程中使用,残留量不需限定。"
   },
   {
     "id": "gb2760-2024-c1-processing-aid-no-residue-limit-037",
@@ -33669,14 +33669,14 @@ export const gb2760OfficialC1ProcessingAidRows = [
     "rowCode": "37",
     "rowName": "植物活性炭",
     "processingAidNameCn": "植物活性炭",
-    "processingAidNameEn": "vegetablecarbon(activated)",
+    "processingAidNameEn": "vegetable carbon (activated)",
     "pdfPage": 227,
     "standardPage": 224,
     "pdfPages": [
       227
     ],
     "rawRowText": "37植物活性炭vegetablecarbon(activated)",
-    "rawSourceText": "GB 2760-2024 表 C.1：序号 37；助剂中文名称 植物活性炭；助剂英文名称 vegetablecarbon(activated)；可在各类食品加工过程中使用,残留量不需限定。"
+    "rawSourceText": "GB 2760-2024 表 C.1：序号 37；助剂中文名称 植物活性炭；助剂英文名称 vegetable carbon (activated)；可在各类食品加工过程中使用,残留量不需限定。"
   }
 ];
 
@@ -33704,7 +33704,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "2",
     "rowName": "植物油抽提溶剂",
     "processingAidNameCn": "植物油抽提溶剂",
-    "processingAidNameEn": "vegetableoilsextractionsolvent",
+    "processingAidNameEn": "vegetable oils extraction solvent",
     "functionText": "浸油溶剂、提取溶剂",
     "useScope": "发酵工艺、油脂加工提取工艺",
     "pdfPage": 227,
@@ -33713,7 +33713,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "2植物油抽提溶剂vegetableoilsextractionsolvent浸油溶剂、提取溶剂发酵工艺、油脂加工提取工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 2；助剂中文名称 植物油抽提溶剂；助剂英文名称 vegetableoilsextractionsolvent；功能 浸油溶剂、提取溶剂；使用范围 发酵工艺、油脂加工提取工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 2；助剂中文名称 植物油抽提溶剂；助剂英文名称 vegetable oils extraction solvent；功能 浸油溶剂、提取溶剂；使用范围 发酵工艺、油脂加工提取工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-003",
@@ -33738,7 +33738,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "4",
     "rowName": "DL-苹果酸钠",
     "processingAidNameCn": "DL-苹果酸钠",
-    "processingAidNameEn": "sodiumDL-malate",
+    "processingAidNameEn": "sodium DL-malate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 227,
@@ -33747,7 +33747,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "4DL-苹果酸钠sodiumDL-malate发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 4；助剂中文名称 DL-苹果酸钠；助剂英文名称 sodiumDL-malate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 4；助剂中文名称 DL-苹果酸钠；助剂英文名称 sodium DL-malate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-005",
@@ -33755,7 +33755,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "5",
     "rowName": "L-苹果酸",
     "processingAidNameCn": "L-苹果酸",
-    "processingAidNameEn": "L-malicacid",
+    "processingAidNameEn": "L-malic acid",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 227,
@@ -33764,7 +33764,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       227
     ],
     "rawRowText": "5L-苹果酸L-malicacid发酵用营养物质发酵工艺调制乳、发酵乳和风味发酵",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 5；助剂中文名称 L-苹果酸；助剂英文名称 L-malicacid；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 5；助剂中文名称 L-苹果酸；助剂英文名称 L-malic acid；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-006",
@@ -33789,7 +33789,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "7",
     "rowName": "阿拉伯胶",
     "processingAidNameCn": "阿拉伯胶",
-    "processingAidNameEn": "arabicgum",
+    "processingAidNameEn": "arabic gum",
     "functionText": "澄清剂",
     "useScope": "葡萄酒加工工艺",
     "pdfPage": 228,
@@ -33798,7 +33798,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "7阿拉伯胶arabicgum澄清剂葡萄酒加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 7；助剂中文名称 阿拉伯胶；助剂英文名称 arabicgum；功能 澄清剂；使用范围 葡萄酒加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 7；助剂中文名称 阿拉伯胶；助剂英文名称 arabic gum；功能 澄清剂；使用范围 葡萄酒加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-008",
@@ -33806,7 +33806,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "8",
     "rowName": "凹凸棒黏土",
     "processingAidNameCn": "凹凸棒黏土",
-    "processingAidNameEn": "attapulgiteclay",
+    "processingAidNameEn": "attapulgite clay",
     "functionText": "脱色剂",
     "useScope": "油脂加工工艺",
     "pdfPage": 228,
@@ -33815,7 +33815,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "8凹凸棒黏土attapulgiteclay脱色剂油脂加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 8；助剂中文名称 凹凸棒黏土；助剂英文名称 attapulgiteclay；功能 脱色剂；使用范围 油脂加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 8；助剂中文名称 凹凸棒黏土；助剂英文名称 attapulgite clay；功能 脱色剂；使用范围 油脂加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-009",
@@ -33840,7 +33840,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "10",
     "rowName": "巴西棕榈蜡",
     "processingAidNameCn": "巴西棕榈蜡",
-    "processingAidNameEn": "carnaubawax",
+    "processingAidNameEn": "carnauba wax",
     "functionText": "脱模剂",
     "useScope": "焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺",
     "pdfPage": 228,
@@ -33849,7 +33849,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "焙烤食品加工工艺、膨化食品10巴西棕榈蜡carnaubawax脱模剂加工工艺、蜜饯果糕的加工工艺薯类的加工工艺、油脂加工工",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 10；助剂中文名称 巴西棕榈蜡；助剂英文名称 carnaubawax；功能 脱模剂；使用范围 焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 10；助剂中文名称 巴西棕榈蜡；助剂英文名称 carnauba wax；功能 脱模剂；使用范围 焙烤食品加工工艺、膨化食品加工工艺、蜜饯果糕的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-011",
@@ -33857,7 +33857,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "11",
     "rowName": "白油(液体石蜡)",
     "processingAidNameCn": "白油(液体石蜡)",
-    "processingAidNameEn": "whitemineraloil",
+    "processingAidNameEn": "white mineral oil",
     "functionText": "消泡剂、脱模剂、防黏剂、润滑剂",
     "useScope": "薯类的加工工艺、油脂加工工艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工艺(最大使用量为0.1g/kg)",
     "pdfPage": 228,
@@ -33866,7 +33866,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品消泡剂、脱模剂、防11白油(液体石蜡)whitemineraloil加工工艺、粮食加工工艺(用黏剂、润滑剂于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 11；助剂中文名称 白油(液体石蜡)；助剂英文名称 whitemineraloil；功能 消泡剂、脱模剂、防黏剂、润滑剂；使用范围 薯类的加工工艺、油脂加工工艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工艺(最大使用量为0.1g/kg)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 11；助剂中文名称 白油(液体石蜡)；助剂英文名称 white mineral oil；功能 消泡剂、脱模剂、防黏剂、润滑剂；使用范围 薯类的加工工艺、油脂加工工艺、糖果的加工工艺、胶原蛋白肠衣的加工工艺、膨化食品加工工艺、粮食加工工艺(用于防尘)、发酵工艺、豆制品的加工工艺、鲜酵母制品加工工艺(最大使用量为0.1g/kg)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-012",
@@ -33874,7 +33874,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "12",
     "rowName": "不溶性聚乙烯聚吡咯烷酮",
     "processingAidNameCn": "不溶性聚乙烯聚吡咯烷酮",
-    "processingAidNameEn": "insolublepolyvinylpolypyrroli-done(PVPP)",
+    "processingAidNameEn": "insoluble polyvinylpolypyrrolidone (PVPP)",
     "functionText": "吸附剂",
     "useScope": "啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺",
     "pdfPage": 228,
@@ -33883,7 +33883,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "艺(最大使用量为0.1g/kg)啤酒、葡萄酒、果酒、黄酒、配不溶性聚乙烯聚吡insolublepolyvinylpolypyrroli-12吸附剂制酒的加工工艺和发酵工咯烷酮done(PVPP)艺,茶(类)饮料加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 12；助剂中文名称 不溶性聚乙烯聚吡咯烷酮；助剂英文名称 insolublepolyvinylpolypyrroli-done(PVPP)；功能 吸附剂；使用范围 啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 12；助剂中文名称 不溶性聚乙烯聚吡咯烷酮；助剂英文名称 insoluble polyvinylpolypyrrolidone (PVPP)；功能 吸附剂；使用范围 啤酒、葡萄酒、果酒、黄酒、配制酒的加工工艺和发酵工艺,茶(类)饮料加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-013",
@@ -33891,7 +33891,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "13",
     "rowName": "丙酸及其钠盐、钙盐",
     "processingAidNameCn": "丙酸及其钠盐、钙盐",
-    "processingAidNameEn": "Propionicacid,sodiumpropio-nate,calciumpropionate",
+    "processingAidNameEn": "Propionic acid, sodium propionate, calcium propionate",
     "functionText": "发酵用营养物质",
     "useScope": "酵母的生产工艺,残留量≤0.1g/kg",
     "pdfPage": 228,
@@ -33900,7 +33900,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "Propionicacid,sodiumpropio-酵母的生产工艺,残留量≤13丙酸及其钠盐、钙盐发酵用营养物质nate,calciumpropionate0.1g/kg",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 13；助剂中文名称 丙酸及其钠盐、钙盐；助剂英文名称 Propionicacid,sodiumpropio-nate,calciumpropionate；功能 发酵用营养物质；使用范围 酵母的生产工艺,残留量≤0.1g/kg。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 13；助剂中文名称 丙酸及其钠盐、钙盐；助剂英文名称 Propionic acid, sodium propionate, calcium propionate；功能 发酵用营养物质；使用范围 酵母的生产工艺,残留量≤0.1g/kg。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-014",
@@ -33908,7 +33908,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "14",
     "rowName": "单宁(包括食用单宁,固化单宁)",
     "processingAidNameCn": "单宁(包括食用单宁,固化单宁)",
-    "processingAidNameEn": "edibletannin",
+    "processingAidNameEn": "edible tannin",
     "functionText": "助滤剂、澄清剂、脱色剂",
     "useScope": "黄酒、啤酒、葡萄酒和配制酒的加工工艺、油脂脱色工艺、发酵工艺",
     "pdfPage": 228,
@@ -33917,7 +33917,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "黄酒、啤酒、葡萄酒和配制酒单宁(包括食用单助滤剂、澄清剂、脱14edibletannin的加工工艺、油脂脱色工艺、宁,固化单宁)色剂发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 14；助剂中文名称 单宁(包括食用单宁,固化单宁)；助剂英文名称 edibletannin；功能 助滤剂、澄清剂、脱色剂；使用范围 黄酒、啤酒、葡萄酒和配制酒的加工工艺、油脂脱色工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 14；助剂中文名称 单宁(包括食用单宁,固化单宁)；助剂英文名称 edible tannin；功能 助滤剂、澄清剂、脱色剂；使用范围 黄酒、啤酒、葡萄酒和配制酒的加工工艺、油脂脱色工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-015",
@@ -33976,7 +33976,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "18",
     "rowName": "高碳醇脂肪酸酯复合物",
     "processingAidNameCn": "高碳醇脂肪酸酯复合物",
-    "processingAidNameEn": "higheralcoholfattyacidestercomplex",
+    "processingAidNameEn": "higher alcohol fatty acid ester complex",
     "functionText": "消泡剂",
     "useScope": "发酵工艺、大豆蛋白加工工艺",
     "pdfPage": 228,
@@ -33985,7 +33985,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "高碳醇脂肪酸酯复higheralcoholfattyacidester18消泡剂发酵工艺、大豆蛋白加工工艺合物complex",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 18；助剂中文名称 高碳醇脂肪酸酯复合物；助剂英文名称 higheralcoholfattyacidestercomplex；功能 消泡剂；使用范围 发酵工艺、大豆蛋白加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 18；助剂中文名称 高碳醇脂肪酸酯复合物；助剂英文名称 higher alcohol fatty acid ester complex；功能 消泡剂；使用范围 发酵工艺、大豆蛋白加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-019",
@@ -33993,7 +33993,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "19",
     "rowName": "硅胶",
     "processingAidNameCn": "硅胶",
-    "processingAidNameEn": "silicagel",
+    "processingAidNameEn": "silica gel",
     "functionText": "澄清剂",
     "useScope": "啤酒、葡萄酒、果酒、配制酒和黄酒的加工工艺",
     "pdfPage": 228,
@@ -34002,7 +34002,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "啤酒、葡萄酒、果酒、配制酒和19硅胶silicagel澄清剂黄酒的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 19；助剂中文名称 硅胶；助剂英文名称 silicagel；功能 澄清剂；使用范围 啤酒、葡萄酒、果酒、配制酒和黄酒的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 19；助剂中文名称 硅胶；助剂英文名称 silica gel；功能 澄清剂；使用范围 啤酒、葡萄酒、果酒、配制酒和黄酒的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-020",
@@ -34010,7 +34010,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "20",
     "rowName": "硅酸钙",
     "processingAidNameCn": "硅酸钙",
-    "processingAidNameEn": "calciumsilicate",
+    "processingAidNameEn": "calcium silicate",
     "functionText": "助滤剂",
     "useScope": "煎炸油加工工艺,最大使用量为40g/kg",
     "pdfPage": 228,
@@ -34019,7 +34019,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "煎炸油加工工艺,最大使用量20硅酸钙calciumsilicate助滤剂为40g/kg淀粉糖和淀粉加工工艺、油脂",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 20；助剂中文名称 硅酸钙；助剂英文名称 calciumsilicate；功能 助滤剂；使用范围 煎炸油加工工艺,最大使用量为40g/kg。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 20；助剂中文名称 硅酸钙；助剂英文名称 calcium silicate；功能 助滤剂；使用范围 煎炸油加工工艺,最大使用量为40g/kg。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-021",
@@ -34027,7 +34027,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "21",
     "rowName": "过氧化氢",
     "processingAidNameCn": "过氧化氢",
-    "processingAidNameEn": "hydrogenperoxide",
+    "processingAidNameEn": "hydrogen peroxide",
     "functionText": "脱硫剂、脱色剂、去碘剂",
     "useScope": "淀粉糖和淀粉加工工艺、油脂加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺",
     "pdfPage": 228,
@@ -34036,7 +34036,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       228
     ],
     "rawRowText": "脱硫剂、脱色剂、去加工工艺、海藻加工工艺、胶21过氧化氢hydrogenperoxide碘剂原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 21；助剂中文名称 过氧化氢；助剂英文名称 hydrogenperoxide；功能 脱硫剂、脱色剂、去碘剂；使用范围 淀粉糖和淀粉加工工艺、油脂加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 21；助剂中文名称 过氧化氢；助剂英文名称 hydrogen peroxide；功能 脱硫剂、脱色剂、去碘剂；使用范围 淀粉糖和淀粉加工工艺、油脂加工工艺、海藻加工工艺、胶原蛋白肠衣加工工艺、乳清粉和乳清蛋白粉的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-022",
@@ -34061,7 +34061,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "23",
     "rowName": "活性白土",
     "processingAidNameCn": "活性白土",
-    "processingAidNameEn": "activatedclay",
+    "processingAidNameEn": "activated clay",
     "functionText": "澄清剂、食用油脱色剂、吸附剂",
     "useScope": "配制酒的加工工艺和发酵工艺、油脂加工工艺、水处理工艺",
     "pdfPage": 229,
@@ -34070,7 +34070,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "配制酒的加工工艺和发酵工澄清剂、食用油脱色23活性白土activatedclay艺、油脂加工工艺、水处理剂、吸附剂工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 23；助剂中文名称 活性白土；助剂英文名称 activatedclay；功能 澄清剂、食用油脱色剂、吸附剂；使用范围 配制酒的加工工艺和发酵工艺、油脂加工工艺、水处理工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 23；助剂中文名称 活性白土；助剂英文名称 activated clay；功能 澄清剂、食用油脱色剂、吸附剂；使用范围 配制酒的加工工艺和发酵工艺、油脂加工工艺、水处理工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-024",
@@ -34078,7 +34078,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "24",
     "rowName": "甲醇钠",
     "processingAidNameCn": "甲醇钠",
-    "processingAidNameEn": "sodiummethylate",
+    "processingAidNameEn": "sodium methylate",
     "functionText": "油脂酯交换催化剂",
     "useScope": "油脂加工工艺",
     "pdfPage": 229,
@@ -34087,7 +34087,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "24甲醇钠sodiummethylate油脂酯交换催化剂油脂加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 24；助剂中文名称 甲醇钠；助剂英文名称 sodiummethylate；功能 油脂酯交换催化剂；使用范围 油脂加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 24；助剂中文名称 甲醇钠；助剂英文名称 sodium methylate；功能 油脂酯交换催化剂；使用范围 油脂加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-025",
@@ -34095,7 +34095,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "25",
     "rowName": "甲酸钠",
     "processingAidNameCn": "甲酸钠",
-    "processingAidNameEn": "sodiumformate",
+    "processingAidNameEn": "sodium formate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 229,
@@ -34104,7 +34104,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "25甲酸钠sodiumformate发酵用营养物质发酵工艺大豆蛋白的加工工艺(仅限大",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 25；助剂中文名称 甲酸钠；助剂英文名称 sodiumformate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 25；助剂中文名称 甲酸钠；助剂英文名称 sodium formate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-026",
@@ -34112,7 +34112,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "26",
     "rowName": "焦亚硫酸钠",
     "processingAidNameCn": "焦亚硫酸钠",
-    "processingAidNameEn": "sodiummetabisulphite",
+    "processingAidNameEn": "sodium metabisulphite",
     "functionText": "黏度调节剂",
     "useScope": "大豆蛋白的加工工艺(仅限大豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg(以二氧化硫残留量计)",
     "pdfPage": 229,
@@ -34121,7 +34121,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "豆分离蛋白、大豆浓缩蛋26焦亚硫酸钠sodiummetabisulphite黏度调节剂白),最大使用量为0.03g/kg",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 26；助剂中文名称 焦亚硫酸钠；助剂英文名称 sodiummetabisulphite；功能 黏度调节剂；使用范围 大豆蛋白的加工工艺(仅限大豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg(以二氧化硫残留量计)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 26；助剂中文名称 焦亚硫酸钠；助剂英文名称 sodium metabisulphite；功能 黏度调节剂；使用范围 大豆蛋白的加工工艺(仅限大豆分离蛋白、大豆浓缩蛋白),最大使用量为0.03g/kg(以二氧化硫残留量计)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-027",
@@ -34129,7 +34129,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "27",
     "rowName": "酒石酸氢钾",
     "processingAidNameCn": "酒石酸氢钾",
-    "processingAidNameEn": "potassiumbitartrate",
+    "processingAidNameEn": "potassium bitartrate",
     "functionText": "结晶剂",
     "useScope": "葡萄酒加工工艺",
     "pdfPage": 229,
@@ -34138,7 +34138,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "(以二氧化硫残留量计)27酒石酸氢钾potassiumbitartrate结晶剂葡萄酒加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 27；助剂中文名称 酒石酸氢钾；助剂英文名称 potassiumbitartrate；功能 结晶剂；使用范围 葡萄酒加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 27；助剂中文名称 酒石酸氢钾；助剂英文名称 potassium bitartrate；功能 结晶剂；使用范围 葡萄酒加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-028",
@@ -34146,7 +34146,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "28",
     "rowName": "聚苯乙烯",
     "processingAidNameCn": "聚苯乙烯",
-    "processingAidNameEn": "polytyrene",
+    "processingAidNameEn": "polystyrene",
     "functionText": "助滤剂",
     "useScope": "啤酒加工工艺",
     "pdfPage": 229,
@@ -34155,7 +34155,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       229
     ],
     "rawRowText": "28聚苯乙烯polytyrene助滤剂啤酒加工工艺饮料加工工艺的水处理工艺、",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 28；助剂中文名称 聚苯乙烯；助剂英文名称 polytyrene；功能 助滤剂；使用范围 啤酒加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 28；助剂中文名称 聚苯乙烯；助剂英文名称 polystyrene；功能 助滤剂；使用范围 啤酒加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-029",
@@ -34197,7 +34197,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "31",
     "rowName": "聚甘油脂肪酸酯",
     "processingAidNameCn": "聚甘油脂肪酸酯",
-    "processingAidNameEn": "polyglycerolestersoffattyacid",
+    "processingAidNameEn": "polyglycerol esters of fatty acid",
     "functionText": "消泡剂",
     "useScope": "制糖工艺",
     "pdfPage": 230,
@@ -34206,7 +34206,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "polyglycerolestersoffatty31聚甘油脂肪酸酯消泡剂制糖工艺acid",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 31；助剂中文名称 聚甘油脂肪酸酯；助剂英文名称 polyglycerolestersoffattyacid；功能 消泡剂；使用范围 制糖工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 31；助剂中文名称 聚甘油脂肪酸酯；助剂英文名称 polyglycerol esters of fatty acid；功能 消泡剂；使用范围 制糖工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-032",
@@ -34214,7 +34214,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "32",
     "rowName": "聚氧丙烯甘油醚",
     "processingAidNameCn": "聚氧丙烯甘油醚",
-    "processingAidNameEn": "Polyoxypropyleneglycerolether(GP)",
+    "processingAidNameEn": "Polyoxypropylene glycerol ether (GP)",
     "functionText": "消泡剂",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34223,7 +34223,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "Polyoxypropyleneglycerolether32聚氧丙烯甘油醚消泡剂发酵工艺(GP)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 32；助剂中文名称 聚氧丙烯甘油醚；助剂英文名称 Polyoxypropyleneglycerolether(GP)；功能 消泡剂；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 32；助剂中文名称 聚氧丙烯甘油醚；助剂英文名称 Polyoxypropylene glycerol ether (GP)；功能 消泡剂；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-033",
@@ -34231,7 +34231,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "33",
     "rowName": "聚氧丙烯氧化乙烯甘油醚",
     "processingAidNameCn": "聚氧丙烯氧化乙烯甘油醚",
-    "processingAidNameEn": "Polyoxypropyleneoxyethyleneglycerolether(GPE)",
+    "processingAidNameEn": "Polyoxypropylene oxyethylene glycerol ether (GPE)",
     "functionText": "消泡剂",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34240,7 +34240,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "聚氧丙烯氧化乙烯Polyoxypropyleneoxyethylene33消泡剂发酵工艺甘油醚glycerolether(GPE)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 33；助剂中文名称 聚氧丙烯氧化乙烯甘油醚；助剂英文名称 Polyoxypropyleneoxyethyleneglycerolether(GPE)；功能 消泡剂；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 33；助剂中文名称 聚氧丙烯氧化乙烯甘油醚；助剂英文名称 Polyoxypropylene oxyethylene glycerol ether (GPE)；功能 消泡剂；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-034",
@@ -34248,7 +34248,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "34",
     "rowName": "聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)",
     "processingAidNameCn": "聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)",
-    "processingAidNameEn": "polyoxyethylene(20)sorbi-tanmonolaurate,polyoxyethylene(20)sorbitanmonopalmitate,polyoxyethylene(20)sorbi-tanmonostearate,polyoxyeth-ylene(20)sorbitanmo-nooleate",
+    "processingAidNameEn": "polyoxyethylene (20) sorbitan monolaurate, polyoxyethylene (20) sorbitan monopalmitate, polyoxyethylene (20) sorbitan monostearate, polyoxyethylene (20) sorbitan monooleate",
     "functionText": "分散剂、提取溶剂、消泡剂",
     "useScope": "制糖工艺、发酵工艺、提取工艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)",
     "pdfPage": 230,
@@ -34257,7 +34257,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "名吐温20),聚氧乙polyoxyethylene(20)sorbi-艺、果蔬汁(浆)饮料加工工艺烯(20)山梨醇酐单tanmonolaurate,polyoxyethylene(最大使用量为0.75g/kg)、植棕榈酸酯(又名吐温(20)sorbitanmonopalmitate,分散剂、提取溶剂、物蛋白饮料加工工艺(最大使3440),聚氧乙烯(20)polyoxyethylene(20)sorbi-消泡剂用量为2.0g/kg)、豆类制品加山梨醇酐单硬脂酸tanmonostearate,polyoxyeth-工工艺(最大使用量为酯(又名吐温60),聚ylene(20)sorbitanmo-0.05g/kg,最大使用量以每千氧乙烯(20)山梨醇nooleate克豆类的使用量计)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 34；助剂中文名称 聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)；助剂英文名称 polyoxyethylene(20)sorbi-tanmonolaurate,polyoxyethylene(20)sorbitanmonopalmitate,polyoxyethylene(20)sorbi-tanmonostearate,polyoxyeth-ylene(20)sorbitanmo-nooleate；功能 分散剂、提取溶剂、消泡剂；使用范围 制糖工艺、发酵工艺、提取工艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 34；助剂中文名称 聚氧乙烯(20)山梨醇酐单月桂酸酯(又名吐温20),聚氧乙烯(20)山梨醇酐单棕榈酸酯(又名吐温40),聚氧乙烯(20)山梨醇酐单硬脂酸酯(又名吐温60),聚氧乙烯(20)山梨醇酐单油酸酯(又名吐温80)；助剂英文名称 polyoxyethylene (20) sorbitan monolaurate, polyoxyethylene (20) sorbitan monopalmitate, polyoxyethylene (20) sorbitan monostearate, polyoxyethylene (20) sorbitan monooleate；功能 分散剂、提取溶剂、消泡剂；使用范围 制糖工艺、发酵工艺、提取工艺、果蔬汁(浆)饮料加工工艺(最大使用量为0.75g/kg)、植物蛋白饮料加工工艺(最大使用量为2.0g/kg)、豆类制品加工工艺(最大使用量为0.05g/kg,最大使用量以每千克豆类的使用量计)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-035",
@@ -34265,7 +34265,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "35",
     "rowName": "聚氧乙烯聚氧丙烯胺醚",
     "processingAidNameCn": "聚氧乙烯聚氧丙烯胺醚",
-    "processingAidNameEn": "polyoxyethylenepolyoxyprop-yleneamineether(BAPE)",
+    "processingAidNameEn": "polyoxyethylene polyoxypropylene amine ether (BAPE)",
     "functionText": "消泡剂",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34274,7 +34274,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "酐单油酸酯(又名吐温80)聚氧乙烯聚氧丙烯polyoxyethylenepolyoxyprop-35消泡剂发酵工艺胺醚yleneamineether(BAPE)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 35；助剂中文名称 聚氧乙烯聚氧丙烯胺醚；助剂英文名称 polyoxyethylenepolyoxyprop-yleneamineether(BAPE)；功能 消泡剂；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 35；助剂中文名称 聚氧乙烯聚氧丙烯胺醚；助剂英文名称 polyoxyethylene polyoxypropylene amine ether (BAPE)；功能 消泡剂；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-036",
@@ -34282,7 +34282,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "36",
     "rowName": "聚氧乙烯聚氧丙烯季戊四醇醚",
     "processingAidNameCn": "聚氧乙烯聚氧丙烯季戊四醇醚",
-    "processingAidNameEn": "polyoxyethylenepolyoxyprop-ylenepentaerythritolether(PPE)",
+    "processingAidNameEn": "polyoxyethylene polyoxypropylene pentaerythritol ether (PPE)",
     "functionText": "消泡剂",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34291,7 +34291,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "polyoxyethylenepolyoxyprop-聚氧乙烯聚氧丙烯36ylenepentaerythritolether消泡剂发酵工艺季戊四醇醚(PPE)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 36；助剂中文名称 聚氧乙烯聚氧丙烯季戊四醇醚；助剂英文名称 polyoxyethylenepolyoxyprop-ylenepentaerythritolether(PPE)；功能 消泡剂；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 36；助剂中文名称 聚氧乙烯聚氧丙烯季戊四醇醚；助剂英文名称 polyoxyethylene polyoxypropylene pentaerythritol ether (PPE)；功能 消泡剂；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-037",
@@ -34316,7 +34316,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "38",
     "rowName": "离子交换树脂",
     "processingAidNameCn": "离子交换树脂",
-    "processingAidNameEn": "ionexchangeresins",
+    "processingAidNameEn": "ion exchange resins",
     "functionText": "脱色剂、吸附剂",
     "useScope": "啤酒、葡萄酒、果酒、配制酒、黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺",
     "pdfPage": 230,
@@ -34325,7 +34325,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "黄酒、罐头食品的加工工艺、38离子交换树脂ionexchangeresins脱色剂、吸附剂水处理工艺、制糖工艺及糖处理工艺和发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 38；助剂中文名称 离子交换树脂；助剂英文名称 ionexchangeresins；功能 脱色剂、吸附剂；使用范围 啤酒、葡萄酒、果酒、配制酒、黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 38；助剂中文名称 离子交换树脂；助剂英文名称 ion exchange resins；功能 脱色剂、吸附剂；使用范围 啤酒、葡萄酒、果酒、配制酒、黄酒、罐头食品的加工工艺、水处理工艺、制糖工艺及糖处理工艺和发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-039",
@@ -34333,7 +34333,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "39",
     "rowName": "磷酸",
     "processingAidNameCn": "磷酸",
-    "processingAidNameEn": "phosphoricacid",
+    "processingAidNameEn": "phosphoric acid",
     "functionText": "澄清剂、精炼脱胶、发酵用营养物质、自溶促进剂",
     "useScope": "制糖工艺和油脂加工工艺、发酵工艺、酵母加工制品的生产工艺",
     "pdfPage": 230,
@@ -34342,7 +34342,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "澄清剂、精炼脱胶、制糖工艺和油脂加工工艺、发39磷酸phosphoricacid发酵用营养物质、自酵工艺、酵母加工制品的生产溶促进剂工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 39；助剂中文名称 磷酸；助剂英文名称 phosphoricacid；功能 澄清剂、精炼脱胶、发酵用营养物质、自溶促进剂；使用范围 制糖工艺和油脂加工工艺、发酵工艺、酵母加工制品的生产工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 39；助剂中文名称 磷酸；助剂英文名称 phosphoric acid；功能 澄清剂、精炼脱胶、发酵用营养物质、自溶促进剂；使用范围 制糖工艺和油脂加工工艺、发酵工艺、酵母加工制品的生产工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-040",
@@ -34350,7 +34350,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "40",
     "rowName": "磷酸二氢铵",
     "processingAidNameCn": "磷酸二氢铵",
-    "processingAidNameEn": "ammoniumdihydrogenphos-phate",
+    "processingAidNameEn": "ammonium dihydrogen phosphate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34359,7 +34359,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "ammoniumdihydrogenphos-40磷酸二氢铵发酵用营养物质发酵工艺phate",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 40；助剂中文名称 磷酸二氢铵；助剂英文名称 ammoniumdihydrogenphos-phate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 40；助剂中文名称 磷酸二氢铵；助剂英文名称 ammonium dihydrogen phosphate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-041",
@@ -34367,7 +34367,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "41",
     "rowName": "磷酸氢二铵",
     "processingAidNameCn": "磷酸氢二铵",
-    "processingAidNameEn": "diammoniumhydrogenphos-phate",
+    "processingAidNameEn": "diammonium hydrogen phosphate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34376,7 +34376,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "diammoniumhydrogenphos-41磷酸氢二铵发酵用营养物质发酵工艺phate",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 41；助剂中文名称 磷酸氢二铵；助剂英文名称 diammoniumhydrogenphos-phate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 41；助剂中文名称 磷酸氢二铵；助剂英文名称 diammonium hydrogen phosphate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-042",
@@ -34384,7 +34384,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "42",
     "rowName": "磷酸二氢钾",
     "processingAidNameCn": "磷酸二氢钾",
-    "processingAidNameEn": "potassiumphosphate,mono-basic",
+    "processingAidNameEn": "potassium phosphate, mono-basic",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34393,7 +34393,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "potassiumphosphate,mono-42磷酸二氢钾发酵用营养物质发酵工艺basic",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 42；助剂中文名称 磷酸二氢钾；助剂英文名称 potassiumphosphate,mono-basic；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 42；助剂中文名称 磷酸二氢钾；助剂英文名称 potassium phosphate, mono-basic；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-043",
@@ -34401,7 +34401,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "43",
     "rowName": "磷酸二氢钠",
     "processingAidNameCn": "磷酸二氢钠",
-    "processingAidNameEn": "sodiumdihydrogenphosphate",
+    "processingAidNameEn": "sodium dihydrogen phosphate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 230,
@@ -34410,7 +34410,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       230
     ],
     "rawRowText": "43磷酸二氢钠sodiumdihydrogenphosphate发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 43；助剂中文名称 磷酸二氢钠；助剂英文名称 sodiumdihydrogenphosphate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 43；助剂中文名称 磷酸二氢钠；助剂英文名称 sodium dihydrogen phosphate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-044",
@@ -34418,7 +34418,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "44",
     "rowName": "磷酸三钙",
     "processingAidNameCn": "磷酸三钙",
-    "processingAidNameEn": "tricalciumorthophosphate(cal-ciumphosphate)",
+    "processingAidNameEn": "tricalcium orthophosphate (calcium phosphate)",
     "functionText": "分散剂",
     "useScope": "乳制品加工工艺",
     "pdfPage": 231,
@@ -34427,7 +34427,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "tricalciumorthophosphate(cal-44磷酸三钙分散剂乳制品加工工艺ciumphosphate)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 44；助剂中文名称 磷酸三钙；助剂英文名称 tricalciumorthophosphate(cal-ciumphosphate)；功能 分散剂；使用范围 乳制品加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 44；助剂中文名称 磷酸三钙；助剂英文名称 tricalcium orthophosphate (calcium phosphate)；功能 分散剂；使用范围 乳制品加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-045",
@@ -34435,7 +34435,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "45",
     "rowName": "磷酸氢二钠",
     "processingAidNameCn": "磷酸氢二钠",
-    "processingAidNameEn": "disodiumhydrogenphosphate",
+    "processingAidNameEn": "disodium hydrogen phosphate",
     "functionText": "絮凝剂、发酵用营养物质",
     "useScope": "饮料加工工艺的水处理工艺、发酵工艺",
     "pdfPage": 231,
@@ -34444,7 +34444,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "絮凝剂、发酵用营养饮料加工工艺的水处理工艺、45磷酸氢二钠disodiumhydrogenphosphate物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 45；助剂中文名称 磷酸氢二钠；助剂英文名称 disodiumhydrogenphosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 45；助剂中文名称 磷酸氢二钠；助剂英文名称 disodium hydrogen phosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-046",
@@ -34452,7 +34452,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "46",
     "rowName": "磷酸三钠",
     "processingAidNameCn": "磷酸三钠",
-    "processingAidNameEn": "trisodiumphosphate",
+    "processingAidNameEn": "trisodium phosphate",
     "functionText": "絮凝剂、发酵用营养物质",
     "useScope": "饮料加工工艺的水处理工艺、发酵工艺",
     "pdfPage": 231,
@@ -34461,7 +34461,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "絮凝剂、发酵用营养饮料加工工艺的水处理工艺、46磷酸三钠trisodiumphosphate物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 46；助剂中文名称 磷酸三钠；助剂英文名称 trisodiumphosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 46；助剂中文名称 磷酸三钠；助剂英文名称 trisodium phosphate；功能 絮凝剂、发酵用营养物质；使用范围 饮料加工工艺的水处理工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-047",
@@ -34469,7 +34469,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "47",
     "rowName": "多聚磷酸钠(包括六偏磷酸钠)",
     "processingAidNameCn": "多聚磷酸钠(包括六偏磷酸钠)",
-    "processingAidNameEn": "sodiumpolyphosphate",
+    "processingAidNameEn": "sodium polyphosphate",
     "functionText": "螯合剂",
     "useScope": "乳糖加工工艺(残留量为0.2g/kg)",
     "pdfPage": 231,
@@ -34478,7 +34478,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "多聚磷酸钠(包括六乳糖加工工艺(残留量为47sodiumpolyphosphate螯合剂偏磷酸钠)0.2g/kg)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 47；助剂中文名称 多聚磷酸钠(包括六偏磷酸钠)；助剂英文名称 sodiumpolyphosphate；功能 螯合剂；使用范围 乳糖加工工艺(残留量为0.2g/kg)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 47；助剂中文名称 多聚磷酸钠(包括六偏磷酸钠)；助剂英文名称 sodium polyphosphate；功能 螯合剂；使用范围 乳糖加工工艺(残留量为0.2g/kg)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-048",
@@ -34503,7 +34503,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "49",
     "rowName": "硫酸",
     "processingAidNameCn": "硫酸",
-    "processingAidNameEn": "sulfuricacid",
+    "processingAidNameEn": "sulfuric acid",
     "functionText": "絮凝剂、发酵用营养物质、中和除皂",
     "useScope": "啤酒的加工工艺、发酵工艺、淀粉加工工艺、乳制品加工工艺、油脂加工工艺",
     "pdfPage": 231,
@@ -34512,7 +34512,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "啤酒的加工工艺、发酵工艺、絮凝剂、发酵用营养49硫酸sulfuricacid淀粉加工工艺、乳制品加工工物质、中和除皂艺、油脂加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 49；助剂中文名称 硫酸；助剂英文名称 sulfuricacid；功能 絮凝剂、发酵用营养物质、中和除皂；使用范围 啤酒的加工工艺、发酵工艺、淀粉加工工艺、乳制品加工工艺、油脂加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 49；助剂中文名称 硫酸；助剂英文名称 sulfuric acid；功能 絮凝剂、发酵用营养物质、中和除皂；使用范围 啤酒的加工工艺、发酵工艺、淀粉加工工艺、乳制品加工工艺、油脂加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-050",
@@ -34520,7 +34520,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "50",
     "rowName": "硫酸铵",
     "processingAidNameCn": "硫酸铵",
-    "processingAidNameEn": "ammoniumsulfate",
+    "processingAidNameEn": "ammonium sulfate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 231,
@@ -34529,7 +34529,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "50硫酸铵ammoniumsulfate发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 50；助剂中文名称 硫酸铵；助剂英文名称 ammoniumsulfate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 50；助剂中文名称 硫酸铵；助剂英文名称 ammonium sulfate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-051",
@@ -34537,7 +34537,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "51",
     "rowName": "硫酸锰",
     "processingAidNameCn": "硫酸锰",
-    "processingAidNameEn": "manganesesulfate",
+    "processingAidNameEn": "manganese sulfate",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 231,
@@ -34546,7 +34546,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "51硫酸锰manganesesulfate发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 51；助剂中文名称 硫酸锰；助剂英文名称 manganesesulfate；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 51；助剂中文名称 硫酸锰；助剂英文名称 manganese sulfate；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-052",
@@ -34554,7 +34554,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "52",
     "rowName": "硫酸铜",
     "processingAidNameCn": "硫酸铜",
-    "processingAidNameEn": "coppersulphate",
+    "processingAidNameEn": "copper sulphate",
     "functionText": "澄清剂、螯合剂、发酵用营养物质",
     "useScope": "葡萄酒的加工工艺、皮蛋的加工工艺、发酵工艺",
     "pdfPage": 231,
@@ -34563,7 +34563,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "澄清剂、螯合剂、发葡萄酒的加工工艺、皮蛋的加52硫酸铜coppersulphate酵用营养物质工工艺、发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 52；助剂中文名称 硫酸铜；助剂英文名称 coppersulphate；功能 澄清剂、螯合剂、发酵用营养物质；使用范围 葡萄酒的加工工艺、皮蛋的加工工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 52；助剂中文名称 硫酸铜；助剂英文名称 copper sulphate；功能 澄清剂、螯合剂、发酵用营养物质；使用范围 葡萄酒的加工工艺、皮蛋的加工工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-053",
@@ -34571,7 +34571,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "53",
     "rowName": "硫酸锌",
     "processingAidNameCn": "硫酸锌",
-    "processingAidNameEn": "zincsulphate",
+    "processingAidNameEn": "zinc sulphate",
     "functionText": "螯合剂、絮凝剂、发酵用营养物质",
     "useScope": "皮蛋的加工工艺、啤酒的加工工艺、发酵工艺",
     "pdfPage": 231,
@@ -34580,7 +34580,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "螯合剂、絮凝剂、发皮蛋的加工工艺、啤酒的加工53硫酸锌zincsulphate酵用营养物质工艺、发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 53；助剂中文名称 硫酸锌；助剂英文名称 zincsulphate；功能 螯合剂、絮凝剂、发酵用营养物质；使用范围 皮蛋的加工工艺、啤酒的加工工艺、发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 53；助剂中文名称 硫酸锌；助剂英文名称 zinc sulphate；功能 螯合剂、絮凝剂、发酵用营养物质；使用范围 皮蛋的加工工艺、啤酒的加工工艺、发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-054",
@@ -34588,7 +34588,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "54",
     "rowName": "硫酸亚铁",
     "processingAidNameCn": "硫酸亚铁",
-    "processingAidNameEn": "ferroussulfate",
+    "processingAidNameEn": "ferrous sulfate",
     "functionText": "絮凝剂",
     "useScope": "饮料加工工艺的水处理工艺和啤酒的加工工艺",
     "pdfPage": 231,
@@ -34597,7 +34597,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "饮料加工工艺的水处理工艺54硫酸亚铁ferroussulfate絮凝剂和啤酒的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 54；助剂中文名称 硫酸亚铁；助剂英文名称 ferroussulfate；功能 絮凝剂；使用范围 饮料加工工艺的水处理工艺和啤酒的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 54；助剂中文名称 硫酸亚铁；助剂英文名称 ferrous sulfate；功能 絮凝剂；使用范围 饮料加工工艺的水处理工艺和啤酒的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-055",
@@ -34605,7 +34605,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "55",
     "rowName": "氯化镁",
     "processingAidNameCn": "氯化镁",
-    "processingAidNameEn": "magnesiumchloride",
+    "processingAidNameEn": "magnesium chloride",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 231,
@@ -34614,7 +34614,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "55氯化镁magnesiumchloride发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 55；助剂中文名称 氯化镁；助剂英文名称 magnesiumchloride；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 55；助剂中文名称 氯化镁；助剂英文名称 magnesium chloride；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-056",
@@ -34690,7 +34690,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "60",
     "rowName": "石油醚",
     "processingAidNameCn": "石油醚",
-    "processingAidNameEn": "petroleumether",
+    "processingAidNameEn": "petroleum ether",
     "functionText": "提取溶剂",
     "useScope": "配制酒的加工工艺、提取工艺",
     "pdfPage": 231,
@@ -34699,7 +34699,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "60石油醚petroleumether提取溶剂配制酒的加工工艺、提取工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 60；助剂中文名称 石油醚；助剂英文名称 petroleumether；功能 提取溶剂；使用范围 配制酒的加工工艺、提取工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 60；助剂中文名称 石油醚；助剂英文名称 petroleum ether；功能 提取溶剂；使用范围 配制酒的加工工艺、提取工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-061",
@@ -34707,7 +34707,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "61",
     "rowName": "松香甘油酯",
     "processingAidNameCn": "松香甘油酯",
-    "processingAidNameEn": "glycerolesterofrosin",
+    "processingAidNameEn": "glycerol ester of rosin",
     "functionText": "脱毛剂",
     "useScope": "畜禽脱毛处理工艺",
     "pdfPage": 231,
@@ -34716,7 +34716,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       231
     ],
     "rawRowText": "61松香甘油酯glycerolesterofrosin脱毛剂畜禽脱毛处理工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 61；助剂中文名称 松香甘油酯；助剂英文名称 glycerolesterofrosin；功能 脱毛剂；使用范围 畜禽脱毛处理工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 61；助剂中文名称 松香甘油酯；助剂英文名称 glycerol ester of rosin；功能 脱毛剂；使用范围 畜禽脱毛处理工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-062",
@@ -34724,7 +34724,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "62",
     "rowName": "脱乙酰甲壳素",
     "processingAidNameCn": "脱乙酰甲壳素",
-    "processingAidNameEn": "deacetylatedchitin(chitosan)",
+    "processingAidNameEn": "deacetylated chitin (chitosan)",
     "functionText": "澄清剂",
     "useScope": "果蔬汁类加工工艺、植物饮料类的加工工艺、啤酒和麦芽饮料的加工工艺",
     "pdfPage": 232,
@@ -34733,7 +34733,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "果蔬汁类加工工艺、植物饮料62脱乙酰甲壳素deacetylatedchitin(chitosan)澄清剂类的加工工艺、啤酒和麦芽饮料的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 62；助剂中文名称 脱乙酰甲壳素；助剂英文名称 deacetylatedchitin(chitosan)；功能 澄清剂；使用范围 果蔬汁类加工工艺、植物饮料类的加工工艺、啤酒和麦芽饮料的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 62；助剂中文名称 脱乙酰甲壳素；助剂英文名称 deacetylated chitin (chitosan)；功能 澄清剂；使用范围 果蔬汁类加工工艺、植物饮料类的加工工艺、啤酒和麦芽饮料的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-063",
@@ -34741,7 +34741,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "63",
     "rowName": "维生素B族",
     "processingAidNameCn": "维生素B族",
-    "processingAidNameEn": "vitaminBfamily",
+    "processingAidNameEn": "vitamin B family",
     "functionText": "发酵用营养物质",
     "useScope": "发酵工艺",
     "pdfPage": 232,
@@ -34750,7 +34750,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "63维生素B族vitaminBfamily发酵用营养物质发酵工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 63；助剂中文名称 维生素B族；助剂英文名称 vitaminBfamily；功能 发酵用营养物质；使用范围 发酵工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 63；助剂中文名称 维生素B族；助剂英文名称 vitamin B family；功能 发酵用营养物质；使用范围 发酵工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-064",
@@ -34758,7 +34758,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "64",
     "rowName": "五水硫化钠",
     "processingAidNameCn": "五水硫化钠",
-    "processingAidNameEn": "sodiumsulfidepentahydrate",
+    "processingAidNameEn": "sodium sulfide pentahydrate",
     "functionText": "脱酸剂、脱色剂、沉降剂",
     "useScope": "制盐工艺(最大使用量0.065g/kg)",
     "pdfPage": 232,
@@ -34767,7 +34767,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "脱酸剂、脱色剂、沉制盐工艺(最大使用量64五水硫化钠sodiumsulfidepentahydrate降剂0.065g/kg)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 64；助剂中文名称 五水硫化钠；助剂英文名称 sodiumsulfidepentahydrate；功能 脱酸剂、脱色剂、沉降剂；使用范围 制盐工艺(最大使用量0.065g/kg)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 64；助剂中文名称 五水硫化钠；助剂英文名称 sodium sulfide pentahydrate；功能 脱酸剂、脱色剂、沉降剂；使用范围 制盐工艺(最大使用量0.065g/kg)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-065",
@@ -34792,7 +34792,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "66",
     "rowName": "辛,癸酸甘油酯",
     "processingAidNameCn": "辛,癸酸甘油酯",
-    "processingAidNameEn": "octylanddecylglycerate",
+    "processingAidNameEn": "octyl and decyl glycerate",
     "functionText": "防黏剂",
     "useScope": "糖果、蜜饯果糕、胶原蛋白肠衣的加工工艺,巧克力和巧克力制品加工工艺(最大使用量为0.08g/kg)",
     "pdfPage": 232,
@@ -34801,7 +34801,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "糖果、蜜饯果糕、胶原蛋白肠衣的加工工艺,巧克力和巧克66辛,癸酸甘油酯octylanddecylglycerate防黏剂力制品加工工艺(最大使用量为0.08g/kg)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 66；助剂中文名称 辛,癸酸甘油酯；助剂英文名称 octylanddecylglycerate；功能 防黏剂；使用范围 糖果、蜜饯果糕、胶原蛋白肠衣的加工工艺,巧克力和巧克力制品加工工艺(最大使用量为0.08g/kg)。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 66；助剂中文名称 辛,癸酸甘油酯；助剂英文名称 octyl and decyl glycerate；功能 防黏剂；使用范围 糖果、蜜饯果糕、胶原蛋白肠衣的加工工艺,巧克力和巧克力制品加工工艺(最大使用量为0.08g/kg)。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-067",
@@ -34809,7 +34809,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "67",
     "rowName": "辛烯基琥珀酸淀粉钠",
     "processingAidNameCn": "辛烯基琥珀酸淀粉钠",
-    "processingAidNameEn": "starchsodiumoctenylsuccinate",
+    "processingAidNameEn": "starch sodium octenyl succinate",
     "functionText": "防黏剂",
     "useScope": "胶基糖果加工工艺",
     "pdfPage": 232,
@@ -34818,7 +34818,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "辛烯基琥珀酸淀67starchsodiumoctenylsuccinate防黏剂胶基糖果加工工艺粉钠水油状脂肪乳化制品(仅限植",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 67；助剂中文名称 辛烯基琥珀酸淀粉钠；助剂英文名称 starchsodiumoctenylsuccinate；功能 防黏剂；使用范围 胶基糖果加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 67；助剂中文名称 辛烯基琥珀酸淀粉钠；助剂英文名称 starch sodium octenyl succinate；功能 防黏剂；使用范围 胶基糖果加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-068",
@@ -34826,7 +34826,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "68",
     "rowName": "氧化亚氮",
     "processingAidNameCn": "氧化亚氮",
-    "processingAidNameEn": "nitrousoxide",
+    "processingAidNameEn": "nitrous oxide",
     "functionText": "推进剂、起泡剂",
     "useScope": "水油状脂肪乳化制品(仅限植脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工工艺",
     "pdfPage": 232,
@@ -34835,7 +34835,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)68氧化亚氮nitrousoxide推进剂、起泡剂调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 68；助剂中文名称 氧化亚氮；助剂英文名称 nitrousoxide；功能 推进剂、起泡剂；使用范围 水油状脂肪乳化制品(仅限植脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 68；助剂中文名称 氧化亚氮；助剂英文名称 nitrous oxide；功能 推进剂、起泡剂；使用范围 水油状脂肪乳化制品(仅限植脂乳)和02.02类以外的脂肪乳化制品,包括混合的和(或)调味的脂肪乳化制品(仅限植脂奶油)的加工工艺、稀奶油(淡奶油)及其类似品的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-069",
@@ -34843,7 +34843,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "69",
     "rowName": "异丙醇",
     "processingAidNameCn": "异丙醇",
-    "processingAidNameEn": "isopropylalcohol",
+    "processingAidNameEn": "isopropyl alcohol",
     "functionText": "提取溶剂",
     "useScope": "提取工艺",
     "pdfPage": 232,
@@ -34852,7 +34852,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "工艺69异丙醇isopropylalcohol提取溶剂提取工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 69；助剂中文名称 异丙醇；助剂英文名称 isopropylalcohol；功能 提取溶剂；使用范围 提取工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 69；助剂中文名称 异丙醇；助剂英文名称 isopropyl alcohol；功能 提取溶剂；使用范围 提取工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-070",
@@ -34860,7 +34860,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "70",
     "rowName": "乙二胺四乙酸二钠",
     "processingAidNameCn": "乙二胺四乙酸二钠",
-    "processingAidNameEn": "disodiumEDTA",
+    "processingAidNameEn": "disodium EDTA",
     "functionText": "吸附剂、螯合剂",
     "useScope": "熟制坚果与籽类、啤酒和配制酒的加工工艺、发酵工艺,饮料的加工工艺",
     "pdfPage": 232,
@@ -34869,7 +34869,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "熟制坚果与籽类、啤酒和配制70乙二胺四乙酸二钠disodiumEDTA吸附剂、螯合剂酒的加工工艺、发酵工艺,饮料的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 70；助剂中文名称 乙二胺四乙酸二钠；助剂英文名称 disodiumEDTA；功能 吸附剂、螯合剂；使用范围 熟制坚果与籽类、啤酒和配制酒的加工工艺、发酵工艺,饮料的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 70；助剂中文名称 乙二胺四乙酸二钠；助剂英文名称 disodium EDTA；功能 吸附剂、螯合剂；使用范围 熟制坚果与籽类、啤酒和配制酒的加工工艺、发酵工艺,饮料的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-071",
@@ -34894,7 +34894,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "72",
     "rowName": "乙酸钠(又名醋酸钠)",
     "processingAidNameCn": "乙酸钠(又名醋酸钠)",
-    "processingAidNameEn": "sodiumacetate",
+    "processingAidNameEn": "sodium acetate",
     "functionText": "螯合剂",
     "useScope": "发酵工艺、淀粉加工工艺",
     "pdfPage": 232,
@@ -34903,7 +34903,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "乙酸钠(又名醋酸72sodiumacetate螯合剂发酵工艺、淀粉加工工艺钠)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 72；助剂中文名称 乙酸钠(又名醋酸钠)；助剂英文名称 sodiumacetate；功能 螯合剂；使用范围 发酵工艺、淀粉加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 72；助剂中文名称 乙酸钠(又名醋酸钠)；助剂英文名称 sodium acetate；功能 螯合剂；使用范围 发酵工艺、淀粉加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-073",
@@ -34911,7 +34911,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "73",
     "rowName": "乙酸乙酯",
     "processingAidNameCn": "乙酸乙酯",
-    "processingAidNameEn": "ethylactetate",
+    "processingAidNameEn": "ethyl acetate",
     "functionText": "提取溶剂",
     "useScope": "配制酒的加工工艺、酵母抽提物的加工工艺",
     "pdfPage": 232,
@@ -34920,7 +34920,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "配制酒的加工工艺、酵母抽提73乙酸乙酯ethylactetate提取溶剂物的加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 73；助剂中文名称 乙酸乙酯；助剂英文名称 ethylactetate；功能 提取溶剂；使用范围 配制酒的加工工艺、酵母抽提物的加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 73；助剂中文名称 乙酸乙酯；助剂英文名称 ethyl acetate；功能 提取溶剂；使用范围 配制酒的加工工艺、酵母抽提物的加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-074",
@@ -34928,7 +34928,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "74",
     "rowName": "硬脂酸镁",
     "processingAidNameCn": "硬脂酸镁",
-    "processingAidNameEn": "magnesiumstearate",
+    "processingAidNameEn": "magnesium stearate",
     "functionText": "润滑剂、脱模剂、防粘剂",
     "useScope": "泡腾片压片工艺",
     "pdfPage": 232,
@@ -34937,7 +34937,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "润滑剂、脱模剂、防74硬脂酸镁magnesiumstearate泡腾片压片工艺粘剂",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 74；助剂中文名称 硬脂酸镁；助剂英文名称 magnesiumstearate；功能 润滑剂、脱模剂、防粘剂；使用范围 泡腾片压片工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 74；助剂中文名称 硬脂酸镁；助剂英文名称 magnesium stearate；功能 润滑剂、脱模剂、防粘剂；使用范围 泡腾片压片工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-075",
@@ -34945,7 +34945,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "75",
     "rowName": "月桂酸",
     "processingAidNameCn": "月桂酸",
-    "processingAidNameEn": "lauricacid",
+    "processingAidNameEn": "lauric acid",
     "functionText": "脱皮剂",
     "useScope": "果蔬脱皮",
     "pdfPage": 232,
@@ -34954,7 +34954,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "75月桂酸lauricacid脱皮剂果蔬脱皮",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 75；助剂中文名称 月桂酸；助剂英文名称 lauricacid；功能 脱皮剂；使用范围 果蔬脱皮。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 75；助剂中文名称 月桂酸；助剂英文名称 lauric acid；功能 脱皮剂；使用范围 果蔬脱皮。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-076",
@@ -34962,7 +34962,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "76",
     "rowName": "蔗糖聚氧丙烯醚",
     "processingAidNameCn": "蔗糖聚氧丙烯醚",
-    "processingAidNameEn": "sucrosepolyoxypropylenees-ter",
+    "processingAidNameEn": "sucrose polyoxypropylene ether",
     "functionText": "消泡剂",
     "useScope": "发酵工艺和制糖工艺",
     "pdfPage": 232,
@@ -34971,7 +34971,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       232
     ],
     "rawRowText": "sucrosepolyoxypropylenees-76蔗糖聚氧丙烯醚消泡剂发酵工艺和制糖工艺ter",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 76；助剂中文名称 蔗糖聚氧丙烯醚；助剂英文名称 sucrosepolyoxypropylenees-ter；功能 消泡剂；使用范围 发酵工艺和制糖工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 76；助剂中文名称 蔗糖聚氧丙烯醚；助剂英文名称 sucrose polyoxypropylene ether；功能 消泡剂；使用范围 发酵工艺和制糖工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-077",
@@ -34979,7 +34979,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "77",
     "rowName": "蔗糖脂肪酸酯",
     "processingAidNameCn": "蔗糖脂肪酸酯",
-    "processingAidNameEn": "sucroseestersoffattyacid",
+    "processingAidNameEn": "sucrose esters of fatty acid",
     "functionText": "消泡剂",
     "useScope": "制糖工艺、豆制品加工工艺",
     "pdfPage": 233,
@@ -34988,7 +34988,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       233
     ],
     "rawRowText": "77蔗糖脂肪酸酯sucroseestersoffattyacid消泡剂制糖工艺、豆制品加工工艺啤酒、葡萄酒、果酒和配制酒",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 77；助剂中文名称 蔗糖脂肪酸酯；助剂英文名称 sucroseestersoffattyacid；功能 消泡剂；使用范围 制糖工艺、豆制品加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 77；助剂中文名称 蔗糖脂肪酸酯；助剂英文名称 sucrose esters of fatty acid；功能 消泡剂；使用范围 制糖工艺、豆制品加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-078",
@@ -34996,7 +34996,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "78",
     "rowName": "珍珠岩",
     "processingAidNameCn": "珍珠岩",
-    "processingAidNameEn": "pearlrock",
+    "processingAidNameEn": "pearl rock",
     "functionText": "助滤剂",
     "useScope": "啤酒、葡萄酒、果酒和配制酒的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺",
     "pdfPage": 233,
@@ -35005,7 +35005,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       233
     ],
     "rawRowText": "78珍珠岩pearlrock助滤剂的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 78；助剂中文名称 珍珠岩；助剂英文名称 pearlrock；功能 助滤剂；使用范围 啤酒、葡萄酒、果酒和配制酒的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 78；助剂中文名称 珍珠岩；助剂英文名称 pearl rock；功能 助滤剂；使用范围 啤酒、葡萄酒、果酒和配制酒的加工工艺、发酵工艺,油脂加工工艺,淀粉糖加工工艺。"
   },
   {
     "id": "gb2760-2024-c2-processing-aid-function-scope-079",
@@ -35030,7 +35030,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
     "rowCode": "80",
     "rowName": "植物活性炭(稻壳来源)",
     "processingAidNameCn": "植物活性炭(稻壳来源)",
-    "processingAidNameEn": "Vegetableactivatedcarbon(Sourceofricehusk)",
+    "processingAidNameEn": "Vegetable activated carbon (Source of rice husk)",
     "functionText": "助滤剂",
     "useScope": "油脂加工工艺",
     "pdfPage": 233,
@@ -35039,7 +35039,7 @@ export const gb2760OfficialC2ProcessingAidRows = [
       233
     ],
     "rawRowText": "植物活性炭(稻壳来Vegetableactivatedcarbon80助滤剂油脂加工工艺源)(Sourceofricehusk)",
-    "rawSourceText": "GB 2760-2024 表 C.2：序号 80；助剂中文名称 植物活性炭(稻壳来源)；助剂英文名称 Vegetableactivatedcarbon(Sourceofricehusk)；功能 助滤剂；使用范围 油脂加工工艺。"
+    "rawSourceText": "GB 2760-2024 表 C.2：序号 80；助剂中文名称 植物活性炭(稻壳来源)；助剂英文名称 Vegetable activated carbon (Source of rice husk)；功能 助滤剂；使用范围 油脂加工工艺。"
   }
 ];
 
@@ -35048,25 +35048,25 @@ export const gb2760OfficialC3EnzymePreparationRows = [
     "id": "gb2760-2024-c3-enzyme-preparation-001",
     "rowNumber": 1,
     "rowCode": "1",
-    "rowName": "D-阿洛酮糖-3-差向异构酶D-psicose3-epimerase",
-    "enzymeName": "D-阿洛酮糖-3-差向异构酶D-psicose3-epimerase",
-    "source": "枯草芽孢杆菌Bacillussubtilis",
-    "donor": "瘤胃球菌CAG55Ruminococcussp.CAG55",
+    "rowName": "D-阿洛酮糖-3-差向异构酶 D-psicose 3-epimerase",
+    "enzymeName": "D-阿洛酮糖-3-差向异构酶 D-psicose 3-epimerase",
+    "source": "枯草芽孢杆菌 Bacillus subtilis",
+    "donor": "瘤胃球菌 CAG55 Ruminococcus sp. CAG55",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
       233
     ],
     "rawRowText": "D-阿洛酮糖-3-差向异构酶瘤胃球菌CAG551枯草芽孢杆菌BacillussubtilisD-psicose3-epimeraseRuminococcussp.CAG55",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 1；酶 D-阿洛酮糖-3-差向异构酶D-psicose3-epimerase；来源 枯草芽孢杆菌Bacillussubtilis；供体 瘤胃球菌CAG55Ruminococcussp.CAG55。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 1；酶 D-阿洛酮糖-3-差向异构酶 D-psicose 3-epimerase；来源 枯草芽孢杆菌 Bacillus subtilis；供体 瘤胃球菌 CAG55 Ruminococcus sp. CAG55。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-002",
     "rowNumber": 2,
     "rowCode": "2",
-    "rowName": "α-半乳糖苷酶Alpha-galactosidase",
-    "enzymeName": "α-半乳糖苷酶Alpha-galactosidase",
-    "source": "黑曲霉Aspergillusniger",
+    "rowName": "α-半乳糖苷酶 Alpha-galactosidase",
+    "enzymeName": "α-半乳糖苷酶 Alpha-galactosidase",
+    "source": "黑曲霉 Aspergillus niger",
     "donor": "",
     "pdfPage": 233,
     "standardPage": 230,
@@ -35074,16 +35074,16 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       233
     ],
     "rawRowText": "2α-半乳糖苷酶Alpha-galactosidase黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶Alpha-galactosidase；来源 黑曲霉Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 2；酶 α-半乳糖苷酶 Alpha-galactosidase；来源 黑曲霉 Aspergillus niger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-003",
     "rowNumber": 3,
     "rowCode": "3",
-    "rowName": "α-淀粉酶Alpha-amylase",
-    "enzymeName": "α-淀粉酶Alpha-amylase",
-    "source": "地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii",
+    "rowName": "α-淀粉酶 Alpha-amylase",
+    "enzymeName": "α-淀粉酶 Alpha-amylase",
+    "source": "地衣芽孢杆菌 Bacillus licheniformis 地衣芽孢杆菌 Bacillus licheniformis 地衣芽孢杆菌 Bacillus licheniformis 黑曲霉 Aspergillus niger 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 米根霉 Rhizopus oryzae 米曲霉 Aspergillus oryzae 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 猪或牛的胰腺 hog or bovine pancreas 地衣芽孢杆菌 Bacillus licheni-formis 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei",
+    "donor": "地衣芽孢杆菌 Bacillus licheniformis 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜纤维菌 Cytophaga sp. 微小根毛霉 Rhizomucor pusillus 白曲霉 Aspergillus kawachii",
     "pdfPage": 233,
     "standardPage": 230,
     "pdfPages": [
@@ -35091,47 +35091,47 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       234
     ],
     "rawRowText": "地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌Geobacillusmisstearothermophilus黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens3α-淀粉酶Alpha-amylase枯草芽孢杆菌Bacillussubtilis嗜热脂解地芽孢杆菌Geobacillus枯草芽孢杆菌Bacillussubtilisstearothermophilus米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-嗜纤维菌Cytophagasp.formis3α-淀粉酶Alpha-amylase黑曲霉微小根毛霉AspergillusnigerRhizomucorpusillus李氏木霉Trichodermareesei白曲霉Aspergilluskawachii",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶Alpha-amylase；来源 地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis米根霉Rhizopusoryzae米曲霉Aspergillusoryzae嗜热脂解地芽孢杆菌Geobacillusstearothermophilus猪或牛的胰腺hogorbovinepan-creas地衣芽孢杆菌Bacilluslicheni-formis黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 地衣芽孢杆菌Bacilluslichenifor-mis嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜纤维菌Cytophagasp.微小根毛霉Rhizomucorpusillus白曲霉Aspergilluskawachii。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 3；酶 α-淀粉酶 Alpha-amylase；来源 地衣芽孢杆菌 Bacillus licheniformis 地衣芽孢杆菌 Bacillus licheniformis 地衣芽孢杆菌 Bacillus licheniformis 黑曲霉 Aspergillus niger 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 米根霉 Rhizopus oryzae 米曲霉 Aspergillus oryzae 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 猪或牛的胰腺 hog or bovine pancreas 地衣芽孢杆菌 Bacillus licheni-formis 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei；供体 地衣芽孢杆菌 Bacillus licheniformis 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜纤维菌 Cytophaga sp. 微小根毛霉 Rhizomucor pusillus 白曲霉 Aspergillus kawachii。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-004",
     "rowNumber": 4,
     "rowCode": "4",
-    "rowName": "α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase",
-    "enzymeName": "α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase",
-    "source": "枯草芽孢杆菌Bacillussubtilis",
-    "donor": "短小芽孢杆菌Bacillusbrevis",
+    "rowName": "α-乙酰乳酸脱羧酶 Alpha-acetolac-tatedecarboxylase",
+    "enzymeName": "α-乙酰乳酸脱羧酶 Alpha-acetolac-tatedecarboxylase",
+    "source": "枯草芽孢杆菌 Bacillus subtilis",
+    "donor": "短小芽孢杆菌 Bacillus brevis",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "α-乙酰乳酸脱羧酶Alpha-acetolac-4枯草芽孢杆菌Bacillussubtilis短小芽孢杆菌Bacillusbrevistatedecarboxylase",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 4；酶 α-乙酰乳酸脱羧酶Alpha-acetolac-tatedecarboxylase；来源 枯草芽孢杆菌Bacillussubtilis；供体 短小芽孢杆菌Bacillusbrevis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 4；酶 α-乙酰乳酸脱羧酶 Alpha-acetolac-tatedecarboxylase；来源 枯草芽孢杆菌 Bacillus subtilis；供体 短小芽孢杆菌 Bacillus brevis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-005",
     "rowNumber": 5,
     "rowCode": "5",
-    "rowName": "β-淀粉酶beta-amylase",
-    "enzymeName": "β-淀粉酶beta-amylase",
-    "source": "大麦、山芋、大豆、小麦和麦芽barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis弯曲芽孢杆菌Bacillusflexus",
-    "donor": "弯曲芽孢杆菌Bacillusflexus",
+    "rowName": "β-淀粉酶 beta-amylase",
+    "enzymeName": "β-淀粉酶 beta-amylase",
+    "source": "大麦、山芋、大豆、小麦和麦芽 barley, taro, soya, wheat and malted barley 枯草芽孢杆菌 Bacillus subtilis 地衣芽孢杆菌 Bacillus licheniformis 弯曲芽孢杆菌 Bacillus flexus",
+    "donor": "弯曲芽孢杆菌 Bacillus flexus",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "大麦、山芋、大豆、小麦和麦芽barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis5β-淀粉酶beta-amylase地衣芽孢杆菌Bacilluslichenifor-弯曲芽孢杆菌Bacillusflexusmis弯曲芽孢杆菌Bacillusflexus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 5；酶 β-淀粉酶beta-amylase；来源 大麦、山芋、大豆、小麦和麦芽barley,taro,soya,wheatandmaltedbarley枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis弯曲芽孢杆菌Bacillusflexus；供体 弯曲芽孢杆菌Bacillusflexus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 5；酶 β-淀粉酶 beta-amylase；来源 大麦、山芋、大豆、小麦和麦芽 barley, taro, soya, wheat and malted barley 枯草芽孢杆菌 Bacillus subtilis 地衣芽孢杆菌 Bacillus licheniformis 弯曲芽孢杆菌 Bacillus flexus；供体 弯曲芽孢杆菌 Bacillus flexus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-006",
     "rowNumber": 6,
     "rowCode": "6",
-    "rowName": "β-果糖基转移酶beta-fructofuranosidase",
-    "enzymeName": "β-果糖基转移酶beta-fructofuranosidase",
-    "source": "Aspergillusfijiensis",
+    "rowName": "β-果糖基转移酶 beta-fructofuranosidase",
+    "enzymeName": "β-果糖基转移酶 beta-fructofuranosidase",
+    "source": "Aspergillus fijiensis",
     "donor": "",
     "pdfPage": 234,
     "standardPage": 231,
@@ -35139,63 +35139,63 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       234
     ],
     "rawRowText": "β-果糖基转移酶6Aspergillusfijiensisbeta-fructofuranosidase",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 6；酶 β-果糖基转移酶beta-fructofuranosidase；来源 Aspergillusfijiensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 6；酶 β-果糖基转移酶 beta-fructofuranosidase；来源 Aspergillus fijiensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-007",
     "rowNumber": 7,
     "rowCode": "7",
-    "rowName": "β-葡聚糖酶beta-glucanase",
-    "enzymeName": "β-葡聚糖酶beta-glucanase",
-    "source": "地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis",
-    "donor": "解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis",
+    "rowName": "β-葡聚糖酶 beta-glucanase",
+    "enzymeName": "β-葡聚糖酶 beta-glucanase",
+    "source": "地衣芽孢杆菌 Bacillus licheniformis 孤独腐质霉 Humicola insolens 哈次木霉 Trichoderma harzianum 黑曲霉 c Aspergillus niger 枯草芽孢杆菌 Bacillus subtilis 李氏木霉 Trichoderma reesei 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 两型孢双侧孢霉 Disporotrichum dimorphosporum Rasamsonia emersonii (原名为埃默森篮状菌 Talaromyces emersonii) 绿色木霉 Trichoderma viride 绳状青霉 Penicillium funiculosum 枯草芽孢杆菌 Bacillus subtilis",
+    "donor": "解淀粉芽孢杆菌 Bacillus amyloliquefaciens 枯草芽孢杆菌 Bacillus subtilis",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillus解淀粉芽孢杆菌Bacillusamyloliq-amyloliquefaciensuefaciens7β-葡聚糖酶beta-glucanase两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌枯草芽孢杆菌BacillussubtilisBacillussubtilis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 7；酶 β-葡聚糖酶beta-glucanase；来源 地衣芽孢杆菌Bacilluslichenifor-mis孤独腐质霉Humicolainsolens哈次木霉Trichodermaharzianum黑曲霉cAspergillusniger枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei解淀粉芽孢杆菌Bacillusamyloliquefaciens两型孢双侧孢霉DisporotrichumdimorphosporumRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)绿色木霉Trichodermaviride绳状青霉Penicilliumfuniculosum枯草芽孢杆菌Bacillussubtilis；供体 解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 7；酶 β-葡聚糖酶 beta-glucanase；来源 地衣芽孢杆菌 Bacillus licheniformis 孤独腐质霉 Humicola insolens 哈次木霉 Trichoderma harzianum 黑曲霉 c Aspergillus niger 枯草芽孢杆菌 Bacillus subtilis 李氏木霉 Trichoderma reesei 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 两型孢双侧孢霉 Disporotrichum dimorphosporum Rasamsonia emersonii (原名为埃默森篮状菌 Talaromyces emersonii) 绿色木霉 Trichoderma viride 绳状青霉 Penicillium funiculosum 枯草芽孢杆菌 Bacillus subtilis；供体 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 枯草芽孢杆菌 Bacillus subtilis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-008",
     "rowNumber": 8,
     "rowCode": "8",
-    "rowName": "阿拉伯呋喃糖苷酶Arabinofurano-sidase",
-    "enzymeName": "阿拉伯呋喃糖苷酶Arabinofurano-sidase",
-    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "Talaromycespinophilus",
+    "rowName": "阿拉伯呋喃糖苷酶 Arabinofurano-sidase",
+    "enzymeName": "阿拉伯呋喃糖苷酶 Arabinofurano-sidase",
+    "source": "黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei",
+    "donor": "Talaromyces pinophilus",
     "pdfPage": 234,
     "standardPage": 231,
     "pdfPages": [
       234
     ],
     "rawRowText": "阿拉伯呋喃糖苷酶Arabinofurano-黑曲霉Aspergillusnigersidase李氏木霉TrichodermareeseiTalaromycespinophilus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 8；酶 阿拉伯呋喃糖苷酶Arabinofurano-sidase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 Talaromycespinophilus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 8；酶 阿拉伯呋喃糖苷酶 Arabinofurano-sidase；来源 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei；供体 Talaromyces pinophilus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-009",
     "rowNumber": 9,
     "rowCode": "9",
-    "rowName": "氨基肽酶Aminopeptidase",
-    "enzymeName": "氨基肽酶Aminopeptidase",
-    "source": "米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "donor": "米曲霉Aspergillusoryzae",
+    "rowName": "氨基肽酶 Aminopeptidase",
+    "enzymeName": "氨基肽酶 Aminopeptidase",
+    "source": "米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae",
+    "donor": "米曲霉 Aspergillus oryzae",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
     "rawRowText": "米曲霉Aspergillusoryzae9氨基肽酶Aminopeptidase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 9；酶 氨基肽酶Aminopeptidase；来源 米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae；供体 米曲霉Aspergillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 9；酶 氨基肽酶 Aminopeptidase；来源 米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae；供体 米曲霉 Aspergillus oryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-010",
     "rowNumber": 10,
     "rowCode": "10",
-    "rowName": "半纤维素酶Hemicellulase",
-    "enzymeName": "半纤维素酶Hemicellulase",
-    "source": "黑曲霉Aspergillusniger",
+    "rowName": "半纤维素酶 Hemicellulase",
+    "enzymeName": "半纤维素酶 Hemicellulase",
+    "source": "黑曲霉 Aspergillus niger",
     "donor": "",
     "pdfPage": 235,
     "standardPage": 232,
@@ -35203,15 +35203,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       235
     ],
     "rawRowText": "10半纤维素酶Hemicellulase黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 10；酶 半纤维素酶Hemicellulase；来源 黑曲霉Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 10；酶 半纤维素酶 Hemicellulase；来源 黑曲霉 Aspergillus niger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-011",
     "rowNumber": 11,
     "rowCode": "11",
-    "rowName": "菠萝蛋白酶Bromelain",
-    "enzymeName": "菠萝蛋白酶Bromelain",
-    "source": "菠萝Ananasspp.",
+    "rowName": "菠萝蛋白酶 Bromelain",
+    "enzymeName": "菠萝蛋白酶 Bromelain",
+    "source": "菠萝 Ananas spp.",
     "donor": "",
     "pdfPage": 235,
     "standardPage": 232,
@@ -35219,31 +35219,31 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       235
     ],
     "rawRowText": "11菠萝蛋白酶Bromelain菠萝Ananasspp.",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 11；酶 菠萝蛋白酶Bromelain；来源 菠萝Ananasspp.。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 11；酶 菠萝蛋白酶 Bromelain；来源 菠萝 Ananas spp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-012",
     "rowNumber": 12,
     "rowCode": "12",
-    "rowName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
-    "enzymeName": "蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)",
-    "source": "寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
-    "donor": "寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei",
+    "rowName": "蛋白酶(包括乳凝块酶) Protease (including milk clotting enzymes)",
+    "enzymeName": "蛋白酶(包括乳凝块酶) Protease (including milk clotting enzymes)",
+    "source": "寄生内座壳(栗疫菌) Cryphonectria parasitica (Endothia parasitica) 地衣芽孢杆菌 Bacillus licheniformis 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 枯草芽孢杆菌 Bacillus subtilis 寄生内座壳(栗疫菌) Cryphonectria parasitica (Endothia parasitica) 米黑根毛霉 Rhizomucor miehei 米曲霉 Aspergillus oryzae 乳克鲁维酵母 Kluyveromyces lactis 微小毛霉 Mucor pusillus 蜂蜜曲霉 Aspergillus melleus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 热解蛋白无氧芽孢杆菌 Anoxybacillus caldiproteolyticus 枯草芽孢杆菌 Bacillus subtilis 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei",
+    "donor": "寄生内座壳(栗疫菌) Cryphonectria parasitica (Endothia parasitica) 黑曲霉 Aspergillus niger 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 小牛胃 Calf stomach 水生栖热菌 Thermus Aquaticus 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 克劳氏碱性卤杆菌 Alkalihalobacillus clausii 樟绒枝霉 Malbranchea sulfurea 李氏木霉 Trichoderma reesei",
     "pdfPage": 235,
     "standardPage": 232,
     "pdfPages": [
       235
     ],
     "rawRowText": "寄生内座壳(栗疫菌)Cryphonectria寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)parasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens解淀粉芽孢杆菌Bacillusamyloliq-解淀粉芽孢杆菌Bacillusamyloliq-uefaciensuefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei蛋白酶(包括乳凝块酶)Protease12米曲霉Aspergillusoryzae(includingmilkclottingenzymes)乳克鲁维酵母Kluyveromyceslactis小牛胃Calfstomach微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis水生栖热菌ThermusAquaticus枯草芽孢杆菌解淀粉芽孢杆菌BacillussubtilisBacillusamyloliquefaciens热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌克劳氏碱性卤杆菌Alkalihaloba-Bacillussubtiliscillusclausii李氏木霉Trichodermareesei樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶)Protease(includingmilkclottingenzymes)；来源 寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)地衣芽孢杆菌Bacilluslichenifor-mis黑曲霉Aspergillusniger黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens解淀粉芽孢杆菌Bacillusamyloliq-uefaciens枯草芽孢杆菌Bacillussubtilis寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslactis微小毛霉Mucorpusillus蜂蜜曲霉Aspergillusmelleus嗜热脂解地芽孢杆菌Geobacillusstearothermophilus枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis热解蛋白无氧芽孢杆菌Anoxybacilluscaldiproteolyticus枯草芽孢杆菌Bacillussubtilis李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 寄生内座壳(栗疫菌)Cryphonectriaparasitica(Endothiaparasitica)黑曲霉Aspergillusniger解淀粉芽孢杆菌Bacillusamyloliq-uefaciens小牛胃Calfstomach水生栖热菌ThermusAquaticus解淀粉芽孢杆菌Bacillusamyloliquefaciens克劳氏碱性卤杆菌Alkalihaloba-cillusclausii樟绒枝霉Malbrancheasulfurea李氏木霉Trichodermareesei。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 12；酶 蛋白酶(包括乳凝块酶) Protease (including milk clotting enzymes)；来源 寄生内座壳(栗疫菌) Cryphonectria parasitica (Endothia parasitica) 地衣芽孢杆菌 Bacillus licheniformis 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 枯草芽孢杆菌 Bacillus subtilis 寄生内座壳(栗疫菌) Cryphonectria parasitica (Endothia parasitica) 米黑根毛霉 Rhizomucor miehei 米曲霉 Aspergillus oryzae 乳克鲁维酵母 Kluyveromyces lactis 微小毛霉 Mucor pusillus 蜂蜜曲霉 Aspergillus melleus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 热解蛋白无氧芽孢杆菌 Anoxybacillus caldiproteolyticus 枯草芽孢杆菌 Bacillus subtilis 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei；供体 寄生内座壳(栗疫菌) Cryphonectria parasitica (Endothia parasitica) 黑曲霉 Aspergillus niger 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 小牛胃 Calf stomach 水生栖热菌 Thermus Aquaticus 解淀粉芽孢杆菌 Bacillus amyloliquefaciens 克劳氏碱性卤杆菌 Alkalihalobacillus clausii 樟绒枝霉 Malbranchea sulfurea 李氏木霉 Trichoderma reesei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-013",
     "rowNumber": 13,
     "rowCode": "13",
-    "rowName": "蛋白质谷氨酰胺酶Protein-glu-taminase",
-    "enzymeName": "蛋白质谷氨酰胺酶Protein-glu-taminase",
-    "source": "解朊金黄杆菌Chryseobacteriumproteolyticum",
+    "rowName": "蛋白质谷氨酰胺酶 Protein-glu-taminase",
+    "enzymeName": "蛋白质谷氨酰胺酶 Protein-glu-taminase",
+    "source": "解朊金黄杆菌 Chryseobacteriumproteolyticum",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
@@ -35251,15 +35251,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       236
     ],
     "rawRowText": "蛋白质谷氨酰胺酶Protein-glu-解朊金黄杆菌taminaseChryseobacteriumproteolyticum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 13；酶 蛋白质谷氨酰胺酶Protein-glu-taminase；来源 解朊金黄杆菌Chryseobacteriumproteolyticum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 13；酶 蛋白质谷氨酰胺酶 Protein-glu-taminase；来源 解朊金黄杆菌 Chryseobacteriumproteolyticum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-014",
     "rowNumber": 14,
     "rowCode": "14",
-    "rowName": "单宁酶Tannase",
-    "enzymeName": "单宁酶Tannase",
-    "source": "米曲霉Aspergillusoryzae",
+    "rowName": "单宁酶 Tannase",
+    "enzymeName": "单宁酶 Tannase",
+    "source": "米曲霉 Aspergillus oryzae",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
@@ -35267,63 +35267,63 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       236
     ],
     "rawRowText": "单宁酶14米曲霉AspergillusoryzaeTannase",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 14；酶 单宁酶Tannase；来源 米曲霉Aspergillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 14；酶 单宁酶 Tannase；来源 米曲霉 Aspergillus oryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-015",
     "rowNumber": 15,
     "rowCode": "15",
-    "rowName": "多聚半乳糖醛酸酶Polygalacturo-nase",
-    "enzymeName": "多聚半乳糖醛酸酶Polygalacturo-nase",
-    "source": "黑曲霉cAspergillusniger米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "黑曲霉Aspergillusniger塔宾曲霉Aspergillustubingensis",
+    "rowName": "多聚半乳糖醛酸酶 Polygalacturo-nase",
+    "enzymeName": "多聚半乳糖醛酸酶 Polygalacturo-nase",
+    "source": "黑曲霉 c Aspergillus niger 米根霉 Rhizopus oryzae 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei",
+    "donor": "黑曲霉 Aspergillus niger 塔宾曲霉 Aspergillus tubingensis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "黑曲霉cAspergillusniger米根霉Rhizopusoryzae多聚半乳糖醛酸酶Polygalacturo-15黑曲霉Aspergillusniger黑曲霉Aspergillusnigernase李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 15；酶 多聚半乳糖醛酸酶Polygalacturo-nase；来源 黑曲霉cAspergillusniger米根霉Rhizopusoryzae黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger塔宾曲霉Aspergillustubingensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 15；酶 多聚半乳糖醛酸酶 Polygalacturo-nase；来源 黑曲霉 c Aspergillus niger 米根霉 Rhizopus oryzae 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei；供体 黑曲霉 Aspergillus niger 塔宾曲霉 Aspergillus tubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-016",
     "rowNumber": 16,
     "rowCode": "16",
-    "rowName": "甘油磷脂胆固醇酰基转移酶GlycerophospholipidCholesterolAcyltransferase(GCAT)",
-    "enzymeName": "甘油磷脂胆固醇酰基转移酶GlycerophospholipidCholesterolAcyltransferase(GCAT)",
-    "source": "地衣芽孢杆菌Bacilluslichenifor-mis",
-    "donor": "杀鲑气单胞菌杀鲑亚种Aeromonassalmonicidasubsp.Sal-monicida",
+    "rowName": "甘油磷脂胆固醇酰基转移酶 Glycerophospholipid Cholesterol Acyltransferase (GCAT)",
+    "enzymeName": "甘油磷脂胆固醇酰基转移酶 Glycerophospholipid Cholesterol Acyltransferase (GCAT)",
+    "source": "地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "杀鲑气单胞菌杀鲑亚种 Aeromonassalmonicidasubsp. Sal-monicida",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "甘油磷脂胆固醇酰基转移酶杀鲑气单胞菌杀鲑亚种地衣芽孢杆菌Bacilluslichenifor-16GlycerophospholipidCholesterolAeromonassalmonicidasubsp.Sal-misAcyltransferase(GCAT)monicida",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 16；酶 甘油磷脂胆固醇酰基转移酶GlycerophospholipidCholesterolAcyltransferase(GCAT)；来源 地衣芽孢杆菌Bacilluslichenifor-mis；供体 杀鲑气单胞菌杀鲑亚种Aeromonassalmonicidasubsp.Sal-monicida。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 16；酶 甘油磷脂胆固醇酰基转移酶 Glycerophospholipid Cholesterol Acyltransferase (GCAT)；来源 地衣芽孢杆菌 Bacillus licheniformis；供体 杀鲑气单胞菌杀鲑亚种 Aeromonassalmonicidasubsp. Sal-monicida。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-017",
     "rowNumber": 17,
     "rowCode": "17",
-    "rowName": "谷氨酰胺酶Glutaminase",
-    "enzymeName": "谷氨酰胺酶Glutaminase",
-    "source": "解淀粉芽孢杆菌Bacillusamyloliqueaciensf地衣芽孢杆菌Bacilluslicheniformis",
-    "donor": "地衣芽孢杆菌Bacilluslicheniformis",
+    "rowName": "谷氨酰胺酶 Glutaminase",
+    "enzymeName": "谷氨酰胺酶 Glutaminase",
+    "source": "解淀粉芽孢杆菌 Bacillus amyloliqueaciens f 地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "地衣芽孢杆菌 Bacillus licheniformis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "解淀粉芽孢杆菌Bacillusamyloliqueaciens谷氨酰胺酶fGlutaminase地衣芽孢杆菌地衣芽孢杆菌BacilluslicheniformisBacilluslicheniformis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 17；酶 谷氨酰胺酶Glutaminase；来源 解淀粉芽孢杆菌Bacillusamyloliqueaciensf地衣芽孢杆菌Bacilluslicheniformis；供体 地衣芽孢杆菌Bacilluslicheniformis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 17；酶 谷氨酰胺酶 Glutaminase；来源 解淀粉芽孢杆菌 Bacillus amyloliqueaciens f 地衣芽孢杆菌 Bacillus licheniformis；供体 地衣芽孢杆菌 Bacillus licheniformis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-018",
     "rowNumber": 18,
     "rowCode": "18",
-    "rowName": "谷氨酰胺转氨酶GlutamineTrans-aminase",
-    "enzymeName": "谷氨酰胺转氨酶GlutamineTrans-aminase",
-    "source": "茂原链轮丝菌(又名茂源链霉菌)Streptomycesmobaraensis",
+    "rowName": "谷氨酰胺转氨酶 Glutamine Trans-aminase",
+    "enzymeName": "谷氨酰胺转氨酶 Glutamine Trans-aminase",
+    "source": "茂原链轮丝菌(又名茂源链霉菌) Streptomyces mobaraensis",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
@@ -35331,31 +35331,31 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       236
     ],
     "rawRowText": "谷氨酰胺转氨酶GlutamineTrans-茂原链轮丝菌(又名茂源链霉菌)aminaseStreptomycesmobaraensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 18；酶 谷氨酰胺转氨酶GlutamineTrans-aminase；来源 茂原链轮丝菌(又名茂源链霉菌)Streptomycesmobaraensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 18；酶 谷氨酰胺转氨酶 Glutamine Trans-aminase；来源 茂原链轮丝菌(又名茂源链霉菌) Streptomyces mobaraensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-019",
     "rowNumber": 19,
     "rowCode": "19",
-    "rowName": "果胶裂解酶Pectinlyase",
-    "enzymeName": "果胶裂解酶Pectinlyase",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
+    "rowName": "果胶裂解酶 Pectinlyase",
+    "enzymeName": "果胶裂解酶 Pectinlyase",
+    "source": "黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei",
+    "donor": "黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "黑曲霉Aspergillusniger19果胶裂解酶Pectinlyase黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 19；酶 果胶裂解酶Pectinlyase；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger黑曲霉Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 19；酶 果胶裂解酶 Pectinlyase；来源 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei；供体 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-020",
     "rowNumber": 20,
     "rowCode": "20",
-    "rowName": "果胶酶Pectinase",
-    "enzymeName": "果胶酶Pectinase",
-    "source": "黑曲霉Aspergillusniger米根霉Rhizopusoryzae",
+    "rowName": "果胶酶 Pectinase",
+    "enzymeName": "果胶酶 Pectinase",
+    "source": "黑曲霉 Aspergillus niger 米根霉 Rhizopus oryzae",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
@@ -35363,31 +35363,31 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       236
     ],
     "rawRowText": "黑曲霉Aspergillusniger20果胶酶Pectinase米根霉Rhizopusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 20；酶 果胶酶Pectinase；来源 黑曲霉Aspergillusniger米根霉Rhizopusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 20；酶 果胶酶 Pectinase；来源 黑曲霉 Aspergillus niger 米根霉 Rhizopus oryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-021",
     "rowNumber": 21,
     "rowCode": "21",
-    "rowName": "果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)",
-    "enzymeName": "果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei",
-    "donor": "黑曲霉Aspergillusniger针尾曲霉Aspergillusaculeatus塔宾曲霉Aspergillustubingensis",
+    "rowName": "果胶酯酶(果胶甲基酯酶) Pectines-terase (Pectinmethylesterase)",
+    "enzymeName": "果胶酯酶(果胶甲基酯酶) Pectines-terase (Pectinmethylesterase)",
+    "source": "黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae 李氏木霉 Trichoderma reesei",
+    "donor": "黑曲霉 Aspergillus niger 针尾曲霉 Aspergillus aculeatus 塔宾曲霉 Aspergillus tubingensis",
     "pdfPage": 236,
     "standardPage": 233,
     "pdfPages": [
       236
     ],
     "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger果胶酯酶(果胶甲基酯酶)Pectines-21米曲霉Aspergillusoryzae针尾曲霉Aspergillusaculeatusterase(Pectinmethylesterase)李氏木霉塔宾曲霉TrichodermareeseiAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 21；酶 果胶酯酶(果胶甲基酯酶)Pectines-terase(Pectinmethylesterase)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger米曲霉Aspergillusoryzae李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger针尾曲霉Aspergillusaculeatus塔宾曲霉Aspergillustubingensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 21；酶 果胶酯酶(果胶甲基酯酶) Pectines-terase (Pectinmethylesterase)；来源 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae 李氏木霉 Trichoderma reesei；供体 黑曲霉 Aspergillus niger 针尾曲霉 Aspergillus aculeatus 塔宾曲霉 Aspergillus tubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-022",
     "rowNumber": 22,
     "rowCode": "22",
-    "rowName": "过氧化氢酶Catalase",
-    "enzymeName": "过氧化氢酶Catalase",
-    "source": "黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigorhorseliver溶壁微球菌Micrococcuslysode-icticus",
+    "rowName": "过氧化氢酶 Catalase",
+    "enzymeName": "过氧化氢酶 Catalase",
+    "source": "黑曲霉 Aspergillus niger 牛、猪或马的肝脏 bovine, pig or horse liver 溶壁微球菌 Micrococcus lysode-icticus",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
@@ -35395,15 +35395,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       236
     ],
     "rawRowText": "黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigor22过氧化氢酶Catalasehorseliver溶壁微球菌Micrococcuslysode-icticus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 22；酶 过氧化氢酶Catalase；来源 黑曲霉Aspergillusniger牛、猪或马的肝脏bovine,pigorhorseliver溶壁微球菌Micrococcuslysode-icticus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 22；酶 过氧化氢酶 Catalase；来源 黑曲霉 Aspergillus niger 牛、猪或马的肝脏 bovine, pig or horse liver 溶壁微球菌 Micrococcus lysode-icticus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-023",
     "rowNumber": 23,
     "rowCode": "23",
-    "rowName": "核酸酶Nuclease",
-    "enzymeName": "核酸酶Nuclease",
-    "source": "橘青霉penicilliumcitrinum",
+    "rowName": "核酸酶 Nuclease",
+    "enzymeName": "核酸酶 Nuclease",
+    "source": "橘青霉 Penicillium citrinum",
     "donor": "",
     "pdfPage": 236,
     "standardPage": 233,
@@ -35411,63 +35411,63 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       236
     ],
     "rawRowText": "23核酸酶Nuclease橘青霉penicilliumcitrinum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 23；酶 核酸酶Nuclease；来源 橘青霉penicilliumcitrinum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 23；酶 核酸酶 Nuclease；来源 橘青霉 Penicillium citrinum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-024",
     "rowNumber": 24,
     "rowCode": "24",
-    "rowName": "海藻糖酶Trehalase",
-    "enzymeName": "海藻糖酶Trehalase",
-    "source": "李氏木霉Trichodermareesei",
-    "donor": "李氏木霉Trichodermareesei",
+    "rowName": "海藻糖酶 Trehalase",
+    "enzymeName": "海藻糖酶 Trehalase",
+    "source": "李氏木霉 Trichoderma reesei",
+    "donor": "李氏木霉 Trichoderma reesei",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "海藻糖酶李氏木霉李氏木霉TrehalaseTrichodermareeseiTrichodermareesei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 24；酶 海藻糖酶Trehalase；来源 李氏木霉Trichodermareesei；供体 李氏木霉Trichodermareesei。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 24；酶 海藻糖酶 Trehalase；来源 李氏木霉 Trichoderma reesei；供体 李氏木霉 Trichoderma reesei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-025",
     "rowNumber": 25,
     "rowCode": "25",
-    "rowName": "环糊精葡萄糖苷转移酶Cyclomaltodextinglucanotransferase",
-    "enzymeName": "环糊精葡萄糖苷转移酶Cyclomaltodextinglucanotransferase",
-    "source": "地衣芽孢杆菌Bacilluslichenifor-mis",
-    "donor": "高温厌氧杆菌Thermoanaerobactersp.",
+    "rowName": "环糊精葡萄糖苷转移酶 Cyclomaltodextinglucanotransferase",
+    "enzymeName": "环糊精葡萄糖苷转移酶 Cyclomaltodextinglucanotransferase",
+    "source": "地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "高温厌氧杆菌 Thermoanaerobactersp.",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "环糊精葡萄糖苷转移酶地衣芽孢杆菌Bacilluslichenifor-25高温厌氧杆菌Thermoanaerobactersp.Cyclomaltodextinglucanotransferasemis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 25；酶 环糊精葡萄糖苷转移酶Cyclomaltodextinglucanotransferase；来源 地衣芽孢杆菌Bacilluslichenifor-mis；供体 高温厌氧杆菌Thermoanaerobactersp.。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 25；酶 环糊精葡萄糖苷转移酶 Cyclomaltodextinglucanotransferase；来源 地衣芽孢杆菌 Bacillus licheniformis；供体 高温厌氧杆菌 Thermoanaerobactersp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-026",
     "rowNumber": 26,
     "rowCode": "26",
-    "rowName": "己糖氧化酶Hexoseoxidase",
-    "enzymeName": "己糖氧化酶Hexoseoxidase",
-    "source": "(多形)汉逊酵母Hansenulapoly-morpha",
-    "donor": "皱波角叉菜Chondruscrispus",
+    "rowName": "己糖氧化酶 Hexoseoxidase",
+    "enzymeName": "己糖氧化酶 Hexoseoxidase",
+    "source": "(多形) 汉逊酵母 Hansenula poly-morpha",
+    "donor": "皱波角叉菜 Chondruscrispus",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "(多形)汉逊酵母Hansenulapoly-26己糖氧化酶Hexoseoxidase皱波角叉菜Chondruscrispusmorpha",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 26；酶 己糖氧化酶Hexoseoxidase；来源 (多形)汉逊酵母Hansenulapoly-morpha；供体 皱波角叉菜Chondruscrispus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 26；酶 己糖氧化酶 Hexoseoxidase；来源 (多形) 汉逊酵母 Hansenula poly-morpha；供体 皱波角叉菜 Chondruscrispus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-027",
     "rowNumber": 27,
     "rowCode": "27",
-    "rowName": "菊糖酶Inulinase",
-    "enzymeName": "菊糖酶Inulinase",
-    "source": "黑曲霉Aspergillusniger",
+    "rowName": "菊糖酶 Inulinase",
+    "enzymeName": "菊糖酶 Inulinase",
+    "source": "黑曲霉 Aspergillus niger",
     "donor": "",
     "pdfPage": 237,
     "standardPage": 234,
@@ -35475,15 +35475,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       237
     ],
     "rawRowText": "27菊糖酶Inulinase黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 27；酶 菊糖酶Inulinase；来源 黑曲霉Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 27；酶 菊糖酶 Inulinase；来源 黑曲霉 Aspergillus niger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-028",
     "rowNumber": 28,
     "rowCode": "28",
-    "rowName": "壳聚糖酶Chitosanase",
-    "enzymeName": "壳聚糖酶Chitosanase",
-    "source": "枯草芽孢杆菌Bacillussubtilis",
+    "rowName": "壳聚糖酶 Chitosanase",
+    "enzymeName": "壳聚糖酶 Chitosanase",
+    "source": "枯草芽孢杆菌 Bacillus subtilis",
     "donor": "",
     "pdfPage": 237,
     "standardPage": 234,
@@ -35491,15 +35491,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       237
     ],
     "rawRowText": "28壳聚糖酶Chitosanase枯草芽孢杆菌Bacillussubtilis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 28；酶 壳聚糖酶Chitosanase；来源 枯草芽孢杆菌Bacillussubtilis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 28；酶 壳聚糖酶 Chitosanase；来源 枯草芽孢杆菌 Bacillus subtilis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-029",
     "rowNumber": 29,
     "rowCode": "29",
-    "rowName": "磷脂酶Phospholipase",
-    "enzymeName": "磷脂酶Phospholipase",
-    "source": "胰腺pancreas",
+    "rowName": "磷脂酶 Phospholipase",
+    "enzymeName": "磷脂酶 Phospholipase",
+    "source": "胰腺 pancreas",
     "donor": "",
     "pdfPage": 237,
     "standardPage": 234,
@@ -35507,79 +35507,79 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       237
     ],
     "rawRowText": "29磷脂酶Phospholipase胰腺pancreas",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 29；酶 磷脂酶Phospholipase；来源 胰腺pancreas。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 29；酶 磷脂酶 Phospholipase；来源 胰腺 pancreas。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-030",
     "rowNumber": 30,
     "rowCode": "30",
-    "rowName": "磷脂酶A1PhospholipaseA1",
-    "enzymeName": "磷脂酶A1PhospholipaseA1",
-    "source": "米曲霉Aspergillusoryzae黑曲霉Aspergillusniger",
-    "donor": "红聚颈腔菌ValsariarubricosaTalaromycesleycettanus",
+    "rowName": "磷脂酶 A1 Phospholipase A1",
+    "enzymeName": "磷脂酶 A1 Phospholipase A1",
+    "source": "米曲霉 Aspergillus oryzae 黑曲霉 Aspergillus niger",
+    "donor": "红聚颈腔菌 Valsariarubricosa Talaromyces leycettanus",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "米曲霉Aspergillusoryzae红聚颈腔菌Valsariarubricosa30磷脂酶A1PhospholipaseA1黑曲霉AspergillusnigerTalaromycesleycettanus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 30；酶 磷脂酶A1PhospholipaseA1；来源 米曲霉Aspergillusoryzae黑曲霉Aspergillusniger；供体 红聚颈腔菌ValsariarubricosaTalaromycesleycettanus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 30；酶 磷脂酶 A1 Phospholipase A1；来源 米曲霉 Aspergillus oryzae 黑曲霉 Aspergillus niger；供体 红聚颈腔菌 Valsariarubricosa Talaromyces leycettanus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-031",
     "rowNumber": 31,
     "rowCode": "31",
-    "rowName": "磷脂酶A2PhospholipaseA2",
-    "enzymeName": "磷脂酶A2PhospholipaseA2",
-    "source": "猪胰腺组织porcinepancreas李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
-    "donor": "烟曲霉Aspergillusfumigatus猪胰腺组织porcinepancreas",
+    "rowName": "磷脂酶 A2 Phospholipase A2",
+    "enzymeName": "磷脂酶 A2 Phospholipase A2",
+    "source": "猪胰腺组织 porcine pancreas 李氏木霉 Trichoderma reesei 黑曲霉 Aspergillus niger",
+    "donor": "烟曲霉 Aspergillus fumigatus 猪胰腺组织 porcine pancreas",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "猪胰腺组织porcinepancreas31磷脂酶A2PhospholipaseA2李氏木霉Trichodermareesei烟曲霉Aspergillusfumigatus黑曲霉Aspergillusniger猪胰腺组织porcinepancreas",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 31；酶 磷脂酶A2PhospholipaseA2；来源 猪胰腺组织porcinepancreas李氏木霉Trichodermareesei黑曲霉Aspergillusniger；供体 烟曲霉Aspergillusfumigatus猪胰腺组织porcinepancreas。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 31；酶 磷脂酶 A2 Phospholipase A2；来源 猪胰腺组织 porcine pancreas 李氏木霉 Trichoderma reesei 黑曲霉 Aspergillus niger；供体 烟曲霉 Aspergillus fumigatus 猪胰腺组织 porcine pancreas。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-032",
     "rowNumber": 32,
     "rowCode": "32",
-    "rowName": "磷脂酶CPhospholipaseC",
-    "enzymeName": "磷脂酶CPhospholipaseC",
-    "source": "巴斯德毕赤酵母Pichiapastoris地衣芽孢杆菌Bacilluslicheniformis",
-    "donor": "从土壤中分离的编码磷脂酶C基因的微生物苏云金芽孢杆菌Bacillusthuringiensis",
+    "rowName": "磷脂酶 C Phospholipase C",
+    "enzymeName": "磷脂酶 C Phospholipase C",
+    "source": "巴斯德毕赤酵母 Pichia pastoris 地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "从土壤中分离的编码磷脂酶 C 基因的微生物苏云金芽孢杆菌 Bacillus thuringiensis",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "从土壤中分离的编码磷脂酶C基巴斯德毕赤酵母Pichiapastoris因的微生物32磷脂酶CPhospholipaseC地衣芽孢杆菌苏云金芽孢杆菌BacilluslicheniformisBacillusthuringiensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 32；酶 磷脂酶CPhospholipaseC；来源 巴斯德毕赤酵母Pichiapastoris地衣芽孢杆菌Bacilluslicheniformis；供体 从土壤中分离的编码磷脂酶C基因的微生物苏云金芽孢杆菌Bacillusthuringiensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 32；酶 磷脂酶 C Phospholipase C；来源 巴斯德毕赤酵母 Pichia pastoris 地衣芽孢杆菌 Bacillus licheniformis；供体 从土壤中分离的编码磷脂酶 C 基因的微生物苏云金芽孢杆菌 Bacillus thuringiensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-033",
     "rowNumber": 33,
     "rowCode": "33",
-    "rowName": "磷酸肌醇磷脂酶CPhosphoinositidephospholipaseC",
-    "enzymeName": "磷酸肌醇磷脂酶CPhosphoinositidephospholipaseC",
-    "source": "荧光假单胞菌Pseudomonasfluorescens地衣芽孢杆菌Bacilluslicheniformis",
-    "donor": "从土壤中分离的编码磷酸肌醇磷脂酶基因的微生物C假单胞菌Pseudomonassp.",
+    "rowName": "磷酸肌醇磷脂酶 C Phosphoinositide phospholipase C",
+    "enzymeName": "磷酸肌醇磷脂酶 C Phosphoinositide phospholipase C",
+    "source": "荧光假单胞菌 Pseudomonas fluorescens 地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "从土壤中分离的编码磷酸肌醇磷脂酶基因的微生物 C 假单胞菌 Pseudomonas sp.",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "荧光假单胞菌从土壤中分离的编码磷酸肌醇磷Pseudomonasfluorescens脂酶基因的微生物磷酸肌醇磷脂酶CCPhosphoinositidephospholipaseC地衣芽孢杆菌假单胞菌BacilluslicheniformisPseudomonassp.",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 33；酶 磷酸肌醇磷脂酶CPhosphoinositidephospholipaseC；来源 荧光假单胞菌Pseudomonasfluorescens地衣芽孢杆菌Bacilluslicheniformis；供体 从土壤中分离的编码磷酸肌醇磷脂酶基因的微生物C假单胞菌Pseudomonassp.。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 33；酶 磷酸肌醇磷脂酶 C Phosphoinositide phospholipase C；来源 荧光假单胞菌 Pseudomonas fluorescens 地衣芽孢杆菌 Bacillus licheniformis；供体 从土壤中分离的编码磷酸肌醇磷脂酶基因的微生物 C 假单胞菌 Pseudomonas sp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-034",
     "rowNumber": 34,
     "rowCode": "34",
-    "rowName": "麦芽碳水化合物水解酶(α-,β-淀粉酶)Maltcarbohydrases(alpha-andbeta-amylase)",
-    "enzymeName": "麦芽碳水化合物水解酶(α-,β-淀粉酶)Maltcarbohydrases(alpha-andbeta-amylase)",
-    "source": "麦芽和大麦maltedbarleyandbar-ley",
+    "rowName": "麦芽碳水化合物水解酶(α-, β-淀粉酶) Maltcarbohydrases (alpha-andbeta-amylase)",
+    "enzymeName": "麦芽碳水化合物水解酶(α-, β-淀粉酶) Maltcarbohydrases (alpha-andbeta-amylase)",
+    "source": "麦芽和大麦 maltedbarleyandbar-ley",
     "donor": "",
     "pdfPage": 237,
     "standardPage": 234,
@@ -35587,47 +35587,47 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       237
     ],
     "rawRowText": "麦芽碳水化合物水解酶(α-,β-淀粉麦芽和大麦maltedbarleyandbar-34酶)Maltcarbohydrasesley(alpha-andbeta-amylase)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 34；酶 麦芽碳水化合物水解酶(α-,β-淀粉酶)Maltcarbohydrases(alpha-andbeta-amylase)；来源 麦芽和大麦maltedbarleyandbar-ley。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 34；酶 麦芽碳水化合物水解酶(α-, β-淀粉酶) Maltcarbohydrases (alpha-andbeta-amylase)；来源 麦芽和大麦 maltedbarleyandbar-ley。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-035",
     "rowNumber": 35,
     "rowCode": "35",
-    "rowName": "麦芽糖淀粉酶Maltogenicamylase",
-    "enzymeName": "麦芽糖淀粉酶Maltogenicamylase",
-    "source": "枯草芽孢杆菌Bacillussubtilis酿酒酵母Saccharomycescerevisi-ae地衣芽孢杆菌Bacilluslichenifor-mis",
-    "donor": "嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearotheilusrmoph嗜热脂解地芽孢杆菌Geobacillusstearothermophilus",
+    "rowName": "麦芽糖淀粉酶 Maltogenicamylase",
+    "enzymeName": "麦芽糖淀粉酶 Maltogenicamylase",
+    "source": "枯草芽孢杆菌 Bacillus subtilis 酿酒酵母 Saccharomyces cerevisi-ae 地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus",
     "pdfPage": 237,
     "standardPage": 234,
     "pdfPages": [
       237
     ],
     "rawRowText": "嗜热脂解地芽孢杆菌枯草芽孢杆菌BacillussubtilisGeobacillusstearothermophilus酿酒酵母Saccharomycescerevisi-嗜热脂解地芽孢杆菌35麦芽糖淀粉酶MaltogenicamylaseaeGeobacillusstearotheilusrmoph地衣芽孢杆菌Bacilluslichenifor-嗜热脂解地芽孢杆菌misGeobacillusstearothermophilus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 35；酶 麦芽糖淀粉酶Maltogenicamylase；来源 枯草芽孢杆菌Bacillussubtilis酿酒酵母Saccharomycescerevisi-ae地衣芽孢杆菌Bacilluslichenifor-mis；供体 嗜热脂解地芽孢杆菌Geobacillusstearothermophilus嗜热脂解地芽孢杆菌Geobacillusstearotheilusrmoph嗜热脂解地芽孢杆菌Geobacillusstearothermophilus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 35；酶 麦芽糖淀粉酶 Maltogenicamylase；来源 枯草芽孢杆菌 Bacillus subtilis 酿酒酵母 Saccharomyces cerevisi-ae 地衣芽孢杆菌 Bacillus licheniformis；供体 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus 嗜热脂解地芽孢杆菌 Geobacillus stearothermophilus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-036",
     "rowNumber": 36,
     "rowCode": "36",
-    "rowName": "麦芽四糖水解酶Maltotetrao-hydrolase",
-    "enzymeName": "麦芽四糖水解酶Maltotetrao-hydrolase",
-    "source": "地衣芽孢杆菌Bacilluslichenifor-mis",
-    "donor": "施氏假单胞菌Pseudomonasstutz-eri",
+    "rowName": "麦芽四糖水解酶 Maltotetrao-hydrolase",
+    "enzymeName": "麦芽四糖水解酶 Maltotetrao-hydrolase",
+    "source": "地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "施氏假单胞菌 Pseudomonas stutz-eri",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "麦芽四糖水解酶Maltotetrao-地衣芽孢杆菌Bacilluslichenifor-施氏假单胞菌Pseudomonasstutz-hydrolasemiseri",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 36；酶 麦芽四糖水解酶Maltotetrao-hydrolase；来源 地衣芽孢杆菌Bacilluslichenifor-mis；供体 施氏假单胞菌Pseudomonasstutz-eri。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 36；酶 麦芽四糖水解酶 Maltotetrao-hydrolase；来源 地衣芽孢杆菌 Bacillus licheniformis；供体 施氏假单胞菌 Pseudomonas stutz-eri。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-037",
     "rowNumber": 37,
     "rowCode": "37",
-    "rowName": "木瓜蛋白酶Papain",
-    "enzymeName": "木瓜蛋白酶Papain",
-    "source": "木瓜Caricapapaya",
+    "rowName": "木瓜蛋白酶 Papain",
+    "enzymeName": "木瓜蛋白酶 Papain",
+    "source": "木瓜 Carica papaya",
     "donor": "",
     "pdfPage": 238,
     "standardPage": 235,
@@ -35635,63 +35635,63 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       238
     ],
     "rawRowText": "37木瓜蛋白酶Papain木瓜Caricapapaya",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 37；酶 木瓜蛋白酶Papain；来源 木瓜Caricapapaya。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 37；酶 木瓜蛋白酶 Papain；来源 木瓜 Carica papaya。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-038",
     "rowNumber": 38,
     "rowCode": "38",
-    "rowName": "木聚糖酶Xylanase",
-    "enzymeName": "木聚糖酶Xylanase",
-    "source": "Fusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis",
-    "donor": "棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervar.tubingensis柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis",
+    "rowName": "木聚糖酶 Xylanase",
+    "enzymeName": "木聚糖酶 Xylanase",
+    "source": "Fusarium venenatum 巴斯德毕赤酵母 Pichia pastoris 孤独腐质霉 Humicola insolens 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei 绿色木霉 Trichoderma viride 枯草芽孢杆菌 Bacillus subtilis 米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei 地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "棉状嗜热丝孢菌 Thermomyces lanuginosus 黑曲霉 Aspergillus niger 枯草芽孢杆菌 Bacillus subtilis 棉状嗜热丝孢菌 Thermomyces lanuginosus 黑曲霉 c Aspergillus niger Talaromyces leycettanus 黑曲霉塔宾变种 Aspergillus niger var. tubingensis 柔曲高温多孢菌 Thermopolyspora flexuosa 地衣芽孢杆菌 Bacillus licheniformis",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "棉状嗜热丝孢菌ThermomycesFusariumvenenatumlanuginosus巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis38木聚糖酶Xylanase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus米曲霉Aspergillusoryzae黑曲霉cAspergillusniger李氏木霉TrichodermareeseiTalaromycesleycettanus李氏木霉黑曲霉塔宾变种TrichodermareeseiAspergillusnigervart.ubingensis李氏木霉柔曲高温多孢菌TrichodermareeseiThermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-地衣芽孢杆菌Bacilluslichenifor-mismis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 38；酶 木聚糖酶Xylanase；来源 Fusariumvenenatum巴斯德毕赤酵母Pichiapastoris孤独腐质霉Humicolainsolens黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride枯草芽孢杆菌Bacillussubtilis米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae李氏木霉Trichodermareesei李氏木霉Trichodermareesei李氏木霉Trichodermareesei地衣芽孢杆菌Bacilluslichenifor-mis；供体 棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉Aspergillusniger枯草芽孢杆菌Bacillussubtilis棉状嗜热丝孢菌Thermomyceslanuginosus黑曲霉cAspergillusnigerTalaromycesleycettanus黑曲霉塔宾变种Aspergillusnigervar.tubingensis柔曲高温多孢菌Thermopolysporaflexuosa地衣芽孢杆菌Bacilluslichenifor-mis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 38；酶 木聚糖酶 Xylanase；来源 Fusarium venenatum 巴斯德毕赤酵母 Pichia pastoris 孤独腐质霉 Humicola insolens 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei 绿色木霉 Trichoderma viride 枯草芽孢杆菌 Bacillus subtilis 米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei 地衣芽孢杆菌 Bacillus licheniformis；供体 棉状嗜热丝孢菌 Thermomyces lanuginosus 黑曲霉 Aspergillus niger 枯草芽孢杆菌 Bacillus subtilis 棉状嗜热丝孢菌 Thermomyces lanuginosus 黑曲霉 c Aspergillus niger Talaromyces leycettanus 黑曲霉塔宾变种 Aspergillus niger var. tubingensis 柔曲高温多孢菌 Thermopolyspora flexuosa 地衣芽孢杆菌 Bacillus licheniformis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-039",
     "rowNumber": 39,
     "rowCode": "39",
-    "rowName": "凝乳酶AChymosinA",
-    "enzymeName": "凝乳酶AChymosinA",
-    "source": "大肠杆菌K-12EscherichiaColiK-12",
-    "donor": "小牛前凝乳酶A基因calfprochy-mosinAgene",
+    "rowName": "凝乳酶 A Chymosin A",
+    "enzymeName": "凝乳酶 A Chymosin A",
+    "source": "大肠杆菌 K-12 Escherichia Coli K-12",
+    "donor": "小牛前凝乳酶 A 基因 calfprochy-mosin A gene",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "大肠杆菌K-12EscherichiaColi小牛前凝乳酶A基因calfprochy-39凝乳酶AChymosinAK-12mosinAgene",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 39；酶 凝乳酶AChymosinA；来源 大肠杆菌K-12EscherichiaColiK-12；供体 小牛前凝乳酶A基因calfprochy-mosinAgene。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 39；酶 凝乳酶 A Chymosin A；来源 大肠杆菌 K-12 Escherichia Coli K-12；供体 小牛前凝乳酶 A 基因 calfprochy-mosin A gene。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-040",
     "rowNumber": 40,
     "rowCode": "40",
-    "rowName": "凝乳酶BChymosinB",
-    "enzymeName": "凝乳酶BChymosinB",
-    "source": "黑曲霉泡盛变种Aspergillusnigervar.awamori乳克鲁维酵母Kluyveromyceslac-tis",
-    "donor": "小牛前凝乳酶B基因calfprochy-mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene",
+    "rowName": "凝乳酶 B Chymosin B",
+    "enzymeName": "凝乳酶 B Chymosin B",
+    "source": "黑曲霉泡盛变种 Aspergillus niger var. awamori 乳克鲁维酵母 Kluyveromyces lac-tis",
+    "donor": "小牛前凝乳酶 B 基因 calfprochy-mosin B gene 小牛前凝乳酶 B 基因 calfprochy-mosin B gene",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
       238
     ],
     "rawRowText": "黑曲霉泡盛变种Aspergillusniger小牛前凝乳酶B基因calfprochy-var.awamorimosinBgene40凝乳酶BChymosinB乳克鲁维酵母Kluyveromyceslac-小牛前凝乳酶B基因calfprochy-tismosinBgene",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶BChymosinB；来源 黑曲霉泡盛变种Aspergillusnigervar.awamori乳克鲁维酵母Kluyveromyceslac-tis；供体 小牛前凝乳酶B基因calfprochy-mosinBgene小牛前凝乳酶B基因calfprochy-mosinBgene。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 40；酶 凝乳酶 B Chymosin B；来源 黑曲霉泡盛变种 Aspergillus niger var. awamori 乳克鲁维酵母 Kluyveromyces lac-tis；供体 小牛前凝乳酶 B 基因 calfprochy-mosin B gene 小牛前凝乳酶 B 基因 calfprochy-mosin B gene。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-041",
     "rowNumber": 41,
     "rowCode": "41",
-    "rowName": "凝乳酶或粗制凝乳酶ChymosinorRennet",
-    "enzymeName": "凝乳酶或粗制凝乳酶ChymosinorRennet",
-    "source": "小牛、山羊或羔羊的皱胃calf,kid,orlambabomasum",
+    "rowName": "凝乳酶或粗制凝乳酶 Chymosin or Rennet",
+    "enzymeName": "凝乳酶或粗制凝乳酶 Chymosin or Rennet",
+    "source": "小牛、山羊或羔羊的皱胃 calf, kid, or lamb abomasum",
     "donor": "",
     "pdfPage": 238,
     "standardPage": 235,
@@ -35699,16 +35699,16 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       238
     ],
     "rawRowText": "凝乳酶或粗制凝乳酶Chymosin小牛、山羊或羔羊的皱胃calf,orRennetkid,orlambabomasum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 41；酶 凝乳酶或粗制凝乳酶ChymosinorRennet；来源 小牛、山羊或羔羊的皱胃calf,kid,orlambabomasum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 41；酶 凝乳酶或粗制凝乳酶 Chymosin or Rennet；来源 小牛、山羊或羔羊的皱胃 calf, kid, or lamb abomasum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-042",
     "rowNumber": 42,
     "rowCode": "42",
-    "rowName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
-    "enzymeName": "葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)",
-    "source": "戴尔根霉Rhizopusdelemar黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
-    "donor": "黑曲霉AspergillusnigerRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)李氏木霉Trichodermareesei密粘褶菌Gloeophyllumtrabeum",
+    "rowName": "葡糖淀粉酶(淀粉葡糖苷酶) Glu-coamylase (amyloglucosidase)",
+    "enzymeName": "葡糖淀粉酶(淀粉葡糖苷酶) Glu-coamylase (amyloglucosidase)",
+    "source": "戴尔根霉 Rhizopus delemar 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 米根霉 Rhizopus oryzae 米曲霉 Aspergillus oryzae 雪白根霉 Rhizopus niveus 李氏木霉 Trichoderma reesei 黑曲霉 Aspergillus niger",
+    "donor": "黑曲霉 Aspergillus niger Rasamsonia emersonii (原名为埃默森篮状菌 Talaromyces emersonii) 李氏木霉 Trichoderma reesei 密粘褶菌 Gloeophyllumtrabeum",
     "pdfPage": 238,
     "standardPage": 235,
     "pdfPages": [
@@ -35716,47 +35716,47 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       239
     ],
     "rawRowText": "戴尔根霉Rhizopusdelemar黑曲霉Aspergillusniger葡糖淀粉酶(淀粉葡糖苷酶)Glu-黑曲霉Aspergillusniger黑曲霉Aspergillusnigercoamylase(amyloglucosidase)Rasamsoniaemersonii(原名为埃默黑曲霉Aspergillusniger森篮状菌Talaromycesemersonii)米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus葡糖淀粉酶(淀粉葡糖苷酶)Glu-42李氏木霉Trichodermareesei李氏木霉Trichodermareeseicoamylase(amyloglucosidase)黑曲霉密粘褶菌AspergillusnigerGloeophyllumtrabeum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 42；酶 葡糖淀粉酶(淀粉葡糖苷酶)Glu-coamylase(amyloglucosidase)；来源 戴尔根霉Rhizopusdelemar黑曲霉Aspergillusniger黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米曲霉Aspergillusoryzae雪白根霉Rhizopusniveus李氏木霉Trichodermareesei黑曲霉Aspergillusniger；供体 黑曲霉AspergillusnigerRasamsoniaemersonii(原名为埃默森篮状菌Talaromycesemersonii)李氏木霉Trichodermareesei密粘褶菌Gloeophyllumtrabeum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 42；酶 葡糖淀粉酶(淀粉葡糖苷酶) Glu-coamylase (amyloglucosidase)；来源 戴尔根霉 Rhizopus delemar 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 米根霉 Rhizopus oryzae 米曲霉 Aspergillus oryzae 雪白根霉 Rhizopus niveus 李氏木霉 Trichoderma reesei 黑曲霉 Aspergillus niger；供体 黑曲霉 Aspergillus niger Rasamsonia emersonii (原名为埃默森篮状菌 Talaromyces emersonii) 李氏木霉 Trichoderma reesei 密粘褶菌 Gloeophyllumtrabeum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-043",
     "rowNumber": 43,
     "rowCode": "43",
-    "rowName": "葡糖氧化酶Glucoseoxidase",
-    "enzymeName": "葡糖氧化酶Glucoseoxidase",
-    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "黑曲霉Aspergillusniger产黄青霉Penicilliumchrysogenum尼崎青霉菌Penicilliumama-gasakiense",
+    "rowName": "葡糖氧化酶 Glucoseoxidase",
+    "enzymeName": "葡糖氧化酶 Glucoseoxidase",
+    "source": "黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae 产黄青霉 Penicillium chrysoge-num 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei",
+    "donor": "黑曲霉 Aspergillus niger 产黄青霉 Penicillium chrysogenum 尼崎青霉菌 Penicillium ama-gasakiense",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
     "rawRowText": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae黑曲霉Aspergillusniger产黄青霉Penicilliumchrysoge-num43葡糖氧化酶Glucoseoxidase黑曲霉产黄青霉AspergillusnigerPenicilliumchrysogenum尼崎青霉菌Penicilliumama-李氏木霉Trichodermareeseigasakiense",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 43；酶 葡糖氧化酶Glucoseoxidase；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae产黄青霉Penicilliumchrysoge-num黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger产黄青霉Penicilliumchrysogenum尼崎青霉菌Penicilliumama-gasakiense。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 43；酶 葡糖氧化酶 Glucoseoxidase；来源 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae 产黄青霉 Penicillium chrysoge-num 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei；供体 黑曲霉 Aspergillus niger 产黄青霉 Penicillium chrysogenum 尼崎青霉菌 Penicillium ama-gasakiense。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-044",
     "rowNumber": 44,
     "rowCode": "44",
-    "rowName": "葡糖异构酶(木糖异构酶)Glucoseisomerase(xyloseisomer-ase)",
-    "enzymeName": "葡糖异构酶(木糖异构酶)Glucoseisomerase(xyloseisomer-ase)",
-    "source": "橄榄产色链霉菌Streptomycesolivochromogenes橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis凝结芽孢杆菌Bacilluscoagulans锈棕色链霉菌Streptomycesrubi-ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus",
-    "donor": "锈棕色链霉菌Streptomycesrubig-inosus",
+    "rowName": "葡糖异构酶(木糖异构酶) Glucoseisomerase (xyloseisomer-ase)",
+    "enzymeName": "葡糖异构酶(木糖异构酶) Glucoseisomerase (xyloseisomer-ase)",
+    "source": "橄榄产色链霉菌 Streptomyces olivochromogenes 橄榄色链霉菌 Streptomyces oliva-ceus 密苏里游动放线菌 Actino-planesmissouriensis 凝结芽孢杆菌 Bacillus coagulans 锈棕色链霉菌 Streptomyces rubi-ginosus 紫黑吸水链霉菌 Streptomyces vio-laceoniger 鼠灰链霉菌 Streptomyces murinus 锈棕色链霉菌 Streptomyces rubi-ginosus",
+    "donor": "锈棕色链霉菌 Streptomyces rubig-inosus",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
     "rawRowText": "橄榄产色链霉菌Streptomycesolivochromogenes橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis葡糖异构酶(木糖异构酶)凝结芽孢杆菌Bacilluscoagulans44Glucoseisomerase(xyloseisomer-锈棕色链霉菌Streptomycesrubi-ase)ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-锈棕色链霉菌Streptomycesrubig-ginosusinosus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 44；酶 葡糖异构酶(木糖异构酶)Glucoseisomerase(xyloseisomer-ase)；来源 橄榄产色链霉菌Streptomycesolivochromogenes橄榄色链霉菌Streptomycesoliva-ceus密苏里游动放线菌Actino-planesmissouriensis凝结芽孢杆菌Bacilluscoagulans锈棕色链霉菌Streptomycesrubi-ginosus紫黑吸水链霉菌Streptomycesvio-laceoniger鼠灰链霉菌Streptomycesmurinus锈棕色链霉菌Streptomycesrubi-ginosus；供体 锈棕色链霉菌Streptomycesrubig-inosus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 44；酶 葡糖异构酶(木糖异构酶) Glucoseisomerase (xyloseisomer-ase)；来源 橄榄产色链霉菌 Streptomyces olivochromogenes 橄榄色链霉菌 Streptomyces oliva-ceus 密苏里游动放线菌 Actino-planesmissouriensis 凝结芽孢杆菌 Bacillus coagulans 锈棕色链霉菌 Streptomyces rubi-ginosus 紫黑吸水链霉菌 Streptomyces vio-laceoniger 鼠灰链霉菌 Streptomyces murinus 锈棕色链霉菌 Streptomyces rubi-ginosus；供体 锈棕色链霉菌 Streptomyces rubig-inosus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-045",
     "rowNumber": 45,
     "rowCode": "45",
-    "rowName": "β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)",
-    "enzymeName": "β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)",
-    "source": "黑曲霉Aspergillusniger",
+    "rowName": "β-葡萄糖苷酶 beta-glucosidase (又名纤维二糖酶 Cellobiase)",
+    "enzymeName": "β-葡萄糖苷酶 beta-glucosidase (又名纤维二糖酶 Cellobiase)",
+    "source": "黑曲霉 Aspergillus niger",
     "donor": "",
     "pdfPage": 239,
     "standardPage": 236,
@@ -35764,32 +35764,32 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       239
     ],
     "rawRowText": "β-葡萄糖苷酶beta-glucosidase(又45黑曲霉Aspergillusniger名纤维二糖酶Cellobiase)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 45；酶 β-葡萄糖苷酶beta-glucosidase(又名纤维二糖酶Cellobiase)；来源 黑曲霉Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 45；酶 β-葡萄糖苷酶 beta-glucosidase (又名纤维二糖酶 Cellobiase)；来源 黑曲霉 Aspergillus niger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-046",
     "rowNumber": 46,
     "rowCode": "46",
-    "rowName": "α-葡萄糖苷酶Alpha-glucosidase",
-    "enzymeName": "α-葡萄糖苷酶Alpha-glucosidase",
-    "source": "李氏木霉Trichodermareesei",
-    "donor": "黑曲霉Aspergillusniger",
+    "rowName": "α-葡萄糖苷酶 Alpha-glucosidase",
+    "enzymeName": "α-葡萄糖苷酶 Alpha-glucosidase",
+    "source": "李氏木霉 Trichoderma reesei",
+    "donor": "黑曲霉 Aspergillus niger",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
       239
     ],
     "rawRowText": "46α-葡萄糖苷酶Alpha-glucosidase李氏木霉Trichodermareesei黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 46；酶 α-葡萄糖苷酶Alpha-glucosidase；来源 李氏木霉Trichodermareesei；供体 黑曲霉Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 46；酶 α-葡萄糖苷酶 Alpha-glucosidase；来源 李氏木霉 Trichoderma reesei；供体 黑曲霉 Aspergillus niger。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-047",
     "rowNumber": 47,
     "rowCode": "47",
-    "rowName": "普鲁兰酶Pullulanase",
-    "enzymeName": "普鲁兰酶Pullulanase",
-    "source": "产气克雷伯氏菌Klebsiellaaero-genes枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-lusnaganoensis",
-    "donor": "嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans",
+    "rowName": "普鲁兰酶 Pullulanase",
+    "enzymeName": "普鲁兰酶 Pullulanase",
+    "source": "产气克雷伯氏菌 Klebsiella aerogenes 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 嗜酸普鲁兰芽孢杆菌 Bacillus acidopullulyticus 枯草芽孢杆菌 Bacillus subtilis 地衣芽孢杆菌 Bacillus licheniformis 长野解普鲁兰杆菌 Pullulanibacillus naganoensis",
+    "donor": "嗜酸普鲁兰芽孢杆菌 Bacillus acidopullulyticus Bacillus deramificans Bacillus deramificans",
     "pdfPage": 239,
     "standardPage": 236,
     "pdfPages": [
@@ -35797,79 +35797,79 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       240
     ],
     "rawRowText": "产气克雷伯氏菌Klebsiellaaero-genes枯草芽孢杆菌Bacillussubtilis47普鲁兰酶Pullulanase嗜酸普鲁兰芽孢杆菌Bacillusaci-枯草芽孢杆菌Bacillussubtilisdopullulyticus嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌BacillussubtilisBacillusderamificans地衣芽孢杆菌Bacilluslichenifor-Bacillusderamificans47普鲁兰酶Pullulanasemis长野解普鲁兰杆菌Pullulanibacil-lusnaganoensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶Pullulanase；来源 产气克雷伯氏菌Klebsiellaaero-genes枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticus枯草芽孢杆菌Bacillussubtilis地衣芽孢杆菌Bacilluslichenifor-mis长野解普鲁兰杆菌Pullulanibacil-lusnaganoensis；供体 嗜酸普鲁兰芽孢杆菌Bacillusaci-dopullulyticusBacillusderamificansBacillusderamificans。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 47；酶 普鲁兰酶 Pullulanase；来源 产气克雷伯氏菌 Klebsiella aerogenes 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 嗜酸普鲁兰芽孢杆菌 Bacillus acidopullulyticus 枯草芽孢杆菌 Bacillus subtilis 地衣芽孢杆菌 Bacillus licheniformis 长野解普鲁兰杆菌 Pullulanibacillus naganoensis；供体 嗜酸普鲁兰芽孢杆菌 Bacillus acidopullulyticus Bacillus deramificans Bacillus deramificans。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-048",
     "rowNumber": 48,
     "rowCode": "48",
-    "rowName": "漆酶Laccase",
-    "enzymeName": "漆酶Laccase",
-    "source": "米曲霉Aspergillusoryzae",
-    "donor": "嗜热毁丝霉Myceliophthorathermophila",
+    "rowName": "漆酶 Laccase",
+    "enzymeName": "漆酶 Laccase",
+    "source": "米曲霉 Aspergillus oryzae",
+    "donor": "嗜热毁丝霉 Myceliophthorathermophila",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "嗜热毁丝霉48漆酶Laccase米曲霉AspergillusoryzaeMyceliophthorathermophila",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 48；酶 漆酶Laccase；来源 米曲霉Aspergillusoryzae；供体 嗜热毁丝霉Myceliophthorathermophila。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 48；酶 漆酶 Laccase；来源 米曲霉 Aspergillus oryzae；供体 嗜热毁丝霉 Myceliophthorathermophila。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-049",
     "rowNumber": 49,
     "rowCode": "49",
-    "rowName": "溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)",
-    "enzymeName": "溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei",
-    "donor": "黑曲霉AspergillusnigerAspergillusnishimurae",
+    "rowName": "溶血磷脂酶(磷脂酶 B) Lysophos-pholipase (lecithinase B)",
+    "enzymeName": "溶血磷脂酶(磷脂酶 B) Lysophos-pholipase (lecithinase B)",
+    "source": "黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei",
+    "donor": "黑曲霉 Aspergillus niger Aspergillus nishimurae",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "黑曲霉Aspergillusniger溶血磷脂酶(磷脂酶B)Lysophos-49黑曲霉Aspergillusniger黑曲霉Aspergillusnigerpholipase(lecithinaseB)李氏木霉TrichodermareeseiAspergillusnishimurae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 49；酶 溶血磷脂酶(磷脂酶B)Lysophos-pholipase(lecithinaseB)；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger李氏木霉Trichodermareesei；供体 黑曲霉AspergillusnigerAspergillusnishimurae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 49；酶 溶血磷脂酶(磷脂酶 B) Lysophos-pholipase (lecithinase B)；来源 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei；供体 黑曲霉 Aspergillus niger Aspergillus nishimurae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-050",
     "rowNumber": 50,
     "rowCode": "50",
-    "rowName": "乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)",
-    "enzymeName": "乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)",
-    "source": "脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-tis乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis",
-    "donor": "乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum",
+    "rowName": "乳糖酶(β-半乳糖苷酶) Lactase (beta-galactosidase)",
+    "enzymeName": "乳糖酶(β-半乳糖苷酶) Lactase (beta-galactosidase)",
+    "source": "脆壁克鲁维酵母 Kluyveromyces fragilis 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae 乳克鲁维酵母 Kluyveromyces lac-tis 乳克鲁维酵母 Kluyveromyces lac-tis 巴斯德毕赤酵母 Pichia pastoris 两歧双歧杆菌 Bifidobacterium bifidum 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 黑曲霉 Aspergillus niger Papiliotrema terrestris 地衣芽孢杆菌 Bacillus licheniformis",
+    "donor": "乳克鲁维酵母 Kluyveromyces lac-tis 米曲霉 Aspergillus oryzae 两歧双歧杆菌 Bifidobacterium bifidum 德氏乳杆菌保加利亚亚种 Lactobacillus delbrueckiisubsp.bul-garicus 米曲霉 Aspergillus oryzae 两歧双歧杆菌 Bifidobacterium bifidum",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-tis乳克鲁维酵母Kluyveromyceslac-乳克鲁维酵母Kluyveromyceslac-tistis巴斯德毕赤酵母Pichiapastoris米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacterium乳糖酶(β-半乳糖苷酶)Lactasebifidum(beta-galactosidase)两歧双歧杆菌Bifidobacterium枯草芽孢杆菌Bacillussubtilisbifidum德氏乳杆菌保加利亚亚种枯草芽孢杆菌Lactobacillusdelbrueckiisubsp.bul-Bacillussubtilisgaricus黑曲霉米曲霉AspergillusnigerAspergillusoryzaePapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-两歧双歧杆菌Bifidobacteriummisbifidum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 50；酶 乳糖酶(β-半乳糖苷酶)Lactase(beta-galactosidase)；来源 脆壁克鲁维酵母Kluyveromycesfragilis黑曲霉Aspergillusniger米曲霉Aspergillusoryzae乳克鲁维酵母Kluyveromyceslac-tis乳克鲁维酵母Kluyveromyceslac-tis巴斯德毕赤酵母Pichiapastoris两歧双歧杆菌Bifidobacteriumbifidum枯草芽孢杆菌Bacillussubtilis枯草芽孢杆菌Bacillussubtilis黑曲霉AspergillusnigerPapiliotrematerrestris地衣芽孢杆菌Bacilluslichenifor-mis；供体 乳克鲁维酵母Kluyveromyceslac-tis米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum德氏乳杆菌保加利亚亚种Lactobacillusdelbrueckiisubsp.bul-garicus米曲霉Aspergillusoryzae两歧双歧杆菌Bifidobacteriumbifidum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 50；酶 乳糖酶(β-半乳糖苷酶) Lactase (beta-galactosidase)；来源 脆壁克鲁维酵母 Kluyveromyces fragilis 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae 乳克鲁维酵母 Kluyveromyces lac-tis 乳克鲁维酵母 Kluyveromyces lac-tis 巴斯德毕赤酵母 Pichia pastoris 两歧双歧杆菌 Bifidobacterium bifidum 枯草芽孢杆菌 Bacillus subtilis 枯草芽孢杆菌 Bacillus subtilis 黑曲霉 Aspergillus niger Papiliotrema terrestris 地衣芽孢杆菌 Bacillus licheniformis；供体 乳克鲁维酵母 Kluyveromyces lac-tis 米曲霉 Aspergillus oryzae 两歧双歧杆菌 Bifidobacterium bifidum 德氏乳杆菌保加利亚亚种 Lactobacillus delbrueckiisubsp.bul-garicus 米曲霉 Aspergillus oryzae 两歧双歧杆菌 Bifidobacterium bifidum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-051",
     "rowNumber": 51,
     "rowCode": "51",
-    "rowName": "羧肽酶Carboxypeptidase",
-    "enzymeName": "羧肽酶Carboxypeptidase",
-    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
-    "donor": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
+    "rowName": "羧肽酶 Carboxypeptidase",
+    "enzymeName": "羧肽酶 Carboxypeptidase",
+    "source": "黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae",
+    "donor": "黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae",
     "pdfPage": 240,
     "standardPage": 237,
     "pdfPages": [
       240
     ],
     "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger51羧肽酶Carboxypeptidase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 51；酶 羧肽酶Carboxypeptidase；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae；供体 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 51；酶 羧肽酶 Carboxypeptidase；来源 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae；供体 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-052",
     "rowNumber": 52,
     "rowCode": "52",
-    "rowName": "4-α-糖基转移酶4-alpha-glucanotransferase",
-    "enzymeName": "4-α-糖基转移酶4-alpha-glucanotransferase",
-    "source": "苍白空气芽孢杆菌Aeribacilluspallidus",
+    "rowName": "4-α-糖基转移酶 4-alpha-glucanotransferase",
+    "enzymeName": "4-α-糖基转移酶 4-alpha-glucanotransferase",
+    "source": "苍白空气芽孢杆菌 Aeribacillus pallidus",
     "donor": "",
     "pdfPage": 240,
     "standardPage": 237,
@@ -35877,31 +35877,31 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       240
     ],
     "rawRowText": "4-α-糖基转移酶苍白空气芽孢杆菌4-alpha-glucanotransferaseAeribacilluspallidus",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 52；酶 4-α-糖基转移酶4-alpha-glucanotransferase；来源 苍白空气芽孢杆菌Aeribacilluspallidus。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 52；酶 4-α-糖基转移酶 4-alpha-glucanotransferase；来源 苍白空气芽孢杆菌 Aeribacillus pallidus。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-053",
     "rowNumber": 53,
     "rowCode": "53",
-    "rowName": "天门冬酰胺酶Asparaginase",
-    "enzymeName": "天门冬酰胺酶Asparaginase",
-    "source": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
-    "donor": "黑曲霉Aspergillusniger米曲霉Aspergillusoryzae",
+    "rowName": "天门冬酰胺酶 Asparaginase",
+    "enzymeName": "天门冬酰胺酶 Asparaginase",
+    "source": "黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae",
+    "donor": "黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
       241
     ],
     "rawRowText": "天门冬酰胺酶黑曲霉Aspergillusniger黑曲霉AspergillusnigerAsparaginase米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 53；酶 天门冬酰胺酶Asparaginase；来源 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae；供体 黑曲霉Aspergillusniger米曲霉Aspergillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 53；酶 天门冬酰胺酶 Asparaginase；来源 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae；供体 黑曲霉 Aspergillus niger 米曲霉 Aspergillus oryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-054",
     "rowNumber": 54,
     "rowCode": "54",
-    "rowName": "脱氨酶Deaminase",
-    "enzymeName": "脱氨酶Deaminase",
-    "source": "蜂蜜曲霉Aspergillusmelleus米曲霉Aspergillusoryzae",
+    "rowName": "脱氨酶 Deaminase",
+    "enzymeName": "脱氨酶 Deaminase",
+    "source": "蜂蜜曲霉 Aspergillus melleus 米曲霉 Aspergillus oryzae",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -35909,15 +35909,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "蜂蜜曲霉Aspergillusmelleus54脱氨酶Deaminase米曲霉Aspergillusoryzae",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 54；酶 脱氨酶Deaminase；来源 蜂蜜曲霉Aspergillusmelleus米曲霉Aspergillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 54；酶 脱氨酶 Deaminase；来源 蜂蜜曲霉 Aspergillus melleus 米曲霉 Aspergillus oryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-055",
     "rowNumber": 55,
     "rowCode": "55",
-    "rowName": "胃蛋白酶Pepsin",
-    "enzymeName": "胃蛋白酶Pepsin",
-    "source": "猪、小牛、小羊、禽类的胃组织hog,calf,lamb(kid)orpoultrystomach",
+    "rowName": "胃蛋白酶 Pepsin",
+    "enzymeName": "胃蛋白酶 Pepsin",
+    "source": "猪、小牛、小羊、禽类的胃组织 hog, calf, lamb (kid) or poultry stomach",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -35925,15 +35925,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "猪、小牛、小羊、禽类的胃组织55胃蛋白酶Pepsinhog,calf,lamb(kid)orpoultrystomach",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 55；酶 胃蛋白酶Pepsin；来源 猪、小牛、小羊、禽类的胃组织hog,calf,lamb(kid)orpoultrystomach。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 55；酶 胃蛋白酶 Pepsin；来源 猪、小牛、小羊、禽类的胃组织 hog, calf, lamb (kid) or poultry stomach。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-056",
     "rowNumber": 56,
     "rowCode": "56",
-    "rowName": "无花果蛋白酶Ficin",
-    "enzymeName": "无花果蛋白酶Ficin",
-    "source": "无花果Ficusspp.",
+    "rowName": "无花果蛋白酶 Ficin",
+    "enzymeName": "无花果蛋白酶 Ficin",
+    "source": "无花果 Ficus spp.",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -35941,15 +35941,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "56无花果蛋白酶Ficin无花果Ficusspp.",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 56；酶 无花果蛋白酶Ficin；来源 无花果Ficusspp.。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 56；酶 无花果蛋白酶 Ficin；来源 无花果 Ficus spp.。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-057",
     "rowNumber": 57,
     "rowCode": "57",
-    "rowName": "纤维素酶Cellulase",
-    "enzymeName": "纤维素酶Cellulase",
-    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride",
+    "rowName": "纤维素酶 Cellulase",
+    "enzymeName": "纤维素酶 Cellulase",
+    "source": "黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei 绿色木霉 Trichoderma viride",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -35957,15 +35957,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "黑曲霉Aspergillusniger57纤维素酶Cellulase李氏木霉Trichodermareesei绿色木霉Trichodermaviride",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 57；酶 纤维素酶Cellulase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei绿色木霉Trichodermaviride。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 57；酶 纤维素酶 Cellulase；来源 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei 绿色木霉 Trichoderma viride。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-058",
     "rowNumber": 58,
     "rowCode": "58",
-    "rowName": "右旋糖酐酶Dextranase",
-    "enzymeName": "右旋糖酐酶Dextranase",
-    "source": "无定毛壳菌Chaetomiumerraticum(又名细丽毛壳Chaetomiumgracile)",
+    "rowName": "右旋糖酐酶 Dextranase",
+    "enzymeName": "右旋糖酐酶 Dextranase",
+    "source": "无定毛壳菌 Chaetomium erraticum (又名细丽毛壳 Chaetomium gracile)",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -35973,15 +35973,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "无定毛壳菌Chaetomiumerraticum58右旋糖酐酶Dextranase(又名细丽毛壳Chaetomiumgracile)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 58；酶 右旋糖酐酶Dextranase；来源 无定毛壳菌Chaetomiumerraticum(又名细丽毛壳Chaetomiumgracile)。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 58；酶 右旋糖酐酶 Dextranase；来源 无定毛壳菌 Chaetomium erraticum (又名细丽毛壳 Chaetomium gracile)。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-059",
     "rowNumber": 59,
     "rowCode": "59",
-    "rowName": "胰蛋白酶Trypsin",
-    "enzymeName": "胰蛋白酶Trypsin",
-    "source": "猪或牛的胰腺porcineorbovinepancreas",
+    "rowName": "胰蛋白酶 Trypsin",
+    "enzymeName": "胰蛋白酶 Trypsin",
+    "source": "猪或牛的胰腺 porcine or bovine pancreas",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -35989,15 +35989,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "猪或牛的胰腺porcineor59胰蛋白酶Trypsinbovinepancreas",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 59；酶 胰蛋白酶Trypsin；来源 猪或牛的胰腺porcineorbovinepancreas。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 59；酶 胰蛋白酶 Trypsin；来源 猪或牛的胰腺 porcine or bovine pancreas。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-060",
     "rowNumber": 60,
     "rowCode": "60",
-    "rowName": "胰凝乳蛋白酶(糜蛋白酶)Chymo-trypsin",
-    "enzymeName": "胰凝乳蛋白酶(糜蛋白酶)Chymo-trypsin",
-    "source": "猪或牛的胰腺porcineorbovinepancreas",
+    "rowName": "胰凝乳蛋白酶(糜蛋白酶) Chymo-trypsin",
+    "enzymeName": "胰凝乳蛋白酶(糜蛋白酶) Chymo-trypsin",
+    "source": "猪或牛的胰腺 porcine or bovine pancreas",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -36005,15 +36005,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "胰凝乳蛋白酶(糜蛋白酶)Chymo-猪或牛的胰腺porcineortrypsinbovinepancreas",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 60；酶 胰凝乳蛋白酶(糜蛋白酶)Chymo-trypsin；来源 猪或牛的胰腺porcineorbovinepancreas。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 60；酶 胰凝乳蛋白酶(糜蛋白酶) Chymo-trypsin；来源 猪或牛的胰腺 porcine or bovine pancreas。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-061",
     "rowNumber": 61,
     "rowCode": "61",
-    "rowName": "蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase",
-    "enzymeName": "蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase",
-    "source": "米曲霉Aspergillusoryzae",
+    "rowName": "蔗糖1-果糖转移酶(又名果糖基转移酶) Sucrose 1-fructosyltrans-ferase",
+    "enzymeName": "蔗糖1-果糖转移酶(又名果糖基转移酶) Sucrose 1-fructosyltrans-ferase",
+    "source": "米曲霉 Aspergillus oryzae",
     "donor": "",
     "pdfPage": 241,
     "standardPage": 238,
@@ -36021,16 +36021,16 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       241
     ],
     "rawRowText": "蔗糖1-果糖转移酶(又名果糖基转61移酶)Sucrose1-fructosyltrans-米曲霉Aspergillusoryzaeferase",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 61；酶 蔗糖1-果糖转移酶(又名果糖基转移酶)Sucrose1-fructosyltrans-ferase；来源 米曲霉Aspergillusoryzae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 61；酶 蔗糖1-果糖转移酶(又名果糖基转移酶) Sucrose 1-fructosyltrans-ferase；来源 米曲霉 Aspergillus oryzae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-062",
     "rowNumber": 62,
     "rowCode": "62",
-    "rowName": "脂肪酶Lipase",
-    "enzymeName": "脂肪酶Lipase",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉Trichodermareesei李氏木霉Trichodermareesei",
-    "donor": "南极假丝酵母Candidaantarctica尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusnigervar.tubingensis尖孢镰刀菌Fusariumoxysporum",
+    "rowName": "脂肪酶 Lipase",
+    "enzymeName": "脂肪酶 Lipase",
+    "source": "黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 米根霉 Rhizopus oryzae 米黑根毛霉 Rhizomucor miehei 米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae 小牛或小羊的唾液腺或前胃组织 salivary glands or forestomach of calf, kid, or lamb 雪白根霉 Rhizopus niveus 羊咽喉 goat gullets 猪或牛的胰腺 hog or bovine pancreas 米曲霉 Aspergillus oryzae 柱晶假丝酵母 Candida cylindra-cea 卷枝毛霉 Mucor circinelloides (又名:爪哇毛霉 Mucor javanicus) 黑曲霉 Aspergillus niger 多形汉逊酵母 Hansenula poly-morpha 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei",
+    "donor": "南极假丝酵母 Candida antarctica 尖孢镰刀菌 Fusarium oxysporum 棉状嗜热丝孢菌 Thermomyces lanuginosus 米黑根霉 Rhizomucor miehei 黄色镰刀菌 Fusarium culmorum 异孢镰刀菌 Fusarium hetreospo-rum 黑曲霉塔宾变种 Aspergillus niger var. tubingensis 尖孢镰刀菌 Fusarium oxysporum",
     "pdfPage": 241,
     "standardPage": 238,
     "pdfPages": [
@@ -36038,15 +36038,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       242
     ],
     "rawRowText": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger南极假丝酵母Candidaantarctica米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae尖孢镰刀菌Fusariumoxysporum62脂肪酶Lipase棉状嗜热丝孢菌Thermomyces米曲霉Aspergillusoryzaelanuginosus小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae米黑根霉Rhizomucormiehei柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus62脂肪酶Lipase)黑曲霉Aspergillusniger黄色镰刀菌Fusariumculmorum多形汉逊酵母Hansenulapoly-异孢镰刀菌Fusariumhetreospo-morpharum李氏木霉黑曲霉塔宾变种AspergillusnigerTrichodermareeseivart.ubingensis李氏木霉尖孢镰刀菌TrichodermareeseiFusariumoxysporum",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶Lipase；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger米根霉Rhizopusoryzae米黑根毛霉Rhizomucormiehei米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae米曲霉Aspergillusoryzae小牛或小羊的唾液腺或前胃组织salivaryglandsorforestomachofcalf,kid,orlamb雪白根霉Rhizopusniveus羊咽喉goatgullets猪或牛的胰腺hogorbovinepan-creas米曲霉Aspergillusoryzae柱晶假丝酵母Candidacylindra-cea卷枝毛霉Mucorcircinelloides(又名:爪哇毛霉Mucorjavanicus)黑曲霉Aspergillusniger多形汉逊酵母Hansenulapoly-morpha李氏木霉Trichodermareesei李氏木霉Trichodermareesei；供体 南极假丝酵母Candidaantarctica尖孢镰刀菌Fusariumoxysporum棉状嗜热丝孢菌Thermomyceslanuginosus米黑根霉Rhizomucormiehei黄色镰刀菌Fusariumculmorum异孢镰刀菌Fusariumhetreospo-rum黑曲霉塔宾变种Aspergillusnigervar.tubingensis尖孢镰刀菌Fusariumoxysporum。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 62；酶 脂肪酶 Lipase；来源 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger 米根霉 Rhizopus oryzae 米黑根毛霉 Rhizomucor miehei 米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae 米曲霉 Aspergillus oryzae 小牛或小羊的唾液腺或前胃组织 salivary glands or forestomach of calf, kid, or lamb 雪白根霉 Rhizopus niveus 羊咽喉 goat gullets 猪或牛的胰腺 hog or bovine pancreas 米曲霉 Aspergillus oryzae 柱晶假丝酵母 Candida cylindra-cea 卷枝毛霉 Mucor circinelloides (又名:爪哇毛霉 Mucor javanicus) 黑曲霉 Aspergillus niger 多形汉逊酵母 Hansenula poly-morpha 李氏木霉 Trichoderma reesei 李氏木霉 Trichoderma reesei；供体 南极假丝酵母 Candida antarctica 尖孢镰刀菌 Fusarium oxysporum 棉状嗜热丝孢菌 Thermomyces lanuginosus 米黑根霉 Rhizomucor miehei 黄色镰刀菌 Fusarium culmorum 异孢镰刀菌 Fusarium hetreospo-rum 黑曲霉塔宾变种 Aspergillus niger var. tubingensis 尖孢镰刀菌 Fusarium oxysporum。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-063",
     "rowNumber": 63,
     "rowCode": "63",
-    "rowName": "酯酶Esterase",
-    "enzymeName": "酯酶Esterase",
-    "source": "黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
+    "rowName": "酯酶 Esterase",
+    "enzymeName": "酯酶 Esterase",
+    "source": "黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei 米黑根毛霉 Rhizomucor miehei",
     "donor": "",
     "pdfPage": 242,
     "standardPage": 239,
@@ -36054,31 +36054,31 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       242
     ],
     "rawRowText": "黑曲霉Aspergillusniger63酯酶Esterase李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶Esterase；来源 黑曲霉Aspergillusniger李氏木霉Trichodermareesei米黑根毛霉Rhizomucormiehei。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 63；酶 酯酶 Esterase；来源 黑曲霉 Aspergillus niger 李氏木霉 Trichoderma reesei 米黑根毛霉 Rhizomucor miehei。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-064",
     "rowNumber": 64,
     "rowCode": "64",
-    "rowName": "植酸酶phytase",
-    "enzymeName": "植酸酶phytase",
-    "source": "黑曲霉Aspergillusniger黑曲霉Aspergillusniger",
-    "donor": "塔宾曲霉Aspergillustubingensis",
+    "rowName": "植酸酶 phytase",
+    "enzymeName": "植酸酶 phytase",
+    "source": "黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger",
+    "donor": "塔宾曲霉 Aspergillus tubingensis",
     "pdfPage": 242,
     "standardPage": 239,
     "pdfPages": [
       242
     ],
     "rawRowText": "黑曲霉Aspergillusniger64植酸酶phytase黑曲霉塔宾曲霉AspergillusnigerAspergillustubingensis",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 64；酶 植酸酶phytase；来源 黑曲霉Aspergillusniger黑曲霉Aspergillusniger；供体 塔宾曲霉Aspergillustubingensis。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 64；酶 植酸酶 phytase；来源 黑曲霉 Aspergillus niger 黑曲霉 Aspergillus niger；供体 塔宾曲霉 Aspergillus tubingensis。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-065",
     "rowNumber": 65,
     "rowCode": "65",
-    "rowName": "转化酶(蔗糖酶)Invertase(saccharase)",
-    "enzymeName": "转化酶(蔗糖酶)Invertase(saccharase)",
-    "source": "酿酒酵母Saccharomycescerevisiae",
+    "rowName": "转化酶(蔗糖酶) Invertase (saccharase)",
+    "enzymeName": "转化酶(蔗糖酶) Invertase (saccharase)",
+    "source": "酿酒酵母 Saccharomyces cerevisiae",
     "donor": "",
     "pdfPage": 242,
     "standardPage": 239,
@@ -36086,15 +36086,15 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       242
     ],
     "rawRowText": "转化酶(蔗糖酶)65酿酒酵母SaccharomycescerevisiaeInvertase(saccharase)",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 65；酶 转化酶(蔗糖酶)Invertase(saccharase)；来源 酿酒酵母Saccharomycescerevisiae。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 65；酶 转化酶(蔗糖酶) Invertase (saccharase)；来源 酿酒酵母 Saccharomyces cerevisiae。"
   },
   {
     "id": "gb2760-2024-c3-enzyme-preparation-066",
     "rowNumber": 66,
     "rowCode": "66",
-    "rowName": "转葡糖苷酶Transglucosidase",
-    "enzymeName": "转葡糖苷酶Transglucosidase",
-    "source": "黑曲霉Aspergillusniger",
+    "rowName": "转葡糖苷酶 Transglucosidase",
+    "enzymeName": "转葡糖苷酶 Transglucosidase",
+    "source": "黑曲霉 Aspergillus niger",
     "donor": "",
     "pdfPage": 242,
     "standardPage": 239,
@@ -36102,7 +36102,7 @@ export const gb2760OfficialC3EnzymePreparationRows = [
       242
     ],
     "rawRowText": "66转葡糖苷酶Transglucosidase黑曲霉Aspergillusniger",
-    "rawSourceText": "GB 2760-2024 表 C.3：序号 66；酶 转葡糖苷酶Transglucosidase；来源 黑曲霉Aspergillusniger。"
+    "rawSourceText": "GB 2760-2024 表 C.3：序号 66；酶 转葡糖苷酶 Transglucosidase；来源 黑曲霉 Aspergillus niger。"
   }
 ];
 

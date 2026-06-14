@@ -28,6 +28,104 @@ const c3OrphanContinuationFragments = [
   /misstearothermoph/u,
   /Pullulanibacil-$/u
 ];
+const compactLatinReferenceNamePatterns = [
+  /\bCloveleafoil\b/u,
+  /\bEugeniaspp\b/u,
+  /\bvegetableoilsextractionsolvent\b/u,
+  /\bOleicacid\b/u,
+  /\bQuininehydrochloride\b/u,
+  /\bmedicavar\./iu,
+  /\b(?:Pelargonlium|Zanthoxylum|Cinnamomaum)spp\b/u,
+  /\bPyroligneousacid\b/u,
+  /\bPyroligneousacidextract\b/u,
+  /\bArtificialcognacoil\b/u,
+  /\brythroandthreo\b/u,
+  /\bTannicacid\b/u,
+  /\bChinesedate\b/u,
+  /\bElletariacardamomum\b/u,
+  /\bPerillafrutescens\b/u,
+  /\bZiziphusjujuba\b/u,
+  /\bLimeoilterpene\b/u,
+  /\bZingiberoffici-?nale\b/u,
+  /\bexpressedterpeneless\b/u,
+  /\bMedicagosativa\b/u,
+  /\bClovertopsredextractsolid\b/u,
+  /\bMountainmapleextractsolid\b/u,
+  /\bLicoriceextractpowder\b/u,
+  /\bViverracivetta\b/u,
+  /\bsinensisor\b/u,
+  /\bsinen-sis\b/u,
+  /\bcarnaubawax\b/iu,
+  /\binsolublepolyvinylpolypyrroli-done\b/iu,
+  /\bsodiumpropio-nate\b/iu,
+  /\bsodiumpropionate\b/u,
+  /\bsilicagel\b/iu,
+  /\bPolyoxypropyleneoxyethylene\b/u,
+  /\bsorbi-tanmonolaurate\b/iu,
+  /\bpolyoxyethylenepolyoxyprop-ylene(?:amineether)?\b/iu,
+  /\bBfamily\b/u,
+  /\bincludingmilkclottingenzymes\b/iu,
+  /\bEndothiaparasitica\b/u,
+  /\bCalfstomach\b/u,
+  /\bAnoxybacilluscaldiproteolyticus\b/u,
+  /\bAlkalihaloba-cillusclausii\b/u,
+  /\bAlkalihalobacillusclausii\b/u,
+  /\bMalbrancheasulfurea\b/u,
+  /\blichenifor-mis\b/u,
+  /\bpotassiumchloride\b/u,
+  /\bsodiumdihydrogenphosphate\b/u,
+  /\bAspergillusniger\b/u,
+  /\bAspergillusoryzae\b/u,
+  /\bBacillussubtilis\b/u,
+  /\bCytophagasp\b/u,
+  /\bRhizomucorpusillus\b/u,
+  /\bAspergilluskawachii\b/u,
+  /\bnigervar\.tubingensis\b/u,
+  /\bsalivaryglandsorforestomach/iu,
+  /\bhogorbovinepan-?creas\b/iu,
+  /\bbovinepancreas\b/iu,
+  /\bporcinepancreas\b/iu,
+  /\bgoatgullets\b/iu,
+  /\bpigor\b/iu,
+  /\bhorseliver\b/iu,
+  /\borlamb\b/iu,
+  /\blambabomasum\b/iu,
+  /\borpoultrystomach\b/iu,
+  /\b[AB]gene\b/u,
+  /\b\d,\s+\d/u,
+  /\bCAG\s+55\b/u,
+  /\bA2Phospholipase\b/u,
+  /\bPhosphoinositidephospholipase\b/u,
+  /\bPseudomonasfluorescens\b/u,
+  /\bPseudomonassp\b/u,
+  /\b(?:[A-Z]{1,3}|[A-Z][a-z]{2,}|[fF])\.(?:and|or|var|subsp)\b/u,
+  /\bspp\.\./iu,
+  /\bspp\.(?:and|or|of)[A-Za-z]*/iu,
+  /\b(?:var|subsp)\.[A-Za-z]/u,
+  /\b[A-Z]\.[a-z]{3,}\b/u,
+  /\b(?:andotherkelps|An-gelicasinensis|ber-gamia|deal-bata)\b/iu,
+  /\bpsicose3-epimerase\b/iu,
+  /\bstearothe(?:ilusrmoph|\s+ilus\s+rmoph)\b/iu,
+  /\d\s+\(\d/u,
+  /\(\d+[A-Za-z]?\),\s+\d/u
+];
+const compactNaturalFlavorNamePatterns = [
+  /\b[A-Za-z][A-Za-z.-]*\[[A-Za-z]/u,
+  /\b[A-Za-z]{4,}(?:oil|oils|extract|tincture|concrete|absolute|oleoresin|resinoid|gum|balsam)\b/u,
+  /\b[A-Za-z]{4,}(?:oil|extract|oleoresin|absolute|tincture|concrete)(?:terpene|terpeneless|powder|solid)\b/u,
+  /\b(?:Luohanfruit|Orrisroot|Rueoil|Swallowroot)\b/u,
+  /\b(?:Abies|Acacia|Acer|Aframomum|Aglaia|Allium|Alpinia|Amyris|Anethum|Aniba|Anogeissus|Anthemis|Apium|Armoracia|Artemisia|Asarum|Astragalus|Atractylodes|Barosma|Betula|Bixa|Boswellia|Boronia|Brassica|Bulnesia|Camellia|Canarium|Capsicum|Carum|Carya|Castanea|Ceratonia|Cichorium|Cinnamomum|Cinchona|Cistus|Citrus|Coffea|Commiphora|Copaifera|Coriandrum|Croton|Crocus|Cryptocarya|Cuminum|Cupressus|Curcuma|Daucus|Decalepis|Eriodictyon|Eucalyptus|Euphoria|Evernia|Ferula|Galbaniflua|Galipea|Gardenia|Gentiana|Helichrysum|Hibiscus|Humulus|Hyssopus|Ilex|Iris|Jasminum|Juglans|Juniperus|Kereocystis|Laminaria|Lavandula|Levisticum|Liquidambar|Lippia|Litsea|Majorana|Matricaria|Marrubium|Medicago|Melaleuca|Melissa|Mentha|Michelia|Myristica|Myroxylon|Ocimum|Origanum|Paullinia|Pelargonium|Petroselinum|Pimenta|Piper|Picrasma|Pinus|Polianthes|Prunus|Quassia|Quercus|Rabdosia|Rhamnus|Ribes|Ricinus|Rosa|Rosemarinus|Salvia|Sambucus|Santalum|Sarcodactylis|Satureja|Schinus|Siraitia|Smilax|Sophora|Spartium|Spilanthes|Sterculia|Styrax|Tamarindus|Taraxacum|Thea|Theobroma|Thaumatococcus|Thuja|Thymus|Torreya|Trigonella|Turnera|Valeriana|Vanilla|Vetiveria|Vicia|Viola|Viverra|Vitis|Zingiber)[a-z]{2,}\b/u
+];
+const compactSyntheticFlavorNamePatterns = [
+  /\b(?:[A-Za-zα-ωΑ-Ω][A-Za-zα-ωΑ-Ω-]{2,}hydrochloride|[A-Za-zα-ωΑ-Ω][A-Za-zα-ωΑ-Ω-]{3,}(?:acid|oxide))\b/iu,
+  findCompactSyntheticYlEsterName,
+  /\b[A-Za-z0-9][A-Za-z0-9,()'.+-]*yl\d[A-Za-z0-9,()'.+-]*(?:phenylacetate|acetoacetate|isovalerate|tetradecanoate|methylbutyrate|methylbutanoate|hydroxybutyrate|hydroxyhexanoate|methylvalerate|methylthiopropionate|mercaptopropionate|phenylpropionate|methylpentanoate|phenylglycidate|furanacrylate|undecylenate|undecenoate|decatrienoate|decadienoate|thiofuroate|heptanoate|octanoate|decanoate|dodecanoate|butenoate|hexenoate|nonenoate|pentanoate|propanoate|malonate|succinate|caproate|caprylate|myristate|laurate|sorbate|lactate|tiglate|furoate|glycidate|carbonate|levulinate|fumarate|valerate|acetate|formate|propionate|butyrate|isobutyrate|benzoate|salicylate|cinnamate)\b/iu,
+  /\b(?:Butyl|Isopropyl|Isobutyl|Amyl|Isoamyl|Hexyl|Heptyl|Octyl|Nonyl|Decyl|Undecyl|Lauryl|Dodecyl|Fenchyl|Leaf|Styralyl|Dimethylbenzyl|Isopropylbenzyl|Trimethylbenzyl|Methylbenzyl|Caryophyllene|Perilla|Benzyl|Phenethyl|Phenylpropyl|Anisyl|Cinnamic|Propyl|Furfuryl|Tetrahydrofurfuryl|Propylphenethyl|Hydratropyl|Amylcinnamyl|Vanillyl)alcohol\b/u,
+  /\b(?:Pyruvic|Butyric|Isobutyric|Methylbutyric|Ethylbutyric|Valeric|Methylvaleric|Isovaleric|Hexanoic|Adipic|Hexenoic|Heptanoic|Octanoic|Nonoic|Decanoic|Dodecanoic|Tetradecanoic|Hexadecylic|Palmitic|Benzoic|Phenylacetic|Cinnamic|Fumaric|Levulinic|Oxobutyric|Methylhexanoic|Methyloenanthic|Methyloctanoic|Decenoic|Undecanoic|Undecenoic|Phenylpropionic|Methylcrotonic|Formic|Methylnonanoic|Isohexanoic|Hydroxybenzoic|Salicylic|Tiglic|Succinic|Stearic)acid\b/u,
+  /\b(?:Methyl|Ethyl|Propyl|Isopropyl|Butyl|Isobutyl|Amyl|Isoamyl|Hexyl|Heptyl|Octyl|Nonyl|Benzyl|Phenethyl|Geranyl|Citronellyl|Linalyl|Neryl|Anisyl|Cinnamyl|Furfuryl|Allyl|Myrtenyl|Styrallyl|Carvyl|Eugenyl|Vanillyl)(?:acetate|formate|propionate|butyrate|isobutyrate|benzoate|salicylate|cinnamate)\b/u,
+  /\b[A-Za-zα-ωΑ-Ω]*(?:cyclo|spiro|benzo|thieno)\s+\[/iu,
+  /\b[A-Za-zα-ωΑ-Ω]*(?:cyclo|spiro|benzo|thieno)\[[^\]]+\]\s+(?=[A-Za-zα-ωΑ-Ω])/iu
+];
 const gb2760A1NoStagingRequiredSeedIds = new Set([
   'calcium-citrate',
   'citral',
@@ -701,14 +799,17 @@ export function validateGb2760OfficialReferenceTables(
         }
         requireString(row.rowData, 'flavorNameCn', `${label}.rowData`, errors);
         requireString(row.rowData, 'flavorNameEn', `${label}.rowData`, errors);
+        validateNoCompactLatinReferenceNames(row.rowData, ['flavorNameEn'], `${label}.rowData`, errors, row.tableName);
         requireString(row.rowData, 'femaNumber', `${label}.rowData`, errors);
       } else if (['表 C.1', '表 C.2'].includes(row?.tableName)) {
         requireString(row.rowData, 'processingAidNameCn', `${label}.rowData`, errors);
         requireString(row.rowData, 'processingAidNameEn', `${label}.rowData`, errors);
+        validateNoCompactLatinReferenceNames(row.rowData, ['processingAidNameEn'], `${label}.rowData`, errors, row.tableName);
       } else if (row?.tableName === '表 C.3') {
         requireString(row.rowData, 'enzymeName', `${label}.rowData`, errors);
         requireString(row.rowData, 'source', `${label}.rowData`, errors);
         validateNoC3OrphanContinuationFragments(row.rowData, ['source', 'donor'], `${label}.rowData`, errors);
+        validateNoCompactLatinReferenceNames(row.rowData, ['enzymeName', 'source', 'donor'], `${label}.rowData`, errors, row.tableName);
       } else if (row?.tableName === '附录 D') {
         requireString(row.rowData, 'functionCategoryName', `${label}.rowData`, errors);
         requireString(row.rowData, 'definition', `${label}.rowData`, errors);
@@ -795,6 +896,7 @@ export function validateGb2760OfficialReferenceTables(
     rowCodeField: 'flavorCode',
     rowCodePattern: /^N\d{3}$/u,
     requiredFields: ['flavorNameCn', 'flavorNameEn', 'femaNumber', 'rawRowText'],
+    latinReferenceFields: ['flavorNameEn'],
     pdfPageMin: 153,
     pdfPageMax: 168
   }, errors);
@@ -805,6 +907,7 @@ export function validateGb2760OfficialReferenceTables(
     rowCodeField: 'flavorCode',
     rowCodePattern: /^S\d{4}$/u,
     requiredFields: ['flavorNameCn', 'flavorNameEn', 'femaNumber', 'rawRowText'],
+    latinReferenceFields: ['flavorNameEn'],
     pdfPageMin: 168,
     pdfPageMax: 225
   }, errors);
@@ -813,6 +916,7 @@ export function validateGb2760OfficialReferenceTables(
     expectedCount: 37,
     tableName: '表 C.1',
     requiredFields: ['processingAidNameCn', 'processingAidNameEn', 'rawRowText'],
+    latinReferenceFields: ['processingAidNameEn'],
     pdfPageMin: 226,
     pdfPageMax: 227
   }, errors);
@@ -821,6 +925,7 @@ export function validateGb2760OfficialReferenceTables(
     expectedCount: 80,
     tableName: '表 C.2',
     requiredFields: ['processingAidNameCn', 'processingAidNameEn', 'functionText', 'useScope', 'rawRowText'],
+    latinReferenceFields: ['processingAidNameEn'],
     pdfPageMin: 227,
     pdfPageMax: 233
   }, errors);
@@ -829,6 +934,7 @@ export function validateGb2760OfficialReferenceTables(
     expectedCount: 66,
     tableName: '表 C.3',
     requiredFields: ['enzymeName', 'source', 'rawRowText'],
+    latinReferenceFields: ['enzymeName', 'source', 'donor'],
     pdfPageMin: 233,
     pdfPageMax: 242
   }, errors);
@@ -897,7 +1003,53 @@ function validateGeneratedReferenceSourceRows(rows, options, errors) {
     if (options.tableName === '表 C.3') {
       validateNoC3OrphanContinuationFragments(row, ['source', 'donor'], label, errors);
     }
+    if (options.latinReferenceFields) {
+      validateNoCompactLatinReferenceNames(row, options.latinReferenceFields, label, errors, options.tableName);
+    }
   });
+}
+
+function validateNoCompactLatinReferenceNames(item, fields, label, errors, tableName = '') {
+  for (const field of fields) {
+    const value = item?.[field];
+    if (typeof value !== 'string' || !value) continue;
+    const patterns = [
+      ...compactLatinReferenceNamePatterns,
+      ...(tableName === '表 B.2' ? compactNaturalFlavorNamePatterns : []),
+      ...(tableName === '表 B.3' ? compactSyntheticFlavorNamePatterns : [])
+    ];
+    const badPattern = findBadLatinReferencePattern(patterns, value);
+    if (badPattern) {
+      errors.push(`${label}.${field} must preserve Latin word spacing; found compact text ${badPattern}`);
+    }
+  }
+}
+
+function findBadLatinReferencePattern(patterns, value) {
+  for (const pattern of patterns) {
+    if (typeof pattern === 'function') {
+      const result = pattern(value);
+      if (result) return result;
+      continue;
+    }
+    if (pattern.test(value)) return pattern;
+  }
+  return undefined;
+}
+
+function findCompactSyntheticYlEsterName(value) {
+  const suffixPattern = 'phenylacetate|acetoacetate|isovalerate|tetradecanoate|methylbutyrate|methylbutanoate|hydroxybutyrate|hydroxyhexanoate|methylvalerate|methylthiopropionate|mercaptopropionate|phenylpropionate|methylpentanoate|phenylglycidate|furanacrylate|undecylenate|undecenoate|decatrienoate|decadienoate|thiofuroate|heptanoate|octanoate|decanoate|dodecanoate|butenoate|hexenoate|nonenoate|pentanoate|propanoate|malonate|succinate|caproate|caprylate|myristate|laurate|sorbate|lactate|tiglate|furoate|glycidate|carbonate|levulinate|fumarate|valerate|acetate|formate|propionate|butyrate|isobutyrate|benzoate|salicylate|cinnamate';
+  const pattern = new RegExp(`(^|[^A-Za-z])([A-Za-z0-9][A-Za-z0-9,'.+-]*yl)(${suffixPattern})(?=$|[^A-Za-z])`, 'giu');
+  for (const match of String(value).matchAll(pattern)) {
+    const leading = match[1] || '';
+    const prefix = match[2] || '';
+    const suffix = (match[3] || '').toLowerCase();
+    if (leading === '-' && /^[a-z]+yl$/u.test(prefix)) continue;
+    if (/^\d+(?:,\d+)*-[a-z]{3,}yl$/u.test(prefix) && !['acetate', 'formate'].includes(suffix)) continue;
+    if (prefix.toLowerCase().endsWith('phenyl') && suffix === 'acetate') continue;
+    return `compact synthetic ester "${match[0].trim()}"`;
+  }
+  return undefined;
 }
 
 function validateNoC3OrphanContinuationFragments(item, fields, label, errors) {
