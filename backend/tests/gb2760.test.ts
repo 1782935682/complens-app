@@ -1062,6 +1062,27 @@ describe('GB 2760 validation helpers', () => {
     expect(report.issues.map((issue) => issue.code)).toContain('missing_staging_review_audit');
   });
 
+  it('rejects pending review ingredients marked as verified', () => {
+    const report = validateGb2760State({
+      stagingRows: [createStagingRecord({ reviewStatus: 'pending_review' })],
+      usageRules: [],
+      ingredientRows: [
+        createIngredientRow({
+          dataStatus: 'pending_review',
+          sourceScope: 'seed_reference',
+          isVerified: true
+        })
+      ],
+      importRunRows: createSeedImportRuns()
+    });
+
+    expect(report.issues).toContainEqual({
+      code: 'unverified_marked_verified',
+      ref: 'citric-acid',
+      message: 'pending_review rows must not set isVerified true'
+    });
+  });
+
   it('rejects migrated but unseeded GB 2760 databases', () => {
     const report = validateGb2760State({
       stagingRows: [],

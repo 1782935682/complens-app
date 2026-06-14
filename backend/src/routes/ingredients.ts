@@ -110,7 +110,7 @@ function parseListQuery(query: Record<string, string>) {
 
   const dataStatus = query.dataStatus?.trim();
   if (dataStatus && !isDataStatus(dataStatus)) {
-    return invalidParameter('dataStatus', 'dataStatus must be one of verified_regulation, verified_jecfa, mapped_candidate, common_ingredient, unverified, unknown_from_ocr');
+    return invalidParameter('dataStatus', 'dataStatus must be one of verified_regulation, verified_jecfa, pending_review, mapped_candidate, common_ingredient, unverified, unknown_from_ocr');
   }
 
   const sort = query.sort?.trim();

@@ -31,6 +31,7 @@ import { standardAllergenTypes } from '../src/data/allergens.js';
 import { gb2760OfficialStagingGenerationCoverage, gb2760OfficialStagingRecords, getGb2760OfficialStagingSummary } from '../src/data/gb2760OfficialStaging.js';
 import { gb2760OfficialFullTextPages, getGb2760OfficialFullTextSummary } from '../src/data/gb2760OfficialFullText.js';
 import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialB2NaturalFlavorRows, gb2760OfficialB3SyntheticFlavorRows, gb2760OfficialC1ProcessingAidRows, gb2760OfficialC2ProcessingAidRows, gb2760OfficialC3EnzymePreparationRows, gb2760OfficialDFunctionCategoryRows, gb2760OfficialE1FoodCategoryRows, gb2760OfficialFAdditiveIndexRows, gb2760OfficialReferenceRows, getGb2760OfficialReferenceTableSummary } from '../src/data/gb2760OfficialReferenceTables.js';
+import { foodIngredients } from '../src/data/foodAdditives.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { compressImage } from '../src/utils/imageProcessor.js';
 import { AUTH_ERROR_MESSAGES, USER_KEY, getCurrentUser as getAuthCurrentUser, isLoggedIn as isAuthLoggedIn, logout as authLogout, syncLocalDataToServer, validateAuthInput } from '../src/services/authService.js';
@@ -46,7 +47,7 @@ import { dataStatusBadgeClass, dataStatusColorVar, dataStatusLabel, isPendingDat
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
-import { getGb2760OfficialFullTextQualityReport, getGb2760OfficialReferenceTableQualityReport, getGb2760OfficialSeedCoverageReport, getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialFullText, validateGb2760OfficialReferenceTables, validateGb2760OfficialSeedCoverage, validateGb2760OfficialStaging } from './validate-data.mjs';
+import { getFoodAdditiveQualityReport, getGb2760OfficialFullTextQualityReport, getGb2760OfficialReferenceTableQualityReport, getGb2760OfficialSeedCoverageReport, getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialFullText, validateGb2760OfficialReferenceTables, validateGb2760OfficialSeedCoverage, validateGb2760OfficialStaging } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
 assert.equal(dataStatusLabel('verified_regulation'), '官方标准已验证');
@@ -2175,6 +2176,15 @@ assert.deepEqual(await recognizeImage(ocrFile, { category: 'food' }), {
 
 assert.equal(standardAllergenTypes.length, 14);
 assert.deepEqual(validateFoodAdditives(), []);
+const pendingReviewFoodIngredient = {
+  ...foodIngredients[0],
+  id: 'pending-review-test-additive',
+  dataStatus: 'pending_review',
+  sourceScope: 'seed_reference',
+  isVerified: false
+};
+assert.deepEqual(validateFoodAdditives([pendingReviewFoodIngredient]), []);
+assert.equal(getFoodAdditiveQualityReport([pendingReviewFoodIngredient]).reviewQueue.includes('pending-review-test-additive'), true);
 
 const originalWindow = globalThis.window;
 globalThis.window = {

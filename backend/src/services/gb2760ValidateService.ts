@@ -409,7 +409,7 @@ function validateIngredientRegulatoryBoundary(ingredient: IngredientRow, issues:
     addIssue(issues, 'jecfa_usage_limits_present', ingredient.id, 'verified_jecfa rows must not carry GB 2760 usageLimits');
   }
 
-  if ((ingredient.dataStatus === 'unverified' || ingredient.dataStatus === 'mapped_candidate') && ingredient.isVerified) {
+  if ((ingredient.dataStatus === 'pending_review' || ingredient.dataStatus === 'unverified' || ingredient.dataStatus === 'mapped_candidate') && ingredient.isVerified) {
     addIssue(issues, 'unverified_marked_verified', ingredient.id, `${ingredient.dataStatus} rows must not set isVerified true`);
   }
 }

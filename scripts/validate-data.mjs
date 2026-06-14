@@ -9,7 +9,7 @@ import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2
 const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);
 const reviewStatuses = new Set(['draft', 'reviewed', 'verified']);
-const dataStatuses = new Set(['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr']);
+const dataStatuses = new Set(['verified_regulation', 'verified_jecfa', 'pending_review', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr']);
 const sourceTypes = new Set(['official_standard', 'regulation', 'public_database', 'manual_verified', 'unknown']);
 const sourceScopes = new Set(['gb_2760_regulation', 'jecfa_safety_evaluation', 'candidate_mapping', 'common_ingredient_lexicon', 'ocr_unmatched', 'seed_reference', 'unknown']);
 const confidenceLevels = new Set(['high', 'medium', 'low', 'unverified']);
@@ -296,7 +296,7 @@ export function getFoodAdditiveQualityReport(items = foodIngredients) {
   ), 0);
   const missingUsageLimitsCount = safeItems.filter((item) => item?.kind === 'food-additive' && (!Array.isArray(item?.usageLimits) || item.usageLimits.length === 0)).length;
   const reviewQueue = safeItems
-    .filter((item) => item?.dataStatus === 'unverified' || item?.dataStatus === 'mapped_candidate' || item?.sourceScope === 'seed_reference')
+    .filter((item) => item?.dataStatus === 'unverified' || item?.dataStatus === 'pending_review' || item?.dataStatus === 'mapped_candidate' || item?.sourceScope === 'seed_reference')
     .map((item) => item.id)
     .filter(Boolean);
 

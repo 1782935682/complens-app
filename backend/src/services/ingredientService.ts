@@ -5,7 +5,7 @@ import { toDemotedIngredientPatch } from './gb2760PromoteService.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
 export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
-export const validDataStatuses = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'] as const;
+export const validDataStatuses = ['verified_regulation', 'verified_jecfa', 'pending_review', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'] as const;
 export const validSearchSorts = ['relevance', 'risk', 'name'] as const;
 export const gb2760ManualReviewStatuses = ['mapped_candidate', 'approved', 'promoted'] as const;
 const gb2760SourceReviewedStatuses = ['mapped_candidate', 'approved', 'promoted', 'verified'] as const;

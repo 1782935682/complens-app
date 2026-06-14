@@ -322,7 +322,7 @@ describe('GET /api/ingredients', () => {
     const service = createIngredientService();
     const app = createTestApp(service);
 
-    const response = await app.request('/api/ingredients?q=苯甲酸&category=防腐剂&riskLevel=medium&confidenceLevel=unverified&dataStatus=unverified&page=2&limit=10');
+    const response = await app.request('/api/ingredients?q=苯甲酸&category=防腐剂&riskLevel=medium&confidenceLevel=unverified&dataStatus=pending_review&page=2&limit=10');
     const body = await response.json();
 
     expect(response.status).toBe(200);
@@ -332,7 +332,7 @@ describe('GET /api/ingredients', () => {
       category: '防腐剂',
         riskLevel: 'medium',
         confidenceLevel: 'unverified',
-        dataStatus: 'unverified',
+        dataStatus: 'pending_review',
         sort: undefined,
       page: 2,
       limit: 10
@@ -362,6 +362,11 @@ describe('GET /api/ingredients', () => {
       error: 'invalid_parameter',
       field: 'confidenceLevel',
       message: 'confidenceLevel must be one of high, medium, low, unverified'
+    });
+    expect(await invalidDataStatus.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'dataStatus',
+      message: 'dataStatus must be one of verified_regulation, verified_jecfa, pending_review, mapped_candidate, common_ingredient, unverified, unknown_from_ocr'
     });
   });
 });
