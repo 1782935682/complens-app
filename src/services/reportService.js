@@ -18,13 +18,22 @@ export function isReportMatchRejected(result) {
   return result?.reviewDecision === 'rejected';
 }
 
+function hasReportMatch(result) {
+  return Boolean(result?.match) && Number(result.confidence) > 0;
+}
+
 export function isReportMatchAccepted(result) {
-  return Boolean(result?.match) && Number(result.confidence) > 0 && !isReportMatchRejected(result);
+  if (!hasReportMatch(result) || isReportMatchRejected(result)) return false;
+  const confidence = Number(result.confidence) || 0;
+  if (confidence >= LOW_CONFIDENCE_MATCH_MIN && confidence < LOW_CONFIDENCE_MATCH_MAX) {
+    return result.reviewDecision === 'confirmed';
+  }
+  return true;
 }
 
 export function isLowConfidenceReportMatch(result) {
   const confidence = Number(result?.confidence) || 0;
-  return isReportMatchAccepted(result) && confidence >= LOW_CONFIDENCE_MATCH_MIN && confidence < LOW_CONFIDENCE_MATCH_MAX;
+  return hasReportMatch(result) && !isReportMatchRejected(result) && confidence >= LOW_CONFIDENCE_MATCH_MIN && confidence < LOW_CONFIDENCE_MATCH_MAX;
 }
 
 export function isPendingReportMatch(result) {
@@ -83,7 +92,7 @@ export function buildIngredientReport(input, category = defaultCategory, options
     riskSummary,
     unmatchedTerms,
     lowConfidenceTerms,
-    matchRate: clampRate(matchSummary.matchRate),
+    matchRate: calculateMatchRate(matchResults),
     matchedCount: matchedIngredientIds.length,
     pendingCount,
     summary: buildReportSummary(riskGrade, riskSummary, analysis.summary),
@@ -116,21 +125,17 @@ export function normalizeIngredientReport(value) {
   const matchResults = normalizeReportMatchResults(value.matchResults).length
     ? normalizeReportMatchResults(value.matchResults)
     : normalizeReportMatchResults(fallbackMatchResults);
-  const riskSummary = normalizeRiskSummary(value.riskSummary, matchResults);
-  const riskGrade = REPORT_RISK_GRADES.includes(value.riskGrade)
-    ? value.riskGrade
-    : computeRiskGrade(matchResults);
-  const unmatchedTerms = normalizeStringList(value.unmatchedTerms).length
-    ? normalizeStringList(value.unmatchedTerms)
-    : normalizeStringList(value.unknownItems || riskSummary.unmatchedTerms);
-  const lowConfidenceTerms = normalizeStringList(value.lowConfidenceTerms);
+  const riskSummary = buildRiskSummary(matchResults);
+  const riskGrade = computeRiskGrade(matchResults);
+  const unmatchedTerms = uniqueStrings(matchResults
+    .filter((result) => !hasReportMatch(result) || isReportMatchRejected(result))
+    .map((result) => result.parsedIngredient?.normalizedText || result.term));
+  const lowConfidenceTerms = uniqueStrings(matchResults
+    .filter(isPendingReportMatch)
+    .map((result) => result.parsedIngredient?.normalizedText || result.term));
   const reportSource = normalizeReportSource(value.source);
-  const matchedIngredientIds = normalizeStringList(value.matchedIngredientIds).length
-    ? normalizeStringList(value.matchedIngredientIds)
-    : uniqueStrings(matchResults.filter(isReportMatchAccepted).map((result) => result.match.id));
-  const highlightIngredientIds = normalizeStringList(value.highlightIngredientIds).length
-    ? normalizeStringList(value.highlightIngredientIds)
-    : uniqueStrings(matchResults.filter((result) => isReportMatchAccepted(result) && ['high', 'medium'].includes(result.match?.riskLevel)).map((result) => result.match.id));
+  const matchedIngredientIds = uniqueStrings(matchResults.filter(isReportMatchAccepted).map((result) => result.match.id));
+  const highlightIngredientIds = uniqueStrings(matchResults.filter((result) => isReportMatchAccepted(result) && ['high', 'medium'].includes(result.match?.riskLevel)).map((result) => result.match.id));
   const providedProductName = truncateText(value.productName, 50);
   const productName = providedProductName || defaultProductName;
   const report = {
@@ -150,25 +155,29 @@ export function normalizeIngredientReport(value) {
     riskSummary,
     unmatchedTerms,
     lowConfidenceTerms,
-    matchRate: Number.isFinite(value.matchRate) ? clampRate(value.matchRate) : calculateMatchRate(matchResults),
-    matchedCount: Number.isFinite(value.matchedCount) ? value.matchedCount : matchedIngredientIds.length,
-    pendingCount: Number.isFinite(value.pendingCount) ? value.pendingCount : countPendingMatches(matchResults),
-    summary: typeof value.summary === 'string' && value.summary.trim() ? value.summary : buildReportSummary(riskGrade, riskSummary),
+    matchRate: calculateMatchRate(matchResults),
+    matchedCount: matchedIngredientIds.length,
+    pendingCount: countPendingMatches(matchResults),
+    summary: buildReportSummary(riskGrade, riskSummary),
     matchedIngredientIds,
     highlightIngredientIds,
-    unknownItems: normalizeStringList(value.unknownItems).length ? normalizeStringList(value.unknownItems) : unmatchedTerms,
+    unknownItems: unmatchedTerms,
     unknownItemRecords: normalizeUnknownItemRecords(value.unknownItemRecords, unmatchedTerms, reportSource),
-    dataStatusCounts: normalizeDataStatusCounts(value.dataStatusCounts, matchResults, unmatchedTerms, reportSource),
-    riskCounts: normalizeRiskCounts(value.riskCounts, riskSummary),
+    dataStatusCounts: buildDataStatusCounts(matchResults, unmatchedTerms, reportSource),
+    riskCounts: {
+      low: riskSummary.lowRisk,
+      medium: riskSummary.mediumRisk,
+      high: riskSummary.highRisk,
+      unknown: riskSummary.unmatched
+    },
     userAllergenIds: normalizeStringList(value.userAllergenIds),
     ingredientAllergenHits: normalizeIngredientAllergenHits(value.ingredientAllergenHits),
     textAllergenHits: normalizeTextAllergenHits(value.textAllergenHits),
     schemaVersion: Number.isFinite(value.schemaVersion) ? value.schemaVersion : REPORT_SCHEMA_VERSION
   };
-  const insights = normalizeReportInsights(value.insights);
   return {
     ...report,
-    insights: insights.length ? insights : buildReportInsights(report)
+    insights: buildReportInsights(report)
   };
 }
 
@@ -333,6 +342,11 @@ export function buildRiskSummary(matchResults = []) {
   };
 
   for (const result of Array.isArray(matchResults) ? matchResults : []) {
+    if (isPendingReportMatch(result)) {
+      summary.unverifiedData += 1;
+      continue;
+    }
+
     if (!isReportMatchAccepted(result)) {
       summary.unmatched += 1;
       if (result.parsedIngredient?.normalizedText) summary.unmatchedTerms.push(result.parsedIngredient.normalizedText);
@@ -516,6 +530,7 @@ function buildReportSummary(riskGrade, riskSummary, fallback = '') {
   if (summary.highRisk) concerns.push(`${summary.highRisk} 项高关注`);
   if (summary.mediumRisk) concerns.push(`${summary.mediumRisk} 项需关注`);
   if (summary.unmatched) concerns.push(`${summary.unmatched} 项暂未收录`);
+  if (summary.unverifiedData) concerns.push(`${summary.unverifiedData} 项待确认`);
   if (concerns.length) return `整体评级 ${riskGrade}，包含 ${concerns.join('、')}。`;
   return fallback || `整体评级 ${riskGrade}，当前匹配项以低关注为主。`;
 }
@@ -650,19 +665,10 @@ function normalizeRiskSummary(value, matchResults) {
   };
 }
 
-function normalizeRiskCounts(value, riskSummary) {
-  return {
-    low: numberOrFallback(value?.low, riskSummary.lowRisk),
-    medium: numberOrFallback(value?.medium, riskSummary.mediumRisk),
-    high: numberOrFallback(value?.high, riskSummary.highRisk),
-    unknown: numberOrFallback(value?.unknown, riskSummary.unmatched)
-  };
-}
-
 function countPendingMatches(matchResults = []) {
   return (Array.isArray(matchResults) ? matchResults : [])
     .filter((result) => {
-      if (!isReportMatchAccepted(result)) return false;
+      if (!hasReportMatch(result) || isReportMatchRejected(result)) return false;
       const status = getResultDataStatus(result, 'manual');
       return (result.reviewDecision !== 'confirmed' && result.confidence < 0.9) || status === 'mapped_candidate' || status === 'unverified';
     }).length;
@@ -689,17 +695,6 @@ function buildDataStatusCounts(matchResults = [], unmatchedTerms = [], source = 
   }
 
   return counts;
-}
-
-function normalizeDataStatusCounts(value, matchResults = [], unmatchedTerms = [], source = 'manual') {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) {
-    return buildDataStatusCounts(matchResults, unmatchedTerms, source);
-  }
-  const fallback = buildDataStatusCounts(matchResults, unmatchedTerms, source);
-  return Object.fromEntries(Object.entries(fallback).map(([status, fallbackCount]) => [
-    status,
-    numberOrFallback(value[status], fallbackCount)
-  ]));
 }
 
 function buildUnknownItemRecords(items = [], source = 'manual') {
@@ -761,20 +756,6 @@ function normalizeDataStatus(status) {
 
 function normalizeReviewDecision(value) {
   return MATCH_REVIEW_DECISIONS.includes(value) ? value : '';
-}
-
-function normalizeReportInsights(value) {
-  return Array.isArray(value)
-    ? value
-      .map((item) => ({
-        key: String(item?.key || '').trim(),
-        title: String(item?.title || '').trim(),
-        tone: ['neutral', 'watch', 'caution'].includes(item?.tone) ? item.tone : 'neutral',
-        summary: String(item?.summary || '').trim(),
-        items: normalizeStringList(item?.items)
-      }))
-      .filter((item) => item.key && item.title && item.summary)
-    : [];
 }
 
 function normalizeIngredientAllergenHits(value) {
