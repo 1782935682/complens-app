@@ -3,6 +3,7 @@ import { getApiBaseUrl, getAuthToken } from './storageService.js';
 
 export const OCR_PROTOCOL_VERSION = 2;
 export const OCR_ENDPOINT_PATH = '/ocr';
+export const OCR_PROVIDERS = ['manual', 'mock', 'aliyun', 'paddleocr', 'rapidocr'];
 const OCR_TIMEOUT_MS = 15_000;
 
 export const OCR_RESPONSE_CONTRACT = {
@@ -173,6 +174,9 @@ export function validateOCRResponse(value) {
 
   const provider = normalizeString(value.provider);
   if (!provider) errors.push('provider must be a non-empty string');
+  if (provider && !OCR_PROVIDERS.includes(provider)) {
+    errors.push(`provider must be one of ${OCR_PROVIDERS.join(', ')}`);
+  }
 
   const blocks = normalizeBlocks(value.blocks, errors);
   if (value.blocks !== undefined && !Array.isArray(value.blocks)) errors.push('blocks must be an array');

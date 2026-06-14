@@ -95,11 +95,20 @@
 ## 当前最早可执行任务（Codex 立即执行）
 
 ```
-→ 无阻塞，按顺序执行：
-  1. Batch 1-F：内部数据控制台 / GB2760 复核工作台
-  2. Batch UX-A ~ UX-E：产品体验与信息架构优化
+→ 本轮刚完成：
+  1. Batch 3-B：OCR Provider 抽象（manual / mock / aliyun / paddleocr / rapidocr）
+
+→ 非控制台、非产品页面设计的后续候选：
+  1. Batch 4-C：低置信匹配确认交互
+  2. Batch 8-C：loading / empty / error 状态统一
+
+→ 后续暂缓，等待产品页面设计统一推进：
+  Batch 1-E：成分详情页 GB2760 官方证据展示
+  Batch 1-F：内部数据控制台 / GB2760 复核工作台
+  Batch UX-A ~ UX-E：产品体验与信息架构优化
 
 → 当前人工阻塞（跳过，不阻断 Codex）：
+  内部控制台 / 产品页面设计统一方案（用户要求最后一起做）
   GB2760 后续增量人工复核（本轮 2391 条 A.1 staging 已完成签核并 promote）
   生产 DATABASE_URL（阶段 2 生产部分）
   OCR API Key（阶段 3 real provider）
@@ -391,9 +400,9 @@
 7. 内部控制台 UI 采用后台工作台形态：密集列表/表格、批量工具栏、详情/原文区域、统一状态标签；不使用消费端大卡片堆叠。
 8. 不影响普通用户端首页、搜索、详情、报告主路径。
 
-状态：🔄 进行中（已落地内部复核入口、分页/每页条数、ready 筛选、单条/批量签核、自动映射脚本、审计字段、内部 reviewer allowlist 和 promote 闭环；仍需补齐手动映射 UI、后台工作台视觉和更完整角色系统）。
+状态：⛔ blocked_by_user（已落地内部复核入口、分页/每页条数、ready 筛选、单条/批量签核、自动映射脚本、审计字段、内部 reviewer allowlist 和 promote 闭环；用户要求内部控制台先不继续，后续等产品页面设计统一推进时再补手动映射 UI、后台工作台视觉和更完整角色系统）。
 是否需要人工：是（复核动作本身需要人工判断）；Codex 负责工具链和校验闭环。
-阻塞条件：无（可先在本地开发环境完成；生产角色权限和部署属于后续阻塞项）。
+阻塞条件：用户要求暂缓内部控制台和产品页面设计。
 验证命令：`npm run validate:gb2760 && npm run lint && npm run test && npm run build`，`cd backend && npm run typecheck && npm test && npm run build`。
 
 ---
@@ -478,7 +487,7 @@
 
 ---
 
-### Batch 3-B：OCR Provider 抽象 [Codex 🔁 待重构]
+### Batch 3-B：OCR Provider 抽象 [Codex]
 
 目标：OCR Provider 抽象，不写死某一家。Provider 设计为 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，无 Key 自动降级 manual，密钥只在后端。
 
@@ -490,11 +499,11 @@
 - `scripts/test.mjs`、`COMMANDS.md`
 
 实现内容：
-1. 后端按 `OCR_PROVIDER` 选择 provider：`manual`（无需 Key）、`mock`（测试固定返回，明确标注 `provider: "mock"`）、`aliyun` / `paddleocr` / `rapidocr`（真实，需 Key / 自建服务，未接入返回 501）。
-2. `OcrResult` 结构统一：`{ rawText, confidence?, provider, blocks?: [{ text, confidence? }] }`。
-3. 无 `OCR_API_KEY` 时后端返回 503，前端自动降级 manual。
-4. 不允许前端直连阿里云；API Key 只在后端环境变量。
-5. 不允许伪造真实 OCR；`mock` 必须明确标注，不混淆为真实结果。
+1. ✅ 后端按 `OCR_PROVIDER` 选择 provider：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。
+2. ✅ `mock` 无需真实 Key，返回固定 OCR 结构并明确标注 `provider: "mock"`，不冒充真实供应商。
+3. ✅ `aliyun` / `paddleocr` / `rapidocr` 属于真实供应商；缺少 `OCR_API_KEY` 时返回 `503 ocr_not_configured`，已配置但适配未实现时返回 `501 ocr_provider_pending`。
+4. ✅ 前端 OCR response 校验只接受上述 provider 名称，API Key 只在后端环境变量中读取。
+5. ✅ 前端继续在失败或未配置时降级 manual/fallback，不伪造真实 OCR。
 6. OCR 原文、置信度、provider、图片引用需要保存（图片在 IndexedDB，元数据在 localStorage，后续可选 `ocr_results` 表见 Batch 4 计划）。
 
 验收标准：
@@ -503,9 +512,10 @@
 3. `OcrResult` 字段齐全。
 4. 前端不出现任何 OCR 厂商密钥。
 
+状态：✅ 已完成 2026-06-14。
 是否需要人工：否（抽象层）。真实 provider 接入见 Batch 3-E。
 阻塞条件：无（抽象层不阻塞）。
-验证命令：`npm run lint && npm run test && npm run build`，`cd backend && npm run typecheck && npm test`。
+验证命令：前端 OCR 协议定向断言 + `cd backend && npm run test -- ocr.test.ts` + `cd backend && npm run typecheck`。
 
 ---
 

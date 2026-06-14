@@ -44,7 +44,7 @@ describe('POST /api/ocr', () => {
     expect(response.status).toBe(401);
   });
 
-  it('returns 503 when OCR key is not configured', async () => {
+  it('returns 503 when a real OCR provider key is not configured', async () => {
     const app = createTestApp();
     const response = await app.request('/api/ocr', {
       method: 'POST',
@@ -56,7 +56,28 @@ describe('POST /api/ocr', () => {
     });
 
     expect(response.status).toBe(503);
-    expect(await response.json()).toEqual({ error: 'ocr_not_configured' });
+    expect(await response.json()).toEqual({ error: 'ocr_not_configured', provider: 'aliyun' });
+  });
+
+  it('returns explicit mock OCR output without a real provider key', async () => {
+    const app = createTestApp({ ocrProvider: 'mock' });
+    const response = await app.request('/api/ocr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer valid-token'
+      },
+      body: JSON.stringify({ imageBase64: 'abc', mimeType: 'image/jpeg', category: 'food' })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({
+      text: '水，柠檬酸，山梨酸钾',
+      confidence: 0.92,
+      provider: 'mock'
+    });
+    expect(body.blocks).toEqual([{ text: '水，柠檬酸，山梨酸钾', confidence: 0.92 }]);
   });
 
   it('rejects oversized OCR payloads before provider access', async () => {
@@ -79,7 +100,7 @@ describe('POST /api/ocr', () => {
   });
 
   it('does not return fake OCR text when provider implementation is pending', async () => {
-    const app = createTestApp({ ocrApiKey: 'test-key' });
+    const app = createTestApp({ ocrApiKey: 'test-key', ocrProvider: 'paddleocr' });
     const response = await app.request('/api/ocr', {
       method: 'POST',
       headers: {
@@ -92,7 +113,7 @@ describe('POST /api/ocr', () => {
     expect(response.status).toBe(501);
     expect(await response.json()).toEqual({
       error: 'ocr_provider_pending',
-      provider: 'aliyun'
+      provider: 'paddleocr'
     });
   });
 });
