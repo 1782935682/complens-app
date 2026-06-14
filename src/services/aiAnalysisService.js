@@ -178,7 +178,7 @@ function buildSafetyRules(category) {
   if (category === 'food') {
     return [
       ...baseRules,
-      '食品结论必须区分 verified_regulation、verified_jecfa、mapped_candidate、common_ingredient、unverified 和 unknown_from_ocr；JECFA 只能作为安全评价来源，不能当作中国 GB 2760 使用限制。'
+      '食品结论必须区分 verified_regulation、verified_jecfa、pending_review、mapped_candidate、common_ingredient、unverified 和 unknown_from_ocr；JECFA 只能作为安全评价来源，不能当作中国 GB 2760 使用限制。'
     ];
   }
   return [

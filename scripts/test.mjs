@@ -7,7 +7,7 @@ import { categoryPath } from '../src/data/categories.js';
 import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, OCR_PROVIDERS, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, getOcrEndpointUrl, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
-import { computeRiskGrade, getTopIngredientNames } from '../src/services/reportService.js';
+import { buildRiskSummary, computeRiskGrade, getTopIngredientNames, normalizeIngredientReport } from '../src/services/reportService.js';
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
 import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage, renderGb2760ReferenceRowsState } from '../src/pages/dataPage.js';
@@ -42,7 +42,7 @@ import { buildCompareSharePayload, buildIngredientSharePayload, buildReportShare
 import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite, updateAnalysisReportMatchDecision } from '../src/store/userStore.js';
 import { clearMatchCache, matchIngredients, matchIngredientsLocal } from '../src/services/ingredientMatchService.js';
-import { dataStatusBadgeClass, dataStatusColorVar, dataStatusLabel, normalizeDataStatus } from '../src/utils/dataStatus.js';
+import { dataStatusBadgeClass, dataStatusColorVar, dataStatusLabel, isPendingDataStatus, normalizeDataStatus } from '../src/utils/dataStatus.js';
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
@@ -58,6 +58,8 @@ assert.equal(dataStatusLabel('verified_regulation', { includeCode: true }), 'ver
 assert.equal(normalizeDataStatus('not-real'), 'unverified');
 assert.equal(dataStatusBadgeClass('mapped_candidate'), 'data-badge--mapped-candidate');
 assert.equal(dataStatusColorVar('verified_jecfa'), '--color-watch');
+assert.equal(isPendingDataStatus('pending_review'), true);
+assert.equal(isPendingDataStatus('verified_regulation'), false);
 assert.deepEqual(resolveRoute('#/food/search?q=E330'), {
   view: 'search',
   category: 'food',
@@ -2883,20 +2885,33 @@ addWatchIngredient('sodium-bicarbonate', 'food');
 addAvoidIngredient('sodium-metabisulfite', 'food');
 const fakeParsedIngredient = { rawText: '测试', normalizedText: '测试', index: 0 };
 let fakeMatchIndex = 0;
-const fakeMatch = (riskLevel) => ({
+const fakeMatch = (riskLevel, overrides = {}) => ({
   parsedIngredient: fakeParsedIngredient,
   term: '测试',
   eNumber: null,
-  match: { id: `fake-${riskLevel}-${fakeMatchIndex += 1}`, nameCn: '测试', riskLevel, category: '测试分类', confidenceLevel: 'reviewed', isVerified: true, reviewStatus: 'reviewed' },
-  confidence: 1,
+  match: { id: `fake-${riskLevel}-${fakeMatchIndex += 1}`, nameCn: '测试', riskLevel, category: '测试分类', confidenceLevel: 'reviewed', isVerified: true, reviewStatus: 'reviewed', ...(overrides.match || {}) },
+  confidence: overrides.confidence ?? 1,
   matchType: 'exact',
-  alternates: []
+  alternates: [],
+  ...(overrides.dataStatus ? { dataStatus: overrides.dataStatus } : {})
 });
 assert.equal(computeRiskGrade([]), 'A');
 assert.equal(computeRiskGrade([fakeMatch('medium')]), 'B');
 assert.equal(computeRiskGrade([fakeMatch('high')]), 'C');
 assert.equal(computeRiskGrade([fakeMatch('high'), fakeMatch('high'), fakeMatch('high')]), 'D');
 assert.equal(computeRiskGrade([fakeMatch('high'), fakeMatch('high'), fakeMatch('high'), fakeMatch('high'), fakeMatch('high')]), 'F');
+const pendingReviewMatch = fakeMatch('low', { match: { dataStatus: 'pending_review' } });
+assert.equal(buildRiskSummary([pendingReviewMatch]).lowRisk, 1);
+assert.equal(buildRiskSummary([pendingReviewMatch]).unverifiedData, 1);
+const normalizedPendingReport = normalizeIngredientReport({
+  id: 'pending-review-report',
+  category: 'food',
+  originalText: '测试',
+  createdAt: new Date().toISOString(),
+  matchResults: [pendingReviewMatch]
+});
+assert.equal(normalizedPendingReport.pendingCount, 1);
+assert.equal(normalizedPendingReport.riskSummary.unverifiedData, 1);
 const reportDraft = createAnalysisReport(SAMPLES['food-2'], 'food');
 assert.equal(reportDraft.category, 'food');
 assert.equal(reportDraft.schemaVersion, 4);
@@ -2917,7 +2932,7 @@ assert.equal(reportDraft.ingredientAllergenHits.some((hit) => hit.id === 'lecith
 assert.equal(reportDraft.ingredientAllergenHits.some((hit) => hit.id === 'common-whole-milk-powder' && hit.allergenIds.includes('milk')), true);
 assert.equal(reportDraft.textAllergenHits.some((hit) => hit.item === '全脂奶粉' && hit.allergenIds.includes('milk')), false);
 assert.equal(reportDraft.insights.some((insight) => insight.key === 'risk' && insight.title === '风险分布'), true);
-assert.equal(reportDraft.insights.some((insight) => insight.key === 'coverage' && /verified_regulation \/ verified_jecfa \/ common_ingredient \/ unverified/.test(insight.summary)), true);
+assert.equal(reportDraft.insights.some((insight) => insight.key === 'coverage' && /verified_regulation \/ verified_jecfa \/ pending_review \/ common_ingredient \/ unverified/.test(insight.summary)), true);
 const savedReport = saveAnalysisReport(SAMPLES['food-2'], 'food', { productName: '测试饼干' });
 assert.equal(savedReport.productName, '测试饼干');
 assert.equal(savedReport.title, '测试饼干');

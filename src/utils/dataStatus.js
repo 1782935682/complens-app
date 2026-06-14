@@ -7,6 +7,7 @@ const dataStatusDefinitions = [
   { status: 'unverified', label: '未验证', colorVar: '--color-unverified' },
   { status: 'unknown_from_ocr', label: '暂未收录', colorVar: '--color-unknown' }
 ];
+const pendingDataStatuses = new Set(['pending_review', 'mapped_candidate', 'unverified']);
 
 export const dataStatusOrder = dataStatusDefinitions.map((item) => item.status);
 export const dataStatusLabels = Object.fromEntries(dataStatusDefinitions.map((item) => [item.status, item.label]));
@@ -14,6 +15,10 @@ export const dataStatusColorVars = Object.fromEntries(dataStatusDefinitions.map(
 
 export function isKnownDataStatus(status) {
   return Object.hasOwn(dataStatusLabels, status);
+}
+
+export function isPendingDataStatus(status) {
+  return pendingDataStatuses.has(normalizeDataStatus(status));
 }
 
 export function normalizeDataStatus(status, fallback = 'unverified') {

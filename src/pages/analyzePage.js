@@ -5,7 +5,7 @@ import { formatAllergenNames, getMatchingTextAllergens, getMatchingUserAllergens
 import { analyzeIngredientText } from '../services/ingredientService.js';
 import { matchIngredientsLocal } from '../services/ingredientMatchService.js';
 import { getAnalysisReports, getUserAllergens } from '../store/userStore.js';
-import { dataStatusBadgeClass, dataStatusLabel as formatDataStatusLabel } from '../utils/dataStatus.js';
+import { dataStatusBadgeClass, dataStatusLabel as formatDataStatusLabel, isPendingDataStatus } from '../utils/dataStatus.js';
 import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
 
 /**
@@ -277,7 +277,7 @@ function analysisMatchItem(item) {
 
 function isPendingMatch(item) {
   const status = getResultDataStatus(item);
-  return item.confidence < 0.9 || status === 'mapped_candidate' || status === 'unverified';
+  return item.confidence < 0.9 || isPendingDataStatus(status);
 }
 
 function getResultDataStatus(item) {

@@ -1,7 +1,7 @@
 import { ingredients, popularIngredientIds } from '../data/ingredients.js';
 import { foodIngredients, popularFoodAdditiveIds } from '../data/foodAdditives.js';
 import { searchAssistAliases } from '../data/searchAliases.js';
-import { dataStatusOrder } from '../utils/dataStatus.js';
+import { dataStatusOrder, isPendingDataStatus } from '../utils/dataStatus.js';
 import { normalizeIngredientItem, normalizeText, splitIngredientInput, uniqueBy } from '../utils/text.js';
 
 const riskOrder = {
@@ -666,7 +666,7 @@ function buildAnalysisQuality(analysisItems, totalCount) {
   const lowConfidenceItems = matchedItems.filter((item) => item.confidence === 'low');
   const mediumConfidenceItems = matchedItems.filter((item) => item.confidence === 'medium');
   const highConfidenceItems = matchedItems.filter((item) => item.confidence === 'high');
-  const pendingItems = matchedItems.filter((item) => item.confidence !== 'high' || ['mapped_candidate', 'unverified'].includes(item.dataStatus));
+  const pendingItems = matchedItems.filter((item) => item.confidence !== 'high' || isPendingDataStatus(item.dataStatus));
 
   return {
     totalCount,
