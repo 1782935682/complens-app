@@ -103,7 +103,7 @@
 
 → 下一个需要人工确认边界：
   1. 是否继续进入产品页面设计统一推进范围（Batch 1-E、UX-A、UX-B、UX-D、UX-E）。
-  2. 或先解锁人工/外部依赖项：生产 DATABASE_URL、OCR API Key、AI API Key、后续 GB2760 增量复核。
+  2. 或先解锁人工/外部依赖项：生产 DATABASE_URL、生产 Aliyun OCR API Key、AI API Key、后续 GB2760 增量复核。
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -114,7 +114,7 @@
   内部控制台 / 产品页面设计统一方案（用户要求最后一起做）
   GB2760 后续增量人工复核（本轮 2391 条 A.1 staging 已完成签核并 promote）
   生产 DATABASE_URL（阶段 2 生产部分）
-  OCR API Key（阶段 3 real provider）
+  生产 Aliyun OCR API Key（阶段 3-E 生产切换；本机 RapidOCR 已接入）
   AI API Key（阶段 9 真实调用）
 ```
 
@@ -500,16 +500,18 @@
 - `src/services/ocrService.js`（前端调用抽象，当前为 real/manual/fallback，待扩展 provider 命名）
 - `backend/src/routes/ocr.ts`（后端代理，当前无 Key 返回 503 / provider 未接入返回 501）
 - `backend/src/services/ocrProviders/`（计划新建，按 provider 分文件）
-- `backend/.env.example`（`OCR_PROVIDER`、`OCR_API_KEY`）
+- `backend/.env.example`（`OCR_PROVIDER`、`OCR_SERVICE_URL`、`OCR_API_KEY`）
+- `INTEGRATIONS.md`（本机 OCR、数据库和外部组件台账）
 - `scripts/test.mjs`、`COMMANDS.md`
 
 实现内容：
 1. ✅ 后端按 `OCR_PROVIDER` 选择 provider：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。
 2. ✅ `mock` 无需真实 Key，返回固定 OCR 结构并明确标注 `provider: "mock"`，不冒充真实供应商。
-3. ✅ `aliyun` / `paddleocr` / `rapidocr` 属于真实供应商；缺少 `OCR_API_KEY` 时返回 `503 ocr_not_configured`，已配置但适配未实现时返回 `501 ocr_provider_pending`。
-4. ✅ 前端 OCR response 校验只接受上述 provider 名称，API Key 只在后端环境变量中读取。
-5. ✅ 前端继续在失败或未配置时降级 manual/fallback，不伪造真实 OCR。
-6. OCR 原文、置信度、provider、图片引用需要保存（图片在 IndexedDB，元数据在 localStorage，后续可选 `ocr_results` 表见 Batch 4 计划）。
+3. ✅ `rapidocr` 通过本机 `/home/downloads/tools/complens-ocr` FastAPI 服务接入，使用 `OCR_SERVICE_URL`，不需要 `OCR_API_KEY`。
+4. ✅ `aliyun` / `paddleocr` 属于生产/外部供应商；缺少 `OCR_API_KEY` 时返回 `503 ocr_not_configured`，已配置但适配未实现时返回 `501 ocr_provider_pending`。
+5. ✅ 前端 OCR response 校验只接受上述 provider 名称，API Key 只在后端环境变量中读取。
+6. ✅ 前端继续在失败或未配置时降级 manual/fallback，不伪造真实 OCR。
+7. OCR 原文、置信度、provider、图片引用需要保存（图片在 IndexedDB，元数据在 localStorage，后续可选 `ocr_results` 表见 Batch 4 计划）。
 
 验收标准：
 1. 无 Key 时 `POST /api/ocr` 返回 503，前端进入 manual。
@@ -517,9 +519,9 @@
 3. `OcrResult` 字段齐全。
 4. 前端不出现任何 OCR 厂商密钥。
 
-状态：✅ 已完成 2026-06-14。
-是否需要人工：否（抽象层）。真实 provider 接入见 Batch 3-E。
-阻塞条件：无（抽象层不阻塞）。
+状态：✅ 已完成 2026-06-14（本机 `rapidocr` 已接入；生产 `aliyun` 切换待 Key）。
+是否需要人工：否（本机接入）。生产 Aliyun 切换见 Batch 3-E。
+阻塞条件：无（本机 RapidOCR 不阻塞；生产 Aliyun OCR Key 仍属生产切换阻塞）。
 验证命令：前端 OCR 协议定向断言 + `cd backend && npm run test -- ocr.test.ts` + `cd backend && npm run typecheck`。
 
 ---
@@ -554,19 +556,22 @@
 
 目标：接入真实 OCR 供应商（推荐阿里云通用文字识别或自建 PaddleOCR/RapidOCR），后端代理，图片二次压缩，真实识别。
 
-状态：⛔ blocked_by_user（OCR API Key + 供应商选型）。
+状态：🔄 进行中（本机 RapidOCR 已接入；生产 Aliyun OCR 待 Key）。
 涉及文件：`backend/src/services/ocrProviders/*.ts`、`backend/src/routes/ocr.ts`、`backend/.env.example`。
 实现内容：
-1. 人工选 provider 并提供 Key / 自建服务地址。
-2. 实现对应 provider 适配，图片后端二次压缩到 1MB 内再发送。
-3. 真实包装图片测试（≥3 张，识别可用率达标）。
+1. ✅ 本机自建 RapidOCR 服务地址：`/home/downloads/tools/complens-ocr`，`OCR_PROVIDER=rapidocr`，`OCR_SERVICE_URL=http://127.0.0.1:8000`。
+2. ✅ 后端 `rapidocr` provider 通过 multipart `file` 调用本机 FastAPI `/ocr`，并映射为前端 OCR 契约。
+3. ⏸ 生产 provider 切换到 Aliyun OCR，待生产 Key 后实现/验收。
+4. 图片后端二次压缩到 1MB 内再发送（生产供应商适配时补）。
+5. 真实包装图片测试（≥3 张，识别可用率达标）。
 
 人工操作：
-- [ ] 选择 OCR 供应商，申请 Key → `OCR_API_KEY` / `OCR_PROVIDER`。
+- [x] 本机 OCR 服务目录确认：`/home/downloads/tools/complens-ocr`。
+- [ ] 生产 Aliyun OCR 申请 Key → `OCR_PROVIDER=aliyun` / `OCR_API_KEY`。
 - [ ] 标注：`[人工完成 ✅ YYYY-MM-DD]`
 
 是否需要人工：是。
-阻塞条件：OCR API Key（`blocked_by_user`）。manual/mock 闭环不受阻。
+阻塞条件：生产 Aliyun OCR API Key（`blocked_by_user`）。本机 rapidocr/manual/mock 闭环不受阻。
 验证命令：（接入后）`cd backend && npm test`，真机/真实图片验证。
 
 ---

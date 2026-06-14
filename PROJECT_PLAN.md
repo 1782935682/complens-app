@@ -45,7 +45,7 @@
 |---|---|---|---|
 | M1 | 数据源准确性 + GB2760 可追溯导入 | 🔄 进行中 | ~86% |
 | M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~70% |
-| M3 | OCR 拍照识别主流程（manual/mock 闭环） | 🔄 进行中 | ~78% |
+| M3 | OCR 拍照识别主流程（manual/mock/本机 RapidOCR 闭环） | 🔄 进行中 | ~82% |
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
 | M5 | 食品配料分析报告 | 🔄 进行中 | ~70% |
 | M6 | 产品档案、收藏、历史、个性化 | 🔄 进行中 | ~55% |
@@ -70,7 +70,7 @@
 - 前端优先 API、失败降级本地 seed 并显示未验证标识。
 - 数据溯源字段：`dataStatus`/`matchConfidence`/`sourceScope`/`sourceName`/`sourceVersion`/`sourceUrl`/`regulatoryBasis`/`rawSourceText`/`lastReviewedAt`/`reviewNote`/`isVerified`。
 - GB2760 官方来源确认 + 264 页全文 + 2404 行 A.1 staging + 2800 行参考表（边界修复完成）+ 导入审计骨架（来源文档、批次、错误表和查询接口）+ `additive_usage_rules` 正式规则表 + `promote:gb2760` 准入脚本 + 本轮人工签核 promote 2391 条正式规则 + `validate:gb2760` 数据准入校验。
-- OCR 主路径：拍照/上传入口、图片预处理（EXIF/压缩/IndexedDB）、OCR manual/mock/real-provider 抽象、文本确认页、配料解析、批量匹配；后端 `OCR_PROVIDER=mock` 可返回明确标注的 mock OCR 结果，真实 provider 缺 Key 仍降级 manual。
+- OCR 主路径：拍照/上传入口、图片预处理（EXIF/压缩/IndexedDB）、OCR manual/mock/real-provider 抽象、文本确认页、配料解析、批量匹配；后端 `OCR_PROVIDER=mock` 可返回明确标注的 mock OCR 结果，`OCR_PROVIDER=rapidocr` 已接入本机 `/home/downloads/tools/complens-ocr` 服务，生产 Aliyun OCR 待 Key 后切换。
 - 分析报告：整体评级、关注摘要、配料顺序、添加剂分类、未收录、特殊人群、来源说明、Markdown/JSON 导出、分享、历史。
 - 产品档案 + 收藏 + 历史 + 个人关注/忌口/过敏原 + 全局高亮 + 登录态云同步。
 - 前端登录/注册 + 访客模式 + JWT 管理 + 本机数据登录态同步。
@@ -83,7 +83,7 @@
 ## 5. 未完成
 
 - 成分详情页 GB2760 官方证据展示（Batch 1-E）。
-- 真实 OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key）。
+- 生产 Aliyun OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key；本机 RapidOCR 已接入）。
 - 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
 - 移动端组件统一、报告页产品化复核、首页/OCR 产品体验整体复核（阶段 7；统一可信表达映射层已完成）。
 - iPhone Safari 真机验收（阶段 8）。
@@ -99,7 +99,7 @@
 | GB2760 后续增量复核 | 新抽取或变更 staging 行再次 promote | 否：本轮 2391 条已 promote，后续增量继续人工复核 |
 | 内部控制台 / 产品页面设计 | 用户要求内部控制台先不做，等产品页面设计统一推进 | 否：当前数据复核/promote 闭环已可用 |
 | 生产 DATABASE_URL | 生产数据库（2-D） | 否：本地闭环可用 |
-| OCR API Key | 真实 OCR（3-E） | 否：manual/mock 闭环可用 |
+| 生产 Aliyun OCR API Key | 生产 OCR 切换（3-E） | 否：本机 rapidocr/manual/mock 闭环可用 |
 | AI API Key | 真实 AI（9-B） | 否：本地 fallback 可用 |
 | Apple / Google 账号 | iOS/Android 上架（11-B/C/D） | 否：已后置 |
 | 法务复核 / 域名 / 部署平台 | 合规与生产（11-F/G） | 否：已后置 |
@@ -115,7 +115,7 @@
 下一个需要人工确认边界：
 
 1. 是否继续进入产品页面设计统一推进范围（Batch 1-E、UX-A、UX-B、UX-D、UX-E）。
-2. 或先解锁人工/外部依赖项：生产 DATABASE_URL、OCR API Key、AI API Key、后续 GB2760 增量复核。
+2. 或先解锁人工/外部依赖项：生产 DATABASE_URL、生产 Aliyun OCR API Key、AI API Key、后续 GB2760 增量复核。
 
 暂缓到产品页面设计统一推进：
 
@@ -208,6 +208,7 @@ npm run validate:gb2760
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-14 | 接入本机 RapidOCR：后端 `rapidocr` provider 调用 `/home/downloads/tools/complens-ocr` FastAPI 服务，新增 `OCR_SERVICE_URL` 配置与外部组件台账 `INTEGRATIONS.md`；生产后续切换 Aliyun OCR | Codex | `backend ocr.test.ts` / 后端 `typecheck` / 后端 `build` / `npm test` / `lint` / `build` / `validate:data` / provider 实连本机 OCR 通过 |
 | 2026-06-14 | Batch 5-B / UX-C：新增统一 dataStatus 映射工具，统一结果可信表达文案、颜色变量和 Badge class；搜索、详情、分析、报告、导出、数据治理页改为引用同一映射；产品页面整体设计仍暂缓 | Codex | `npm test` / `npm run lint` / `npm run build` / `git diff --check` 通过 |
 | 2026-06-14 | Batch 8-C：全页 loading / empty / error 状态复核，补齐搜索初始空态拍照/粘贴入口、GB2760 复核页错误重试与空态出口、GB2760 参考表错误重试；后续 5-B/UX-C 可信表达需先确认是否纳入产品页面设计暂缓范围 | Codex | `npm test` / `npm run lint` / `npm run build` / `git diff --check` 通过 |
 | 2026-06-14 | Batch 3-B：OCR Provider 抽象命名闭环，后端支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，mock 明确标注且真实 provider 仍需后端 Key；内部控制台后续 UI 按用户要求暂缓到产品页面设计统一推进 | Codex | 针对性验证：`backend ocr.test.ts`、后端 `typecheck`、前端 OCR 协议断言 |
