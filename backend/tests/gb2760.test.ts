@@ -532,6 +532,43 @@ describe('GB 2760 promote helpers', () => {
     expect(patch.gbStatus).toBe('restricted');
   });
 
+  it('recomputes GB status from promoted rows instead of preserving seed status', () => {
+    const restrictedPatch = toPromotedIngredientPatch(
+      createIngredientRow({
+        id: 'ascorbic-acid',
+        gbStatus: 'permitted'
+      }),
+      [createStagingRecord({
+        id: 'gb2760-2024-a1-ascorbic-acid-canned-fruit',
+        ingredientId: 'ascorbic-acid',
+        additiveNameCn: '抗坏血酸',
+        additiveNameEn: 'ascorbic acid',
+        foodCategoryCode: '04.01.01.03',
+        foodCategoryName: '水果罐头',
+        maxUseLevel: '5.0',
+        unit: 'g/kg',
+        note: ''
+      })],
+      new Date('2026-06-14T08:00:00.000Z')
+    );
+    const permittedPatch = toPromotedIngredientPatch(
+      createIngredientRow({
+        gbStatus: 'restricted'
+      }),
+      [createStagingRecord({
+        foodCategoryCode: '—',
+        foodCategoryName: '各类食品',
+        maxUseLevel: '按生产需要适量使用',
+        unit: '',
+        note: ''
+      })],
+      new Date('2026-06-14T08:00:00.000Z')
+    );
+
+    expect(restrictedPatch.gbStatus).toBe('restricted');
+    expect(permittedPatch.gbStatus).toBe('permitted');
+  });
+
   it('restores saved base provenance when removing stale formal rules', () => {
     const baseIngredient = createIngredientRow({
         dataStatus: 'verified_jecfa',

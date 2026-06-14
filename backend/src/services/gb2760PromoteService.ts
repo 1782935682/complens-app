@@ -176,7 +176,7 @@ export function toPromotedIngredientPatch(
     regulatoryBasis: `${primary.standardCode} ${primary.tableName}`,
     rawSourceText: getPromotedRawSourceText(sourceRows),
     gbCode: getPromotedGbCode(ingredient, sourceRows),
-    gbStatus: getPromotedGbStatus(ingredient, sourceRows),
+    gbStatus: getPromotedGbStatus(sourceRows),
     usageLimits: sourceRows.map(toUsageLimit),
     foodCategories: mergeTextList([], sourceRows.map(formatFoodCategory)),
     gb2760PromotionBaseState: promotionBaseState,
@@ -542,10 +542,7 @@ function getPromotedGbCode(ingredient: IngredientRow, rows: Gb2760OfficialRecord
   return ingredient.gbCode;
 }
 
-function getPromotedGbStatus(ingredient: IngredientRow, rows: Gb2760OfficialRecordRow[]) {
-  const existing = String(ingredient.gbStatus || '').trim();
-  if (['permitted', 'restricted', 'prohibited'].includes(existing)) return existing;
-
+function getPromotedGbStatus(rows: Gb2760OfficialRecordRow[]) {
   return rows.every(isUnrestrictedGb2760UsageRow) ? 'permitted' : 'restricted';
 }
 
