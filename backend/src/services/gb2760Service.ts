@@ -1,12 +1,17 @@
-import { and, asc, count, desc, eq, sql, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, inArray, or, sql, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { gb2760OfficialReferenceRows, importErrors, importRuns, sourceDocuments, type Gb2760OfficialReferenceRow, type ImportErrorRow, type ImportRunRow, type NewImportErrorRow, type NewImportRunRow, type NewSourceDocumentRow, type SourceDocumentRow } from '../db/schema.js';
+import { gb2760OfficialRecords, gb2760OfficialReferenceRows, importErrors, importRuns, sourceDocuments, ingredients, type Gb2760OfficialRecordRow, type Gb2760OfficialReferenceRow, type ImportErrorRow, type ImportRunRow, type NewImportErrorRow, type NewImportRunRow, type NewSourceDocumentRow, type SourceDocumentRow } from '../db/schema.js';
+import { validatePromotionCandidate } from './gb2760PromoteService.js';
 
 export const validImportRunTypes = ['fulltext', 'a1_staging', 'reference_tables', 'promote'] as const;
 export const validImportRunStatuses = ['running', 'succeeded', 'failed'] as const;
+export const validGb2760StagingReviewStatuses = ['pending_review', 'mapped_candidate', 'approved', 'promoted', 'verified'] as const;
+export const editableGb2760StagingReviewStatuses = ['pending_review', 'mapped_candidate', 'approved'] as const;
 
 export type ImportRunType = typeof validImportRunTypes[number];
 export type ImportRunStatus = typeof validImportRunStatuses[number];
+export type Gb2760StagingReviewStatus = typeof validGb2760StagingReviewStatuses[number];
+export type EditableGb2760StagingReviewStatus = typeof editableGb2760StagingReviewStatuses[number];
 
 export type SourceDocumentInput = {
   id: string;
@@ -92,10 +97,71 @@ export type ReferenceRowListResult = {
   totalPages: number;
 };
 
+export type StagingRowListParams = {
+  reviewStatus?: Gb2760StagingReviewStatus;
+  q?: string;
+  readyOnly?: boolean;
+  page: number;
+  limit: number;
+};
+
+export type StagingRowListItem = Gb2760OfficialRecordRow & {
+  promotionIssues: string[];
+};
+
+export type StagingReviewStatusCount = {
+  reviewStatus: string;
+  count: number;
+};
+
+export type StagingRowListResult = {
+  items: StagingRowListItem[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  statusCounts: StagingReviewStatusCount[];
+};
+
+export type StagingBatchReviewError = {
+  id: string;
+  code: 'not_found' | 'locked_review_status' | 'invalid_promotion_candidate' | 'invalid_ingredient_id';
+  reasons: string[];
+};
+
+export type StagingBatchReviewResult = {
+  requestedCount: number;
+  updatedCount: number;
+  skippedCount: number;
+  items: StagingRowListItem[];
+  errors: StagingBatchReviewError[];
+};
+
+export type StagingReviewAudit = {
+  reviewedBy: string;
+  reviewedByUserId: string;
+  reviewedAt?: Date;
+  reviewNote?: string;
+};
+
+export class Gb2760StagingReviewError extends Error {
+  constructor(
+    public readonly code: 'invalid_promotion_candidate' | 'locked_review_status' | 'invalid_ingredient_id',
+    message: string,
+    public readonly reasons: string[] = []
+  ) {
+    super(message);
+  }
+}
+
 export type Gb2760Service = {
   listImportRuns(params: ImportRunListParams): Promise<ImportRunListResult>;
   getImportRunErrors(importRunId: string): Promise<ImportRunErrorsResult | null>;
   listReferenceRows(params: ReferenceRowListParams): Promise<ReferenceRowListResult>;
+  listStagingRows(params: StagingRowListParams): Promise<StagingRowListResult>;
+  updateStagingRowReviewStatus(id: string, reviewStatus: EditableGb2760StagingReviewStatus, audit: StagingReviewAudit): Promise<StagingRowListItem | null>;
+  updateStagingRowsReviewStatus(ids: string[], reviewStatus: EditableGb2760StagingReviewStatus, audit: StagingReviewAudit): Promise<StagingBatchReviewResult>;
+  updateStagingRowMapping(id: string, ingredientId: string, reviewStatus: EditableGb2760StagingReviewStatus, audit: StagingReviewAudit): Promise<StagingRowListItem | null>;
 };
 
 let defaultClient: DatabaseClient | null = null;
@@ -111,6 +177,18 @@ export function createGb2760Service(db: Database): Gb2760Service {
     },
     async listReferenceRows(params) {
       return listReferenceRows(db, params);
+    },
+    async listStagingRows(params) {
+      return listStagingRows(db, params);
+    },
+    async updateStagingRowReviewStatus(id, reviewStatus, audit) {
+      return updateStagingRowReviewStatus(db, id, reviewStatus, audit);
+    },
+    async updateStagingRowsReviewStatus(ids, reviewStatus, audit) {
+      return updateStagingRowsReviewStatus(db, ids, reviewStatus, audit);
+    },
+    async updateStagingRowMapping(id, ingredientId, reviewStatus, audit) {
+      return updateStagingRowMapping(db, id, ingredientId, reviewStatus, audit);
     }
   };
 }
@@ -146,6 +224,18 @@ export function createLazyGb2760Service(databaseUrl?: string): Gb2760Service {
     },
     listReferenceRows(params) {
       return getLazyService().listReferenceRows(params);
+    },
+    listStagingRows(params) {
+      return getLazyService().listStagingRows(params);
+    },
+    updateStagingRowReviewStatus(id, reviewStatus, audit) {
+      return getLazyService().updateStagingRowReviewStatus(id, reviewStatus, audit);
+    },
+    updateStagingRowsReviewStatus(ids, reviewStatus, audit) {
+      return getLazyService().updateStagingRowsReviewStatus(ids, reviewStatus, audit);
+    },
+    updateStagingRowMapping(id, ingredientId, reviewStatus, audit) {
+      return getLazyService().updateStagingRowMapping(id, ingredientId, reviewStatus, audit);
     }
   };
 }
@@ -345,6 +435,256 @@ export async function listReferenceRows(db: Database, params: ReferenceRowListPa
   };
 }
 
+export async function listStagingRows(db: Database, params: StagingRowListParams): Promise<StagingRowListResult> {
+  const page = normalizePositiveInteger(params.page, 'page');
+  const limit = Math.min(normalizePositiveInteger(params.limit, 'limit'), 100);
+  const offset = (page - 1) * limit;
+  const where = buildStagingRowsWhere(params);
+  const [statusCounts, ingredientIds] = await Promise.all([
+    getStagingReviewStatusCounts(db),
+    getIngredientIds(db)
+  ]);
+
+  if (params.readyOnly) {
+    const rows = await db
+      .select()
+      .from(gb2760OfficialRecords)
+      .where(where)
+      .orderBy(...buildStagingRowsOrderBy());
+    const readyRows = rows
+      .map((row) => formatStagingRowListItem(row, ingredientIds))
+      .filter(isGb2760StagingRowReviewReady);
+
+    return {
+      items: readyRows.slice(offset, offset + limit),
+      page,
+      limit,
+      total: readyRows.length,
+      totalPages: Math.max(1, Math.ceil(readyRows.length / limit)),
+      statusCounts
+    };
+  }
+
+  const [{ total }] = await db
+    .select({ total: count() })
+    .from(gb2760OfficialRecords)
+    .where(where);
+  const rows = await db
+    .select()
+    .from(gb2760OfficialRecords)
+    .where(where)
+    .orderBy(...buildStagingRowsOrderBy())
+    .limit(limit)
+    .offset(offset);
+
+  return {
+    items: rows.map((row) => formatStagingRowListItem(row, ingredientIds)),
+    page,
+    limit,
+    total,
+    totalPages: Math.max(1, Math.ceil(total / limit)),
+    statusCounts
+  };
+}
+
+export async function updateStagingRowReviewStatus(
+  db: Database,
+  id: string,
+  reviewStatus: EditableGb2760StagingReviewStatus,
+  audit: StagingReviewAudit
+): Promise<StagingRowListItem | null> {
+  const [row] = await db
+    .select()
+    .from(gb2760OfficialRecords)
+    .where(eq(gb2760OfficialRecords.id, normalizeRequiredText(id, 'staging row id')))
+    .limit(1);
+  if (!row) return null;
+  if (row.reviewStatus === 'promoted' || row.reviewStatus === 'verified') {
+    throw new Gb2760StagingReviewError(
+      'locked_review_status',
+      `Cannot edit ${row.reviewStatus} staging rows`,
+      [`current status is ${row.reviewStatus}`]
+    );
+  }
+
+  const ingredientIds = await getIngredientIds(db);
+  if (reviewStatus === 'approved') {
+    const promotionIssues = validatePromotionCandidate(row, ingredientIds);
+    if (promotionIssues.length > 0) {
+      throw new Gb2760StagingReviewError(
+        'invalid_promotion_candidate',
+        'Cannot approve a GB 2760 staging row that is not promotable',
+        promotionIssues
+      );
+    }
+  }
+
+  const [updated] = await db
+    .update(gb2760OfficialRecords)
+    .set({
+      reviewStatus,
+      ...toStagingReviewAuditPatch(reviewStatus, audit)
+    })
+    .where(eq(gb2760OfficialRecords.id, row.id))
+    .returning();
+
+  return formatStagingRowListItem(updated, ingredientIds);
+}
+
+export async function updateStagingRowsReviewStatus(
+  db: Database,
+  ids: string[],
+  reviewStatus: EditableGb2760StagingReviewStatus,
+  audit: StagingReviewAudit
+): Promise<StagingBatchReviewResult> {
+  const normalizedIds = [...new Set(ids.map((id) => normalizeOptionalText(id)).filter(Boolean))];
+  const ingredientIds = await getIngredientIds(db);
+  if (normalizedIds.length === 0) {
+    return {
+      requestedCount: 0,
+      updatedCount: 0,
+      skippedCount: 0,
+      items: [],
+      errors: []
+    };
+  }
+
+  const rows = await db
+    .select()
+    .from(gb2760OfficialRecords)
+    .where(inArray(gb2760OfficialRecords.id, normalizedIds));
+  const rowById = new Map(rows.map((row) => [row.id, row]));
+  const errors: StagingBatchReviewError[] = [];
+  const updateIds: string[] = [];
+
+  for (const id of normalizedIds) {
+    const row = rowById.get(id);
+    if (!row) {
+      errors.push({ id, code: 'not_found', reasons: ['row not found'] });
+      continue;
+    }
+
+    if (row.reviewStatus === 'promoted' || row.reviewStatus === 'verified') {
+      errors.push({ id, code: 'locked_review_status', reasons: [`current status is ${row.reviewStatus}`] });
+      continue;
+    }
+
+    if (reviewStatus === 'approved') {
+      const promotionIssues = validatePromotionCandidate(row, ingredientIds);
+      if (promotionIssues.length > 0) {
+        errors.push({ id, code: 'invalid_promotion_candidate', reasons: promotionIssues });
+        continue;
+      }
+    }
+
+    updateIds.push(id);
+  }
+
+  let updatedRows: Gb2760OfficialRecordRow[] = [];
+  if (updateIds.length > 0) {
+    const auditPatch = toStagingReviewAuditPatch(reviewStatus, audit);
+    updatedRows = await db.transaction(async (tx) => tx
+      .update(gb2760OfficialRecords)
+      .set({
+        reviewStatus,
+        ...auditPatch
+      })
+      .where(inArray(gb2760OfficialRecords.id, updateIds))
+      .returning());
+  }
+
+  return {
+    requestedCount: normalizedIds.length,
+    updatedCount: updatedRows.length,
+    skippedCount: errors.length,
+    items: updatedRows.map((row) => formatStagingRowListItem(row, ingredientIds)),
+    errors
+  };
+}
+
+export async function updateStagingRowMapping(
+  db: Database,
+  id: string,
+  ingredientId: string,
+  reviewStatus: EditableGb2760StagingReviewStatus,
+  audit: StagingReviewAudit
+): Promise<StagingRowListItem | null> {
+  const normalizedId = normalizeRequiredText(id, 'staging row id');
+  const normalizedIngredientId = normalizeRequiredText(ingredientId, 'ingredient id');
+  const [row] = await db
+    .select()
+    .from(gb2760OfficialRecords)
+    .where(eq(gb2760OfficialRecords.id, normalizedId))
+    .limit(1);
+  if (!row) return null;
+  if (row.reviewStatus === 'promoted' || row.reviewStatus === 'verified') {
+    throw new Gb2760StagingReviewError(
+      'locked_review_status',
+      `Cannot edit ${row.reviewStatus} staging rows`,
+      [`current status is ${row.reviewStatus}`]
+    );
+  }
+
+  const ingredientIds = await getIngredientIds(db);
+  if (!ingredientIds.has(normalizedIngredientId)) {
+    throw new Gb2760StagingReviewError(
+      'invalid_ingredient_id',
+      'Cannot map GB 2760 staging row to an unknown ingredient',
+      [`ingredientId ${normalizedIngredientId} does not exist`]
+    );
+  }
+
+  const mappedRow = {
+    ...row,
+    ingredientId: normalizedIngredientId,
+    reviewStatus
+  };
+  if (reviewStatus === 'approved') {
+    const promotionIssues = validatePromotionCandidate(mappedRow, ingredientIds);
+    if (promotionIssues.length > 0) {
+      throw new Gb2760StagingReviewError(
+        'invalid_promotion_candidate',
+        'Cannot approve a GB 2760 staging row that is not promotable',
+        promotionIssues
+      );
+    }
+  }
+
+  const [updated] = await db
+    .update(gb2760OfficialRecords)
+    .set({
+      ingredientId: normalizedIngredientId,
+      reviewStatus,
+      ...toStagingReviewAuditPatch(reviewStatus, {
+        ...audit,
+        reviewNote: audit.reviewNote || `Mapped ingredientId ${normalizedIngredientId} and set review status to ${reviewStatus}`
+      })
+    })
+    .where(eq(gb2760OfficialRecords.id, row.id))
+    .returning();
+
+  return formatStagingRowListItem(updated, ingredientIds);
+}
+
+export function isGb2760StagingRowReviewReady(row: { reviewStatus: string; promotionIssues: string[] }) {
+  return row.promotionIssues.length === 0
+    && row.reviewStatus !== 'promoted'
+    && row.reviewStatus !== 'verified';
+}
+
+function toStagingReviewAuditPatch(reviewStatus: EditableGb2760StagingReviewStatus, audit: StagingReviewAudit) {
+  const reviewedAt = audit.reviewedAt ?? new Date();
+  const reviewedBy = normalizeRequiredText(audit.reviewedBy, 'reviewed by');
+  const reviewedByUserId = normalizeRequiredText(audit.reviewedByUserId, 'reviewed by user id');
+  return {
+    reviewedBy,
+    reviewedByUserId,
+    reviewedAt,
+    reviewNote: normalizeOptionalText(audit.reviewNote) || `Set GB 2760 staging review status to ${reviewStatus}`,
+    syncedAt: reviewedAt
+  };
+}
+
 function formatImportRunListItem(row: { run: ImportRunRow; sourceDocument: SourceDocumentRow | null }): ImportRunListItem {
   return {
     ...row.run,
@@ -360,6 +700,44 @@ function formatImportRunListItem(row: { run: ImportRunRow; sourceDocument: Sourc
   };
 }
 
+function formatStagingRowListItem(row: Gb2760OfficialRecordRow, ingredientIds: ReadonlySet<string>): StagingRowListItem {
+  return {
+    ...row,
+    promotionIssues: validatePromotionCandidate(row, ingredientIds)
+  };
+}
+
+async function getStagingReviewStatusCounts(db: Database): Promise<StagingReviewStatusCount[]> {
+  return db
+    .select({
+      reviewStatus: gb2760OfficialRecords.reviewStatus,
+      count: count()
+    })
+    .from(gb2760OfficialRecords)
+    .groupBy(gb2760OfficialRecords.reviewStatus)
+    .orderBy(asc(gb2760OfficialRecords.reviewStatus));
+}
+
+async function getIngredientIds(db: Database): Promise<ReadonlySet<string>> {
+  const rows = await db.select({ id: ingredients.id }).from(ingredients);
+  return new Set(rows.map((row) => row.id));
+}
+
+function buildStagingRowsOrderBy() {
+  return [
+    sql`case ${gb2760OfficialRecords.reviewStatus}
+      when 'pending_review' then 0
+      when 'mapped_candidate' then 1
+      when 'approved' then 2
+      when 'promoted' then 3
+      else 4
+    end`,
+    asc(gb2760OfficialRecords.additiveNameCn),
+    asc(gb2760OfficialRecords.foodCategoryCode),
+    asc(gb2760OfficialRecords.id)
+  ];
+}
+
 function buildReferenceRowsWhere(params: ReferenceRowListParams): SQL | undefined {
   const filters: SQL[] = [];
   if (params.tableName) {
@@ -373,6 +751,29 @@ function buildReferenceRowsWhere(params: ReferenceRowListParams): SQL | undefine
       OR ${gb2760OfficialReferenceRows.rawSourceText} ILIKE ${pattern} ESCAPE '\\'
       OR ${gb2760OfficialReferenceRows.rowData}::text ILIKE ${pattern} ESCAPE '\\'
     )`);
+  }
+
+  return filters.length > 0 ? and(...filters) : undefined;
+}
+
+function buildStagingRowsWhere(params: StagingRowListParams): SQL | undefined {
+  const filters: SQL[] = [];
+  if (params.reviewStatus) {
+    filters.push(eq(gb2760OfficialRecords.reviewStatus, params.reviewStatus));
+  }
+  if (params.q) {
+    const pattern = `%${escapeLikePattern(params.q)}%`;
+    filters.push(or(
+      sql`${gb2760OfficialRecords.id} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.additiveNameCn} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.additiveNameEn} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.cnsNumber} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.insNumber} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.functionText} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.foodCategoryCode} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.foodCategoryName} ILIKE ${pattern} ESCAPE '\\'`,
+      sql`${gb2760OfficialRecords.rawSourceText} ILIKE ${pattern} ESCAPE '\\'`
+    ) as SQL);
   }
 
   return filters.length > 0 ? and(...filters) : undefined;

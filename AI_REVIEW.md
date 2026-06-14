@@ -10,6 +10,8 @@
 - 完成 Batch 1-A：新增 GB2760 导入审计骨架，记录官方来源文档、导入批次和错误明细，并提供只读查询接口。
 - 完成 Batch 1-C：新增 `additive_usage_rules` 和 `promote:gb2760`，只允许人工签核且字段齐全的 staging 行进入正式规则表；成功 promote 会同步更新对应 `ingredients` 行的 GB2760 可见字段；空签核场景 0 promoted。
 - 完成 Batch 1-D：新增 `validate:gb2760` 数据准入校验命令，校验正式规则表、staging 状态、JECFA 边界、最新导入批次和 CI 数据链路。
+- 完成 GB2760 复核闭环：新增自动映射脚本，人工批量签核剩余 staging 行后 promote 到正式规则表。
+- 本地 review 后补强内部复核写接口：GB2760 staging 签核/映射写操作需要内部 reviewer allowlist，并写入签核人、签核时间和备注审计字段。
 
 ## 修改文件
 
@@ -22,18 +24,20 @@
 | `backend/src/db/schema.ts` | 更新 | 新增 `source_documents` / `import_runs` / `import_errors` / `additive_usage_rules` 表定义、约束、索引和类型 |
 | `backend/src/db/migrations/0012_breezy_franklin_richards.sql` | 新增 | 创建 GB2760 导入审计三表和索引 |
 | `backend/src/db/migrations/0013_productive_crusher_hogan.sql` | 新增 | 创建 `additive_usage_rules` 表、`ingredient_id` 外键、`sourceStagingId` 唯一约束、索引和 `verified_regulation` check |
-| `backend/src/db/migrations/meta/0012_snapshot.json`、`meta/0013_snapshot.json`、`meta/_journal.json` | 更新 | Drizzle 迁移快照同步 |
-| `backend/src/services/gb2760Service.ts` | 新增 | 封装来源文档、导入批次、错误记录的 mapper/upsert/query 服务 |
+| `backend/src/db/migrations/0016_large_moonstone.sql` | 新增 | 为 `gb2760_official_records` 增加 `reviewedBy` / `reviewedByUserId` / `reviewedAt` / `reviewNote` 审计字段，并对既有已复核状态回填 legacy 审计说明 |
+| `backend/src/db/migrations/meta/0012_snapshot.json`、`meta/0013_snapshot.json`、`meta/0016_snapshot.json`、`meta/_journal.json` | 更新 | Drizzle 迁移快照同步 |
+| `backend/src/services/gb2760Service.ts` | 新增/更新 | 封装来源文档、导入批次、错误记录的 mapper/upsert/query 服务；staging 签核、批量签核和映射修正写入 reviewer 审计字段 |
 | `backend/src/services/gb2760PromoteService.ts` | 新增 | 封装 promote 准入校验、`additive_usage_rules` upsert、`ingredients` 法规可见字段同步、`reviewStatus` 更新和空签核统计 |
-| `backend/src/routes/gb2760.ts` | 新增 | 新增需登录鉴权的 `GET /api/gb2760/import-runs` 和 `GET /api/gb2760/import-runs/:id/errors` |
-| `backend/src/app.ts` | 更新 | 挂载 GB2760 只读审计路由并支持测试注入 service |
+| `backend/src/routes/gb2760.ts` | 新增/更新 | 新增需登录鉴权的 GB2760 查询接口；签核、批量签核和映射写接口额外要求 `GB2760_INTERNAL_REVIEWERS` allowlist |
+| `backend/src/app.ts`、`backend/src/config.ts` | 更新 | 挂载 GB2760 路由，支持测试注入 service，并读取内部 reviewer allowlist |
 | `backend/scripts/seed.ts` | 更新 | `db:seed` 先登记 GB2760 source document，再为 A.1 staging、全文页、参考表写入 import run；失败时写批次级 import error 并抛错 |
 | `backend/scripts/promote-gb2760.ts` | 新增 | 后端 `promote:gb2760` CLI：运行 promote、写入 promote import run、记录已签核缺字段错误 |
+| `backend/scripts/auto-map-gb2760-ingredients.ts` | 新增/更新 | 从未映射 GB2760 staging 行自动创建缺失成分身份并回填 `ingredientId`，状态置为 `mapped_candidate`，不自动签核；生成成分使用规范 `food-additive` kind，并幂等修复旧值 |
 | `backend/src/services/gb2760ValidateService.ts` | 新增 | 封装 `validate:gb2760` 准入校验：正式规则表、staging 状态、JECFA 边界、最新 import run |
 | `backend/scripts/validate-gb2760.ts` | 新增 | 后端 `validate:gb2760` CLI：读取 DB、输出报告、违规退出非 0 |
-| `backend/package.json`、`package.json` | 更新 | 新增 backend 与根目录 `validate:gb2760` 脚本 |
+| `backend/package.json`、`package.json` | 更新 | 新增 backend 与根目录 `validate:gb2760`、`map:gb2760`、`promote:gb2760` 脚本 |
 | `.github/workflows/ci.yml` | 更新 | CI 增加 Postgres service，执行 backend `db:migrate` / `db:seed` / `validate:gb2760` |
-| `backend/tests/gb2760.test.ts` | 新增 | 覆盖导入审计路由、分页校验、404、source/run/error mapper，以及 promote / validate 准入 helper |
+| `backend/tests/gb2760.test.ts` | 新增/更新 | 覆盖导入审计路由、分页校验、404、source/run/error mapper、内部 reviewer 403、签核审计参数，以及 promote / validate 准入 helper |
 | `backend/tests/ingredients.test.ts` | 更新 | 验证 GB2760 mapper 入库时把 `needs_review` 规范为 `pending_review` |
 | `CODEX_TASKS.md` | 重构 | 重排为项目主路径 / 自动化规则 / 人工阻塞规则 / 任务状态定义 / 阶段 1-11；新增 GB2760 staging→promote→pending_review→validate 流程（Batch 1-A/1-C/1-D/1-E）、OCR Provider 抽象重构（3-B）、产品体验阶段（UX-A~UX-E）；保留已完成项并标记完成；附录保留 GB2760 导入历史 |
 | `PROJECT_PLAN.md` | 重写 | 产品定位、最高优先级、真实进度（M1-M11）、已完成、未完成、人工阻塞、下一步、7 天执行计划、阶段验收标准 |
@@ -41,6 +45,7 @@
 | `AGENTS.md` | 新建 | 编码 Agent 强制规范：主路径、五条红线、执行流程、阻塞跳过、技术栈约束、验收、体验要求、输出格式 |
 | `COMMANDS.md` | 更新 | 新增 GB2760 审计 API 验收，明确 `import:gb2760:status` 只有 API 已实现、CLI 仍为计划，不伪造 npm 命令 |
 | `DATA_SOURCES.md` | 更新 | 硬性规则补充 staging/verified 区别、`pending_review` 不能当权威、持续扩充；新增导入审计层和当前审计计数 |
+| `src/pages/gb2760ReviewPage.js`、`src/services/gb2760ApiService.js`、`src/router/router.js`、`src/main.js`、`src/styles.css` | 新增/更新 | 新增内部 GB2760 复核页、每页条数、ready 筛选、单条/批量签核和映射 API 客户端 |
 | `AI_REVIEW.md` | 覆盖 | 本文件 |
 
 ## 核心调整
@@ -51,14 +56,16 @@
 4. GB2760 导入流程明确为 staging 全量承接 → 高置信 promote 正式库 → 低置信 `pending_review` → 人工复核；已实现命令和计划命令在 `COMMANDS.md` 分开标注。
 5. `README.md` 大小写冲突已规避，产品入口保留在已跟踪的 `readme.md`，`AGENTS.md` 链接同步指向 `readme.md`。
 6. Batch 1-A 已落地：`source_documents` 1 条 GB2760 官方来源记录；最近一次 `db:seed` 写入三条稳定成功 `import_runs`（A.1 staging 2404、全文 264、参考表 2800）且 `import_errors` 为 0；查询接口只读且需要登录鉴权，不改变原有 `gb2760_official_*` 数据事实。
-7. Batch 1-C 已落地：`additive_usage_rules` 表已创建；`promote:gb2760` 只处理 DB staging 中 `approved` / `promoted` 行，成功 promote 同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`；空签核场景为 `approved=0`、`promoted=0`、`pending_review=2391`、`already_verified=13`，不会把历史 `verified` staging 行自动写入新规则表。
-8. Batch 1-D 已落地：`validate:gb2760` 在当前空签核 DB 上通过，报告 `staging=2404`、`pending_review=2391`、`legacy_verified=13`、`additive_usage_rules=0`、`import_errors=0`，并已接入 CI。
+7. Batch 1-C 已落地：`additive_usage_rules` 表已创建；`promote:gb2760` 只处理 DB staging 中 `approved` / `promoted` 行，成功 promote 同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`；空签核场景已验证为 0 promoted，不会把历史 `verified` staging 行自动写入新规则表。
+8. Batch 1-D 已落地：`validate:gb2760` 当前 DB 通过，报告 `staging=2404`、`pending_review=0`、`promoted=2391`、`legacy_verified=13`、`additive_usage_rules=2391`、`verified_regulation_ingredients=308`、`import_errors=0`，并已接入 CI。
+9. GB2760 复核闭环已落地：`map:gb2760` 自动创建 217 个缺失成分身份并回填 1447 条 staging 映射；人工在复核页批量签核后，`promote:gb2760` 成功 promote 2391 条正式规则，失败 0。
+10. 本地 review 后已补强三项风险：普通登录用户不能调用 GB2760 写接口、签核/映射写入 reviewer 审计字段、自动生成 ingredient kind 统一为 `food-additive`。
 
 ## 与现有代码核对（防止伪造状态）
 
 - 真实后端表：`ingredients`、`ingredient_sources`、`gb2760_official_records`、`gb2760_official_pages`、`gb2760_official_reference_rows`、`source_documents`、`import_runs`、`import_errors`、`additive_usage_rules`、`users`、`sessions`、`user_favorites`、`user_history`、`user_allergens`、`user_profile_ingredients`、`user_reports`、`product_archives`。
 - 真实后端路由：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。
-- 真实前端命令：`dev` / `build` / `preview` / `lint` / `test` / `validate:data` / `validate:gb2760` / `cap:*`；后端：`dev` / `build` / `db:generate` / `db:migrate` / `db:seed` / `promote:gb2760` / `validate:gb2760` / `typecheck` / `test`。
+- 真实前端命令：`dev` / `build` / `preview` / `lint` / `test` / `validate:data` / `validate:gb2760` / `map:gb2760` / `promote:gb2760` / `cap:*`；后端：`dev` / `build` / `db:generate` / `db:migrate` / `db:seed` / `map:gb2760` / `promote:gb2760` / `validate:gb2760` / `typecheck` / `test`。
 - 用户要求的 `promote:gb2760` / `validate:gb2760` 已存在；`import:gb2760` 仍不存在；`import:gb2760:status` 的查询能力已作为需登录 API `GET /api/gb2760/import-runs` 落地，但 npm CLI 包装仍不存在。
 - 已完成的 OCR/解析/报告/档案/登录/移动批次按真实页面与服务（`scanPage`/`ocrConfirmPage`/`ingredientMatchService`/`reportDetailPage`/`productArchiveService`/`authService` 等）标 ✅。
 
@@ -79,6 +86,8 @@ cd backend && npm run db:migrate
 cd backend && npm run db:seed
 cd backend && npm run promote:gb2760
 npm run validate:gb2760
+npm run map:gb2760
+npm run promote:gb2760
 cd backend && npm run typecheck
 cd backend && npm test
 node -e "<query source_documents/import_runs/import_errors counts>"
@@ -86,11 +95,12 @@ node -e "<query additive_usage_rules/review_status/import_errors counts>"
 codex review --uncommitted
 ```
 
-`validate:data` 输出 112 条食品记录、2404 行 GB2760 staging、2800 行 GB2760 reference rows；`validate:gb2760` 输出 `staging=2404 pending_review=2391 approved=0 promoted=0 legacy_verified=13 mapped_candidate=0 additive_usage_rules=0 verified_regulation_ingredients=5 import_errors=0`；`lint`、`test`、`build`、`git diff --check` 和官方 PDF 重生成比对均通过。后端 `db:migrate` / `db:seed` / `promote:gb2760` / `validate:gb2760` / `typecheck` / `test` 通过，审计表查询结果为：`source_documents` 1 条、`import_runs` 三条 seed 成功记录 + 一条 promote 成功记录、`import_errors` 0；promote 空签核结果为 `additive_usage_rules=0`、DB staging `pending_review=2391`、历史 `verified=13`。本地 self-review 发现的 `README.md`/`readme.md` 大小写冲突、本文件范围说明不准确、C.2 加工助剂英文紧缩、B.2 N127 拉丁名紧缩、C.3 row 33 紧缩和植物学缩写缺空格问题已修复。
+`validate:data` 输出 112 条源文件食品记录、2404 行源文件 GB2760 staging、2800 行 GB2760 reference rows；`validate:gb2760` 当前 DB 输出 `staging=2404 pending_review=0 approved=0 promoted=2391 legacy_verified=13 mapped_candidate=0 additive_usage_rules=2391 verified_regulation_ingredients=308 import_errors=0`；`lint`、`build`、后端 `typecheck`、后端 `gb2760.test.ts` 通过。后端 `map:gb2760` 创建 217 个缺失成分身份并回填 1447 条 staging 映射；人工批量签核后 `promote:gb2760` 输出 `status=succeeded scanned=2404 approved=2391 promoted=2391 failed=0 pending_review=0 already_verified=13`。
 
 ## 风险点与后续人工确认
 
 - 源文件中的 `needs_review` 未做大规模 churn；后端入库 mapper 已统一为 DB `pending_review`。`db:seed` 只在行级法规字段指纹不变时保留既有人工 `mapped_candidate` / `approved` / `promoted` 状态；抽取内容变化会降回待复核，避免旧签核覆盖新限量或新原文证据。`validate:gb2760` 当前校验 DB 口径；源文件口径仍由 `validate:data` 校验。
-- `additive_usage_rules` 已存在但当前为空；这代表尚无人工签核行进入正式规则表，不代表 GB2760 无使用规则。
-- GB2760 高置信 staging 行的实际 promote verified 增量需要人工复核签核（`blocked_by_user`）；当前脚本已在空签核场景跑通。
+- `validate:data` 的 GB2760 staging 计数来自源文件静态抽取口径，仍会显示源文件 `needs_review`；当前发布准入状态以 DB 口径 `validate:gb2760` 为准。
+- `additive_usage_rules` 当前已有 2391 行正式规则；后续若重新 seed 且行级法规字段指纹不变，会保留 DB 中的人工状态。
+- GB2760 后续新增或变更 staging 行仍需要人工复核签核；本轮 2391 条 A.1 staging 已完成。
 - 真实 OCR / AI 接入、生产数据库、跨设备验收、上架仍为人工阻塞项。

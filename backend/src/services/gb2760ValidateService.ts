@@ -107,6 +107,10 @@ export function validateGb2760State(input: Gb2760ValidationInput): Gb2760Validat
         addIssue(issues, 'invalid_promote_candidate', row.id, `Approved/promoted staging row cannot enter the formal rule table: ${reason}`);
       }
     }
+
+    if (requiresStagingReviewAudit(row) && !hasStagingReviewAudit(row)) {
+      addIssue(issues, 'missing_staging_review_audit', row.id, 'Reviewed GB 2760 staging rows must preserve reviewedBy, reviewedAt, and reviewNote');
+    }
   }
 
   for (const rule of input.usageRules) {
@@ -182,6 +186,19 @@ export function validateGb2760State(input: Gb2760ValidationInput): Gb2760Validat
     importErrorRows: (input.importErrorRows || []).length,
     issues
   };
+}
+
+function requiresStagingReviewAudit(row: Gb2760OfficialRecordRow) {
+  return row.reviewStatus === 'mapped_candidate'
+    || row.reviewStatus === 'approved'
+    || row.reviewStatus === 'promoted'
+    || row.reviewStatus === 'verified';
+}
+
+function hasStagingReviewAudit(row: Gb2760OfficialRecordRow) {
+  return Boolean(String(row.reviewedBy || '').trim())
+    && Boolean(row.reviewedAt)
+    && Boolean(String(row.reviewNote || '').trim());
 }
 
 function validateUsageRule(

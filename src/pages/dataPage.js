@@ -74,6 +74,11 @@ export function renderDataPage(category = 'food', filters = {}) {
         <h1>数据来源与审核状态</h1>
         <p class="lead">查看当前本地成分库的来源覆盖、审核状态、版本和仍需补齐的正式上线缺口。</p>
       </div>
+      ${category === 'food' ? html`
+        <div class="form-actions">
+          <a class="button-link secondary-link" href="#${categoryPath('food', '/gb2760-review')}" data-route>打开 GB 2760 复核工作台</a>
+        </div>
+      ` : ''}
     </section>
 
     <section class="section data-filter-panel">

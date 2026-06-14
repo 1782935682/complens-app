@@ -18,6 +18,8 @@
 
 OCR 真实供应商调用仍未接入。后端 `OCR_API_KEY` 未配置时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
 
+GB2760 内部复核写接口需要登录且账号在后端 allowlist 内。开发/部署时用 `GB2760_INTERNAL_REVIEWERS` 配置逗号分隔的内部邮箱或用户 ID；未配置时，`PUT /api/gb2760/staging-rows/*` 会对普通登录账号返回 `403 forbidden`，只读查询仍只要求登录。
+
 ## 本地存储调试 Key
 
 `compcheck:api-base-url` 仅用于本地或测试环境覆盖后端 API 地址，例如把前端指向独立运行的后端服务。该 key 不保存用户数据、不参与过敏原/收藏/历史/报告同步，也不得复用为业务数据存储 key。清空该 key 后，前端会回到默认同源 `/api`。
@@ -183,11 +185,10 @@ curl -H "Authorization: Bearer <token>" "http://127.0.0.1:3000/api/gb2760/import
 GB2760 正式库准入 promote（后端命令，Batch 1-C 已实现）：
 
 ```bash
-cd backend
 npm run promote:gb2760
 ```
 
-`promote:gb2760` 只处理 DB staging 中已经人工标记为 `approved` 或已 `promoted` 的行。字段不完整的已签核行会记录到 `import_errors` 并使命令失败；未签核行保持 `pending_review`，不会写入正式规则表。成功 promote 会同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`，让既有成分详情 / 搜索 API 可见。当前空签核场景输出 `scanned=2404 approved=0 promoted=0 failed=0 pending_review=2391 already_verified=13`，`additive_usage_rules` 仍为 0 行，表示没有伪造 verified 增量。
+`promote:gb2760` 只处理 DB staging 中已经人工标记为 `approved` 或已 `promoted` 的行。字段不完整的已签核行会记录到 `import_errors` 并使命令失败；未签核行保持 `pending_review`，不会写入正式规则表。成功 promote 会同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`，让既有成分详情 / 搜索 API 可见。本轮人工签核后输出 `scanned=2404 approved=2391 promoted=2391 failed=0 pending_review=0 already_verified=13`，`additive_usage_rules=2391`。
 
 默认 PostgreSQL 宿主端口为 `15432`，避免和本机已有 `5432` 冲突；如需调整，可在 `backend/.env` 设置 `POSTGRES_PORT` 并同步宿主机使用的 `DATABASE_URL`。
 
@@ -367,18 +368,19 @@ npm run validate:data
 | `import:gb2760` | 从官方 PDF 全量承接到 staging（封装现有生成脚本 + 导入审计） | Batch 1-A/1-B | 计划，未实现 |
 | `import:gb2760:resume` | 断点续跑 staging 导入 | Batch 1-A/1-B | 计划，未实现 |
 | `import:gb2760:status` | 查询导入批次状态（`import_runs` / `import_errors`） | Batch 1-A | CLI 计划，需登录 API 已实现：`GET /api/gb2760/import-runs` |
-| `promote:gb2760` | 把已人工签核且满足正式库准入规则的 staging 行 promote 到 `additive_usage_rules` 并同步更新 `ingredients` 可见法规字段；低置信保持 pending_review | Batch 1-C | 已实现：`cd backend && npm run promote:gb2760`；当前 0 promoted |
+| `map:gb2760` | 为未映射 GB2760 staging 行自动创建缺失成分身份并回填 `ingredientId`，状态置为 `mapped_candidate`，不自动签核 | Batch 1-F | 已实现：`npm run map:gb2760`；本轮创建 217 个成分身份、映射 1447 行 |
+| `promote:gb2760` | 把已人工签核且满足正式库准入规则的 staging 行 promote 到 `additive_usage_rules` 并同步更新 `ingredients` 可见法规字段；低置信保持 pending_review | Batch 1-C | 已实现：`npm run promote:gb2760`；当前 2391 promoted |
 | `validate:gb2760` | 强制执行正式库准入规则与禁止事项，违规报错退出 | Batch 1-D | 已实现：`npm run validate:gb2760`；CI 已接入 |
 
 后续 CLI 预期形态（占位，待导入状态 CLI 包装落地）：
 
 ```bash
-# 后端（backend/package.json）：import:gb2760:status 仍为计划；promote:gb2760 / validate:gb2760 已实现
+# 后端（backend/package.json）：import:gb2760:status 仍为计划；map:gb2760 / promote:gb2760 / validate:gb2760 已实现
 cd backend
 npm run import:gb2760:status
 ```
 
-当前可用的 GB2760 数据生成、入库、准入与校验流程是：`node scripts/generate-gb2760-fulltext.mjs` / `generate-gb2760-a1-staging.mjs` / `generate-gb2760-reference-tables.mjs` → `cd backend && npm run db:seed` → 人工签核 DB staging 行 → `cd backend && npm run promote:gb2760` → `npm run validate:gb2760`。没有人工签核时 promote 会成功退出但写入 0 条正式规则；validate 会报告空签核状态并通过。
+当前可用的 GB2760 数据生成、入库、准入与校验流程是：`node scripts/generate-gb2760-fulltext.mjs` / `generate-gb2760-a1-staging.mjs` / `generate-gb2760-reference-tables.mjs` → `cd backend && npm run db:seed` → `npm run map:gb2760`（仅补映射，不自动签核）→ 人工签核 DB staging 行 → `npm run promote:gb2760` → `npm run validate:gb2760`。没有人工签核时 promote 会成功退出但写入 0 条正式规则；validate 会报告空签核状态并通过。
 
 ## 文档与差异检查
 

@@ -8,6 +8,7 @@ export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as 
 export const validDataStatuses = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'] as const;
 export const validSearchSorts = ['relevance', 'risk', 'name'] as const;
 export const gb2760ManualReviewStatuses = ['mapped_candidate', 'approved', 'promoted'] as const;
+const gb2760SourceReviewedStatuses = ['mapped_candidate', 'approved', 'promoted', 'verified'] as const;
 const gb2760ReviewFingerprintFields = [
   'tableName',
   'additiveNameCn',
@@ -448,6 +449,8 @@ export function toIngredientSourceRows(additive: FoodAdditiveInput): NewIngredie
 }
 
 export function toGb2760OfficialRecordRow(record: Gb2760OfficialRecordInput): NewGb2760OfficialRecordRow {
+  const reviewStatus = normalizeGb2760ReviewStatus(record.reviewStatus);
+
   return {
     id: record.id,
     ingredientId: normalizeAuditText(record.ingredientId) || null,
@@ -478,7 +481,8 @@ export function toGb2760OfficialRecordRow(record: Gb2760OfficialRecordInput): Ne
     pdfSha256: record.pdfSha256,
     retrievedAt: record.retrievedAt,
     extractionStatus: record.extractionStatus,
-    reviewStatus: normalizeGb2760ReviewStatus(record.reviewStatus),
+    reviewStatus,
+    ...toGb2760SourceReviewAuditPatch(reviewStatus, record.retrievedAt),
     syncedAt: new Date()
   };
 }
@@ -909,6 +913,30 @@ export function normalizeGb2760ReviewStatus(value: string) {
   return value === 'needs_review' ? 'pending_review' : value;
 }
 
+function toGb2760SourceReviewAuditPatch(reviewStatus: string, retrievedAt: string) {
+  if (!gb2760SourceReviewedStatuses.includes(reviewStatus as typeof gb2760SourceReviewedStatuses[number])) {
+    return {};
+  }
+
+  const reviewedBy = reviewStatus === 'mapped_candidate'
+    ? 'legacy-gb2760-auto-map'
+    : reviewStatus === 'verified'
+      ? 'legacy-gb2760-seed'
+      : 'legacy-gb2760-review';
+  const reviewNote = reviewStatus === 'mapped_candidate'
+    ? 'Legacy GB 2760 staging mapping recorded before reviewer audit fields were added.'
+    : reviewStatus === 'verified'
+      ? 'Legacy verified GB 2760 seed row recorded before reviewer audit fields were added.'
+      : 'Legacy GB 2760 staging sign-off recorded before reviewer audit fields were added.';
+
+  return {
+    reviewedBy,
+    reviewedByUserId: reviewedBy,
+    reviewedAt: parseAuditDate(retrievedAt),
+    reviewNote
+  };
+}
+
 export function getGb2760OfficialRecordReviewFingerprint(row: Pick<Gb2760OfficialRecordRow, typeof gb2760ReviewFingerprintFields[number]> | Pick<NewGb2760OfficialRecordRow, typeof gb2760ReviewFingerprintFields[number]>) {
   return JSON.stringify(gb2760ReviewFingerprintFields.map((field) => [field, row[field] ?? null]));
 }
@@ -931,7 +959,11 @@ export function preserveGb2760ManualReviewState(incomingRow: NewGb2760OfficialRe
     ? {
         ...incoming,
         ingredientId: existingRow.ingredientId,
-        reviewStatus: existingStatus
+        reviewStatus: existingStatus,
+        reviewedBy: existingRow.reviewedBy,
+        reviewedByUserId: existingRow.reviewedByUserId,
+        reviewedAt: existingRow.reviewedAt,
+        reviewNote: existingRow.reviewNote
       }
     : incoming;
 }

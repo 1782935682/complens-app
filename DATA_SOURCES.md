@@ -21,15 +21,15 @@
 
 | dataStatus | 含义 | 当前数量 | 能否权威展示 | 当前说明 |
 |---|---:|---:|---|---|
-| `verified_regulation` | 已匹配 GB 2760 官方法规依据 | 5 | ✅ | 已从 GB 2760-2024 官方 PDF 表 A.1 导入条款级使用范围和限量 |
-| `verified_jecfa` | 已匹配 JECFA 安全评价依据 | 27 | ⚠️ 仅安全评价 | 仅代表 JECFA 条目和 ADI 摘要已匹配，不代表中国法规使用限制 |
-| `pending_review` | 已从官方来源抽取，字段/结构待复核 | 2391 DB staging 行 | ❌ | GB 2760 staging 行；源文件可保留 `needs_review`，后端入库统一为 `pending_review`，只代表原文/页码已入库，不是已核验结论 |
+| `verified_regulation` | 已匹配 GB 2760 官方法规依据 | DB 308 | ✅ | 本轮 GB 2760 A.1 staging 人工签核并 promote 后，正式法规成分覆盖已扩展到 308 个 ingredient |
+| `verified_jecfa` | 已匹配 JECFA 安全评价依据 | DB 1 / 源文件 27 | ⚠️ 仅安全评价 | 仅代表 JECFA 条目和 ADI 摘要已匹配，不代表中国法规使用限制；DB 中部分原 JECFA-only 成分已因 GB 2760 promote 升级为 `verified_regulation` |
+| `pending_review` | 已从官方来源抽取，字段/结构待复核 | DB 0 / 源文件 2391 | ❌ | GB 2760 源文件可保留 `needs_review`，后端入库与人工状态由 DB 管理；本轮 DB staging 已全部签核或历史 verified |
 | `mapped_candidate` | 疑似匹配，待确认 | 0 | ❌ | 当前用于运行时低置信匹配，不写入权威结论 |
 | `common_ingredient` | 常见普通食品配料 | 12 | ⚠️ 仅可读性 | 来自项目样例标签词库，不是法规或安全评价来源 |
-| `unverified` | 未验证 | 68 | ❌ | 原 100 条 seed 中尚未完成 JECFA/GB 2760 精确审核的添加剂 |
+| `unverified` | 未验证 | DB 8 / 源文件 68 | ❌ | 原 seed 中部分记录已因 GB 2760 promote 升级；源文件静态口径仍由 `validate:data` 校验 |
 | `unknown_from_ocr` | OCR 识别到但未收录 | 0 | ❌ | 运行时报表状态；不作为静态权威数据写入 |
 
-当前食品基础库合计 112 条：100 条食品添加剂 seed + 12 条常见普通食品配料词库。GB 2760 staging 与参考表行数另见下方"GB 2760 当前状态"。
+当前 DB 食品基础库合计 329 条：100 条食品添加剂 seed + 12 条常见普通食品配料词库 + 217 条 GB 2760 自动映射生成的添加剂身份。源文件静态 seed 仍为 112 条，`validate:data` 使用源文件口径；GB 2760 staging、正式规则和 promote 状态以 DB / `validate:gb2760` 为准。
 
 ## GB 2760 导入流程与正式库准入
 
@@ -43,13 +43,13 @@ GB 2760 官方 PDF
   → 后续人工复核签核后再 promote
 ```
 
-**正式库准入规则**（promote 时全部满足才允许，详见 `CODEX_TASKS.md` 阶段 1）：添加剂名称明确、CNS/INS 可解析或原文可追溯、功能类别明确、食品分类号或适用范围明确、最大使用量/残留量或"按生产需要适量使用"明确、备注完整保留、有 `rawSourceText`、有 `sourcePage`、有 `sourceTable`、有 `sourceHash`、DB staging 行已由人工标记为 `approved` 或已 `promoted`、无跨页错配/错行/漏备注。不满足的行只能留在 staging（`pending_review`）。
+**正式库准入规则**（promote 时全部满足才允许，详见 `CODEX_TASKS.md` 阶段 1）：添加剂名称明确、CNS/INS 可解析或原文可追溯、功能类别明确、食品分类号或适用范围明确、最大使用量/残留量或"按生产需要适量使用"明确、备注完整保留、有 `rawSourceText`、有 `sourcePage`、有 `sourceTable`、有 `sourceHash`、DB staging 行已由内部 reviewer 标记为 `approved` 或已 `promoted`、签核动作有 `reviewedBy` / `reviewedAt` / `reviewNote` 审计、无跨页错配/错行/漏备注。不满足的行只能留在 staging（`pending_review`）。
 
 **禁止事项**（`validate:gb2760` 强制）：不允许 AI 猜数据；不允许把 JECFA 反推 GB 2760 使用范围；不允许把 `pending_review` 当 `verified`；不允许丢失备注；不允许把"按生产需要适量使用"改写为数值；不允许伪造导入成功；不允许把样本 seed 当完整数据库。
 
 ## GB 2760 当前状态
 
-当前 5 条记录已从 GB 2760-2024 官方 PDF 表 A.1 导入条款级使用范围和最大使用量，并标记为 `verified_regulation` / `isVerified: true`：
+当前 DB 中 308 个 ingredient 已通过 GB 2760-2024 官方 PDF 表 A.1 staging 人工签核并 promote 为 `verified_regulation`；其中早期 5 条源文件 seed 已内置条款级使用范围：
 
 `citric-acid`、`sodium-citrate`、`xanthan-gum`、`calcium-carbonate`、`sodium-bicarbonate`。
 
@@ -57,19 +57,19 @@ GB 2760 官方 PDF
 
 - 导入审计层：后端表 `source_documents` 保存 GB2760 官方 PDF 文档登记（标准号、标题、平台记录 ID、附件 ID、PDF 文件名和 SHA-256）；`import_runs` 保存 `db:seed` 写入的 `a1_staging`、`fulltext`、`reference_tables` 批次、行数和状态；`import_errors` 保存失败批次的错误明细。该层只记录导入过程，不代表人工法规审核完成。
 - PDF 全文转换层：`src/data/gb2760OfficialFullText.js` 保存官方 PDF 全 264 页的 `pdftotext -layout` 逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段；后端表 `gb2760_official_pages` 可将全文页入库，确保不是只保存本地 PDF 文件。
-- 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取源文件保持 `needs_review`，后端入库统一为 `pending_review`，不得直接当作正式 `usageLimits`。`db:seed` 只会在行级法规字段指纹完全一致时保留 DB 中已有的 `mapped_candidate` / `approved` / `promoted` 人工状态；若限量、食品类别、备注、原文证据、页码或 PDF 来源等字段变化，必须重新回到待复核。
+- 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取源文件保持 `needs_review`，后端入库统一为 `pending_review`，不得直接当作正式 `usageLimits`。`db:seed` 只会在行级法规字段指纹完全一致时保留 DB 中已有的 `mapped_candidate` / `approved` / `promoted` 人工状态、`ingredientId` 和签核审计字段；若限量、食品类别、备注、原文证据、页码或 PDF 来源等字段变化，必须重新回到待复核。
 - 官方参考表结构化层：`src/data/gb2760OfficialReferenceTables.js` 和后端表 `gb2760_official_reference_rows` 保存表 A.2、B.1、B.2、B.3、C.1、C.2、C.3、附录 D、E.1 和附录 F 等非限量参考表；当前已结构化 2800 行，B.1 脚注 a 的香料例外和剂量条件已结构化到 `rowData.footnote`，用于解释 A.1 例外范围、食品用香料边界、加工助剂、功能类别、食品分类系统和附录 A 索引；源文件待复核行入库时统一为 `pending_review`。
-- 正式使用规则层：后端表 `additive_usage_rules` 已存在，作为人工签核后 promote 的正式“添加剂 × 食品类别 × 限量”目标表；成功 promote 会同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`，让既有成分详情 / 搜索 API 可见。当前 0 行，不能把空表解读为 GB2760 无使用规则，只表示尚无新签核行进入正式规则表。
+- 正式使用规则层：后端表 `additive_usage_rules` 已存在，作为人工签核后 promote 的正式“添加剂 × 食品类别 × 限量”目标表；成功 promote 会同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`，让既有成分详情 / 搜索 API 可见。当前 2391 行，覆盖 303 个 ingredient 的 A.1 使用规则。
 - 数据准入校验层：`npm run validate:gb2760` 已存在，读取后端 DB 并校验正式规则表、DB staging 状态、JECFA-only 边界、最新导入批次和 `import_errors`。该命令校验 DB 口径；源文件抽取质量仍由 `npm run validate:data` 覆盖。
 
-- 当前导入审计：`source_documents` 1 条（GB 2760-2024，PDF SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`）；最近一次 `db:seed` 写入三条成功 `import_runs`：A.1 staging 2404 行、PDF 全文 264 页、参考表 2800 行；最近一次空签核 `promote` 批次成功，`approved=0`、`promoted=0`；`import_errors` 0。
+- 当前导入审计：`source_documents` 1 条（GB 2760-2024，PDF SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`）；最近一次 `db:seed` 写入三条成功 `import_runs`：A.1 staging 2404 行、PDF 全文 264 页、参考表 2800 行；最近一次 `promote` 批次成功，`approved=2391`、`promoted=2391`、`failed=0`；`import_errors` 0。后续新签核会记录登录用户 email/id、时间和备注；迁移对既有已签核/已 promote 行回填 legacy 审计说明。
 - 当前全文页数：264 页，覆盖 GB 2760-2024 官方 PDF 全文。
-- 当前表 A.1 行级 staging 行数：2404 行，覆盖表 A.1 的 PDF 第 8-148 页（标准页 5-145）；其中 957 行已关联 91 个现有食品添加剂 ID，1447 行尚未匹配本地 ingredient。
+- 当前表 A.1 行级 staging 行数：2404 行，覆盖表 A.1 的 PDF 第 8-148 页（标准页 5-145）；其中 2391 行已人工签核并 `promoted`，13 行为历史 `verified`，缺失 `ingredientId` 为 0。
 - 当前参考表行数：2800 行，覆盖 PDF 第 149-264 页中的参考表区域：表 A.2=68、表 B.1=29、表 B.2=388、表 B.3=1504、表 C.1=37、表 C.2=80、表 C.3=66、附录 D=23、表 E.1=318、附录 F=287；保存例外食品类别、香料清单、加工助剂、酶制剂、功能类别、食品分类系统和附录 A 索引等结构化字段及原始行证据。
 - ingredient 自动关联只使用唯一中文名/别名匹配，或无名称匹配时的单一 INS 码精确匹配；INS 子码不折叠，多 INS、多盐类或多色淀组合默认保留空 `ingredientId`，等待人工归并。
 - 自动抽取脚本已加入标题续行、脚注过滤和已定位跨行食品分类校正，避免 `DATEM`、司盘类、吐温类等长标题截断，以及相邻食品分类文字串行；这些校正仍属于 staging 抽取质量控制，不代表人工审核完成。
 - 已与正式 `ingredients.usageLimits` 对齐的历史 verified staging 行：13 行，对应上述 5 条 `verified_regulation` 记录的食品类别/限量；`promote:gb2760` 会把这些行报告为 `already_verified`，但不会自动写入新 `additive_usage_rules` 表。
-- 待审核 DB staging 行：2391 行，来自官方 PDF 表 A.1 的行级抽取结果，状态为 `pending_review`；这些行只代表官方 PDF 原文、页码和限量已进入 staging，不代表正式成分详情已升级。
+- 待审核 DB staging 行：0 行。本轮 2391 行来自官方 PDF 表 A.1 的行级抽取结果已完成人工签核并 promote；后续若源字段指纹变化或新增行，仍必须重新进入 `pending_review` 并复核。
 - 100 条食品添加剂 seed 的 A.1 覆盖审计：91 条在官方 PDF 表 A.1 中找到可匹配条目并已进入 staging；9 条未找到可结构化的 A.1 证据，当前不强行编造 staging 行：`calcium-citrate`、`citral`、`ethyl-maltol`、`ethyl-vanillin`、`isomalt`、`konjac-gum`、`menthol`、`potassium-benzoate`、`vanillin`。
 - staging 表按“添加剂 × 食品类别 × 最大使用量/备注”逐行存储，保留 `pdfPage`、`standardPage`、`rawSourceText`、平台记录 ID、附件 ID 和 PDF SHA-256，供后续人工审核后再聚合进正式 `ingredients.usageLimits`。
 

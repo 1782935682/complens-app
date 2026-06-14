@@ -3,7 +3,7 @@ import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { recognizeImage } from './services/ocrService.js';
 import { fetchIngredientById, fetchIngredientSearch } from './services/ingredientApiService.js';
-import { fetchGb2760ReferenceRows } from './services/gb2760ApiService.js';
+import { batchUpdateGb2760StagingReviewStatus, fetchGb2760ReferenceRows, fetchGb2760StagingRows, updateGb2760StagingReviewStatus } from './services/gb2760ApiService.js';
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { addAvoidIngredient, addWatchIngredient, getPersonalProfile, removeAvoidIngredient, removeWatchIngredient } from './services/personalProfileService.js';
@@ -60,6 +60,7 @@ function render() {
   }
   hydrateIngredientApiRoute(route, renderVersion);
   hydrateGb2760ReferenceRows(route, renderVersion);
+  hydrateGb2760ReviewRoute(route, renderVersion);
   hydrateAnalyzeMatchRoute(route, renderVersion);
   hydrateProductArchiveImage(route, renderVersion);
 }
@@ -199,6 +200,30 @@ async function hydrateGb2760ReferenceRows(route, renderVersion) {
       code: error?.code || '',
       httpStatus: error?.status || 0
     }, route.filters);
+  }
+}
+
+async function hydrateGb2760ReviewRoute(route, renderVersion) {
+  if (route?.view !== 'gb2760-review' || route.category !== 'food') return;
+  try {
+    const result = await fetchGb2760StagingRows({
+      status: route.filters?.status,
+      q: route.filters?.q,
+      ready: route.filters?.ready,
+      page: route.filters?.page,
+      limit: route.filters?.limit || 20
+    });
+    if (renderVersion !== routeRenderVersion) return;
+    app.innerHTML = renderRoute(route, { status: 'success', result });
+    bindPageEvents(route);
+  } catch (error) {
+    if (renderVersion !== routeRenderVersion) return;
+    app.innerHTML = renderRoute(route, {
+      status: 'error',
+      code: error?.code || '',
+      httpStatus: error?.status || 0
+    });
+    bindPageEvents(route);
   }
 }
 
@@ -370,6 +395,100 @@ function bindPageEvents(route) {
     });
     form.querySelectorAll('select').forEach((select) => {
       select.addEventListener('change', applyReferenceFilters);
+    });
+  });
+
+  document.querySelectorAll('[data-gb2760-review-form]').forEach((form) => {
+    const applyReviewFilters = () => {
+      const formData = new FormData(form);
+      const status = String(formData.get('status') || '').trim();
+      const q = String(formData.get('q') || '').trim();
+      const ready = formData.get('ready') === '1';
+      const limit = String(formData.get('limit') || '').trim();
+      const params = new URLSearchParams();
+      if (status) params.set('status', status);
+      if (q) params.set('q', q);
+      if (ready) params.set('ready', '1');
+      if (limit && limit !== '20') params.set('limit', limit);
+      const suffix = params.toString();
+      navigate(`#${categoryPath(route.category, '/gb2760-review')}${suffix ? `?${suffix}` : ''}`);
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      applyReviewFilters();
+    });
+    form.querySelectorAll('select').forEach((select) => {
+      select.addEventListener('change', applyReviewFilters);
+    });
+    form.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.addEventListener('change', applyReviewFilters);
+    });
+  });
+
+  document.querySelectorAll('[data-gb2760-review-action]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const rowId = button.dataset.rowId || '';
+      const reviewStatus = button.dataset.reviewStatus || '';
+      const message = document.querySelector('[data-gb2760-review-message]');
+      setReviewMessage(message, '正在更新复核状态...');
+      button.disabled = true;
+      try {
+        await updateGb2760StagingReviewStatus(rowId, reviewStatus);
+        setReviewMessage(message, '已更新，正在刷新列表...');
+        render();
+      } catch (error) {
+        button.disabled = false;
+        const reasons = Array.isArray(error?.reasons) && error.reasons.length
+          ? `：${error.reasons.join('；')}`
+          : '';
+        setReviewMessage(message, `${error?.message || '更新失败'}${reasons}`);
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-gb2760-review-select-page]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const checkboxes = [...document.querySelectorAll('[data-gb2760-review-select]')]
+        .filter((checkbox) => !checkbox.disabled);
+      const shouldSelect = checkboxes.some((checkbox) => !checkbox.checked);
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = shouldSelect;
+      });
+      const message = document.querySelector('[data-gb2760-review-message]');
+      setReviewMessage(message, shouldSelect ? `已选择本页 ${checkboxes.length} 行可签核项` : '已取消本页选择');
+    });
+  });
+
+  document.querySelectorAll('[data-gb2760-batch-review-action]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const reviewStatus = button.dataset.reviewStatus || '';
+      const ids = [...document.querySelectorAll('[data-gb2760-review-select]:checked')]
+        .filter((checkbox) => !checkbox.disabled)
+        .map((checkbox) => checkbox.value)
+        .filter(Boolean);
+      const message = document.querySelector('[data-gb2760-review-message]');
+      if (!ids.length) {
+        setReviewMessage(message, '请先选择要批量签核的行。');
+        return;
+      }
+
+      setReviewMessage(message, `正在批量更新 ${ids.length} 行...`);
+      button.disabled = true;
+      try {
+        const result = await batchUpdateGb2760StagingReviewStatus(ids, reviewStatus);
+        const skipped = Number(result?.skippedCount || 0);
+        const updated = Number(result?.updatedCount || 0);
+        const firstReason = result?.errors?.[0]?.reasons?.[0] ? `，首个跳过原因：${result.errors[0].reasons[0]}` : '';
+        setReviewMessage(message, `批量签核完成：已更新 ${updated} 行，跳过 ${skipped} 行${firstReason}`);
+        render();
+      } catch (error) {
+        button.disabled = false;
+        const reasons = Array.isArray(error?.reasons) && error.reasons.length
+          ? `：${error.reasons.join('；')}`
+          : '';
+        setReviewMessage(message, `${error?.message || '批量更新失败'}${reasons}`);
+      }
     });
   });
 
@@ -790,6 +909,11 @@ function bindPageEvents(route) {
   }
 
   bindHistorySwipeActions();
+}
+
+function setReviewMessage(node, value) {
+  if (!node) return;
+  node.textContent = value;
 }
 
 function bindPersonalProfileSettings(route) {
