@@ -10,7 +10,7 @@ import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } fr
 import { computeRiskGrade, getTopIngredientNames } from '../src/services/reportService.js';
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
 import { renderComparePage } from '../src/pages/comparePage.js';
-import { renderDataPage } from '../src/pages/dataPage.js';
+import { renderDataPage, renderGb2760ReferenceRowsState } from '../src/pages/dataPage.js';
 import { renderDetailPage, renderFoodAdditiveDetails } from '../src/pages/detailPage.js';
 import { renderAnalyzePage } from '../src/pages/analyzePage.js';
 import { renderAuthPage } from '../src/pages/authPage.js';
@@ -1712,6 +1712,11 @@ assert.match(filteredSearchHtml, /value="防腐剂" selected/);
 assert.match(filteredSearchHtml, /关注等级：需关注/);
 assert.match(filteredSearchHtml, /成分分类：防腐剂/);
 assert.match(filteredSearchHtml, /href="#\/food\/search"/);
+const initialSearchHtml = renderSearchPage('', 'food');
+assert.match(initialSearchHtml, /data-search-initial-state/);
+assert.match(initialSearchHtml, /输入关键词或直接识别配料表/);
+assert.match(initialSearchHtml, /href="#\/food\/scan"/);
+assert.match(initialSearchHtml, /href="#\/food\/analyze"/);
 const cosmeticSearchHtml = renderSearchPage('retinol', 'cosmetics');
 assert.doesNotMatch(cosmeticSearchHtml, /data-badge--unverified/);
 const homeHtmlWithCategoryFilters = renderHomePage('food');
@@ -1784,6 +1789,19 @@ const filteredCommonDataPageHtml = renderRoute(resolveRoute('#/food/data?dataSta
 assert.match(filteredCommonDataPageHtml, /当前筛选 12 \/ 112 条记录/);
 assert.match(filteredCommonDataPageHtml, /value="common_ingredient" selected/);
 assert.match(renderDataPage('cosmetics'), /当前类别含 8 条原型数据/);
+const gb2760ReferenceErrorHtml = renderGb2760ReferenceRowsState({ status: 'error' });
+assert.match(gb2760ReferenceErrorHtml, /GB 2760 参考表暂不可用/);
+assert.match(gb2760ReferenceErrorHtml, /data-route-retry/);
+const gb2760ReviewErrorHtml = renderRoute(resolveRoute('#/food/gb2760-review'), { status: 'error' });
+assert.match(gb2760ReviewErrorHtml, /复核数据暂不可用/);
+assert.match(gb2760ReviewErrorHtml, /data-route-retry/);
+const emptyGb2760ReviewHtml = renderRoute(resolveRoute('#/food/gb2760-review?q=missing'), {
+  status: 'success',
+  result: { items: [], page: 1, total: 0, totalPages: 1, statusCounts: [] }
+});
+assert.match(emptyGb2760ReviewHtml, /没有匹配的复核行/);
+assert.match(emptyGb2760ReviewHtml, /重置为待复核行/);
+assert.match(emptyGb2760ReviewHtml, /href="#\/food\/gb2760-review"/);
 const searchHtmlWithSuggestions = renderSearchPage('E330', 'food');
 assert.match(searchHtmlWithSuggestions, /data-search-suggestions/);
 assert.match(searchHtmlWithSuggestions, /suggestion-item/);
