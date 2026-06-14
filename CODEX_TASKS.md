@@ -10,12 +10,12 @@
 
 ```
 拍照 / 上传食品标签图片（配料表 / 营养成分表 / 包装正面）
-  → [客户端] 图片预处理（EXIF 修正 + 压缩 + IndexedDB 存储）
+  → [客户端] 图片预处理（EXIF 修正 + 压缩 + IndexedDB 或平台文件缓存）
+  → 自动识别 / 手动选择标签类型（配料表 / 营养成分表 / 包装正面 / 未知）
   → OCR 识别文字（manual / mock / 真实 provider 三类模式）
   → 用户确认和修正识别文本
-  → 自动识别 / 手动选择标签类型
   → 自动拆分配料 + 解析营养字段
-  → 匹配食品成分 / 食品添加剂数据库
+  → 匹配食品成分 / 食品添加剂数据库 / 营养字段 / 用户关注项
   → 结合“我的关注项”排序展示
   → 生成食品标签解读报告
   → 保存产品档案和分析历史
@@ -46,7 +46,7 @@
 9. **禁止用 localStorage 存图片或大 blob**，图片必须用 IndexedDB（`compcheck-images` / `scan-images`）；localStorage 只存索引、元数据、设置。
 10. 每个页面必须实现 loading / empty / error 三种状态，不允许只做 happy path。
 11. 不允许把 seed 样本充当完整数据集，不允许把 `pending_review` / `unverified` 展示为权威结论。
-12. 样式只用 `src/styles.css` CSS 变量，禁止内联颜色和魔法数字。
+12. 当前旧 `src/` 原型样式只用 `src/styles.css` CSS 变量，禁止内联颜色和魔法数字；正式 `user-uniapp` 和 `admin-web` 需按 `docs/product-blueprint/DESIGN_SYSTEM.md` 建立对应 token，不得各自发明颜色体系。
 
 ---
 
@@ -102,9 +102,15 @@
   3. Batch 8-C：loading / empty / error 状态统一复核（搜索初始空态、GB2760 复核页、GB2760 参考表错误态补齐动作）
   4. Batch 5-B / UX-C：统一结果可信表达（dataStatus 文案、颜色变量和 Badge class 映射层）
 
-→ 下一个需要人工确认边界：
-  1. 是否继续进入产品页面设计统一推进范围（Batch 1-E、UX-A、UX-B、UX-D、UX-E）。
-  2. 或先解锁人工/外部依赖项：生产 DATABASE_URL、生产 Aliyun OCR API Key、AI API Key、后续 GB2760 增量复核。
+→ 当前文档修复方向：
+  1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
+  2. 完成“后台管理系统规划”补齐：用户、会员、订阅、公告、运营、OCR/AI 成本、系统配置、权限审计。
+  3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
+
+→ 下一个可执行任务：
+  1. PR 合并后先执行 Batch STACK-A：确认现有 backend/frontend/Capacitor 结构并形成迁移方案。
+  2. 然后执行 STACK-B/STACK-C：规划 `user-uniapp` 与后端 API 规范化。
+  3. 消费者标签功能实现（CONSUMER-LABEL-A/B/C/D）在架构边界确认后继续。
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -1245,7 +1251,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 涉及文件：`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`。
 
 实现内容：
-1. 明确当前优先 Web/PWA 跑通主流程。
+1. 明确正式用户端目标为 `user-uniapp`（H5/PWA、微信小程序、Android、iOS），当前 `src/` Web/PWA 仅为历史原型和迁移来源。
 2. 明确统一产品流程、design tokens、数据状态、API 契约、文案规范，不强行一套 UI 代码覆盖所有端。
 3. 明确小程序/App 不假设 `window/document/navigator`，前端不暴露 OCR/AI Key。
 
@@ -1318,7 +1324,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 实现内容：
 1. 后台 MVP 限定为数据源、导入状态、staging 复核、添加剂、使用规则、分类、OCR 记录、反馈、系统配置。
-2. 后台作为单独 Web 项目建设，可选 TDesign Web / Ant Design / Arco。
+2. 后台作为 `admin-web/` 单独 Web 项目建设，技术路线固定为 Vue3 + TDesign Web。
 3. 不与用户端强行共用页面代码，但共用 tokens、数据状态、API 契约。
 
 验收标准：
@@ -1791,9 +1797,9 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/API_CONTRACT.md`。
 
 实现内容：
-1. 后台单独 Web 项目，可选 TDesign Web / Ant Design / Arco。
-2. 共用 design tokens、数据状态、API 契约。
-3. 第一版只做数据源、导入状态、staging 复核、添加剂、规则、分类、OCR 记录、反馈、系统配置。
+1. 后台单独 Web 项目 `admin-web/`，技术路线为 Vue3 + TDesign Web。
+2. 共用 design tokens、数据状态、API 契约，不与用户端强行共用页面代码。
+3. 后台定位为产品运营后台 + 数据治理后台 + 系统配置后台 + 权限审计后台；按 MVP / Beta / 产品化 / 上架商业化分期。
 
 验收标准：
 1. 后台不阻塞当前用户端主流程。
@@ -1807,6 +1813,354 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 验证命令：`git diff --check`。
 
 状态：⛔ blocked_by_user（暂缓实现，文档已规划）。
+
+---
+
+# 阶段 16：统一跨端技术栈重构
+
+> 目标：从现在开始明确正式跨端架构，避免继续在旧 Web/PWA 原型上堆复杂业务。本阶段先做结构确认和迁移规划，不直接重构业务代码，不删除旧前端，不创建重复后端。
+
+### Batch STACK-A：确认现有 backend 与 frontend 结构 [Codex]
+
+目标：检查当前是否已有后端、数据库、前端原型、Capacitor 目录，形成迁移方案。
+
+涉及文件：`backend/`、`src/`、`ios/`、`android/`、`package.json`、`backend/package.json`、`docs/product-blueprint/ARCHITECTURE_SPEC.md`、`PROJECT_PLAN.md`。
+
+实现内容：
+1. 盘点现有 `backend/` Hono + Drizzle + PostgreSQL 能力和缺口。
+2. 盘点现有 `src/` Vite 前端、`ios/`、`android/` 的原型状态。
+3. 输出旧前端保留/迁移边界和后端复用方案。
+
+验收标准：
+1. 不把 `user-uniapp/`、`admin-web/` 写成已存在。
+2. 不创建第二套后端服务。
+3. 明确哪些能力可从旧原型迁移，哪些必须重建。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`；若只改文档不跑 build/test。
+
+状态：⏸ 待开始。
+
+### Batch STACK-B：用户端 uni-app 初始化规划 [Codex]
+
+目标：规划 `user-uniapp/`，用于 H5/PWA、微信小程序、Android、iOS。
+
+涉及文件：`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`COMMANDS.md`、计划 `user-uniapp/`。
+
+实现内容：
+1. 规划 `user-uniapp` 目录、页面、组件、services、stores、platform adapter、styles/tokens。
+2. 明确拍照、相册、图片压缩、OCR、缓存、分享、登录、支付的跨端接口。
+3. 规划旧 `src/` 文案、流程、token、service 迁移清单。
+
+验收标准：
+1. 小程序/App 代码不假设 `window/document/navigator`。
+2. 所有 OCR/AI/数据库访问经后端 API。
+3. `COMMANDS.md` 中 uni-app 命令未实现前标记为计划命令。
+
+是否需要人工：需要用户确认正式初始化时间点。
+
+阻塞条件：uni-app 工程创建尚未开始；本 Batch 可先文档规划。
+
+验证命令：`git diff --check`；实现工程后按新增 package 脚本验证。
+
+状态：⏸ 待开始。
+
+### Batch STACK-C：后端 API 框架规范化 [Codex]
+
+目标：统一后端框架、目录、路由、Provider、数据库访问，复用现有 `backend/`。
+
+涉及文件：`backend/src/`、`backend/src/routes/`、`backend/src/services/`、计划 `backend/src/providers/`、计划 `backend/src/validators/`、计划 `backend/src/jobs/`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 以现有 Hono 后端为唯一 API 入口，不引入 Express/Nest 第二套服务。
+2. 规划 `routes/services/providers/db/schemas/validators/jobs` 分层。
+3. 统一 OCR Provider、AI Provider、数据解析、报告生成、后台 API 的路由边界。
+
+验收标准：
+1. 用户端、后台、小程序、App 共用同一套 API 契约。
+2. 前端不直连 OCR/AI/数据库。
+3. 新接口实现前在 `API_CONTRACT.md` 标记计划状态。
+
+是否需要人工：否。
+
+阻塞条件：生产 OCR/AI Key 不阻塞后端抽象。
+
+验证命令：涉及代码时 `cd backend && npm run typecheck` + 相关测试；纯文档 `git diff --check`。
+
+状态：⏸ 待开始。
+
+### Batch STACK-D：后台管理端 admin-web 规划 [Codex]
+
+目标：规划后台管理系统技术栈和页面。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/API_CONTRACT.md`、计划 `admin-web/`。
+
+实现内容：
+1. 采用 Vue3 + TDesign Web，单独 `admin-web/`。
+2. 规划 Dashboard、用户与会员、内容运营、食品标签业务、数据治理、OCR/AI/Provider、系统配置、权限与审计。
+3. 按 MVP / Beta / 产品化 / 上架商业化分期。
+
+验收标准：
+1. 后台不复用消费端页面代码。
+2. MVP 后台不包含真实支付闭环。
+3. 未实现页面不写成已完成。
+
+是否需要人工：需要确认后台启动时机。
+
+阻塞条件：用户若继续要求内部控制台暂缓，则实现标记 `blocked_by_user`，文档规划不阻塞。
+
+验证命令：`git diff --check`；实现工程后按 admin-web 脚本验证。
+
+状态：⏸ 待开始。
+
+### Batch STACK-E：旧前端迁移策略 [Codex]
+
+目标：明确纯 JS + Vite 原型保留/迁移边界，不继续在旧前端堆复杂业务。
+
+涉及文件：`src/`、`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/ARCHITECTURE_SPEC.md`、`PROJECT_PLAN.md`。
+
+实现内容：
+1. 保留旧前端作为历史原型和迁移来源。
+2. 仅允许旧前端修复 blocker、安全、数据可信、OCR 降级、文档演示问题。
+3. 新复杂用户端功能优先进入 `user-uniapp` 规划。
+
+验收标准：
+1. 不删除旧前端。
+2. 不在旧 `src/` 引入 Vue/React/Tailwind/状态库。
+3. 迁移清单覆盖页面、文案、token、service、状态机。
+
+是否需要人工：否。
+
+阻塞条件：用户确认正式迁移启动时间。
+
+验证命令：`git diff --check`；涉及旧前端修复时按改动范围补充 lint/test。
+
+状态：⏸ 待开始。
+
+### Batch STACK-F：跨端共享契约 [Codex]
+
+目标：统一 API_CONTRACT、数据状态、设计 token、平台能力接口。
+
+涉及文件：`docs/product-blueprint/API_CONTRACT.md`、`docs/product-blueprint/DATA_TRUST_SPEC.md`、`docs/product-blueprint/DESIGN_SYSTEM.md`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`、`docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`。
+
+实现内容：
+1. API 契约覆盖用户端、后台、小程序、App。
+2. 数据状态和可信展示跨端一致。
+3. 平台能力接口覆盖拍照、相册、压缩、存储、分享、登录、支付、推送、离线。
+
+验收标准：
+1. 各端不得自创新 dataStatus。
+2. 设计 token 在 `user-uniapp`、`admin-web`、旧 `src` 的映射关系明确。
+3. 支付、订阅、上架仍后置并标记人工阻塞。
+
+是否需要人工：支付/商店/法务相关需要人工。
+
+阻塞条件：Apple/Google/微信支付/国内渠道账号不阻塞契约规划。
+
+验证命令：`git diff --check`。
+
+状态：⏸ 待开始。
+
+---
+
+# 阶段 17：后台管理系统规划
+
+> 目标：把后台从单一数据治理工具扩展为 CompLens 产品运营后台 + 数据治理后台 + 系统配置后台 + 权限审计后台。先规划再实现，不把全部后台模块塞入 MVP。
+
+### Batch ADMIN-A：后台信息架构与菜单 [Codex]
+
+目标：建立完整后台菜单结构，覆盖运营、用户、会员、数据、系统、权限。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/UI_ROADMAP.md`。
+
+实现内容：
+1. 定义 Dashboard、用户与会员、内容运营、食品标签业务、数据治理、OCR/AI/Provider、系统配置、权限与审计。
+2. 标注每个菜单所属阶段：MVP / Beta / 产品化 / 上架商业化。
+3. 明确当前只做文档规划，不创建后台业务代码。
+
+验收标准：
+1. 后台菜单不只剩 GB2760 和添加剂。
+2. 未实现模块均标为计划。
+3. 会员、订阅、支付没有进入 MVP 强制项。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`。
+
+状态：⏸ 待开始。
+
+### Batch ADMIN-B：数据治理后台 MVP [Codex]
+
+目标：GB2760、staging、食品添加剂、食品分类、规则管理。
+
+涉及文件：`admin-web/`（计划）、`backend/src/routes/gb2760.ts`、`backend/src/routes/ingredients.ts`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 数据源管理、GB2760 导入状态、staging 数据复核。
+2. 食品添加剂管理、食品分类管理、使用规则管理。
+3. 普通配料词库、营养成分字段规则、包装卖点词库规划。
+
+验收标准：
+1. `pending_review` 不被展示为官方结论。
+2. 复核和编辑操作有审计字段。
+3. 当前已落地 GB2760 接口被复用，不重复造接口。
+
+是否需要人工：GB2760 promote 仍需要人工复核。
+
+阻塞条件：用户若继续暂缓后台 UI，则实现标记 `blocked_by_user`。
+
+验证命令：实现时按改动范围选择后端 typecheck/test 和 admin-web 验证；纯文档 `git diff --check`。
+
+状态：⏸ 待开始。
+
+### Batch ADMIN-C：用户与反馈管理 [Codex]
+
+目标：用户列表、用户详情、扫描记录、报告记录、用户反馈。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`、计划 `admin-web/`、计划后台用户 API。
+
+实现内容：
+1. 用户字段：用户ID、昵称、手机号/邮箱/openid、注册时间、最近登录、平台来源、会员状态、扫描次数、报告数量、反馈数量、账号状态。
+2. 用户详情：扫描记录、报告记录、反馈记录、设备与登录记录。
+3. 操作：禁用用户、恢复用户、后续导出。
+
+验收标准：
+1. 不在 MVP 强制复杂 CRM。
+2. 禁用/恢复有权限和审计。
+3. 用户隐私字段按最小必要展示。
+
+是否需要人工：用户隐私和支持流程需后续确认。
+
+阻塞条件：真实用户规模和客服流程不阻塞页面规划。
+
+验证命令：`git diff --check`；实现时补充后端/admin-web 验证。
+
+状态：⏸ 待开始。
+
+### Batch ADMIN-D：内容运营后台 [Codex]
+
+目标：公告、Banner、FAQ、数据说明、隐私政策、用户协议。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`、计划 `admin-web/`。
+
+实现内容：
+1. 公告管理：创建、编辑、上架、下架、预览、定时发布。
+2. Banner / 首页场景卡片管理。
+3. FAQ、数据来源说明、OCR 隐私说明、免责声明、隐私政策、用户协议内容管理。
+
+验收标准：
+1. 隐私政策和用户协议支持版本管理。
+2. 展示平台支持 `all/web/wechat_mp/ios/android`。
+3. 发布操作有审计记录。
+
+是否需要人工：隐私政策、用户协议和合规文案需人工/法务确认。
+
+阻塞条件：法务确认不阻塞后台草案规划。
+
+验证命令：`git diff --check`；实现时补充 admin-web/后端验证。
+
+状态：⏸ 待开始。
+
+### Batch ADMIN-E：会员与订阅后台规划 [人工+Codex]
+
+目标：会员等级、订阅计划、订单记录、支付平台字段和状态流转。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`、计划订阅/订单表、计划 `admin-web/`。
+
+实现内容：
+1. 会员字段：等级、状态、开通时间、到期时间、来源、权益包、剩余 OCR/AI 次数。
+2. 订阅计划字段：`planId`、周期、价格、币种、权益、状态、平台。
+3. 订单字段：`orderId`、`userId`、`planId`、支付平台、平台订单号、金额、支付状态、订阅状态、创建/支付/取消/退款时间。
+
+验收标准：
+1. 支持免费额度、月订阅、年订阅、次数包后续扩展。
+2. 不写死商业模式。
+3. 没有平台账号时不实现真实支付闭环，不伪造支付成功。
+
+是否需要人工：是。
+
+阻塞条件：Apple Developer、Google Play、微信支付、国内安卓渠道账号、支付/退款政策。
+
+验证命令：纯规划 `git diff --check`；实现时按支付平台沙箱文档补充验证。
+
+状态：⛔ blocked_by_user（账号未提供，仅规划）。
+
+### Batch ADMIN-F：OCR / AI 监控后台 [Codex]
+
+目标：OCR 请求日志、失败日志、AI 调用日志、成本统计。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`、`backend/src/services/ocrProviders/`、计划 AI Provider。
+
+实现内容：
+1. OCR 请求数、成功数、失败数、平均耗时、Provider、失败原因、图片大小、平台来源。
+2. AI 调用次数、模型、输入 tokens、输出 tokens、成本估算、失败原因、用户ID、报告ID。
+3. Provider 配置和降级策略查看。
+
+验收标准：
+1. OCR 服务不可用时有失败原因和降级记录。
+2. AI 成本不以空数据伪造。
+3. 日志不暴露敏感图片或密钥。
+
+是否需要人工：AI Key 和模型选型需要人工；OCR 本机服务配置可由 Codex 规划。
+
+阻塞条件：AI API Key；生产 OCR Provider Key。
+
+验证命令：纯规划 `git diff --check`；实现时补充后端 typecheck/test。
+
+状态：⏸ 待开始。
+
+### Batch ADMIN-G：权限与审计 [Codex]
+
+目标：管理员、角色、权限、操作日志、审计日志。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`、计划后台 RBAC 表和 API。
+
+实现内容：
+1. 角色：`super_admin`、`data_admin`、`operation_admin`、`support_admin`、`viewer`。
+2. 权限：用户查看/禁用、数据复核、添加剂编辑、规则编辑、公告发布、会员查看、订阅管理、系统配置、管理员管理。
+3. 操作日志：管理员ID、操作类型、对象类型、对象ID、操作前、操作后、IP、User-Agent、操作时间。
+
+验收标准：
+1. 不让所有后台用户都是超级管理员。
+2. 高风险操作有审计。
+3. 查看权限和写权限可分离。
+
+是否需要人工：管理员名单和权限策略需用户确认。
+
+阻塞条件：后台上线前的组织权限决策。
+
+验证命令：纯规划 `git diff --check`；实现时补充后端/admin-web 验证。
+
+状态：⏸ 待开始。
+
+### Batch ADMIN-H：系统配置与功能开关 [Codex]
+
+目标：平台开关、Provider 配置、免费额度、维护模式、版本配置。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`、`backend/src/config.ts`、计划后台配置 API。
+
+实现内容：
+1. 配置是否启用 OCR、默认 OCR Provider、是否启用 AI 解读、免费 OCR 次数、免费报告保存数量。
+2. 配置是否启用产品对比、包装卖点核对、订阅入口、维护模式、最低 App 版本。
+3. 支持平台范围：`web`、`wechat_mp`、`ios`、`android`、`all`。
+
+验收标准：
+1. 配置变更有权限和审计。
+2. 开关不绕过后端安全边界。
+3. 未实现真实支付时，订阅入口可关闭。
+
+是否需要人工：默认免费额度和商业策略需用户确认。
+
+阻塞条件：商业策略不阻塞基础开关规划。
+
+验证命令：纯规划 `git diff --check`；实现时补充后端/admin-web 验证。
+
+状态：⏸ 待开始。
 
 ---
 
@@ -1828,6 +2182,8 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 阶段 13（消费者食品标签解读）：CONSUMER-LABEL-A → B → C → D；E/F 后置
 阶段 14（前端规范落地）：FRONTEND-A → B → C → D → E✅ → F
 阶段 15（跨端实现准备）：PLATFORM-A✅ → B → C → D[后置] → E[blocked]
+阶段 16（统一跨端技术栈重构）：STACK-A → B → C → D → E → F
+阶段 17（后台管理系统规划）：ADMIN-A → B → C → D → E[人工+Codex, blocked] → F → G → H
 ```
 
 关键人工卡点：
@@ -1839,6 +2195,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 | OCR API Key | 3-E | 否（manual/mock 闭环可用） |
 | AI API Key | 9-B | 否（本地 fallback 可用） |
 | Apple / Google 账号 | 11-B/C/D/H | 否（已后置） |
+| 支付 / 订阅账号 | ADMIN-E / 阶段 11 | 否（只阻塞真实支付闭环） |
 
 ---
 

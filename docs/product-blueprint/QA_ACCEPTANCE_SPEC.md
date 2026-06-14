@@ -8,6 +8,7 @@
 > - `docs/product-blueprint/CONSUMER_UX_SPEC.md`：消费者体验和话术验收来源。
 > - `docs/product-blueprint/DATA_TRUST_SPEC.md`：数据可信展示规范，可信状态枚举的展示口径。
 > - `docs/product-blueprint/CROSS_PLATFORM_SPEC.md`：跨端平台能力与验收边界。
+> - `docs/product-blueprint/ARCHITECTURE_SPEC.md`：正式技术栈、旧前端迁移、后端唯一入口、OCR 服务链路和后台分期。
 > - 根目录 `COMMANDS.md`：本仓库**真实可用命令**的权威清单，本文档第 6 章命令矩阵以其为准。
 > - 根目录 `readme.md` 与 `docs/README.md`：项目入口与文档分类索引。
 > - 数据状态枚举代码权威来源：`src/utils/dataStatus.js`。
@@ -20,6 +21,7 @@
 
 - 适用范围：食品标签（配料表、营养成分表、包装正面卖点），不含化妆品、护肤品、药品（化妆品 `#/cosmetics/*` 为原型保留，非本期主路径）。
 - 主路径（不可偏离）：首页 → 拍食品标签 → 标签类型识别 → OCR → 文本确认 → 配料拆分 / 营养字段解析 → 我的关注项 → 食品标签解读报告 → 保存历史。承载页面见 `PAGE_STRUCTURE.md`。
+- 技术栈验收边界：正式用户端为计划 `user-uniapp`（uni-app + Vue3）；当前 `src/` Vite 前端是历史原型和迁移来源；后台为计划 `admin-web`（Vue3 + TDesign Web）；后端复用现有 `backend/`。计划目录和命令不得当成已实现。
 - 三态约定：loading / empty / error 三态已在各页复核（Batch 8-C 完成），验收时三态均须可观测。
 - 移动端通用约束：尊重安全区（顶部刘海 / 底部 Home 条）；禁止整页横向滚动；可点击控件命中区域 ≥ 44px；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 扫描 / 搜索 / 历史 / 设置）。
 - 可信枚举（仅以下 7 个，文案以 `dataStatusLabel()` 为准）：`verified_regulation`（官方标准已验证）/ `verified_jecfa`（安全评价已匹配，非中国法规范围）/ `pending_review`（待复核来源数据）/ `mapped_candidate`（疑似匹配，待确认）/ `common_ingredient`（普通配料）/ `unverified`（未验证）/ `unknown_from_ocr`（暂未收录）。
@@ -185,6 +187,25 @@
 - Capacitor 锁定 7.x，匹配 `Node.js >= 20.19`，不得升级到要求 Node 22+ 的主版本。`ios/` 与 `android/` 为本机生成目录（已 gitignore），验收前需 `npm run build && npx cap add ios|android && npm run cap:sync`。`npx cap doctor` 允许提示本机未装 Xcode / Android Studio。
 - 微信小程序：全部待办。
 - 后台管理：仅内部 `gb2760ReviewPage` 部分落地，其余后台页为计划（见 `PAGE_STRUCTURE.md` §三、`ADMIN_CONSOLE_SPEC.md`）。
+
+### 4.1 架构与安全验收
+
+- [ ] 用户端、小程序、App、后台均通过后端 API 访问数据，不直连 PostgreSQL。
+- [ ] 前端、小程序、App 不直连本机 OCR 服务、第三方 OCR、AI Provider 或 GB2760 导入脚本。
+- [ ] OCR Key / AI Key 只出现在后端环境变量或后端部署配置中，未出现在前端 bundle、localStorage、公开配置或文档示例的客户端位置。
+- [ ] OCR 服务不暴露公网；目标链路为用户端 / 小程序 / App → 后端 API → OCR Provider → Python FastAPI OCR Service → RapidOCR。
+- [ ] OCR 失败必须降级到手动输入，OCR 成功也必须进入文本确认页。
+- [ ] 当前 `src/` 旧前端没有继续新增复杂跨端业务；正式新业务若启动，优先按 `user-uniapp` 规划。
+- [ ] 未创建 `admin-web` 前，不把后台菜单写成已落地；已创建后按 `ADMIN_CONSOLE_SPEC.md` 分期验收。
+- [ ] 支付、订阅、上架、IAP、微信支付等在缺少账号和法务材料时标记 `blocked_by_user` 或 `[人工+Codex]`，未伪造成功状态。
+
+### 4.2 后台分期验收
+
+- [ ] MVP 后台只要求数据源管理、GB2760 导入状态、staging 数据复核、食品添加剂管理、食品分类管理、OCR 记录查看、用户反馈查看、基础系统配置、管理员登录预留。
+- [ ] Beta 后台再验收用户管理、用户详情、扫描记录、标签解读报告管理、公告、FAQ、首页运营位、操作日志。
+- [ ] 产品化后台再验收会员、订阅、订单/支付记录、退款/取消、版本配置、消息通知、AI/OCR 成本统计、角色权限、审计日志。
+- [ ] 上架/商业化后台再验收 Apple IAP、Google Play Billing、微信支付、国内安卓渠道、订阅权益、第三方 SDK 清单、隐私协议版本管理。
+- [ ] 后台操作日志包含管理员 ID、操作类型、对象类型、对象 ID、操作前、操作后、IP、User-Agent、操作时间。
 
 ---
 

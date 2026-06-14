@@ -9,6 +9,7 @@
 > - `docs/product-blueprint/DATA_TRUST_SPEC.md`：展示层数据可信规范（dataStatus / 来源类型 / 展示规则）。本文件可信字段约定与之对齐。
 > - `docs/product-blueprint/FRONTEND_SPEC.md`：前端规格。
 > - `docs/product-blueprint/CROSS_PLATFORM_SPEC.md`：跨端规格。
+> - `docs/product-blueprint/ARCHITECTURE_SPEC.md`：统一技术栈、后端必需性、OCR 服务链路和后台规划。
 >
 > **本契约同时记录两类接口，并以状态标签明确区分，绝不把不存在的接口写成已存在：**
 > - ✅ **已实现**：后端代码中真实存在的路由（已在 `backend/src/routes/*` 与 `backend/src/app.ts` 核对）。
@@ -177,7 +178,7 @@
     category?: string       // 可选，默认 "food"
   }
   ```
-- provider 取值：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`（由后端配置 `OCR_PROVIDER` 决定，见 `backend/src/services/ocrProviders/index.ts`）。`rapidocr` 使用 `OCR_SERVICE_URL`；`aliyun`/`paddleocr` 需要 `OCR_API_KEY`。
+- provider 取值：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`（由后端配置 `OCR_PROVIDER` 决定，见 `backend/src/services/ocrProviders/index.ts`）。当前代码中 `rapidocr` 使用 `OCR_SERVICE_URL`；统一架构目标为后端通过 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr` 调用本机 Python FastAPI OCR 服务，变量迁移需另行实现；`aliyun`/`paddleocr` 需要 `OCR_API_KEY`。
 - 成功响应：
   ```
   {
@@ -524,6 +525,115 @@
 - 状态：计划 / blocked_by_user（AI API Key 未提供）。后端当前无 `/api/analyze` 路由。
 - 用途：基于已匹配的 `matchResults` 生成解释层摘要。
 - 硬约束：AI 只能总结数据库匹配结果，必须标注 `ai_generated`，不得编造法规结论，不得把 `pending_review` 当 `verified`。
+
+---
+
+## 第三部分：后台 API 规划（当前未实现 / 计划）
+
+> 后台 API 面向 `admin-web`（Vue3 + TDesign Web），用于产品运营、数据治理、业务监控、系统配置、权限与审计。除本文件第一部分已列出的 `GET /api/gb2760/*` 内部接口外，本节接口均为**计划 API**，不得在实现前写成已完成。后台必须通过后端 API 访问数据，不得直连数据库、OCR 服务、AI 服务或导入脚本。
+
+通用约定：
+
+- 调用端：`admin-web`。
+- 鉴权：需要管理员登录；按角色授权（`super_admin`、`data_admin`、`operation_admin`、`support_admin`、`viewer`）。
+- 错误码：`401 unauthorized`、`403 forbidden`、`404 not_found`、`422 invalid_state`、`500 internal_server_error`。
+- 审计：新增、编辑、删除、禁用、发布、复核、配置变更等写操作必须写入操作日志 / 审计日志。
+- 展示规则：后台可展示专业字段，但不得把 `pending_review` / `mapped_candidate` / `unverified` 当成正式结论。
+
+### 1. Dashboard
+
+#### `GET /api/admin/dashboard`  ❌ 计划
+- 用途：后台首页概览。
+- 请求参数：`dateRange?`、`platform?`。
+- 响应字段：`scanCount`、`ocrSuccessRate`、`reportCount`、`feedbackCount`、`pendingReviewCount`、`ocrCostSummary`、`aiCostSummary`、`systemAlerts[]`。
+- 前端展示规则：只展示运营和治理概览，不提供普通用户端结论。
+
+### 2. 用户与会员
+
+#### `GET /api/admin/users`  ❌ 计划
+- 用途：用户列表查询。
+- 请求参数：`q?`、`platform?`、`memberStatus?`、`accountStatus?`、`page`、`limit`。
+- 响应字段：`items[]`（`userId`、`nickname`、`phone?`、`email?`、`wechatOpenid?`、`registeredAt`、`lastLoginAt`、`platform`、`memberStatus`、`scanCount`、`reportCount`、`feedbackCount`、`accountStatus`）、分页字段。
+
+#### `GET /api/admin/users/:id`  ❌ 计划
+- 用途：用户详情。
+- 响应字段：用户基础信息、会员信息、设备与登录记录摘要、扫描记录摘要、报告记录摘要、反馈记录摘要。
+
+#### `PATCH /api/admin/users/:id/status`  ❌ 计划
+- 用途：禁用、恢复或标记删除申请中。
+- 请求参数：`status: "normal" | "disabled" | "delete_requested"`、`reason`。
+- 审计：必须记录操作前后状态。
+
+#### `GET /api/admin/memberships`  ❌ 计划
+- 用途：会员列表与状态查询。
+- 请求参数：`q?`、`level?`、`status?`、`source?`、`page`、`limit`。
+- 响应字段：`userId`、`level`、`status`、`startedAt`、`expiresAt`、`source`、`benefits`、`remainingOcrCredits?`、`remainingAiCredits?`。
+- 状态：产品化阶段规划，MVP 不强制实现。
+
+#### `GET /api/admin/subscriptions`  ❌ 计划 / blocked_by_user
+- 用途：订阅计划与订阅实例查询。
+- 请求参数：`platform?`、`status?`、`page`、`limit`。
+- 响应字段：`planId`、`planName`、`period`（`monthly|yearly|lifetime|credits`）、`price`、`currency`、`benefits`、`status`、`platform`。
+- 阻塞条件：Apple Developer、Google Play、微信支付、国内安卓渠道或 Web 支付账号。
+
+#### `GET /api/admin/orders`  ❌ 计划 / blocked_by_user
+- 用途：订单 / 支付记录查询。
+- 请求参数：`userId?`、`planId?`、`paymentPlatform?`、`paymentStatus?`、`subscriptionStatus?`、`page`、`limit`。
+- 响应字段：`orderId`、`userId`、`planId`、`paymentPlatform`、`platformOrderId`、`amount`、`currency`、`paymentStatus`、`subscriptionStatus`、`createdAt`、`paidAt?`、`cancelledAt?`、`refundedAt?`。
+- 禁止：不得伪造支付成功，不得在无平台账号时实现真实支付闭环。
+
+### 3. 内容运营
+
+#### `GET /api/admin/announcements` / `POST /api/admin/announcements` / `PATCH /api/admin/announcements/:id` / `DELETE /api/admin/announcements/:id`  ❌ 计划
+- 用途：公告管理。
+- 字段：`announcementId`、`title`、`content`、`platform`（`all|web|wechat_mp|ios|android`）、`position`、`startAt`、`endAt`、`status`、`priority`、`createdBy`、`updatedAt`。
+- 操作：创建、编辑、上架、下架、预览、定时发布。
+
+#### `GET /api/admin/banners` / `POST /api/admin/banners` / `PATCH /api/admin/banners/:id`  ❌ 计划
+- 用途：Banner 与首页运营位管理。
+- 字段：`title`、`subtitle`、`imageAssetId`、`linkType`、`linkUrl`、`platform`、`sortOrder`、`status`、`startAt`、`endAt`。
+
+#### `GET /api/admin/content` / `POST /api/admin/content` / `PATCH /api/admin/content/:id`  ❌ 计划
+- 用途：FAQ、数据说明、OCR 隐私说明、食品标签解读说明、免责声明、隐私政策、用户协议管理。
+- 字段：`contentType`、`title`、`content`、`language`、`version`、`status`、`publishedAt`、`updatedAt`。
+- 规则：隐私政策和用户协议必须版本化。
+
+### 4. 系统配置与功能开关
+
+#### `GET /api/admin/feature-flags` / `PATCH /api/admin/feature-flags/:key`  ❌ 计划
+- 用途：功能开关和系统配置。
+- 配置项：是否启用 OCR、默认 OCR Provider、是否启用 AI 解读、免费 OCR 次数、免费报告保存数量、是否启用产品对比、是否启用包装卖点核对、是否展示订阅入口、维护模式、最低 App 版本。
+- 平台范围：`web`、`wechat_mp`、`ios`、`android`、`all`。
+- 审计：配置变更必须记录操作者和操作前后值。
+
+### 5. OCR / AI / Provider 监控
+
+#### `GET /api/admin/ocr-logs`  ❌ 计划
+- 用途：OCR 请求、失败、耗时和 Provider 监控。
+- 查询参数：`provider?`、`platform?`、`status?`、`dateRange?`、`page`、`limit`。
+- 响应字段：`requestId`、`userId?`、`provider`、`status`、`durationMs`、`failureReason?`、`imageSize`、`platform`、`createdAt`。
+
+#### `GET /api/admin/ai-logs`  ❌ 计划 / blocked_by_user
+- 用途：AI 调用日志和成本估算。
+- 查询参数：`model?`、`status?`、`dateRange?`、`userId?`、`reportId?`、`page`、`limit`。
+- 响应字段：`callId`、`model`、`inputTokens`、`outputTokens`、`estimatedCost`、`failureReason?`、`userId?`、`reportId?`、`createdAt`。
+- 阻塞条件：AI API Key 和模型选型。
+
+### 6. 权限与审计
+
+#### `GET /api/admin/audit-logs`  ❌ 计划
+- 用途：操作日志 / 审计日志查询。
+- 响应字段：`adminId`、`actionType`、`objectType`、`objectId`、`before`、`after`、`ip`、`userAgent`、`createdAt`。
+
+#### `GET /api/admin/roles` / `POST /api/admin/roles` / `PATCH /api/admin/roles/:id`  ❌ 计划
+- 用途：角色权限管理。
+- 角色建议：`super_admin`、`data_admin`、`operation_admin`、`support_admin`、`viewer`。
+- 权限维度：用户查看、用户禁用、数据复核、添加剂编辑、规则编辑、公告发布、会员查看、订阅管理、系统配置、管理员管理。
+
+#### `GET /api/admin/admin-users` / `POST /api/admin/admin-users` / `PATCH /api/admin/admin-users/:id`  ❌ 计划
+- 用途：管理员账号管理。
+- 字段：`adminId`、`email`、`name`、`roles[]`、`status`、`lastLoginAt`、`createdAt`。
+- 规则：MVP 至少预留管理员登录；产品化阶段补齐角色权限和审计。
 
 ---
 

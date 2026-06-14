@@ -1,6 +1,6 @@
 # 产品蓝图规范集（product-blueprint）
 
-> CompLens / 成分镜（CompCheck）的产品、消费者体验、UI、前端、跨端、数据可信、后台、隐私合规、测试验收完整规范。
+> CompLens / 成分镜（CompCheck）的产品、消费者体验、统一架构、UI、前端、跨端、数据可信、后台、隐私合规、测试验收完整规范。
 > 本目录是规范集合，不重复粘贴根目录入口文档内容；根目录 [`../../readme.md`](../../readme.md)、[`../../AGENTS.md`](../../AGENTS.md)、[`../../CODEX_TASKS.md`](../../CODEX_TASKS.md) 只引用本目录，不重复正文。
 
 产品定位：**面向普通消费者的食品标签拍照解读与消费决策助手**。核心价值：
@@ -12,8 +12,10 @@
 主路径：
 
 ```
-拍食品标签 → 识别配料表/营养成分表 → 用户确认 → 我的关注项
-→ 食品标签解读报告 → 保存历史
+拍照/上传食品标签 → 自动识别标签类型 → OCR → 用户确认和修正识别文本
+→ 配料拆分 / 营养字段解析 / 包装卖点识别
+→ 匹配食品成分、食品添加剂、营养字段和用户关注项
+→ 食品标签解读报告 → 保存历史记录和产品档案
 ```
 
 用户拍的不一定只有配料表，也可能是营养成分表或包装正面。成分搜索和专业法规查询只是辅助能力，不是主路径。
@@ -27,25 +29,27 @@
 | 1 | [`PRODUCT_SPEC.md`](PRODUCT_SPEC.md) | 产品定位、MVP 范围、非目标 | 全员先读 |
 | 2 | [`CONSUMER_DECISION_SPEC.md`](CONSUMER_DECISION_SPEC.md) | 消费者场景、关注项、标签解读报告、数据模型规划 | 产品 / 前端 / Codex |
 | 3 | [`CONSUMER_UX_SPEC.md`](CONSUMER_UX_SPEC.md) | 消费者体验、话术、普通人报告与专业信息层级 | 产品 / 设计 / 前端 |
-| 4 | [`DATA_TRUST_SPEC.md`](DATA_TRUST_SPEC.md) | 数据来源类型、数据可信状态枚举、GB2760/OCR/AI 规则、展示规则 | 全员（数据红线） |
-| 5 | [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) | 设计系统：Design Tokens、组件规范、跨端一致性规则 | 设计 / 前端 |
-| 6 | [`VISUAL_STYLE_GUIDE.md`](VISUAL_STYLE_GUIDE.md) | 视觉风格：色彩、字体、图标、页面样式、插画、动效 | 设计 / 前端 |
-| 7 | [`FRONTEND_SPEC.md`](FRONTEND_SPEC.md) | 前端工程规范（目录、组件、标签类型、OCR 状态机、错误处理等） | 前端 / Codex |
-| 8 | [`PAGE_STRUCTURE.md`](PAGE_STRUCTURE.md) | 用户端 + 后台页面结构登记表，主流程 | 产品 / 前端 |
-| 9 | [`CROSS_PLATFORM_SPEC.md`](CROSS_PLATFORM_SPEC.md) | 跨端规则、平台差异、平台能力矩阵 | 前端 / 跨端 |
-| 10 | [`API_CONTRACT.md`](API_CONTRACT.md) | API 契约：现状已实现接口 + 主流程目标接口 + 计划接口 | 前后端 / Codex |
-| 11 | [`UI_ROADMAP.md`](UI_ROADMAP.md) | UI 开发路线与批次状态（对齐 CODEX_TASKS UX 阶段） | 规划 / Codex |
-| 12 | [`ADMIN_CONSOLE_SPEC.md`](ADMIN_CONSOLE_SPEC.md) | 后台管理系统第一版规范 | 后台 / Codex |
-| 13 | [`PRIVACY_AND_COMPLIANCE_SPEC.md`](PRIVACY_AND_COMPLIANCE_SPEC.md) | 隐私、权限、合规、上架准备 | 合规 / 产品 |
-| 14 | [`QA_ACCEPTANCE_SPEC.md`](QA_ACCEPTANCE_SPEC.md) | 测试与验收规范、验收命令矩阵 | QA / Codex |
+| 4 | [`ARCHITECTURE_SPEC.md`](ARCHITECTURE_SPEC.md) | 统一技术栈、后端必需性、旧前端迁移、OCR 服务链路、后台定位 | 架构 / 全员 |
+| 5 | [`DATA_TRUST_SPEC.md`](DATA_TRUST_SPEC.md) | 数据来源类型、数据可信状态枚举、GB2760/OCR/AI 规则、展示规则 | 全员（数据红线） |
+| 6 | [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) | 设计系统：Design Tokens、组件规范、跨端一致性规则 | 设计 / 前端 |
+| 7 | [`VISUAL_STYLE_GUIDE.md`](VISUAL_STYLE_GUIDE.md) | 视觉风格：色彩、字体、图标、页面样式、插画、动效 | 设计 / 前端 |
+| 8 | [`FRONTEND_SPEC.md`](FRONTEND_SPEC.md) | 前端工程规范（正式 user-uniapp + 旧前端迁移边界、标签类型、OCR 状态机等） | 前端 / Codex |
+| 9 | [`PAGE_STRUCTURE.md`](PAGE_STRUCTURE.md) | 用户端 + 后台页面结构登记表，主流程 | 产品 / 前端 |
+| 10 | [`CROSS_PLATFORM_SPEC.md`](CROSS_PLATFORM_SPEC.md) | 跨端规则、平台差异、平台能力矩阵 | 前端 / 跨端 |
+| 11 | [`API_CONTRACT.md`](API_CONTRACT.md) | API 契约：现状已实现接口 + 主流程目标接口 + 后台计划接口 | 前后端 / Codex |
+| 12 | [`UI_ROADMAP.md`](UI_ROADMAP.md) | UI / 跨端 / 后台开发路线与批次状态 | 规划 / Codex |
+| 13 | [`ADMIN_CONSOLE_SPEC.md`](ADMIN_CONSOLE_SPEC.md) | 产品运营后台 + 数据治理后台 + 系统配置后台规划 | 后台 / Codex |
+| 14 | [`PRIVACY_AND_COMPLIANCE_SPEC.md`](PRIVACY_AND_COMPLIANCE_SPEC.md) | 隐私、权限、合规、上架准备 | 合规 / 产品 |
+| 15 | [`QA_ACCEPTANCE_SPEC.md`](QA_ACCEPTANCE_SPEC.md) | 测试与验收规范、验收命令矩阵 | QA / Codex |
 
-阅读顺序：先 1（产品）→ 2/3（消费者决策与体验）→ 4（数据红线）→ 5/6（设计视觉）→ 7/8（前端/页面）→ 9/10（跨端/接口）→ 11（路线）→ 12/13/14（后台/合规/验收）。
+阅读顺序：先 1（产品）→ 2/3（消费者决策与体验）→ 4（架构）→ 5（数据红线）→ 6/7（设计视觉）→ 8/9（前端/页面）→ 10/11（跨端/接口）→ 12（路线）→ 13/14/15（后台/合规/验收）。
 
 ---
 
 ## 强制约束（与 [`../../AGENTS.md`](../../AGENTS.md) 一致）
 
 - 任何页面开发遵守 [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md)。
+- 任何技术栈、目录结构、后端/OCR/后台规划遵守 [`ARCHITECTURE_SPEC.md`](ARCHITECTURE_SPEC.md)。
 - 任何消费决策体验开发遵守 [`CONSUMER_DECISION_SPEC.md`](CONSUMER_DECISION_SPEC.md) 与 [`CONSUMER_UX_SPEC.md`](CONSUMER_UX_SPEC.md)。
 - 任何视觉开发遵守 [`VISUAL_STYLE_GUIDE.md`](VISUAL_STYLE_GUIDE.md)。
 - 任何前端开发遵守 [`FRONTEND_SPEC.md`](FRONTEND_SPEC.md)。
@@ -62,7 +66,9 @@
 
 ## 现状口径说明（防止误读）
 
-- 设计规范已确认采用**薄荷绿主色 + 16px 圆角**（色阶见 `DESIGN_SYSTEM.md` §2.1：`--primary #059669`、主按钮 `#047857`、辅助高亮 `#10b981`、装饰 `#34d399`、浅底 `#ecfdf5`）。**当前 `src/styles.css` 代码仍为深青绿 `#116a5b` + 8px**，切换为规范值是 Codex 实现任务 **Batch FRONTEND-A**（待办，文档为目标，代码后落地）。
+- 正式用户端技术路线调整为 **uni-app + Vue3**，目标覆盖 H5/PWA、微信小程序、Android、iOS。当前 `src/` 纯 JS + Vite 前端保留为历史原型和迁移来源，不继续承载复杂新功能。
+- 后台管理端规划为独立 **admin-web：Vue3 + TDesign Web**。后台共用 API 契约、数据状态和设计 token，不与用户端强行共用页面代码。
+- 设计规范已确认采用**薄荷绿主色 + 16px 圆角**（色阶见 `DESIGN_SYSTEM.md` §2.1：`--primary #059669`、主按钮 `#047857`、辅助高亮 `#10b981`、装饰 `#34d399`、浅底 `#ecfdf5`）。**当前 `src/styles.css` 代码仍为深青绿 `#116a5b` + 8px**，切换为规范值是迁移/落地任务，文档为目标，代码后落地。
 - 数据可信状态枚举以 `src/utils/dataStatus.js` 为准（7 个：verified_regulation / verified_jecfa / pending_review / mapped_candidate / common_ingredient / unverified / unknown_from_ocr）。
 - API 契约区分「已实现 / 现有等价 / 计划待实现」，不把不存在的接口写成已存在。
 - 专业法规、数据库和证据默认服务“数据来源和查看依据”，普通消费者默认看到食品标签解读、我的关注项和购买前建议关注。

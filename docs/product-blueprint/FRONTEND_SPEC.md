@@ -8,29 +8,60 @@
 > - `VISUAL_STYLE_GUIDE.md`（视觉风格 / 字体 / 图标 / 动效）
 > - `CONSUMER_DECISION_SPEC.md`（消费者食品标签解读与消费决策规范）
 > - `CONSUMER_UX_SPEC.md`（消费者体验和话术规范）
+> - `ARCHITECTURE_SPEC.md`（统一技术栈、旧前端迁移、后端/OCR/后台架构）
 > - `PAGE_STRUCTURE.md`（页面结构和验收口径）
 > - `API_CONTRACT.md`（接口契约）
 > - `DATA_TRUST_SPEC.md`（数据可信规范）
 >
-> 本规范中的样式 token、路由、状态枚举等以当前真实源码（`src/styles.css`、`src/router/router.js`、`src/utils/dataStatus.js`）为落地基线；如文档与代码冲突，应按真实代码修订文档，不得把计划能力写成已实现。
+> 本规范区分“正式目标架构”和“当前历史原型”。正式用户端采用 `user-uniapp`（uni-app + Vue3）；当前 `src/` 纯 JS + Vite/hash 路由前端保留为历史原型和迁移来源，不把计划迁移写成已完成。
 
 ---
 
-## 0. 技术栈基线（GROUNDING，不得更换）
+## 0. 技术栈基线（目标 + 现状）
 
-以下为权威事实，任何开发不得提议更换技术栈、不得引入框架或重型 UI 依赖：
+### 0.1 正式用户端目标栈
 
-- 语言：纯 JavaScript ES2022+，**用 JSDoc 注释类型，不使用 TypeScript**。
+正式用户端采用：
+
+- 目录：`user-uniapp/`（规划，尚未创建）
+- 框架：uni-app + Vue3
+- 目标平台：H5/PWA、微信小程序、Android、iOS
+- API：所有端统一调用后端 API
+- UI 基线：复用 `DESIGN_SYSTEM.md` 的 design tokens、数据状态、组件语义和文案规范
+
+正式用户端不得：
+
+- 直连 OCR / AI / 数据库 / 本地 OCR 服务。
+- 暴露 OCR Key / AI Key。
+- 假设所有平台都有 `window` / `document` / `navigator`。
+- 跳过 OCR 文本确认页直接分析。
+
+### 0.2 当前历史原型现状
+
+当前 `src/` 是历史 Web/PWA 原型：
+
+- 语言：纯 JavaScript ES2022+，用 JSDoc 注释类型。
 - 模块：ES Modules。
-- 框架：**无框架**，禁止 React / Vue / Svelte 等。
+- 框架：无框架。
 - 构建：Vite 8.x。
-- 路由：**自实现 hash 路由**（`window.location.hash` + `hashchange` 事件），见 `src/router/router.js`。
-- 样式：单文件 `src/styles.css`，原生 CSS + CSS 变量。禁止 Tailwind / Bootstrap / CSS-in-JS / 任何 CSS 预处理器（Sass/Less/Stylus）。
+- 路由：自实现 hash 路由（`window.location.hash` + `hashchange`），见 `src/router/router.js`。
+- 样式：单文件 `src/styles.css`，原生 CSS + CSS 变量。
 - 状态管理：无状态管理库，使用模块级函数 + `localStorage`（见 `src/store/userStore.js`）。
-- 测试：`scripts/test.mjs`，Node 原生 `assert`，不用 Jest / Vitest。
-- Lint：`scripts/lint.mjs`。
-- 后端：Node 20 + TypeScript + Hono + Drizzle / PostgreSQL（前端不直连数据库）。
-- 移动端：Capacitor 7.x。
+- 测试：`scripts/test.mjs`，Node 原生 `assert`。
+- 移动端能力：历史原型中已有 Capacitor 7.x 目录和部分桥接。
+
+处理策略：
+
+1. 旧前端保留为历史原型和迁移来源，不直接删除。
+2. 不继续在旧前端上堆复杂新业务。
+3. 旧前端中已有可复用的业务逻辑、文案、样式 token、页面流程，可逐步迁移到 `user-uniapp` 或 shared 模块。
+4. 旧前端如需维护，只做阻断性 bug、安全/数据可信/OCR 降级等小范围修复。
+
+### 0.3 后端与后台目标
+
+- 后端 API：复用现有 `backend/`，技术栈为 Node.js + TypeScript + Hono + Drizzle/PostgreSQL。不要重复创建 Express/NestJS 服务。
+- 后台管理端：`admin-web/`（规划，尚未创建），Vue3 + TDesign Web。
+- OCR 服务：Python FastAPI + RapidOCR，本地地址目标为 `http://127.0.0.1:18080/ocr`，后端通过 `OCR_LOCAL_URL` 调用；当前代码仍使用 `OCR_SERVICE_URL`，改名需另做配置迁移。
 
 安全与配置约束（强制）：
 
@@ -44,18 +75,29 @@
 ## 1. 前端总体原则
 
 1. **移动端优先**：所有页面、组件、交互首先满足移动端竖屏体验，再适配宽屏。
-2. **Web / PWA 优先跑通主路径**：先在 H5 / PWA 形态把核心扫描分析主流程跑通，后续再迁移到小程序 / Android / iOS（Capacitor）。
-3. **不为跨端一次性重构导致 MVP 停滞**：跨端能力分批演进，平台差异通过 `src/services/nativeBridge.js` 等隔离层吸收，不允许为了"一次性多端统一"而长期阻塞主流程交付。
-4. **保持栈稳定**：不随意换栈、不引框架、不引重型 UI 依赖（组件库、图表大库、状态库等）。确需新依赖时须评估体积与跨端可行性，并在 PR 说明理由。
+2. **正式用户端按 uni-app + Vue3 规划**：新复杂功能优先进入 `user-uniapp` 规划，不继续压在旧 `src/` 原型上。
+3. **不一次性重写全部业务代码**：先建目录、API 契约和迁移边界，再逐步迁移页面、服务和状态。
+4. **旧前端栈稳定**：旧 `src/` 原型内不新增 Vue/React/Tailwind/状态库等新栈；如要使用 Vue3，只能在正式 `user-uniapp` 或 `admin-web` 中使用。
 5. **渐进增强**：核心信息（关注项、配料、营养字段、数据来源）在低端机 / 弱网下也可读；增强能力（动画、懒加载图）失败不影响主信息。
-6. **单一事实来源**：状态枚举以 `src/utils/dataStatus.js` 为准；样式 token 以 `src/styles.css` 为准；路由以 `src/router/router.js` 为准。文档与代码冲突时以代码为准并同步修订文档。
+6. **单一事实来源**：迁移完成前，状态枚举以 `src/utils/dataStatus.js` 为当前实现参考；正式端需迁移为 shared 契约，不得各端自造状态。
 7. **消费者默认视角**：页面默认展示食品标签解读和购买前建议关注，专业法规/数据库字段默认折叠到“数据来源和查看依据”。
 
 ---
 
 ## 2. 目录结构规范
 
-以下为真实目录结构（取自仓库），逐目录说明用途，并标注「已存在」/「建议新增」。
+以下区分目标目录与当前原型目录。
+
+目标目录：
+
+```text
+user-uniapp/    计划  正式用户端，uni-app + Vue3
+admin-web/      计划  后台管理端，Vue3 + TDesign Web
+backend/        已存在  统一后端 API，Node.js + Hono + Drizzle/PostgreSQL
+src/            已存在  旧 Web/PWA 原型，迁移来源
+```
+
+当前 `src/` 真实目录结构（迁移来源），逐目录说明用途，并标注「已存在」/「建议迁移」。
 
 ```
 src/
@@ -68,9 +110,9 @@ src/
   router/       已存在  自实现 hash 路由（router.js）
   styles.css    已存在  唯一全局样式文件
   main.js       已存在  应用入口
-  assets/       建议新增  图片 / 图标 / 静态资源（禁止提交字体文件）
-  constants/    建议新增  集中常量 / 文案 key / 枚举（当前部分散落在 data/utils）
-  platform/     建议新增  平台差异适配层（当前由 services/nativeBridge.js 承担）
+  assets/       建议迁移到 user-uniapp  图片 / 图标 / 静态资源（禁止提交字体文件）
+  constants/    建议迁移到 shared/user-uniapp  集中常量 / 文案 key / 枚举
+  platform/     建议迁移到 user-uniapp  平台差异适配层
 ```
 
 ### 2.1 `src/pages/`（已存在）
