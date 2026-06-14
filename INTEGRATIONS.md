@@ -2,6 +2,8 @@
 
 本文件记录 CompCheck 当前对接的外部组件、本机目录、配置项和常用命令。以后新增数据库、OCR、AI、部署平台或其他外部系统时，必须同步更新本文件。
 
+完整文档分类见 [`docs/README.md`](./docs/README.md)；新机器部署见 [`docs/deployment.md`](./docs/deployment.md)；数据库设计、字段含义和初始化 SQL 见 [`docs/database.md`](./docs/database.md)。
+
 ## PostgreSQL
 
 - 用途：后端业务数据库、GB2760 staging / promote / 审计表。
@@ -10,6 +12,10 @@
 - 本机连接：`DATABASE_URL=postgres://postgres:password@localhost:15432/compcheck`
 - 容器内连接：`postgres://postgres:password@postgres:5432/compcheck`
 - 端口：`POSTGRES_PORT=15432`
+- 设计文档：[`docs/database.md`](./docs/database.md)
+- 部署步骤：[`docs/deployment.md`](./docs/deployment.md)
+
+说明：当前不是两个数据库。`localhost:15432` 是宿主机访问同一个 Postgres 容器的地址；`postgres:5432` 是 Docker Compose 内部服务地址。
 
 启动与初始化：
 

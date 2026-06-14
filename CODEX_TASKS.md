@@ -9,26 +9,27 @@
 ## 项目主路径
 
 ```
-拍照 / 上传食品配料表图片
+拍照 / 上传食品标签图片（配料表 / 营养成分表 / 包装正面）
   → [客户端] 图片预处理（EXIF 修正 + 压缩 + IndexedDB 存储）
   → OCR 识别文字（manual / mock / 真实 provider 三类模式）
   → 用户确认和修正识别文本
-  → 自动拆分配料
+  → 自动识别 / 手动选择标签类型
+  → 自动拆分配料 + 解析营养字段
   → 匹配食品成分 / 食品添加剂数据库
-  → 展示每条配料的数据来源和可信等级
-  → 生成食品配料分析报告
+  → 结合“我的关注项”排序展示
+  → 生成食品标签解读报告
   → 保存产品档案和分析历史
 ```
 
-**成分搜索只是辅助功能，不是主路径。OCR 拍照识别配料表 + 分析配料是核心主路径。**
+**成分搜索只是辅助功能，不是主路径。拍照解读食品标签 + 我的关注项 + 消费者报告是核心主路径。**
 
 产品边界：
 
-- 当前阶段只做"食品配料 / 食品添加剂"，不混入化妆品、护肤品、药品。
+- 当前阶段只做食品标签里的配料、食品添加剂、营养成分和包装卖点核对提示，不混入化妆品、护肤品、药品。
 - 数据必须来自可追溯官方来源，AI 不能作为原始数据来源。
-- 所有风险提示谨慎表达，不构成医疗建议。
-- 禁止文案：`绝对安全 / 绝对有害 / 治疗疾病 / 一定致敏 / 一定不能吃 / 致癌 / 有毒`
-- 推荐文案：`建议关注 / 部分人群可能需要留意 / 仅供配料信息参考 / 不构成医疗建议`
+- 所有提示谨慎表达，只做标签信息参考，不构成医疗或营养诊断。
+- 禁止文案：`可以买 / 不能买 / 健康 / 不健康 / 安全 / 有害 / 致癌 / 治疗 / 诊断 / 一定过敏 / 绝对安全 / 绝对有害 / 一定致敏 / 一定不能吃 / 有毒`
+- 推荐文案：`建议关注 / 更适合重点查看 / 部分人群可能需要留意 / 信息不足，建议结合包装原文确认 / 仅供标签信息参考，不构成医疗或营养诊断`
 
 ---
 
@@ -134,7 +135,7 @@
 | Data 旧 1-C | 数据版本管理与审核状态后台化 | ✅ 2026-06-12 |
 | OCR 旧 O-A/B/C/D | 拍照入口 / OCR 抽象 / 文本确认 / 图片预处理 | ✅ 2026-06-12 |
 | 解析 旧 P-A/P-B | 配料解析增强 + 数据库批量匹配 | ✅ 2026-06-12 |
-| 报告 旧 R-A | 食品配料分析报告页 | ✅ 2026-06-12 |
+| 报告 旧 R-A | 食品标签解读报告页（原食品配料分析报告页） | ✅ 2026-06-12 |
 | 档案 旧 F-A/F-B | 产品档案 + IndexedDB 图片 + 历史/收藏 | ✅ 2026-06-12 |
 | 登录 旧 Q-A | 前端登录/注册页 | ✅ 2026-06-12 |
 | 个性化 旧 U-A/U-B | 关注/忌口/过敏原 + 跨设备同步 | ✅ 2026-06-12 |
@@ -481,11 +482,11 @@
 
 ### Batch 3-A：拍照/上传入口 [Codex]
 
-目标：首页主入口是"拍照识别配料表"，扫描页支持拍照、相册、预览、重选、权限异常、图片质量提示、iPhone Safari/PWA 安全区。
+目标：首页主入口是"拍照解读食品标签"，扫描页支持拍照、相册、预览、重选、权限异常、图片质量提示、iPhone Safari/PWA 安全区。
 
 状态：✅ 已完成 2026-06-12（首页 Hero CTA、`/scan` 页、Camera/相册/Web 降级、8MB 校验、预览、重选、拍摄技巧、安全区）。
 涉及文件：`src/pages/scanPage.js`、`src/pages/homePage.js`、`src/services/nativeBridgeService.js`、`src/styles.css`、`scripts/test.mjs`。
-验收标准：✅ 首页第一操作是拍照识别；可选图预览；移动端不溢出；搜索不是首页第一主按钮。
+验收标准：✅ 首页第一操作是拍照解读食品标签；可选图预览；移动端不溢出；搜索不是首页第一主按钮。
 是否需要人工：否。
 阻塞条件：无（真机相机验收待 Batch 8-B）。
 验证命令：`npm run lint && npm run test && npm run build`。
@@ -762,19 +763,19 @@
 
 ### Batch UX-A：首页主路径重构 [Codex 🔁 待重构]
 
-目标：用户一打开就知道可以拍照识别配料表，搜索成分是辅助。
+目标：用户一打开就知道可以拍照解读食品标签，搜索成分是辅助。
 
 涉及文件：`src/pages/homePage.js`、`src/main.js`、`src/styles.css`、`scripts/test.mjs`。
 实现内容：
-1. 首页第一操作是"拍照识别配料表"全宽主 CTA。
-2. 上传图片、粘贴配料表为次级入口。
+1. 首页第一操作是"拍照解读食品标签"全宽主 CTA。
+2. 上传图片、粘贴标签文本为次级入口。
 3. 搜索成分为辅助入口（非首屏第一主按钮）。
 4. 最近分析记录可见。
 5. 常见关注项、数据可信说明入口。
 6. 移动端优先，安全区适配。
 
 验收标准：
-1. 首页第一操作是拍照识别配料表。
+1. 首页第一操作是拍照解读食品标签。
 2. 搜索成分是辅助入口。
 3. 最近分析记录可见。
 4. 移动端不溢出、不错位。
@@ -791,7 +792,7 @@
 
 涉及文件：`src/services/ocrService.js`、`src/pages/scanPage.js`、`src/pages/ocrConfirmPage.js`、`src/pages/analyzePage.js`、`src/store/userStore.js`、`scripts/test.mjs`。
 实现内容：
-1. 定义并文档化流程状态：`idle / capturing / processing / ocr_loading / confirm / parsing / matching / report / error`。
+1. 定义并文档化流程状态：`idle / selectingImage / previewingImage / uploadingImage / recognizing / ocrFailed / confirmingText / parsingIngredients / matchingIngredients / reportReady / failed`。
 2. 每步有明确状态与可见反馈。
 3. 任一步失败可回退上一步或重试。
 4. 无 API Key 全程可走 manual。
@@ -805,7 +806,7 @@
 
 是否需要人工：否。
 阻塞条件：无。
-验证命令：`npm run lint && npm run test && npm run build`。
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`；触达构建入口时再加 `npm run build`。
 
 ---
 
@@ -1099,6 +1100,716 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 ---
 
+# 阶段 12：跨端产品与 UI 规范
+
+> 目标：维护 `docs/product-blueprint/` 蓝图集，保证产品定位、UI、前端、跨端、API、数据可信、后台、隐私、验收口径一致。本阶段只改文档，不改业务代码。
+
+通用约束（所有后续 UI/前端/跨端 Batch 强制遵守）：
+
+```
+所有 UI 开发遵守 docs/product-blueprint/DESIGN_SYSTEM.md
+所有视觉开发遵守 docs/product-blueprint/VISUAL_STYLE_GUIDE.md
+所有前端开发遵守 docs/product-blueprint/FRONTEND_SPEC.md
+所有页面登记到 docs/product-blueprint/PAGE_STRUCTURE.md
+所有跨端能力遵守 docs/product-blueprint/CROSS_PLATFORM_SPEC.md
+所有接口变更同步 docs/product-blueprint/API_CONTRACT.md
+所有数据可信展示遵守 docs/product-blueprint/DATA_TRUST_SPEC.md
+所有隐私/权限功能遵守 docs/product-blueprint/PRIVACY_AND_COMPLIANCE_SPEC.md
+所有功能完成后按 docs/product-blueprint/QA_ACCEPTANCE_SPEC.md 验收
+```
+
+### Batch UI-SPEC-A：产品规范文档 [Codex]
+
+目标：统一产品定位、主路径、MVP 必含/不强制项、非目标。
+
+涉及文件：`docs/product-blueprint/PRODUCT_SPEC.md`。
+
+实现内容：
+1. 明确 CompLens / 成分镜是面向普通消费者的食品标签拍照解读与消费决策助手。
+2. 固定主路径：拍照/上传食品标签 → OCR → 文本确认 → 标签类型识别 → 配料/营养解析 → 我的关注项 → 食品标签解读报告 → 历史。
+3. 明确登录、云同步、订阅、支付、上架、AI 高级分析均不阻塞 MVP。
+
+验收标准：
+1. 成分搜索只作为辅助功能。
+2. 不出现医疗化、绝对安全/绝对有害表述。
+3. 未完成能力不写成已完成。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-B：设计系统文档 [Codex]
+
+目标：统一 design tokens、组件规则、状态规则。
+
+涉及文件：`docs/product-blueprint/DESIGN_SYSTEM.md`。
+
+实现内容：
+1. 补齐品牌色、背景色、文字色、边框色、语义状态色、可信状态色。
+2. 补齐字号、字重、行高、间距、圆角、阴影、卡片、按钮、标签、三态组件规则。
+3. 写明禁止每页自定义颜色、内联硬编码颜色、提交字体文件。
+
+验收标准：
+1. token 与 `src/styles.css` 现状一致或明确标为待补。
+2. 数据可信状态与 `src/utils/dataStatus.js` 对齐。
+3. 主按钮高度不低于 44px，正文不小于 14px。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-C：视觉风格文档 [Codex]
+
+目标：统一视觉风格、字体、图标、插画、动效和页面质感。
+
+涉及文件：`docs/product-blueprint/VISUAL_STYLE_GUIDE.md`。
+
+实现内容：
+1. 采用系统字体优先字体栈，不提交字体文件。
+2. 明确线性图标语义、统一尺寸、统一语气。
+3. 明确禁止营销化大英雄页、医疗化文案和页面级随意配色。
+
+验收标准：
+1. 字体栈与设计系统一致。
+2. 图标风格和尺寸有统一规则。
+3. 视觉规则与 `DESIGN_SYSTEM.md` 不重复冲突。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-D：前端工程规范文档 [Codex]
+
+目标：让 Codex 可以按当前纯 JS / Vite / hash router 技术栈开发前端。
+
+涉及文件：`docs/product-blueprint/FRONTEND_SPEC.md`。
+
+实现内容：
+1. 明确 `src/pages`、`src/components`、`src/services`、`src/store`、`src/utils`、`src/styles.css` 等现状目录。
+2. 定义页面三态、组件清单、OCR 状态机、API 调用、本地存储规范。
+3. 要求所有 API 调用集中到 services，页面不散写 `fetch`。
+
+验收标准：
+1. OCR 状态机包含 `idle` 到 `reportReady/failed` 全链路。
+2. OCR 失败可手动输入，且不得跳过文本确认。
+3. 图片/blob 不进入 `localStorage`。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-E：页面结构文档 [Codex]
+
+目标：登记用户端和后台端页面结构、入口、组件、状态和验收标准。
+
+涉及文件：`docs/product-blueprint/PAGE_STRUCTURE.md`。
+
+实现内容：
+1. 覆盖首页、拍照/上传、OCR、文本确认、拆分、匹配、报告、详情、历史、我的、数据说明、隐私说明。
+2. 覆盖后台数据源、GB2760 导入、staging 复核、添加剂、使用规则、分类、OCR 记录、反馈、产品分析记录、系统配置。
+3. 每页写清 loading/empty/error、移动端注意事项、数据可信展示规则。
+
+验收标准：
+1. 页面清单与当前 `src/pages`/计划后台页面一致。
+2. 主路径页面不缺文本确认和匹配确认。
+3. 后台未实现页面明确为计划。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-F：跨端规范文档 [Codex]
+
+目标：定义 Web/PWA、小程序、Android、iOS、Web 管理后台的跨端策略和能力矩阵。
+
+涉及文件：`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`。
+
+实现内容：
+1. 明确当前优先 Web/PWA 跑通主流程。
+2. 明确统一产品流程、design tokens、数据状态、API 契约、文案规范，不强行一套 UI 代码覆盖所有端。
+3. 明确小程序/App 不假设 `window/document/navigator`，前端不暴露 OCR/AI Key。
+
+验收标准：
+1. 能力矩阵覆盖拍照、相册、压缩、OCR、缓存、历史、分享、登录、支付、推送、离线。
+2. 未实现能力不标为支持。
+3. OCR 服务不直接暴露公网。
+
+是否需要人工：否。
+
+阻塞条件：小程序/App 真机能力需后续人工验收。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-G：API契约文档 [Codex]
+
+目标：围绕主流程定义统一 API 契约，并区分已实现、等价实现、未实现。
+
+涉及文件：`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 覆盖 `POST /api/ocr`、`POST /api/ingredients/parse`、`POST /api/ingredients/match`、`POST/GET /api/reports*` 等目标接口。
+2. 覆盖添加剂搜索/详情、数据源、GB2760 导入状态、反馈接口。
+3. 每个接口写清用途、调用端、请求、响应、错误码、数据状态字段、展示规则、登录/匿名策略。
+
+验收标准：
+1. 匿名用户应能完成 MVP 主流程的目标口径明确。
+2. 当前需登录或未实现的接口如实标注。
+3. 配料解析/匹配不要求各端重复实现。
+
+是否需要人工：否。
+
+阻塞条件：匿名 OCR/报告 API 是否调整需后续产品确认。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-H：数据可信规范文档 [Codex]
+
+目标：定义数据来源类型、数据状态、GB2760/OCR/AI 的可信边界。
+
+涉及文件：`docs/product-blueprint/DATA_TRUST_SPEC.md`、`DATA_SOURCES.md`。
+
+实现内容：
+1. 覆盖 `official_standard`、`safety_evaluation`、`manual_review`、`common_ingredient`、`ocr_input`、`ai_generated`、`user_feedback`。
+2. 说明 `verified_safety` 与当前代码 `verified_jecfa` 的映射关系。
+3. 明确 GB2760 staging、promote、pending_review、AI 解释层边界。
+
+验收标准：
+1. `pending_review` 不展示为官方结论。
+2. OCR 是用户输入，不是权威来源。
+3. JECFA 不反推 GB2760 使用范围和限量。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+### Batch UI-SPEC-I：后台管理规范文档 [Codex]
+
+目标：定义后台 MVP 范围和独立后台建设原则。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`。
+
+实现内容：
+1. 后台 MVP 限定为数据源、导入状态、staging 复核、添加剂、使用规则、分类、OCR 记录、反馈、系统配置。
+2. 后台作为单独 Web 项目建设，可选 TDesign Web / Ant Design / Arco。
+3. 不与用户端强行共用页面代码，但共用 tokens、数据状态、API 契约。
+
+验收标准：
+1. 只把已部分落地的 GB2760 复核工作台写为部分落地。
+2. 其他后台页面明确为计划。
+3. 不把后台作为当前用户主流程前置阻塞。
+
+是否需要人工：是（后台项目选型和启动时机）。
+
+阻塞条件：用户当前要求内部控制台先不做。
+
+验证命令：`git diff --check`。
+
+状态：✅ 文档已完成；实现暂缓。
+
+### Batch UI-SPEC-J：隐私合规规范文档 [Codex]
+
+目标：定义图片、OCR、权限、第三方、上架材料和禁用文案规则。
+
+涉及文件：`docs/product-blueprint/PRIVACY_AND_COMPLIANCE_SPEC.md`。
+
+实现内容：
+1. 默认不长期保存原图，OCR 临时图片尽快删除。
+2. 不得传给未声明第三方，前端不得暴露第三方 Key。
+3. 覆盖隐私政策、用户协议、权限说明、SDK 清单、数据删除、APP 备案、软著建议、应用商店素材。
+
+验收标准：
+1. 图片/OCR 隐私规则明确。
+2. 相机/相册/网络/本地存储权限说明齐全。
+3. 禁止医疗化和绝对化文案。
+
+是否需要人工：是（法务和上架材料最终确认）。
+
+阻塞条件：法务/应用商店账号/生产第三方清单。
+
+验证命令：`git diff --check`。
+
+状态：✅ 文档已完成；法务确认待人工。
+
+### Batch UI-SPEC-K：测试验收规范文档 [Codex]
+
+目标：定义主流程、数据可信、移动端、跨端、回归测试验收清单。
+
+涉及文件：`docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`。
+
+实现内容：
+1. 覆盖首页 → 拍照/上传 → OCR → 文本确认 → 拆分 → 匹配 → 报告 → 保存历史。
+2. 覆盖 `verified_regulation`、`pending_review`、`unknown_from_ocr`、AI、OCR 确认等可信验收。
+3. 覆盖 iPhone Safari、安全区、点击区域、字体、底部导航、无横向滚动、三态。
+
+验收标准：
+1. 回归清单包含 OCR 失败、手动输入、图片过大、低置信、未收录、报告保存、历史打开、网络错误、数据源展示。
+2. 命令矩阵不把计划命令写成已实现。
+3. 不要求每次提交都跑完整测试，按改动范围验证。
+
+是否需要人工：否。
+
+阻塞条件：真机验收需用户或测试设备。
+
+验证命令：`git diff --check`。
+
+状态：✅ 已完成 2026-06-15（二次复核优化）。
+
+---
+
+# 阶段 13：消费者食品标签解读
+
+> 目标：把产品从“配料表识别 / 添加剂查询”升级为“面向普通消费者的食品标签拍照解读与消费决策助手”。本阶段优先 Web/PWA，本地保存即可，不要求登录、云同步、AI、扫码、对比或小程序/App。
+
+### Batch CONSUMER-LABEL-A：标签类型识别 [Codex]
+
+目标：识别用户拍的是配料表、营养成分表、包装正面还是未知标签。
+
+涉及文件：`src/pages/scanPage.js`、`src/pages/ocrConfirmPage.js`、`src/services/ocrService.js`、`src/utils/`、`docs/product-blueprint/CONSUMER_DECISION_SPEC.md`、`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 定义 `ingredient_list`、`nutrition_facts`、`front_claims`、`barcode_or_product`、`unknown_label` 标签类型。
+2. OCR 后给出标签类型判断；低置信或未知时进入用户选择。
+3. 用户可选择“这是配料表 / 这是营养成分表 / 这是包装正面 / 都不是，重新拍”。
+
+验收标准：
+1. 无法判断时不直接进入分析，必须允许用户选择。
+2. 标签类型判断不展示为权威结论。
+3. 选择后进入对应文本确认路径。
+
+是否需要人工：否。
+
+阻塞条件：无；后端 `/api/labels/classify` 为计划 API，MVP 可先前端本地判断。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`；不默认跑完整测试。
+
+状态：⏸ 待开始。
+
+### Batch CONSUMER-LABEL-B：营养成分表 OCR 与结构化 [Codex]
+
+目标：解析能量、蛋白质、脂肪、碳水、糖、钠等营养字段。
+
+涉及文件：`src/pages/ocrConfirmPage.js`、`src/pages/analyzePage.js`、`src/pages/reportDetailPage.js`、`src/services/`、`src/utils/`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 支持营养成分表 OCR 文本确认。
+2. 解析 `energy`、`protein`、`fat`、`saturatedFat`、`transFat`、`carbohydrate`、`sugar`、`sodium`、`dietaryFiber`、`servingSize`、`perUnit`、`nrvPercent`。
+3. 字段可编辑，解析失败可手动修正。
+
+验收标准：
+1. 控糖关注项可看到糖、碳水和甜味来源。
+2. 低钠关注项可看到钠和含钠配料。
+3. 信息不足时提示“建议结合包装原文确认”，不输出营养诊断。
+
+是否需要人工：否。
+
+阻塞条件：无；后端 `/api/nutrition/parse` 为计划 API，MVP 可先本地解析。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch CONSUMER-LABEL-C：我的关注项本地设置 [Codex]
+
+目标：支持控糖、低钠、少添加、过敏/忌口、给孩子看等关注项。
+
+涉及文件：`src/pages/settingsPage.js`、计划 `src/pages/attentionItemsPage.js`、`src/services/storageService.js`、`src/store/userStore.js`、`docs/product-blueprint/CONSUMER_UX_SPEC.md`。
+
+实现内容：
+1. 本地保存控糖、低钠、减脂、高蛋白、少添加、给孩子看、过敏/忌口。
+2. 支持细分关注成分：糖、糖浆、甜味剂、钠、食用盐、防腐剂、色素、食用香精、反式脂肪、乳制品、大豆、坚果、麸质、蛋类、海鲜、咖啡因。
+3. 报告页按关注项排序。
+
+验收标准：
+1. 不登录也能保存和清空。
+2. 关注项不作为医疗诊断展示。
+3. 报告排序受关注项影响。
+
+是否需要人工：否。
+
+阻塞条件：云同步后置；`GET/POST /api/user-attention-items` 为计划 API。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch CONSUMER-LABEL-D：食品标签解读报告 [Codex]
+
+目标：把配料表、营养成分表、用户关注项合并成普通人能看懂的报告。
+
+涉及文件：`src/pages/reportDetailPage.js`、`src/pages/reportsPage.js`、`src/pages/historyPage.js`、`src/services/reportService.js`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`。
+
+实现内容：
+1. 报告页名称改为“食品标签解读”。
+2. 报告结构调整为一句话结论、我的关注项、购买前建议关注、配料表解读、营养成分解读、包装卖点核对、食品添加剂分组、过敏/忌口提示、暂未识别/暂未收录、数据来源和查看依据。
+3. 普通消费者内容默认展示，专业来源和法规依据默认折叠。
+
+验收标准：
+1. 不出现“法规分析报告 / 风险分析报告 / 添加剂合规报告”作为用户默认报告名。
+2. 不输出可以买、不能买、健康、不健康、安全、有害、致癌、治疗、诊断、一定过敏。
+3. 数据来源仍可追溯。
+
+是否需要人工：建议产品文案人工走查。
+
+阻塞条件：无。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch CONSUMER-LABEL-E：包装卖点核对 [Codex / 后续]
+
+目标：识别 0糖、低脂、高蛋白、无添加等卖点，并结合配料/营养表提示。
+
+涉及文件：计划 `src/pages/frontClaimsPage.js`、`src/pages/reportDetailPage.js`、`src/services/`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 解析 0 蔗糖、0 糖、低脂、高蛋白、无添加、儿童、粗粮、代餐、低卡、非油炸。
+2. 结合配料表和营养成分表给核对提醒。
+3. 只做提醒，不做打假结论。
+
+验收标准：
+1. “0 蔗糖”提示继续查看其他糖类或甜味剂。
+2. “高蛋白 / 低脂”提示结合营养成分表查看。
+3. “无添加”提示结合配料表添加剂查看。
+
+是否需要人工：否。
+
+阻塞条件：MVP 后置；`POST /api/claims/parse` 为计划 API。
+
+验证命令：`git diff --check`；实现时按改动范围补充 lint/test。
+
+状态：⏸ 后置。
+
+### Batch CONSUMER-LABEL-F：两款商品对比 [Codex / 后续]
+
+目标：支持两款食品按糖、钠、脂肪、添加剂、用户关注项进行对比。
+
+涉及文件：`src/pages/comparePage.js`、`src/services/compareService.js`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 支持拍 A 产品标签、拍 B 产品标签。
+2. 对比配料数量、添加剂数量、糖/钠/脂肪/蛋白质、用户关注项命中数量。
+3. 输出“A 的钠更低 / B 的食品添加剂数量更少 / A 更符合你当前低钠关注项”。
+
+验收标准：
+1. 禁止输出“A 更健康 / B 不健康”。
+2. 对比基于标签信息和用户关注项。
+3. 数据不足时提示结合包装原文确认。
+
+是否需要人工：否。
+
+阻塞条件：MVP 后置；`POST /api/reports/compare` 为计划 API。
+
+验证命令：`git diff --check`；实现时按改动范围补充 lint/test。
+
+状态：⏸ 后置。
+
+---
+
+# 阶段 14：前端规范落地
+
+> 目标：把蓝图落到用户端代码。内部控制台暂缓；产品页面整体设计统一时再推进后台 UI。
+
+### Batch FRONTEND-A：统一 CSS variables / design tokens [Codex]
+
+目标：把 `DESIGN_SYSTEM.md` 的 token 规则落到 `src/styles.css`，减少硬编码。
+
+涉及文件：`src/styles.css`、相关页面样式、`docs/product-blueprint/DESIGN_SYSTEM.md`。
+
+实现内容：
+1. 收敛品牌色、状态色、圆角、阴影、间距、字体变量。
+2. 新页面只使用 CSS variables，不内联硬编码颜色。
+3. 保持数据可信状态色与 `DATA_TRUST_SPEC.md` 一致。
+
+验收标准：
+1. 主按钮高度不低于 44px。
+2. 正文不小于 14px。
+3. 无页面级新造颜色体系。
+
+是否需要人工：可选（视觉目视验收）。
+
+阻塞条件：产品页面最终视觉方向如变更需先更新设计文档。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`；不要默认全量构建。
+
+状态：⏸ 待开始。
+
+### Batch FRONTEND-B：基础组件统一 [Codex]
+
+目标：统一基础组件，减少每页重复实现。
+
+涉及文件：`src/components/`、`src/pages/`、`src/styles.css`、`scripts/test.mjs`。
+
+实现内容：
+1. 统一 Button、Card、Badge、StatusTag、SourceBadge、ConfidenceBadge。
+2. 统一 ImageUploader、StepIndicator、IngredientChip、ReportSummaryCard、BottomNav。
+3. 统一 Toast、Modal、LoadingState、EmptyState、ErrorState。
+
+验收标准：
+1. 页面复用组件，不复制多套相似样式。
+2. 组件支持 loading/disabled/error/empty 等状态。
+3. 移动端安全区和点击区域不回归。
+
+是否需要人工：可选（视觉目视验收）。
+
+阻塞条件：用户要求产品页面设计统一时一起做。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch FRONTEND-C：OCR 流程状态机 [Codex]
+
+目标：让 OCR 主流程严格遵守 `FRONTEND_SPEC.md` 状态机。
+
+涉及文件：`src/pages/scanPage.js`、`src/pages/ocrConfirmPage.js`、`src/pages/analyzePage.js`、`src/services/ocrService.js`、`scripts/test.mjs`。
+
+实现内容：
+1. 实现 `idle/selectingImage/previewingImage/uploadingImage/recognizing/ocrFailed/confirmingText/parsingIngredients/matchingIngredients/reportReady/failed`。
+2. OCR 失败不终止流程，支持手动输入。
+3. 禁止跳过文本确认页直接分析。
+
+验收标准：
+1. 每个状态有明确 UI。
+2. 每个失败态有重试/返回/手动输入路径。
+3. 无 Key 或 OCR 不可用时不伪造结果。
+
+是否需要人工：否。
+
+阻塞条件：生产 OCR 供应商 Key 不阻塞本地状态机。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch FRONTEND-D：API client 统一封装 [Codex]
+
+目标：统一 API 调用、timeout、error handling、loading、toast。
+
+涉及文件：`src/services/`、`src/pages/`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 网络请求集中在 services/API client，页面不散写 `fetch`.
+2. 统一 timeout、错误分类、重试语义、toast 文案。
+3. 请求/响应字段遵守 `API_CONTRACT.md`，未实现接口不直接调用。
+
+验收标准：
+1. 页面层不直接处理底层 HTTP 细节。
+2. 网络错误、超时、401/403/404/5xx 有统一展示。
+3. 匿名主流程不被登录能力阻塞。
+
+是否需要人工：否。
+
+阻塞条件：是否新增匿名 `/api/reports*` 接口需产品确认。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch FRONTEND-E：loading/empty/error 状态统一 [Codex]
+
+目标：统一所有页面三态。
+
+涉及文件：`src/components/`、`src/pages/`、`src/styles.css`、`scripts/test.mjs`。
+
+实现内容：
+1. loading 不用空白替代。
+2. empty 提供下一步操作。
+3. error 提供重试/返回路径。
+
+验收标准：
+1. 主路径每页三态可观测。
+2. 移动端三态不遮挡底部导航。
+3. 数据可信展示区错误时不编造来源。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：✅ 行为已基本完成（Batch 8-C）；组件化复核随 FRONTEND-B 继续。
+
+### Batch FRONTEND-F：本地存储适配层 [Codex]
+
+目标：统一 H5/PWA、小程序、App 的本地存储抽象。
+
+涉及文件：`src/services/imageStoreService.js`、`src/services/storageService.js`、`src/services/nativeBridgeService.js`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`。
+
+实现内容：
+1. 图片/blob 使用 IndexedDB 或平台文件缓存。
+2. `localStorage` 只存小型设置、索引、用户偏好。
+3. 提供隐私清理入口和可迁移的数据结构。
+
+验收标准：
+1. 不把大对象或 base64 图片存入 `localStorage`。
+2. 历史记录可匿名本地保存。
+3. 小程序/App 的平台缓存实现有独立适配层，不直接依赖浏览器 API。
+
+是否需要人工：否。
+
+阻塞条件：小程序/App 真机验证后置。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+---
+
+# 阶段 15：跨端实现准备
+
+> 目标：为 Web/PWA 后续迁移到微信小程序、Android、iOS 做接口和能力抽象准备。支付、订阅、上架继续后置。
+
+### Batch PLATFORM-A：平台能力矩阵 [Codex]
+
+目标：维护五端平台能力矩阵。
+
+涉及文件：`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`、`docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`。
+
+实现内容：
+1. 覆盖拍照、相册、图片压缩、OCR、本地缓存、历史记录、分享、登录、支付、推送、离线。
+2. 标注支持、部分支持、后续、无需、不支持。
+3. 随实现变化同步更新验收清单。
+
+验收标准：
+1. Web/PWA 当前优先级明确。
+2. 小程序/App 未实现能力不写成支持。
+3. 支付/推送不上移到主流程前。
+
+是否需要人工：否。
+
+阻塞条件：真机能力需后续人工验收。
+
+验证命令：`git diff --check`。
+
+状态：✅ 文档已完成；后续随实现维护。
+
+### Batch PLATFORM-B：相机/相册适配接口设计 [Codex]
+
+目标：设计统一相机/相册适配接口。
+
+涉及文件：`src/services/nativeBridgeService.js`、`src/pages/scanPage.js`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`。
+
+实现内容：
+1. 定义 `capturePhoto` / `pickImage` / `compressImage` 统一调用口径。
+2. Web 走 file input，Capacitor 走 Camera，小程序后续走 `wx.chooseMedia`。
+3. 页面只依赖适配层，不直接调用平台 API。
+
+验收标准：
+1. Web/PWA 现有拍照上传不回归。
+2. 小程序不依赖 `window/document/navigator`。
+3. 权限失败有明确 error 状态和手动上传/输入降级。
+
+是否需要人工：否；小程序/原生真机验收后置。
+
+阻塞条件：小程序/App 构建环境。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch PLATFORM-C：本地存储适配接口设计 [Codex]
+
+目标：设计跨端图片、报告、设置的存储适配接口。
+
+涉及文件：`src/services/imageStoreService.js`、`src/services/storageService.js`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`。
+
+实现内容：
+1. 定义图片存储、元数据存储、历史记录存储的统一接口。
+2. H5/PWA 使用 IndexedDB + localStorage 小对象。
+3. 小程序/App 使用平台文件缓存，避免直接使用浏览器专有 API。
+
+验收标准：
+1. 图片/blob 不进 `localStorage`。
+2. 用户可清理本地隐私数据。
+3. 存储失败有 error 状态和降级路径。
+
+是否需要人工：否。
+
+阻塞条件：小程序/App 真机文件系统验证后置。
+
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+
+状态：⏸ 待开始。
+
+### Batch PLATFORM-D：分享/登录/支付能力后置规划 [Codex]
+
+目标：明确分享、登录、支付跨端边界，防止支付/订阅早于核心闭环。
+
+涉及文件：`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`、`docs/product-blueprint/PRODUCT_SPEC.md`、`CODEX_TASKS.md`。
+
+实现内容：
+1. 分享作为增强能力，不阻塞报告生成。
+2. 登录/云同步后置，匿名可完成 MVP。
+3. 支付、订阅、应用商店上架保持阶段 11 后置。
+
+验收标准：
+1. 文档没有把支付/订阅/上架排到核心闭环前。
+2. 登录不阻断拍照 → 报告主路径。
+3. 后续实现遇账号/商店依赖及时通知用户。
+
+是否需要人工：是（支付账号、开发者账号、上架材料）。
+
+阻塞条件：Apple/Google/微信支付账号、法务材料。
+
+验证命令：`git diff --check`。
+
+状态：⏸ 后置。
+
+### Batch PLATFORM-E：后台管理端规划 [Codex]
+
+目标：规划独立后台管理端，不与用户端强行共用页面代码。
+
+涉及文件：`docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 后台单独 Web 项目，可选 TDesign Web / Ant Design / Arco。
+2. 共用 design tokens、数据状态、API 契约。
+3. 第一版只做数据源、导入状态、staging 复核、添加剂、规则、分类、OCR 记录、反馈、系统配置。
+
+验收标准：
+1. 后台不阻塞当前用户端主流程。
+2. 未实现后台页面不写成已完成。
+3. 权限、审计、复核状态与数据可信规范一致。
+
+是否需要人工：是（后台启动时机和技术选型确认）。
+
+阻塞条件：用户当前要求内部控制台先不做。
+
+验证命令：`git diff --check`。
+
+状态：⛔ blocked_by_user（暂缓实现，文档已规划）。
+
+---
+
 ## 完整依赖关系
 
 ```
@@ -1113,6 +1824,10 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 阶段 9（AI）：9-A✅ → 9-B[人工+Codex, blocked] → 9-C✅
 阶段 10（登录同步）：10-A✅ → 10-B✅ → 10-C[人工+Codex, blocked]
 阶段 11（订阅支付上架）：全部后置 / blocked_by_user
+阶段 12（跨端产品与 UI 规范）：UI-SPEC-A✅ → UI-SPEC-K✅
+阶段 13（消费者食品标签解读）：CONSUMER-LABEL-A → B → C → D；E/F 后置
+阶段 14（前端规范落地）：FRONTEND-A → B → C → D → E✅ → F
+阶段 15（跨端实现准备）：PLATFORM-A✅ → B → C → D[后置] → E[blocked]
 ```
 
 关键人工卡点：

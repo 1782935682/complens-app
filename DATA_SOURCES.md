@@ -15,6 +15,22 @@
 - **`pending_review` 不能当作权威结论**：从官方来源抽取但字段或结构待复核的数据，后端 DB 状态为 `pending_review`（生成源文件仍可能保留 `needs_review`，入库时统一），不得展示为已验证、不得作为官方规则。
 - 数据是**持续扩充**的：不追求一次性把全部食品配料人工 verified，而是 staging 全量承接 → 高置信 promote → 低置信 `pending_review` → 后续人工复核逐步提高覆盖。
 
+## 归一数据来源类型
+
+为避免 API、前端展示和后台审核使用不同词，来源类型统一按 [`docs/product-blueprint/DATA_TRUST_SPEC.md`](./docs/product-blueprint/DATA_TRUST_SPEC.md) 归一：
+
+| 归一来源类型 | 当前代码/数据映射 | 展示边界 |
+|---|---|---|
+| `official_standard` | `official_standard` / `gb_2760_regulation` | GB 2760 等官方标准，可在正式库准入后作为法规结论 |
+| `safety_evaluation` | `jecfa_safety_evaluation` | 仅安全评价，不代表中国法规使用范围和限量 |
+| `manual_review` | 审核签核字段 / reviewer allowlist | 人工复核审计，不单独替代来源证据 |
+| `common_ingredient` | `common_ingredient_lexicon` / `common_ingredient` | 普通配料可读性，非法规结论 |
+| `ocr_input` | OCR 识别文本 / 用户确认文本 | 用户输入来源，必须确认，不是权威来源 |
+| `ai_generated` | AI 解释结果 | 只做解释层，不作为成分或法规事实来源 |
+| `user_feedback` | 用户反馈 / 纠错线索 | 非权威结论，需进入人工校验 |
+
+状态别名说明：产品/跨端规范可使用 `verified_safety` 表达“安全评价已验证”的语义；当前代码和数据库字段仍统一使用 `verified_jecfa`。新增 API 如返回别名，必须同时保留或映射到当前代码状态，避免各端自造枚举。
+
 ## 分层数据状态
 
 食品数据使用以下状态分层：
@@ -138,6 +154,8 @@ OCR 未匹配数据不直接写入权威库。运行时只记录为 `unknown_fro
 当前数据治理页会从本机报告聚合 OCR 未收录项和低置信候选项，并和静态 `unverified` / `mapped_candidate` / `seed_reference` 记录一起展示为人工校验队列。该队列只保存待核对线索和反馈入口，不代表任何记录已完成法规或安全评价验证。
 
 ## 数据模型字段
+
+完整数据库表设计、字段含义、初始化 SQL 清单和 seed/promote 写入关系见 [`docs/database.md`](./docs/database.md)。本节只保留数据可信度和 GB2760 数据治理的核心字段口径。
 
 食品数据和后端 `ingredients` 表需要保留以下可信度字段：
 

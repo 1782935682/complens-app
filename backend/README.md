@@ -2,6 +2,8 @@
 
 Node.js 20 + Hono backend for CompCheck.
 
+Repository-level documentation index: [`../docs/README.md`](../docs/README.md). Full deployment runbook: [`../docs/deployment.md`](../docs/deployment.md). Database schema, table meanings, field meanings, and migration SQL index: [`../docs/database.md`](../docs/database.md).
+
 ## Setup
 
 ```bash
@@ -96,7 +98,7 @@ npm run db:generate
 npm run db:migrate
 ```
 
-Seed the 100 food-additive records from the frontend data module:
+Seed the current food/additive foundation data and GB2760 official staging/fulltext/reference tables:
 
 ```bash
 npm run db:seed
@@ -105,7 +107,10 @@ npm run db:seed
 Expected output:
 
 ```text
-Seeded 100 ingredients
+Seeded <n> ingredients for data version ...
+Seeded 2404 GB 2760 official staging records
+Seeded 264 GB 2760 official full-text pages
+Seeded 2800 GB 2760 official reference rows
 ```
 
 ## Docker
@@ -118,4 +123,4 @@ The compose file starts PostgreSQL 15 on host port `15432` by default and the AP
 
 Local development binds to `HOST=127.0.0.1` by default. Docker Compose overrides `HOST=0.0.0.0` so the API is reachable through the published port.
 
-Host commands keep `DATABASE_URL=postgres://postgres:password@localhost:15432/compcheck` so Drizzle and seed scripts can connect through the published PostgreSQL port. The API container overrides `DATABASE_URL` to `postgres://postgres:password@postgres:5432/compcheck`, because `localhost` inside that container is the API container itself.
+Host commands keep `DATABASE_URL=postgres://postgres:password@localhost:15432/compcheck` so Drizzle and seed scripts can connect through the published PostgreSQL port. The API container overrides `DATABASE_URL` to `postgres://postgres:password@postgres:5432/compcheck`, because `localhost` inside that container is the API container itself. These are two addresses for the same `compcheck` database, not two databases.

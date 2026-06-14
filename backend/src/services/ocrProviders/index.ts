@@ -22,6 +22,7 @@ export type OcrProviderResult = {
 export type OcrProviderRuntime = {
   apiKey?: string;
   serviceUrl?: string;
+  timeoutMs?: number;
 };
 
 export class OcrProviderError extends Error {
@@ -35,6 +36,8 @@ export class OcrProviderError extends Error {
     this.status = status;
   }
 }
+
+const DEFAULT_RAPIDOCR_TIMEOUT_MS = 30_000;
 
 export function normalizeOcrProvider(value: string | undefined): OcrProviderName {
   const normalized = String(value || '').trim().toLowerCase();
@@ -84,14 +87,23 @@ async function recognizeWithRapidOcr(input: OcrProviderInput, runtime: OcrProvid
   const formData = new FormData();
   formData.append('file', new Blob([image], { type: input.mimeType }), `ingredient-image${extensionForMimeType(input.mimeType)}`);
 
+  const timeoutMs = normalizeTimeoutMs(runtime.timeoutMs);
+  const abortController = new AbortController();
+  const timeout = setTimeout(() => abortController.abort(), timeoutMs);
   let response: Response;
   try {
     response = await fetch(`${serviceUrl}/ocr`, {
       method: 'POST',
-      body: formData
+      body: formData,
+      signal: abortController.signal
     });
   } catch (error) {
+    if (isAbortError(error)) {
+      throw new OcrProviderError('ocr_provider_timeout', `RapidOCR service timed out after ${timeoutMs}ms`, 504);
+    }
     throw new OcrProviderError('ocr_provider_unreachable', error instanceof Error ? error.message : 'RapidOCR service is unreachable', 503);
+  } finally {
+    clearTimeout(timeout);
   }
 
   if (!response.ok) {
@@ -113,12 +125,21 @@ function normalizeRapidOcrPayload(payload: unknown): OcrProviderResult {
     confidence?: unknown;
     blocks?: unknown;
   };
-  const blocks = Array.isArray(value.blocks)
-    ? value.blocks.map(normalizeRapidOcrBlock).filter((block) => block.text)
+  const rawText = typeof value.rawText === 'string' ? value.rawText : null;
+  const rawBlocks = Array.isArray(value.blocks) ? value.blocks : null;
+  if (rawText === null && rawBlocks === null) {
+    throw new OcrProviderError('ocr_provider_invalid_response', 'RapidOCR service response is missing rawText or blocks', 502);
+  }
+
+  const blocks = rawBlocks
+    ? rawBlocks.map(normalizeRapidOcrBlock).filter((block) => block.text)
     : [];
-  const text = typeof value.rawText === 'string'
-    ? value.rawText.trim()
+  const text = rawText !== null
+    ? rawText.trim()
     : blocks.map((block) => block.text).join('\n');
+  if (rawText === null && !blocks.length) {
+    throw new OcrProviderError('ocr_provider_invalid_response', 'RapidOCR service response did not contain readable text blocks', 502);
+  }
 
   return {
     text,
@@ -166,6 +187,14 @@ function clampConfidence(value: number) {
 
 function normalizeServiceUrl(value: string | undefined) {
   return String(value || '').trim().replace(/\/+$/u, '');
+}
+
+function normalizeTimeoutMs(value: number | undefined) {
+  return Number.isFinite(value) && Number(value) > 0 ? Number(value) : DEFAULT_RAPIDOCR_TIMEOUT_MS;
+}
+
+function isAbortError(error: unknown) {
+  return error instanceof Error && error.name === 'AbortError';
 }
 
 function extensionForMimeType(mimeType: string) {
