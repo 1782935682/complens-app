@@ -1,0 +1,1 @@
+ALTER TABLE "additive_usage_rules" ADD CONSTRAINT "additive_usage_rules_source_staging_id_gb2760_official_records_id_fk" FOREIGN KEY ("source_staging_id") REFERENCES "public"."gb2760_official_records"("id") ON DELETE restrict ON UPDATE no action;

@@ -1,6 +1,5 @@
-import { randomUUID } from 'node:crypto';
 import { createDatabaseClient } from '../src/db/client.js';
-import { createGb2760SourceDocumentInput, recordImportRun, upsertSourceDocument, type Gb2760SourceMetadata, type ImportRunType } from '../src/services/gb2760Service.js';
+import { createGb2760SourceDocumentInput, createSeedImportRunId, recordImportRun, upsertSourceDocument, type Gb2760SourceMetadata, type ImportRunType } from '../src/services/gb2760Service.js';
 import { reconcilePromotedGb2760Rows } from '../src/services/gb2760PromoteService.js';
 import { upsertGb2760OfficialPages, upsertGb2760OfficialRecords, upsertGb2760OfficialReferenceRows, upsertIngredients, type FoodAdditiveInput, type Gb2760OfficialPageInput, type Gb2760OfficialRecordInput, type Gb2760OfficialReferenceRowInput } from '../src/services/ingredientService.js';
 
@@ -159,7 +158,7 @@ async function runAuditedGb2760Import(params: {
   operation: () => Promise<void>;
 }) {
   const startedAt = new Date();
-  const runId = createImportRunId(params.runType, startedAt);
+  const runId = createSeedImportRunId(params.sourceDocumentId, params.runType);
   try {
     await params.operation();
     await recordImportRun(client.db, {
@@ -203,11 +202,6 @@ function formatPromotionErrors(result: Awaited<ReturnType<typeof reconcilePromot
     .slice(0, 5)
     .map((error) => `${error.row.id}: ${error.reasons.join(', ')}`)
     .join('; ');
-}
-
-function createImportRunId(runType: ImportRunType, startedAt: Date) {
-  const timestamp = startedAt.toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
-  return `import-run-gb2760-${runType.replace(/_/g, '-')}-${timestamp}-${randomUUID().slice(0, 8)}`;
 }
 
 function readRequiredSourceField(source: object, field: keyof Gb2760SourceMetadata) {

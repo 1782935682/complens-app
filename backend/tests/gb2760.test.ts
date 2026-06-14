@@ -2,11 +2,14 @@ import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
 import type { AdditiveUsageRuleRow, Gb2760OfficialRecordRow, ImportRunRow, IngredientRow } from '../src/db/schema.js';
 import { getAffectedPromotionIngredientIds, getGb2760AdditiveIdentityKey, getStaleFormalRuleSourceIds, hasFullPromotionCoverage, isApprovedForPromotion, isPromotedForReconciliation, toAdditiveUsageRuleRow, toDemotedIngredientPatch, toPartiallyPromotedIngredientPatch, toPromotedIngredientPatch, validatePromotionCandidate } from '../src/services/gb2760PromoteService.js';
-import { createGb2760SourceDocumentInput, toImportErrorRow, toImportRunRow, toSourceDocumentRow, type Gb2760Service, type ImportRunListItem } from '../src/services/gb2760Service.js';
+import type { AuthService } from '../src/services/authService.js';
+import { createGb2760SourceDocumentInput, createSeedImportRunId, toImportErrorRow, toImportRunRow, toSourceDocumentRow, type Gb2760Service, type ImportRunListItem } from '../src/services/gb2760Service.js';
 import { validateGb2760State } from '../src/services/gb2760ValidateService.js';
 import { preserveGb2760ManualReviewState, preserveGb2760ManualReviewStatus } from '../src/services/ingredientService.js';
 
-function createTestApp(service: Gb2760Service) {
+const authHeaders = { Authorization: 'Bearer valid-token' };
+
+function createTestApp(service: Gb2760Service, authService = createAuthService()) {
   return createApp({
     corsOrigin: 'http://localhost:5173',
     databaseUrl: 'postgres://postgres:password@localhost:15432/compcheck',
@@ -15,8 +18,21 @@ function createTestApp(service: Gb2760Service) {
     ocrProvider: 'aliyun',
     port: 3000
   }, {
+    authService,
     gb2760Service: service
   });
+}
+
+function createAuthService(): AuthService {
+  return {
+    register: vi.fn(),
+    login: vi.fn(),
+    logout: vi.fn(),
+    getUserForToken: vi.fn(async (token: string) => (token === 'valid-token'
+      ? { id: 'user-1', email: 'reviewer@example.test', createdAt: new Date('2026-06-14T08:00:00.000Z') }
+      : null)),
+    deleteAccount: vi.fn()
+  };
 }
 
 function createImportRun(overrides: Partial<ImportRunListItem> = {}): ImportRunListItem {
@@ -80,7 +96,7 @@ describe('GET /api/gb2760/import-runs', () => {
     const service = createGb2760Service();
     const app = createTestApp(service);
 
-    const response = await app.request('/api/gb2760/import-runs?page=2&limit=5');
+    const response = await app.request('/api/gb2760/import-runs?page=2&limit=5', { headers: authHeaders });
     const body = await response.json();
 
     expect(response.status).toBe(200);
@@ -93,7 +109,7 @@ describe('GET /api/gb2760/import-runs', () => {
   it('rejects invalid pagination', async () => {
     const app = createTestApp(createGb2760Service());
 
-    const response = await app.request('/api/gb2760/import-runs?limit=500');
+    const response = await app.request('/api/gb2760/import-runs?limit=500', { headers: authHeaders });
     const body = await response.json();
 
     expect(response.status).toBe(400);
@@ -103,6 +119,18 @@ describe('GET /api/gb2760/import-runs', () => {
       message: 'limit must be between 1 and 100'
     });
   });
+
+  it('requires auth before exposing import audit records', async () => {
+    const app = createTestApp(createGb2760Service());
+
+    const missing = await app.request('/api/gb2760/import-runs');
+    const invalid = await app.request('/api/gb2760/import-runs', {
+      headers: { Authorization: 'Bearer invalid-token' }
+    });
+
+    expect(missing.status).toBe(401);
+    expect(invalid.status).toBe(401);
+  });
 });
 
 describe('GET /api/gb2760/import-runs/:id/errors', () => {
@@ -110,7 +138,7 @@ describe('GET /api/gb2760/import-runs/:id/errors', () => {
     const service = createGb2760Service();
     const app = createTestApp(service);
 
-    const response = await app.request('/api/gb2760/import-runs/import-run-gb2760-failed/errors');
+    const response = await app.request('/api/gb2760/import-runs/import-run-gb2760-failed/errors', { headers: authHeaders });
     const body = await response.json();
 
     expect(response.status).toBe(200);
@@ -129,7 +157,7 @@ describe('GET /api/gb2760/import-runs/:id/errors', () => {
   it('returns JSON 404 for unknown import runs', async () => {
     const app = createTestApp(createGb2760Service());
 
-    const response = await app.request('/api/gb2760/import-runs/not-found/errors');
+    const response = await app.request('/api/gb2760/import-runs/not-found/errors', { headers: authHeaders });
 
     expect(response.status).toBe(404);
     expect(await response.json()).toEqual({ error: 'not_found' });
@@ -184,6 +212,11 @@ describe('GB 2760 import audit mappers', () => {
     expect(run.status).toBe('failed');
     expect(error.rowRef).toBe('表 C.3:33');
     expect(error.rawSourceText).toBe('Pseudomonasfluorescens');
+  });
+
+  it('uses a stable seed import run id so repeated db:seed refreshes upsert audit rows', () => {
+    expect(createSeedImportRunId('source-document-gb-2760-2024-2a2c4a867cf5', 'a1_staging'))
+      .toBe('import-run-source-document-gb-2760-2024-2a2c4a867cf5-a1-staging');
   });
 
   it('preserves manual GB 2760 review statuses when seed data is refreshed', () => {
@@ -605,16 +638,28 @@ describe('GB 2760 validation helpers', () => {
     ]));
   });
 
-  it('rejects formal usage rules sourced from pending review rows', () => {
+  it('rejects formal usage rules sourced from non-promoted staging rows', () => {
     const source = createStagingRecord({ reviewStatus: 'pending_review' });
+    const approvedSource = createStagingRecord({
+      id: 'gb2760-2024-a1-citric-acid-candy',
+      reviewStatus: 'approved',
+      foodCategoryCode: '05.02',
+      foodCategoryName: '糖果'
+    });
     const rule = createUsageRule({ sourceStagingId: source.id });
+    const approvedRule = createUsageRule({
+      id: 'additive-usage-rule-citric-acid-candy',
+      sourceStagingId: approvedSource.id,
+      foodCategoryCode: approvedSource.foodCategoryCode,
+      foodCategoryName: approvedSource.foodCategoryName
+    });
     const report = validateGb2760State({
-      stagingRows: [source],
-      usageRules: [rule],
+      stagingRows: [source, approvedSource],
+      usageRules: [rule, approvedRule],
       ingredientRows: [createIngredientRow()]
     });
 
-    expect(report.issues.map((issue) => issue.code)).toContain('usage_rule_source_not_promoted');
+    expect(report.issues.filter((issue) => issue.code === 'usage_rule_source_not_promoted')).toHaveLength(2);
   });
 
   it('rejects formal usage rules whose staging source disappeared from a refreshed snapshot', () => {

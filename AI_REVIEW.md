@@ -25,7 +25,7 @@
 | `backend/src/db/migrations/meta/0012_snapshot.json`、`meta/0013_snapshot.json`、`meta/_journal.json` | 更新 | Drizzle 迁移快照同步 |
 | `backend/src/services/gb2760Service.ts` | 新增 | 封装来源文档、导入批次、错误记录的 mapper/upsert/query 服务 |
 | `backend/src/services/gb2760PromoteService.ts` | 新增 | 封装 promote 准入校验、`additive_usage_rules` upsert、`ingredients` 法规可见字段同步、`reviewStatus` 更新和空签核统计 |
-| `backend/src/routes/gb2760.ts` | 新增 | 新增 `GET /api/gb2760/import-runs` 和 `GET /api/gb2760/import-runs/:id/errors` |
+| `backend/src/routes/gb2760.ts` | 新增 | 新增需登录鉴权的 `GET /api/gb2760/import-runs` 和 `GET /api/gb2760/import-runs/:id/errors` |
 | `backend/src/app.ts` | 更新 | 挂载 GB2760 只读审计路由并支持测试注入 service |
 | `backend/scripts/seed.ts` | 更新 | `db:seed` 先登记 GB2760 source document，再为 A.1 staging、全文页、参考表写入 import run；失败时写批次级 import error 并抛错 |
 | `backend/scripts/promote-gb2760.ts` | 新增 | 后端 `promote:gb2760` CLI：运行 promote、写入 promote import run、记录已签核缺字段错误 |
@@ -50,7 +50,7 @@
 3. 文档优先级重排为：数据源 → GB2760 导入 → 数据库 → OCR 主路径 → 解析 → 匹配 → 报告 → 档案 → 移动体验 → AI → 登录 → 订阅。
 4. GB2760 导入流程明确为 staging 全量承接 → 高置信 promote 正式库 → 低置信 `pending_review` → 人工复核；已实现命令和计划命令在 `COMMANDS.md` 分开标注。
 5. `README.md` 大小写冲突已规避，产品入口保留在已跟踪的 `readme.md`，`AGENTS.md` 链接同步指向 `readme.md`。
-6. Batch 1-A 已落地：`source_documents` 1 条 GB2760 官方来源记录；最近一次 `db:seed` 写入三条成功 `import_runs`（A.1 staging 2404、全文 264、参考表 2800）且 `import_errors` 为 0；查询接口只读、无鉴权，不改变原有 `gb2760_official_*` 数据事实。
+6. Batch 1-A 已落地：`source_documents` 1 条 GB2760 官方来源记录；最近一次 `db:seed` 写入三条稳定成功 `import_runs`（A.1 staging 2404、全文 264、参考表 2800）且 `import_errors` 为 0；查询接口只读且需要登录鉴权，不改变原有 `gb2760_official_*` 数据事实。
 7. Batch 1-C 已落地：`additive_usage_rules` 表已创建；`promote:gb2760` 只处理 DB staging 中 `approved` / `promoted` 行，成功 promote 同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`；空签核场景为 `approved=0`、`promoted=0`、`pending_review=2391`、`already_verified=13`，不会把历史 `verified` staging 行自动写入新规则表。
 8. Batch 1-D 已落地：`validate:gb2760` 在当前空签核 DB 上通过，报告 `staging=2404`、`pending_review=2391`、`legacy_verified=13`、`additive_usage_rules=0`、`import_errors=0`，并已接入 CI。
 
@@ -59,7 +59,7 @@
 - 真实后端表：`ingredients`、`ingredient_sources`、`gb2760_official_records`、`gb2760_official_pages`、`gb2760_official_reference_rows`、`source_documents`、`import_runs`、`import_errors`、`additive_usage_rules`、`users`、`sessions`、`user_favorites`、`user_history`、`user_allergens`、`user_profile_ingredients`、`user_reports`、`product_archives`。
 - 真实后端路由：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。
 - 真实前端命令：`dev` / `build` / `preview` / `lint` / `test` / `validate:data` / `validate:gb2760` / `cap:*`；后端：`dev` / `build` / `db:generate` / `db:migrate` / `db:seed` / `promote:gb2760` / `validate:gb2760` / `typecheck` / `test`。
-- 用户要求的 `promote:gb2760` / `validate:gb2760` 已存在；`import:gb2760` 仍不存在；`import:gb2760:status` 的查询能力已作为 API `GET /api/gb2760/import-runs` 落地，但 npm CLI 包装仍不存在。
+- 用户要求的 `promote:gb2760` / `validate:gb2760` 已存在；`import:gb2760` 仍不存在；`import:gb2760:status` 的查询能力已作为需登录 API `GET /api/gb2760/import-runs` 落地，但 npm CLI 包装仍不存在。
 - 已完成的 OCR/解析/报告/档案/登录/移动批次按真实页面与服务（`scanPage`/`ocrConfirmPage`/`ingredientMatchService`/`reportDetailPage`/`productArchiveService`/`authService` 等）标 ✅。
 
 ## 验证结果

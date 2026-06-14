@@ -35,7 +35,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.route('/api', createAuthRoute(authService));
   app.route('/api', createOcrRoute(authService, config));
   app.route('/api', createUserRoute(authService, services.userService ?? createLazyUserService(config.databaseUrl)));
-  app.route('/api', createGb2760Route(services.gb2760Service ?? createLazyGb2760Service(config.databaseUrl)));
+  app.route('/api', createGb2760Route(authService, services.gb2760Service ?? createLazyGb2760Service(config.databaseUrl)));
   app.route('/api', createIngredientsRoute(services.ingredientService ?? createLazyIngredientService(config.databaseUrl)));
 
   app.notFound((context) => context.json({ error: 'not_found' }, 404));

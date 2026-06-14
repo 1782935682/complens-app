@@ -1,12 +1,16 @@
 import { Hono } from 'hono';
+import { createAuthMiddleware, type AuthVariables } from '../middleware/auth.js';
+import type { AuthService } from '../services/authService.js';
 import type { Gb2760Service } from '../services/gb2760Service.js';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 100;
 
-export function createGb2760Route(gb2760Service: Gb2760Service) {
-  const route = new Hono();
+export function createGb2760Route(authService: AuthService, gb2760Service: Gb2760Service) {
+  const route = new Hono<{ Variables: AuthVariables }>();
+  const requireAuth = createAuthMiddleware(authService);
+  route.use('/gb2760/*', requireAuth);
 
   route.get('/gb2760/import-runs', async (context) => {
     const parsed = parseListQuery(context.req.query());

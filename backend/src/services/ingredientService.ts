@@ -1,6 +1,7 @@
 import { and, asc, count, desc, eq, inArray, notInArray, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { gb2760OfficialPages, gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredientSources, ingredients, type Gb2760OfficialRecordRow, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewGb2760OfficialReferenceRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
+import { additiveUsageRules, gb2760OfficialPages, gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredientSources, ingredients, type Gb2760OfficialRecordRow, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewGb2760OfficialReferenceRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
+import { toDemotedIngredientPatch } from './gb2760PromoteService.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
 export const validConfidenceLevels = ['high', 'medium', 'low', 'unverified'] as const;
@@ -527,6 +528,12 @@ export async function upsertGb2760OfficialRecords(db: Database, records: Gb2760O
         .where(inArray(gb2760OfficialRecords.id, recordIds)))
         .map((row) => [row.id, row])
     );
+    const staleRows = await tx
+      .select({ id: gb2760OfficialRecords.id })
+      .from(gb2760OfficialRecords)
+      .where(notInArray(gb2760OfficialRecords.id, recordIds));
+    await removeStaleGb2760FormalRules(tx, staleRows.map((row) => row.id));
+
     // Official PDF-derived tables are snapshots; keep database rows in lockstep with source files.
     await tx
       .delete(gb2760OfficialRecords)
@@ -548,6 +555,41 @@ export async function upsertGb2760OfficialRecords(db: Database, records: Gb2760O
         });
     }
   });
+}
+
+async function removeStaleGb2760FormalRules(tx: Database, staleSourceIds: string[]) {
+  if (staleSourceIds.length === 0) return;
+
+  const staleRules = await tx
+    .select()
+    .from(additiveUsageRules)
+    .where(inArray(additiveUsageRules.sourceStagingId, staleSourceIds));
+  if (staleRules.length === 0) return;
+
+  const affectedIngredientIds = [...new Set(staleRules.map((rule) => rule.ingredientId))];
+  await tx
+    .delete(additiveUsageRules)
+    .where(inArray(additiveUsageRules.sourceStagingId, staleSourceIds));
+
+  const remainingRules = await tx
+    .select()
+    .from(additiveUsageRules)
+    .where(inArray(additiveUsageRules.ingredientId, affectedIngredientIds));
+  const ingredientsWithRemainingRules = new Set(remainingRules.map((rule) => rule.ingredientId));
+  const demotedIngredientIds = affectedIngredientIds.filter((ingredientId) => !ingredientsWithRemainingRules.has(ingredientId));
+  if (demotedIngredientIds.length === 0) return;
+
+  const demotedIngredients = await tx
+    .select()
+    .from(ingredients)
+    .where(inArray(ingredients.id, demotedIngredientIds));
+  const reviewedAt = new Date();
+  for (const ingredient of demotedIngredients) {
+    await tx
+      .update(ingredients)
+      .set(toDemotedIngredientPatch(ingredient, reviewedAt))
+      .where(eq(ingredients.id, ingredient.id));
+  }
 }
 
 export async function upsertGb2760OfficialPages(db: Database, pages: Gb2760OfficialPageInput[]) {

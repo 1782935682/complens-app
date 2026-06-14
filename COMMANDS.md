@@ -174,11 +174,11 @@ npm run db:seed -- --version 2026-06-v1 --reviewed-by system --change-note "seed
 GB2760 导入审计 API 验收：
 
 ```bash
-curl "http://127.0.0.1:3000/api/gb2760/import-runs"
-curl "http://127.0.0.1:3000/api/gb2760/import-runs/<import-run-id>/errors"
+curl -H "Authorization: Bearer <token>" "http://127.0.0.1:3000/api/gb2760/import-runs"
+curl -H "Authorization: Bearer <token>" "http://127.0.0.1:3000/api/gb2760/import-runs/<import-run-id>/errors"
 ```
 
-`GET /api/gb2760/import-runs` 返回 `db:seed` 写入的 `fulltext` / `a1_staging` / `reference_tables` 批次、行数、状态和来源文档摘要；`errors` 接口返回失败批次的错误明细。当前没有单独的 `npm run import:gb2760:status` CLI 包装命令。
+`GET /api/gb2760/import-runs` 返回 `db:seed` 写入的 `fulltext` / `a1_staging` / `reference_tables` 批次、行数、状态和来源文档摘要；`errors` 接口返回失败批次的错误明细。接口需要登录 token，当前没有单独的 `npm run import:gb2760:status` CLI 包装命令。
 
 GB2760 正式库准入 promote（后端命令，Batch 1-C 已实现）：
 
@@ -366,7 +366,7 @@ npm run validate:data
 |---|---|---|---|
 | `import:gb2760` | 从官方 PDF 全量承接到 staging（封装现有生成脚本 + 导入审计） | Batch 1-A/1-B | 计划，未实现 |
 | `import:gb2760:resume` | 断点续跑 staging 导入 | Batch 1-A/1-B | 计划，未实现 |
-| `import:gb2760:status` | 查询导入批次状态（`import_runs` / `import_errors`） | Batch 1-A | CLI 计划，API 已实现：`GET /api/gb2760/import-runs` |
+| `import:gb2760:status` | 查询导入批次状态（`import_runs` / `import_errors`） | Batch 1-A | CLI 计划，需登录 API 已实现：`GET /api/gb2760/import-runs` |
 | `promote:gb2760` | 把已人工签核且满足正式库准入规则的 staging 行 promote 到 `additive_usage_rules` 并同步更新 `ingredients` 可见法规字段；低置信保持 pending_review | Batch 1-C | 已实现：`cd backend && npm run promote:gb2760`；当前 0 promoted |
 | `validate:gb2760` | 强制执行正式库准入规则与禁止事项，违规报错退出 | Batch 1-D | 已实现：`npm run validate:gb2760`；CI 已接入 |
 

@@ -217,7 +217,7 @@
 2. ✅ `import_runs`：`id`、`sourceDocumentId`、`runType`（`fulltext` / `a1_staging` / `reference_tables` / `promote`）、`startedAt`、`endedAt`、`totalRows`、`succeededRows`、`failedRows`、`status`（`running` / `succeeded` / `failed`）、`note`。
 3. ✅ `import_errors`：`id`、`importRunId`、`rowRef`（页码/行号）、`reason`、`rawSourceText`、`createdAt`。
 4. ✅ `db:seed` 入库时写入 `a1_staging` / `fulltext` / `reference_tables` 三类 `import_runs`；失败时写入批次级 `import_errors` 并继续抛错，不改变现有抽取逻辑。
-5. ✅ 新增只读接口 `GET /api/gb2760/import-runs` 和 `GET /api/gb2760/import-runs/:id/errors`（无鉴权，只读）。
+5. ✅ 新增登录鉴权只读接口 `GET /api/gb2760/import-runs` 和 `GET /api/gb2760/import-runs/:id/errors`。
 
 验收标准：
 1. 迁移可执行，三张表创建成功。
@@ -228,7 +228,7 @@
 状态：✅ 已完成 2026-06-14。
 是否需要人工：否。
 阻塞条件：无。
-验证命令：`cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm test && npm run build`，再 `curl http://127.0.0.1:3000/api/gb2760/import-runs`。本地 seed 后审计表结果：`source_documents` 1 条；`import_runs` 三条成功记录（A.1 staging 2404、全文 264、参考表 2800）；`import_errors` 0。
+验证命令：`cd backend && npm run db:migrate && npm run db:seed && npm run typecheck && npm test && npm run build`，再携带登录 token 请求 `GET /api/gb2760/import-runs`。本地 seed 后审计表结果：`source_documents` 1 条；`import_runs` 三条稳定成功记录（A.1 staging 2404、全文 264、参考表 2800）；`import_errors` 0。
 
 ---
 

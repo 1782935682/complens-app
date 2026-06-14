@@ -143,6 +143,14 @@ export function createGb2760SourceDocumentInput(source: Gb2760SourceMetadata): S
   };
 }
 
+export function createSeedImportRunId(sourceDocumentId: string, runType: ImportRunType) {
+  const sourceId = normalizeRequiredText(sourceDocumentId, 'source document id')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  return `import-run-${sourceId}-${runType.replace(/_/g, '-')}`;
+}
+
 export function toSourceDocumentRow(document: SourceDocumentInput): NewSourceDocumentRow {
   return {
     id: normalizeRequiredText(document.id, 'source document id'),

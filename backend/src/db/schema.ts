@@ -230,7 +230,7 @@ export const additiveUsageRules = pgTable('additive_usage_rules', {
   unit: text('unit').notNull().default(''),
   functionText: text('function_text').notNull(),
   note: text('note').notNull().default(''),
-  sourceStagingId: text('source_staging_id').notNull(),
+  sourceStagingId: text('source_staging_id').notNull().references(() => gb2760OfficialRecords.id, { onDelete: 'restrict' }),
   sourcePage: integer('source_page').notNull(),
   sourceTable: text('source_table').notNull(),
   sourceHash: text('source_hash').notNull(),
