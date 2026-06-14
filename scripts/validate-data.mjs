@@ -10,6 +10,7 @@ const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);
 const reviewStatuses = new Set(['draft', 'reviewed', 'verified']);
 const dataStatuses = new Set(['verified_regulation', 'verified_jecfa', 'pending_review', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr']);
+const nonVerifiedDataStatuses = new Set(['pending_review', 'mapped_candidate', 'unverified', 'unknown_from_ocr']);
 const sourceTypes = new Set(['official_standard', 'regulation', 'public_database', 'manual_verified', 'unknown']);
 const sourceScopes = new Set(['gb_2760_regulation', 'jecfa_safety_evaluation', 'candidate_mapping', 'common_ingredient_lexicon', 'ocr_unmatched', 'seed_reference', 'unknown']);
 const confidenceLevels = new Set(['high', 'medium', 'low', 'unverified']);
@@ -260,6 +261,10 @@ export function validateFoodAdditives(items = foodIngredients) {
 
     if (item?.dataStatus === 'verified_jecfa' && item?.isVerified === true) {
       errors.push(`${label}.verified_jecfa data must not set isVerified true until GB 2760 regulation limits are verified`);
+    }
+
+    if (nonVerifiedDataStatuses.has(item?.dataStatus) && item?.isVerified === true) {
+      errors.push(`${label}.${item.dataStatus} data must not set isVerified true`);
     }
 
     if (item?.dataStatus === 'verified_regulation' && item?.sourceScope !== 'gb_2760_regulation') {

@@ -2185,6 +2185,12 @@ const pendingReviewFoodIngredient = {
 };
 assert.deepEqual(validateFoodAdditives([pendingReviewFoodIngredient]), []);
 assert.equal(getFoodAdditiveQualityReport([pendingReviewFoodIngredient]).reviewQueue.includes('pending-review-test-additive'), true);
+for (const dataStatus of ['pending_review', 'mapped_candidate', 'unverified']) {
+  assert.match(
+    validateFoodAdditives([{ ...pendingReviewFoodIngredient, dataStatus, isVerified: true }]).join('\n'),
+    new RegExp(`${dataStatus} data must not set isVerified true`)
+  );
+}
 
 const originalWindow = globalThis.window;
 globalThis.window = {
