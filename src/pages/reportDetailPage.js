@@ -7,10 +7,11 @@ import { buildReportFileName, buildReportMarkdown } from '../services/reportExpo
 import { getProductArchiveByReportId } from '../services/productArchiveService.js';
 import {
   cautionGroupLabel,
-  getCategoryBreakdownEntries,
   getConcernSummaries,
   getSpecialPopulationAlerts,
   getTopIngredientNames,
+  isPendingReportMatch,
+  isReportMatchAccepted,
   riskGradeLabel,
   riskLevelLabel
 } from '../services/reportService.js';
@@ -84,6 +85,7 @@ export function renderReportDetailPage(id, category = 'food') {
     ${renderConcernSummary(report)}
     ${renderPersonalHitSummary(report)}
     ${renderIngredientOrder(report)}
+    ${renderLowConfidenceSection(report)}
     ${renderAdditiveSection(report, currentCategory)}
     ${renderUnmatchedSection(report)}
     ${renderSpecialPopulationSection(report)}
@@ -182,8 +184,8 @@ function renderIngredientOrder(report) {
 }
 
 function renderAdditiveSection(report, currentCategory) {
-  const matched = (report.matchResults || []).filter((item) => item.match && item.confidence > 0);
-  const categories = getCategoryBreakdownEntries(report);
+  const matched = (report.matchResults || []).filter((item) => isReportMatchAccepted(item) && !isPendingReportMatch(item));
+  const categories = getDisplayedCategoryEntries(matched);
   return html`
     <section class="section">
       <div class="section__head">
@@ -204,6 +206,54 @@ function renderAdditiveSection(report, currentCategory) {
   `;
 }
 
+function renderLowConfidenceSection(report) {
+  const pendingMatches = (report.matchResults || [])
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => isPendingReportMatch(item));
+  if (!pendingMatches.length) return '';
+
+  return html`
+    <section class="section">
+      <div class="report-panel report-low-confidence">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">待确认匹配</p>
+            <h2>${pendingMatches.length} 项低置信候选</h2>
+            <p class="helper-text">这些条目由模糊匹配得到，请按包装原文确认是否应归入候选成分。</p>
+          </div>
+        </div>
+        <div class="report-low-confidence-list">
+          ${pendingMatches.map((entry) => renderLowConfidenceMatch(entry, report)).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderLowConfidenceMatch({ item, index }, report) {
+  const match = item.match;
+  const original = item.parsedIngredient?.normalizedText || item.term || '未命名配料';
+  const fullIngredient = getIngredientById(match.id, report.category);
+  return html`
+    <article class="report-low-confidence-item">
+      <div>
+        <span class="data-badge data-badge--pending">⚠️ 请确认</span>
+        <h3>${escapeHtml(original)} → ${escapeHtml(match.nameCn || match.id)}</h3>
+        <p>${escapeHtml(`${match.category || '未分类'} / ${riskLevelLabel(match.riskLevel)} / 置信度 ${Math.round((Number(item.confidence) || 0) * 100)}%`)}</p>
+        <div class="report-ingredient-item__meta">
+          <span>${escapeHtml(dataStatusLabel(getReportMatchDataStatus(item)))}</span>
+          <span>来源范围：${escapeHtml(sourceScopeLabel(getReportMatchSourceScope(match, fullIngredient)))}</span>
+          ${match.sourceName || fullIngredient?.sourceName ? html`<span>数据来源：${escapeHtml(match.sourceName || fullIngredient.sourceName)}</span>` : ''}
+        </div>
+      </div>
+      <div class="form-actions report-low-confidence-actions">
+        <button type="button" data-report-match-decision="confirmed" data-report-id="${escapeHtml(report.id)}" data-match-index="${index}">确认匹配</button>
+        <button type="button" class="secondary" data-report-match-decision="rejected" data-report-id="${escapeHtml(report.id)}" data-match-index="${index}">驳回匹配</button>
+      </div>
+    </article>
+  `;
+}
+
 function renderMatchedIngredient(item, category) {
   const match = item.match;
   const fullIngredient = getIngredientById(match.id, category);
@@ -217,6 +267,7 @@ function renderMatchedIngredient(item, category) {
         <span class="chip">${escapeHtml(match.category || '未分类')}</span>
         <span>${escapeHtml(riskLevelLabel(match.riskLevel))}</span>
         <span class="data-badge data-badge--unverified">${escapeHtml(dataStatusLabel(getReportMatchDataStatus(item)))}</span>
+        ${item.reviewDecision === 'confirmed' ? '<span class="data-badge data-badge--confirmed">已确认匹配</span>' : ''}
         ${personalHit ? renderPersonalHitBadge(personalHit) : ''}
       </summary>
       <div class="report-ingredient-item__body">
@@ -258,7 +309,9 @@ function renderUnmatchedSection(report) {
         </div>
       </div>
       <p class="helper-text">这些条目可能是普通食品原料、复合配料、OCR 误识别文本或当前数据库尚未覆盖的添加剂；不会由 AI 编造成法规结论。</p>
-      <div class="chip-list">${unmatchedRecords.map((record) => html`<span class="chip chip--muted">${escapeHtml(record.item)} / ${escapeHtml(dataStatusLabel(record.dataStatus))}</span>`).join('')}</div>
+      <div class="chip-list">${unmatchedRecords.map((record) => html`
+        <span class="chip chip--muted">${escapeHtml(record.item)} / ${escapeHtml(dataStatusLabel(record.dataStatus))}${record.reason === 'low_confidence_rejected' ? ` / 已驳回候选：${escapeHtml(record.rejectedMatchName || record.rejectedMatchId || '未命名')}` : ''}</span>
+      `).join('')}</div>
     </section>
   `;
 }
@@ -431,9 +484,18 @@ function buildReportSourceEvidence(report) {
 }
 
 function getReportMatchDataStatus(item) {
-  if (!item?.match || item.confidence <= 0) return 'unknown_from_ocr';
-  if (item.confidence < 0.9) return 'mapped_candidate';
+  if (!item?.match || item.confidence <= 0 || item.reviewDecision === 'rejected') return 'unknown_from_ocr';
+  if (item.confidence < 0.9 && item.reviewDecision !== 'confirmed') return 'mapped_candidate';
   return normalizeDataStatus(item.match.dataStatus);
+}
+
+function getDisplayedCategoryEntries(items = []) {
+  const counts = new Map();
+  for (const item of items) {
+    const category = item.match?.category || '未分类';
+    counts.set(category, (counts.get(category) || 0) + 1);
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-Hans-CN'));
 }
 
 function getReportMatchSourceScope(match, fullIngredient) {

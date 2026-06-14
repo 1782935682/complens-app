@@ -97,10 +97,10 @@
 ```
 → 本轮刚完成：
   1. Batch 3-B：OCR Provider 抽象（manual / mock / aliyun / paddleocr / rapidocr）
+  2. Batch 4-C：低置信匹配确认交互（报告待确认区块、确认/驳回持久化、驳回候选进人工校验队列）
 
 → 非控制台、非产品页面设计的后续候选：
-  1. Batch 4-C：低置信匹配确认交互
-  2. Batch 8-C：loading / empty / error 状态统一
+  1. Batch 8-C：loading / empty / error 状态统一
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -598,8 +598,8 @@
 
 目标：低置信度匹配在报告中单独列"待确认匹配"，用户可确认/驳回。
 
-状态：🔄 进行中（已有低置信列表展示；用户确认/驳回交互待补强）。
-涉及文件：`src/pages/reportDetailPage.js`、`src/services/ingredientMatchService.js`、`src/services/reviewQueueService.js`、`scripts/test.mjs`。
+状态：✅ 已完成 2026-06-14（低置信项已独立展示；确认/驳回会持久化到报告快照；驳回项按未收录候选进入人工校验队列）。
+涉及文件：`src/pages/reportDetailPage.js`、`src/services/reportService.js`、`src/store/userStore.js`、`src/services/reviewQueueService.js`、`src/pages/dataPage.js`、`src/main.js`、`src/styles.css`、`scripts/test.mjs`。
 实现内容：
 1. 报告/分析页低置信项（0.55–0.79）单独区块，标注"⚠️ 请确认"。
 2. 用户可"确认匹配"或"驳回"；驳回后该项标为未收录，进人工校验队列。

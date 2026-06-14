@@ -19,7 +19,7 @@ import { buildSupportRequestMarkdown } from './services/supportService.js';
 import { matchIngredients } from './services/ingredientMatchService.js';
 import { renderDatabaseMatchSummary } from './pages/analyzePage.js';
 import { renderGb2760ReferenceRowsState } from './pages/dataPage.js';
-import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, markScanTipsSeen, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
+import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, markScanTipsSeen, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, skipOnboarding, toggleFavorite, updateAnalysisReportMatchDecision } from './store/userStore.js';
 import { formatBytes, validateScanImageFile } from './utils/imageFile.js';
 import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
 
@@ -627,6 +627,21 @@ function bindPageEvents(route) {
       } else {
         render();
       }
+    });
+  });
+
+  document.querySelectorAll('[data-report-match-decision]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const updated = updateAnalysisReportMatchDecision(
+        button.dataset.reportId,
+        Number(button.dataset.matchIndex),
+        button.dataset.reportMatchDecision
+      );
+      if (!updated) {
+        updateExportStatus('匹配状态更新失败，请刷新报告后重试。');
+        return;
+      }
+      render();
     });
   });
 

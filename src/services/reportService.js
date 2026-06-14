@@ -10,6 +10,35 @@ export const REPORT_RISK_GRADES = ['A', 'B', 'C', 'D', 'F'];
 const defaultCategory = 'food';
 const defaultProductName = '未命名产品';
 const reportSources = ['ocr', 'manual'];
+const LOW_CONFIDENCE_MATCH_MIN = 0.55;
+const LOW_CONFIDENCE_MATCH_MAX = 0.9;
+const MATCH_REVIEW_DECISIONS = ['confirmed', 'rejected'];
+
+export function isReportMatchRejected(result) {
+  return result?.reviewDecision === 'rejected';
+}
+
+function hasReportMatch(result) {
+  return Boolean(result?.match) && Number(result.confidence) > 0;
+}
+
+export function isReportMatchAccepted(result) {
+  if (!hasReportMatch(result) || isReportMatchRejected(result)) return false;
+  const confidence = Number(result.confidence) || 0;
+  if (confidence >= LOW_CONFIDENCE_MATCH_MIN && confidence < LOW_CONFIDENCE_MATCH_MAX) {
+    return result.reviewDecision === 'confirmed';
+  }
+  return true;
+}
+
+export function isLowConfidenceReportMatch(result) {
+  const confidence = Number(result?.confidence) || 0;
+  return hasReportMatch(result) && !isReportMatchRejected(result) && confidence >= LOW_CONFIDENCE_MATCH_MIN && confidence < LOW_CONFIDENCE_MATCH_MAX;
+}
+
+export function isPendingReportMatch(result) {
+  return isLowConfidenceReportMatch(result) && result.reviewDecision !== 'confirmed';
+}
 
 export function buildIngredientReport(input, category = defaultCategory, options = {}) {
   const originalText = String(input || '').trim();
@@ -25,10 +54,10 @@ export function buildIngredientReport(input, category = defaultCategory, options
   const analysis = analyzeIngredientText(originalText, reportCategory);
   const userAllergenIds = normalizeStringList(options.userAllergenIds);
   const matchedIngredientIds = uniqueStrings(matchResults
-    .filter((result) => result.match && result.confidence > 0)
+    .filter(isReportMatchAccepted)
     .map((result) => result.match.id));
   const highlightIngredientIds = uniqueStrings(matchResults
-    .filter((result) => ['high', 'medium'].includes(result.match?.riskLevel))
+    .filter((result) => isReportMatchAccepted(result) && ['high', 'medium'].includes(result.match?.riskLevel))
     .map((result) => result.match.id));
   const unmatchedTerms = normalizeStringList(matchSummary.unmatchedTerms);
   const lowConfidenceTerms = normalizeStringList(matchSummary.lowConfidenceTerms);
@@ -63,7 +92,7 @@ export function buildIngredientReport(input, category = defaultCategory, options
     riskSummary,
     unmatchedTerms,
     lowConfidenceTerms,
-    matchRate: clampRate(matchSummary.matchRate),
+    matchRate: calculateMatchRate(matchResults),
     matchedCount: matchedIngredientIds.length,
     pendingCount,
     summary: buildReportSummary(riskGrade, riskSummary, analysis.summary),
@@ -96,21 +125,17 @@ export function normalizeIngredientReport(value) {
   const matchResults = normalizeReportMatchResults(value.matchResults).length
     ? normalizeReportMatchResults(value.matchResults)
     : normalizeReportMatchResults(fallbackMatchResults);
-  const riskSummary = normalizeRiskSummary(value.riskSummary, matchResults);
-  const riskGrade = REPORT_RISK_GRADES.includes(value.riskGrade)
-    ? value.riskGrade
-    : computeRiskGrade(matchResults);
-  const unmatchedTerms = normalizeStringList(value.unmatchedTerms).length
-    ? normalizeStringList(value.unmatchedTerms)
-    : normalizeStringList(value.unknownItems || riskSummary.unmatchedTerms);
-  const lowConfidenceTerms = normalizeStringList(value.lowConfidenceTerms);
+  const riskSummary = buildRiskSummary(matchResults);
+  const riskGrade = computeRiskGrade(matchResults);
+  const unmatchedTerms = uniqueStrings(matchResults
+    .filter((result) => !hasReportMatch(result) || isReportMatchRejected(result))
+    .map((result) => result.parsedIngredient?.normalizedText || result.term));
+  const lowConfidenceTerms = uniqueStrings(matchResults
+    .filter(isPendingReportMatch)
+    .map((result) => result.parsedIngredient?.normalizedText || result.term));
   const reportSource = normalizeReportSource(value.source);
-  const matchedIngredientIds = normalizeStringList(value.matchedIngredientIds).length
-    ? normalizeStringList(value.matchedIngredientIds)
-    : uniqueStrings(matchResults.filter((result) => result.match && result.confidence > 0).map((result) => result.match.id));
-  const highlightIngredientIds = normalizeStringList(value.highlightIngredientIds).length
-    ? normalizeStringList(value.highlightIngredientIds)
-    : uniqueStrings(matchResults.filter((result) => ['high', 'medium'].includes(result.match?.riskLevel)).map((result) => result.match.id));
+  const matchedIngredientIds = uniqueStrings(matchResults.filter(isReportMatchAccepted).map((result) => result.match.id));
+  const highlightIngredientIds = uniqueStrings(matchResults.filter((result) => isReportMatchAccepted(result) && ['high', 'medium'].includes(result.match?.riskLevel)).map((result) => result.match.id));
   const providedProductName = truncateText(value.productName, 50);
   const productName = providedProductName || defaultProductName;
   const report = {
@@ -130,32 +155,173 @@ export function normalizeIngredientReport(value) {
     riskSummary,
     unmatchedTerms,
     lowConfidenceTerms,
-    matchRate: Number.isFinite(value.matchRate) ? clampRate(value.matchRate) : calculateMatchRate(matchResults),
-    matchedCount: Number.isFinite(value.matchedCount) ? value.matchedCount : matchedIngredientIds.length,
-    pendingCount: Number.isFinite(value.pendingCount) ? value.pendingCount : countPendingMatches(matchResults),
-    summary: typeof value.summary === 'string' && value.summary.trim() ? value.summary : buildReportSummary(riskGrade, riskSummary),
+    matchRate: calculateMatchRate(matchResults),
+    matchedCount: matchedIngredientIds.length,
+    pendingCount: countPendingMatches(matchResults),
+    summary: buildReportSummary(riskGrade, riskSummary),
     matchedIngredientIds,
     highlightIngredientIds,
-    unknownItems: normalizeStringList(value.unknownItems).length ? normalizeStringList(value.unknownItems) : unmatchedTerms,
+    unknownItems: unmatchedTerms,
     unknownItemRecords: normalizeUnknownItemRecords(value.unknownItemRecords, unmatchedTerms, reportSource),
-    dataStatusCounts: normalizeDataStatusCounts(value.dataStatusCounts, matchResults, unmatchedTerms, reportSource),
-    riskCounts: normalizeRiskCounts(value.riskCounts, riskSummary),
+    dataStatusCounts: buildDataStatusCounts(matchResults, unmatchedTerms, reportSource),
+    riskCounts: {
+      low: riskSummary.lowRisk,
+      medium: riskSummary.mediumRisk,
+      high: riskSummary.highRisk,
+      unknown: riskSummary.unmatched
+    },
     userAllergenIds: normalizeStringList(value.userAllergenIds),
     ingredientAllergenHits: normalizeIngredientAllergenHits(value.ingredientAllergenHits),
     textAllergenHits: normalizeTextAllergenHits(value.textAllergenHits),
     schemaVersion: Number.isFinite(value.schemaVersion) ? value.schemaVersion : REPORT_SCHEMA_VERSION
   };
-  const insights = normalizeReportInsights(value.insights);
   return {
     ...report,
-    insights: insights.length ? insights : buildReportInsights(report)
+    insights: buildReportInsights(report)
   };
+}
+
+export function applyReportMatchDecision(value, matchIndex, decision, reviewedAt = new Date().toISOString()) {
+  const report = normalizeIngredientReport(value);
+  const index = Number(matchIndex);
+  const normalizedDecision = normalizeReviewDecision(decision);
+  if (!report || !Number.isInteger(index) || index < 0 || !normalizedDecision) return null;
+
+  const target = report.matchResults[index];
+  if (!isReportMatchDecisionEligible(target)) return null;
+
+  const normalizedReviewedAt = normalizeOptionalIsoDate(reviewedAt) || new Date().toISOString();
+  const matchResults = report.matchResults.map((item, itemIndex) => {
+    if (itemIndex !== index) return item;
+    return {
+      ...item,
+      reviewDecision: normalizedDecision,
+      reviewedAt: normalizedReviewedAt
+    };
+  });
+
+  return rebuildReportSnapshot({
+    ...report,
+    matchResults
+  });
+}
+
+function isReportMatchDecisionEligible(result) {
+  const confidence = Number(result?.confidence) || 0;
+  return Boolean(result?.match) && confidence >= LOW_CONFIDENCE_MATCH_MIN && confidence < LOW_CONFIDENCE_MATCH_MAX;
+}
+
+function rebuildReportSnapshot(report) {
+  const source = normalizeReportSource(report.source);
+  const matchResults = normalizeReportMatchResults(report.matchResults);
+  const matchedIngredientIds = uniqueStrings(matchResults
+    .filter(isReportMatchAccepted)
+    .map((result) => result.match.id));
+  const highlightIngredientIds = uniqueStrings(matchResults
+    .filter((result) => isReportMatchAccepted(result) && ['high', 'medium'].includes(result.match?.riskLevel))
+    .map((result) => result.match.id));
+  const unmatchedTerms = uniqueStrings(matchResults
+    .filter((result) => !isReportMatchAccepted(result))
+    .map((result) => result.parsedIngredient?.normalizedText || result.term));
+  const lowConfidenceTerms = uniqueStrings(matchResults
+    .filter(isPendingReportMatch)
+    .map((result) => result.parsedIngredient?.normalizedText || result.term));
+  const riskSummary = buildRiskSummary(matchResults);
+  const riskGrade = computeRiskGrade(matchResults);
+  const unknownItemRecords = buildSnapshotUnknownItemRecords(report.unknownItemRecords, unmatchedTerms, source, matchResults);
+  const dataStatusCounts = buildDataStatusCounts(matchResults, unmatchedTerms, source);
+  const riskCounts = {
+    low: riskSummary.lowRisk,
+    medium: riskSummary.mediumRisk,
+    high: riskSummary.highRisk,
+    unknown: riskSummary.unmatched
+  };
+  const next = {
+    ...report,
+    source,
+    matchResults,
+    riskGrade,
+    riskSummary,
+    unmatchedTerms,
+    lowConfidenceTerms,
+    matchRate: calculateMatchRate(matchResults),
+    matchedCount: matchedIngredientIds.length,
+    pendingCount: countPendingMatches(matchResults),
+    summary: buildReportSummary(riskGrade, riskSummary),
+    matchedIngredientIds,
+    highlightIngredientIds,
+    unknownItems: unmatchedTerms,
+    unknownItemRecords,
+    dataStatusCounts,
+    riskCounts,
+    ingredientAllergenHits: buildIngredientAllergenHits(matchResults, report.userAllergenIds, report.category),
+    textAllergenHits: buildTextAllergenHits(unmatchedTerms, report.userAllergenIds)
+  };
+
+  return {
+    ...next,
+    insights: buildReportInsights(next)
+  };
+}
+
+function buildSnapshotUnknownItemRecords(existingRecords = [], unmatchedTerms = [], source = 'manual', matchResults = []) {
+  const existing = normalizeUnknownItemRecords(existingRecords, [], source);
+  const records = [];
+  const genericTerms = new Set(normalizeStringList(unmatchedTerms));
+
+  for (const [index, result] of matchResults.entries()) {
+    if (!isReportMatchRejected(result)) continue;
+    const record = buildRejectedUnknownItemRecord(result, index, source);
+    if (!record) continue;
+    records.push(record);
+    genericTerms.delete(record.item);
+  }
+
+  for (const item of genericTerms) {
+    const existingRecord = existing.find((record) => record.item === item && record.reason !== 'low_confidence_rejected');
+    records.push(existingRecord || buildUnknownItemRecord(item, source));
+  }
+
+  return dedupeUnknownItemRecords(records);
+}
+
+function buildRejectedUnknownItemRecord(result, index, source = 'manual') {
+  const item = String(result?.parsedIngredient?.normalizedText || result?.term || '').trim();
+  if (!item || !result?.match) return null;
+  const base = buildUnknownItemRecord(item, source);
+  return {
+    ...base,
+    sourceScope: 'candidate_mapping',
+    sourceName: 'User rejected low-confidence candidate match',
+    reason: 'low_confidence_rejected',
+    matchIndex: index,
+    rejectedMatchId: result.match.id,
+    rejectedMatchName: result.match.nameCn || result.match.id,
+    confidence: clampRate(result.confidence),
+    reviewedAt: result.reviewedAt || ''
+  };
+}
+
+function dedupeUnknownItemRecords(records = []) {
+  const seen = new Set();
+  return records.filter((record) => {
+    const key = [
+      record.reason || 'unknown',
+      record.item,
+      Number.isInteger(record.matchIndex) ? record.matchIndex : '',
+      record.rejectedMatchId || ''
+    ].join('|');
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 export function computeRiskGrade(matchResults = []) {
   const results = Array.isArray(matchResults) ? matchResults : [];
-  const highCount = results.filter((result) => result.match?.riskLevel === 'high').length;
-  const mediumCount = results.filter((result) => result.match?.riskLevel === 'medium').length;
+  const acceptedResults = results.filter(isReportMatchAccepted);
+  const highCount = acceptedResults.filter((result) => result.match?.riskLevel === 'high').length;
+  const mediumCount = acceptedResults.filter((result) => result.match?.riskLevel === 'medium').length;
   if (highCount >= 5) return 'F';
   if (highCount >= 3) return 'D';
   if (highCount >= 1) return 'C';
@@ -176,13 +342,18 @@ export function buildRiskSummary(matchResults = []) {
   };
 
   for (const result of Array.isArray(matchResults) ? matchResults : []) {
-    const match = result.match;
-    if (!match || result.confidence <= 0) {
+    if (isPendingReportMatch(result)) {
+      summary.unverifiedData += 1;
+      continue;
+    }
+
+    if (!isReportMatchAccepted(result)) {
       summary.unmatched += 1;
       if (result.parsedIngredient?.normalizedText) summary.unmatchedTerms.push(result.parsedIngredient.normalizedText);
       continue;
     }
 
+    const match = result.match;
     if (match.riskLevel === 'high') summary.highRisk += 1;
     else if (match.riskLevel === 'medium') summary.mediumRisk += 1;
     else summary.lowRisk += 1;
@@ -228,6 +399,7 @@ export function getTopIngredientNames(report, count = 3) {
 export function getConcernSummaries(report, max = 3) {
   const concerns = [];
   for (const result of report?.matchResults || []) {
+    if (!isReportMatchAccepted(result)) continue;
     const match = result.match;
     if (!match || !['high', 'medium'].includes(match.riskLevel)) continue;
     concerns.push(`${match.nameCn || result.parsedIngredient.normalizedText}（${match.category || '未分类'}，${riskLevelLabel(match.riskLevel)}）`);
@@ -245,6 +417,7 @@ export function getSpecialPopulationAlerts(report) {
   const alerts = [];
   const seen = new Set();
   for (const result of report?.matchResults || []) {
+    if (!isReportMatchAccepted(result)) continue;
     const match = result.match;
     const groups = Array.isArray(match?.cautionGroups) ? match.cautionGroups : [];
     for (const group of groups) {
@@ -357,6 +530,7 @@ function buildReportSummary(riskGrade, riskSummary, fallback = '') {
   if (summary.highRisk) concerns.push(`${summary.highRisk} 项高关注`);
   if (summary.mediumRisk) concerns.push(`${summary.mediumRisk} 项需关注`);
   if (summary.unmatched) concerns.push(`${summary.unmatched} 项暂未收录`);
+  if (summary.unverifiedData) concerns.push(`${summary.unverifiedData} 项待确认`);
   if (concerns.length) return `整体评级 ${riskGrade}，包含 ${concerns.join('、')}。`;
   return fallback || `整体评级 ${riskGrade}，当前匹配项以低关注为主。`;
 }
@@ -366,6 +540,7 @@ function buildIngredientAllergenHits(matchResults, userAllergenIds = [], categor
   if (!allergenIds.length) return [];
   return matchResults
     .map((result) => {
+      if (!isReportMatchAccepted(result)) return null;
       const match = result.match;
       if (!match) return null;
       const fullIngredient = getIngredientById(match.id, category) || match;
@@ -427,6 +602,8 @@ function normalizeMatchSummary(value) {
 function normalizeReportMatchResult(value) {
   const parsedIngredient = normalizeParsedIngredient(value?.parsedIngredient);
   if (!parsedIngredient) return null;
+  const reviewDecision = normalizeReviewDecision(value?.reviewDecision);
+  const reviewedAt = normalizeOptionalIsoDate(value?.reviewedAt);
   return {
     parsedIngredient,
     term: String(value.term || parsedIngredient.normalizedText).trim(),
@@ -435,7 +612,9 @@ function normalizeReportMatchResult(value) {
     confidence: clampRate(value.confidence),
     matchType: String(value.matchType || 'none').trim() || 'none',
     dataStatus: value?.dataStatus ? normalizeDataStatus(value.dataStatus) : undefined,
-    alternates: Array.isArray(value.alternates) ? value.alternates.map(normalizeIngredientMatch).filter(Boolean).slice(0, 2) : []
+    alternates: Array.isArray(value.alternates) ? value.alternates.map(normalizeIngredientMatch).filter(Boolean).slice(0, 2) : [],
+    ...(reviewDecision ? { reviewDecision } : {}),
+    ...(reviewedAt ? { reviewedAt } : {})
   };
 }
 
@@ -486,21 +665,12 @@ function normalizeRiskSummary(value, matchResults) {
   };
 }
 
-function normalizeRiskCounts(value, riskSummary) {
-  return {
-    low: numberOrFallback(value?.low, riskSummary.lowRisk),
-    medium: numberOrFallback(value?.medium, riskSummary.mediumRisk),
-    high: numberOrFallback(value?.high, riskSummary.highRisk),
-    unknown: numberOrFallback(value?.unknown, riskSummary.unmatched)
-  };
-}
-
 function countPendingMatches(matchResults = []) {
   return (Array.isArray(matchResults) ? matchResults : [])
     .filter((result) => {
-      if (!result.match || result.confidence <= 0) return false;
+      if (!hasReportMatch(result) || isReportMatchRejected(result)) return false;
       const status = getResultDataStatus(result, 'manual');
-      return result.confidence < 0.9 || status === 'mapped_candidate' || status === 'unverified';
+      return (result.reviewDecision !== 'confirmed' && result.confidence < 0.9) || status === 'mapped_candidate' || status === 'unverified';
     }).length;
 }
 
@@ -527,26 +697,19 @@ function buildDataStatusCounts(matchResults = [], unmatchedTerms = [], source = 
   return counts;
 }
 
-function normalizeDataStatusCounts(value, matchResults = [], unmatchedTerms = [], source = 'manual') {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) {
-    return buildDataStatusCounts(matchResults, unmatchedTerms, source);
-  }
-  const fallback = buildDataStatusCounts(matchResults, unmatchedTerms, source);
-  return Object.fromEntries(Object.entries(fallback).map(([status, fallbackCount]) => [
-    status,
-    numberOrFallback(value[status], fallbackCount)
-  ]));
+function buildUnknownItemRecords(items = [], source = 'manual') {
+  return normalizeStringList(items).map((item) => buildUnknownItemRecord(item, source));
 }
 
-function buildUnknownItemRecords(items = [], source = 'manual') {
+function buildUnknownItemRecord(item, source = 'manual') {
   const dataStatus = source === 'ocr' ? 'unknown_from_ocr' : 'unverified';
   const sourceScope = source === 'ocr' ? 'ocr_unmatched' : 'unknown';
-  return normalizeStringList(items).map((item) => ({
+  return {
     item,
     dataStatus,
     sourceScope,
     sourceName: source === 'ocr' ? 'OCR recognized text not collected in local dataset' : 'Text not collected in local dataset'
-  }));
+  };
 }
 
 function normalizeUnknownItemRecords(value, fallbackItems = [], source = 'manual') {
@@ -554,22 +717,35 @@ function normalizeUnknownItemRecords(value, fallbackItems = [], source = 'manual
     ? value.map((item) => {
       const text = String(item?.item || '').trim();
       if (!text) return null;
-      return {
+      const matchIndex = Number(item.matchIndex);
+      const confidence = Number(item.confidence);
+      const reviewedAt = normalizeOptionalIsoDate(item.reviewedAt);
+      const record = {
         item: text,
         dataStatus: normalizeDataStatus(item.dataStatus || (source === 'ocr' ? 'unknown_from_ocr' : 'unverified')),
         sourceScope: String(item.sourceScope || (source === 'ocr' ? 'ocr_unmatched' : 'unknown')).trim(),
         sourceName: String(item.sourceName || '').trim()
       };
+      const reason = String(item.reason || '').trim();
+      const rejectedMatchId = String(item.rejectedMatchId || '').trim();
+      const rejectedMatchName = String(item.rejectedMatchName || '').trim();
+      if (reason) record.reason = reason;
+      if (Number.isInteger(matchIndex)) record.matchIndex = matchIndex;
+      if (rejectedMatchId) record.rejectedMatchId = rejectedMatchId;
+      if (rejectedMatchName) record.rejectedMatchName = rejectedMatchName;
+      if (Number.isFinite(confidence)) record.confidence = clampRate(confidence);
+      if (reviewedAt) record.reviewedAt = reviewedAt;
+      return record;
     }).filter(Boolean)
     : [];
   return records.length ? records : buildUnknownItemRecords(fallbackItems, source);
 }
 
 function getResultDataStatus(result, source = 'manual') {
-  if (!result?.match || result.confidence <= 0) {
+  if (!isReportMatchAccepted(result)) {
     return source === 'ocr' ? 'unknown_from_ocr' : 'unverified';
   }
-  if (result.confidence < 0.9) return 'mapped_candidate';
+  if (result.confidence < 0.9 && result.reviewDecision !== 'confirmed') return 'mapped_candidate';
   return normalizeDataStatus(result.dataStatus || result.match.dataStatus || 'unverified');
 }
 
@@ -578,18 +754,8 @@ function normalizeDataStatus(status) {
   return allowed.includes(status) ? status : 'unverified';
 }
 
-function normalizeReportInsights(value) {
-  return Array.isArray(value)
-    ? value
-      .map((item) => ({
-        key: String(item?.key || '').trim(),
-        title: String(item?.title || '').trim(),
-        tone: ['neutral', 'watch', 'caution'].includes(item?.tone) ? item.tone : 'neutral',
-        summary: String(item?.summary || '').trim(),
-        items: normalizeStringList(item?.items)
-      }))
-      .filter((item) => item.key && item.title && item.summary)
-    : [];
+function normalizeReviewDecision(value) {
+  return MATCH_REVIEW_DECISIONS.includes(value) ? value : '';
 }
 
 function normalizeIngredientAllergenHits(value) {
@@ -617,7 +783,7 @@ function normalizeTextAllergenHits(value) {
 function calculateMatchRate(matchResults) {
   const total = Array.isArray(matchResults) ? matchResults.length : 0;
   if (!total) return 0;
-  return matchResults.filter((result) => result.match && result.confidence > 0).length / total;
+  return matchResults.filter(isReportMatchAccepted).length / total;
 }
 
 function buildReportTitle(input) {
@@ -635,6 +801,13 @@ function createReportId() {
 function normalizeIsoDate(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+}
+
+function normalizeOptionalIsoDate(value) {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  const date = new Date(text);
+  return Number.isNaN(date.getTime()) ? '' : date.toISOString();
 }
 
 function normalizeNullableId(value) {
