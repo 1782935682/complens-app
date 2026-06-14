@@ -12,6 +12,8 @@
 - 完成 Batch 1-D：新增 `validate:gb2760` 数据准入校验命令，校验正式规则表、staging 状态、JECFA 边界、最新导入批次和 CI 数据链路。
 - 完成 GB2760 复核闭环：新增自动映射脚本，人工批量签核剩余 staging 行后 promote 到正式规则表。
 - 本地 review 后补强内部复核写接口：GB2760 staging 签核/映射写操作需要内部 reviewer allowlist，并写入签核人、签核时间和备注审计字段。
+- 完成 Batch 3-B：OCR Provider 抽象命名闭环，支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`；mock 只作为明确标注的测试 provider，真实 provider 仍等待 Key 和适配。
+- 按用户要求暂停内部控制台后续 UI，等产品页面设计统一推进时再继续。
 
 ## 修改文件
 
@@ -46,6 +48,8 @@
 | `COMMANDS.md` | 更新 | 新增 GB2760 审计 API 验收，明确 `import:gb2760:status` 只有 API 已实现、CLI 仍为计划，不伪造 npm 命令 |
 | `DATA_SOURCES.md` | 更新 | 硬性规则补充 staging/verified 区别、`pending_review` 不能当权威、持续扩充；新增导入审计层和当前审计计数 |
 | `src/pages/gb2760ReviewPage.js`、`src/services/gb2760ApiService.js`、`src/router/router.js`、`src/main.js`、`src/styles.css` | 新增/更新 | 新增内部 GB2760 复核页、每页条数、ready 筛选、单条/批量签核和映射 API 客户端 |
+| `backend/src/services/ocrProviders/index.ts` | 新增 | OCR provider 命名层，规范 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，并提供 mock OCR 结果 |
+| `backend/src/routes/ocr.ts`、`backend/tests/ocr.test.ts`、`src/services/ocrService.js`、`scripts/test.mjs` | 更新 | 后端按 provider 区分 mock / 真实 pending / 未配置 Key；前端校验 provider 名称；测试覆盖 mock 与 pending |
 | `AI_REVIEW.md` | 覆盖 | 本文件 |
 
 ## 核心调整
@@ -60,6 +64,7 @@
 8. Batch 1-D 已落地：`validate:gb2760` 当前 DB 通过，报告 `staging=2404`、`pending_review=0`、`promoted=2391`、`legacy_verified=13`、`additive_usage_rules=2391`、`verified_regulation_ingredients=308`、`import_errors=0`，并已接入 CI。
 9. GB2760 复核闭环已落地：`map:gb2760` 自动创建 217 个缺失成分身份并回填 1447 条 staging 映射；人工在复核页批量签核后，`promote:gb2760` 成功 promote 2391 条正式规则，失败 0。
 10. 本地 review 后已补强三项风险：普通登录用户不能调用 GB2760 写接口、签核/映射写入 reviewer 审计字段、自动生成 ingredient kind 统一为 `food-additive`。
+11. OCR 抽象层已补齐 provider 命名：`OCR_PROVIDER=mock` 可用于本地固定响应测试，`aliyun` / `paddleocr` / `rapidocr` 在真实适配前继续返回 pending，不会伪造真实 OCR。
 
 ## 与现有代码核对（防止伪造状态）
 
@@ -90,6 +95,9 @@ npm run map:gb2760
 npm run promote:gb2760
 cd backend && npm run typecheck
 cd backend && npm test
+npm --prefix backend run test -- ocr.test.ts
+npm --prefix backend run typecheck
+node --input-type=module -e "<front OCR provider contract check>"
 node -e "<query source_documents/import_runs/import_errors counts>"
 node -e "<query additive_usage_rules/review_status/import_errors counts>"
 codex review --uncommitted

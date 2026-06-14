@@ -16,7 +16,7 @@
 
 食品搜索和详情默认请求同源 `/api`；如需指向独立后端，可在浏览器本地设置 `compcheck:api-base-url`。后端不可用时，前端食品搜索/详情会降级到本地 `src/data/foodAdditives.js` seed，并展示错误提示和未验证状态。
 
-OCR 真实供应商调用仍未接入。后端 `OCR_API_KEY` 未配置时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
+OCR Provider 抽象已支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。`OCR_PROVIDER=mock` 会返回明确标注为 `provider: "mock"` 的固定测试结果；真实供应商调用仍未接入。真实 provider 缺少 `OCR_API_KEY` 时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
 
 GB2760 内部复核写接口需要登录且账号在后端 allowlist 内。开发/部署时用 `GB2760_INTERNAL_REVIEWERS` 配置逗号分隔的内部邮箱或用户 ID；未配置时，`PUT /api/gb2760/staging-rows/*` 会对普通登录账号返回 `403 forbidden`，只读查询仍只要求登录。
 
@@ -214,10 +214,19 @@ curl -X POST "http://127.0.0.1:3000/api/ingredients/batch-search" \
   -d '{"terms":["E211","柠檬酸","未知配料"]}'
 ```
 
-OCR 代理占位验收（需要先登录取得 JWT；无 `OCR_API_KEY` 时预期返回 503）：
+OCR 代理占位验收（需要先登录取得 JWT；真实 provider 无 `OCR_API_KEY` 时预期返回 503）：
 
 ```bash
 curl -i -X POST "http://127.0.0.1:3000/api/ocr" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <jwt>" \
+  -d '{"imageBase64":"AA==","mimeType":"image/jpeg","category":"food"}'
+```
+
+OCR mock provider 验收（后端环境设置 `OCR_PROVIDER=mock`，不需要真实 OCR Key）：
+
+```bash
+curl -X POST "http://127.0.0.1:3000/api/ocr" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <jwt>" \
   -d '{"imageBase64":"AA==","mimeType":"image/jpeg","category":"food"}'

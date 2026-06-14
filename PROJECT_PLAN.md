@@ -45,7 +45,7 @@
 |---|---|---|---|
 | M1 | 数据源准确性 + GB2760 可追溯导入 | 🔄 进行中 | ~86% |
 | M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~70% |
-| M3 | OCR 拍照识别主流程（manual/mock 闭环） | 🔄 进行中 | ~75% |
+| M3 | OCR 拍照识别主流程（manual/mock 闭环） | 🔄 进行中 | ~78% |
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
 | M5 | 食品配料分析报告 | 🔄 进行中 | ~70% |
 | M6 | 产品档案、收藏、历史、个性化 | 🔄 进行中 | ~55% |
@@ -70,7 +70,7 @@
 - 前端优先 API、失败降级本地 seed 并显示未验证标识。
 - 数据溯源字段：`dataStatus`/`matchConfidence`/`sourceScope`/`sourceName`/`sourceVersion`/`sourceUrl`/`regulatoryBasis`/`rawSourceText`/`lastReviewedAt`/`reviewNote`/`isVerified`。
 - GB2760 官方来源确认 + 264 页全文 + 2404 行 A.1 staging + 2800 行参考表（边界修复完成）+ 导入审计骨架（来源文档、批次、错误表和查询接口）+ `additive_usage_rules` 正式规则表 + `promote:gb2760` 准入脚本 + 本轮人工签核 promote 2391 条正式规则 + `validate:gb2760` 数据准入校验。
-- OCR 主路径：拍照/上传入口、图片预处理（EXIF/压缩/IndexedDB）、OCR real/manual/fallback 抽象、文本确认页、配料解析、批量匹配。
+- OCR 主路径：拍照/上传入口、图片预处理（EXIF/压缩/IndexedDB）、OCR manual/mock/real-provider 抽象、文本确认页、配料解析、批量匹配；后端 `OCR_PROVIDER=mock` 可返回明确标注的 mock OCR 结果，真实 provider 缺 Key 仍降级 manual。
 - 分析报告：整体评级、关注摘要、配料顺序、添加剂分类、未收录、特殊人群、来源说明、Markdown/JSON 导出、分享、历史。
 - 产品档案 + 收藏 + 历史 + 个人关注/忌口/过敏原 + 全局高亮 + 登录态云同步。
 - 前端登录/注册 + 访客模式 + JWT 管理 + 本机数据登录态同步。
@@ -81,8 +81,8 @@
 ## 5. 未完成
 
 - 成分详情页 GB2760 官方证据展示（Batch 1-E）。
-- OCR Provider 命名扩展（manual/mock/aliyun/paddleocr/rapidocr，Batch 3-B）。
 - 真实 OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key）。
+- 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
 - 低置信度确认交互、统一可信表达、统一移动端组件、报告页产品化复核（阶段 7）。
 - iPhone Safari 真机验收、loading/empty/error 全页统一（阶段 8）。
 - 生产数据库、生产部署、跨设备真实验收、离线同步队列。
@@ -95,6 +95,7 @@
 | 阻塞项 | 阻塞内容 | 是否阻塞核心 |
 |---|---|---|
 | GB2760 后续增量复核 | 新抽取或变更 staging 行再次 promote | 否：本轮 2391 条已 promote，后续增量继续人工复核 |
+| 内部控制台 / 产品页面设计 | 用户要求内部控制台先不做，等产品页面设计统一推进 | 否：当前数据复核/promote 闭环已可用 |
 | 生产 DATABASE_URL | 生产数据库（2-D） | 否：本地闭环可用 |
 | OCR API Key | 真实 OCR（3-E） | 否：manual/mock 闭环可用 |
 | AI API Key | 真实 AI（9-B） | 否：本地 fallback 可用 |
@@ -109,10 +110,16 @@
 
 当前阶段：**阶段 1 数据源与 GB2760 导入 + 阶段 7 产品体验优化**。
 
-Codex 立即可执行（无阻塞）：
+Codex 立即可执行（非控制台、非产品页面设计候选）：
 
-1. Batch 1-E：成分详情页 GB2760 官方证据展示。
-2. Batch UX-A ~ UX-E：首页主路径、OCR 状态机、统一可信表达、移动端组件、报告页产品化。
+1. Batch 4-C：低置信匹配确认交互。
+2. Batch 8-C：loading / empty / error 状态统一复核。
+
+暂缓到产品页面设计统一推进：
+
+- Batch 1-E：成分详情页 GB2760 官方证据展示。
+- Batch 1-F：内部数据控制台 / GB2760 复核工作台后续 UI。
+- Batch UX-A ~ UX-E：首页主路径、OCR 状态机、统一可信表达、移动端组件、报告页产品化。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核。
 
@@ -165,7 +172,7 @@ Codex 立即可执行（无阻塞）：
 - 验收标准：报告页符合产品化标准；禁止文案被 lint 拦截；全页状态统一。
 - 是否需要人工：否。
 
-> OCR Provider 命名扩展（Batch 3-B）和低置信度确认（Batch 4-C）可在上述任一天有余量时穿插；真实 OCR/AI、生产部署、跨设备验收等待人工解锁。
+> 低置信度确认（Batch 4-C）可在上述任一天有余量时穿插；真实 OCR/AI、生产部署、跨设备验收等待人工解锁。
 
 ---
 
@@ -197,6 +204,7 @@ npm run validate:gb2760
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-14 | Batch 3-B：OCR Provider 抽象命名闭环，后端支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，mock 明确标注且真实 provider 仍需后端 Key；内部控制台后续 UI 按用户要求暂缓到产品页面设计统一推进 | Codex | 针对性验证：`backend ocr.test.ts`、后端 `typecheck`、前端 OCR 协议断言 |
 | 2026-06-14 | GB2760 复核闭环：自动创建缺失成分映射、人工批量签核 1447 条剩余 staging 行，并 promote 全部 2391 条 A.1 staging 到 `additive_usage_rules`；根目录新增 `map:gb2760` / `promote:gb2760` 委托命令 | Codex + 人工 | `validate:gb2760` 通过；报告：staging 2404、pending_review 0、promoted 2391、legacy_verified 13、additive_usage_rules 2391、verified_regulation_ingredients 308、import_errors 0 |
 | 2026-06-14 | Batch 1-D：新增 `validate:gb2760` 数据准入校验服务和后端 CLI，根目录命令委托到 backend；CI 增加 Postgres、migrate、seed、validate 链路 | Codex | `npm run validate:gb2760` 通过；报告：staging 2404、pending_review 2391、legacy_verified 13、additive_usage_rules 0、import_errors 0 |
 | 2026-06-14 | Batch 1-C：新增 `additive_usage_rules` 表、`promote:gb2760` 后端脚本和 promote 准入服务；只处理人工 `approved` / `promoted` 行，空签核场景 0 promoted，不把历史 `verified` staging 行自动写入新规则表 | Codex | `db:migrate` / `db:seed` / `promote:gb2760` / 后端 `typecheck` / 后端 `test` 通过；查询：additive_usage_rules 0、pending_review 2391、verified 13、import_errors 0 |

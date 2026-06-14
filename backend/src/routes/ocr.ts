@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { createAuthMiddleware, type AuthVariables } from '../middleware/auth.js';
 import type { AppConfig } from '../config.js';
 import type { AuthService } from '../services/authService.js';
+import { isRealOcrProvider, normalizeOcrProvider, recognizeWithOcrProvider } from '../services/ocrProviders/index.js';
 
 type OcrJsonBody = {
   imageBase64?: unknown;
@@ -23,14 +24,19 @@ export function createOcrRoute(authService: AuthService, config: Pick<AppConfig,
       return context.json(validation.error, 400);
     }
 
-    if (!config.ocrApiKey) {
-      return context.json({ error: 'ocr_not_configured' }, 503);
+    const provider = normalizeOcrProvider(config.ocrProvider);
+    if (provider === 'manual') {
+      return context.json({ error: 'ocr_not_configured', provider }, 503);
     }
 
-    return context.json({
-      error: 'ocr_provider_pending',
-      provider: config.ocrProvider || 'pending'
-    }, 501);
+    if (isRealOcrProvider(provider) && !config.ocrApiKey) {
+      return context.json({ error: 'ocr_not_configured', provider }, 503);
+    }
+
+    const result = await recognizeWithOcrProvider(provider, validation.value);
+    if (result) return context.json(result);
+
+    return context.json({ error: 'ocr_provider_pending', provider }, 501);
   });
 
   return route;

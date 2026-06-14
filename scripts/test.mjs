@@ -4,7 +4,7 @@ import { AI_ANALYSIS_ENDPOINT_PATH, AI_ANALYSIS_PROTOCOL_VERSION, buildAIAnalysi
 import { formatAllergenNames, getAllergensByIds, getMatchingTextAllergens, getMatchingUserAllergens } from '../src/services/allergenService.js';
 import { analyzeIngredientText, getCategoryStats, getDatasetAuditSummary, getDatasetSourceSummaries, getDatasetVersionSummaries, getIngredientById, getIngredientCategorySummaries, getRelatedIngredients, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../src/services/ingredientService.js';
 import { categoryPath } from '../src/data/categories.js';
-import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, getOcrEndpointUrl, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
+import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, OCR_PROVIDERS, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, getOcrEndpointUrl, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
 import { computeRiskGrade, getTopIngredientNames } from '../src/services/reportService.js';
@@ -2095,6 +2095,7 @@ const validOCRResponse = {
     { text: '水，柠檬酸，山梨酸钾', confidence: 0.88, bounds: { x: 0, y: 0, width: 10, height: 10 } }
   ]
 };
+assert.deepEqual(OCR_PROVIDERS, ['manual', 'mock', 'aliyun', 'paddleocr', 'rapidocr']);
 assert.deepEqual(validateOCRResponse(validOCRResponse), {
   ok: true,
   errors: [],
@@ -2111,6 +2112,12 @@ assert.equal(invalidOCRResponse.value, null);
 assert.equal(invalidOCRResponse.errors.some((error) => /confidence/.test(error)), true);
 assert.equal(invalidOCRResponse.errors.some((error) => /provider/.test(error)), true);
 assert.equal(invalidOCRResponse.errors.some((error) => /blocks\[0\]\.text/.test(error)), true);
+assert.equal(validateOCRResponse({
+  text: '水',
+  confidence: 0.5,
+  provider: 'unknown-provider',
+  blocks: []
+}).errors.some((error) => /provider must be one of/.test(error)), true);
 const emptyOcrResult = await extractIngredientsFromImage(null);
 assert.equal(emptyOcrResult.enabled, false);
 assert.equal(emptyOcrResult.text, '');
