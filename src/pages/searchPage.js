@@ -371,7 +371,19 @@ function renderPagination(category, query, activeFilters, activeSort, currentPag
 }
 
 function renderEmpty(query, activeFilterCount, category) {
-  if (!query && !activeFilterCount) return '<p class="empty">输入成分名称、英文名、别名或分类后开始搜索。</p>';
+  if (!query && !activeFilterCount) {
+    return html`
+      <div class="empty-state" data-search-initial-state>
+        <div class="empty-state-icon" aria-hidden="true">搜</div>
+        <p class="empty-state-title">输入关键词或直接识别配料表</p>
+        <p class="empty-state-desc">可搜索成分名称、英文名、别名或分类；也可以从包装图或完整配料表开始分析。</p>
+        <div class="form-actions">
+          <a class="button-link" href="#${categoryPath(category, '/scan')}" data-route>拍照识别配料表</a>
+          <a class="button-link secondary-link" href="#${categoryPath(category, '/analyze')}" data-route>粘贴配料表分析</a>
+        </div>
+      </div>
+    `;
+  }
   const message = activeFilterCount
     ? '没有符合当前筛选条件的成分。可以放宽筛选条件或换一个关键词。'
     : '未找到相关成分。可以尝试英文名、别名，或到扫描页/分析页录入完整成分表。';

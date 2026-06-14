@@ -396,7 +396,10 @@ export function renderGb2760ReferenceRowsState(state, filters = {}) {
       <div class="error-state gb2760-reference-state">
         <p class="error-state-title">${needsLogin ? '需要登录后查看参考表' : 'GB 2760 参考表暂不可用'}</p>
         <p class="error-desc">${needsLogin ? '参考表接口沿用后端数据审计鉴权。' : '当前可以继续查看本地数据概览。'}</p>
-        ${needsLogin ? html`<a class="button-link secondary-link" href="#/food/login?redirect=${encodeURIComponent('/food/data')}" data-route>登录账号</a>` : ''}
+        <div class="form-actions">
+          ${needsLogin ? html`<a class="button-link secondary-link" href="#/food/login?redirect=${encodeURIComponent('/food/data')}" data-route>登录账号</a>` : ''}
+          <button type="button" class="secondary" data-route-retry>重试</button>
+        </div>
       </div>
     `;
   }

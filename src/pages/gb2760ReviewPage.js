@@ -79,7 +79,10 @@ function renderReviewState(state, filters) {
       <div class="error-state">
         <p class="error-state-title">${needsLogin ? '需要登录后复核' : '复核数据暂不可用'}</p>
         <p class="error-desc">${needsLogin ? 'GB 2760 staging 复核会修改后端数据库，所以需要账号登录。' : '后端接口当前没有返回复核列表。'}</p>
-        ${needsLogin ? html`<a class="button-link secondary-link" href="#/food/login?redirect=${encodeURIComponent('/food/gb2760-review')}" data-route>登录账号</a>` : ''}
+        <div class="form-actions">
+          ${needsLogin ? html`<a class="button-link secondary-link" href="#/food/login?redirect=${encodeURIComponent('/food/gb2760-review')}" data-route>登录账号</a>` : ''}
+          <button type="button" class="secondary" data-route-retry>重试</button>
+        </div>
       </div>
     `;
   }
@@ -105,7 +108,7 @@ function renderReviewState(state, filters) {
         ${rows.map(renderReviewRow).join('')}
       </div>
       ${renderReviewPagination(filters, page, totalPages)}
-    ` : renderEmptyReviewState()}
+    ` : renderEmptyReviewState(filters)}
   `;
 }
 
@@ -207,11 +210,17 @@ function renderReviewPagination(filters, page, totalPages) {
   `;
 }
 
-function renderEmptyReviewState() {
+function renderEmptyReviewState(filters = {}) {
+  const hasNonDefaultFilters = Boolean(filters.q || filters.ready || filters.limit !== 20 || filters.page > 1 || filters.status !== 'pending_review');
   return html`
     <div class="empty-state">
-      <strong>没有匹配的复核行</strong>
-      <p>可以切换状态或清空检索词后再查看。</p>
+      <div class="empty-state-icon" aria-hidden="true">核</div>
+      <p class="empty-state-title">没有匹配的复核行</p>
+      <p class="empty-state-desc">可以切换状态、清空检索词，或返回数据页查看人工校验队列。</p>
+      <div class="form-actions">
+        <a class="button-link" href="#${categoryPath('food', '/gb2760-review')}" data-route>${hasNonDefaultFilters ? '重置为待复核行' : '查看待复核行'}</a>
+        <a class="button-link secondary-link" href="#${categoryPath('food', '/data')}" data-route>返回数据页</a>
+      </div>
     </div>
   `;
 }

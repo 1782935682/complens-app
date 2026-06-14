@@ -98,9 +98,10 @@
 → 本轮刚完成：
   1. Batch 3-B：OCR Provider 抽象（manual / mock / aliyun / paddleocr / rapidocr）
   2. Batch 4-C：低置信匹配确认交互（报告待确认区块、确认/驳回持久化、驳回候选进人工校验队列）
+  3. Batch 8-C：loading / empty / error 状态统一复核（搜索初始空态、GB2760 复核页、GB2760 参考表错误态补齐动作）
 
-→ 非控制台、非产品页面设计的后续候选：
-  1. Batch 8-C：loading / empty / error 状态统一
+→ 下一个需要先确认边界：
+  1. Batch 5-B / UX-C：统一结果可信表达。该项不需要外部账号，但会影响结果页、详情页、搜索页的可信标签与文案；因用户要求产品页面设计最后统一推进，开始前需确认是否只做文案/映射层，还是继续暂缓。
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -143,6 +144,7 @@
 | Batch 1-A | `source_documents` / `import_runs` / `import_errors` 导入审计骨架 + 查询接口 | ✅ 2026-06-14 |
 | Batch 1-C | `additive_usage_rules` 表 + `promote:gb2760` 正式库准入脚本（空签核场景 0 promoted） | ✅ 2026-06-14 |
 | Batch 1-D | `validate:gb2760` 数据校验命令 + CI 数据准入校验 | ✅ 2026-06-14 |
+| Batch 8-C | loading / empty / error 状态统一复核 | ✅ 2026-06-14 |
 
 > 这些已完成项被映射到下方各阶段并标记 ✅；详细 GB2760 完成记录见文末"附录：GB2760 导入历史记录"。
 
@@ -920,12 +922,12 @@
 
 目标：所有页面 loading 用 skeleton、empty 有操作按钮、error 有重试，不空白不丑陋。
 
-状态：🔄 进行中（已有 skeleton / empty / error 基础；待全页面统一复核，配合 UX-D）。
+状态：✅ 已完成 2026-06-14（全页面复核已完成；本轮补齐搜索页初始空态下一步入口、GB2760 复核页错误重试/空态出口、GB2760 参考表错误重试；UX-D 的共享组件抽取仍按产品页面设计计划单独推进）。
 涉及文件：`src/styles.css`、各 page、`scripts/test.mjs`。
 实现内容：
-1. 全页面 loading → skeleton。
-2. 全页面 empty → 含"下一步"操作按钮。
-3. 全页面 error → 含重试。
+1. ✅ 全页面 loading → skeleton。
+2. ✅ 全页面 empty → 含"下一步"操作按钮。
+3. ✅ 全页面 error → 含重试。
 
 验收标准：
 1. 无页面用空白替代 loading。
@@ -934,7 +936,7 @@
 
 是否需要人工：否。
 阻塞条件：无。
-验证命令：`npm run lint && npm run test`。
+验证命令：`npm run test && npm run lint && npm run build && git diff --check`。
 
 ---
 
@@ -1098,7 +1100,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 阶段 5（报告）：5-A✅ → 5-B🔄 → 5-C✅ → 5-D✅
 阶段 6（档案个性化）：6-A✅ → 6-B✅ → 6-C✅ → 6-D✅
 阶段 7（体验 UX）：UX-A🔁 → UX-B → UX-C → UX-D → UX-E
-阶段 8（移动 PWA）：8-A✅ → 8-B🔄 → 8-C🔄
+阶段 8（移动 PWA）：8-A✅ → 8-B🔄 → 8-C✅
 阶段 9（AI）：9-A✅ → 9-B[人工+Codex, blocked] → 9-C✅
 阶段 10（登录同步）：10-A✅ → 10-B✅ → 10-C[人工+Codex, blocked]
 阶段 11（订阅支付上架）：全部后置 / blocked_by_user
