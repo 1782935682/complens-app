@@ -49,7 +49,7 @@
 | `COMMANDS.md` | 更新 | 新增 GB2760 审计 API 验收，明确 `import:gb2760:status` 只有 API 已实现、CLI 仍为计划，不伪造 npm 命令 |
 | `DATA_SOURCES.md` | 更新 | 硬性规则补充 staging/verified 区别、`pending_review` 不能当权威、持续扩充；新增导入审计层和当前审计计数 |
 | `src/pages/gb2760ReviewPage.js`、`src/services/gb2760ApiService.js`、`src/router/router.js`、`src/main.js`、`src/styles.css` | 新增/更新 | 新增内部 GB2760 复核页、每页条数、ready 筛选、单条/批量签核和映射 API 客户端 |
-| `src/pages/searchPage.js`、`src/pages/dataPage.js`、`src/pages/gb2760ReviewPage.js` | 更新 | Batch 8-C 状态统一：搜索初始空态提供拍照/粘贴入口；GB2760 复核错误态增加重试、空态增加重置为待复核行和返回数据页；GB2760 参考表错误态增加重试 |
+| `src/pages/searchPage.js`、`src/pages/dataPage.js`、`src/pages/gb2760ReviewPage.js`、`src/main.js` | 更新 | Batch 8-C 状态统一：搜索初始空态提供拍照/粘贴入口；GB2760 复核错误态增加重试、空态增加重置为待复核行和返回数据页；GB2760 参考表错误态增加重试；retry 事件改为委托绑定以覆盖局部渲染 |
 | `backend/src/services/ocrProviders/index.ts` | 新增 | OCR provider 命名层，规范 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，并提供 mock OCR 结果 |
 | `backend/src/routes/ocr.ts`、`backend/tests/ocr.test.ts`、`src/services/ocrService.js`、`scripts/test.mjs` | 更新 | 后端按 provider 区分 mock / 真实 pending / 未配置 Key；前端校验 provider 名称；测试覆盖 mock 与 pending |
 | `AI_REVIEW.md` | 覆盖 | 本文件 |
@@ -67,7 +67,7 @@
 9. GB2760 复核闭环已落地：`map:gb2760` 自动创建 217 个缺失成分身份并回填 1447 条 staging 映射；人工在复核页批量签核后，`promote:gb2760` 成功 promote 2391 条正式规则，失败 0。
 10. 本地 review 后已补强三项风险：普通登录用户不能调用 GB2760 写接口、签核/映射写入 reviewer 审计字段、自动生成 ingredient kind 统一为 `food-additive`。
 11. OCR 抽象层已补齐 provider 命名：`OCR_PROVIDER=mock` 可用于本地固定响应测试，`aliyun` / `paddleocr` / `rapidocr` 在真实适配前继续返回 pending，不会伪造真实 OCR。
-12. Batch 8-C 已补齐全页状态出口：搜索初始空态不再是单行空提示，GB2760 复核和参考表错误态都可重试；UX-D 的共享组件抽取和 5-B/UX-C 可信表达统一不在本批次冒充完成。
+12. Batch 8-C 已补齐全页状态出口：搜索初始空态不再是单行空提示，GB2760 复核和参考表错误态都可重试；retry 事件使用委托绑定，覆盖参考表局部渲染后的错误态按钮；UX-D 的共享组件抽取和 5-B/UX-C 可信表达统一不在本批次冒充完成。
 
 ## 与现有代码核对（防止伪造状态）
 

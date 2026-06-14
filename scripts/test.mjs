@@ -597,6 +597,8 @@ assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboa
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
 assert.match(mainJs, /bindAuthEvents\(route\)/);
+assert.match(mainJs, /setupRouteRetryHandler\(\)/);
+assert.match(mainJs, /closest\('\[data-route-retry\]'\)/);
 assert.match(mainJs, /validateAuthInput\(email, password\)/);
 assert.match(mainJs, /data-auth-password-toggle/);
 assert.match(mainJs, /data-auth-logout/);

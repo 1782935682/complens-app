@@ -37,6 +37,7 @@ let deferredInstallPrompt = null;
 registerServiceWorker();
 setupConnectionStatus();
 setupPwaInstallPrompt();
+setupRouteRetryHandler();
 
 function navigate(hash) {
   window.location.hash = hash;
@@ -259,14 +260,18 @@ function playPageEnterAnimation() {
   app.classList.add('page-enter');
 }
 
+function setupRouteRetryHandler() {
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const retryControl = event.target.closest('[data-route-retry]');
+    if (!retryControl) return;
+    event.preventDefault();
+    render();
+  });
+}
+
 function bindPageEvents(route) {
   bindAuthEvents(route);
-
-  document.querySelectorAll('[data-route-retry]').forEach((button) => {
-    button.addEventListener('click', () => {
-      render();
-    });
-  });
 
   document.querySelectorAll('[data-search-form]').forEach((form) => {
     form.addEventListener('submit', (event) => {
