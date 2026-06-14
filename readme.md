@@ -1,27 +1,26 @@
 # CompLens / 成分镜（CompCheck）
 
-面向普通用户的**食品配料表拍照识别与成分分析 App**。
+面向普通消费者的**食品标签拍照解读与消费决策助手**。
 
-> 本文件是产品与协作入口。文档分类入口见 [`docs/README.md`](./docs/README.md)；新机器部署见 [`docs/deployment.md`](./docs/deployment.md)；数据库设计见 [`docs/database.md`](./docs/database.md)；Agent 强制规范见 [`AGENTS.md`](./AGENTS.md)；任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)；进度计划见 [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)；命令见 [`COMMANDS.md`](./COMMANDS.md)；数据来源与口径见 [`DATA_SOURCES.md`](./DATA_SOURCES.md)。
+> 本文件是产品与协作入口。文档分类入口见 [`docs/README.md`](./docs/README.md)；**产品 / 消费者决策 / UI / 前端 / 跨端 / API / 数据可信 / 后台 / 隐私 / 测试验收完整规范集见 [`docs/product-blueprint/`](./docs/product-blueprint/README.md)**；新机器部署见 [`docs/deployment.md`](./docs/deployment.md)；数据库设计见 [`docs/database.md`](./docs/database.md)；Agent 强制规范见 [`AGENTS.md`](./AGENTS.md)；任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)；进度计划见 [`PROJECT_PLAN.md`](./PROJECT_PLAN.md)；命令见 [`COMMANDS.md`](./COMMANDS.md)；数据来源与口径见 [`DATA_SOURCES.md`](./DATA_SOURCES.md)。
 
 ---
 
 ## 当前产品主路径
 
 ```
-拍照/上传食品配料表图片
-  → OCR 识别文字
+拍食品标签
+  → 识别配料表 / 营养成分表
   → 用户确认和修正识别文本
-  → 自动拆分配料
-  → 匹配食品成分/食品添加剂数据库
-  → 展示数据来源和可信等级
-  → 生成食品配料分析报告
-  → 保存产品档案和分析历史
+  → 自动拆分配料 / 解析营养字段
+  → 结合我的关注项
+  → 生成食品标签解读报告
+  → 保存历史
 ```
 
-**成分搜索只是辅助功能，不是主路径。OCR 拍照识别配料表 + 分析配料是核心主路径。**
+**成分搜索和专业法规查询只是辅助功能，不是主路径。OCR 拍照识别食品标签 + 消费者标签解读是核心主路径。**
 
-当前阶段只做食品配料 / 食品添加剂，不混入化妆品、护肤品、药品。
+当前阶段只做食品标签（配料表、营养成分表、包装正面卖点），不混入化妆品、护肤品、药品。
 
 ---
 
@@ -38,6 +37,18 @@
 | `unknown_from_ocr` | OCR 识别到但未收录 | 否 |
 
 GB2760 导入采用 **staging 全量承接 → 高置信度 promote 到正式库 → 低置信度 pending_review → 人工复核**，详见 [`DATA_SOURCES.md`](./DATA_SOURCES.md)。
+
+---
+
+## 产品蓝图与开发规范
+
+完整的产品、消费者决策、UI、视觉、前端、跨端、API、数据可信、后台、隐私合规、测试验收规范统一收敛在 [`docs/product-blueprint/`](./docs/product-blueprint/README.md)，本文件只做入口，不重复正文。
+
+- **数据可信原则**：数据状态分层展示（见上表与 [`DATA_TRUST_SPEC.md`](./docs/product-blueprint/DATA_TRUST_SPEC.md)）；`pending_review` / `mapped_candidate` / `unverified` / `unknown_from_ocr` 不得展示为权威结论；AI 不作为原始数据来源。
+- **消费者体验原则**：专业信息默认隐藏，普通人报告默认展示；用户拍的不一定只有配料表，也可能是营养成分表或包装正面；报告只做购买前建议关注，不给绝对购买建议。
+- **OCR 原则**：拍照识别是核心主路径；OCR 结果必须进入文本确认页，不能跳过；无 Key 时保留 manual 手动输入、不崩溃、不伪造识别文字；降级链路 real → manual → fallback。
+- **跨端策略**：当前优先 Web/PWA 跑通主流程，后续以统一设计系统和 API 迁移到微信小程序、Android、iOS；后台管理端单独建设；统一的是产品流程、设计 token、数据状态、API 契约，不强行一套 UI 代码覆盖所有端（见 [`CROSS_PLATFORM_SPEC.md`](./docs/product-blueprint/CROSS_PLATFORM_SPEC.md)）。
+- **Codex 开发规则入口**：强制规范见 [`AGENTS.md`](./AGENTS.md)，任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)，验收见 [`QA_ACCEPTANCE_SPEC.md`](./docs/product-blueprint/QA_ACCEPTANCE_SPEC.md)。
 
 ---
 
@@ -67,6 +78,8 @@ npm run dev
 ---
 
 ## 旧版开发指令与历史约定
+
+> 以下为历史归档内容，仅保留早期协作背景。若与本文件顶部、[`docs/product-blueprint/`](./docs/product-blueprint/README.md)、[`CODEX_TASKS.md`](./CODEX_TASKS.md)、[`PROJECT_PLAN.md`](./PROJECT_PLAN.md)、[`AGENTS.md`](./AGENTS.md) 冲突，以这些当前文档为准；历史章节中的“未开始/计划/阶段”状态不得作为当前进度依据。
 
 ## 1. 项目目标
 

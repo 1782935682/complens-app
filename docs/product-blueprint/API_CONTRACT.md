@@ -1,0 +1,552 @@
+# API 契约（API_CONTRACT）
+
+> 本文件属于 `docs/product-blueprint/` 蓝图集，是 CompLens/成分镜 面向所有客户端（Web/PWA、微信小程序、原生 App、内部后台）的**统一 API 契约**。
+>
+> 关联文档：
+> - [`README.md`](./README.md)：蓝图集索引。
+> - 根目录 `readme.md`：项目入口说明。
+> - 根目录 `DATA_SOURCES.md`：数据治理与来源原则的**权威依据**。本文件与 `DATA_SOURCES.md` 冲突时以后者为准。
+> - `docs/product-blueprint/DATA_TRUST_SPEC.md`：展示层数据可信规范（dataStatus / 来源类型 / 展示规则）。本文件可信字段约定与之对齐。
+> - `docs/product-blueprint/FRONTEND_SPEC.md`：前端规格。
+> - `docs/product-blueprint/CROSS_PLATFORM_SPEC.md`：跨端规格。
+>
+> **本契约同时记录两类接口，并以状态标签明确区分，绝不把不存在的接口写成已存在：**
+> - ✅ **已实现**：后端代码中真实存在的路由（已在 `backend/src/routes/*` 与 `backend/src/app.ts` 核对）。
+> - ⚠️ **现有等价 / 部分**：目标主流程接口未以该名称存在，但有真实等价能力（可能在后端，也可能仅在前端本地）。
+> - ❌ / 计划 / blocked：尚未实现，仅作目标规范。
+>
+> **核心原则**：配料解析、配料匹配、可信字段判定等核心逻辑应尽量收敛到后端或 shared core，避免各端各自实现配料解析逻辑导致口径漂移（当前 `parseIngredientList` 仍在前端 `src/utils/text.js`，属待收敛项，见第二部分）。
+>
+> **约定**：任何接口的新增、改名、参数或响应字段变更，必须同步更新本文件。
+
+技术栈现状：后端 Node 20 + TypeScript + Hono + Drizzle/PostgreSQL。路由模块：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。除 `GET /health` 挂载于根路径 `/` 外，其余均挂载于 `/api` 前缀（见 `backend/src/app.ts`）。
+
+通用错误约定（实测）：
+- 参数校验失败：`400 { error: "invalid_parameter", field, message }`
+- 资源不存在：`404 { error: "not_found" }`
+- 未匹配路由：`404 { error: "not_found" }`（`app.notFound`）
+- 未捕获异常：`500 { error: "internal_server_error" }`（`app.onError`）
+- 鉴权：需登录接口使用 JWT（`Authorization: Bearer <token>`，见 `backend/src/middleware/auth.ts`）。
+
+---
+
+## 第一部分：现状接口清单（已实现）
+
+> 以下接口均已在后端代码中核对存在。字段名以代码为准。
+
+### 1. 健康检查
+
+#### `GET /health`  ✅ 已实现
+- 用途：服务健康探针 / 版本信息。
+- 调用端：运维、所有客户端启动探测。
+- 鉴权：**允许匿名**。
+- 请求参数：无。
+- 响应：`{ status: "ok", version: "0.1.0", timestamp: <ISO 字符串> }`
+- 来源：`backend/src/routes/health.ts`。
+
+---
+
+### 2. 鉴权（auth）
+
+> 真实路径已核对（`backend/src/routes/auth.ts`，挂载于 `/api`）。
+
+#### `POST /api/auth/register`  ✅ 已实现
+- 用途：邮箱注册。
+- 鉴权：匿名。
+- 请求体：`{ email: string, password: string(>=8) }`
+- 成功：`201 { token, tokenType, expiresAt(ISO), user: { id, email, createdAt(ISO) } }`
+- 错误：`400 invalid_parameter`（email/password 校验）；`409 { error: "email_already_registered" }`。
+
+#### `POST /api/auth/login`  ✅ 已实现
+- 用途：邮箱登录。
+- 鉴权：匿名。
+- 请求体：`{ email, password }`
+- 成功：`200 { token, tokenType, expiresAt(ISO), user }`
+- 错误：`400 invalid_parameter`；`401 { error: "invalid_credentials" }`。
+
+#### `POST /api/auth/logout`  ✅ 已实现
+- 鉴权：**需登录**。
+- 行为：使当前 token 失效。
+- 成功：`200 { ok: true }`。
+
+#### `GET /api/auth/me`  ✅ 已实现
+- 鉴权：**需登录**。
+- 成功：`200 { user: { id, email, createdAt(ISO) } }`。
+
+#### `DELETE /api/auth/account`  ✅ 已实现
+- 鉴权：**需登录**。
+- 行为：注销并删除账户。
+- 成功：`200 { ok: true }`。
+
+---
+
+### 3. 配料 / 添加剂（ingredients）
+
+> 来源：`backend/src/routes/ingredients.ts` + `backend/src/services/ingredientService.ts`。**全部允许匿名访问**（未挂载鉴权中间件）。
+
+#### `GET /api/ingredients`  ✅ 已实现
+- 用途：配料/添加剂分页列表与检索（支持过滤/排序/分面统计）。
+- 调用端：Web/PWA 数据库浏览页、各端检索。
+- 鉴权：匿名。
+- 查询参数：
+  - `q`：关键词（可选）
+  - `category`：分类（可选）
+  - `riskLevel`：`low|medium|high|unknown`（可选）
+  - `confidenceLevel`：`high|medium|low|unverified`（可选）
+  - `dataStatus`：见可信字段约定七态枚举（可选）
+  - `sort`：`relevance|risk|name`（可选）
+  - `page`：默认 1
+  - `limit`：默认 20，最大 100
+- 成功响应（`IngredientListResult`）：
+  ```
+  {
+    items: IngredientRow[],   // 含 dataStatus / matchConfidence / sourceName / sourceUrl / regulatoryBasis 等可信字段
+    page, limit, total, totalPages,
+    riskFacets: [{ level, count }],
+    categoryFacets: [{ name, count }]
+  }
+  ```
+- 错误：`400 invalid_parameter`（参数非法时返回对应 field）。
+
+#### `GET /api/ingredients/search`  ✅ 已实现
+- 用途：检索接口，与 `GET /api/ingredients` 共用同一查询解析与返回结构（代码层等价，仅语义命名不同）。
+- 鉴权：匿名。
+- 参数 / 响应：同 `GET /api/ingredients`（支持 `q`、`limit` 等全部列表参数）。
+- 说明：路由顺序上特意置于 `/ingredients/:id` 之前，避免 `search` 被当成 id。
+
+#### `GET /api/ingredients/categories`  ✅ 已实现
+- 用途：分类汇总。
+- 鉴权：匿名。
+- 参数：无。
+- 成功：`{ items: [{ name, count }] }`。
+
+#### `GET /api/ingredients/:id`  ✅ 已实现
+- 用途：单条配料/添加剂详情。
+- 鉴权：匿名。
+- 路径参数：`id`。
+- 查询参数：`includeEvidence`（可选，取值 `1` 时附带 GB2760 证据，见下一条）。
+- 成功：`200 IngredientRow`（含全部可信字段）。
+- 错误：`404 { error: "not_found" }`。
+
+#### `GET /api/ingredients/:id?includeEvidence=1`  ✅ 已实现（注意：现状已落地）
+- 用途：详情 + GB2760 证据（staging 记录与 reference 行），用于"可追溯到法规来源"的展示。
+- 鉴权：匿名。
+- 成功：`200 IngredientRow & { stagingRows: Gb2760OfficialRecordRow[], referenceRows: Gb2760OfficialReferenceRow[] }`
+  - 即调用 `ingredientService.getIngredientWithGb2760Evidence(id)`。
+- 错误：`404 { error: "not_found" }`。
+- 说明：早期蓝图曾把此能力标为"计划/待实现"，**经核对 `backend/src/routes/ingredients.ts` 第 49–59 行已实现**，本契约据实更正为"已实现"。
+
+#### `POST /api/ingredients/batch-search`  ✅ 已实现
+- 用途：**批量配料匹配**。这是目标 `POST /api/ingredients/match` 的真实等价实现。
+- 调用端：OCR 确认 / 分析页对解析出的配料数组做批量匹配。
+- 鉴权：匿名。
+- 请求体：
+  ```
+  {
+    terms: string[],            // 配料词数组；空白项被过滤；最多 200 项，否则 400
+    includeENumbers?: boolean   // 默认 true（仅当显式传 false 时关闭）
+  }
+  ```
+- 成功：`{ results: BatchSearchResult[] }`，每项：
+  ```
+  {
+    term: string,
+    eNumber: string | null,
+    match: IngredientRow | null,   // 命中项，含 dataStatus / matchConfidence / sourceName / sourceUrl / regulatoryBasis
+    confidence: number,            // 0~1 的匹配置信度数值（exact=1, eNumber≈0.99, alias≈0.92, fuzzy≈0.75/0.55, none=0）
+    matchType: "exact" | "alias" | "eNumber" | "fuzzy" | "none",
+    alternates: IngredientRow[]    // 候选备选项
+  }
+  ```
+- 错误：`400 invalid_parameter`（body 非对象 / terms 非数组 / terms 超 200 项）。
+- 注意：此处 `confidence` 是 **0~1 数值**（运行时匹配置信度），与配料记录字段 `matchConfidence`（枚举 `high|medium|low|unverified`）不是同一字段，前端不要混用。
+
+---
+
+### 4. OCR
+
+#### `POST /api/ocr`  ✅ 已实现
+- 用途：图片配料表 OCR 识别。
+- 调用端：拍照/上传识别流程。
+- 鉴权：**需登录（JWT）**。
+- 请求体：
+  ```
+  {
+    imageBase64: string,   // 必填；<=10MB（按 base64 长度上限校验）
+    mimeType: string,      // 必填；须匹配 image/* MIME
+    category?: string       // 可选，默认 "food"
+  }
+  ```
+- provider 取值：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`（由后端配置 `OCR_PROVIDER` 决定，见 `backend/src/services/ocrProviders/index.ts`）。`rapidocr` 使用 `OCR_SERVICE_URL`；`aliyun`/`paddleocr` 需要 `OCR_API_KEY`。
+- 成功响应：
+  ```
+  {
+    text: string,            // 识别全文（OCR 原始结果，属用户输入来源，非权威）
+    confidence: number,      // 0~1
+    provider: <provider 名>,
+    blocks: [{ text, confidence }]
+  }
+  ```
+- 错误码（实测）：
+  - `400 { error: "invalid_parameter", field, message }`：body 非法 / imageBase64 缺失或超限 / mimeType 非图片类型。
+  - `503 { error: "ocr_not_configured", provider }`：provider=manual，或需要的 Key/ServiceUrl 缺失。
+  - `501 { error: "ocr_provider_pending", provider }`：provider 已选但适配器尚未返回结果（未适配）。
+  - `502 { error: "ocr_provider_invalid_response" | "ocr_provider_failed", provider, message }`：上游响应结构漂移 / 上游失败。
+  - `503 { error: "ocr_provider_unreachable", provider, message }`：上游不可达。
+  - `504 { error: "ocr_provider_timeout", provider, message }`：上游超时。
+- 展示规则：OCR 结果是**用户输入来源，非权威数据源**；未识别/低置信内容必须保留、不得静默丢弃；未匹配项运行时记为 `unknown_from_ocr`（文案"暂未收录"），进入人工校验队列（见 `DATA_TRUST_SPEC.md` 第 4 节）。
+
+---
+
+### 5. 用户数据（user）
+
+> 来源：`backend/src/routes/user.ts`，整个 `/user/*` 段挂载鉴权中间件，**全部需登录**。所有写操作均按 `userId` 隔离。
+
+#### 收藏 `POST/GET/DELETE /api/user/favorites`  ✅ 已实现
+- `GET`：`{ items }`。
+- `POST`：单条 `{ id, category }` 返回 `201 { items }`；或 `{ items: [...] }` 整体替换返回 `{ items }`。
+- `DELETE`：按 query `id` + `category` 删除单条，或不带参数清空，返回 `{ items }`。
+
+#### 历史 `POST/GET/DELETE /api/user/history`  ✅ 已实现
+- `GET`：`{ items }`。
+- `POST`：`{ query }` 追加（`201`），或 `{ items: string[] }` 替换。
+- `DELETE`：按 query `query` 删除指定项或清空。
+
+#### 过敏原 `GET/PUT /api/user/allergens`  ✅ 已实现
+- `GET`：`{ items }`。
+- `PUT`：`{ items: string[] }` 整体替换，返回 `{ items }`。
+
+#### 关注/规避清单 `GET/PUT /api/user/profile/:kind`  ✅ 已实现
+- `kind ∈ { watch, avoid }`（非法 kind → `400 invalid_parameter`）。
+- `GET`：`{ items }`。
+- `PUT`：`{ items: string[] }` 整体替换，返回 `{ items }`。
+
+#### 报告云同步 `GET/POST/DELETE /api/user/reports`  ✅ 已实现
+- 用途：登录后将本地报告同步至云端（详见第二部分对 reports 的说明）。
+- `GET`：`{ items }`。
+- `POST`：单条 `{ report }`（或直接报告对象，须含 `id`）追加（`201`），或 `{ items: [...] }` 整体替换。
+- `DELETE`：按 query `id` 删除。
+
+#### 产品档案 `GET/POST/PATCH/DELETE /api/user/products`  ✅ 已实现
+- `GET /api/user/products`：列表，query 支持 `search`、`isFavorite`(`true|false`)、`riskGrade`、`page`、`limit`，返回服务端分页结构。
+- `GET /api/user/products/:id`：`{ item }`，不存在 → `404 not_found`。
+- `POST /api/user/products`：单条 `{ product }`（须含 `id, productName, originalText, reportId`）返回 `201 { item, items }`；或 `{ items: [...] }`（<=100 项）整体替换。
+- `PATCH /api/user/products/:id`：部分字段更新（`productName/brandName/isFavorite/tags/riskGrade`），返回 `{ item }`，不存在 → `404`。
+- `DELETE /api/user/products/:id`：删除，返回 `{ items }`。
+- 校验失败统一经 `onError` 归一为 `400 { error: "invalid_parameter", field: "items", message }`。
+
+---
+
+### 6. GB2760 数据治理（gb2760）
+
+> 来源：`backend/src/routes/gb2760.ts`，整个 `/gb2760/*` 段**需登录**。**写操作（PUT）额外要求内部审核员**：通过 `GB2760_INTERNAL_REVIEWERS` allowlist（匹配 email 或 userId，支持 `*` 全放行）校验，普通登录用户写操作 → `403 { error: "forbidden", message }`。
+
+#### `GET /api/gb2760/import-runs`  ✅ 已实现
+- 用途：GB2760 导入批次列表（目标 `GET /api/imports/gb2760/status` 的等价能力）。
+- query：`page`(默认1)、`limit`(默认20，max100)。
+- 成功：服务端分页结果。
+
+#### `GET /api/gb2760/import-runs/:id/errors`  ✅ 已实现
+- 用途：某导入批次的错误明细。
+- 成功：错误结果；不存在 → `404 not_found`。
+
+#### `GET /api/gb2760/reference-rows`  ✅ 已实现（注意：现状已落地）
+- 用途：GB2760 reference 行查询（用于证据/对照展示）。
+- query：`table`（表名，可选）、`q`（可选）、`page`、`limit`。
+- 成功：服务端分页结果。
+- 说明：早期蓝图曾标"计划/待实现"，**经核对 `backend/src/routes/gb2760.ts` 第 42–50 行已实现**，本契约据实更正。
+
+#### `GET /api/gb2760/staging-rows`  ✅ 已实现
+- 用途：staging 行列表（审核队列）。
+- query：`page`、`limit`、`status`（须为合法审核状态）、`q`、`ready`(`1` 仅就绪项)。
+- 成功：服务端分页结果；`status` 非法 → `400 invalid_parameter`。
+
+#### `PUT /api/gb2760/staging-rows/review`  ✅ 已实现（批量）
+- 用途：批量更新审核状态。
+- 鉴权：登录 + 内部审核员。
+- 请求体：`{ ids: string[] (1~100), reviewStatus, reviewNote? (<=500) }`。
+- 错误：`400 invalid_parameter`；`403 forbidden`（非内部审核员）。
+
+#### `PUT /api/gb2760/staging-rows/:id/mapping`  ✅ 已实现
+- 用途：将 staging 行映射到正式 ingredient。
+- 鉴权：登录 + 内部审核员。
+- 请求体：`{ ingredientId, reviewStatus, reviewNote? }`。
+- 错误：`400 invalid_parameter`；`403 forbidden`；`404 not_found`；映射冲突 → `409 { error: "locked_review_status", ... }` 或 `422 { error, message, reasons }`。
+
+#### `PUT /api/gb2760/staging-rows/:id/review`  ✅ 已实现
+- 用途：单行更新审核状态。
+- 鉴权：登录 + 内部审核员。
+- 请求体：`{ reviewStatus, reviewNote? }`。
+- 错误：同上（`400 / 403 / 404 / 409 / 422`）。
+
+---
+
+## 第二部分：主流程目标 API 契约
+
+> 本节是产品主路径目标契约，供后续 Web / PWA、微信小程序、Android、iOS 统一调用。状态必须如实标注：✅ 已实现 / ✅ 等价已实现 / ⚠️ 部分实现 / ❌ 未实现。未实现接口不得在页面中当成已存在调用。
+
+| 目标接口 | 当前状态 | 当前真实对应 | 是否应允许匿名完成 MVP |
+|---|---|---|---|
+| `POST /api/ocr` | ✅ 已实现但需调整匿名策略 | `POST /api/ocr`（当前需登录） | 是，MVP 主流程应允许匿名识别或降级手动输入 |
+| `POST /api/ingredients/parse` | ⚠️ 前端本地 | `src/utils/text.js` 的 `parseIngredientList`；后端无同名路由 | 是 |
+| `POST /api/ingredients/match` | ✅ 等价已实现 | `POST /api/ingredients/batch-search` | 是 |
+| `POST /api/reports` | ⚠️ 部分 | 本地报告 + 登录后 `POST /api/user/reports` 云同步 | 是，本地保存应可匿名 |
+| `GET /api/reports/:id` | ⚠️ 部分 | 本地读取 + 登录后用户报告接口 | 是，本地历史应可匿名 |
+| `GET /api/reports` | ⚠️ 部分 | 本地历史 + 登录后用户报告接口 | 是 |
+| `GET /api/additives/search` | ✅ 等价已实现 | `GET /api/ingredients/search` / `GET /api/ingredients` | 是 |
+| `GET /api/additives/:id` | ✅ 等价已实现 | `GET /api/ingredients/:id?includeEvidence=1` | 是 |
+| `GET /api/data-sources` | ❌ 未实现 | 当前为 `DATA_SOURCES.md` + `/data` 页面 | 是 |
+| `GET /api/imports/gb2760/status` | ✅ 等价已实现 | `GET /api/gb2760/import-runs` 等后台接口 | 否，后台/内部查看 |
+| `POST /api/feedback` | ⚠️ 前端本地 | `src/services/supportService.js` 本地存储 | 是 |
+| `POST /api/labels/scan` | ❌ 计划 | 食品标签多图扫描会话 | 是 |
+| `POST /api/labels/classify` | ❌ 计划 | 标签类型识别 | 是 |
+| `POST /api/nutrition/parse` | ❌ 计划 | 营养成分表结构化 | 是 |
+| `POST /api/claims/parse` | ❌ 计划 / 后续 | 包装正面卖点解析 | 是 |
+| `POST /api/reports/label` | ❌ 计划 | 食品标签解读报告 | 是 |
+| `POST /api/reports/compare` | ❌ 计划 / 后续 | 两款商品对比报告 | 是 |
+| `GET /api/user-attention-items` | ❌ 计划 | 我的关注项读取；MVP 可本地实现 | 是 |
+| `POST /api/user-attention-items` | ❌ 计划 | 我的关注项保存；MVP 可本地实现 | 是 |
+
+### 消费者标签解读计划 API（当前未实现）
+
+以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。当前均为计划 API，不得在实现前当作已存在接口调用。
+
+#### `POST /api/labels/scan`
+- 用途：创建或更新一次食品标签扫描会话，支持一张到三张图片组合。
+- 调用端：拍照页、多图上传 / 补拍页。
+- 请求参数：`images[]`（`assetId` 或文件引用、`labelTypeHint?`、`mimeType`）、`sessionId?`。
+- 响应字段：`sessionId`、`images[]`（`assetId`、`labelType`、`ocrResultId`、`status`）、`nextSuggestedCapture[]`。
+- 错误码：`400 invalid_parameter`、`413 image_too_large`、`503 ocr_unavailable`。
+- 数据状态字段：图片和 OCR 结果标记为 `ocr_input`，不是权威来源。
+- 前端展示规则：拍一张也能继续；推荐补拍配料表和营养成分表；单张失败不影响其他图片。
+- 是否需要登录：目标不需要。
+- 是否允许匿名：允许。
+
+#### `POST /api/labels/classify`
+- 用途：识别 OCR 文本或图片属于配料表、营养成分表、包装正面、条码/产品名或未知标签。
+- 调用端：扫描页、标签类型选择页、文本确认页。
+- 请求参数：`text?`、`imageAssetId?`、`userSelectedType?`。
+- 响应字段：`labelType`（`ingredient_list|nutrition_facts|front_claims|barcode_or_product|unknown_label`）、`confidence`、`requiresUserSelection`。
+- 错误码：`400 invalid_parameter`、`422 classify_failed`。
+- 数据状态字段：分类结果是辅助判断，不是权威结论。
+- 前端展示规则：低置信或 unknown 时必须允许用户手动选择。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+#### `POST /api/nutrition/parse`
+- 用途：把营养成分表 OCR 文本解析为结构化营养字段。
+- 调用端：文本确认页、食品标签解读报告生成流程。
+- 请求参数：`text`、`perUnit?`、`servingSize?`。
+- 响应字段：`nutrition`（`energy`、`protein`、`fat`、`saturatedFat`、`transFat`、`carbohydrate`、`sugar`、`sodium`、`dietaryFiber`、`servingSize`、`perUnit`、`nrvPercent`）、`warnings[]`。
+- 错误码：`400 invalid_parameter`、`422 parse_failed`。
+- 数据状态字段：营养字段来自 OCR/用户确认文本，须保留来源和置信度。
+- 前端展示规则：信息不足时显示“建议结合包装原文确认”，不得做营养诊断。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+#### `POST /api/claims/parse`
+- 用途：解析包装正面卖点，如 0 蔗糖、低脂、高蛋白、无添加等。
+- 调用端：包装正面卖点核对页、报告页。
+- 请求参数：`text`、`labelType: "front_claims"`。
+- 响应字段：`claims[]`（`claimText`、`claimType`、`relatedCheck`、`confidence`）。
+- 错误码：`400 invalid_parameter`、`422 parse_failed`。
+- 数据状态字段：卖点来自包装 OCR/用户确认文本，不是打假结论。
+- 前端展示规则：只做核对提醒，不输出“虚假 / 真实 / 打假”结论。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+#### `POST /api/reports/label`
+- 用途：生成食品标签解读报告，合并配料表、营养成分表、包装卖点和我的关注项。
+- 调用端：报告生成流程。
+- 请求参数：`sessionId?`、`ingredientParseResultId?`、`nutritionParseResultId?`、`frontClaimResultId?`、`attentionItems[]`。
+- 响应字段：`reportId`、`summarySentence`、`attentionMatches[]`、`ingredientSection`、`nutritionSection`、`claimCheckSection?`、`sources[]`。
+- 错误码：`400 invalid_parameter`、`422 insufficient_label_data`、`507 storage_full`。
+- 数据状态字段：报告保留每个结论的来源、`dataStatus`、OCR 来源和用户确认状态。
+- 前端展示规则：报告名称为“食品标签解读”；普通人内容默认展示，专业依据折叠。
+- 是否需要登录：本地保存不需要；云同步需要。
+- 是否允许匿名：允许。
+
+#### `POST /api/reports/compare`
+- 用途：生成两款商品的对比报告。
+- 调用端：产品对比页。
+- 请求参数：`leftReportId`、`rightReportId`、`attentionItems[]`。
+- 响应字段：`compareReportId`、`differences[]`、`attentionSummary`、`sources[]`。
+- 错误码：`400 invalid_parameter`、`404 not_found`、`422 insufficient_data`。
+- 数据状态字段：每个对比项保留来源报告和数据可信状态。
+- 前端展示规则：只能输出“糖更低 / 钠更低 / 添加剂数量更少 / 更符合当前关注项”，禁止“更健康 / 不健康”。
+- 是否需要登录：本地对比不需要；云同步需要。
+- 是否允许匿名：允许。
+
+#### `GET /api/user-attention-items`
+- 用途：读取我的关注项。MVP 可先用本地存储实现，服务端接口后续用于云同步。
+- 调用端：我的关注项设置页、报告页。
+- 请求参数：无。
+- 响应字段：`items[]`（`type`、`enabled`、`keywords[]`、`customTerms[]`）。
+- 错误码：`401 unauthorized`（云同步时）、`500 internal_error`。
+- 数据状态字段：关注项是用户偏好，不是医学诊断。
+- 前端展示规则：匿名用户读取本地关注项。
+- 是否需要登录：目标不需要；云同步需要。
+- 是否允许匿名：允许本地读取。
+
+#### `POST /api/user-attention-items`
+- 用途：保存我的关注项。MVP 可先用本地存储实现，服务端接口后续用于云同步。
+- 调用端：我的关注项设置页。
+- 请求参数：`items[]`（控糖、低钠、减脂、高蛋白、少添加、给孩子看、过敏/忌口等）。
+- 响应字段：`items[]`、`updatedAt`、`storageScope`.
+- 错误码：`400 invalid_parameter`、`401 unauthorized`（云同步时）、`507 storage_full`。
+- 数据状态字段：关注项是用户偏好，不是医学诊断。
+- 前端展示规则：不登录也能本地保存；报告按关注项排序。
+- 是否需要登录：本地保存不需要；云同步需要。
+- 是否允许匿名：允许本地保存。
+
+### `POST /api/ocr`
+- 用途：对食品标签图片做 OCR，返回可编辑文本和识别块。
+- 调用端：Web / PWA 拍照上传页、后续小程序/App 拍照入口。
+- 请求参数：`imageBase64` 或文件上传引用、`mimeType`、`category?: "food"`。
+- 响应字段：`text`、`confidence`、`blocks[]`、`provider`、`sourceType: "ocr_input"`、`requiresUserConfirmation: true`。
+- 错误码：`400 invalid_parameter`、`401 unauthorized`（当前实现）、`413 image_too_large`、`503 ocr_unavailable`。
+- 数据状态字段：OCR 输出必须标记为 `ocr_input`，不能作为 `verified_*` 数据。
+- 前端展示规则：无论成功/失败都必须进入文本确认或手动输入路径；禁止跳过确认直接分析。
+- 是否需要登录：目标不需要；当前实现需登录，列入后续任务。
+- 是否允许匿名：目标允许。
+
+### `POST /api/ingredients/parse`
+- 用途：把用户确认后的配料表文本拆成结构化配料项。
+- 调用端：文本确认页。
+- 请求参数：`text`、`locale?: "zh-CN"`、`source?: "ocr_input" | "manual_input"`。
+- 响应字段：`items[]`（`rawText`、`normalizedName`、`position`、`warnings[]`）、`parseConfidence`。
+- 错误码：`400 invalid_parameter`、`422 parse_failed`。
+- 数据状态字段：解析结果仍继承用户输入来源，不得标成权威数据。
+- 前端展示规则：必须展示可编辑拆分结果；解析失败时允许用户手动拆分。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+### `POST /api/ingredients/match`
+- 用途：将拆分出的配料项匹配到食品成分/食品添加剂数据库。
+- 调用端：配料拆分页、匹配确认页。
+- 请求参数：`items[]`（`rawText`、`normalizedName`）、`category?: string`。
+- 响应字段：`results[]`（`query`、`match`、`alternates[]`、`confidence`、`dataStatus`、`sourceName`、`regulatoryBasis`）。
+- 错误码：`400 invalid_parameter`、`422 match_failed`、`503 database_unavailable`。
+- 数据状态字段：必须返回 `verified_regulation`、`verified_jecfa`、`pending_review`、`mapped_candidate`、`common_ingredient`、`unverified` 或运行时 `unknown_from_ocr`。
+- 前端展示规则：低置信度和多候选必须进入确认；`pending_review` 不得展示成官方结论。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+### `POST /api/reports`
+- 用途：保存一次配料分析报告。
+- 调用端：分析报告页。
+- 请求参数：`ocrText`、`confirmedText`、`ingredients[]`、`matches[]`、`summary`、`dataSources[]`。
+- 响应字段：`id`、`createdAt`、`report`、`storageScope: "local" | "cloud"`。
+- 错误码：`400 invalid_parameter`、`401 unauthorized`（云同步时）、`507 storage_full`。
+- 数据状态字段：报告内所有匹配项保留原始 `dataStatus` 和来源字段。
+- 前端展示规则：匿名用户保存本地历史；登录云同步后再提示账号能力。
+- 是否需要登录：本地保存不需要；云同步需要。
+- 是否允许匿名：允许。
+
+### `GET /api/reports/:id`
+- 用途：读取单份历史报告。
+- 调用端：历史页、报告详情页。
+- 请求参数：路径参数 `id`。
+- 响应字段：`id`、`createdAt`、`report`、`dataSources[]`、`dataTrustSummary`。
+- 错误码：`401 unauthorized`（云报告）、`404 not_found`。
+- 数据状态字段：原样返回报告创建时保存的可信字段。
+- 前端展示规则：缺失报告展示空态/错误态，不重算或编造来源。
+- 是否需要登录：云报告需要，本地报告不需要。
+- 是否允许匿名：允许读取本地报告。
+
+### `GET /api/reports`
+- 用途：读取报告历史列表。
+- 调用端：历史页、我的页。
+- 请求参数：`page`、`limit`、`storageScope?`。
+- 响应字段：`items[]`、`page`、`limit`、`total`。
+- 错误码：`401 unauthorized`（云历史）、`500 internal_error`。
+- 数据状态字段：列表项至少返回 `dataTrustSummary`。
+- 前端展示规则：匿名展示本地历史；无记录展示 empty 状态。
+- 是否需要登录：云历史需要，本地历史不需要。
+- 是否允许匿名：允许读取本地历史。
+
+### `GET /api/additives/search`
+- 用途：辅助搜索食品添加剂/配料，非主路径入口。
+- 调用端：成分详情页、辅助搜索页、匹配确认页候选搜索。
+- 请求参数：`q`、`category?`、`page`、`limit`。
+- 响应字段：`items[]`（`id`、`name`、`aliases[]`、`dataStatus`、`sourceName`、`matchConfidence`）。
+- 错误码：`400 invalid_parameter`、`500 internal_error`。
+- 数据状态字段：必须包含可信状态和来源字段。
+- 前端展示规则：搜索只作为辅助功能，不得替代拍照/OCR主路径。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+### `GET /api/additives/:id`
+- 用途：获取单个食品添加剂/配料详情与证据。
+- 调用端：成分详情页、报告页详情弹层。
+- 请求参数：路径参数 `id`，可选 `includeEvidence=1`。
+- 响应字段：`id`、`name`、`aliases[]`、`dataStatus`、`sourceName`、`sourceUrl`、`regulatoryBasis`、`evidence[]`。
+- 错误码：`404 not_found`、`500 internal_error`。
+- 数据状态字段：详情页必须展示 `dataStatus`、`sourceType/sourceScope`、`matchConfidence`。
+- 前端展示规则：`verified_jecfa` 只能写安全评价，不得反推 GB2760 使用范围。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+### `GET /api/data-sources`
+- 用途：返回前端“数据说明页”需要展示的数据来源、版本、可信边界。
+- 调用端：数据说明页、报告页来源说明。
+- 请求参数：无或 `scope?`。
+- 响应字段：`sources[]`（`sourceType`、`name`、`version`、`authorityLevel`、`url`、`updatedAt`、`limitations`）。
+- 错误码：`500 internal_error`。
+- 数据状态字段：来源类型必须与 `DATA_TRUST_SPEC.md` 对齐。
+- 前端展示规则：不得编造不存在的数据源链接；接口未实现前使用静态说明。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+### `GET /api/imports/gb2760/status`
+- 用途：查看 GB2760 导入任务、staging、promote 进度。
+- 调用端：Web 管理后台。
+- 请求参数：`runId?`、`page`、`limit`。
+- 响应字段：`runs[]`、`stagingCounts`、`promotedCounts`、`failedCounts`、`lastRunAt`。
+- 错误码：`401 unauthorized`、`403 forbidden`、`500 internal_error`。
+- 数据状态字段：staging 数据只能展示为 `pending_review` / `mapped_candidate`，不能展示为 verified。
+- 前端展示规则：后台查看导入状态，不面向普通用户展示为法规结论。
+- 是否需要登录：需要内部账号。
+- 是否允许匿名：不允许。
+
+### `POST /api/feedback`
+- 用途：提交用户反馈、未收录成分、纠错建议。
+- 调用端：报告页、成分详情页、我的/反馈页。
+- 请求参数：`type`、`message`、`relatedReportId?`、`relatedIngredientId?`、`contact?`。
+- 响应字段：`id`、`status: "received"`、`createdAt`。
+- 错误码：`400 invalid_parameter`、`429 rate_limited`、`500 internal_error`。
+- 数据状态字段：反馈标记为 `user_feedback`，不能作为权威结论。
+- 前端展示规则：提交后只提示已收到，不承诺结论正确或处理时效。
+- 是否需要登录：不需要。
+- 是否允许匿名：允许。
+
+### 计划说明：`POST /api/analyze`
+- 状态：计划 / blocked_by_user（AI API Key 未提供）。后端当前无 `/api/analyze` 路由。
+- 用途：基于已匹配的 `matchResults` 生成解释层摘要。
+- 硬约束：AI 只能总结数据库匹配结果，必须标注 `ai_generated`，不得编造法规结论，不得把 `pending_review` 当 `verified`。
+
+---
+
+## 可信字段统一约定
+
+> 与 `docs/product-blueprint/DATA_TRUST_SPEC.md` 完全对齐；冲突时以 `DATA_SOURCES.md` 为最终权威。
+
+### 1. 凡返回成分/匹配结果的接口，响应中相关记录必须携带：
+- `dataStatus`：七态枚举（代码权威：`backend/src/services/ingredientService.ts` 的 `validDataStatuses` / 前端 `src/utils/dataStatus.js`）：
+  `verified_regulation` / `verified_jecfa` / `pending_review` / `mapped_candidate` / `common_ingredient` / `unverified` / `unknown_from_ocr`。
+  非法/未知状态归一为 `unverified`，**各端不得自行发明新枚举**。
+- `matchConfidence`：记录级置信度枚举 `high|medium|low|unverified`。
+- 来源可信字段：`sourceName`、`sourceUrl`、`regulatoryBasis`（以及 `sourceType`/`sourceScope`/`confidenceLevel` 等，见 `IngredientRow`）。
+
+涉及接口：`GET /api/ingredients`、`/api/ingredients/search`、`/api/ingredients/:id`（含 `?includeEvidence=1`）、`POST /api/ingredients/batch-search`（`match`/`alternates` 内的记录）。
+
+> 区分提醒：`batch-search` 顶层的 `confidence`（0~1 数值）是**运行时匹配置信度**，与记录字段 `matchConfidence`（枚举）不是同一字段。`low_confidence` 指的是数值区间（约 0.55-0.79），**不是**独立的 `dataStatus`；`verified_safety` 是产品语义名，当前代码等同本项目 `verified_jecfa`。
+
+### 2. 前端展示规则（强约束）
+- `verified_regulation`：可作官方法规结论展示（须已满足正式库准入规则）。
+- `verified_jecfa`：仅作安全评价展示；**不得**写成中国法规使用范围，不得把 JECFA 反推为 GB 2760 范围。
+- `pending_review` / `mapped_candidate` / `unverified`（pending 集合）：**一律不得展示为官方/权威结论**，须显式标注待复核/疑似/未验证。
+- `common_ingredient`：仅作可读性/识别用途，非法规结论。
+- `unknown_from_ocr`：文案"暂未收录"，进人工校验队列。
+- **OCR 结果**（`/api/ocr` 返回）：用户输入来源，**不得展示为权威来源**；低置信/未识别内容必须保留。
+- **AI 结果**（计划中的 `/api/analyze`）：仅解释层，标注 `ai_generated`，**不得展示为权威/法规来源**。

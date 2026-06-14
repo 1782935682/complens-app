@@ -1,10 +1,10 @@
 # Documentation Index
 
-本目录是 CompCheck 文档入口。根目录保留协作入口和任务控制文件，专题文档放在 `docs/` 下，避免 README、命令、数据来源和外部系统说明混在一起。
+本目录是 CompLens / 成分镜（CompCheck）文档入口。根目录保留协作入口和任务控制文件，专题文档放在 `docs/` 下，避免 README、命令、数据来源和外部系统说明混在一起。
 
 ## 阅读顺序
 
-1. 项目入口：[`../readme.md`](../readme.md)
+1. 项目入口：[`../README.md`](../README.md)（薄入口）/ [`../readme.md`](../readme.md)（完整入口）
 2. 当前任务与阶段：[`../CODEX_TASKS.md`](../CODEX_TASKS.md)
 3. 项目计划和进度：[`../PROJECT_PLAN.md`](../PROJECT_PLAN.md)
 4. 常用命令：[`../COMMANDS.md`](../COMMANDS.md)
@@ -14,9 +14,10 @@
 
 | 分类 | 文档 | 用途 |
 |---|---|---|
-| 项目入口 | [`../readme.md`](../readme.md) | 产品主路径、快速开始、历史协作说明 |
+| 项目入口 | [`../README.md`](../README.md)、[`../readme.md`](../readme.md) | 产品主路径、快速开始、历史协作说明 |
 | Agent 规则 | [`../AGENTS.md`](../AGENTS.md) | Codex / Claude 工作规范和强约束 |
 | 任务计划 | [`../CODEX_TASKS.md`](../CODEX_TASKS.md)、[`../PROJECT_PLAN.md`](../PROJECT_PLAN.md) | 阶段、批次、阻塞项、进度 |
+| 产品蓝图 | [`product-blueprint/README.md`](product-blueprint/README.md) | 产品 / 消费者决策 / UI / 视觉 / 前端 / 跨端 / API / 数据可信 / 后台 / 隐私 / 测试验收完整规范集 |
 | 部署 | [`deployment.md`](deployment.md) | 新机器从零部署 PostgreSQL、后端、前端和本机 OCR |
 | 命令手册 | [`../COMMANDS.md`](../COMMANDS.md) | 本地启动、构建、校验、GB2760 数据命令 |
 | 数据治理 | [`../DATA_SOURCES.md`](../DATA_SOURCES.md) | 官方来源、可信状态、GB2760 staging/promote 规则 |
