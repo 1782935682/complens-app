@@ -200,7 +200,7 @@ function databaseMatchItem(item) {
       <p>${match
         ? escapeHtml(`${match.nameCn} / ${match.category || '未分类'} / ${matchTypeLabel(item.matchType)}${isPendingMatch(item) ? '，请确认' : ''}`)
         : '数据库暂未收录此配料，已保留原文。'}</p>
-      ${match ? renderDataStatusBadge(getResultDataStatus(item)) : renderDataStatusBadge('unknown_from_ocr')}
+      ${renderDataStatusBadge(getResultDataStatus(item))}
       ${match?.sourceName ? `<p class="empty small">来源：${escapeHtml(match.sourceName)} / ${escapeHtml(sourceScopeLabel(match.sourceScope))}</p>` : ''}
     </article>
   `;
