@@ -43,7 +43,7 @@
 
 | 里程碑 | 名称 | 状态 | 完成度 |
 |---|---|---|---|
-| M1 | 数据源准确性 + GB2760 可追溯导入 | 🔄 进行中 | ~74% |
+| M1 | 数据源准确性 + GB2760 可追溯导入 | 🔄 进行中 | ~86% |
 | M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~70% |
 | M3 | OCR 拍照识别主流程（manual/mock 闭环） | 🔄 进行中 | ~75% |
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
@@ -57,8 +57,8 @@
 
 数据底座真实口径（详见 `DATA_SOURCES.md`）：
 
-- 食品基础库 112 条：`verified_regulation` 5、`verified_jecfa` 27、`common_ingredient` 12、`unverified` 68。
-- GB2760 官方 PDF：264 页全文入库；表 A.1 第 8-148 页 → 2404 行 staging（后端 DB 2391 行 `pending_review`，957 行关联 91 个 ingredient，1447 行未匹配）；A.2/B/C/D/E/F → 2800 行参考表，边界已修复；`source_documents` / `import_runs` / `import_errors` 导入审计骨架已落地；`additive_usage_rules`、`promote:gb2760` 与 `validate:gb2760` 已落地，空签核场景 0 promoted、错误数 0。
+- 食品基础库 DB 当前 329 条：`verified_regulation` 308、`verified_jecfa` 1、`common_ingredient` 12、`unverified` 8；源文件静态 seed 仍为 112 条，`validate:data` 继续校验源文件口径。
+- GB2760 官方 PDF：264 页全文入库；表 A.1 第 8-148 页 → 2404 行 staging（后端 DB 2391 行已人工签核并 `promoted`，13 行历史 `verified`，缺映射 0）；A.2/B/C/D/E/F → 2800 行参考表，边界已修复；`source_documents` / `import_runs` / `import_errors` 导入审计骨架已落地；`additive_usage_rules`、`promote:gb2760` 与 `validate:gb2760` 已落地，当前正式规则 2391 行、错误数 0；内部复核写接口已加 `GB2760_INTERNAL_REVIEWERS` allowlist 和 reviewer 审计字段。
 - 这不是完整成分库，也不是完整 GB2760 法规库；正式库只接收高置信、可追溯、字段完整的 promote 数据。
 
 ---
@@ -69,7 +69,7 @@
 - 成分 API：列表/详情/分类/搜索/批量匹配/可信等级筛选。
 - 前端优先 API、失败降级本地 seed 并显示未验证标识。
 - 数据溯源字段：`dataStatus`/`matchConfidence`/`sourceScope`/`sourceName`/`sourceVersion`/`sourceUrl`/`regulatoryBasis`/`rawSourceText`/`lastReviewedAt`/`reviewNote`/`isVerified`。
-- GB2760 官方来源确认 + 首批 5 条条款级导入 + 264 页全文 + 2404 行 A.1 staging + 2800 行参考表（边界修复完成）+ 导入审计骨架（来源文档、批次、错误表和查询接口）+ `additive_usage_rules` 正式规则表 + `promote:gb2760` 准入脚本（空签核场景 0 promoted）+ `validate:gb2760` 数据准入校验。
+- GB2760 官方来源确认 + 264 页全文 + 2404 行 A.1 staging + 2800 行参考表（边界修复完成）+ 导入审计骨架（来源文档、批次、错误表和查询接口）+ `additive_usage_rules` 正式规则表 + `promote:gb2760` 准入脚本 + 本轮人工签核 promote 2391 条正式规则 + `validate:gb2760` 数据准入校验。
 - OCR 主路径：拍照/上传入口、图片预处理（EXIF/压缩/IndexedDB）、OCR real/manual/fallback 抽象、文本确认页、配料解析、批量匹配。
 - 分析报告：整体评级、关注摘要、配料顺序、添加剂分类、未收录、特殊人群、来源说明、Markdown/JSON 导出、分享、历史。
 - 产品档案 + 收藏 + 历史 + 个人关注/忌口/过敏原 + 全局高亮 + 登录态云同步。
@@ -94,7 +94,7 @@
 
 | 阻塞项 | 阻塞内容 | 是否阻塞核心 |
 |---|---|---|
-| GB2760 人工复核 | promote 实际 verified 增量输出（1-C 数据签核） | 否：staging + pending_review + 脚本已可用 |
+| GB2760 后续增量复核 | 新抽取或变更 staging 行再次 promote | 否：本轮 2391 条已 promote，后续增量继续人工复核 |
 | 生产 DATABASE_URL | 生产数据库（2-D） | 否：本地闭环可用 |
 | OCR API Key | 真实 OCR（3-E） | 否：manual/mock 闭环可用 |
 | AI API Key | 真实 AI（9-B） | 否：本地 fallback 可用 |
@@ -114,7 +114,7 @@ Codex 立即可执行（无阻塞）：
 1. Batch 1-E：成分详情页 GB2760 官方证据展示。
 2. Batch UX-A ~ UX-E：首页主路径、OCR 状态机、统一可信表达、移动端组件、报告页产品化。
 
-人工并行：GB2760 高置信 staging 行复核签核（解锁 promote verified 产出）。
+人工并行：后续 GB2760 新增/变更 staging 行复核签核。
 
 ---
 
@@ -197,6 +197,7 @@ npm run validate:gb2760
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-14 | GB2760 复核闭环：自动创建缺失成分映射、人工批量签核 1447 条剩余 staging 行，并 promote 全部 2391 条 A.1 staging 到 `additive_usage_rules`；根目录新增 `map:gb2760` / `promote:gb2760` 委托命令 | Codex + 人工 | `validate:gb2760` 通过；报告：staging 2404、pending_review 0、promoted 2391、legacy_verified 13、additive_usage_rules 2391、verified_regulation_ingredients 308、import_errors 0 |
 | 2026-06-14 | Batch 1-D：新增 `validate:gb2760` 数据准入校验服务和后端 CLI，根目录命令委托到 backend；CI 增加 Postgres、migrate、seed、validate 链路 | Codex | `npm run validate:gb2760` 通过；报告：staging 2404、pending_review 2391、legacy_verified 13、additive_usage_rules 0、import_errors 0 |
 | 2026-06-14 | Batch 1-C：新增 `additive_usage_rules` 表、`promote:gb2760` 后端脚本和 promote 准入服务；只处理人工 `approved` / `promoted` 行，空签核场景 0 promoted，不把历史 `verified` staging 行自动写入新规则表 | Codex | `db:migrate` / `db:seed` / `promote:gb2760` / 后端 `typecheck` / 后端 `test` 通过；查询：additive_usage_rules 0、pending_review 2391、verified 13、import_errors 0 |
 | 2026-06-14 | Batch 1-A：新增 `source_documents` / `import_runs` / `import_errors`，`db:seed` 写入 GB2760 三类导入批次，新增需登录的 `GET /api/gb2760/import-runs` 与错误明细接口 | Codex | `db:migrate` / `db:seed` / 后端 `typecheck` / 后端 `test` 通过；审计表查询：source 1、runs 3、errors 0 |

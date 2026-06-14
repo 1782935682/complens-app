@@ -10,6 +10,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx scripts/seed.ts",
+    "map:gb2760": "tsx scripts/auto-map-gb2760-ingredients.ts",
     "promote:gb2760": "tsx scripts/promote-gb2760.ts",
     "validate:gb2760": "tsx scripts/validate-gb2760.ts",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",

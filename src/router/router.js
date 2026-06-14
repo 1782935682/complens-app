@@ -5,6 +5,7 @@ import { renderComparePage } from '../pages/comparePage.js';
 import { renderDataPage } from '../pages/dataPage.js';
 import { renderDetailPage } from '../pages/detailPage.js';
 import { renderFavoritesPage } from '../pages/favoritesPage.js';
+import { renderGb2760ReviewPage } from '../pages/gb2760ReviewPage.js';
 import { normalizeHistoryFilter, renderHistoryPage } from '../pages/historyPage.js';
 import { renderHomePage } from '../pages/homePage.js';
 import { getLegalPageDocumentTitle, renderLegalPage } from '../pages/legalPage.js';
@@ -33,6 +34,7 @@ const VIEW_TITLES = {
   data: '数据来源',
   detail: '成分详情',
   favorites: '收藏夹',
+  'gb2760-review': 'GB 2760 复核',
   history: '分析历史',
   home: '',
   legal: '隐私与条款',
@@ -165,6 +167,20 @@ export function resolveRoute(hash) {
     };
   }
 
+  if (route.path === '/gb2760-review') {
+    return {
+      view: 'gb2760-review',
+      category: route.category,
+      filters: {
+        status: params.get('status') || 'pending_review',
+        q: params.get('q') || '',
+        ready: params.get('ready') === '1',
+        page: parsePageParam(params.get('page')),
+        limit: parseLimitParam(params.get('limit'), [20, 50, 100], 20)
+      }
+    };
+  }
+
   if (route.path === '/onboarding') {
     return {
       view: 'onboarding',
@@ -287,6 +303,7 @@ export function renderRoute(route, asyncState = null) {
   if (route.view === 'scan') return renderScanPage(route.input, route.category);
   if (route.view === 'ocr-confirm') return renderOcrConfirmPage(route.category);
   if (route.view === 'data') return renderDataPage(route.category, route.filters);
+  if (route.view === 'gb2760-review') return renderGb2760ReviewPage(route, asyncState);
   if (route.view === 'onboarding') return renderOnboardingPage(route.category);
   if (route.view === 'legal') return renderLegalPage(route.category, route.documentId);
   if (route.view === 'membership') return renderMembershipPage(route.category);
@@ -324,6 +341,7 @@ export function getNavigationLinks(route) {
     key: item.key,
     href: `#${categoryPath(category, item.path)}`,
     active: route?.view === item.view
+      || (item.key === 'data' && route?.view === 'gb2760-review')
       || (item.key === 'reports' && route?.view === 'report-detail')
       || (item.key === 'history' && ['products', 'product-detail'].includes(route?.view))
       || (item.key === 'settings' && ['auth', 'legal', 'onboarding', 'support'].includes(route?.view))
@@ -344,7 +362,7 @@ function getMobileActiveKey(route) {
   const view = route?.view || 'home';
   if (view === 'home') return 'home';
   if (['scan', 'ocr-confirm', 'analyze'].includes(view)) return 'scan';
-  if (['search', 'detail', 'compare', 'data'].includes(view)) return 'search';
+  if (['search', 'detail', 'compare', 'data', 'gb2760-review'].includes(view)) return 'search';
   if (['history', 'reports', 'report-detail', 'products', 'product-detail'].includes(view)) return 'history';
   if (['settings', 'favorites', 'auth', 'legal', 'membership', 'onboarding', 'support'].includes(view)) return 'settings';
   return null;
@@ -388,6 +406,11 @@ function decodePathValue(value) {
 function parsePageParam(value) {
   const page = Number.parseInt(value || '1', 10);
   return Number.isFinite(page) && page > 0 ? page : 1;
+}
+
+function parseLimitParam(value, allowedValues, fallback) {
+  const limit = Number.parseInt(value || String(fallback), 10);
+  return allowedValues.includes(limit) ? limit : fallback;
 }
 
 function categoryLabelFor(category) {

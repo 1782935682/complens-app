@@ -3,16 +3,17 @@ import { createApp } from '../src/app.js';
 import type { AdditiveUsageRuleRow, Gb2760OfficialRecordRow, ImportRunRow, IngredientRow } from '../src/db/schema.js';
 import { getAffectedPromotionIngredientIds, getGb2760AdditiveIdentityKey, getStaleFormalRuleSourceIds, hasFullPromotionCoverage, isApprovedForPromotion, isPromotedForReconciliation, toAdditiveUsageRuleRow, toDemotedIngredientPatch, toPartiallyPromotedIngredientPatch, toPromotedIngredientPatch, validatePromotionCandidate } from '../src/services/gb2760PromoteService.js';
 import type { AuthService } from '../src/services/authService.js';
-import { createGb2760SourceDocumentInput, createSeedImportRunId, normalizeReferenceTableName, toImportErrorRow, toImportRunRow, toSourceDocumentRow, type Gb2760Service, type ImportRunListItem } from '../src/services/gb2760Service.js';
+import { createGb2760SourceDocumentInput, createSeedImportRunId, isGb2760StagingRowReviewReady, normalizeReferenceTableName, toImportErrorRow, toImportRunRow, toSourceDocumentRow, type Gb2760Service, type ImportRunListItem } from '../src/services/gb2760Service.js';
 import { validateGb2760State } from '../src/services/gb2760ValidateService.js';
-import { preserveGb2760ManualReviewState, preserveGb2760ManualReviewStatus } from '../src/services/ingredientService.js';
+import { preserveGb2760ManualReviewState, preserveGb2760ManualReviewStatus, toGb2760OfficialRecordRow, type Gb2760OfficialRecordInput } from '../src/services/ingredientService.js';
 
 const authHeaders = { Authorization: 'Bearer valid-token' };
 
-function createTestApp(service: Gb2760Service, authService = createAuthService()) {
+function createTestApp(service: Gb2760Service, authService = createAuthService(), internalReviewers = ['reviewer@example.test']) {
   return createApp({
     corsOrigin: 'http://localhost:5173',
     databaseUrl: 'postgres://postgres:password@localhost:15432/compcheck',
+    gb2760InternalReviewers: internalReviewers,
     jwtSecret: 'test-only-compcheck-jwt-secret',
     ocrApiKey: '',
     ocrProvider: 'aliyun',
@@ -23,13 +24,13 @@ function createTestApp(service: Gb2760Service, authService = createAuthService()
   });
 }
 
-function createAuthService(): AuthService {
+function createAuthService(user = { id: 'user-1', email: 'reviewer@example.test' }): AuthService {
   return {
     register: vi.fn(),
     login: vi.fn(),
     logout: vi.fn(),
     getUserForToken: vi.fn(async (token: string) => (token === 'valid-token'
-      ? { id: 'user-1', email: 'reviewer@example.test', createdAt: new Date('2026-06-14T08:00:00.000Z') }
+      ? { id: user.id, email: user.email, createdAt: new Date('2026-06-14T08:00:00.000Z') }
       : null)),
     deleteAccount: vi.fn()
   };
@@ -123,6 +124,39 @@ function createGb2760Service(overrides: Partial<Gb2760Service> = {}): Gb2760Serv
       limit: params.limit,
       total: 1,
       totalPages: 1
+    })),
+    listStagingRows: vi.fn(async (params) => ({
+      items: [{
+        ...createStagingRecord({ reviewStatus: params.reviewStatus || 'pending_review' }),
+        promotionIssues: []
+      }],
+      page: params.page,
+      limit: params.limit,
+      total: 1,
+      totalPages: 1,
+      statusCounts: [
+        { reviewStatus: 'pending_review', count: 2391 },
+        { reviewStatus: 'approved', count: 0 },
+        { reviewStatus: 'promoted', count: 0 }
+      ]
+    })),
+    updateStagingRowReviewStatus: vi.fn(async (id, reviewStatus) => ({
+      ...createStagingRecord({ id, reviewStatus }),
+      promotionIssues: []
+    })),
+    updateStagingRowsReviewStatus: vi.fn(async (ids, reviewStatus) => ({
+      requestedCount: ids.length,
+      updatedCount: ids.length,
+      skippedCount: 0,
+      items: ids.map((id: string) => ({
+        ...createStagingRecord({ id, reviewStatus }),
+        promotionIssues: []
+      })),
+      errors: []
+    })),
+    updateStagingRowMapping: vi.fn(async (id, ingredientId, reviewStatus) => ({
+      ...createStagingRecord({ id, ingredientId, reviewStatus }),
+      promotionIssues: []
     })),
     ...overrides
   };
@@ -239,6 +273,254 @@ describe('GET /api/gb2760/reference-rows', () => {
   });
 });
 
+describe('GET /api/gb2760/staging-rows', () => {
+  it('returns paginated official staging rows for authenticated reviewers', async () => {
+    const service = createGb2760Service();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/gb2760/staging-rows?status=pending_review&q=%E6%9F%A0%E6%AA%AC%E9%85%B8&page=2&limit=10', { headers: authHeaders });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.items[0]).toMatchObject({
+      additiveNameCn: '柠檬酸',
+      reviewStatus: 'pending_review',
+      promotionIssues: []
+    });
+    expect(body.statusCounts[0]).toEqual({ reviewStatus: 'pending_review', count: 2391 });
+    expect(service.listStagingRows).toHaveBeenCalledWith({
+      reviewStatus: 'pending_review',
+      q: '柠檬酸',
+      readyOnly: false,
+      page: 2,
+      limit: 10
+    });
+  });
+
+  it('passes ready-only staging review filters to the service', async () => {
+    const service = createGb2760Service();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/gb2760/staging-rows?ready=1', { headers: authHeaders });
+
+    expect(response.status).toBe(200);
+    expect(service.listStagingRows).toHaveBeenCalledWith({
+      reviewStatus: undefined,
+      q: undefined,
+      readyOnly: true,
+      page: 1,
+      limit: 20
+    });
+  });
+
+  it('does not treat locked staging rows as ready for review', () => {
+    expect(isGb2760StagingRowReviewReady({
+      reviewStatus: 'pending_review',
+      promotionIssues: []
+    })).toBe(true);
+    expect(isGb2760StagingRowReviewReady({
+      reviewStatus: 'promoted',
+      promotionIssues: []
+    })).toBe(false);
+    expect(isGb2760StagingRowReviewReady({
+      reviewStatus: 'verified',
+      promotionIssues: []
+    })).toBe(false);
+  });
+
+  it('requires auth and rejects invalid staging status filters', async () => {
+    const app = createTestApp(createGb2760Service());
+
+    const missing = await app.request('/api/gb2760/staging-rows');
+    const invalidStatus = await app.request('/api/gb2760/staging-rows?status=done', { headers: authHeaders });
+
+    expect(missing.status).toBe(401);
+    expect(invalidStatus.status).toBe(400);
+    expect(await invalidStatus.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'status',
+      message: 'status must be one of pending_review, mapped_candidate, approved, promoted, verified'
+    });
+  });
+});
+
+describe('PUT /api/gb2760/staging-rows/:id/review', () => {
+  it('updates staging review status for authenticated reviewers', async () => {
+    const service = createGb2760Service();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/gb2760/staging-rows/gb2760-2024-a1-citric-acid-general/review', {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ reviewStatus: 'approved', reviewNote: 'checked against official PDF row' })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.reviewStatus).toBe('approved');
+    expect(service.updateStagingRowReviewStatus).toHaveBeenCalledWith(
+      'gb2760-2024-a1-citric-acid-general',
+      'approved',
+      expect.objectContaining({
+        reviewedBy: 'reviewer@example.test',
+        reviewedByUserId: 'user-1',
+        reviewNote: 'checked against official PDF row'
+      })
+    );
+  });
+
+  it('forbids normal signed-in users from updating staging review status', async () => {
+    const service = createGb2760Service();
+    const app = createTestApp(service, createAuthService({
+      id: 'user-2',
+      email: 'normal@example.test'
+    }));
+
+    const response = await app.request('/api/gb2760/staging-rows/gb2760-2024-a1-citric-acid-general/review', {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ reviewStatus: 'approved' })
+    });
+
+    expect(response.status).toBe(403);
+    expect(await response.json()).toEqual({
+      error: 'forbidden',
+      message: 'GB 2760 review writes require an internal reviewer account'
+    });
+    expect(service.updateStagingRowReviewStatus).not.toHaveBeenCalled();
+  });
+
+  it('rejects unsupported review status updates', async () => {
+    const app = createTestApp(createGb2760Service());
+
+    const response = await app.request('/api/gb2760/staging-rows/gb2760-2024-a1-citric-acid-general/review', {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ reviewStatus: 'promoted' })
+    });
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'reviewStatus',
+      message: 'reviewStatus must be one of pending_review, mapped_candidate, approved'
+    });
+  });
+});
+
+describe('PUT /api/gb2760/staging-rows/:id/mapping', () => {
+  it('maps a staging row to an ingredient and signs it for authenticated reviewers', async () => {
+    const service = createGb2760Service();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/gb2760/staging-rows/gb2760-2024-a1-citric-acid-general/mapping', {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ingredientId: 'citric-acid', reviewStatus: 'approved' })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.ingredientId).toBe('citric-acid');
+    expect(body.reviewStatus).toBe('approved');
+    expect(service.updateStagingRowMapping).toHaveBeenCalledWith(
+      'gb2760-2024-a1-citric-acid-general',
+      'citric-acid',
+      'approved',
+      expect.objectContaining({
+        reviewedBy: 'reviewer@example.test',
+        reviewedByUserId: 'user-1'
+      })
+    );
+  });
+
+  it('rejects mapping without an ingredient id', async () => {
+    const app = createTestApp(createGb2760Service());
+
+    const response = await app.request('/api/gb2760/staging-rows/gb2760-2024-a1-citric-acid-general/mapping', {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ reviewStatus: 'mapped_candidate' })
+    });
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'ingredientId',
+      message: 'ingredientId is required'
+    });
+  });
+});
+
+describe('PUT /api/gb2760/staging-rows/review', () => {
+  it('updates multiple staging review statuses for authenticated reviewers', async () => {
+    const service = createGb2760Service();
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/gb2760/staging-rows/review', {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ids: [
+          'gb2760-2024-a1-citric-acid-general',
+          'gb2760-2024-a1-sodium-benzoate-jam'
+        ],
+        reviewStatus: 'approved'
+      })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.updatedCount).toBe(2);
+    expect(body.skippedCount).toBe(0);
+    expect(service.updateStagingRowsReviewStatus).toHaveBeenCalledWith([
+      'gb2760-2024-a1-citric-acid-general',
+      'gb2760-2024-a1-sodium-benzoate-jam'
+    ], 'approved', expect.objectContaining({
+      reviewedBy: 'reviewer@example.test',
+      reviewedByUserId: 'user-1'
+    }));
+  });
+
+  it('rejects empty batch review ids', async () => {
+    const app = createTestApp(createGb2760Service());
+
+    const response = await app.request('/api/gb2760/staging-rows/review', {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ids: [], reviewStatus: 'approved' })
+    });
+
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({
+      error: 'invalid_parameter',
+      field: 'ids',
+      message: 'ids must include at least one staging row id'
+    });
+  });
+});
+
 describe('GB 2760 import audit mappers', () => {
   it('normalizes compact GB 2760 reference table names for DB lookups', () => {
     expect(normalizeReferenceTableName('B.2')).toBe('表 B.2');
@@ -324,6 +606,25 @@ describe('GB 2760 import audit mappers', () => {
 
     expect(preserved.reviewStatus).toBe('approved');
     expect(preserved.ingredientId).toBe('citric-acid-reviewed');
+    expect(preserved.reviewedBy).toBe('reviewer@example.test');
+    expect(preserved.reviewedByUserId).toBe('user-1');
+    expect(preserved.reviewNote).toBe('GB 2760 official row verified');
+  });
+
+  it('adds legacy review audit fields for source-verified GB 2760 rows on fresh seeds', () => {
+    const row = toGb2760OfficialRecordRow(createStagingRecordInput({
+      reviewStatus: 'verified',
+      reviewedBy: undefined,
+      reviewedByUserId: undefined,
+      reviewedAt: undefined,
+      reviewNote: ''
+    }));
+
+    expect(row.reviewStatus).toBe('verified');
+    expect(row.reviewedBy).toBe('legacy-gb2760-seed');
+    expect(row.reviewedByUserId).toBe('legacy-gb2760-seed');
+    expect(row.reviewedAt?.toISOString()).toBe('2026-06-12T00:00:00.000Z');
+    expect(row.reviewNote).toContain('Legacy verified GB 2760 seed row');
   });
 
   it('requires re-review when preserved manual GB 2760 rows get changed source content', () => {
@@ -743,6 +1044,24 @@ describe('GB 2760 validation helpers', () => {
     expect(report.issues).toEqual([]);
   });
 
+  it('rejects reviewed staging rows without reviewer audit metadata', () => {
+    const report = validateGb2760State({
+      stagingRows: [
+        createStagingRecord({
+          reviewStatus: 'approved',
+          reviewedBy: null,
+          reviewedAt: null,
+          reviewNote: ''
+        })
+      ],
+      usageRules: [],
+      ingredientRows: [createIngredientRow()],
+      importRunRows: createSeedImportRuns()
+    });
+
+    expect(report.issues.map((issue) => issue.code)).toContain('missing_staging_review_audit');
+  });
+
   it('rejects migrated but unseeded GB 2760 databases', () => {
     const report = validateGb2760State({
       stagingRows: [],
@@ -964,9 +1283,49 @@ function createStagingRecord(overrides: Partial<Gb2760OfficialRecordRow> = {}): 
     retrievedAt: '2026-06-12',
     extractionStatus: 'verified',
     reviewStatus: 'approved',
+    reviewedBy: 'reviewer@example.test',
+    reviewedByUserId: 'user-1',
+    reviewedAt: new Date('2026-06-14T08:00:00.000Z'),
+    reviewNote: 'GB 2760 official row verified',
     createdAt: new Date('2026-06-14T00:00:00.000Z'),
     syncedAt: new Date('2026-06-14T00:00:00.000Z'),
     ...overrides
+  };
+}
+
+function createStagingRecordInput(overrides: Partial<Gb2760OfficialRecordRow> = {}): Gb2760OfficialRecordInput {
+  const row = createStagingRecord(overrides);
+  return {
+    id: row.id,
+    ingredientId: row.ingredientId ?? undefined,
+    standardCode: row.standardCode,
+    standardTitle: row.standardTitle,
+    tableName: row.tableName,
+    additiveNameCn: row.additiveNameCn,
+    additiveNameEn: row.additiveNameEn ?? undefined,
+    cnsNumber: row.cnsNumber ?? undefined,
+    insNumber: row.insNumber ?? undefined,
+    functionText: row.functionText,
+    foodCategoryCode: row.foodCategoryCode,
+    foodCategoryName: row.foodCategoryName,
+    maxUseLevel: row.maxUseLevel,
+    unit: row.unit,
+    note: row.note,
+    pdfPage: row.pdfPage,
+    standardPage: row.standardPage,
+    rawSourceText: row.rawSourceText,
+    sourceName: row.sourceName,
+    sourceType: row.sourceType,
+    sourceUrl: row.sourceUrl,
+    downloadEndpoint: row.downloadEndpoint,
+    platformRecordId: row.platformRecordId,
+    announcementRecordId: row.announcementRecordId,
+    fileGuid: row.fileGuid,
+    factName: row.factName,
+    pdfSha256: row.pdfSha256,
+    retrievedAt: row.retrievedAt,
+    extractionStatus: row.extractionStatus,
+    reviewStatus: row.reviewStatus
   };
 }
 

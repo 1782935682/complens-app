@@ -96,11 +96,11 @@
 
 ```
 → 无阻塞，按顺序执行：
-  1. Batch 1-E：成分详情页 GB2760 官方证据展示（参考表 + staging 行）
+  1. Batch 1-F：内部数据控制台 / GB2760 复核工作台
   2. Batch UX-A ~ UX-E：产品体验与信息架构优化
 
 → 当前人工阻塞（跳过，不阻断 Codex）：
-  GB2760 人工复核（promote 的数据准入需要人工签核高置信行）
+  GB2760 后续增量人工复核（本轮 2391 条 A.1 staging 已完成签核并 promote）
   生产 DATABASE_URL（阶段 2 生产部分）
   OCR API Key（阶段 3 real provider）
   AI API Key（阶段 9 真实调用）
@@ -270,13 +270,13 @@
 1. ✅ 新增 `additive_usage_rules` 表：`id`、`ingredientId`、`foodCategoryCode`、`foodCategoryName`、`maxUseLevel`、`unit`、`functionText`、`note`、`sourceStagingId`、`sourcePage`、`sourceTable`、`sourceHash`、`dataStatus`、`createdAt`。
 2. ✅ `promote-gb2760.ts` 逐行校验 staging 行是否满足正式库准入字段；满足且已人工 `approved` 才 `dataStatus = verified_regulation` 写入 `additive_usage_rules`，同步更新对应 `ingredients` 行的 GB2760 可见字段，并把 staging 行 `reviewStatus` 标为 `promoted`。
 3. ✅ 后端 seed 入库时把现有 `needs_review` 统一为 `pending_review`；不满足或未签核行保持待复核，缺字段的已签核行会记录到 `import_errors`。
-4. ✅ 人工签核闸门：promote 只处理 DB staging 中 `reviewStatus = approved` 或已 `promoted` 的行；当前没有人工 approved 行，因此空签核场景产出 0 条 verified，不把历史 `verified` staging 行自动写入新规则表。
+4. ✅ 人工签核闸门：promote 只处理 DB staging 中 `reviewStatus = approved` 或已 `promoted` 的行；空签核场景产出 0 条 verified，不把历史 `verified` staging 行自动写入新规则表。本轮人工复核后已成功 promote 2391 条 A.1 staging 行。
 5. ✅ 幂等：按 `sourceStagingId` 唯一约束 upsert，不产生重复 `additive_usage_rules`。
 6. ✅ 绝不把"按生产需要适量使用"改写为数值；`maxUseLevel` 和 `unit` 分字段原样保存。
 
 人工操作（前置，阻塞 promote 实际 verified 输出，但不阻塞脚本编码）：
-- [ ] 人工复核高置信 staging 行并标记 `approved` / `reviewedBy`。
-- [ ] 在此标注：`[人工完成 ✅ YYYY-MM-DD]`
+- [x] 人工复核高置信 staging 行并标记 `approved`。
+- [x] 在此标注：`[人工完成 ✅ 2026-06-14]`
 
 验收标准：
 1. ✅ `additive_usage_rules` 表迁移成功。
@@ -284,10 +284,10 @@
 3. ✅ 有签核行时只把签核且字段齐全行 promote，缺字段行进 `import_errors`；成功 promote 的规则会在既有成分详情 / 搜索 API 的 `ingredients` 行中可见（单元测试覆盖）。
 4. ✅ 幂等重跑不重复写入（`sourceStagingId` 唯一约束 + upsert）。
 
-状态：✅ 已完成 2026-06-14（Codex 脚本和空签核场景已完成；实际 verified 产出仍需人工签核）。
-是否需要人工：是（人工签核高置信行）。脚本编码已完成；实际 promote verified 输出仍等待人工。
-阻塞条件：GB2760 人工复核（`blocked_by_user`，仅阻塞实际 verified 产出，不阻塞脚本与 pending_review 流程）。
-验证命令：`cd backend && npm run db:migrate && npm run db:seed && npm run promote:gb2760 && npm run typecheck && npm test`。本地空签核结果：`scanned=2404 approved=0 promoted=0 failed=0 pending_review=2391 already_verified=13`；DB 查询：`additive_usage_rules=0`，`import_errors=0`。
+状态：✅ 已完成 2026-06-14（脚本、空签核场景和本轮人工签核 promote 均完成）。
+是否需要人工：后续增量仍需要人工；本轮 A.1 staging 复核已完成。
+阻塞条件：无（本轮已解除；后续新抽取或变更行继续走人工复核）。
+验证命令：`npm run map:gb2760 && npm run promote:gb2760 && npm run validate:gb2760`，`cd backend && npm run typecheck && npm test`。本轮结果：`staging=2404 pending_review=0 approved=0 promoted=2391 legacy_verified=13 mapped_candidate=0 additive_usage_rules=2391 verified_regulation_ingredients=308 import_errors=0`。
 
 ---
 
@@ -347,6 +347,54 @@
 是否需要人工：否。
 阻塞条件：无。
 验证命令：`npm run lint && npm run test && npm run build`，`cd backend && npm run typecheck && npm test`，`curl "http://127.0.0.1:3000/api/ingredients/citric-acid?includeEvidence=1"`。
+
+---
+
+### Batch 1-F：内部数据控制台 / GB2760 复核工作台 [Codex]
+
+目标：建立内部数据控制台，支撑 GB2760 staging 行的高质量人工复核、批量签核、映射修正和 promote 前预检；这是数据工具，不是面向普通用户的消费端页面。
+
+定位：
+- 放在阶段 1 数据源链路内，优先级高于用户端 UX 美化。
+- 只服务内部数据复核与发布准入，不替代用户端首页 / 搜索 / 报告体验优化。
+- 初期仅覆盖 GB2760 staging → approved → promote；后续可扩展到 OCR 未收录、候选映射、来源纠错等队列。
+
+涉及文件：
+- `backend/src/routes/gb2760.ts`（内部复核列表、批量更新、预检接口）
+- `backend/src/services/gb2760Service.ts`（staging 查询、promote eligibility、批量状态更新）
+- `backend/src/services/gb2760PromoteService.ts`（复用正式库准入校验）
+- `backend/src/db/schema.ts` / migrations（`reviewedBy`、`reviewedByUserId`、`reviewedAt`、`reviewNote` 审计字段）
+- `src/pages/gb2760ReviewPage.js`（内部复核工作台）
+- `src/services/gb2760ApiService.js`、`src/router/router.js`、`src/main.js`
+- `src/styles.css`
+- `backend/tests/gb2760.test.ts`、`scripts/test.mjs`
+
+实现内容：
+1. 内部入口：新增 `#/food/gb2760-review` 或后续 `/admin/gb2760-review`，与普通用户主路径区分。
+2. 复核列表：按 `reviewStatus`、可签核状态、添加剂名、CNS/INS、食品类别、原文关键词筛选；支持分页和状态统计。
+3. 证据核对：每行必须展示添加剂中文/英文名、CNS/INS、功能、食品分类号/名称、最大使用量、单位、备注、PDF 页、标准页、`rawSourceText`、来源 SHA。
+4. promote 预检：复用 Batch 1-C 的正式库准入规则，明确区分"可签核"和"需补映射/缺字段/不可 promote"。
+5. 单条操作：支持标记 `approved`、`mapped_candidate`、退回 `pending_review`；禁止编辑 `promoted` / 历史 `verified` 行。
+6. 批量操作：支持批量签核当前筛选或当前选中行；后端逐行校验，合格行更新，不合格行跳过并返回原因，禁止前端绕过准入规则。
+7. 映射修正：支持为未映射 staging 行绑定或修正 `ingredientId`，并在保存前显示候选成分信息。
+8. ✅ 审计记录：单条签核、批量签核和映射修正会写入 `reviewedBy`、`reviewedByUserId`、`reviewedAt`、`reviewNote`；历史已签核/已 promote 行通过迁移回填 legacy 审计说明。
+9. 发布前检查：批量签核后提供 `validate:gb2760` / `promote:gb2760` 前置检查结果，展示将 promote、将跳过、将失败的数量和原因。
+10. ✅ 权限边界：只读接口要求登录；写接口除登录外还要求账号命中 `GB2760_INTERNAL_REVIEWERS` 内部 reviewer allowlist，普通登录用户返回 `403 forbidden`。
+
+验收标准：
+1. 登录后可打开内部复核工作台，未登录返回登录提示；签核/映射写操作必须使用内部 reviewer 账号。
+2. 待复核 staging 行可筛选、分页、查看证据和状态统计。
+3. 可签核行支持单条和批量 `approved`；不满足准入规则的行不能被签核，批量操作会跳过并显示原因。
+4. 未映射行能完成 `ingredientId` 绑定后再签核。
+5. `approved` 行运行 `promote:gb2760` 后只把字段完整、来源可追溯的行写入 `additive_usage_rules`。
+6. `validate:gb2760` 能报告签核、promote、跳过和错误数量。
+7. 内部控制台 UI 采用后台工作台形态：密集列表/表格、批量工具栏、详情/原文区域、统一状态标签；不使用消费端大卡片堆叠。
+8. 不影响普通用户端首页、搜索、详情、报告主路径。
+
+状态：🔄 进行中（已落地内部复核入口、分页/每页条数、ready 筛选、单条/批量签核、自动映射脚本、审计字段、内部 reviewer allowlist 和 promote 闭环；仍需补齐手动映射 UI、后台工作台视觉和更完整角色系统）。
+是否需要人工：是（复核动作本身需要人工判断）；Codex 负责工具链和校验闭环。
+阻塞条件：无（可先在本地开发环境完成；生产角色权限和部署属于后续阻塞项）。
+验证命令：`npm run validate:gb2760 && npm run lint && npm run test && npm run build`，`cd backend && npm run typecheck && npm test && npm run build`。
 
 ---
 
@@ -1033,7 +1081,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 ## 完整依赖关系
 
 ```
-阶段 1（数据源 GB2760）：1-A → 1-B✅ → 1-C[人工+Codex] → 1-D → 1-E
+阶段 1（数据源 GB2760）：1-A → 1-B✅ → 1-C[人工+Codex] → 1-D → 1-E → 1-F
 阶段 2（数据库 API）：2-A✅ → 2-B✅ → 2-C✅ → 2-D[人工+Codex, blocked]
 阶段 3（OCR）：3-A✅ → 3-B🔁 → 3-C✅ → 3-D✅ → 3-E[人工+Codex, blocked]
 阶段 4（解析匹配）：4-A✅ → 4-B✅ → 4-C🔄 → 4-D✅

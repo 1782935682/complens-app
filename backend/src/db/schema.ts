@@ -146,12 +146,17 @@ export const gb2760OfficialRecords = pgTable('gb2760_official_records', {
   retrievedAt: text('retrieved_at').notNull(),
   extractionStatus: text('extraction_status').notNull(),
   reviewStatus: text('review_status').notNull(),
+  reviewedBy: text('reviewed_by'),
+  reviewedByUserId: text('reviewed_by_user_id'),
+  reviewedAt: timestamp('reviewed_at', { withTimezone: true }),
+  reviewNote: text('review_note').notNull().default(''),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   syncedAt: timestamp('synced_at', { withTimezone: true }).notNull().defaultNow()
 }, (table) => [
   index('gb2760_official_records_ingredient_id_idx').on(table.ingredientId),
   index('gb2760_official_records_additive_name_cn_idx').on(table.additiveNameCn),
   index('gb2760_official_records_review_status_idx').on(table.reviewStatus),
+  index('gb2760_official_records_reviewed_at_idx').on(table.reviewedAt),
   index('gb2760_official_records_pdf_sha256_idx').on(table.pdfSha256)
 ]);
 
