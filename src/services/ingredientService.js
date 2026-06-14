@@ -1,6 +1,7 @@
 import { ingredients, popularIngredientIds } from '../data/ingredients.js';
 import { foodIngredients, popularFoodAdditiveIds } from '../data/foodAdditives.js';
 import { searchAssistAliases } from '../data/searchAliases.js';
+import { dataStatusOrder } from '../utils/dataStatus.js';
 import { normalizeIngredientItem, normalizeText, splitIngredientInput, uniqueBy } from '../utils/text.js';
 
 const riskOrder = {
@@ -11,7 +12,7 @@ const riskOrder = {
 };
 
 const riskFilterOrder = ['high', 'medium', 'low', 'unknown'];
-const dataStatuses = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'];
+const dataStatuses = dataStatusOrder;
 const datasetAuditTargets = {
   food: {
     minimum: 50,

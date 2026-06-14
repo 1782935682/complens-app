@@ -39,7 +39,7 @@
 
 ## 3. 当前真实进度
 
-整体产品进度：**约 66%**（按数据底座 + OCR 主路径闭环口径）。
+整体产品进度：**约 67%**（按数据底座 + OCR 主路径闭环口径）。
 
 | 里程碑 | 名称 | 状态 | 完成度 |
 |---|---|---|---|
@@ -49,7 +49,7 @@
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
 | M5 | 食品配料分析报告 | 🔄 进行中 | ~70% |
 | M6 | 产品档案、收藏、历史、个性化 | 🔄 进行中 | ~55% |
-| M7 | 产品体验与信息架构优化（UX） | 🔄 进行中 | ~33% |
+| M7 | 产品体验与信息架构优化（UX） | 🔄 进行中 | ~36% |
 | M8 | 移动端 / PWA 体验 | 🔄 进行中 | ~45% |
 | M9 | AI 总结解释（本地 fallback 可用，真实待 Key） | 🔄 进行中 | ~15% |
 | M10 | 登录、云同步（本地完成，跨设备验收待补） | 🔄 进行中 | ~40% |
@@ -76,6 +76,7 @@
 - 前端登录/注册 + 访客模式 + JWT 管理 + 本机数据登录态同步。
 - 移动端底部导航 + PWA 安装/离线基础 + 数据治理页人工校验队列。
 - loading / empty / error 状态统一复核：搜索初始空态提供拍照/粘贴入口，GB2760 复核页和参考表错误态均有重试，复核空态有重置为待复核行/返回数据页出口。
+- 统一结果可信表达映射层：`src/utils/dataStatus.js` 统一 `verified_regulation` / `verified_jecfa` / `pending_review` / `mapped_candidate` / `common_ingredient` / `unverified` / `unknown_from_ocr` 的文案、颜色变量、Badge class 和 normalize 逻辑；搜索、详情、分析、报告、导出、数据治理页已引用。
 
 ---
 
@@ -84,7 +85,7 @@
 - 成分详情页 GB2760 官方证据展示（Batch 1-E）。
 - 真实 OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key）。
 - 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
-- 低置信度确认交互、统一可信表达、统一移动端组件、报告页产品化复核（阶段 7）。
+- 移动端组件统一、报告页产品化复核、首页/OCR 产品体验整体复核（阶段 7；统一可信表达映射层已完成）。
 - iPhone Safari 真机验收（阶段 8）。
 - 生产数据库、生产部署、跨设备真实验收、离线同步队列。
 - 订阅、支付、上架（后置）。
@@ -111,15 +112,16 @@
 
 当前阶段：**阶段 1 数据源与 GB2760 导入 + 阶段 7 产品体验优化**。
 
-下一个需要先确认边界：
+下一个需要人工确认边界：
 
-1. Batch 5-B / UX-C：统一结果可信表达。该项不需要外部账号，但会影响结果页、详情页、搜索页可信标签与文案；因用户要求产品页面设计最后统一推进，开始前需确认是否只做文案/映射层，还是继续暂缓。
+1. 是否继续进入产品页面设计统一推进范围（Batch 1-E、UX-A、UX-B、UX-D、UX-E）。
+2. 或先解锁人工/外部依赖项：生产 DATABASE_URL、OCR API Key、AI API Key、后续 GB2760 增量复核。
 
 暂缓到产品页面设计统一推进：
 
 - Batch 1-E：成分详情页 GB2760 官方证据展示。
 - Batch 1-F：内部数据控制台 / GB2760 复核工作台后续 UI。
-- Batch UX-A ~ UX-E：首页主路径、OCR 状态机、统一可信表达、移动端组件、报告页产品化。
+- Batch UX-A、UX-B、UX-D、UX-E：首页主路径、OCR 状态机、移动端组件、报告页产品化（UX-C 映射层已完成）。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核。
 
@@ -164,6 +166,7 @@
 - 目标：全局 dataStatus 文案/颜色映射统一；抽取 Button/Card/Badge/Toast/EmptyState/ErrorState/LoadingState/BottomNav。
 - Codex 任务：Batch UX-C、UX-D。
 - 验收标准：各状态文案颜色全页统一；组件复用；无内联颜色。
+- 状态：UX-C ✅ 已完成 2026-06-14；UX-D 按产品页面设计统一推进暂缓。
 - 是否需要人工：否。
 
 **Day 7：报告页产品化 + 状态统一收尾**
@@ -205,6 +208,7 @@ npm run validate:gb2760
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-14 | Batch 5-B / UX-C：新增统一 dataStatus 映射工具，统一结果可信表达文案、颜色变量和 Badge class；搜索、详情、分析、报告、导出、数据治理页改为引用同一映射；产品页面整体设计仍暂缓 | Codex | `npm test` / `npm run lint` / `npm run build` / `git diff --check` 通过 |
 | 2026-06-14 | Batch 8-C：全页 loading / empty / error 状态复核，补齐搜索初始空态拍照/粘贴入口、GB2760 复核页错误重试与空态出口、GB2760 参考表错误重试；后续 5-B/UX-C 可信表达需先确认是否纳入产品页面设计暂缓范围 | Codex | `npm test` / `npm run lint` / `npm run build` / `git diff --check` 通过 |
 | 2026-06-14 | Batch 3-B：OCR Provider 抽象命名闭环，后端支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，mock 明确标注且真实 provider 仍需后端 Key；内部控制台后续 UI 按用户要求暂缓到产品页面设计统一推进 | Codex | 针对性验证：`backend ocr.test.ts`、后端 `typecheck`、前端 OCR 协议断言 |
 | 2026-06-14 | GB2760 复核闭环：自动创建缺失成分映射、人工批量签核 1447 条剩余 staging 行，并 promote 全部 2391 条 A.1 staging 到 `additive_usage_rules`；根目录新增 `map:gb2760` / `promote:gb2760` 委托命令 | Codex + 人工 | `validate:gb2760` 通过；报告：staging 2404、pending_review 0、promoted 2391、legacy_verified 13、additive_usage_rules 2391、verified_regulation_ingredients 308、import_errors 0 |

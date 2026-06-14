@@ -2,6 +2,7 @@ import { getProductCategory } from '../data/categories.js';
 import { formatAllergenNames, getAllergensByIds } from './allergenService.js';
 import { getIngredientById } from './ingredientService.js';
 import { getConcernSummaries, getTopIngredientNames, riskGradeLabel } from './reportService.js';
+import { dataStatusLabel, normalizeDataStatus } from '../utils/dataStatus.js';
 
 const EXPORT_SCHEMA_VERSION = 1;
 const REVIEW_STATUS_LABELS = {
@@ -9,15 +10,6 @@ const REVIEW_STATUS_LABELS = {
   reviewed: '已复核',
   verified: '已验证'
 };
-const DATA_STATUS_LABELS = {
-  verified_regulation: 'GB 2760 已验证',
-  verified_jecfa: 'JECFA 安全评价',
-  mapped_candidate: '候选待确认',
-  common_ingredient: '普通配料',
-  unverified: '未验证',
-  unknown_from_ocr: 'OCR 未收录'
-};
-
 export function buildReportExportPayload(report) {
   if (!report) return null;
   const category = getProductCategory(report.category);
@@ -306,14 +298,6 @@ function normalizeReviewStatus(status) {
 
 function reviewStatusLabel(status) {
   return REVIEW_STATUS_LABELS[normalizeReviewStatus(status)];
-}
-
-function normalizeDataStatus(status) {
-  return Object.hasOwn(DATA_STATUS_LABELS, status) ? status : 'unverified';
-}
-
-function dataStatusLabel(status) {
-  return DATA_STATUS_LABELS[normalizeDataStatus(status)];
 }
 
 function valueOrFallback(value, fallback) {

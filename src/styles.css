@@ -2866,8 +2866,34 @@ button.danger-button:hover {
 }
 
 .data-badge--unverified {
-  color: var(--color-unknown);
+  color: var(--color-unverified);
   background: rgba(156, 163, 175, 0.18);
+}
+
+.data-badge--verified-regulation,
+.data-badge--common-ingredient {
+  color: var(--color-risk-low);
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.data-badge--verified-jecfa {
+  color: var(--color-watch);
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.data-badge--pending-review {
+  color: var(--color-unverified);
+  background: rgba(156, 163, 175, 0.18);
+}
+
+.data-badge--mapped-candidate {
+  color: var(--color-risk-medium);
+  background: rgba(245, 158, 11, 0.18);
+}
+
+.data-badge--unknown-from-ocr {
+  color: var(--color-unknown);
+  background: rgba(107, 114, 128, 0.16);
 }
 
 .data-badge--pending {

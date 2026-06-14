@@ -3,6 +3,7 @@ import { categoryPath, getProductCategory } from '../data/categories.js';
 import { getCategoryStats, getDatasetAuditSummary, getSearchFilterOptions, getSearchSuggestions, searchIngredients } from '../services/ingredientService.js';
 import { getPersonalIngredientHit, getPersonalProfile } from '../services/personalProfileService.js';
 import { isInCompare } from '../store/userStore.js';
+import { dataStatusBadgeClass, dataStatusLabel } from '../utils/dataStatus.js';
 
 const SEARCH_PAGE_SIZE = 6;
 const DEFAULT_SEARCH_SORT = 'relevance';
@@ -271,7 +272,7 @@ function renderResults(results, category) {
           <a class="result-item__main" href="#${categoryPath(category, `/ingredient/${result.id}`)}" data-route>
             <span class="${riskClass(result.riskLevel)}">${riskLabel(result.riskLevel)}</span>
             ${personalHit ? renderPersonalHitBadge(personalHit) : ''}
-            ${shouldShowProvenanceBadge(result, category) ? `<span class="data-badge data-badge--unverified">${escapeHtml(dataStatusLabel(result.dataStatus))}</span>` : ''}
+            ${shouldShowProvenanceBadge(result, category) ? `<span class="data-badge ${escapeHtml(dataStatusBadgeClass(result.dataStatus))}">${escapeHtml(dataStatusLabel(result.dataStatus))}</span>` : ''}
             <h3>${escapeHtml(result.nameCn)}</h3>
             <p class="latin">${escapeHtml(result.nameEn || '')}</p>
             <p>${escapeHtml(result.description)}</p>
@@ -318,18 +319,6 @@ function normalizeApiSearchItems(items) {
     sourceName: item.sourceName,
     reviewStatus: item.reviewStatus
   }));
-}
-
-function dataStatusLabel(status) {
-  const labels = {
-    verified_regulation: 'GB 2760 已验证',
-    verified_jecfa: 'JECFA 安全评价',
-    mapped_candidate: '候选待确认',
-    common_ingredient: '普通配料',
-    unverified: '未验证',
-    unknown_from_ocr: 'OCR 未收录'
-  };
-  return labels[status] || labels.unverified;
 }
 
 function confidenceLabel(level) {

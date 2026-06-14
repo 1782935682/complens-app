@@ -2,6 +2,7 @@ import { getProductCategory, isProductCategory } from '../data/categories.js';
 import { getMatchingTextAllergens, getMatchingUserAllergens } from './allergenService.js';
 import { analyzeIngredientText, getIngredientById } from './ingredientService.js';
 import { matchIngredientsLocal } from './ingredientMatchService.js';
+import { dataStatusOrder, normalizeDataStatus } from '../utils/dataStatus.js';
 import { parseIngredientList } from '../utils/text.js';
 
 export const REPORT_SCHEMA_VERSION = 4;
@@ -675,14 +676,7 @@ function countPendingMatches(matchResults = []) {
 }
 
 function buildDataStatusCounts(matchResults = [], unmatchedTerms = [], source = 'manual') {
-  const counts = {
-    verified_regulation: 0,
-    verified_jecfa: 0,
-    mapped_candidate: 0,
-    common_ingredient: 0,
-    unverified: 0,
-    unknown_from_ocr: 0
-  };
+  const counts = Object.fromEntries(dataStatusOrder.map((status) => [status, 0]));
 
   for (const result of Array.isArray(matchResults) ? matchResults : []) {
     const status = getResultDataStatus(result, source);
@@ -747,11 +741,6 @@ function getResultDataStatus(result, source = 'manual') {
   }
   if (result.confidence < 0.9 && result.reviewDecision !== 'confirmed') return 'mapped_candidate';
   return normalizeDataStatus(result.dataStatus || result.match.dataStatus || 'unverified');
-}
-
-function normalizeDataStatus(status) {
-  const allowed = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'];
-  return allowed.includes(status) ? status : 'unverified';
 }
 
 function normalizeReviewDecision(value) {

@@ -5,6 +5,7 @@ import { formatAllergenNames, getMatchingTextAllergens, getMatchingUserAllergens
 import { analyzeIngredientText } from '../services/ingredientService.js';
 import { matchIngredientsLocal } from '../services/ingredientMatchService.js';
 import { getAnalysisReports, getUserAllergens } from '../store/userStore.js';
+import { dataStatusBadgeClass, dataStatusLabel as formatDataStatusLabel } from '../utils/dataStatus.js';
 import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from '../utils/text.js';
 
 /**
@@ -199,7 +200,7 @@ function databaseMatchItem(item) {
       <p>${match
         ? escapeHtml(`${match.nameCn} / ${match.category || '未分类'} / ${matchTypeLabel(item.matchType)}${isPendingMatch(item) ? '，请确认' : ''}`)
         : '数据库暂未收录此配料，已保留原文。'}</p>
-      ${match ? `<span class="data-badge data-badge--unverified">${escapeHtml(dataStatusLabel(getResultDataStatus(item)))}</span>` : '<span class="data-badge data-badge--unverified">unverified / 暂未收录</span>'}
+      ${match ? renderDataStatusBadge(getResultDataStatus(item)) : renderDataStatusBadge('unknown_from_ocr')}
       ${match?.sourceName ? `<p class="empty small">来源：${escapeHtml(match.sourceName)} / ${escapeHtml(sourceScopeLabel(match.sourceScope))}</p>` : ''}
     </article>
   `;
@@ -269,7 +270,7 @@ function analysisMatchItem(item) {
       <p>${isMatched
         ? escapeHtml(`${item.note || '本地库匹配'}，识别为 ${item.nameCn || item.matchedText || '本地成分'}`)
         : escapeHtml(item.note || '本地数据库暂未收录该条目')}</p>
-      <p class="empty small">数据状态：${escapeHtml(dataStatusLabel(item.dataStatus || 'unverified'))}${item.sourceName ? ` / 来源：${escapeHtml(item.sourceName)}` : ''}</p>
+      <p class="empty small">数据状态：${escapeHtml(dataStatusLabelWithCode(item.dataStatus || 'unverified'))}${item.sourceName ? ` / 来源：${escapeHtml(item.sourceName)}` : ''}</p>
     </article>
   `;
 }
@@ -285,16 +286,12 @@ function getResultDataStatus(item) {
   return item.match.dataStatus || 'unverified';
 }
 
-function dataStatusLabel(status) {
-  const labels = {
-    verified_regulation: 'verified_regulation / GB 2760 已验证',
-    verified_jecfa: 'verified_jecfa / JECFA 安全评价',
-    mapped_candidate: 'mapped_candidate / 候选待确认',
-    common_ingredient: 'common_ingredient / 普通配料',
-    unverified: 'unverified / 未验证',
-    unknown_from_ocr: 'unknown_from_ocr / OCR 未收录'
-  };
-  return labels[status] || labels.unverified;
+function dataStatusLabelWithCode(status) {
+  return formatDataStatusLabel(status, { includeCode: true });
+}
+
+function renderDataStatusBadge(status) {
+  return `<span class="data-badge ${escapeHtml(dataStatusBadgeClass(status))}">${escapeHtml(dataStatusLabelWithCode(status))}</span>`;
 }
 
 function sourceScopeLabel(scope) {

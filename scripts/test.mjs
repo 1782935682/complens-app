@@ -42,12 +42,22 @@ import { buildCompareSharePayload, buildIngredientSharePayload, buildReportShare
 import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite, updateAnalysisReportMatchDecision } from '../src/store/userStore.js';
 import { clearMatchCache, matchIngredients, matchIngredientsLocal } from '../src/services/ingredientMatchService.js';
+import { dataStatusBadgeClass, dataStatusColorVar, dataStatusLabel, normalizeDataStatus } from '../src/utils/dataStatus.js';
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
 import { getGb2760OfficialFullTextQualityReport, getGb2760OfficialReferenceTableQualityReport, getGb2760OfficialSeedCoverageReport, getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialFullText, validateGb2760OfficialReferenceTables, validateGb2760OfficialSeedCoverage, validateGb2760OfficialStaging } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
+assert.equal(dataStatusLabel('verified_regulation'), '官方标准已验证');
+assert.equal(dataStatusLabel('verified_jecfa'), '安全评价已匹配（非中国法规范围）');
+assert.equal(dataStatusLabel('pending_review'), '待复核来源数据');
+assert.equal(dataStatusLabel('mapped_candidate'), '疑似匹配，待确认');
+assert.equal(dataStatusLabel('unknown_from_ocr'), '暂未收录');
+assert.equal(dataStatusLabel('verified_regulation', { includeCode: true }), 'verified_regulation / 官方标准已验证');
+assert.equal(normalizeDataStatus('not-real'), 'unverified');
+assert.equal(dataStatusBadgeClass('mapped_candidate'), 'data-badge--mapped-candidate');
+assert.equal(dataStatusColorVar('verified_jecfa'), '--color-watch');
 assert.deepEqual(resolveRoute('#/food/search?q=E330'), {
   view: 'search',
   category: 'food',
@@ -1674,7 +1684,7 @@ assert.match(detailHtmlWithRelatedIngredients, /data-related-ingredients/);
 assert.doesNotMatch(detailHtmlWithRelatedIngredients, /data-food-audit-note/);
 assert.match(detailHtmlWithRelatedIngredients, /data-provenance-details/);
 assert.match(detailHtmlWithRelatedIngredients, /来源与可信等级/);
-assert.match(detailHtmlWithRelatedIngredients, /GB 2760 已验证/);
+assert.match(detailHtmlWithRelatedIngredients, /官方标准已验证/);
 assert.match(detailHtmlWithRelatedIngredients, /高可信/);
 assert.match(detailHtmlWithRelatedIngredients, /JECFA 3594/);
 assert.match(detailHtmlWithRelatedIngredients, /可信来源确认[\s\S]*是/);
@@ -2961,7 +2971,7 @@ assert.match(reportDetailHtml, /数据边界/);
 assert.match(reportDetailHtml, /下一步建议/);
 assert.match(reportDetailHtml, /来源与审核状态/);
 assert.match(reportDetailHtml, /待审核/);
-assert.match(reportDetailHtml, /verified_regulation \/ GB 2760 已验证/);
+assert.match(reportDetailHtml, /verified_regulation \/ 官方标准已验证/);
 assert.match(reportDetailHtml, /GB 2760 法规依据/);
 assert.match(reportDetailHtml, /食品安全国家标准 食品添加剂使用标准/);
 assert.match(reportDetailHtml, /覆盖成分：/);
@@ -3146,7 +3156,7 @@ assert.match(reportMarkdown, /## 数据来源与审核状态/);
 assert.match(reportMarkdown, /草稿（未审核）：/);
 assert.match(reportMarkdown, /待确认：2/);
 assert.match(reportMarkdown, /数据状态：普通配料/);
-assert.match(reportMarkdown, /数据状态：GB 2760 已验证/);
+assert.match(reportMarkdown, /数据状态：官方标准已验证/);
 assert.match(reportMarkdown, /### 来源引用/);
 assert.match(reportMarkdown, /卵磷脂/);
 assert.match(reportMarkdown, /过敏原：大豆/);

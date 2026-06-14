@@ -1,4 +1,4 @@
-# AI Review — 2026-06-14 GB2760 参考表修复、导入审计、promote 准入与 Batch 8-C 状态统一
+# AI Review — 2026-06-14 GB2760 参考表修复、导入审计、promote 准入、Batch 8-C 状态统一与 Batch 5-B / UX-C 可信表达
 
 ## 本轮目标
 
@@ -15,6 +15,7 @@
 - 完成 Batch 3-B：OCR Provider 抽象命名闭环，支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`；mock 只作为明确标注的测试 provider，真实 provider 仍等待 Key 和适配。
 - 按用户要求暂停内部控制台后续 UI，等产品页面设计统一推进时再继续。
 - 完成 Batch 8-C：全页 loading / empty / error 状态复核，补齐搜索初始空态下一步入口、GB2760 复核页错误重试/空态出口、GB2760 参考表错误重试。
+- 完成 Batch 5-B / UX-C：统一 `dataStatus` 可信表达映射层，让搜索、详情、分析、报告、导出和数据治理页共用同一套文案、颜色变量、Badge class 和 normalize 逻辑。
 
 ## 修改文件
 
@@ -23,7 +24,7 @@
 | `scripts/generate-gb2760-reference-tables.mjs` | 更新 | 保留参考表英文/拉丁词间空格，区分天然香料、生物来源、加工助剂和合成香料化学括号；修复已定位的 B.2 N127、C.2 与 C.3 orphan/紧缩文本 |
 | `src/data/gb2760OfficialReferenceTables.js` | 重新生成 | 保持 2800 行，修复 B.2/B.3/C.1/C.2/C.3 多处英文/拉丁显示边界，并确认可由官方 PDF 复现 |
 | `scripts/validate-data.mjs` | 更新 | 新增 GB2760 参考表紧缩拉丁/英文文本回归校验 |
-| `scripts/test.mjs` | 更新 | 增加 B.2/B.3/C.1/C.2/C.3 代表性分词与边界断言；补充搜索初始空态、GB2760 复核页错误/空态、GB2760 参考表错误态断言 |
+| `scripts/test.mjs` | 更新 | 增加 B.2/B.3/C.1/C.2/C.3 代表性分词与边界断言；补充搜索初始空态、GB2760 复核页错误/空态、GB2760 参考表错误态断言；新增统一 dataStatus 文案、颜色变量、Badge class 和 normalize 断言 |
 | `backend/src/db/schema.ts` | 更新 | 新增 `source_documents` / `import_runs` / `import_errors` / `additive_usage_rules` 表定义、约束、索引和类型 |
 | `backend/src/db/migrations/0012_breezy_franklin_richards.sql` | 新增 | 创建 GB2760 导入审计三表和索引 |
 | `backend/src/db/migrations/0013_productive_crusher_hogan.sql` | 新增 | 创建 `additive_usage_rules` 表、`ingredient_id` 外键、`sourceStagingId` 唯一约束、索引和 `verified_regulation` check |
@@ -42,14 +43,18 @@
 | `.github/workflows/ci.yml` | 更新 | CI 增加 Postgres service，执行 backend `db:migrate` / `db:seed` / `validate:gb2760` |
 | `backend/tests/gb2760.test.ts` | 新增/更新 | 覆盖导入审计路由、分页校验、404、source/run/error mapper、内部 reviewer 403、签核审计参数，以及 promote / validate 准入 helper |
 | `backend/tests/ingredients.test.ts` | 更新 | 验证 GB2760 mapper 入库时把 `needs_review` 规范为 `pending_review` |
-| `CODEX_TASKS.md` | 重构/更新 | 重排为项目主路径 / 自动化规则 / 人工阻塞规则 / 任务状态定义 / 阶段 1-11；新增 GB2760 staging→promote→pending_review→validate 流程（Batch 1-A/1-C/1-D/1-E）、OCR Provider 抽象重构（3-B）、产品体验阶段（UX-A~UX-E）；保留已完成项并标记完成；本轮标记 Batch 8-C 完成并记录下一步需确认 5-B/UX-C 边界 |
-| `PROJECT_PLAN.md` | 重写/更新 | 产品定位、最高优先级、真实进度（M1-M11）、已完成、未完成、人工阻塞、下一步、7 天执行计划、阶段验收标准；本轮同步 Batch 8-C 完成、下一步人工确认边界 |
+| `CODEX_TASKS.md` | 重构/更新 | 重排为项目主路径 / 自动化规则 / 人工阻塞规则 / 任务状态定义 / 阶段 1-11；新增 GB2760 staging→promote→pending_review→validate 流程（Batch 1-A/1-C/1-D/1-E）、OCR Provider 抽象重构（3-B）、产品体验阶段（UX-A~UX-E）；保留已完成项并标记完成；本轮标记 Batch 8-C 与 Batch 5-B / UX-C 完成，并记录下一步需人工确认产品页面设计或外部依赖边界 |
+| `PROJECT_PLAN.md` | 重写/更新 | 产品定位、最高优先级、真实进度（M1-M11）、已完成、未完成、人工阻塞、下一步、7 天执行计划、阶段验收标准；本轮同步 Batch 8-C 与 Batch 5-B / UX-C 完成、下一步人工确认边界 |
 | `readme.md` | 更新 | 合并产品入口、主路径、数据可信状态和快速开始，避免新增大小写冲突文件 |
 | `AGENTS.md` | 新建 | 编码 Agent 强制规范：主路径、五条红线、执行流程、阻塞跳过、技术栈约束、验收、体验要求、输出格式 |
 | `COMMANDS.md` | 更新 | 新增 GB2760 审计 API 验收，明确 `import:gb2760:status` 只有 API 已实现、CLI 仍为计划，不伪造 npm 命令 |
 | `DATA_SOURCES.md` | 更新 | 硬性规则补充 staging/verified 区别、`pending_review` 不能当权威、持续扩充；新增导入审计层和当前审计计数 |
 | `src/pages/gb2760ReviewPage.js`、`src/services/gb2760ApiService.js`、`src/router/router.js`、`src/main.js`、`src/styles.css` | 新增/更新 | 新增内部 GB2760 复核页、每页条数、ready 筛选、单条/批量签核和映射 API 客户端 |
 | `src/pages/searchPage.js`、`src/pages/dataPage.js`、`src/pages/gb2760ReviewPage.js`、`src/main.js` | 更新 | Batch 8-C 状态统一：搜索初始空态提供拍照/粘贴入口；GB2760 复核错误态增加重试、空态增加重置为待复核行和返回数据页；GB2760 参考表错误态增加重试；retry 事件改为委托绑定以覆盖局部渲染 |
+| `src/utils/dataStatus.js` | 新增 | 集中维护 `verified_regulation` / `verified_jecfa` / `pending_review` / `mapped_candidate` / `common_ingredient` / `unverified` / `unknown_from_ocr` 的中文可信表达、颜色变量、Badge class 和 normalize 逻辑 |
+| `src/pages/searchPage.js`、`src/pages/detailPage.js`、`src/pages/analyzePage.js`、`src/pages/reportDetailPage.js`、`src/pages/dataPage.js` | 更新 | 页面层统一引用 `dataStatus` 映射工具，避免各页各自维护 `GB 2760 已验证`、`暂未收录`、JECFA 等文案 |
+| `src/services/ingredientService.js`、`src/services/reportService.js`、`src/services/reportExportService.js`、`src/types/ingredient.js` | 更新 | 服务层和类型层引用统一 `dataStatusOrder` / `normalizeDataStatus` / `dataStatusLabel`，导出报告与统计口径和页面展示保持一致 |
+| `src/styles.css` | 更新 | 补齐 `data-badge--verified-regulation`、`verified-jecfa`、`pending-review`、`mapped-candidate`、`common-ingredient`、`unknown-from-ocr` 等状态 class，并统一使用 CSS 变量 |
 | `backend/src/services/ocrProviders/index.ts` | 新增 | OCR provider 命名层，规范 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`，并提供 mock OCR 结果 |
 | `backend/src/routes/ocr.ts`、`backend/tests/ocr.test.ts`、`src/services/ocrService.js`、`scripts/test.mjs` | 更新 | 后端按 provider 区分 mock / 真实 pending / 未配置 Key；前端校验 provider 名称；测试覆盖 mock 与 pending |
 | `AI_REVIEW.md` | 覆盖 | 本文件 |
@@ -68,6 +73,7 @@
 10. 本地 review 后已补强三项风险：普通登录用户不能调用 GB2760 写接口、签核/映射写入 reviewer 审计字段、自动生成 ingredient kind 统一为 `food-additive`。
 11. OCR 抽象层已补齐 provider 命名：`OCR_PROVIDER=mock` 可用于本地固定响应测试，`aliyun` / `paddleocr` / `rapidocr` 在真实适配前继续返回 pending，不会伪造真实 OCR。
 12. Batch 8-C 已补齐全页状态出口：搜索初始空态不再是单行空提示，GB2760 复核和参考表错误态都可重试；retry 事件使用委托绑定，覆盖参考表局部渲染后的错误态按钮；UX-D 的共享组件抽取和 5-B/UX-C 可信表达统一不在本批次冒充完成。
+13. Batch 5-B / UX-C 已补齐可信表达映射层：`verified_regulation` 显示为"官方标准已验证"，`verified_jecfa` 显示为"安全评价已匹配（非中国法规范围）"，`pending_review` 显示为"待复核来源数据"，`mapped_candidate` 显示为"疑似匹配，待确认"，`unknown_from_ocr` 显示为"暂未收录"；本批次只统一映射与现有页面引用，不冒充完成首页、OCR 状态机、共享组件抽取或报告页整体产品化设计。
 
 ## 与现有代码核对（防止伪造状态）
 
@@ -110,6 +116,8 @@ codex review --uncommitted
 
 Batch 8-C 本次增量验证：`npm test`、`npm run lint`、`npm run build`、`git diff --check` 通过；未重复运行完整数据校验，因本批次只改前端状态渲染、测试和任务文档，不改数据生成/入库口径。
 
+Batch 5-B / UX-C 本次增量验证：`npm test`、`npm run lint`、`npm run build`、`git diff --check` 通过；未运行 `validate:data` / `validate:gb2760`，因本批次只改前端可信表达映射、导出文案、测试和任务文档，不改数据生成、导入、签核或 promote 口径。
+
 ## 风险点与后续人工确认
 
 - 源文件中的 `needs_review` 未做大规模 churn；后端入库 mapper 已统一为 DB `pending_review`。`db:seed` 只在行级法规字段指纹不变时保留既有人工 `mapped_candidate` / `approved` / `promoted` 状态；抽取内容变化会降回待复核，避免旧签核覆盖新限量或新原文证据。`validate:gb2760` 当前校验 DB 口径；源文件口径仍由 `validate:data` 校验。
@@ -117,4 +125,4 @@ Batch 8-C 本次增量验证：`npm test`、`npm run lint`、`npm run build`、`
 - `additive_usage_rules` 当前已有 2391 行正式规则；后续若重新 seed 且行级法规字段指纹不变，会保留 DB 中的人工状态。
 - GB2760 后续新增或变更 staging 行仍需要人工复核签核；本轮 2391 条 A.1 staging 已完成。
 - 真实 OCR / AI 接入、生产数据库、跨设备验收、上架仍为人工阻塞项。
-- Batch 5-B / UX-C 统一可信表达是下一个需要明确边界的候选；它不需要外部账号，但会影响结果页、详情页、搜索页的可信标签与文案，需按用户要求确认是否纳入产品页面设计暂缓范围。
+- 产品页面整体设计统一推进仍需人工确认边界；Batch 5-B / UX-C 只完成可信表达映射层，Batch 1-E、UX-A、UX-B、UX-D、UX-E 仍按用户要求暂缓到产品页面设计阶段统一处理。
