@@ -168,6 +168,7 @@ export function renderFoodAdditiveDetails(ingredient, category = 'food') {
       ${renderFoodAuditNotice(ingredient)}
       ${renderInfoBlock('适用食品类别', ingredient.foodCategories || [])}
       ${renderUsageLimits(ingredient.usageLimits || [])}
+      ${renderGb2760OfficialEvidence(ingredient)}
       ${renderSourceReferences(ingredient.sourceReferences || [])}
       ${renderIngredientCorrectionAction(ingredient, category)}
     </section>
@@ -324,6 +325,76 @@ function renderSourceReferences(sourceReferences) {
         : html`<p class="empty small">暂无来源信息</p>`}
     </div>
   `;
+}
+
+function renderGb2760OfficialEvidence(ingredient) {
+  const stagingRows = Array.isArray(ingredient.stagingRows) ? ingredient.stagingRows : [];
+  const referenceRows = Array.isArray(ingredient.referenceRows) ? ingredient.referenceRows : [];
+  if (!stagingRows.length && !referenceRows.length) return '';
+
+  return html`
+    <div class="food-detail-section gb2760-evidence" data-gb2760-evidence>
+      <h3>官方 GB 2760-2024 证据</h3>
+      ${stagingRows.length ? html`
+        <div class="gb2760-evidence-group">
+          <h4>表 A.1 staging 行</h4>
+          <ul class="data-list">
+            ${stagingRows.map(renderGb2760StagingEvidenceRow).join('')}
+          </ul>
+        </div>
+      ` : ''}
+      ${referenceRows.length ? html`
+        <div class="gb2760-evidence-group">
+          <h4>参考表行</h4>
+          <ul class="data-list">
+            ${referenceRows.map(renderGb2760ReferenceEvidenceRow).join('')}
+          </ul>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderGb2760StagingEvidenceRow(row) {
+  const limit = [row.maxUseLevel, row.unit].filter(Boolean).join(' ');
+  return html`
+    <li class="gb2760-evidence-row">
+      <strong>${escapeHtml(formatFoodCategoryEvidence(row))}</strong>
+      <span>最大使用量：${escapeHtml(limit || '暂无')}</span>
+      ${row.note ? html`<small>备注：${escapeHtml(row.note)}</small>` : ''}
+      <small>${escapeHtml(row.tableName || '表 A.1')} / PDF ${escapeHtml(row.pdfPage || '暂无')} / 标准页 ${escapeHtml(row.standardPage || '暂无')} / ${escapeHtml(gb2760EvidenceStatusLabel(row.reviewStatus))}</small>
+      <small>原文：${escapeHtml(row.rawSourceText || '暂无')}</small>
+    </li>
+  `;
+}
+
+function renderGb2760ReferenceEvidenceRow(row) {
+  return html`
+    <li class="gb2760-evidence-row">
+      <strong>${escapeHtml(row.rowName || '未命名参考行')}</strong>
+      <span>${escapeHtml(row.tableName || '参考表')} / 编号 ${escapeHtml(row.rowCode || '暂无')}</span>
+      <small>PDF ${escapeHtml(row.pdfPage || '暂无')} / 标准页 ${escapeHtml(row.standardPage || '暂无')} / ${escapeHtml(gb2760EvidenceStatusLabel(row.reviewStatus))}</small>
+      <small>原文：${escapeHtml(row.rawSourceText || '暂无')}</small>
+    </li>
+  `;
+}
+
+function formatFoodCategoryEvidence(row) {
+  const code = String(row.foodCategoryCode || '').trim();
+  const name = String(row.foodCategoryName || '').trim();
+  return code && code !== '—' ? `${code} ${name || '未命名食品类别'}` : (name || '各类食品');
+}
+
+function gb2760EvidenceStatusLabel(status) {
+  const labels = {
+    pending_review: '待复核来源数据',
+    needs_review: '待复核来源数据',
+    mapped_candidate: '候选待确认',
+    approved: '已签核待 promote',
+    promoted: '已进入正式规则',
+    verified: '历史已验证'
+  };
+  return labels[status] || '待复核来源数据';
 }
 
 function renderIngredientCorrectionAction(ingredient, category) {

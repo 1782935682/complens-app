@@ -157,7 +157,10 @@ export function resolveRoute(hash) {
       filters: {
         source: params.get('source') || '',
         confidenceLevel: params.get('confidenceLevel') || '',
-        dataStatus: params.get('dataStatus') || ''
+        dataStatus: params.get('dataStatus') || '',
+        gbTable: params.get('gbTable') || 'B.2',
+        gbQuery: params.get('gbQuery') || '',
+        gbPage: Math.max(1, Number(params.get('gbPage')) || 1)
       }
     };
   }

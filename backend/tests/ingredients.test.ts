@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
+import { gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredients as ingredientsTable, type IngredientRow } from '../src/db/schema.js';
 import { createIngredientService as createRealIngredientService, escapeLikePattern, toGb2760OfficialPageRow, toGb2760OfficialRecordRow, toGb2760OfficialReferenceRow, toIngredientRow, upsertIngredients, type BatchSearchParams, type BatchSearchResult, type IngredientService } from '../src/services/ingredientService.js';
 
 function createTestApp(service: IngredientService) {
@@ -33,25 +34,25 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
         suitableFor: ['饮料'],
         cautionFor: ['儿童和敏感人群建议关注摄入频率'],
         sourceNote: '种子数据。',
-	        sourceReferences: [],
-	        reviewStatus: 'draft',
-	        dataStatus: 'unverified',
-	        dataVersion: 'test',
+        sourceReferences: [],
+        reviewStatus: 'draft',
+        dataStatus: 'unverified',
+        dataVersion: 'test',
         reviewedBy: 'system',
         reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
         changeNote: '测试导入',
         updatedAt: '2026-06-10',
-	        sourceName: '测试来源',
-	        sourceType: 'official_standard',
-	        sourceScope: 'seed_reference',
-	        sourceVersion: 'test',
+        sourceName: '测试来源',
+        sourceType: 'official_standard',
+        sourceScope: 'seed_reference',
+        sourceVersion: 'test',
         sourceUrl: 'https://example.com/source',
-	        effectiveDate: '待人工核验',
-	        confidenceLevel: 'unverified',
-	        matchConfidence: 'low',
-	        lastReviewedAt: '2026-06-10',
-	        reviewNote: '测试审核备注',
-	        regulatoryBasis: '测试法规依据',
+        effectiveDate: '待人工核验',
+        confidenceLevel: 'unverified',
+        matchConfidence: 'low',
+        lastReviewedAt: '2026-06-10',
+        reviewNote: '测试审核备注',
+        regulatoryBasis: '测试法规依据',
         rawSourceText: '测试原始来源片段',
         isVerified: false,
         gbCode: 'INS 211',
@@ -89,25 +90,25 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
           suitableFor: ['饮料'],
           cautionFor: ['儿童和敏感人群建议关注摄入频率'],
           sourceNote: '种子数据。',
-	          sourceReferences: [],
-	          reviewStatus: 'draft',
-	          dataStatus: 'unverified',
-	          dataVersion: 'test',
+          sourceReferences: [],
+          reviewStatus: 'draft',
+          dataStatus: 'unverified',
+          dataVersion: 'test',
           reviewedBy: 'system',
           reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
           changeNote: '测试导入',
           updatedAt: '2026-06-10',
-	          sourceName: '测试来源',
-	          sourceType: 'official_standard',
-	          sourceScope: 'seed_reference',
-	          sourceVersion: 'test',
+          sourceName: '测试来源',
+          sourceType: 'official_standard',
+          sourceScope: 'seed_reference',
+          sourceVersion: 'test',
           sourceUrl: 'https://example.com/source',
-	          effectiveDate: '待人工核验',
-	          confidenceLevel: 'unverified',
-	          matchConfidence: 'low',
-	          lastReviewedAt: '2026-06-10',
-	          reviewNote: '测试审核备注',
-	          regulatoryBasis: '测试法规依据',
+          effectiveDate: '待人工核验',
+          confidenceLevel: 'unverified',
+          matchConfidence: 'low',
+          lastReviewedAt: '2026-06-10',
+          reviewNote: '测试审核备注',
+          regulatoryBasis: '测试法规依据',
           rawSourceText: '测试原始来源片段',
           isVerified: false,
           gbCode: 'INS 211',
@@ -121,6 +122,74 @@ function createIngredientService(overrides: Partial<IngredientService> = {}): In
           cautionGroups: ['child'],
           createdAt: new Date('2026-06-11T00:00:00.000Z'),
           syncedAt: new Date('2026-06-11T00:00:00.000Z')
+        }
+      : null)),
+    getIngredientWithGb2760Evidence: vi.fn(async (id) => (id === 'sodium-benzoate'
+      ? {
+          id: 'sodium-benzoate',
+          kind: 'food-additive',
+          dataCategory: 'food',
+          nameCn: '苯甲酸钠',
+          nameEn: 'Sodium benzoate',
+          aliases: ['E211', 'INS 211'],
+          category: '防腐剂',
+          functions: ['防腐剂'],
+          description: '苯甲酸盐类防腐剂。',
+          riskLevel: 'medium',
+          riskSummary: '属于限量使用防腐剂。',
+          suitableFor: ['饮料'],
+          cautionFor: ['儿童和敏感人群建议关注摄入频率'],
+          sourceNote: '种子数据。',
+          sourceReferences: [],
+          reviewStatus: 'draft',
+          dataStatus: 'unverified',
+          dataVersion: 'test',
+          reviewedBy: 'system',
+          reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
+          changeNote: '测试导入',
+          updatedAt: '2026-06-10',
+          sourceName: '测试来源',
+          sourceType: 'official_standard',
+          sourceScope: 'seed_reference',
+          sourceVersion: 'test',
+          sourceUrl: 'https://example.com/source',
+          effectiveDate: '待人工核验',
+          confidenceLevel: 'unverified',
+          matchConfidence: 'low',
+          lastReviewedAt: '2026-06-10',
+          reviewNote: '测试审核备注',
+          regulatoryBasis: '测试法规依据',
+          rawSourceText: '测试原始来源片段',
+          isVerified: false,
+          gbCode: 'INS 211',
+          gbStatus: 'restricted',
+          eNumber: 'E211',
+          adi: '0-5 mg/kg bw',
+          usageLimits: [],
+          foodCategories: ['饮料'],
+          gb2760PromotionBaseState: null,
+          allergenTypes: [],
+          cautionGroups: ['child'],
+          createdAt: new Date('2026-06-11T00:00:00.000Z'),
+          syncedAt: new Date('2026-06-11T00:00:00.000Z'),
+          stagingRows: [{
+            id: 'gb2760-2024-a1-sodium-benzoate-drink',
+            reviewStatus: 'pending_review',
+            foodCategoryCode: '14.0',
+            foodCategoryName: '饮料类',
+            maxUseLevel: '1.0',
+            unit: 'g/kg',
+            pdfPage: 90,
+            rawSourceText: 'GB 2760-2024 表 A.1：苯甲酸钠；14.0 饮料类；最大使用量 1.0 g/kg。'
+          } as never],
+          referenceRows: [{
+            id: 'gb2760-2024-f-211',
+            tableName: '附录 F',
+            rowNumber: 1,
+            rowCode: '211',
+            rowName: '苯甲酸钠',
+            rawSourceText: 'GB 2760-2024 附录 F：食品添加剂中文名称 苯甲酸钠；INS 号 211。'
+          } as never]
         }
       : null)),
     getCategorySummaries: vi.fn(async () => [{ name: '防腐剂', count: 12 }]),
@@ -151,6 +220,103 @@ function createBatchSearchDb(rows: unknown[]) {
   } as never;
 }
 
+function createEvidenceIngredient(overrides: Partial<IngredientRow> = {}): IngredientRow {
+  return {
+    id: 'sodium-benzoate',
+    kind: 'food-additive',
+    dataCategory: 'food',
+    nameCn: '苯甲酸钠',
+    nameEn: 'Sodium benzoate',
+    aliases: ['E211', 'INS 211'],
+    category: '防腐剂',
+    functions: ['防腐剂'],
+    description: '苯甲酸盐类防腐剂。',
+    riskLevel: 'medium',
+    riskSummary: '属于限量使用防腐剂。',
+    suitableFor: ['饮料'],
+    cautionFor: [],
+    sourceNote: '测试来源。',
+    sourceReferences: [],
+    reviewStatus: 'draft',
+    dataStatus: 'unverified',
+    dataVersion: 'test',
+    reviewedBy: 'system',
+    reviewedAt: new Date('2026-06-10T00:00:00.000Z'),
+    changeNote: '测试导入',
+    updatedAt: '2026-06-10',
+    sourceName: '测试来源',
+    sourceType: 'official_standard',
+    sourceScope: 'seed_reference',
+    sourceVersion: 'test',
+    sourceUrl: 'https://example.com/source',
+    effectiveDate: '待人工核验',
+    confidenceLevel: 'unverified',
+    matchConfidence: 'low',
+    lastReviewedAt: '2026-06-10',
+    reviewNote: '测试审核备注',
+    regulatoryBasis: '测试法规依据',
+    rawSourceText: '测试原始来源片段',
+    isVerified: false,
+    gbCode: 'INS 211',
+    gbStatus: 'restricted',
+    eNumber: 'E211',
+    adi: '0-5 mg/kg bw',
+    usageLimits: [],
+    foodCategories: ['饮料'],
+    gb2760PromotionBaseState: null,
+    allergenTypes: [],
+    cautionGroups: [],
+    createdAt: new Date('2026-06-11T00:00:00.000Z'),
+    syncedAt: new Date('2026-06-11T00:00:00.000Z'),
+    ...overrides
+  };
+}
+
+function createEvidenceDb({
+  ingredient,
+  stagingRows = [],
+  referenceRows = []
+}: {
+  ingredient: IngredientRow | null;
+  stagingRows?: unknown[];
+  referenceRows?: unknown[];
+}) {
+  let referenceQueryCount = 0;
+
+  return {
+    getReferenceQueryCount: () => referenceQueryCount,
+    select: () => ({
+      from: (table: unknown) => {
+        if (table === ingredientsTable) {
+          return {
+            where: () => ({
+              limit: async () => ingredient ? [ingredient] : []
+            })
+          };
+        }
+        if (table === gb2760OfficialRecords) {
+          return {
+            where: () => ({
+              orderBy: async () => stagingRows
+            })
+          };
+        }
+        if (table === gb2760OfficialReferenceRows) {
+          referenceQueryCount += 1;
+          return {
+            where: () => ({
+              orderBy: () => ({
+                limit: async () => referenceRows
+              })
+            })
+          };
+        }
+        throw new Error('Unexpected evidence table');
+      }
+    })
+  };
+}
+
 describe('GET /api/ingredients', () => {
   it('passes parsed filters to the ingredient service', async () => {
     const service = createIngredientService();
@@ -164,10 +330,10 @@ describe('GET /api/ingredients', () => {
     expect(service.listIngredients).toHaveBeenCalledWith({
       q: '苯甲酸',
       category: '防腐剂',
-	      riskLevel: 'medium',
-	      confidenceLevel: 'unverified',
-	      dataStatus: 'unverified',
-	      sort: undefined,
+        riskLevel: 'medium',
+        confidenceLevel: 'unverified',
+        dataStatus: 'unverified',
+        sort: undefined,
       page: 2,
       limit: 10
     });
@@ -289,6 +455,111 @@ describe('GET /api/ingredients/:id', () => {
     expect(missing.status).toBe(404);
     expect(await missing.json()).toEqual({ error: 'not_found' });
   });
+
+  it('adds GB 2760 staging and reference evidence only when requested', async () => {
+    const service = createIngredientService();
+    const app = createTestApp(service);
+
+    const plain = await app.request('/api/ingredients/sodium-benzoate');
+    const withEvidence = await app.request('/api/ingredients/sodium-benzoate?includeEvidence=1');
+    const plainBody = await plain.json();
+    const evidenceBody = await withEvidence.json();
+
+    expect(plain.status).toBe(200);
+    expect(withEvidence.status).toBe(200);
+    expect(plainBody.stagingRows).toBeUndefined();
+    expect(plainBody.referenceRows).toBeUndefined();
+    expect(evidenceBody.stagingRows).toHaveLength(1);
+    expect(evidenceBody.stagingRows[0]).toMatchObject({
+      reviewStatus: 'pending_review',
+      foodCategoryCode: '14.0',
+      maxUseLevel: '1.0'
+    });
+    expect(evidenceBody.referenceRows[0]).toMatchObject({
+      tableName: '附录 F',
+      rowName: '苯甲酸钠'
+    });
+    expect(service.getIngredientById).toHaveBeenCalledWith('sodium-benzoate');
+    expect(service.getIngredientWithGb2760Evidence).toHaveBeenCalledWith('sodium-benzoate');
+  });
+});
+
+describe('GB 2760 ingredient evidence lookup', () => {
+  it('does not attach free-text reference rows to common ingredients without staging evidence', async () => {
+    const db = createEvidenceDb({
+      ingredient: createEvidenceIngredient({
+        id: 'common-white-sugar',
+        kind: 'common-food-ingredient',
+        nameCn: '白砂糖',
+        nameEn: 'White sugar',
+        aliases: ['蔗糖', '砂糖'],
+        category: '普通食品配料',
+        functions: ['普通食品原料'],
+        dataStatus: 'common_ingredient',
+        sourceType: 'unknown',
+        sourceScope: 'common_ingredient_lexicon',
+        gbCode: 'N/A',
+        eNumber: ''
+      }),
+      referenceRows: [{
+        id: 'gb2760-2024-c2-sucrose-ester',
+        tableName: '表 C.2',
+        rowName: '蔗糖脂肪酸酯'
+      }]
+    });
+    const service = createRealIngredientService(db as never);
+
+    const result = await service.getIngredientWithGb2760Evidence('common-white-sugar');
+
+    expect(result?.stagingRows).toEqual([]);
+    expect(result?.referenceRows).toEqual([]);
+    expect(db.getReferenceQueryCount()).toBe(0);
+  });
+
+  it('keeps reference evidence for additives with direct GB 2760 staging rows', async () => {
+    const referenceRow = {
+      id: 'gb2760-2024-f-211',
+      tableName: '附录 F',
+      rowName: '苯甲酸钠'
+    };
+    const db = createEvidenceDb({
+      ingredient: createEvidenceIngredient(),
+      stagingRows: [{
+        id: 'gb2760-2024-a1-sodium-benzoate-drink',
+        ingredientId: 'sodium-benzoate'
+      }],
+      referenceRows: [referenceRow]
+    });
+    const service = createRealIngredientService(db as never);
+
+    const result = await service.getIngredientWithGb2760Evidence('sodium-benzoate');
+
+    expect(result?.stagingRows).toHaveLength(1);
+    expect(result?.referenceRows).toEqual([referenceRow]);
+    expect(db.getReferenceQueryCount()).toBe(1);
+  });
+
+  it('returns all linked GB 2760 staging evidence rows for an ingredient detail', async () => {
+    const stagingRows = Array.from({ length: 60 }, (_, index) => ({
+      id: `gb2760-2024-a1-caramel-colours-${index + 1}`,
+      ingredientId: 'caramel-colours'
+    }));
+    const db = createEvidenceDb({
+      ingredient: createEvidenceIngredient({
+        id: 'caramel-colours',
+        nameCn: '焦糖色',
+        nameEn: 'Caramel colours',
+        gbCode: 'CNS 08.108'
+      }),
+      stagingRows
+    });
+    const service = createRealIngredientService(db as never);
+
+    const result = await service.getIngredientWithGb2760Evidence('caramel-colours');
+
+    expect(result?.stagingRows).toHaveLength(60);
+    expect(result?.stagingRows).toEqual(stagingRows);
+  });
 });
 
 describe('ingredient search helpers', () => {
@@ -309,22 +580,22 @@ describe('ingredient search helpers', () => {
       description: '测试数据',
       riskLevel: 'low',
       sourceNote: '测试来源',
-	    sourceReferences: [],
-	    reviewStatus: 'draft',
-	    dataStatus: 'unverified',
-	    dataVersion: 'food-additives-seed-v5',
+      sourceReferences: [],
+      reviewStatus: 'draft',
+      dataStatus: 'unverified',
+      dataVersion: 'food-additives-seed-v5',
       updatedAt: '2026-06-12',
-	    sourceName: '测试来源',
-	    sourceType: 'official_standard',
-	    sourceScope: 'seed_reference',
-	    sourceVersion: '待人工核验',
+      sourceName: '测试来源',
+      sourceType: 'official_standard',
+      sourceScope: 'seed_reference',
+      sourceVersion: '待人工核验',
       sourceUrl: 'https://example.com/source',
-	    effectiveDate: '待人工核验',
-	    confidenceLevel: 'unverified',
-	    matchConfidence: 'low',
-	    lastReviewedAt: '2026-06-12',
-	    reviewNote: '测试审核备注',
-	    regulatoryBasis: '待人工核验',
+      effectiveDate: '待人工核验',
+      confidenceLevel: 'unverified',
+      matchConfidence: 'low',
+      lastReviewedAt: '2026-06-12',
+      reviewNote: '测试审核备注',
+      regulatoryBasis: '待人工核验',
       rawSourceText: '待人工核验',
       isVerified: false,
       gbCode: 'INS 967',

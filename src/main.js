@@ -3,6 +3,7 @@ import { categoryPath } from './data/categories.js';
 import { getMobileNavigationLinks, getNavigationLinks, getRouteTitle, renderRoute, resolveRoute } from './router/router.js';
 import { recognizeImage } from './services/ocrService.js';
 import { fetchIngredientById, fetchIngredientSearch } from './services/ingredientApiService.js';
+import { fetchGb2760ReferenceRows } from './services/gb2760ApiService.js';
 import { getIngredientById, getSearchSuggestions } from './services/ingredientService.js';
 import { getMembershipActionMessage } from './services/membershipService.js';
 import { addAvoidIngredient, addWatchIngredient, getPersonalProfile, removeAvoidIngredient, removeWatchIngredient } from './services/personalProfileService.js';
@@ -17,6 +18,7 @@ import { compressImage } from './utils/imageProcessor.js';
 import { buildSupportRequestMarkdown } from './services/supportService.js';
 import { matchIngredients } from './services/ingredientMatchService.js';
 import { renderDatabaseMatchSummary } from './pages/analyzePage.js';
+import { renderGb2760ReferenceRowsState } from './pages/dataPage.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, markScanTipsSeen, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, skipOnboarding, toggleFavorite } from './store/userStore.js';
 import { formatBytes, validateScanImageFile } from './utils/imageFile.js';
 import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
@@ -57,6 +59,7 @@ function render() {
     app.focus({ preventScroll: true });
   }
   hydrateIngredientApiRoute(route, renderVersion);
+  hydrateGb2760ReferenceRows(route, renderVersion);
   hydrateAnalyzeMatchRoute(route, renderVersion);
   hydrateProductArchiveImage(route, renderVersion);
 }
@@ -166,12 +169,37 @@ function getApiTotalPages(result) {
 }
 
 async function getDetailApiState(route) {
-  const item = await fetchIngredientById(route.id);
+  const item = await fetchIngredientById(route.id, { includeEvidence: true });
   if (!item) return { status: 'error' };
   return {
     status: 'success',
     item
   };
+}
+
+async function hydrateGb2760ReferenceRows(route, renderVersion) {
+  if (route?.view !== 'data' || route.category !== 'food') return;
+  const target = document.querySelector('[data-gb2760-reference-results]');
+  if (!target) return;
+
+  target.innerHTML = renderGb2760ReferenceRowsState({ status: 'loading' }, route.filters);
+  try {
+    const result = await fetchGb2760ReferenceRows({
+      table: route.filters?.gbTable,
+      q: route.filters?.gbQuery,
+      page: route.filters?.gbPage,
+      limit: 20
+    });
+    if (renderVersion !== routeRenderVersion) return;
+    target.innerHTML = renderGb2760ReferenceRowsState({ status: 'success', result }, route.filters);
+  } catch (error) {
+    if (renderVersion !== routeRenderVersion) return;
+    target.innerHTML = renderGb2760ReferenceRowsState({
+      status: 'error',
+      code: error?.code || '',
+      httpStatus: error?.status || 0
+    }, route.filters);
+  }
 }
 
 function updateShellNavigation(route) {
@@ -305,6 +333,9 @@ function bindPageEvents(route) {
       if (source) params.set('source', source);
       if (confidenceLevel) params.set('confidenceLevel', confidenceLevel);
       if (dataStatus) params.set('dataStatus', dataStatus);
+      if (route.filters?.gbTable) params.set('gbTable', route.filters.gbTable);
+      if (route.filters?.gbQuery) params.set('gbQuery', route.filters.gbQuery);
+      if (route.filters?.gbPage && route.filters.gbPage > 1) params.set('gbPage', String(route.filters.gbPage));
       const suffix = params.toString();
       navigate(`#${categoryPath(route.category, '/data')}${suffix ? `?${suffix}` : ''}`);
     };
@@ -315,6 +346,30 @@ function bindPageEvents(route) {
     });
     form.querySelectorAll('select').forEach((select) => {
       select.addEventListener('change', applyDataFilters);
+    });
+  });
+
+  document.querySelectorAll('[data-gb2760-reference-form]').forEach((form) => {
+    const applyReferenceFilters = () => {
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      if (route.filters?.source) params.set('source', route.filters.source);
+      if (route.filters?.confidenceLevel) params.set('confidenceLevel', route.filters.confidenceLevel);
+      if (route.filters?.dataStatus) params.set('dataStatus', route.filters.dataStatus);
+      const gbTable = String(formData.get('gbTable') || '').trim();
+      const gbQuery = String(formData.get('gbQuery') || '').trim();
+      if (gbTable) params.set('gbTable', gbTable);
+      if (gbQuery) params.set('gbQuery', gbQuery);
+      const suffix = params.toString();
+      navigate(`#${categoryPath(route.category, '/data')}${suffix ? `?${suffix}` : ''}`);
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      applyReferenceFilters();
+    });
+    form.querySelectorAll('select').forEach((select) => {
+      select.addEventListener('change', applyReferenceFilters);
     });
   });
 

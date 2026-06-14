@@ -1,6 +1,6 @@
 import { and, asc, count, desc, eq, inArray, notInArray, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { createDatabaseClient, type Database, type DatabaseClient } from '../db/client.js';
-import { additiveUsageRules, gb2760OfficialPages, gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredientSources, ingredients, type Gb2760OfficialRecordRow, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewGb2760OfficialReferenceRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
+import { additiveUsageRules, gb2760OfficialPages, gb2760OfficialRecords, gb2760OfficialReferenceRows, ingredientSources, ingredients, type Gb2760OfficialRecordRow, type Gb2760OfficialReferenceRow, type IngredientRow, type NewGb2760OfficialPageRow, type NewGb2760OfficialRecordRow, type NewGb2760OfficialReferenceRow, type NewIngredientRow, type NewIngredientSourceRow, type SourceReference } from '../db/schema.js';
 import { toDemotedIngredientPatch } from './gb2760PromoteService.js';
 
 export const validRiskLevels = ['low', 'medium', 'high', 'unknown'] as const;
@@ -201,6 +201,13 @@ export type IngredientListResult = {
   categoryFacets: IngredientCategoryFacet[];
 };
 
+export type Gb2760IngredientEvidence = {
+  stagingRows: Gb2760OfficialRecordRow[];
+  referenceRows: Gb2760OfficialReferenceRow[];
+};
+
+export type IngredientWithGb2760Evidence = IngredientRow & Gb2760IngredientEvidence;
+
 export type IngredientCategorySummary = {
   name: string;
   count: number;
@@ -223,6 +230,7 @@ export type BatchSearchResult = {
 export type IngredientService = {
   listIngredients(params: IngredientListParams): Promise<IngredientListResult>;
   getIngredientById(id: string): Promise<IngredientRow | null>;
+  getIngredientWithGb2760Evidence(id: string): Promise<IngredientWithGb2760Evidence | null>;
   getCategorySummaries(): Promise<IngredientCategorySummary[]>;
   batchSearch(params: BatchSearchParams): Promise<BatchSearchResult[]>;
 };
@@ -283,6 +291,21 @@ export function createIngredientService(db: Database): IngredientService {
       return row ?? null;
     },
 
+    async getIngredientWithGb2760Evidence(id) {
+      const [ingredient] = await db.select().from(ingredients).where(eq(ingredients.id, id)).limit(1);
+      if (!ingredient) return null;
+      const stagingRows = await getGb2760StagingEvidence(db, ingredient.id);
+      const referenceRows = shouldAttachGb2760ReferenceEvidence(ingredient, stagingRows)
+        ? await getGb2760ReferenceEvidence(db, ingredient)
+        : [];
+
+      return {
+        ...ingredient,
+        stagingRows,
+        referenceRows
+      };
+    },
+
     async getCategorySummaries() {
       const rows = await db
         .select({
@@ -335,6 +358,9 @@ export function createLazyIngredientService(databaseUrl?: string): IngredientSer
     },
     getIngredientById(id) {
       return getLazyService().getIngredientById(id);
+    },
+    getIngredientWithGb2760Evidence(id) {
+      return getLazyService().getIngredientWithGb2760Evidence(id);
     },
     getCategorySummaries() {
       return getLazyService().getCategorySummaries();
@@ -702,6 +728,114 @@ async function getCategoryFacets(db: Database, params: IngredientListParams): Pr
     .orderBy(desc(count()), asc(ingredients.category));
 
   return rows;
+}
+
+async function getGb2760StagingEvidence(db: Database, ingredientId: string) {
+  return db
+    .select()
+    .from(gb2760OfficialRecords)
+    .where(eq(gb2760OfficialRecords.ingredientId, ingredientId))
+    .orderBy(
+      asc(gb2760OfficialRecords.pdfPage),
+      asc(gb2760OfficialRecords.standardPage),
+      asc(gb2760OfficialRecords.foodCategoryCode),
+      asc(gb2760OfficialRecords.id)
+    );
+}
+
+async function getGb2760ReferenceEvidence(db: Database, ingredient: IngredientRow) {
+  const { codeTerms, nameTerms } = getGb2760ReferenceSearchTerms(ingredient);
+  if (nameTerms.length === 0 && codeTerms.length === 0) return [];
+
+  const filters = [
+    ...nameTerms.map(buildGb2760ReferenceNameFilter),
+    ...codeTerms.map(buildGb2760ReferenceCodeFilter)
+  ];
+
+  return db
+    .select()
+    .from(gb2760OfficialReferenceRows)
+    .where(or(...filters))
+    .orderBy(
+      asc(gb2760OfficialReferenceRows.tableName),
+      asc(gb2760OfficialReferenceRows.rowNumber),
+      asc(gb2760OfficialReferenceRows.id)
+    )
+    .limit(20);
+}
+
+function shouldAttachGb2760ReferenceEvidence(ingredient: IngredientRow, stagingRows: Gb2760OfficialRecordRow[]) {
+  if (stagingRows.length > 0) return true;
+  if (ingredient.kind === 'common-food-ingredient' || ingredient.dataStatus === 'common_ingredient') return false;
+  if (ingredient.sourceScope === 'common_ingredient_lexicon') return false;
+  return ingredient.dataStatus === 'verified_regulation' && ingredient.sourceType === 'official_standard';
+}
+
+function getGb2760ReferenceSearchTerms(ingredient: IngredientRow) {
+  const nameValues = [
+    ingredient.nameCn,
+    ingredient.nameEn,
+    ...(ingredient.aliases || [])
+  ];
+  const nameTerms = nameValues
+    .map((value) => String(value || '').trim())
+    .filter((value) => value && value !== '—')
+    .filter((value) => /[\u4e00-\u9fff]/u.test(value) ? value.length >= 2 : value.length >= 3);
+  const codeTerms = [
+    ...extractGb2760ReferenceCodeTerms(ingredient.eNumber),
+    ...extractGb2760ReferenceCodeTerms(ingredient.gbCode)
+  ];
+
+  return {
+    nameTerms: [...new Set(nameTerms)].slice(0, 8),
+    codeTerms: [...new Set(codeTerms)].slice(0, 8)
+  };
+}
+
+function buildGb2760ReferenceNameFilter(term: string) {
+  const escapedTerm = escapeLikePattern(term);
+  const asciiParenPattern = `${escapedTerm}(%`;
+  const cjkParenPattern = `${escapedTerm}（%`;
+  return sql`(
+    lower(${gb2760OfficialReferenceRows.rowName}) = lower(${term})
+    OR ${gb2760OfficialReferenceRows.rowName} ILIKE ${asciiParenPattern} ESCAPE '\\'
+    OR ${gb2760OfficialReferenceRows.rowName} ILIKE ${cjkParenPattern} ESCAPE '\\'
+    OR lower(coalesce(${gb2760OfficialReferenceRows.rowData}->>'additiveNameCn', '')) = lower(${term})
+    OR coalesce(${gb2760OfficialReferenceRows.rowData}->>'additiveNameCn', '') ILIKE ${asciiParenPattern} ESCAPE '\\'
+    OR coalesce(${gb2760OfficialReferenceRows.rowData}->>'additiveNameCn', '') ILIKE ${cjkParenPattern} ESCAPE '\\'
+    OR lower(coalesce(${gb2760OfficialReferenceRows.rowData}->>'processingAidNameCn', '')) = lower(${term})
+    OR coalesce(${gb2760OfficialReferenceRows.rowData}->>'processingAidNameCn', '') ILIKE ${asciiParenPattern} ESCAPE '\\'
+    OR coalesce(${gb2760OfficialReferenceRows.rowData}->>'processingAidNameCn', '') ILIKE ${cjkParenPattern} ESCAPE '\\'
+    OR lower(coalesce(${gb2760OfficialReferenceRows.rowData}->>'flavorNameCn', '')) = lower(${term})
+    OR coalesce(${gb2760OfficialReferenceRows.rowData}->>'flavorNameCn', '') ILIKE ${asciiParenPattern} ESCAPE '\\'
+    OR coalesce(${gb2760OfficialReferenceRows.rowData}->>'flavorNameCn', '') ILIKE ${cjkParenPattern} ESCAPE '\\'
+    OR lower(coalesce(${gb2760OfficialReferenceRows.rowData}->>'processingAidNameEn', '')) = lower(${term})
+    OR lower(coalesce(${gb2760OfficialReferenceRows.rowData}->>'flavorNameEn', '')) = lower(${term})
+  )`;
+}
+
+function buildGb2760ReferenceCodeFilter(term: string) {
+  const tokenPattern = buildReferenceCodeTokenPattern(term);
+  return sql`(
+    coalesce(${gb2760OfficialReferenceRows.rowData}->>'insNumber', '') ~* ${tokenPattern}
+    OR coalesce(${gb2760OfficialReferenceRows.rowData}->>'cnsNumber', '') ~* ${tokenPattern}
+  )`;
+}
+
+function extractGb2760ReferenceCodeTerms(value: string | null | undefined) {
+  const matches = String(value || '').match(/\b(?:E|INS|CNS)?\s*\d+(?:\.\d+)?(?:\([ivx]+\)|[a-z])?/giu) || [];
+  return matches
+    .map((item) => item.replace(/^(?:E|INS|CNS)\s*/iu, '').trim())
+    .filter((item) => /\d/u.test(item) && item.length >= 2 && item.toUpperCase() !== 'N/A');
+}
+
+function buildReferenceCodeTokenPattern(value: string) {
+  const escaped = escapeRegex(value);
+  return `(^|[^0-9A-Za-z.()])${escaped}([^0-9A-Za-z.()]|$)`;
+}
+
+function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function buildIngredientWhere(params: IngredientListParams): SQL | undefined {

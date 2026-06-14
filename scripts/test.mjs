@@ -95,14 +95,40 @@ assert.deepEqual(resolveRoute('#/food/analyze?text=%E6%9F%A0%E6%AA%AC%E9%85%B8&p
 assert.deepEqual(resolveRoute('#/food/scan'), { view: 'scan', category: 'food', input: '' });
 assert.deepEqual(resolveRoute('#/food/scan?text=%E6%9F%A0%E6%AA%AC%E9%85%B8'), { view: 'scan', category: 'food', input: '柠檬酸' });
 assert.deepEqual(resolveRoute('#/food/ocr-confirm'), { view: 'ocr-confirm', category: 'food' });
-assert.deepEqual(resolveRoute('#/food/data'), { view: 'data', category: 'food', filters: { source: '', confidenceLevel: '', dataStatus: '' } });
+assert.deepEqual(resolveRoute('#/food/data'), {
+  view: 'data',
+  category: 'food',
+  filters: {
+    source: '',
+    confidenceLevel: '',
+    dataStatus: '',
+    gbTable: 'B.2',
+    gbQuery: '',
+    gbPage: 1
+  }
+});
 assert.deepEqual(resolveRoute(`#/food/data?source=${encodeURIComponent(seedSourceName)}&confidenceLevel=unverified`), {
   view: 'data',
   category: 'food',
   filters: {
     source: seedSourceName,
     confidenceLevel: 'unverified',
-    dataStatus: ''
+    dataStatus: '',
+    gbTable: 'B.2',
+    gbQuery: '',
+    gbPage: 1
+  }
+});
+assert.deepEqual(resolveRoute('#/food/data?gbTable=C.2&gbQuery=%E9%85%B6&gbPage=3'), {
+  view: 'data',
+  category: 'food',
+  filters: {
+    source: '',
+    confidenceLevel: '',
+    dataStatus: '',
+    gbTable: 'C.2',
+    gbQuery: '酶',
+    gbPage: 3
   }
 });
 assert.deepEqual(resolveRoute('#/food/onboarding'), { view: 'onboarding', category: 'food' });
@@ -392,7 +418,10 @@ assert.match(backendIngredientServiceSource, /changeNote: sql`case when \$\{audi
 assert.doesNotMatch(backendIngredientServiceSource, /1970-01-01T00:00:00\.000Z/);
 const backendSeedScriptSource = await readFile(new URL('../backend/scripts/seed.ts', import.meta.url), 'utf8');
 assert.match(backendSeedScriptSource, /updateAuditFields: hasReviewedBy \|\| hasChangeNote/);
-assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 4);
+assert.equal(backendIngredientServiceSource.split(String.raw`ESCAPE '\\'`).length - 1, 12);
+assert.doesNotMatch(backendIngredientServiceSource, /gb2760OfficialReferenceRows\.rowCode[\s\S]{0,120}ILIKE/);
+assert.doesNotMatch(backendIngredientServiceSource, /rowData\}::text ILIKE/);
+assert.match(backendIngredientServiceSource, /insNumber', ''\) ~\* \$\{tokenPattern\}/);
 assert.match(backendIngredientServiceSource, /validSearchSorts = \['relevance', 'risk', 'name'\]/);
 assert.match(backendIngredientServiceSource, /batchSearch\(params\)/);
 assert.match(backendIngredientServiceSource, /const eNumberPattern = eNumber/);
