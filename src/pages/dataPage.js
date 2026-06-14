@@ -4,6 +4,7 @@ import { getAllIngredients, getDatasetAuditSummary, getDatasetSourceSummaries, g
 import { buildManualReviewQueue } from '../services/reviewQueueService.js';
 import { buildSupportPrefillUrl } from '../services/supportService.js';
 import { getAnalysisReports } from '../store/userStore.js';
+import { dataStatusLabels, dataStatusOrder } from '../utils/dataStatus.js';
 
 const reviewStatusLabels = {
   draft: '草稿',
@@ -17,16 +18,6 @@ const confidenceLabels = {
   medium: '中可信',
   low: '低可信',
   unverified: '待审核',
-  unknown: '未知'
-};
-
-const dataStatusLabels = {
-  verified_regulation: 'GB 2760 已验证',
-  verified_jecfa: 'JECFA 已匹配',
-  mapped_candidate: '候选待确认',
-  common_ingredient: '普通配料',
-  unverified: '未验证',
-  unknown_from_ocr: 'OCR 未收录',
   unknown: '未知'
 };
 
@@ -285,7 +276,7 @@ function getDataStatusFilterOptions(items) {
     if (!status || !dataStatusLabels[status]) continue;
     counts.set(status, (counts.get(status) || 0) + 1);
   }
-  return ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr']
+  return dataStatusOrder
     .filter((status) => counts.has(status))
     .map((status) => ({ status, count: counts.get(status) }));
 }

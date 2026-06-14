@@ -7,7 +7,7 @@ import { categoryPath } from '../src/data/categories.js';
 import { OCR_ENDPOINT_PATH, OCR_PROTOCOL_VERSION, OCR_PROVIDERS, buildOCRFallback, buildOCRRequest, extractIngredientsFromImage, getOcrEndpointUrl, recognizeImage, validateOCRResponse } from '../src/services/ocrService.js';
 import { getCompareOverview } from '../src/services/compareService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from '../src/services/reportExportService.js';
-import { computeRiskGrade, getTopIngredientNames } from '../src/services/reportService.js';
+import { buildRiskSummary, computeRiskGrade, getTopIngredientNames, normalizeIngredientReport } from '../src/services/reportService.js';
 import { buildSupportPrefillFromParams, buildSupportPrefillUrl, buildSupportRequestMarkdown } from '../src/services/supportService.js';
 import { renderComparePage } from '../src/pages/comparePage.js';
 import { renderDataPage, renderGb2760ReferenceRowsState } from '../src/pages/dataPage.js';
@@ -31,6 +31,7 @@ import { standardAllergenTypes } from '../src/data/allergens.js';
 import { gb2760OfficialStagingGenerationCoverage, gb2760OfficialStagingRecords, getGb2760OfficialStagingSummary } from '../src/data/gb2760OfficialStaging.js';
 import { gb2760OfficialFullTextPages, getGb2760OfficialFullTextSummary } from '../src/data/gb2760OfficialFullText.js';
 import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialB2NaturalFlavorRows, gb2760OfficialB3SyntheticFlavorRows, gb2760OfficialC1ProcessingAidRows, gb2760OfficialC2ProcessingAidRows, gb2760OfficialC3EnzymePreparationRows, gb2760OfficialDFunctionCategoryRows, gb2760OfficialE1FoodCategoryRows, gb2760OfficialFAdditiveIndexRows, gb2760OfficialReferenceRows, getGb2760OfficialReferenceTableSummary } from '../src/data/gb2760OfficialReferenceTables.js';
+import { foodIngredients } from '../src/data/foodAdditives.js';
 import { formatBytes, SCAN_IMAGE_MAX_BYTES, validateScanImageFile } from '../src/utils/imageFile.js';
 import { compressImage } from '../src/utils/imageProcessor.js';
 import { AUTH_ERROR_MESSAGES, USER_KEY, getCurrentUser as getAuthCurrentUser, isLoggedIn as isAuthLoggedIn, logout as authLogout, syncLocalDataToServer, validateAuthInput } from '../src/services/authService.js';
@@ -42,12 +43,24 @@ import { buildCompareSharePayload, buildIngredientSharePayload, buildReportShare
 import { getBase64ByteSize, getNativeCameraPhoto, getNativePhoto, isNativePlatform } from '../src/services/nativeBridgeService.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, createAnalysisReport, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getAnalysisReports, getCompareIngredients, getCompareItems, getFavoriteIngredients, getFavoriteItems, getHistory, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getScanDraft, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, removeCompareIngredient, removeHistory, resetOnboarding, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, shouldShowOnboardingPrompt, skipOnboarding, toggleFavorite, updateAnalysisReportMatchDecision } from '../src/store/userStore.js';
 import { clearMatchCache, matchIngredients, matchIngredientsLocal } from '../src/services/ingredientMatchService.js';
+import { dataStatusBadgeClass, dataStatusColorVar, dataStatusLabel, isPendingDataStatus, normalizeDataStatus } from '../src/utils/dataStatus.js';
 import { normalizeText, parseIngredientList, splitIngredientInput, SAMPLES } from '../src/utils/text.js';
 
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
-import { getGb2760OfficialFullTextQualityReport, getGb2760OfficialReferenceTableQualityReport, getGb2760OfficialSeedCoverageReport, getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialFullText, validateGb2760OfficialReferenceTables, validateGb2760OfficialSeedCoverage, validateGb2760OfficialStaging } from './validate-data.mjs';
+import { getFoodAdditiveQualityReport, getGb2760OfficialFullTextQualityReport, getGb2760OfficialReferenceTableQualityReport, getGb2760OfficialSeedCoverageReport, getGb2760OfficialStagingQualityReport, validateFoodAdditives, validateGb2760OfficialFullText, validateGb2760OfficialReferenceTables, validateGb2760OfficialSeedCoverage, validateGb2760OfficialStaging } from './validate-data.mjs';
 
 assert.equal(getIngredientById('niacinamide').nameCn, '烟酰胺');
+assert.equal(dataStatusLabel('verified_regulation'), '官方标准已验证');
+assert.equal(dataStatusLabel('verified_jecfa'), '安全评价已匹配（非中国法规范围）');
+assert.equal(dataStatusLabel('pending_review'), '待复核来源数据');
+assert.equal(dataStatusLabel('mapped_candidate'), '疑似匹配，待确认');
+assert.equal(dataStatusLabel('unknown_from_ocr'), '暂未收录');
+assert.equal(dataStatusLabel('verified_regulation', { includeCode: true }), 'verified_regulation / 官方标准已验证');
+assert.equal(normalizeDataStatus('not-real'), 'unverified');
+assert.equal(dataStatusBadgeClass('mapped_candidate'), 'data-badge--mapped-candidate');
+assert.equal(dataStatusColorVar('verified_jecfa'), '--color-watch');
+assert.equal(isPendingDataStatus('pending_review'), true);
+assert.equal(isPendingDataStatus('verified_regulation'), false);
 assert.deepEqual(resolveRoute('#/food/search?q=E330'), {
   view: 'search',
   category: 'food',
@@ -1674,7 +1687,7 @@ assert.match(detailHtmlWithRelatedIngredients, /data-related-ingredients/);
 assert.doesNotMatch(detailHtmlWithRelatedIngredients, /data-food-audit-note/);
 assert.match(detailHtmlWithRelatedIngredients, /data-provenance-details/);
 assert.match(detailHtmlWithRelatedIngredients, /来源与可信等级/);
-assert.match(detailHtmlWithRelatedIngredients, /GB 2760 已验证/);
+assert.match(detailHtmlWithRelatedIngredients, /官方标准已验证/);
 assert.match(detailHtmlWithRelatedIngredients, /高可信/);
 assert.match(detailHtmlWithRelatedIngredients, /JECFA 3594/);
 assert.match(detailHtmlWithRelatedIngredients, /可信来源确认[\s\S]*是/);
@@ -2163,6 +2176,21 @@ assert.deepEqual(await recognizeImage(ocrFile, { category: 'food' }), {
 
 assert.equal(standardAllergenTypes.length, 14);
 assert.deepEqual(validateFoodAdditives(), []);
+const pendingReviewFoodIngredient = {
+  ...foodIngredients[0],
+  id: 'pending-review-test-additive',
+  dataStatus: 'pending_review',
+  sourceScope: 'seed_reference',
+  isVerified: false
+};
+assert.deepEqual(validateFoodAdditives([pendingReviewFoodIngredient]), []);
+assert.equal(getFoodAdditiveQualityReport([pendingReviewFoodIngredient]).reviewQueue.includes('pending-review-test-additive'), true);
+for (const dataStatus of ['pending_review', 'mapped_candidate', 'unverified']) {
+  assert.match(
+    validateFoodAdditives([{ ...pendingReviewFoodIngredient, dataStatus, isVerified: true }]).join('\n'),
+    new RegExp(`${dataStatus} data must not set isVerified true`)
+  );
+}
 
 const originalWindow = globalThis.window;
 globalThis.window = {
@@ -2842,6 +2870,9 @@ assert.match(mediumConfidenceAnalyzeHtml, /中等置信/);
 assert.match(mediumConfidenceAnalyzeHtml, /需核对/);
 assert.match(mediumConfidenceAnalyzeHtml, /请优先核对中\/低置信匹配和暂未收录条目。/);
 assert.doesNotMatch(mediumConfidenceAnalyzeHtml, /匹配稳定/);
+const manualUnmatchedAnalyzeHtml = renderAnalyzePage('火星糖浆', 'food');
+assert.match(manualUnmatchedAnalyzeHtml, /unverified \/ 未验证/);
+assert.doesNotMatch(manualUnmatchedAnalyzeHtml, /unknown_from_ocr \/ 暂未收录/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：大豆/);
 assert.match(analyzeHtmlWithAllergens, /全脂奶粉/);
 assert.match(analyzeHtmlWithAllergens, /过敏原：乳及乳制品/);
@@ -2870,20 +2901,33 @@ addWatchIngredient('sodium-bicarbonate', 'food');
 addAvoidIngredient('sodium-metabisulfite', 'food');
 const fakeParsedIngredient = { rawText: '测试', normalizedText: '测试', index: 0 };
 let fakeMatchIndex = 0;
-const fakeMatch = (riskLevel) => ({
+const fakeMatch = (riskLevel, overrides = {}) => ({
   parsedIngredient: fakeParsedIngredient,
   term: '测试',
   eNumber: null,
-  match: { id: `fake-${riskLevel}-${fakeMatchIndex += 1}`, nameCn: '测试', riskLevel, category: '测试分类', confidenceLevel: 'reviewed', isVerified: true, reviewStatus: 'reviewed' },
-  confidence: 1,
+  match: { id: `fake-${riskLevel}-${fakeMatchIndex += 1}`, nameCn: '测试', riskLevel, category: '测试分类', confidenceLevel: 'reviewed', isVerified: true, reviewStatus: 'reviewed', ...(overrides.match || {}) },
+  confidence: overrides.confidence ?? 1,
   matchType: 'exact',
-  alternates: []
+  alternates: [],
+  ...(overrides.dataStatus ? { dataStatus: overrides.dataStatus } : {})
 });
 assert.equal(computeRiskGrade([]), 'A');
 assert.equal(computeRiskGrade([fakeMatch('medium')]), 'B');
 assert.equal(computeRiskGrade([fakeMatch('high')]), 'C');
 assert.equal(computeRiskGrade([fakeMatch('high'), fakeMatch('high'), fakeMatch('high')]), 'D');
 assert.equal(computeRiskGrade([fakeMatch('high'), fakeMatch('high'), fakeMatch('high'), fakeMatch('high'), fakeMatch('high')]), 'F');
+const pendingReviewMatch = fakeMatch('low', { match: { dataStatus: 'pending_review' } });
+assert.equal(buildRiskSummary([pendingReviewMatch]).lowRisk, 1);
+assert.equal(buildRiskSummary([pendingReviewMatch]).unverifiedData, 1);
+const normalizedPendingReport = normalizeIngredientReport({
+  id: 'pending-review-report',
+  category: 'food',
+  originalText: '测试',
+  createdAt: new Date().toISOString(),
+  matchResults: [pendingReviewMatch]
+});
+assert.equal(normalizedPendingReport.pendingCount, 1);
+assert.equal(normalizedPendingReport.riskSummary.unverifiedData, 1);
 const reportDraft = createAnalysisReport(SAMPLES['food-2'], 'food');
 assert.equal(reportDraft.category, 'food');
 assert.equal(reportDraft.schemaVersion, 4);
@@ -2904,7 +2948,7 @@ assert.equal(reportDraft.ingredientAllergenHits.some((hit) => hit.id === 'lecith
 assert.equal(reportDraft.ingredientAllergenHits.some((hit) => hit.id === 'common-whole-milk-powder' && hit.allergenIds.includes('milk')), true);
 assert.equal(reportDraft.textAllergenHits.some((hit) => hit.item === '全脂奶粉' && hit.allergenIds.includes('milk')), false);
 assert.equal(reportDraft.insights.some((insight) => insight.key === 'risk' && insight.title === '风险分布'), true);
-assert.equal(reportDraft.insights.some((insight) => insight.key === 'coverage' && /verified_regulation \/ verified_jecfa \/ common_ingredient \/ unverified/.test(insight.summary)), true);
+assert.equal(reportDraft.insights.some((insight) => insight.key === 'coverage' && /verified_regulation \/ verified_jecfa \/ pending_review \/ common_ingredient \/ unverified/.test(insight.summary)), true);
 const savedReport = saveAnalysisReport(SAMPLES['food-2'], 'food', { productName: '测试饼干' });
 assert.equal(savedReport.productName, '测试饼干');
 assert.equal(savedReport.title, '测试饼干');
@@ -2961,7 +3005,7 @@ assert.match(reportDetailHtml, /数据边界/);
 assert.match(reportDetailHtml, /下一步建议/);
 assert.match(reportDetailHtml, /来源与审核状态/);
 assert.match(reportDetailHtml, /待审核/);
-assert.match(reportDetailHtml, /verified_regulation \/ GB 2760 已验证/);
+assert.match(reportDetailHtml, /verified_regulation \/ 官方标准已验证/);
 assert.match(reportDetailHtml, /GB 2760 法规依据/);
 assert.match(reportDetailHtml, /食品安全国家标准 食品添加剂使用标准/);
 assert.match(reportDetailHtml, /覆盖成分：/);
@@ -3146,7 +3190,7 @@ assert.match(reportMarkdown, /## 数据来源与审核状态/);
 assert.match(reportMarkdown, /草稿（未审核）：/);
 assert.match(reportMarkdown, /待确认：2/);
 assert.match(reportMarkdown, /数据状态：普通配料/);
-assert.match(reportMarkdown, /数据状态：GB 2760 已验证/);
+assert.match(reportMarkdown, /数据状态：官方标准已验证/);
 assert.match(reportMarkdown, /### 来源引用/);
 assert.match(reportMarkdown, /卵磷脂/);
 assert.match(reportMarkdown, /过敏原：大豆/);

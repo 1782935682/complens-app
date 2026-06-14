@@ -58,6 +58,7 @@ const requiredIngredientSourceFields = [
   'regulatoryBasis',
   'rawSourceText'
 ] as const;
+const nonVerifiedIngredientDataStatuses = new Set(['pending_review', 'unverified', 'mapped_candidate', 'unknown_from_ocr']);
 
 export async function validateGb2760Database(db: Database): Promise<Gb2760ValidationReport> {
   const [stagingRows, usageRules, ingredientRows, importRunRows, importErrorRows] = await Promise.all([
@@ -409,7 +410,7 @@ function validateIngredientRegulatoryBoundary(ingredient: IngredientRow, issues:
     addIssue(issues, 'jecfa_usage_limits_present', ingredient.id, 'verified_jecfa rows must not carry GB 2760 usageLimits');
   }
 
-  if ((ingredient.dataStatus === 'unverified' || ingredient.dataStatus === 'mapped_candidate') && ingredient.isVerified) {
+  if (nonVerifiedIngredientDataStatuses.has(ingredient.dataStatus) && ingredient.isVerified) {
     addIssue(issues, 'unverified_marked_verified', ingredient.id, `${ingredient.dataStatus} rows must not set isVerified true`);
   }
 }

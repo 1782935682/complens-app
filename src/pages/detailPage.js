@@ -4,6 +4,7 @@ import { getIngredientById, getRelatedIngredients } from '../services/ingredient
 import { getPersonalIngredientHit, getPersonalProfile } from '../services/personalProfileService.js';
 import { buildSupportPrefillUrl } from '../services/supportService.js';
 import { isFavorite, isInCompare } from '../store/userStore.js';
+import { dataStatusLabel } from '../utils/dataStatus.js';
 
 const GB_STATUS_LABELS = {
   permitted: '允许使用',
@@ -216,18 +217,6 @@ function renderFoodAuditNotice(ingredient) {
       ${label}：逐食品类别限量、ADI 原文和来源条款仍需审核。
     </div>
   `;
-}
-
-function dataStatusLabel(status) {
-  const labels = {
-    verified_regulation: 'GB 2760 已验证',
-    verified_jecfa: 'JECFA 已匹配',
-    mapped_candidate: '候选待确认',
-    common_ingredient: '普通配料',
-    unverified: '未验证',
-    unknown_from_ocr: 'OCR 未收录'
-  };
-  return labels[status] || '未验证';
 }
 
 function sourceScopeLabel(scope) {

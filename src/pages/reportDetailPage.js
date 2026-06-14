@@ -16,6 +16,7 @@ import {
   riskLevelLabel
 } from '../services/reportService.js';
 import { getAnalysisReportById } from '../store/userStore.js';
+import { dataStatusBadgeClass, dataStatusOrder, dataStatusLabel as formatDataStatusLabel, normalizeDataStatus } from '../utils/dataStatus.js';
 
 const REVIEW_STATUS_LABELS = {
   draft: '待审核',
@@ -241,7 +242,7 @@ function renderLowConfidenceMatch({ item, index }, report) {
         <h3>${escapeHtml(original)} → ${escapeHtml(match.nameCn || match.id)}</h3>
         <p>${escapeHtml(`${match.category || '未分类'} / ${riskLevelLabel(match.riskLevel)} / 置信度 ${Math.round((Number(item.confidence) || 0) * 100)}%`)}</p>
         <div class="report-ingredient-item__meta">
-          <span>${escapeHtml(dataStatusLabel(getReportMatchDataStatus(item)))}</span>
+          <span>${escapeHtml(dataStatusLabelWithCode(getReportMatchDataStatus(item)))}</span>
           <span>来源范围：${escapeHtml(sourceScopeLabel(getReportMatchSourceScope(match, fullIngredient)))}</span>
           ${match.sourceName || fullIngredient?.sourceName ? html`<span>数据来源：${escapeHtml(match.sourceName || fullIngredient.sourceName)}</span>` : ''}
         </div>
@@ -266,7 +267,7 @@ function renderMatchedIngredient(item, category) {
         <strong>${escapeHtml(match.nameCn || item.parsedIngredient.normalizedText)}</strong>
         <span class="chip">${escapeHtml(match.category || '未分类')}</span>
         <span>${escapeHtml(riskLevelLabel(match.riskLevel))}</span>
-        <span class="data-badge data-badge--unverified">${escapeHtml(dataStatusLabel(getReportMatchDataStatus(item)))}</span>
+        ${renderDataStatusBadge(getReportMatchDataStatus(item))}
         ${item.reviewDecision === 'confirmed' ? '<span class="data-badge data-badge--confirmed">已确认匹配</span>' : ''}
         ${personalHit ? renderPersonalHitBadge(personalHit) : ''}
       </summary>
@@ -310,7 +311,7 @@ function renderUnmatchedSection(report) {
       </div>
       <p class="helper-text">这些条目可能是普通食品原料、复合配料、OCR 误识别文本或当前数据库尚未覆盖的添加剂；不会由 AI 编造成法规结论。</p>
       <div class="chip-list">${unmatchedRecords.map((record) => html`
-        <span class="chip chip--muted">${escapeHtml(record.item)} / ${escapeHtml(dataStatusLabel(record.dataStatus))}${record.reason === 'low_confidence_rejected' ? ` / 已驳回候选：${escapeHtml(record.rejectedMatchName || record.rejectedMatchId || '未命名')}` : ''}</span>
+        <span class="chip chip--muted">${escapeHtml(record.item)} / ${escapeHtml(dataStatusLabelWithCode(record.dataStatus))}${record.reason === 'low_confidence_rejected' ? ` / 已驳回候选：${escapeHtml(record.rejectedMatchName || record.rejectedMatchId || '未命名')}` : ''}</span>
       `).join('')}</div>
     </section>
   `;
@@ -352,7 +353,7 @@ function renderSourceEvidence(evidence, currentCategory) {
         ${metricItem('当前匹配', `${evidence.totalIngredients} 项`)}
         ${metricItem('数据来源', `${evidence.sources.length} 个`)}
         ${metricItem('待审核', `${evidence.reviewCounts.draft} 项`)}
-        ${metricItem('JECFA 已匹配', `${evidence.dataStatusCounts.verified_jecfa || 0} 项`)}
+        ${metricItem(formatDataStatusLabel('verified_jecfa'), `${evidence.dataStatusCounts.verified_jecfa || 0} 项`)}
         ${metricItem('普通配料', `${evidence.dataStatusCounts.common_ingredient || 0} 项`)}
         ${metricItem('数据变更', `${evidence.missingIds.length} 项`)}
       </div>
@@ -431,14 +432,7 @@ function reportInsightCard(insight) {
 
 function buildReportSourceEvidence(report) {
   const reviewCounts = { draft: 0, reviewed: 0, verified: 0 };
-  const dataStatusCounts = {
-    verified_regulation: 0,
-    verified_jecfa: 0,
-    mapped_candidate: 0,
-    common_ingredient: 0,
-    unverified: 0,
-    unknown_from_ocr: 0
-  };
+  const dataStatusCounts = Object.fromEntries(dataStatusOrder.map((status) => [status, 0]));
   const sourceMap = new Map();
   const missingIds = [];
 
@@ -504,21 +498,12 @@ function getReportMatchSourceScope(match, fullIngredient) {
   return String(fullIngredient?.sourceScope || '').trim() || matchScope || 'unknown';
 }
 
-function normalizeDataStatus(status) {
-  const allowed = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'];
-  return allowed.includes(status) ? status : 'unverified';
+function dataStatusLabelWithCode(status) {
+  return formatDataStatusLabel(status, { includeCode: true });
 }
 
-function dataStatusLabel(status) {
-  const labels = {
-    verified_regulation: 'verified_regulation / GB 2760 已验证',
-    verified_jecfa: 'verified_jecfa / JECFA 安全评价',
-    mapped_candidate: 'mapped_candidate / 候选待确认',
-    common_ingredient: 'common_ingredient / 普通配料',
-    unverified: 'unverified / 未验证',
-    unknown_from_ocr: 'unknown_from_ocr / OCR 未收录'
-  };
-  return labels[status] || labels.unverified;
+function renderDataStatusBadge(status) {
+  return `<span class="data-badge ${escapeHtml(dataStatusBadgeClass(status))}">${escapeHtml(dataStatusLabelWithCode(status))}</span>`;
 }
 
 function sourceScopeLabel(scope) {

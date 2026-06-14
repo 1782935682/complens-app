@@ -2,6 +2,7 @@ import { getProductCategory, isProductCategory } from '../data/categories.js';
 import { getMatchingTextAllergens, getMatchingUserAllergens } from './allergenService.js';
 import { analyzeIngredientText, getIngredientById } from './ingredientService.js';
 import { matchIngredientsLocal } from './ingredientMatchService.js';
+import { dataStatusOrder, isPendingDataStatus, normalizeDataStatus } from '../utils/dataStatus.js';
 import { parseIngredientList } from '../utils/text.js';
 
 export const REPORT_SCHEMA_VERSION = 4;
@@ -358,7 +359,7 @@ export function buildRiskSummary(matchResults = []) {
     else if (match.riskLevel === 'medium') summary.mediumRisk += 1;
     else summary.lowRisk += 1;
 
-    if (['mapped_candidate', 'unverified'].includes(getResultDataStatus(result, 'manual'))) {
+    if (isPendingDataStatus(getResultDataStatus(result, 'manual'))) {
       summary.unverifiedData += 1;
     }
 
@@ -499,7 +500,7 @@ export function buildReportInsights(report) {
       key: 'coverage',
       title: '数据边界',
       tone: riskSummary.unmatched || riskSummary.unverifiedData ? 'watch' : 'neutral',
-      summary: `匹配率 ${Math.round((report.matchRate || 0) * 100)}%，当前按 verified_regulation / verified_jecfa / common_ingredient / unverified 分层展示。`,
+      summary: `匹配率 ${Math.round((report.matchRate || 0) * 100)}%，当前按 verified_regulation / verified_jecfa / pending_review / common_ingredient / unverified 分层展示。`,
       items: riskSummary.unmatched
         ? ['暂未收录项可能是普通原料、复合配料、OCR 误识别文本或数据库尚未覆盖内容。']
         : ['当前输入项均有数据库匹配，但仍需按来源和审核状态理解。']
@@ -670,19 +671,12 @@ function countPendingMatches(matchResults = []) {
     .filter((result) => {
       if (!hasReportMatch(result) || isReportMatchRejected(result)) return false;
       const status = getResultDataStatus(result, 'manual');
-      return (result.reviewDecision !== 'confirmed' && result.confidence < 0.9) || status === 'mapped_candidate' || status === 'unverified';
+      return (result.reviewDecision !== 'confirmed' && result.confidence < 0.9) || isPendingDataStatus(status);
     }).length;
 }
 
 function buildDataStatusCounts(matchResults = [], unmatchedTerms = [], source = 'manual') {
-  const counts = {
-    verified_regulation: 0,
-    verified_jecfa: 0,
-    mapped_candidate: 0,
-    common_ingredient: 0,
-    unverified: 0,
-    unknown_from_ocr: 0
-  };
+  const counts = Object.fromEntries(dataStatusOrder.map((status) => [status, 0]));
 
   for (const result of Array.isArray(matchResults) ? matchResults : []) {
     const status = getResultDataStatus(result, source);
@@ -747,11 +741,6 @@ function getResultDataStatus(result, source = 'manual') {
   }
   if (result.confidence < 0.9 && result.reviewDecision !== 'confirmed') return 'mapped_candidate';
   return normalizeDataStatus(result.dataStatus || result.match.dataStatus || 'unverified');
-}
-
-function normalizeDataStatus(status) {
-  const allowed = ['verified_regulation', 'verified_jecfa', 'mapped_candidate', 'common_ingredient', 'unverified', 'unknown_from_ocr'];
-  return allowed.includes(status) ? status : 'unverified';
 }
 
 function normalizeReviewDecision(value) {

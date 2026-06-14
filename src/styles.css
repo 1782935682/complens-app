@@ -16,6 +16,11 @@
   --color-risk-low: #22c55e;
   --color-unverified: #9ca3af;
   --color-unknown: #6b7280;
+  --color-badge-unverified-bg: rgba(156, 163, 175, 0.18);
+  --color-badge-verified-bg: rgba(34, 197, 94, 0.14);
+  --color-badge-jecfa-bg: rgba(37, 99, 235, 0.12);
+  --color-badge-candidate-bg: rgba(245, 158, 11, 0.18);
+  --color-badge-unknown-bg: rgba(107, 114, 128, 0.16);
   --color-allergen: #dc2626;
   --color-avoid: #ea580c;
   --color-watch: #2563eb;
@@ -2866,8 +2871,34 @@ button.danger-button:hover {
 }
 
 .data-badge--unverified {
+  color: var(--color-unverified);
+  background: var(--color-badge-unverified-bg);
+}
+
+.data-badge--verified-regulation,
+.data-badge--common-ingredient {
+  color: var(--color-risk-low);
+  background: var(--color-badge-verified-bg);
+}
+
+.data-badge--verified-jecfa {
+  color: var(--color-watch);
+  background: var(--color-badge-jecfa-bg);
+}
+
+.data-badge--pending-review {
+  color: var(--color-unverified);
+  background: var(--color-badge-unverified-bg);
+}
+
+.data-badge--mapped-candidate {
+  color: var(--color-risk-medium);
+  background: var(--color-badge-candidate-bg);
+}
+
+.data-badge--unknown-from-ocr {
   color: var(--color-unknown);
-  background: rgba(156, 163, 175, 0.18);
+  background: var(--color-badge-unknown-bg);
 }
 
 .data-badge--pending {

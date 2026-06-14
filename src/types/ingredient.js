@@ -4,7 +4,7 @@
  * @typedef {'cosmetic' | 'food-additive' | 'common-food-ingredient'} IngredientKind
  * @typedef {'permitted' | 'restricted' | 'prohibited' | 'unknown'} GBStatus
  * @typedef {'draft' | 'reviewed' | 'verified'} DataReviewStatus
- * @typedef {'verified_regulation' | 'verified_jecfa' | 'mapped_candidate' | 'common_ingredient' | 'unverified' | 'unknown_from_ocr'} DataStatus
+ * @typedef {'verified_regulation' | 'verified_jecfa' | 'pending_review' | 'mapped_candidate' | 'common_ingredient' | 'unverified' | 'unknown_from_ocr'} DataStatus
  * @typedef {'official_standard' | 'regulation' | 'public_database' | 'manual_verified' | 'unknown'} SourceType
  * @typedef {'gb_2760_regulation' | 'jecfa_safety_evaluation' | 'candidate_mapping' | 'common_ingredient_lexicon' | 'ocr_unmatched' | 'seed_reference' | 'unknown'} SourceScope
  * @typedef {'high' | 'medium' | 'low' | 'unverified'} ConfidenceLevel

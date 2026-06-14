@@ -1,4 +1,5 @@
 import { normalizeText } from '../utils/text.js';
+import { isPendingDataStatus } from '../utils/dataStatus.js';
 
 const reviewQueueItemLimit = 12;
 
@@ -91,7 +92,7 @@ function buildCandidateQueueItems(reports) {
       if (!result?.match || result.confidence <= 0) continue;
       if (result.reviewDecision === 'confirmed' || result.reviewDecision === 'rejected') continue;
       const dataStatus = result.dataStatus || result.match.dataStatus || 'unverified';
-      if (result.confidence >= 0.9 && dataStatus !== 'mapped_candidate') continue;
+      if (result.confidence >= 0.9 && !isPendingDataStatus(dataStatus)) continue;
       const label = result.match.nameCn || result.term || result.match.id;
       const key = result.match.id || normalizeText(label);
       const current = grouped.get(key) || createQueueItem({
@@ -113,7 +114,7 @@ function buildCandidateQueueItems(reports) {
 
 function buildDatasetQueueItems(ingredients) {
   return ingredients
-    .filter((item) => item?.dataStatus === 'unverified' || item?.dataStatus === 'mapped_candidate' || item?.sourceScope === 'seed_reference')
+    .filter((item) => isPendingDataStatus(item?.dataStatus) || item?.sourceScope === 'seed_reference')
     .map((item) => createQueueItem({
       type: 'dataset_review',
       dataStatus: item.dataStatus || 'unverified',
