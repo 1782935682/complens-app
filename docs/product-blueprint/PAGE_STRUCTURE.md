@@ -22,7 +22,7 @@
 
 ### 0.1 路由约定
 
-- 正式用户端目标目录为 `user-uniapp/`，采用 uni-app + Vue3，路由由后续 uni-app pages 配置承载。
+- 正式用户端目录为 `user-uniapp/`，采用 uni-app + Vue3，路由由 `user-uniapp/src/pages.json` 配置承载。
 - 当前 `src/` 纯 JS + Vite 前端采用 **hash 路由**，源在 `src/router/router.js`，仅作为历史原型和迁移来源。
 - 本文档同时登记目标页面与当前原型承载页面；不确定的统一标注「计划 / 待确认」。
 
@@ -53,6 +53,25 @@
 > 每个页面统一模板：页面目标 / 对应文件·路由 / 入口 / 核心组件 / 主要操作 / 页面状态（含 loading·empty·error 三态）/ 移动端注意事项 / 数据可信展示规则 / 验收标准。
 > 移动端通用约束（除非另注，对所有页面生效）：尊重安全区（顶部刘海 / 底部 Home 条）；**禁止整页横向滚动**；可点击控件命中区域 **≥ 44px**；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 扫描 / 搜索 / 历史 / 设置）。
 > 三态通用约束：loading / empty / error 三态已在各页复核（Batch 8-C 完成）。
+
+### 1.0 正式 `user-uniapp/` 页面登记
+
+| 页面 | 页面目标 | 对应文件 / 路由 | 当前状态 |
+| --- | --- | --- | --- |
+| 首页 | 引导进入拍照解读食品标签主路径，提供上传、粘贴、搜索、历史、关注项入口 | `user-uniapp/src/pages/index/index.vue` / `/pages/index/index` | 已落地 MVP |
+| 拍照/上传页 | 拍照、相册上传、图片预览、重选、质量和权限提示 | `user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index` | 已落地 MVP |
+| OCR 识别页 | 经后端 OCR adapter 识别，失败可重试或手动输入 | `user-uniapp/src/pages/ocr/index.vue` / `/pages/ocr/index` | 已落地 MVP |
+| 标签类型识别页 | 配料表、营养成分表、包装正面、未知标签确认 | `user-uniapp/src/pages/label-type/index.vue` / `/pages/label-type/index` | 已落地 MVP |
+| 文本确认页 | 展示 OCR/手动文本，允许编辑、清空、重新上传、确认继续 | `user-uniapp/src/pages/confirm-text/index.vue` / `/pages/confirm-text/index` | 已落地 MVP |
+| 配料拆分页 | 拆分配料、手动编辑、删除错误项、新增遗漏项、保留暂未识别 | `user-uniapp/src/pages/ingredients/index.vue` / `/pages/ingredients/index` | 已落地 MVP |
+| 营养成分表解析页 | 结构化能量、蛋白质、脂肪、糖、钠、NRV% 等字段 | `user-uniapp/src/pages/nutrition/index.vue` / `/pages/nutrition/index` | 已落地 MVP |
+| 匹配确认页 | 汇总配料/营养与我的关注项命中，确认后生成报告 | `user-uniapp/src/pages/match/index.vue` / `/pages/match/index` | 已落地 MVP |
+| 食品标签解读报告页 | 展示一句话摘要、关注项、配料/营养解读、添加剂分组、过敏/忌口、来源依据 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 已落地 MVP |
+| 历史页 | 本地报告列表、打开报告、删除记录、按时间排序 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 已落地 MVP |
+| 我的关注项页 | 本地保存控糖、低钠、少添加、过敏/忌口等关注项和细分项 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 已落地 MVP |
+| 成分搜索页 | 辅助搜索成分，不作为主路径 | `user-uniapp/src/pages/search/index.vue` / `/pages/search/index` | 已落地 MVP |
+| 数据说明页 | 说明 OCR 确认、数据来源分级、AI 非权威、未验证口径 | `user-uniapp/src/pages/data-sources/index.vue` / `/pages/data-sources/index` | 已落地 MVP |
+| 隐私说明页 | 说明图片隐私、后端 OCR、Key 不暴露、本地历史、非医疗建议 | `user-uniapp/src/pages/privacy/index.vue` / `/pages/privacy/index` | 已落地 MVP |
 
 ### 1.1 首页
 
@@ -399,33 +418,33 @@
 主路径（不可偏离），每步标注承载页面与可信约束：
 
 ```
-首页 (homePage / #/)
+首页 (`user-uniapp/src/pages/index/index.vue` / `/pages/index/index`；历史 `homePage` / `#/`)
   │  起点是手里那包食品，主 CTA 去拍照
   ▼
-拍照 / 上传食品标签 (scanPage / #/scan；目标 user-uniapp scan page)
+拍照 / 上传食品标签 (`user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index`；历史 `scanPage` / `#/scan`)
   │  采集图片
   ▼
-标签类型识别 (计划 labelTypeSelectPage / user-uniapp label-type)
+标签类型识别 (`user-uniapp/src/pages/label-type/index.vue` / `/pages/label-type/index`)
   │  配料表 / 营养成分表 / 包装正面 / 未知；低置信必须让用户选择
   ▼
-OCR 识别 (scanPage / #/scan)
+OCR 识别 (`user-uniapp/src/pages/ocr/index.vue` / `/pages/ocr/index`)
   │  ⚠ OCR 输出为原始文本，未验证，禁止当权威结论
   ▼
-文本确认 (ocrConfirmPage / #/ocr-confirm)
+文本确认 (`user-uniapp/src/pages/confirm-text/index.vue` / `/pages/confirm-text/index`；历史 `ocrConfirmPage` / `#/ocr-confirm`)
   │  ⚠ 仍为用户/OCR 文本，无可信结论；确认后再分析
   ▼
-配料拆分 / 营养字段解析 / 包装卖点识别 (analyzePage / 目标 parse pages)
+配料拆分 / 营养字段解析 / 包装卖点识别 (`ingredients` / `nutrition` 页面；包装卖点后置)
   │  自动拆分单条配料；结构化营养字段；包装卖点识别先规划后实现
   ▼
-匹配确认 (analyzePage / 目标 report compose flow)
+匹配确认 (`user-uniapp/src/pages/match/index.vue` / `/pages/match/index`)
   │  匹配食品成分、食品添加剂、营养字段和用户关注项
   │  ⚠ 逐条按 dataStatus 打标；mapped_candidate/pending_review/
   │     unverified/unknown_from_ocr 一律不得呈现为权威结论
   ▼
-食品标签解读报告 (reportDetailPage / #/reports/:id)
+食品标签解读报告 (`user-uniapp/src/pages/report/index.vue` / `/pages/report/index`；历史 `reportDetailPage` / `#/reports/:id`)
   │  ⚠ 逐项来源 + 可信等级；verified_jecfa 注明非中国法规范围；无红线词
   ▼
-保存历史 / 档案 (historyPage / #/history、productArchivePage / #/products)
+保存历史 / 档案 (`user-uniapp/src/pages/history/index.vue` / `/pages/history/index`；历史 `historyPage` / `#/history`、`productArchivePage` / `#/products`)
      沉淀可回看记录
 ```
 

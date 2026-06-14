@@ -1,0 +1,29 @@
+{
+  "name": "CompLens 成分镜",
+  "appid": "__UNI__COMPLENS",
+  "description": "食品标签拍照解读与消费决策助手",
+  "versionName": "0.1.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "h5": {
+    "title": "CompLens 成分镜",
+    "router": {
+      "mode": "hash"
+    },
+    "sdkConfigs": {}
+  },
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false
+    },
+    "usingComponents": true
+  },
+  "app-plus": {
+    "safearea": {
+      "bottom": {
+        "offset": "auto"
+      }
+    }
+  }
+}

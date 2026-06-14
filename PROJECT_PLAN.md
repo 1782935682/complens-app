@@ -48,7 +48,7 @@
 
 ## 3. 当前真实进度
 
-整体产品进度：**约 67%**（按数据底座 + OCR 主路径闭环口径）。
+整体产品进度：**约 72%**（按数据底座 + OCR 主路径闭环 + 正式用户端迁移口径）。
 
 | 里程碑 | 名称 | 状态 | 完成度 |
 |---|---|---|---|
@@ -56,14 +56,14 @@
 | M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~70% |
 | M3 | OCR 拍照识别主流程（manual/mock/本机 RapidOCR 闭环） | 🔄 进行中 | ~82% |
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
-| M5 | 食品标签解读报告（配料 + 营养 + 关注项） | 🔄 新规划 / 进行中 | ~35% |
-| M6 | 我的关注项、产品档案、收藏、历史、个性化 | 🔄 进行中 | ~55% |
-| M7 | 消费者体验与信息架构优化（UX） | 🔄 进行中 | ~36% |
-| M8 | 移动端 / PWA 体验 | 🔄 进行中 | ~45% |
+| M5 | 食品标签解读报告（配料 + 营养 + 关注项） | 🔄 uni-app MVP 已落地 | ~58% |
+| M6 | 我的关注项、产品档案、收藏、历史、个性化 | 🔄 uni-app 本地 MVP 已落地 | ~64% |
+| M7 | 消费者体验与信息架构优化（UX） | 🔄 uni-app 主路径已迁移 | ~52% |
+| M8 | 移动端 / PWA 体验 | 🔄 uni-app H5/小程序构建通过 | ~58% |
 | M9 | AI 总结解释（本地 fallback 可用，真实待 Key） | 🔄 进行中 | ~15% |
 | M10 | 登录、云同步（本地完成，跨设备验收待补） | 🔄 进行中 | ~40% |
 | M11 | 订阅、支付、上架 | ⏸ 后置 | 0% |
-| M12 | 统一跨端技术栈（uni-app / admin-web / backend 复用） | 🔄 文档规划中 | ~20% |
+| M12 | 统一跨端技术栈（uni-app / admin-web / backend 复用） | 🔄 用户端工程已创建，后台仍规划中 | ~52% |
 | M13 | 后台管理系统（运营 + 数据治理 + 系统 + 审计） | 🔄 文档规划中 | ~18% |
 
 数据底座真实口径（详见 `DATA_SOURCES.md`）：
@@ -91,6 +91,7 @@
 - 产品蓝图文档集：`docs/product-blueprint/` 已覆盖产品、设计系统、视觉、前端、页面、跨端、API、数据可信、UI 路线、后台、隐私、测试验收；2026-06-15 已二次复核并同步 `CODEX_TASKS.md` / `AGENTS.md` / `COMMANDS.md` / `DATA_SOURCES.md`。
 - 消费者食品标签解读规划：已新增 `CONSUMER_DECISION_SPEC.md` 与 `CONSUMER_UX_SPEC.md`，明确产品从“配料表识别/添加剂查询”升级为“食品标签拍照解读 + 消费决策助手”。
 - 统一架构规划：已新增 `ARCHITECTURE_SPEC.md`，明确正式用户端 `user-uniapp`（uni-app + Vue3）、后台 `admin-web`（Vue3 + TDesign Web）、复用现有 `backend/`（Hono + Drizzle + PostgreSQL）、OCR 服务链路（后端调用 Python FastAPI + RapidOCR），并规定旧 `src/` Vite 前端只作为历史原型和迁移来源。
+- 正式用户端迁移 MVP：已新增 `user-uniapp/`（uni-app + Vue3），迁移首页、拍照/上传、OCR 降级、标签类型选择、文本确认、配料拆分、营养解析、匹配确认、食品标签解读报告、历史、我的关注项、搜索、数据说明、隐私说明；集中建立设计 token、基础组件、API client、平台适配层和本地草稿/报告存储。
 
 ---
 
@@ -98,14 +99,13 @@
 
 - 成分详情页 GB2760 官方证据展示（Batch 1-E）。
 - 生产 Aliyun OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key；本机 RapidOCR 已接入）。
-- 标签类型识别、营养成分表结构化、我的关注项主路径化、食品标签解读报告结构改造（阶段 13）。
+- 标签类型识别、营养成分表结构化、我的关注项主路径化、食品标签解读报告结构改造已在 `user-uniapp/` 完成 MVP；后端正式 API 和跨端真机验收仍待补齐。
 - 包装正面卖点核对、两款商品对比、扫码识别（MVP 后置）。
 - 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
 - 移动端组件统一、报告页产品化复核、首页/OCR 产品体验整体复核（阶段 7；统一可信表达映射层已完成）。
-- iPhone Safari 真机验收（阶段 8）。
+- iPhone Safari、微信小程序开发者工具、Android/iOS 真机验收（阶段 8/15）。
 - 生产数据库、生产部署、跨设备真实验收、离线同步队列。
 - 订阅、支付、上架（后置）。
-- `user-uniapp/` 正式用户端工程尚未创建。
 - `admin-web/` 后台管理端工程尚未创建。
 - 后端尚未完成后台用户/会员/订阅/公告/配置/权限审计 API；当前只有 GB2760 数据治理部分接口已落地。
 
@@ -129,7 +129,7 @@
 
 ## 7. 下一步计划（当前阶段目标）
 
-当前阶段：**阶段 16 统一跨端技术栈重构规划 → 阶段 17 后台管理系统规划**。
+当前阶段：**阶段 16 用户端 uni-app 迁移落地 → 阶段 17 后台管理系统规划**。
 
 当前策略：
 
@@ -142,10 +142,9 @@
 
 Codex 下一步任务：
 
-1. 完成本轮架构与后台规划文档 PR。
-2. PR 合并后先执行 `STACK-A`：确认现有 backend/frontend/Capacitor 结构并形成迁移方案。
-3. 再执行 `STACK-B/STACK-C`：规划 `user-uniapp` 用户端工程和后端 API 规范化。
-4. 后台实现按 `ADMIN-A..H` 分期推进；会员、订阅、支付、上架相关任务等待人工账号和法务材料。
+1. 合并 `user-uniapp/` 迁移 PR 后，补真实后端标签扫描/解析/报告 API，减少前端 mock adapter。
+2. 执行微信小程序开发者工具、iPhone Safari、Android/iOS 真机验收，补相机/相册/文件缓存权限细节。
+3. 后台实现按 `ADMIN-A..H` 分期推进；会员、订阅、支付、上架相关任务等待人工账号和法务材料。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核；生产 DATABASE_URL、Aliyun OCR Key、AI Key、商店账号和法务材料均不阻塞当前本地 MVP。
 
@@ -168,8 +167,8 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 完整规范收敛在 [`docs/product-blueprint/`](./docs/product-blueprint/README.md)（产品 / 消费者决策 / 消费者体验 / 设计系统 / 视觉 / 前端 / 页面 / 跨端 / API / 数据可信 / UI 路线 / 后台 / 隐私 / 测试验收）。
 
-- **短期目标（消费者主路径打磨）**：标签类型识别（CONSUMER-LABEL-A）、营养成分表结构化（CONSUMER-LABEL-B）、我的关注项本地设置（CONSUMER-LABEL-C）、食品标签解读报告（CONSUMER-LABEL-D）；同时保留 design tokens 与基础组件落地（FRONTEND-A/B）。
-- **设计基线（已确认 2026-06-14）**：主色薄荷绿色阶（`--primary #059669`、主按钮 `#047857`、辅助高亮 `#10b981`、装饰 `#34d399`、浅底 `#ecfdf5`）+ 16px 圆角；规范已写入 `docs/product-blueprint/DESIGN_SYSTEM.md` / `VISUAL_STYLE_GUIDE.md`，代码切换待 Batch FRONTEND-A（`src/styles.css` 当前仍为青绿/8px）。
+- **短期目标（消费者主路径打磨）**：`user-uniapp/` 已完成标签类型识别、营养成分表结构化、我的关注项本地设置、食品标签解读报告和基础组件/token MVP；后续重点是真实后端 API、真机验收和报告文案走查。
+- **设计基线（已确认 2026-06-14）**：主色薄荷绿色阶（`--primary #059669`、主按钮 `#047857`、辅助高亮 `#10b981`、装饰 `#34d399`、浅底 `#ecfdf5`）+ 16px 圆角；规范已写入 `docs/product-blueprint/DESIGN_SYSTEM.md` / `VISUAL_STYLE_GUIDE.md`，并已落到 `user-uniapp/src/styles/tokens.css`；旧 `src/styles.css` 当前仍为青绿/8px，保留历史原型状态。
 - **中期目标（数据 + 标签能力 + 跨端）**：包装正面卖点核对、两款商品对比、GB2760 增量人工复核扩大正式库覆盖、生产数据库与生产 OCR（Aliyun）接入、微信小程序 / Android / iOS 适配落地、独立后台第一版。
 - **长期目标（增值与上架）**：扫码、真实 AI 总结、登录云同步跨设备验收、订阅支付、应用商店上架与合规材料（阶段 11，后置）。
 - **人工阻塞项**：生产 DATABASE_URL、生产 Aliyun OCR Key、AI API Key、Apple/Google/国内商店账号、支付订阅账号、隐私政策法律确认、软著/备案/商标、GB2760 后续增量复核、后台/产品页面设计统一推进边界。
@@ -180,7 +179,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 - **产品化**：会员管理、订阅计划、订单/支付记录、退款/取消记录、App/小程序版本配置、消息通知、AI/OCR 成本统计、角色权限、审计日志。
 - **上架/商业化**：Apple IAP、Google Play Billing、微信支付、国内安卓渠道、订阅权益、第三方 SDK 清单、隐私协议版本管理。
 
-- **Codex 下一步**：先完成本轮架构与后台规划文档 PR；合并后执行 `STACK-A`，再进入 `STACK-B/C` 和消费者标签功能实现。
+- **Codex 下一步**：完成本轮 `user-uniapp/` 迁移 PR；合并后补后端正式 API 与跨端真机验收，再推进 `admin-web` 规划落地。
 
 ## 8. 7 天执行计划
 
@@ -250,6 +249,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
 | 2026-06-15 | 架构与后台规划文档优化：新增 `ARCHITECTURE_SPEC.md`，统一正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`、OCR Provider 链路和旧 `src/` 迁移边界；补齐后台用户/会员/订阅/公告/系统配置/OCR-AI 成本/权限审计/API/任务阶段；仅文档，不改业务代码 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
+| 2026-06-15 | 新增 `user-uniapp/` 正式用户端（uni-app + Vue3），迁移食品标签拍照解读主流程页面、组件、设计 token、集中 API client、平台适配层和本地历史/关注项存储；保留旧 `src/` 原型不删除；同步命令与蓝图文档 | Codex | `cd user-uniapp && npm run lint` 通过；`npm run typecheck` 通过；`npm run build:h5` 通过；`npm run build:mp-weixin` 通过 |
 | 2026-06-15 | 消费者食品标签解读文档优化：新增 `CONSUMER_DECISION_SPEC.md` / `CONSUMER_UX_SPEC.md`，将产品定位统一为“食品标签拍照解读 + 消费决策助手”，同步产品、页面、前端、API、数据可信、UI 路线、QA、任务清单、Agent 规则和入口 README；仅文档，不改业务代码 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-14 | 确认设计基线为薄荷绿主色 + 16px 圆角：更新 `DESIGN_SYSTEM.md` / `VISUAL_STYLE_GUIDE.md` / `FRONTEND_SPEC.md` / `product-blueprint/README.md` 为规范值（含用户给定 5 色阶与角色），并把 `CODEX_TASKS.md` Batch FRONTEND-A 细化为可执行落地任务。仅文档，未改业务代码（曾试改 `src/styles.css` 后按用户要求 `git checkout` 还原） | Claude (Opus 4.8) | `git diff --check`（纯文档；`src/styles.css` 已还原为青绿/8px 原状） |
 | 2026-06-14 | 新增产品蓝图规范集 `docs/product-blueprint/`（PRODUCT/DESIGN_SYSTEM/VISUAL_STYLE/FRONTEND/PAGE_STRUCTURE/CROSS_PLATFORM/API_CONTRACT/DATA_TRUST/UI_ROADMAP/ADMIN_CONSOLE/PRIVACY/QA 共 12 份 + README 索引）；同步 `CODEX_TASKS.md`（阶段 12-14：UI-SPEC/PLATFORM/FRONTEND 批次）、`AGENTS.md`、`COMMANDS.md`、`readme.md`、`docs/README.md`、`PROJECT_PLAN.md`。仅文档，不改业务代码 | Claude (Opus 4.8) | `git diff --check`（未运行 build/test：纯文档修改，不影响代码/依赖/构建/运行方式） |

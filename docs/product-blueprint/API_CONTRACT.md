@@ -289,28 +289,28 @@
 | 目标接口 | 当前状态 | 当前真实对应 | 是否应允许匿名完成 MVP |
 |---|---|---|---|
 | `POST /api/ocr` | ✅ 已实现但需调整匿名策略 | `POST /api/ocr`（当前需登录） | 是，MVP 主流程应允许匿名识别或降级手动输入 |
-| `POST /api/ingredients/parse` | ⚠️ 前端本地 | `src/utils/text.js` 的 `parseIngredientList`；后端无同名路由 | 是 |
+| `POST /api/ingredients/parse` | ⚠️ 前端本地 | 历史 `src/utils/text.js`；正式端 `user-uniapp/src/utils/ingredientParser.ts`；后端无同名路由 | 是 |
 | `POST /api/ingredients/match` | ✅ 等价已实现 | `POST /api/ingredients/batch-search` | 是 |
-| `POST /api/reports` | ⚠️ 部分 | 本地报告 + 登录后 `POST /api/user/reports` 云同步 | 是，本地保存应可匿名 |
-| `GET /api/reports/:id` | ⚠️ 部分 | 本地读取 + 登录后用户报告接口 | 是，本地历史应可匿名 |
-| `GET /api/reports` | ⚠️ 部分 | 本地历史 + 登录后用户报告接口 | 是 |
+| `POST /api/reports` | ⚠️ 部分 | `user-uniapp` 本地报告 + 登录后 `POST /api/user/reports` 云同步 | 是，本地保存应可匿名 |
+| `GET /api/reports/:id` | ⚠️ 部分 | `user-uniapp` 本地读取 + 登录后用户报告接口 | 是，本地历史应可匿名 |
+| `GET /api/reports` | ⚠️ 部分 | `user-uniapp` 本地历史 + 登录后用户报告接口 | 是 |
 | `GET /api/additives/search` | ✅ 等价已实现 | `GET /api/ingredients/search` / `GET /api/ingredients` | 是 |
 | `GET /api/additives/:id` | ✅ 等价已实现 | `GET /api/ingredients/:id?includeEvidence=1` | 是 |
 | `GET /api/data-sources` | ❌ 未实现 | 当前为 `DATA_SOURCES.md` + `/data` 页面 | 是 |
 | `GET /api/imports/gb2760/status` | ✅ 等价已实现 | `GET /api/gb2760/import-runs` 等后台接口 | 否，后台/内部查看 |
 | `POST /api/feedback` | ⚠️ 前端本地 | `src/services/supportService.js` 本地存储 | 是 |
-| `POST /api/labels/scan` | ❌ 计划 | 食品标签多图扫描会话 | 是 |
-| `POST /api/labels/classify` | ❌ 计划 | 标签类型识别 | 是 |
-| `POST /api/nutrition/parse` | ❌ 计划 | 营养成分表结构化 | 是 |
+| `POST /api/labels/scan` | ❌ 后端未实现 / 前端 adapter | `user-uniapp` 单图扫描草稿；食品标签多图扫描会话待后端 | 是 |
+| `POST /api/labels/classify` | ❌ 后端未实现 / 前端 mock-only adapter | `user-uniapp/src/services/api/labels.ts` 本地辅助判断，明确 `mockOnly` | 是 |
+| `POST /api/nutrition/parse` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/utils/nutritionParser.ts` 本地解析 | 是 |
 | `POST /api/claims/parse` | ❌ 计划 / 后续 | 包装正面卖点解析 | 是 |
-| `POST /api/reports/label` | ❌ 计划 | 食品标签解读报告 | 是 |
+| `POST /api/reports/label` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/utils/reportBuilder.ts` 本地报告构建 | 是 |
 | `POST /api/reports/compare` | ❌ 计划 / 后续 | 两款商品对比报告 | 是 |
-| `GET /api/user-attention-items` | ❌ 计划 | 我的关注项读取；MVP 可本地实现 | 是 |
-| `POST /api/user-attention-items` | ❌ 计划 | 我的关注项保存；MVP 可本地实现 | 是 |
+| `GET /api/user-attention-items` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/stores/attentionStore.ts` 本地读取 | 是 |
+| `POST /api/user-attention-items` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/stores/attentionStore.ts` 本地保存 | 是 |
 
-### 消费者标签解读计划 API（当前未实现）
+### 消费者标签解读计划 API（后端当前未实现）
 
-以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。当前均为计划 API，不得在实现前当作已存在接口调用。
+以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。后端当前均为计划 API，不得在实现前当作已存在后端接口调用；`user-uniapp/` 已为 MVP 提供本地 parser / mock-only adapter / 本地报告存储，界面必须明确这些不是权威数据来源。
 
 #### `POST /api/labels/scan`
 - 用途：创建或更新一次食品标签扫描会话，支持一张到三张图片组合。

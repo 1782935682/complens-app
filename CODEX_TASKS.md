@@ -1392,13 +1392,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 # 阶段 13：消费者食品标签解读
 
-> 目标：把产品从“配料表识别 / 添加剂查询”升级为“面向普通消费者的食品标签拍照解读与消费决策助手”。本阶段优先 Web/PWA，本地保存即可，不要求登录、云同步、AI、扫码、对比或小程序/App。
+> 目标：把产品从“配料表识别 / 添加剂查询”升级为“面向普通消费者的食品标签拍照解读与消费决策助手”。本阶段优先正式 `user-uniapp/` 用户端，本地保存即可，不要求登录、云同步、AI、扫码、对比或真实小程序/App 真机验收。
 
 ### Batch CONSUMER-LABEL-A：标签类型识别 [Codex]
 
 目标：识别用户拍的是配料表、营养成分表、包装正面还是未知标签。
 
-涉及文件：`src/pages/scanPage.js`、`src/pages/ocrConfirmPage.js`、`src/services/ocrService.js`、`src/utils/`、`docs/product-blueprint/CONSUMER_DECISION_SPEC.md`、`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`。
+涉及文件：`user-uniapp/src/pages/ocr/index.vue`、`user-uniapp/src/pages/label-type/index.vue`、`user-uniapp/src/utils/labelClassifier.ts`、`user-uniapp/src/services/api/labels.ts`、`docs/product-blueprint/CONSUMER_DECISION_SPEC.md`、`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`。
 
 实现内容：
 1. 定义 `ingredient_list`、`nutrition_facts`、`front_claims`、`barcode_or_product`、`unknown_label` 标签类型。
@@ -1416,13 +1416,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`；不默认跑完整测试。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；后端 `/api/labels/classify` 正式实现待补，当前为明确标注的本地 adapter。
 
 ### Batch CONSUMER-LABEL-B：营养成分表 OCR 与结构化 [Codex]
 
 目标：解析能量、蛋白质、脂肪、碳水、糖、钠等营养字段。
 
-涉及文件：`src/pages/ocrConfirmPage.js`、`src/pages/analyzePage.js`、`src/pages/reportDetailPage.js`、`src/services/`、`src/utils/`、`docs/product-blueprint/API_CONTRACT.md`。
+涉及文件：`user-uniapp/src/pages/confirm-text/index.vue`、`user-uniapp/src/pages/nutrition/index.vue`、`user-uniapp/src/pages/report/index.vue`、`user-uniapp/src/utils/nutritionParser.ts`、`docs/product-blueprint/API_CONTRACT.md`。
 
 实现内容：
 1. 支持营养成分表 OCR 文本确认。
@@ -1440,13 +1440,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；后端 `/api/nutrition/parse` 正式实现待补，当前为本地结构化解析。
 
 ### Batch CONSUMER-LABEL-C：我的关注项本地设置 [Codex]
 
 目标：支持控糖、低钠、少添加、过敏/忌口、给孩子看等关注项。
 
-涉及文件：`src/pages/settingsPage.js`、计划 `src/pages/attentionItemsPage.js`、`src/services/storageService.js`、`src/store/userStore.js`、`docs/product-blueprint/CONSUMER_UX_SPEC.md`。
+涉及文件：`user-uniapp/src/pages/attention/index.vue`、`user-uniapp/src/constants/attention.ts`、`user-uniapp/src/stores/attentionStore.ts`、`user-uniapp/src/platform/storage.ts`、`docs/product-blueprint/CONSUMER_UX_SPEC.md`。
 
 实现内容：
 1. 本地保存控糖、低钠、减脂、高蛋白、少添加、给孩子看、过敏/忌口。
@@ -1464,13 +1464,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；云同步后置，当前为本地保存。
 
 ### Batch CONSUMER-LABEL-D：食品标签解读报告 [Codex]
 
 目标：把配料表、营养成分表、用户关注项合并成普通人能看懂的报告。
 
-涉及文件：`src/pages/reportDetailPage.js`、`src/pages/reportsPage.js`、`src/pages/historyPage.js`、`src/services/reportService.js`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`。
+涉及文件：`user-uniapp/src/pages/report/index.vue`、`user-uniapp/src/pages/history/index.vue`、`user-uniapp/src/utils/reportBuilder.ts`、`user-uniapp/src/components/ReportSummaryCard.vue`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`。
 
 实现内容：
 1. 报告页名称改为“食品标签解读”。
@@ -1488,7 +1488,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；产品文案和真实数据源展示仍建议人工走查。
 
 ### Batch CONSUMER-LABEL-E：包装卖点核对 [Codex / 后续]
 
@@ -1542,13 +1542,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 # 阶段 14：前端规范落地
 
-> 目标：把蓝图落到用户端代码。内部控制台暂缓；产品页面整体设计统一时再推进后台 UI。
+> 目标：把蓝图落到正式 `user-uniapp/` 用户端代码。内部控制台暂缓；产品页面整体设计统一时再推进后台 UI。旧 `src/` 原型保留，不在本阶段继续承载复杂新业务。
 
 ### Batch FRONTEND-A：统一 CSS variables / design tokens [Codex]
 
 目标：把 `DESIGN_SYSTEM.md` 的 token 规则落到 `src/styles.css`，减少硬编码。
 
-涉及文件：`src/styles.css`、相关页面样式、`docs/product-blueprint/DESIGN_SYSTEM.md`。
+涉及文件：`user-uniapp/src/styles/tokens.css`、`user-uniapp/src/pages/`、`user-uniapp/src/components/`、`docs/product-blueprint/DESIGN_SYSTEM.md`。
 
 实现内容：
 1. 收敛品牌色、状态色、圆角、阴影、间距、字体变量。
@@ -1566,13 +1566,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`；不要默认全量构建。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；旧 `src/styles.css` 未迁移，保留历史原型状态。
 
 ### Batch FRONTEND-B：基础组件统一 [Codex]
 
 目标：统一基础组件，减少每页重复实现。
 
-涉及文件：`src/components/`、`src/pages/`、`src/styles.css`、`scripts/test.mjs`。
+涉及文件：`user-uniapp/src/components/`、`user-uniapp/src/pages/`、`user-uniapp/src/styles/tokens.css`、`user-uniapp/scripts/lint.mjs`。
 
 实现内容：
 1. 统一 Button、Card、Badge、StatusTag、SourceBadge、ConfidenceBadge。
@@ -1590,13 +1590,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；后续可补视觉走查和交互细节。
 
 ### Batch FRONTEND-C：OCR 流程状态机 [Codex]
 
 目标：让 OCR 主流程严格遵守 `FRONTEND_SPEC.md` 状态机。
 
-涉及文件：`src/pages/scanPage.js`、`src/pages/ocrConfirmPage.js`、`src/pages/analyzePage.js`、`src/services/ocrService.js`、`scripts/test.mjs`。
+涉及文件：`user-uniapp/src/pages/capture/index.vue`、`user-uniapp/src/pages/ocr/index.vue`、`user-uniapp/src/pages/confirm-text/index.vue`、`user-uniapp/src/pages/ingredients/index.vue`、`user-uniapp/src/stores/scanStore.ts`、`user-uniapp/src/services/api/ocr.ts`。
 
 实现内容：
 1. 实现 `idle/selectingImage/previewingImage/uploadingImage/recognizing/ocrFailed/confirmingText/parsingIngredients/matchingIngredients/reportReady/failed`。
@@ -1614,13 +1614,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；OCR 真实识别依赖后端配置，失败时保留手动输入。
 
 ### Batch FRONTEND-D：API client 统一封装 [Codex]
 
 目标：统一 API 调用、timeout、error handling、loading、toast。
 
-涉及文件：`src/services/`、`src/pages/`、`docs/product-blueprint/API_CONTRACT.md`。
+涉及文件：`user-uniapp/src/services/api/`、`user-uniapp/src/pages/`、`docs/product-blueprint/API_CONTRACT.md`。
 
 实现内容：
 1. 网络请求集中在 services/API client，页面不散写 `fetch`.
@@ -1638,7 +1638,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；缺失后端接口以 mock-only adapter 明确标注，不展示为真实数据源。
 
 ### Batch FRONTEND-E：loading/empty/error 状态统一 [Codex]
 
@@ -1668,7 +1668,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 目标：统一 H5/PWA、小程序、App 的本地存储抽象。
 
-涉及文件：`src/services/imageStoreService.js`、`src/services/storageService.js`、`src/services/nativeBridgeService.js`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`。
+涉及文件：`user-uniapp/src/platform/storage.ts`、`user-uniapp/src/platform/camera.ts`、`user-uniapp/src/platform/file.ts`、`user-uniapp/src/platform/share.ts`、`user-uniapp/src/stores/scanStore.ts`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`。
 
 实现内容：
 1. 图片/blob 使用 IndexedDB 或平台文件缓存。
@@ -1686,7 +1686,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；图片二进制不进入本地小型元数据存储，小程序/App 真机文件缓存待验收。
 
 ---
 
@@ -1818,7 +1818,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 # 阶段 16：统一跨端技术栈重构
 
-> 目标：从现在开始明确正式跨端架构，避免继续在旧 Web/PWA 原型上堆复杂业务。本阶段先做结构确认和迁移规划，不直接重构业务代码，不删除旧前端，不创建重复后端。
+> 目标：明确并落地正式跨端架构，避免继续在旧 Web/PWA 原型上堆复杂业务。本阶段已开始创建正式 `user-uniapp/` 用户端；旧前端不删除，后端继续复用现有 `backend/`，不创建重复后端。
 
 ### Batch STACK-A：确认现有 backend 与 frontend 结构 [Codex]
 
@@ -1832,7 +1832,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 3. 输出旧前端保留/迁移边界和后端复用方案。
 
 验收标准：
-1. 不把 `user-uniapp/`、`admin-web/` 写成已存在。
+1. `user-uniapp/` 只在实际创建后写成已存在；`admin-web/` 未创建前仍保持计划状态。
 2. 不创建第二套后端服务。
 3. 明确哪些能力可从旧原型迁移，哪些必须重建。
 
@@ -1842,13 +1842,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`；若只改文档不跑 build/test。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：确认旧 `src/` 保留为历史原型和迁移来源，新增正式 `user-uniapp/`，未创建第二套后端。
 
 ### Batch STACK-B：用户端 uni-app 初始化规划 [Codex]
 
-目标：规划 `user-uniapp/`，用于 H5/PWA、微信小程序、Android、iOS。
+目标：规划并初始化 `user-uniapp/`，用于 H5/PWA、微信小程序、Android、iOS。
 
-涉及文件：`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`COMMANDS.md`、计划 `user-uniapp/`。
+涉及文件：`user-uniapp/`、`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`COMMANDS.md`。
 
 实现内容：
 1. 规划 `user-uniapp` 目录、页面、组件、services、stores、platform adapter、styles/tokens。
@@ -1858,15 +1858,15 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 验收标准：
 1. 小程序/App 代码不假设 `window/document/navigator`。
 2. 所有 OCR/AI/数据库访问经后端 API。
-3. `COMMANDS.md` 中 uni-app 命令未实现前标记为计划命令。
+3. `COMMANDS.md` 中 uni-app 已实现命令标记为可用，未真机验证的平台能力保留后置说明。
 
-是否需要人工：需要用户确认正式初始化时间点。
+是否需要人工：否；用户已授权本轮正式初始化。
 
-阻塞条件：uni-app 工程创建尚未开始；本 Batch 可先文档规划。
+阻塞条件：小程序/App 真机、商店账号、签名和法务材料后置，不阻塞工程初始化。
 
-验证命令：`git diff --check`；实现工程后按新增 package 脚本验证。
+验证命令：`cd user-uniapp && npm run lint`、`npm run typecheck`、`npm run build:h5`、`npm run build:mp-weixin`、`git diff --check`。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：`user-uniapp/` 已创建，H5 与微信小程序构建通过；Android/iOS 真机验收后置。
 
 ### Batch STACK-C：后端 API 框架规范化 [Codex]
 
@@ -1925,7 +1925,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 实现内容：
 1. 保留旧前端作为历史原型和迁移来源。
 2. 仅允许旧前端修复 blocker、安全、数据可信、OCR 降级、文档演示问题。
-3. 新复杂用户端功能优先进入 `user-uniapp` 规划。
+3. 新复杂用户端功能优先进入 `user-uniapp/` 正式工程。
 
 验收标准：
 1. 不删除旧前端。
@@ -1934,11 +1934,11 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 是否需要人工：否。
 
-阻塞条件：用户确认正式迁移启动时间。
+阻塞条件：无；用户已确认正式迁移启动。
 
 验证命令：`git diff --check`；涉及旧前端修复时按改动范围补充 lint/test。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：旧 `src/` 未删除，新复杂用户端功能迁入 `user-uniapp/`。
 
 ### Batch STACK-F：跨端共享契约 [Codex]
 
@@ -1960,9 +1960,9 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 阻塞条件：Apple/Google/微信支付/国内渠道账号不阻塞契约规划。
 
-验证命令：`git diff --check`。
+验证命令：`cd user-uniapp && npm run lint`、`npm run typecheck`、`npm run build:h5`、`npm run build:mp-weixin`、`git diff --check`。
 
-状态：⏸ 待开始。
+状态：✅ 用户端侧已完成（2026-06-15）：API client、数据状态、设计 token、平台适配层已在 `user-uniapp/` 建立；后台/admin-web 共享落地后续继续。
 
 ---
 
