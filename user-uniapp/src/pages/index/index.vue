@@ -49,10 +49,11 @@ function startManualTextEntry() {
 
     <view class="quick-grid">
       <AppButton variant="secondary" @click="navigateToRoute(routes.capture)">上传图片</AppButton>
-      <AppButton variant="secondary" @click="startManualTextEntry">粘贴文字</AppButton>
+      <AppButton variant="secondary" class="wide-action" @click="startManualTextEntry">粘贴文字</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.search)">搜索成分</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.history)">历史记录</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.attention)">我的关注项</AppButton>
+      <AppButton variant="secondary" @click="navigateToRoute(routes.settings)">设置</AppButton>
     </view>
 
     <view>
@@ -112,7 +113,7 @@ function startManualTextEntry() {
   gap: var(--space-sm);
 }
 
-.quick-grid button:last-child {
+.quick-grid .wide-action {
   grid-column: 1 / -1;
 }
 

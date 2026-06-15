@@ -12,6 +12,7 @@ export const routes = {
   attention: '/pages/attention/index',
   search: '/pages/search/index',
   dataSources: '/pages/data-sources/index',
+  settings: '/pages/settings/index',
   privacy: '/pages/privacy/index'
 } as const;
 

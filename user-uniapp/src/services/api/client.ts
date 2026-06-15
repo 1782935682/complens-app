@@ -28,6 +28,10 @@ export function setApiBaseUrl(value: string): void {
   writeString(API_BASE_URL_KEY, normalizeApiBaseUrl(value) || getDefaultApiBaseUrl());
 }
 
+export function clearApiBaseUrl(): void {
+  removeStorage(API_BASE_URL_KEY);
+}
+
 export function setApiAuthToken(value: string): void {
   const token = value.trim();
   if (!token) {
