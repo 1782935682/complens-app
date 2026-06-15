@@ -102,6 +102,7 @@
   3. Batch 8-C：loading / empty / error 状态统一复核（搜索初始空态、GB2760 复核页、GB2760 参考表错误态补齐动作）
   4. Batch 5-B / UX-C：统一结果可信表达（dataStatus 文案、颜色变量和 Badge class 映射层）
   5. Batch STACK-C：后端 API 框架规范化（Hono 后端唯一入口、routes/services/db/provider 分层边界、计划接口落地顺序）
+  6. Batch STACK-D：后台管理端 `admin-web` 规划（独立工程边界、工作台路由分组、后台 API 落地边界）
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
@@ -109,9 +110,9 @@
   3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
 
 → 下一个可执行任务：
-  1. 本批 PR 合并后执行 Batch STACK-D：后台管理端 `admin-web` 规划（只做规划，不创建工程，除非用户确认启动）。
-  2. 然后执行 STACK-E/STACK-F：旧前端迁移边界与后续 API 后端化落地计划。
-  3. 消费者标签后端 API（labels/nutrition/reports）在架构边界确认后继续。
+  1. 本批 PR 合并后执行 Batch ADMIN-A：后台信息架构与菜单细化（继续只做文档规划，不创建 `admin-web/` 工程）。
+  2. 然后执行 ADMIN-B：数据治理后台 MVP 的接口复用与页面/API 计划。
+  3. 消费者标签后端 API（labels/nutrition/reports）在后台规划边界确认后继续。
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -1915,7 +1916,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`；实现工程后按 admin-web 脚本验证。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：已在 `ADMIN_CONSOLE_SPEC.md` 明确 `admin-web/` 工程边界、目标目录结构、MVP 启动范围和非 MVP 范围；在 `PAGE_STRUCTURE.md` 补后台壳与路由分组；在 `API_CONTRACT.md` 补后台 API 落地边界和 MVP 优先级。未创建 `admin-web/` 工程。
 
 ### Batch STACK-E：旧前端迁移策略 [Codex]
 

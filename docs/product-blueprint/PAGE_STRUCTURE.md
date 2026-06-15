@@ -456,6 +456,28 @@ OCR 识别 (`user-uniapp/src/pages/ocr/index.vue` / `/pages/ocr/index`)
 
 > 详细规格见 [`ADMIN_CONSOLE_SPEC.md`](./ADMIN_CONSOLE_SPEC.md)。后台定位为 **CompLens 产品运营后台 + 数据治理后台 + 系统配置后台**，目标目录为 `admin-web/`，技术栈为 Vue3 + TDesign Web。当前后台**仅有内部 `gb2760ReviewPage` 部分落地**（Batch 1-F，`blocked_by_user` 暂缓），其余均为计划。状态取值：已落地 / 计划 / 待确认。
 
+### 3.0 admin-web 壳与路由分组（STACK-D 规划）
+
+当前 `admin-web/` 尚未创建；以下为创建工程时的目标页面壳，不代表已落地。
+
+| 分组 | 目标路由前缀 | 页面范围 | 阶段 | 当前状态 |
+| --- | --- | --- | --- | --- |
+| 后台首页 | `/dashboard` | 业务、数据治理、OCR/AI 成本、反馈、系统告警概览 | MVP | 计划 |
+| 用户与会员 | `/users`、`/memberships`、`/orders` | 用户、会员、订阅、订单、设备登录 | Beta / 产品化 | 计划 |
+| 内容运营 | `/content` | 公告、Banner、首页场景卡片、FAQ、数据说明、协议版本 | Beta / 上架商业化 | 计划 |
+| 食品标签业务 | `/label-business` | 扫描记录、OCR 记录、标签解读报告、关注项统计、产品档案、反馈 | MVP / Beta | 计划 |
+| 数据治理 | `/data-governance` | 数据源、GB2760 导入、staging 复核、添加剂、分类、规则、词库 | MVP | 计划；staging 复核旧页部分落地 |
+| OCR / AI / Provider | `/providers` | OCR/AI provider、失败日志、调用成本、降级策略 | MVP / 产品化 | 计划 |
+| 系统配置 | `/system` | 功能开关、平台配置、版本配置、分享、消息、SDK | MVP / 产品化 | 计划 |
+| 权限与审计 | `/security` | 管理员、角色权限、操作日志、审计日志 | MVP 预留 / 产品化 | 计划 |
+
+后台壳验收边界：
+
+- 使用 TDesign 工作台形态：侧边导航 + 顶栏 + 面包屑 + 内容区。
+- 列表页默认提供 loading / empty / error 三态。
+- 写操作默认需要权限和审计；未实现 RBAC 前，高风险写操作不对普通登录用户开放。
+- 会员、订阅、支付页可在菜单规划中保留，但真实支付闭环必须标记人工阻塞。
+
 ### 3.1 后台首页 / Dashboard
 - 页面目标：展示核心业务、数据治理、OCR/AI 成本、反馈和系统状态概览。
 - 当前状态：计划。

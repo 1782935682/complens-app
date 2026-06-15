@@ -1,41 +1,36 @@
-# AI Review — 2026-06-15 Batch STACK-C backend API framework
+# AI Review — 2026-06-15 Batch STACK-D admin-web planning
 
 ## 本轮目标
 
-拉取最新 `origin/main` 后继续当前最早未完成且未阻塞的 Batch：STACK-C 后端 API 框架规范化。
+PR #93 合并后继续当前最早未完成且未阻塞的 Batch：STACK-D 后台管理端 `admin-web` 规划。
 
-本轮只做架构和 API 契约文档同步，不改业务代码、不创建第二套后端、不空建 `providers` / `validators` / `jobs` 目录。
+本轮只做规划文档同步，不创建 `admin-web/` 工程，不改业务代码，不把任何后台计划页面写成已实现。
 
 ## 已检查文件
 
 - `CODEX_TASKS.md`
 - `PROJECT_PLAN.md`
-- `COMMANDS.md`
-- `DATA_SOURCES.md`
-- `docs/product-blueprint/ARCHITECTURE_SPEC.md`
+- `docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`
+- `docs/product-blueprint/PAGE_STRUCTURE.md`
 - `docs/product-blueprint/API_CONTRACT.md`
-- `docs/product-blueprint/FRONTEND_SPEC.md`
 - `docs/product-blueprint/UI_ROADMAP.md`
-- `backend/src/app.ts`
-- `backend/src/index.ts`
-- `backend/package.json`
-- `backend/src/routes/*`
-- `backend/src/services/*`
+- `backend/src/routes/gb2760.ts`
+- `backend/src/routes/ingredients.ts`
 
 ## 已确认现状
 
-1. 当前后端只有一套 Node.js + Hono 服务，入口为 `backend/src/app.ts` / `backend/src/index.ts`。
-2. 当前真实路由模块为 `auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。
-3. 当前真实服务层为 `authService` / `ingredientService` / `ocrProviders` / `userService` / `gb2760*Service`。
-4. `labels` / `nutrition` / `reports` 消费者主路径后端 API 仍是计划项；`user-uniapp` 当前依赖本地 parser、mock-only adapter 和本地报告存储完成 MVP。
-5. 生产 OCR / AI Key 仍为人工阻塞，不影响 manual/mock/rapidocr 和后端抽象边界。
+1. 独立后台工程 `admin-web/` 尚未创建。
+2. 现有后台相关真实能力主要是嵌在旧前端的 GB2760 复核页和后端 `/api/gb2760/*` 内部接口。
+3. 后台 API 只能通过现有 `backend/` 访问数据，不得直连数据库、OCR 服务、AI 服务、GB2760 导入脚本或密钥。
+4. 会员、订阅、订单、支付、上架均需要外部账号和法务材料，继续后置或标记人工阻塞。
 
 ## 已完成修改
 
-1. `ARCHITECTURE_SPEC.md`：补充 `backend/src` 真实目录结构、现有路由责任边界和 STACK-C 后端分层规则。
-2. `API_CONTRACT.md`：补充后端分层表、新增 API 落地规则、消费者主路径后端化顺序，以及 `labels` / `nutrition` / `reports` 计划接口的路由归属。
-3. `CODEX_TASKS.md`：将 STACK-C 标记为已完成，并把下一批指向 STACK-D 后台规划。
-4. `PROJECT_PLAN.md`：更新整体进度、M12 进度、下一步计划和修改记录。
+1. `ADMIN_CONSOLE_SPEC.md`：新增 STACK-D 工程边界，明确 `admin-web/` 目标技术栈、目录结构、MVP 启动范围、非 MVP 范围、权限边界和密钥展示限制。
+2. `PAGE_STRUCTURE.md`：新增后台壳与路由分组，覆盖 Dashboard、用户与会员、内容运营、食品标签业务、数据治理、Provider、系统配置、权限审计。
+3. `API_CONTRACT.md`：新增后台 API 落地边界，明确复用现有 `/api/gb2760/*` 和 `/api/ingredients*`，新增 `/api/admin/*` 的优先级和禁止直连边界。
+4. `CODEX_TASKS.md`：将 STACK-D 标记为已完成，并把下一步指向 ADMIN-A。
+5. `PROJECT_PLAN.md`：更新整体进度、M12/M13 状态、下一步计划和最近修改记录。
 
 ## 验证计划
 
@@ -45,6 +40,6 @@
 
 ## 剩余风险
 
-1. `labels` / `nutrition` / `reports` 后端接口尚未实现；正式端仍需在后续批次减少本地 adapter 依赖。
-2. `admin-web` 仍是计划工程；未得到启动确认前不能写成已创建。
-3. OCR 配置名从 `OCR_SERVICE_URL` 统一到 `OCR_LOCAL_URL` 仍需单独配置迁移批次处理。
+1. `admin-web/` 尚未初始化；后续 ADMIN-A/ADMIN-B 仍需继续细化菜单和数据治理 MVP。
+2. 当前缺少 OCR 记录、用户反馈、后台 Dashboard 等真实后端表/API；相关页面仍为计划。
+3. 后台 RBAC 尚未落地；GB2760 写操作仍依赖 `GB2760_INTERNAL_REVIEWERS` allowlist。
