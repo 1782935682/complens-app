@@ -202,6 +202,27 @@ OCR / AI / Provider
 
 ## 1. 数据源管理
 
+### ADMIN-B 数据治理 MVP 页面/API 矩阵（2026-06-15）
+
+| 页面 | MVP 用途 | 第一版 API 策略 | 写操作边界 | 当前状态 |
+|---|---|---|---|---|
+| 数据源管理 | 查看 GB2760 来源文档、PDF SHA-256 和关联导入批次；发布日期/实施日期待独立来源 API | 通过 `GET /api/gb2760/import-runs` 返回的 `sourceDocument` 展示来源摘要；独立 `source_documents` 管理 API 后置 | 新增/编辑来源元数据暂不进 MVP，避免绕过导入审计 | 计划；数据表已存在，缺独立 UI |
+| GB2760 导入任务 | 查看 fulltext / A.1 staging / reference_tables / promote 批次和错误 | 复用 `GET /api/gb2760/import-runs`、`GET /api/gb2760/import-runs/:id/errors` | UI 不触发导入脚本；导入仍由受控脚本执行 | 计划；后端只读接口已存在 |
+| staging 数据复核 | 查看待复核/已签核/promoted 行，执行单条/批量复核和映射 | 复用 `GET /api/gb2760/staging-rows`、`PUT /api/gb2760/staging-rows/*` | 写操作必须登录 + `GB2760_INTERNAL_REVIEWERS` allowlist，并保留 `reviewedBy` / `reviewedAt` / `reviewNote` | 旧页部分落地；admin-web UI 计划 |
+| 食品添加剂管理 | 按名称、分类、可信状态查看添加剂主数据和证据 | 复用 `GET /api/ingredients`、`GET /api/ingredients/search`、`GET /api/ingredients/:id?includeEvidence=1` | 编辑可信字段后置到专用后台 API；不得直接改 DB | 计划；现有接口只读可用 |
+| 食品分类管理 | 查看 GB2760 食品分类系统和参考表 | 复用 `GET /api/gb2760/reference-rows?table=表 E.1`（表名以实际 reference 行为准） | 第一版只读；独立分类表/树编辑后置 | 计划；reference 行查询已存在 |
+| 使用规则管理 | 查看 promote 后的使用范围/限量及溯源 | 第一版从 ingredient 详情证据与 `usageLimits` 展示；后续补 `/api/admin/additive-usage-rules` 聚合列表 | 编辑规则后置，且必须有审计和来源校验 | 计划；正式规则数据已存在 |
+| 普通配料词库 | 查看普通配料可读性词条 | 复用 `GET /api/ingredients?dataStatus=common_ingredient` | 词库编辑后置 | Beta 计划 |
+| 营养成分字段规则 | 规划能量、蛋白质、脂肪、糖、钠等解析字段 | 等待 `POST /api/nutrition/parse` 后端化 | 暂无后台写操作 | Beta 计划 |
+| 包装卖点词库 | 规划 0 糖、低脂、高蛋白、无添加等卖点词库 | 等待包装卖点解析后端化 | 暂无后台写操作 | Beta 计划 |
+
+数据治理 MVP 约束：
+
+1. 第一版优先复用 `gb2760` 与 `ingredients` 现有接口，不为了后台页面重复造查询接口。
+2. `pending_review` / `mapped_candidate` / `unverified` 只能作为待处理状态展示，不得展示为官方结论。
+3. 复核、映射、编辑等写操作必须有权限和审计；没有专用后台 API 前不得让 `admin-web` 直连数据库或脚本。
+4. 食品分类、使用规则、普通配料词库可先只读展示；涉及数据准入或可信状态调整时继续走 GB2760 staging → approve/promote 流程。
+
 - **页面目标**：登记并管理 GB2760 等标准的原始来源文档，作为所有导入与可信度判定的溯源根。
 - **核心字段**：标准号、标题、PDF 文件名、SHA-256、平台记录 ID、发布日期、实施日期。
 - **列表字段**：标准号、标题、PDF 文件名、SHA-256（截断显示+复制）、发布/实施日期、关联导入批次数。

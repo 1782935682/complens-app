@@ -534,6 +534,22 @@ ADMIN-A 导航落地规则：
 | 营养成分字段规则 | 能量、蛋白质、脂肪、糖、钠等解析规则 | Beta | 计划 |
 | 包装卖点词库 | 0 糖、低脂、高蛋白、无添加等词库 | Beta | 计划 |
 
+ADMIN-B 页面/API 登记：
+
+| 页面 | 目标路由 | 第一版数据入口 | 状态边界 |
+| --- | --- | --- | --- |
+| 数据源管理 | `/data-governance/sources` | `GET /api/gb2760/import-runs` 的 `sourceDocument` 摘要 | 只读计划；独立来源管理 API 后置 |
+| GB2760 导入任务 | `/data-governance/import-runs` | `GET /api/gb2760/import-runs`、`GET /api/gb2760/import-runs/:id/errors` | 只读计划；不从 UI 触发脚本 |
+| staging 数据复核 | `/data-governance/staging` | `GET /api/gb2760/staging-rows`、`PUT /api/gb2760/staging-rows/*` | 旧页部分落地；admin-web UI 计划；写操作需 reviewer allowlist |
+| 食品添加剂管理 | `/data-governance/additives` | `GET /api/ingredients`、`GET /api/ingredients/:id?includeEvidence=1` | 第一版只读计划；编辑 API 后置 |
+| 食品分类管理 | `/data-governance/food-categories` | `GET /api/gb2760/reference-rows?table=表 E.1` | 第一版只读计划；独立分类树后置 |
+| 使用规则管理 | `/data-governance/usage-rules` | `GET /api/ingredients/:id?includeEvidence=1` 中的证据和 `usageLimits` | 第一版按添加剂详情查看；规则列表聚合 API 后置 |
+| 普通配料词库 | `/data-governance/common-ingredients` | `GET /api/ingredients?dataStatus=common_ingredient` | Beta 只读计划 |
+| 营养成分字段规则 | `/data-governance/nutrition-rules` | 暂无后端接口 | Beta 计划；等待 nutrition API |
+| 包装卖点词库 | `/data-governance/front-claims` | 暂无后端接口 | Beta 计划；等待卖点解析 API |
+
+所有数据治理页面必须显示 loading / empty / error 三态；凡涉及 `pending_review`、`mapped_candidate`、`unverified` 的列表，必须使用待处理/未验证措辞，不得用官方结论样式。
+
 ### 3.6 OCR / AI / Provider
 | 页面 | 页面目标 | 阶段 | 当前状态 |
 | --- | --- | --- | --- |

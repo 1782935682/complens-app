@@ -599,6 +599,29 @@
 | P2 | 用户、报告、内容运营 | 新增 `/api/admin/users`、`/api/admin/content` 等 | 计划 |
 | P3 | 会员、订阅、支付、订单 | 新增 `/api/admin/memberships`、`subscriptions`、`orders` | 计划 / blocked_by_user |
 
+### 数据治理后台 MVP 复用矩阵（ADMIN-B）
+
+本矩阵只定义 `admin-web` 第一版数据治理页面如何调用 API，不代表 `admin-web/` 已创建。
+
+| 页面能力 | 第一版路由 | 鉴权 | 展示/操作边界 | 后续缺口 |
+|---|---|---|---|---|
+| 数据源管理 | `GET /api/gb2760/import-runs`（使用响应里的 `sourceDocument`） | 登录 | 只读展示来源文档、PDF SHA-256 和关联批次 | 独立 `GET/POST/PATCH /api/admin/data-sources` 后置 |
+| GB2760 导入任务 | `GET /api/gb2760/import-runs`、`GET /api/gb2760/import-runs/:id/errors` | 登录 | 只读查看批次、行数、状态、错误；UI 不触发导入脚本 | 导入任务触发/重跑 API 后置 |
+| staging 数据复核 | `GET /api/gb2760/staging-rows`、`PUT /api/gb2760/staging-rows/review`、`PUT /api/gb2760/staging-rows/:id/review`、`PUT /api/gb2760/staging-rows/:id/mapping` | 登录；写操作需 `GB2760_INTERNAL_REVIEWERS` | `pending_review` / `mapped_candidate` 只能作为待处理状态；写操作保留 reviewer 审计 | admin RBAC 与操作日志后置 |
+| 食品添加剂管理 | `GET /api/ingredients`、`GET /api/ingredients/search`、`GET /api/ingredients/categories`、`GET /api/ingredients/:id?includeEvidence=1` | 匿名接口可复用；后台 UI 仍应要求登录 | 第一版只读查看主数据、可信字段和 GB2760 证据 | `PATCH /api/admin/ingredients/:id` 后置 |
+| 食品分类管理 | `GET /api/gb2760/reference-rows?table=表 E.1`（表名按真实 reference 行过滤） | 登录 | 第一版只读查看分类编码、名称、层级线索 | 独立 food category tree API 后置 |
+| 使用规则管理 | `GET /api/ingredients/:id?includeEvidence=1` 结合 `usageLimits` 和证据展示 | 后台 UI 要求登录 | 第一版按添加剂详情查看 promote 后规则；不得直接编辑 `additive_usage_rules` | `/api/admin/additive-usage-rules` 列表/详情后置 |
+| 普通配料词库 | `GET /api/ingredients?dataStatus=common_ingredient` | 后台 UI 要求登录 | 只读展示普通配料词条，明确非法规结论 | 词库编辑 API 后置 |
+| 营养成分字段规则 | 暂无后端接口 | - | 只做页面/API 计划，不展示为已实现 | 等 `POST /api/nutrition/parse` 后端化 |
+| 包装卖点词库 | 暂无后端接口 | - | 只做页面/API 计划，不展示为已实现 | 等包装卖点解析接口后端化 |
+
+ADMIN-B 禁止事项：
+
+1. 不新增与 `/api/gb2760/*`、`/api/ingredients*` 等价的重复查询接口。
+2. 不把 `source_documents`、`additive_usage_rules` 等数据库表直接暴露给前端或让后台直连数据库。
+3. 不把 `pending_review`、`mapped_candidate`、`unverified` 渲染成官方/已验证结论。
+4. 不在没有审计字段和权限模型时开放成分、规则、分类的后台编辑能力。
+
 ### 1. Dashboard
 
 #### `GET /api/admin/dashboard`  ❌ 计划
