@@ -103,6 +103,7 @@
   4. Batch 5-B / UX-C：统一结果可信表达（dataStatus 文案、颜色变量和 Badge class 映射层）
   5. Batch STACK-C：后端 API 框架规范化（Hono 后端唯一入口、routes/services/db/provider 分层边界、计划接口落地顺序）
   6. Batch STACK-D：后台管理端 `admin-web` 规划（独立工程边界、工作台路由分组、后台 API 落地边界）
+  7. Batch ADMIN-A：后台信息架构与菜单细化（Dashboard、数据治理、食品标签业务、用户与会员、内容运营、Provider、系统配置、权限审计阶段矩阵）
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
@@ -110,8 +111,8 @@
   3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
 
 → 下一个可执行任务：
-  1. 本批 PR 合并后执行 Batch ADMIN-A：后台信息架构与菜单细化（继续只做文档规划，不创建 `admin-web/` 工程）。
-  2. 然后执行 ADMIN-B：数据治理后台 MVP 的接口复用与页面/API 计划。
+  1. 本批 PR 合并后执行 ADMIN-B：数据治理后台 MVP 的接口复用与页面/API 计划。
+  2. 然后执行 ADMIN-C / ADMIN-D：用户反馈、扫描/报告记录、内容运营与协议版本管理规划。
   3. 消费者标签后端 API（labels/nutrition/reports）在后台规划边界确认后继续。
 
 → 后续暂缓，等待产品页面设计统一推进：
@@ -1994,7 +1995,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：已在 `ADMIN_CONSOLE_SPEC.md` 补后台一级菜单、二级页面、阶段和 MVP 边界矩阵；在 `PAGE_STRUCTURE.md` 明确后台导航顺序、页面登记规则和支付/订阅不上 MVP；在 `UI_ROADMAP.md` 补 ADMIN-A 收口说明。未创建 `admin-web/` 工程。
 
 ### Batch ADMIN-B：数据治理后台 MVP [Codex]
 
@@ -2185,7 +2186,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 阶段 14（前端规范落地）：FRONTEND-A → B → C → D → E✅ → F
 阶段 15（跨端实现准备）：PLATFORM-A✅ → B → C → D[后置] → E[blocked]
 阶段 16（统一跨端技术栈重构）：STACK-A → B → C → D → E → F
-阶段 17（后台管理系统规划）：ADMIN-A → B → C → D → E[人工+Codex, blocked] → F → G → H
+阶段 17（后台管理系统规划）：ADMIN-A✅ → B → C → D → E[人工+Codex, blocked] → F → G → H
 ```
 
 关键人工卡点：
