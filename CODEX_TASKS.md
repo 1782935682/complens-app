@@ -101,6 +101,7 @@
   2. Batch 4-C：低置信匹配确认交互（报告待确认区块、确认/驳回持久化、驳回候选进人工校验队列）
   3. Batch 8-C：loading / empty / error 状态统一复核（搜索初始空态、GB2760 复核页、GB2760 参考表错误态补齐动作）
   4. Batch 5-B / UX-C：统一结果可信表达（dataStatus 文案、颜色变量和 Badge class 映射层）
+  5. Batch STACK-C：后端 API 框架规范化（Hono 后端唯一入口、routes/services/db/provider 分层边界、计划接口落地顺序）
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
@@ -108,9 +109,9 @@
   3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
 
 → 下一个可执行任务：
-  1. PR 合并后先执行 Batch STACK-A：确认现有 backend/frontend/Capacitor 结构并形成迁移方案。
-  2. 然后执行 STACK-B/STACK-C：规划 `user-uniapp` 与后端 API 规范化。
-  3. 消费者标签功能实现（CONSUMER-LABEL-A/B/C/D）在架构边界确认后继续。
+  1. 本批 PR 合并后执行 Batch STACK-D：后台管理端 `admin-web` 规划（只做规划，不创建工程，除非用户确认启动）。
+  2. 然后执行 STACK-E/STACK-F：旧前端迁移边界与后续 API 后端化落地计划。
+  3. 消费者标签后端 API（labels/nutrition/reports）在架构边界确认后继续。
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -1890,7 +1891,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：涉及代码时 `cd backend && npm run typecheck` + 相关测试；纯文档 `git diff --check`。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：已核对现有 `backend/src` 真实结构，确认继续复用 Hono 单后端；在 `ARCHITECTURE_SPEC.md` / `API_CONTRACT.md` 中补充分层边界、现有路由责任、计划接口归属和消费者主路径后端化顺序；未创建第二套服务或空目录。
 
 ### Batch STACK-D：后台管理端 admin-web 规划 [Codex]
 

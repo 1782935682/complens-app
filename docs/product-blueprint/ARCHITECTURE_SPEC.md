@@ -58,7 +58,7 @@ MVP 后置能力：
 |---|---|---|---|
 | 用户端 | `user-uniapp`：uni-app + Vue3 | 当前 `src/` 是纯 JS + Vite + hash 路由 Web/PWA 原型 | 保留为历史原型和迁移来源，不继续承载复杂新业务 |
 | 后台管理端 | `admin-web`：Vue3 + TDesign Web | 尚未独立建设；仅有嵌入用户端的 GB2760 复核页 | 单独建设后台项目，不与用户端强行共用页面代码 |
-| 后端 API | Node.js + Hono 或 Fastify | 已有 `backend/`，技术栈为 Node.js + TypeScript + Hono | 优先复用现有 `backend`，不要重复创建 Express/Nest/Fastify 服务；如需 Fastify 仅作为未来评估，不作为当前迁移目标 |
+| 后端 API | Node.js + Hono | 已有 `backend/`，技术栈为 Node.js + TypeScript + Hono | 优先复用现有 `backend`，不要重复创建 Express/Nest/Fastify 服务；Fastify 仅可作为未来评估，不作为当前迁移目标 |
 | 数据库 | PostgreSQL + Drizzle | 已有 PostgreSQL + Drizzle | 继续复用 |
 | OCR 服务 | Python FastAPI + RapidOCR | 已对接本机 RapidOCR 服务 | 继续作为本地 OCR provider，生产后再切 Aliyun OCR |
 
@@ -91,6 +91,64 @@ backend/
 ```
 
 当前没有 `providers/validators/jobs` 时，不要为“目录好看”空建大量无用文件；应在对应业务落地时补齐。
+
+### 4.1 当前后端真实结构（2026-06-15）
+
+本轮已核对 `backend/src`，当前真实结构如下：
+
+```text
+backend/src/
+  app.ts                 # Hono app 装配、CORS、全局错误、路由挂载
+  index.ts               # Node server 启动入口
+  config.ts              # 环境变量读取与默认值
+  middleware/
+    auth.ts              # JWT 鉴权
+    requestLogger.ts     # 请求日志
+  routes/
+    auth.ts              # /api/auth/*
+    gb2760.ts            # /api/gb2760/*
+    health.ts            # /health
+    ingredients.ts       # /api/ingredients/*
+    ocr.ts               # /api/ocr
+    user.ts              # /api/user/*
+  services/
+    authService.ts
+    gb2760Service.ts
+    gb2760PromoteService.ts
+    gb2760ValidateService.ts
+    ingredientService.ts
+    ocrProviders/index.ts
+    userService.ts
+  db/
+    client.ts
+    schema.ts
+    migrations/
+```
+
+现有路由边界：
+
+| 模块 | 当前状态 | 责任边界 |
+|---|---|---|
+| `health` | 已实现 | 服务健康检查，匿名访问 |
+| `auth` | 已实现 | 邮箱注册、登录、登出、当前用户、注销账户 |
+| `ingredients` | 已实现 | 配料/添加剂检索、详情、分类、批量匹配；匿名访问 |
+| `ocr` | 已实现 | OCR Provider 代理；manual/mock/rapidocr/aliyun/paddleocr 配置边界 |
+| `user` | 已实现 | 登录态用户收藏、报告、产品档案、关注项、过敏原等个人数据 |
+| `gb2760` | 已实现 | 内部 GB2760 导入状态、参考表、staging 审核与映射；写操作需要内部 reviewer |
+| `labels` / `nutrition` / `reports` | 计划 | 食品标签扫描会话、标签类型识别、营养解析、标签报告生成 |
+| `admin` | 计划 | 后台管理端聚合 API，后续随 `admin-web` 分期落地 |
+
+### 4.2 后端分层边界（STACK-C）
+
+后续新增 API 按以下边界落地：
+
+1. `routes/` 只做 HTTP 契约、鉴权、参数读取、错误状态映射，不直接写数据库查询和第三方调用。
+2. `services/` 承载业务编排、数据可信状态判断、DB 访问组合、报告生成和解析逻辑。
+3. `ocrProviders` 目前保留在 `services/ocrProviders/`；当 AI、支付、推送等第二类 provider 真实落地时，再评估统一迁入 `providers/`，不要提前空建目录。
+4. `db/schema.ts` 和迁移文件继续作为 Drizzle schema 的事实来源；请求/响应 schema 若需要复用，再按接口批次补 `schemas/` 或 `validators/`。
+5. `jobs/` 只在出现真实异步任务（导入、统计、清理、重试队列）时创建；现有 GB2760 脚本继续放在 `backend/scripts/`。
+6. 用户端、后台、小程序、App 不直连 OCR / AI / 数据库 / 导入脚本，全部通过 `backend/` API。
+7. 未实现接口必须在 `API_CONTRACT.md` 标为计划或部分实现；页面不得把 mock adapter 或本地 parser 展示为后端事实。
 
 ## 5. 旧前端处理策略
 
