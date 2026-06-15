@@ -45,6 +45,7 @@ function confirmDelete() {
 
     <EmptyState
       v-if="!filteredReports.length"
+      icon="📜"
       title="没有历史报告"
       description="完成一次食品标签解读后，可以在这里打开或删除本地记录。"
       action-label="开始拍照"
@@ -69,6 +70,7 @@ function confirmDelete() {
       :open="Boolean(deletingId)"
       title="删除历史记录"
       message="删除后只会移除本机记录，不影响你之后重新生成报告。"
+      confirm-label="确认删除"
       @close="deletingId = ''"
       @confirm="confirmDelete"
     />

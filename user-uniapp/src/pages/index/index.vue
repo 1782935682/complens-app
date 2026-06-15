@@ -75,7 +75,7 @@ function startManualTextEntry() {
         @action="navigateToRoute(routes.capture)"
       />
       <view v-else class="stack">
-        <AppCard v-for="report in recentReports" :key="report.id">
+        <AppCard v-for="report in recentReports" :key="report.id" clickable>
           <view class="report-row" @tap="openReport(report)">
             <text class="report-row__title">{{ report.productName }}</text>
             <text class="report-row__summary">{{ report.summarySentence }}</text>
@@ -128,6 +128,14 @@ function startManualTextEntry() {
   line-height: 1.4;
   padding: var(--space-md);
   text-align: left;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.scenario-card:active {
+  border-color: var(--primary-tint);
+  background-color: var(--primary-soft);
+  color: var(--primary-strong);
+  transform: scale(0.98);
 }
 
 .scenario-card::after {

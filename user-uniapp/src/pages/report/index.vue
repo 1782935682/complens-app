@@ -43,6 +43,7 @@ function formatNutritionValue(field: NutritionField): string {
   <view class="page stack">
     <EmptyState
       v-if="!report"
+      icon="❌"
       title="报告不存在"
       description="可能已被删除，或本机没有对应历史记录。"
       action-label="返回历史"
@@ -62,7 +63,7 @@ function formatNutritionValue(field: NutritionField): string {
       <AppCard>
         <view class="stack">
           <text class="section-title">我的关注项</text>
-          <EmptyState v-if="!report.attentionHits.length" title="未命中关注项" description="可以在我的关注项中调整控糖、低钠、忌口等设置。" action-label="调整关注项" @action="navigateToRoute(routes.attention)" />
+          <EmptyState v-if="!report.attentionHits.length" icon="🎯" title="未命中关注项" description="可以在我的关注项中调整控糖、低钠、忌口等设置。" action-label="调整关注项" @action="navigateToRoute(routes.attention)" />
           <view v-else class="stack">
             <view v-for="hit in report.attentionHits" :key="hit.key" class="report-list-item">
               <text class="report-list-item__title">{{ hit.label }}</text>
@@ -92,14 +93,14 @@ function formatNutritionValue(field: NutritionField): string {
               <text class="nutrition-value-row__value">{{ formatNutritionValue(field) }}</text>
             </view>
           </view>
-          <EmptyState v-else title="未提供营养成分表" description="如需查看糖、钠、脂肪等字段，可补拍或粘贴营养成分表文字。" />
+          <EmptyState v-else icon="📊" title="未提供营养成分表" description="如需查看糖、钠、脂肪等字段，可补拍或粘贴营养成分表文字。" />
         </view>
       </AppCard>
 
       <AppCard>
         <view class="stack">
           <text class="section-title">食品添加剂分组</text>
-          <EmptyState v-if="!report.additiveGroups.length" title="未识别到添加剂分组" description="这只表示当前文本和数据未匹配到相关分组，建议结合包装原文确认。" />
+          <EmptyState v-if="!report.additiveGroups.length" icon="🍃" title="未识别到添加剂分组" description="这只表示当前文本和数据未匹配到相关分组，建议结合包装原文确认。" />
           <view v-for="group in report.additiveGroups" :key="group.label" class="report-list-item">
             <text class="report-list-item__title">{{ group.label }}</text>
             <text class="muted">{{ group.items.map((item) => item.normalizedText).join('、') }}</text>
@@ -110,7 +111,7 @@ function formatNutritionValue(field: NutritionField): string {
       <AppCard>
         <view class="stack">
           <text class="section-title">过敏/忌口提示</text>
-          <EmptyState v-if="!report.allergenHints.length" title="暂未识别到相关提示" description="请仍以包装上的过敏原提示和完整配料表为准。" />
+          <EmptyState v-if="!report.allergenHints.length" icon="🛡️" title="暂未识别到相关提示" description="请仍以包装上的过敏原提示和完整配料表为准。" />
           <text v-for="hint in report.allergenHints" :key="hint" class="muted">{{ hint }}</text>
         </view>
       </AppCard>
@@ -118,7 +119,7 @@ function formatNutritionValue(field: NutritionField): string {
       <AppCard>
         <view class="stack">
           <text class="section-title">暂未识别/暂未收录</text>
-          <EmptyState v-if="!report.unknownItems.length" title="没有暂未收录项" description="已按当前文本完成匹配确认。" />
+          <EmptyState v-if="!report.unknownItems.length" icon="✅" title="没有暂未收录项" description="已按当前文本完成匹配确认。" />
           <view v-else class="pill-list">
             <IngredientChip v-for="item in report.unknownItems" :key="item" :name="item" status="unknown_from_ocr" />
           </view>

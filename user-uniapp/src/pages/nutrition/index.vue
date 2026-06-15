@@ -35,6 +35,7 @@ function continueToMatch() {
 
     <EmptyState
       v-if="!fields.length"
+      icon="📊"
       title="没有营养字段"
       description="请返回文本确认页粘贴营养成分表文字。"
       action-label="回到文本确认"

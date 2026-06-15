@@ -149,6 +149,12 @@ async function syncScanType(type: LabelType) {
   gap: var(--space-xs);
   padding: var(--space-md);
   text-align: left;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-card);
+}
+
+.label-option:active {
+  transform: scale(0.98);
 }
 
 .label-option::after {
@@ -158,6 +164,9 @@ async function syncScanType(type: LabelType) {
 .label-option--active {
   border-color: var(--primary);
   background: var(--primary-soft);
+  border-left: 4px solid var(--primary-strong);
+  padding-left: calc(var(--space-md) - 3px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.04);
 }
 
 .label-option__title {

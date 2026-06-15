@@ -91,8 +91,11 @@ function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<Scan
           <text class="field-label">产品名（可选）</text>
           <input v-model="productName" class="input" placeholder="例如：全麦饼干" />
         </view>
-        <view class="row">
-          <text class="field-label">当前类型：{{ labelTypeLabels[labelType] }}</text>
+        <view class="label-type-row">
+          <view class="label-type-tag">
+            <text class="label-type-tag__bullet">●</text>
+            <text class="label-type-tag__text">{{ labelTypeLabels[labelType] }}</text>
+          </view>
           <text class="link" @tap="editLabelType">修改类型</text>
         </view>
         <view>
@@ -103,6 +106,7 @@ function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<Scan
     </AppCard>
     <EmptyState
       v-if="isEmpty"
+      icon="📝"
       title="还没有可分析文本"
       description="你可以手动输入，也可以返回重新上传清晰图片。"
       action-label="重新上传"
@@ -113,3 +117,35 @@ function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<Scan
     <AppButton variant="text" @click="restartScan">重新上传</AppButton>
   </view>
 </template>
+
+<style scoped>
+.label-type-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: var(--space-sm) 0;
+}
+
+.label-type-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  border: 1px solid rgba(5, 150, 105, 0.18);
+  border-radius: var(--radius-btn);
+  padding: 4px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.label-type-tag__bullet {
+  font-size: 8px;
+  line-height: 1;
+}
+
+.label-type-tag__text {
+  line-height: 1.2;
+}
+</style>
