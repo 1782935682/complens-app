@@ -44,7 +44,7 @@ export function buildLabelReport(input: {
     additiveGroups: groupAdditives(additiveItems),
     allergenHints: buildAllergenHints(reportMatches),
     unknownItems,
-    sources: buildSources(acceptedMatches, reportMatches),
+    sources: buildSources(acceptedMatches, { allMatches: reportMatches }),
     rawText: input.rawText
   };
   return report;
@@ -205,7 +205,8 @@ const allergenTerms = [
   { label: '海鲜', patterns: ['海鲜', '虾', '蟹', '鱼', '贝类'] }
 ];
 
-function buildSources(matches: IngredientMatch[], allMatches: IngredientMatch[] = matches): ReportSource[] {
+function buildSources(matches: IngredientMatch[], options: { allMatches?: IngredientMatch[] } = {}): ReportSource[] {
+  const allMatches = options.allMatches ?? matches;
   const sources: ReportSource[] = [
     {
       label: 'OCR / 手动确认文本',
