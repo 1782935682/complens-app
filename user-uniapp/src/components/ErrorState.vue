@@ -16,8 +16,8 @@ const emit = defineEmits<{ action: [] }>();
 <style scoped>
 .error-state {
   border-radius: var(--radius-card);
-  border: 1px solid #f4c790;
-  background: #fff8ec;
+  border: 1px solid var(--error-border);
+  background: var(--error-surface);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
@@ -25,13 +25,13 @@ const emit = defineEmits<{ action: [] }>();
 }
 
 .error-state__title {
-  color: #7a3b10;
+  color: var(--error-text);
   font-size: var(--font-size-lg);
   font-weight: 800;
 }
 
 .error-state__description {
-  color: #7a3b10;
+  color: var(--error-text);
   font-size: var(--font-size-sm);
   line-height: 1.6;
 }

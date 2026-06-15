@@ -1,5 +1,5 @@
 import { readJson, writeJson } from '@/platform/storage';
-import type { LabelReport, ScanDraft } from '@/types';
+import type { LabelReport, LocalImageAsset, ScanDraft } from '@/types';
 
 const DRAFT_KEY = 'complens:user-scan-draft';
 const REPORTS_KEY = 'complens:user-label-reports';
@@ -58,10 +58,21 @@ export function deleteReport(id: string): LabelReport[] {
 }
 
 function toPersistedDraft(draft: ScanDraft): ScanDraft {
-  if (!draft.image?.file) return draft;
-  const { file: _file, ...imageMeta } = draft.image;
   return {
     ...draft,
-    image: imageMeta
+    image: toPersistedImage(draft.image)
   };
+}
+
+function toPersistedImage(image?: LocalImageAsset): LocalImageAsset | undefined {
+  if (!image) return undefined;
+  const { file: _file, ...imageMeta } = image;
+  return {
+    ...imageMeta,
+    tempFilePath: isInlineImageDataUrl(imageMeta.tempFilePath) ? '' : imageMeta.tempFilePath
+  };
+}
+
+function isInlineImageDataUrl(path: string): boolean {
+  return /^data:image\//i.test(path);
 }

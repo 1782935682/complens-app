@@ -19,8 +19,9 @@ const steps = ['拍照', '识别', '确认', '报告'];
 onMounted(async () => {
   loading.value = true;
   const draft = getScanDraft();
-  classification.value = draft.classification || await classifyLabelWithAdapter(draft.ocr?.text || draft.confirmedText || '');
-  selectedType.value = classification.value.labelType;
+  const nextClassification = draft.classification || await classifyLabelWithAdapter(draft.confirmedText || draft.ocr?.text || '');
+  selectedType.value = getPreferredLabelType(draft.labelType, nextClassification.labelType);
+  classification.value = applyManualTypeOverride(nextClassification, selectedType.value);
   saveScanDraft({ classification: classification.value, labelType: selectedType.value });
   loading.value = false;
 });
@@ -31,12 +32,28 @@ function selectType(type: LabelType) {
     return;
   }
   selectedType.value = type;
-  saveScanDraft({ labelType: type });
+  if (classification.value) classification.value = applyManualTypeOverride(classification.value, type);
+  saveScanDraft({ classification: classification.value, labelType: type });
 }
 
 function continueToConfirm() {
-  saveScanDraft({ labelType: selectedType.value });
+  if (classification.value) classification.value = applyManualTypeOverride(classification.value, selectedType.value);
+  saveScanDraft({ classification: classification.value, labelType: selectedType.value });
   uni.navigateTo({ url: routes.confirmText });
+}
+
+function getPreferredLabelType(savedType: LabelType, inferredType: LabelType): LabelType {
+  return savedType && savedType !== 'unknown_label' ? savedType : inferredType;
+}
+
+function applyManualTypeOverride(base: LabelClassification, type: LabelType): LabelClassification {
+  if (type === 'unknown_label' || base.labelType === type) return base;
+  return {
+    ...base,
+    labelType: type,
+    requiresUserSelection: false,
+    reasons: [`已按手动选择设置为${labelTypeLabels[type]}。`, ...base.reasons.filter((reason) => !reason.startsWith('已按手动选择'))]
+  };
 }
 </script>
 

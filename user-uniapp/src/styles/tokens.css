@@ -20,6 +20,9 @@ page {
   --status-unverified: #9ca3af;
   --status-unknown: #6b7280;
   --status-info: #2563eb;
+  --error-border: #f4c790;
+  --error-surface: #fff8ec;
+  --error-text: #7a3b10;
   --allergen: #dc2626;
   --avoid: #ea580c;
   --space-xs: 4px;

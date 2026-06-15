@@ -30,21 +30,7 @@ function clearText() {
 function continueFlow() {
   const confirmedText = text.value.trim();
   if (!confirmedText) return;
-  const previous = getScanDraft();
-  const textChanged = confirmedText !== previous.confirmedText;
-  const labelTypeChanged = labelType.value !== previous.labelType;
-  const nextDraft: Partial<ScanDraft> = {
-    confirmedText,
-    productName: productName.value.trim(),
-    labelType: labelType.value,
-    frontClaimsText: labelType.value === 'front_claims' ? confirmedText : '',
-    ingredients: [],
-    nutrition: [],
-    matches: []
-  };
-  if (textChanged || labelTypeChanged) nextDraft.classification = undefined;
-  if (textChanged) nextDraft.ocr = undefined;
-  saveScanDraft(nextDraft);
+  saveScanDraft(buildCurrentTextDraft({ resetDerived: true }));
   if (labelType.value === 'ingredient_list') {
     uni.navigateTo({ url: routes.ingredients });
     return;
@@ -58,6 +44,32 @@ function continueFlow() {
     return;
   }
   uni.navigateTo({ url: routes.labelType });
+}
+
+function editLabelType() {
+  saveScanDraft(buildCurrentTextDraft({ resetDerived: false }));
+  uni.navigateTo({ url: routes.labelType });
+}
+
+function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<ScanDraft> {
+  const confirmedText = text.value.trim();
+  const previous = getScanDraft();
+  const textChanged = confirmedText !== previous.confirmedText;
+  const labelTypeChanged = labelType.value !== previous.labelType;
+  const nextDraft: Partial<ScanDraft> = {
+    confirmedText,
+    productName: productName.value.trim(),
+    labelType: labelType.value,
+    frontClaimsText: labelType.value === 'front_claims' ? confirmedText : ''
+  };
+  if (options.resetDerived || textChanged || labelTypeChanged) {
+    nextDraft.ingredients = [];
+    nextDraft.nutrition = [];
+    nextDraft.matches = [];
+  }
+  if (textChanged || labelTypeChanged) nextDraft.classification = undefined;
+  if (textChanged) nextDraft.ocr = undefined;
+  return nextDraft;
 }
 </script>
 
@@ -76,7 +88,7 @@ function continueFlow() {
         </view>
         <view class="row">
           <text class="field-label">当前类型：{{ labelTypeLabels[labelType] }}</text>
-          <text class="link" @tap="navigateToRoute(routes.labelType)">修改类型</text>
+          <text class="link" @tap="editLabelType">修改类型</text>
         </view>
         <view>
           <text class="field-label">OCR 原文 / 手动输入</text>
