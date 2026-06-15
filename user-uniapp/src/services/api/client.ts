@@ -15,19 +15,20 @@ export interface ApiRequestOptions {
 
 const API_BASE_URL_KEY = 'complens:user-api-base-url';
 const AUTH_TOKEN_KEY = 'compcheck:auth-token';
-const DEFAULT_API_BASE_URL = '/api';
+const DEFAULT_H5_API_BASE_URL = '/api';
+const PUBLIC_API_BASE_URL = normalizeApiBaseUrl(__COMPLENS_USER_API_BASE_URL__);
 const DEFAULT_TIMEOUT_MS = 8000;
 
 export function getApiBaseUrl(): string {
-  return readString(API_BASE_URL_KEY, DEFAULT_API_BASE_URL).replace(/\/$/, '') || DEFAULT_API_BASE_URL;
+  return normalizeApiBaseUrl(readString(API_BASE_URL_KEY, getDefaultApiBaseUrl()));
 }
 
 export function setApiBaseUrl(value: string): void {
-  writeString(API_BASE_URL_KEY, value.trim() || DEFAULT_API_BASE_URL);
+  writeString(API_BASE_URL_KEY, normalizeApiBaseUrl(value) || getDefaultApiBaseUrl());
 }
 
 export async function requestJson<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
-  const url = `${getApiBaseUrl()}${path.startsWith('/') ? path : `/${path}`}`;
+  const url = buildRequestUrl(path);
   const method = options.method || 'GET';
   const timeout = options.timeoutMs || DEFAULT_TIMEOUT_MS;
 
@@ -68,6 +69,41 @@ export async function requestJson<T>(path: string, options: ApiRequestOptions = 
 function normalizeRequestError(error: unknown): string {
   if (error instanceof Error) return error.message;
   return String((error as { errMsg?: string })?.errMsg || 'network_error');
+}
+
+function buildRequestUrl(path: string): string {
+  const baseUrl = getApiBaseUrl();
+  if (!baseUrl) {
+    throw createApiError('api_base_url_required', '非 H5 平台需要配置 USER_API_BASE_URL 后才能访问后端 API。');
+  }
+  if (requiresAbsoluteApiBaseUrl() && !/^https?:\/\//i.test(baseUrl)) {
+    throw createApiError('api_base_url_required', '非 H5 平台需要配置绝对后端 API 地址。');
+  }
+  return `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
+}
+
+function getDefaultApiBaseUrl(): string {
+  // #ifdef H5
+  return PUBLIC_API_BASE_URL || DEFAULT_H5_API_BASE_URL;
+  // #endif
+  return PUBLIC_API_BASE_URL;
+}
+
+function requiresAbsoluteApiBaseUrl(): boolean {
+  // #ifdef H5
+  return false;
+  // #endif
+  return true;
+}
+
+function normalizeApiBaseUrl(value: string): string {
+  return String(value || '').trim().replace(/\/$/, '');
+}
+
+function createApiError(code: string, message: string): ApiError {
+  const error = new Error(message) as ApiError;
+  error.code = code;
+  return error;
 }
 
 function buildAuthHeader(): Record<string, string> {

@@ -119,16 +119,22 @@ function addFieldHighlight(target: string[], field: NutritionField | undefined, 
 }
 
 function groupAdditives(items: IngredientMatch[]): Array<{ label: string; items: IngredientMatch[] }> {
-  const groups = [
+  const specificGroups = [
     { label: '防腐剂', test: (value: string) => /山梨酸|苯甲酸|防腐/.test(value) },
     { label: '甜味剂', test: (value: string) => /甜味|阿斯巴甜|三氯蔗糖|安赛蜜/.test(value) },
     { label: '色素', test: (value: string) => /色|胭脂红|柠檬黄|焦糖/.test(value) },
-    { label: '食用香精', test: (value: string) => /香精|香料/.test(value) },
-    { label: '其他食品添加剂', test: () => true }
+    { label: '食用香精', test: (value: string) => /香精|香料/.test(value) }
   ];
-  return groups
-    .map((group) => ({ label: group.label, items: items.filter((item) => group.test(item.normalizedText)) }))
+  const assignedIds = new Set<string>();
+  const groups = specificGroups
+    .map((group) => {
+      const groupItems = items.filter((item) => !assignedIds.has(item.id) && group.test(item.normalizedText));
+      groupItems.forEach((item) => assignedIds.add(item.id));
+      return { label: group.label, items: groupItems };
+    })
     .filter((group) => group.items.length);
+  const otherItems = items.filter((item) => !assignedIds.has(item.id));
+  return otherItems.length ? [...groups, { label: '其他食品添加剂', items: otherItems }] : groups;
 }
 
 function buildAllergenHints(matches: IngredientMatch[]): string[] {

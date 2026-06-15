@@ -19,6 +19,8 @@
 
 食品搜索和详情默认请求同源 `/api`；如需指向独立后端，可在浏览器本地设置 `compcheck:api-base-url`。后端不可用时，前端食品搜索/详情会降级到本地 `src/data/foodAdditives.js` seed，并展示错误提示和未验证状态。
 
+正式用户端 `user-uniapp/` 的 H5 构建默认使用同源 `/api`，由 dev proxy 或部署网关转发到后端。微信小程序 / App 没有 Vite proxy，必须在构建或运行前提供绝对后端 API base path：构建时设置公开变量 `USER_API_BASE_URL=https://api.example.com/api`，或在测试环境写入本地存储 key `complens:user-api-base-url`。该变量只允许保存后端 API origin / base path，不得放 OCR Key、AI Key 或其他密钥；未配置时非 H5 请求会明确失败并进入 manual/mock fallback，不伪造后端结果。
+
 OCR Provider 抽象已支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。`OCR_PROVIDER=mock` 会返回明确标注为 `provider: "mock"` 的固定测试结果；`OCR_PROVIDER=rapidocr` 会调用本机 `/home/downloads/tools/complens-ocr` FastAPI 服务，不需要 `OCR_API_KEY`，当前代码配置名为 `OCR_SERVICE_URL`。统一架构目标把本机 OCR 固定为后端内网调用（目标 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr`），变量改名和端口统一属于后续配置迁移，未完成前不要让 `OCR_SERVICE_URL` 和 `OCR_LOCAL_URL` 长期并存且含义不清。`aliyun` / `paddleocr` 缺少 `OCR_API_KEY` 时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
 
 GB2760 内部复核写接口需要登录且账号在后端 allowlist 内。开发/部署时用 `GB2760_INTERNAL_REVIEWERS` 配置逗号分隔的内部邮箱或用户 ID；未配置时，`PUT /api/gb2760/staging-rows/*` 会对普通登录账号返回 `403 forbidden`，只读查询仍只要求登录。
@@ -123,6 +125,13 @@ npm run build:mp-weixin
 ```
 
 构建完成后用微信开发者工具导入 `user-uniapp/dist/build/mp-weixin` 进行平台调试。小程序/App 真机权限、相机和相册体验验收仍需后续补充。
+
+如需让小程序 / App 构建直接访问后端，先提供绝对 API 地址：
+
+```bash
+cd user-uniapp
+USER_API_BASE_URL=https://api.example.com/api npm run build:mp-weixin
+```
 
 本地开发时，Vite 会把 `/api` 代理到 `API_ORIGIN`，默认是 `http://127.0.0.1:3000`。需要验证前端真实读取数据库时，先启动后端和数据库，再启动前端。这里的 `db:migrate` / `db:seed` 与后文数据库章节是同一组命令，只执行一次即可：
 

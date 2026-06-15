@@ -13,3 +13,4 @@ dist/
 
 # Local Codex automation artifacts
 codex-auto-*.prompt
+migrate-frontend-uniapp.prompt
