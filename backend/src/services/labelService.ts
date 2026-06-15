@@ -43,7 +43,7 @@ export function isLabelType(value: unknown): value is LabelType {
 }
 
 function classifyLabel(input: LabelClassifyInput): LabelClassificationResult {
-  if (input.userSelectedType && input.userSelectedType !== 'unknown_label') {
+  if (input.userSelectedType) {
     return {
       labelType: input.userSelectedType,
       confidence: 1,

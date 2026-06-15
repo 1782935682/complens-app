@@ -111,6 +111,24 @@ describe('POST /api/labels/classify', () => {
     });
   });
 
+  it('honors explicit unknown label selections', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/labels/classify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: '配料：水、白砂糖、食品添加剂', userSelectedType: 'unknown_label' })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body).toEqual({
+      labelType: 'unknown_label',
+      confidence: 1,
+      requiresUserSelection: false,
+      reasons: ['已按用户选择设置为未知标签。']
+    });
+  });
+
   it('rejects invalid user selected label types', async () => {
     const app = createTestApp();
     const response = await app.request('/api/labels/classify', {
