@@ -107,6 +107,7 @@
   8. Batch ADMIN-B：数据治理后台 MVP 页面/API 计划（复用 `/api/gb2760/*` 与 `/api/ingredients*`，明确只读、写权限和接口缺口）
   9. Batch ADMIN-C：用户与反馈管理页面/API 计划（用户列表/详情、扫描/报告、产品档案、反馈工单、隐私和审计边界）
   10. Batch ADMIN-D：内容运营后台页面/API 计划（公告、Banner、首页场景卡、FAQ、数据说明、隐私/协议版本管理）
+  11. Batch ADMIN-F/G/H：OCR/AI 监控、权限审计、系统配置与功能开关页面/API 计划
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
@@ -114,8 +115,8 @@
   3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
 
 → 下一个可执行任务：
-  1. 本批 PR 合并后跳过 ADMIN-E 支付订阅人工阻塞，执行 ADMIN-F / ADMIN-G / ADMIN-H：OCR/AI 监控、权限审计、系统配置规划。
-  2. 然后继续消费者标签后端 API（labels/nutrition/reports）代码实现，逐步减少前端 mock/local-only adapter。
+  1. 本批 PR 合并后继续消费者标签后端 API（labels/nutrition/reports）代码实现，逐步减少 `user-uniapp` 前端 mock/local-only adapter。
+  2. ADMIN-E 会员订阅/支付继续 `blocked_by_user`，不阻塞主路径后端化。
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -160,6 +161,7 @@
 | Batch 1-D | `validate:gb2760` 数据校验命令 + CI 数据准入校验 | ✅ 2026-06-14 |
 | Batch 8-C | loading / empty / error 状态统一复核 | ✅ 2026-06-14 |
 | Batch 5-B / UX-C | 统一结果可信表达映射层 | ✅ 2026-06-14 |
+| Batch ADMIN-F/G/H | OCR/AI 监控、权限审计、系统配置页面/API 规划 | ✅ 2026-06-15 |
 
 > 这些已完成项被映射到下方各阶段并标记 ✅；详细 GB2760 完成记录见文末"附录：GB2760 导入历史记录"。
 
@@ -2117,7 +2119,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：纯规划 `git diff --check`；实现时补充后端 typecheck/test。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：已在 `ADMIN_CONSOLE_SPEC.md` 补 ADMIN-F OCR/AI/Provider 页面/API 矩阵；在 `API_CONTRACT.md` 明确 OCR Provider 状态、OCR 日志、OCR 指标、AI Provider、AI 调用日志、成本汇总和降级策略接口均为计划/blocked；在 `PAGE_STRUCTURE.md` 登记目标路由、数据入口、隐私和密钥边界。未创建 `admin-web/` 工程，未新增后端接口。
 
 ### Batch ADMIN-G：权限与审计 [Codex]
 
@@ -2141,7 +2143,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：纯规划 `git diff --check`；实现时补充后端/admin-web 验证。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：已在 `ADMIN_CONSOLE_SPEC.md` 补 ADMIN-G 权限与审计页面/API 矩阵；在 `API_CONTRACT.md` 明确当前权限自检、reviewer allowlist 状态、操作日志、审计日志、角色权限和管理员管理接口均为计划；在 `PAGE_STRUCTURE.md` 登记目标路由和 RBAC / allowlist / 审计边界。未创建 RBAC 表、`admin-web/` 工程或后端接口。
 
 ### Batch ADMIN-H：系统配置与功能开关 [Codex]
 
@@ -2165,7 +2167,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：纯规划 `git diff --check`；实现时补充后端/admin-web 验证。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：已在 `ADMIN_CONSOLE_SPEC.md` 补 ADMIN-H 系统配置与功能开关页面/API 矩阵；在 `API_CONTRACT.md` 明确 feature flags、platform config、app versions、share config、notification config、SDK config 等计划接口和密钥/平台/审计边界；在 `PAGE_STRUCTURE.md` 登记目标路由和第一版数据入口。未创建配置表、`admin-web/` 工程或后端接口。
 
 ---
 

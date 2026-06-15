@@ -731,35 +731,111 @@ ADMIN-B 禁止事项：
 - 配置项：是否启用 OCR、默认 OCR Provider、是否启用 AI 解读、免费 OCR 次数、免费报告保存数量、是否启用产品对比、是否启用包装卖点核对、是否展示订阅入口、维护模式、最低 App 版本。
 - 平台范围：`web`、`wechat_mp`、`ios`、`android`、`all`。
 - 审计：配置变更必须记录操作者和操作前后值。
+- 边界：开关只能控制入口或能力启停，不能绕过后端鉴权、OCR 文本确认、数据可信状态、隐私授权或人工阻塞项。
+
+#### `GET /api/admin/platform-config` / `PATCH /api/admin/platform-config`  ❌ 计划
+- 用途：管理各端平台配置摘要。
+- 字段：`platform`（`web|wechat_mp|ios|android|all`）、`apiBaseUrlRef`、`enabledFeatures[]`、`minClientVersion?`、`maintenanceMode`、`updatedAt`。
+- 规则：API base 只保存后端 API origin / base path；不得保存 OCR Key、AI Key、支付密钥或证书。
+- 审计：平台配置变更必须记录平台范围、操作者、前后值和原因。
+
+#### `GET /api/admin/app-versions` / `PATCH /api/admin/app-versions/:platform`  ❌ 计划
+- 用途：App / 小程序版本配置。
+- 字段：`platform`、`minVersion`、`recommendedVersion`、`forceUpgrade`、`upgradeMessage`、`storeUrl?`、`releaseNote?`、`status`。
+- 边界：真机验收、商店审核和版本发布属于人工/平台流程；后台仅保存配置草案或已确认版本信息。
+
+#### `GET /api/admin/share-config` / `PATCH /api/admin/share-config`  ❌ 计划
+- 用途：配置分享标题、摘要、落地页和默认报告分享文案。
+- 字段：`scene`、`title`、`summary`、`landingRoute`、`platform`、`status`、`updatedAt`。
+- 规则：分享文案不得包含购买结论、医疗诊断、营养诊断或将未验证数据写成权威来源。
+
+#### `GET /api/admin/notification-config` / `PATCH /api/admin/notification-config`  ❌ 计划
+- 用途：订阅消息、系统通知、数据更新提醒和反馈处理提醒配置。
+- 字段：`channel`、`platform`、`templateIdRef?`、`enabled`、`trigger`、`rateLimit`、`updatedAt`。
+- 边界：微信订阅消息、App 推送和短信等模板、平台权限、用户授权均需人工确认；后台不得伪造发送成功。
+
+#### `GET /api/admin/sdk-config` / `PATCH /api/admin/sdk-config/:sdkId`  ❌ 计划 / 人工确认
+- 用途：第三方 SDK 清单、平台范围、用途和启停状态。
+- 字段：`sdkId`、`name`、`purpose`、`platforms[]`、`enabled`、`privacyDocumentRef`、`dataFields[]`、`updatedAt`。
+- 边界：SDK 隐私披露、商店材料、证书和密钥需人工/法务确认；接口不返回密钥明文。
 
 ### 5. OCR / AI / Provider 监控
+
+#### `GET /api/admin/providers/ocr`  ❌ 计划
+- 用途：查看 OCR Provider 状态。
+- 响应字段：`provider`、`enabled`、`configSource`（`env|database|secret_manager|static_default`）、`hasKey`、`serviceUrlRef?`、`healthStatus`、`lastError?`、`fallbackMode`、`updatedAt`。
+- 边界：只展示配置来源和是否配置，不展示 `OCR_API_KEY`；本机 RapidOCR 与生产 Aliyun OCR 状态分开。
 
 #### `GET /api/admin/ocr-logs`  ❌ 计划
 - 用途：OCR 请求、失败、耗时和 Provider 监控。
 - 查询参数：`provider?`、`platform?`、`status?`、`dateRange?`、`page`、`limit`。
-- 响应字段：`requestId`、`userId?`、`provider`、`status`、`durationMs`、`failureReason?`、`imageSize`、`platform`、`createdAt`。
+- 响应字段：`requestId`、`userId?`、`provider`、`status`、`durationMs`、`failureReason?`、`imageSize`、`platform`、`fallbackMode?`、`createdAt`。
+- 隐私：后台列表不展示敏感原图；如需图片排障，只允许脱敏引用并按权限审计查看。
+
+#### `GET /api/admin/ocr-metrics`  ❌ 计划
+- 用途：OCR 成功率、耗时和失败原因聚合。
+- 查询参数：`provider?`、`platform?`、`dateRange?`、`bucket?`。
+- 响应字段：`requestCount`、`successCount`、`failureCount`、`successRate`、`avgDurationMs`、`p95DurationMs`、`failureReasons[]`、`providerBreakdown[]`、`platformBreakdown[]`。
+- 边界：指标只用于运营监控，不能把 OCR 输出当成权威数据来源。
+
+#### `GET /api/admin/providers/ai`  ❌ 计划 / blocked_by_user
+- 用途：查看 AI Provider 状态。
+- 响应字段：`provider`、`model`、`enabled`、`configSource`、`hasKey`、`healthStatus`、`lastError?`、`updatedAt`。
+- 阻塞条件：AI API Key 和模型选型。
+- 边界：无 Key 时只能返回未配置/不可用，不得伪造 provider 可用状态。
 
 #### `GET /api/admin/ai-logs`  ❌ 计划 / blocked_by_user
 - 用途：AI 调用日志和成本估算。
 - 查询参数：`model?`、`status?`、`dateRange?`、`userId?`、`reportId?`、`page`、`limit`。
 - 响应字段：`callId`、`model`、`inputTokens`、`outputTokens`、`estimatedCost`、`failureReason?`、`userId?`、`reportId?`、`createdAt`。
 - 阻塞条件：AI API Key 和模型选型。
+- 隐私：不保存完整敏感 prompt；AI 输出只作解释层，不能作为成分或法规事实来源。
+
+#### `GET /api/admin/cost-summary`  ❌ 计划
+- 用途：OCR / AI 成本汇总。
+- 查询参数：`provider?`、`platform?`、`dateRange?`、`groupBy?`。
+- 响应字段：`ocrRequestCount`、`ocrEstimatedCost`、`aiCallCount`、`aiEstimatedCost`、`currency`、`providerBreakdown[]`、`platformBreakdown[]`、`dataCompleteness`。
+- 边界：没有真实调用日志、provider 单价或 AI Key 时，必须返回无数据/未配置，不得填假成本。
+
+#### `GET /api/admin/degradation-policies` / `PATCH /api/admin/degradation-policies/:key`  ❌ 计划
+- 用途：配置 OCR / AI 不可用时的降级策略。
+- 字段：`key`、`scope`、`trigger`（`timeout|not_configured|provider_failed|quota_exceeded`）、`fallbackMode`（`manual|mock|retry|disabled`）、`platform`、`updatedAt`。
+- 规则：降级必须保留手动输入和文本确认；`mock` 只能用于开发或明确标注的演示，不得冒充真实 OCR 或 AI。
 
 ### 6. 权限与审计
 
+#### `GET /api/admin/me/permissions`  ❌ 计划
+- 用途：返回当前管理员可访问菜单和可执行操作。
+- 响应字段：`adminId`、`roles[]`、`permissions[]`、`menuAccess[]`、`deniedReasons[]`。
+- 规则：前端菜单隐藏只是体验优化；后端仍必须逐接口执行权限校验。
+
+#### `GET /api/admin/reviewer-access`  ❌ 计划
+- 用途：查看当前账号对 GB2760 内部复核写操作的访问状态。
+- 响应字段：`canReviewGb2760`、`matchedBy`（`email|userId|wildcard|none`）、`configSource`、`reason?`。
+- 边界：只展示当前账号命中状态和配置来源，不向无权限用户暴露完整 `GB2760_INTERNAL_REVIEWERS` 名单。
+
+#### `GET /api/admin/operation-logs`  ❌ 计划
+- 用途：后台操作日志查询。
+- 查询参数：`adminId?`、`actionType?`、`objectType?`、`dateRange?`、`page`、`limit`。
+- 响应字段：`logId`、`adminId`、`actionType`、`objectType`、`objectId`、`summary`、`ip`、`userAgent`、`createdAt`。
+- 隐私：日志中敏感字段以摘要或脱敏 diff 存储，不记录密钥、token、密码或原图。
+
 #### `GET /api/admin/audit-logs`  ❌ 计划
 - 用途：操作日志 / 审计日志查询。
-- 响应字段：`adminId`、`actionType`、`objectType`、`objectId`、`before`、`after`、`ip`、`userAgent`、`createdAt`。
+- 查询参数：`adminId?`、`objectType?`、`objectId?`、`riskLevel?`、`dateRange?`、`page`、`limit`。
+- 响应字段：`auditId`、`adminId`、`actionType`、`objectType`、`objectId`、`before`、`after`、`reason?`、`ip`、`userAgent`、`createdAt`。
+- 审计范围：数据复核、规则编辑、内容发布、用户禁用、系统配置、权限变更、协议版本发布等关键操作。
 
 #### `GET /api/admin/roles` / `POST /api/admin/roles` / `PATCH /api/admin/roles/:id`  ❌ 计划
 - 用途：角色权限管理。
 - 角色建议：`super_admin`、`data_admin`、`operation_admin`、`support_admin`、`viewer`。
 - 权限维度：用户查看、用户禁用、数据复核、添加剂编辑、规则编辑、公告发布、会员查看、订阅管理、系统配置、管理员管理。
+- 边界：RBAC 未落地前，高风险写操作继续保持只读或内部 allowlist，不得默认全部后台用户拥有超级管理员权限。
 
 #### `GET /api/admin/admin-users` / `POST /api/admin/admin-users` / `PATCH /api/admin/admin-users/:id`  ❌ 计划
 - 用途：管理员账号管理。
 - 字段：`adminId`、`email`、`name`、`roles[]`、`status`、`lastLoginAt`、`createdAt`。
-- 规则：MVP 至少预留管理员登录；产品化阶段补齐角色权限和审计。
+- 规则：MVP 至少预留管理员登录；产品化阶段补齐角色权限和审计；不得展示 token、密码哈希或重置凭证。
 
 ---
 

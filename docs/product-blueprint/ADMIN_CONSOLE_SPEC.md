@@ -633,6 +633,25 @@ all
 
 配置编辑须记录操作日志；涉及 provider、支付、SDK 的配置应优先读取后端环境变量或密钥管理系统，后台仅展示引用和启停状态，不展示密钥明文。
 
+### ADMIN-H 系统配置页面/API 矩阵（2026-06-15）
+
+| 页面 / 能力 | 阶段 | 目标内容 | 后台 API 状态 | 配置与审计边界 |
+|---|---|---|---|---|
+| 功能开关 | MVP / 产品化 | OCR、AI、产品对比、包装卖点核对、订阅入口、维护模式 | `GET /api/admin/feature-flags`、`PATCH /api/admin/feature-flags/:key` 计划 | 开关不得绕过后端鉴权、数据可信校验或 OCR 文本确认 |
+| 平台配置 | 产品化 | `web` / `wechat_mp` / `ios` / `android` / `all` 平台开关、API base、能力矩阵 | `GET/PATCH /api/admin/platform-config` 计划 | 小程序/App 仍必须通过后端 API；不得写入 OCR/AI Key |
+| App / 小程序版本配置 | 产品化 / 上架商业化 | 最低版本、推荐版本、升级提示、强制升级策略、平台渠道 | `GET/PATCH /api/admin/app-versions` 计划 | 真机、商店审核和版本发布需人工；后台只管理配置草案 |
+| 分享配置 | Beta | 分享标题、摘要、落地页、报告分享默认文案 | `GET/PATCH /api/admin/share-config` 计划 | 分享文案不得包含购买、医疗或营养诊断结论 |
+| 消息通知配置 | 产品化 | 订阅消息、系统通知、数据更新提醒、反馈处理提醒 | `GET/PATCH /api/admin/notification-config` 计划 | 推送模板、平台权限和用户授权需人工确认 |
+| 第三方 SDK 配置 | 上架商业化 | SDK 名称、用途、平台范围、启停状态、隐私说明引用 | `GET/PATCH /api/admin/sdk-config` 计划 | 只展示 SDK 清单和状态；密钥、证书和商店材料不在前端暴露 |
+
+ADMIN-H 落地约束：
+
+1. 配置来源必须区分 `env` / `database` / `secret_manager` / `static_default`；密钥类配置只展示“已配置/未配置”和来源引用，不返回明文。
+2. 影响 OCR、AI、支付、SDK、版本强制升级、维护模式的变更必须写操作日志，记录操作者、前后值、平台范围和变更原因。
+3. 未实现 RBAC 前，配置写操作保持只读或内部管理员 allowlist，不得默认所有登录用户可改。
+4. 功能开关只能控制入口或能力启停，不能让前端绕过后端鉴权、数据可信状态、文本确认页、隐私授权或人工阻塞边界。
+5. 订阅入口、支付入口、App/小程序版本和第三方 SDK 均依赖人工账号/法务材料；Codex 当前只规划配置结构。
+
 ## 16. OCR / AI 成本监控
 
 ### OCR 监控
@@ -662,6 +681,26 @@ all
 - 报告ID
 
 AI/OCR 调用成本直接影响会员权益和商业化定价，后台需要可查看、可按时间和平台过滤。
+
+### ADMIN-F OCR / AI / Provider 页面/API 矩阵（2026-06-15）
+
+| 页面 / 能力 | 阶段 | 目标内容 | 后台 API 状态 | 隐私与阻塞边界 |
+|---|---|---|---|---|
+| OCR Provider 状态 | MVP / 产品化 | 当前 provider、配置来源、可用状态、最近错误、降级状态 | `GET /api/admin/providers/ocr` 计划 | 不展示 `OCR_API_KEY`；本机 RapidOCR 和生产 Aliyun 状态分开 |
+| OCR 失败日志 | MVP / Beta | 请求 ID、provider、平台、失败码、耗时、图片大小、是否进入 manual fallback | `GET /api/admin/ocr-logs` 计划 | 不保存或展示敏感原图；图片只可显示脱敏引用 |
+| OCR 成功率与耗时 | Beta | 请求数、成功率、平均耗时、P95、失败原因分布、平台分布 | `GET /api/admin/ocr-metrics` 计划 | 只做运营监控，不把 OCR 原文当权威来源 |
+| AI Provider 状态 | 产品化 / blocked_by_user | 模型、启停、配置来源、最近错误、可用性 | `GET /api/admin/providers/ai` 计划 / blocked | AI Key 和模型选型未提供前只显示未配置，不伪造可用状态 |
+| AI 调用日志 | 产品化 / blocked_by_user | 模型、tokens、成本估算、失败原因、关联报告 | `GET /api/admin/ai-logs` 计划 / blocked | 不保存完整敏感 prompt；AI 结果只作解释层 |
+| 调用成本统计 | 产品化 | OCR/AI 按平台、provider、时间范围的请求数和成本估算 | `GET /api/admin/cost-summary` 计划 | 没有真实调用日志时不得填假成本或假单价 |
+| 降级策略配置 | 产品化 | OCR 超时、provider 不可用、AI 不可用时的 manual/mock/fallback 策略 | `GET/PATCH /api/admin/degradation-policies` 计划 | 降级必须保留手动输入和文本确认，不得返回假 OCR/AI 结论 |
+
+ADMIN-F 落地约束：
+
+1. OCR 监控第一版优先记录失败原因、耗时、provider 和降级状态；敏感图片、完整 OCR 原文和用户隐私字段默认不进入后台列表。
+2. AI Key 未提供前，AI Provider、AI 日志和成本统计只能展示“未配置/无数据”，不得构造假调用或假成本。
+3. Provider 配置页面只展示 provider 名称、启用状态、配置来源、可用状态和最近错误，不展示密钥明文。
+4. 所有 OCR/AI 监控数据仍属于运营排障信息，不改变用户端数据可信规则；OCR 是用户输入来源，AI 是解释层。
+5. 降级策略不得绕过 OCR 文本确认页，不得用 mock 冒充真实 provider。
 
 ## 17. 权限与审计
 
@@ -699,6 +738,25 @@ viewer
 - IP
 - User-Agent
 - 操作时间
+
+### ADMIN-G 权限与审计页面/API 矩阵（2026-06-15）
+
+| 页面 / 能力 | 阶段 | 目标内容 | 后台 API 状态 | 权限与合规边界 |
+|---|---|---|---|---|
+| 管理员管理 | MVP 预留 / 产品化 | 管理员账号、状态、角色、最近登录 | `GET/POST/PATCH /api/admin/admin-users` 计划 | 不展示 token；新增/禁用管理员必须审计 |
+| 角色权限 | 产品化 | `super_admin`、`data_admin`、`operation_admin`、`support_admin`、`viewer` 与权限矩阵 | `GET/POST/PATCH /api/admin/roles` 计划 | RBAC 未落地前不开放高风险写操作给普通登录用户 |
+| 操作日志 | MVP / Beta | 登录、查看敏感详情、配置变更、反馈处理、内容发布等操作记录 | `GET /api/admin/operation-logs` 计划 | 敏感字段按摘要或 diff 存储，避免日志泄露密钥和原图 |
+| 审计日志 | 产品化 | 数据复核、规则编辑、权限变更、系统配置、协议发布等关键审计 | `GET /api/admin/audit-logs` 计划 | 关键合规操作不可绕过审计；支持按操作者/对象/时间过滤 |
+| reviewer allowlist 状态 | MVP | 查看 `GB2760_INTERNAL_REVIEWERS` 是否配置、当前账号是否可写 GB2760 复核 | `GET /api/admin/reviewer-access` 计划 | 只展示命中状态和配置来源，不泄露完整内部名单给无权限用户 |
+| 权限自检 | MVP | 当前管理员可访问菜单、可执行操作、禁用原因 | `GET /api/admin/me/permissions` 计划 | 前端菜单隐藏不等于权限；后端仍必须逐接口校验 |
+
+ADMIN-G 落地约束：
+
+1. MVP 阶段可以继续使用普通 JWT 登录 + `GB2760_INTERNAL_REVIEWERS` allowlist 保护高风险数据写操作；RBAC 表和完整管理员体系后置到产品化。
+2. 权限必须区分只读、处理、发布、复核、配置、管理员管理，不允许所有后台用户默认超级管理员。
+3. 数据复核、内容发布、用户禁用、配置变更、权限变更、协议版本发布等操作必须记录操作者、前后状态、对象 ID、IP、User-Agent 和时间。
+4. 敏感查看行为也应逐步纳入操作日志，包括报告原文、OCR 原文、联系方式、过敏/忌口和关注项等隐私上下文。
+5. 日志不得记录密钥明文、完整支付凭证、token、用户密码或未经脱敏的图片内容。
 
 ---
 

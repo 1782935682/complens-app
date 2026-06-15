@@ -587,6 +587,20 @@ ADMIN-B 页面/API 登记：
 | 调用成本统计 | OCR/AI 成本估算 | 产品化 | 计划 |
 | 降级策略配置 | OCR/AI 不可用时的降级 | 产品化 | 计划 |
 
+ADMIN-F 页面/API 登记：
+
+| 页面 | 目标路由 | 第一版数据入口 | 状态边界 |
+| --- | --- | --- | --- |
+| OCR Provider 状态 | `/providers/ocr` | 计划 `GET /api/admin/providers/ocr` | 计划；不展示密钥，只展示 provider、配置来源、可用状态和最近错误 |
+| OCR 失败日志 | `/providers/ocr-logs` | 计划 `GET /api/admin/ocr-logs` | MVP/Beta 计划；不展示敏感原图，失败和降级状态用于排障 |
+| OCR 成功率与耗时 | `/providers/ocr-metrics` | 计划 `GET /api/admin/ocr-metrics` | Beta 计划；指标只作运营监控，不作权威数据来源 |
+| AI Provider 状态 | `/providers/ai` | 计划 `GET /api/admin/providers/ai` | 产品化 / AI Key 阻塞；无 Key 时只显示未配置 |
+| AI 调用日志 | `/providers/ai-logs` | 计划 `GET /api/admin/ai-logs` | 产品化 / AI Key 阻塞；不保存完整敏感 prompt |
+| 调用成本统计 | `/providers/costs` | 计划 `GET /api/admin/cost-summary` | 产品化计划；无真实日志/单价时不得填假成本 |
+| 降级策略配置 | `/providers/degradation` | 计划 `GET/PATCH /api/admin/degradation-policies` | 产品化计划；降级必须保留 manual/fallback，不冒充真实 OCR/AI |
+
+ADMIN-F 所有列表页必须具备 loading / empty / error 三态；Provider 与成本页面不得暴露 OCR/AI Key、完整 prompt、敏感图片或未脱敏用户隐私。
+
 ### 3.7 系统配置
 | 页面 | 页面目标 | 阶段 | 当前状态 |
 | --- | --- | --- | --- |
@@ -597,6 +611,19 @@ ADMIN-B 页面/API 登记：
 | 消息通知配置 | 推送和订阅消息 | 产品化 | 计划 |
 | 第三方 SDK 配置 | SDK 清单与启停 | 上架商业化 | 计划 |
 
+ADMIN-H 页面/API 登记：
+
+| 页面 | 目标路由 | 第一版数据入口 | 状态边界 |
+| --- | --- | --- | --- |
+| 功能开关 | `/system/feature-flags` | 计划 `GET /api/admin/feature-flags`、`PATCH /api/admin/feature-flags/:key` | MVP/产品化计划；开关不得绕过鉴权、数据可信、OCR 文本确认或人工阻塞 |
+| 平台配置 | `/system/platforms` | 计划 `GET/PATCH /api/admin/platform-config` | 产品化计划；小程序/App 仍通过后端 API，不保存密钥 |
+| App / 小程序版本配置 | `/system/app-versions` | 计划 `GET /api/admin/app-versions`、`PATCH /api/admin/app-versions/:platform` | 产品化 / 上架商业化计划；真机和商店发布需人工 |
+| 分享配置 | `/system/share` | 计划 `GET/PATCH /api/admin/share-config` | Beta 计划；分享文案不得输出购买或医疗结论 |
+| 消息通知配置 | `/system/notifications` | 计划 `GET/PATCH /api/admin/notification-config` | 产品化计划；推送模板和用户授权需人工确认 |
+| 第三方 SDK 配置 | `/system/sdk` | 计划 `GET/PATCH /api/admin/sdk-config/:sdkId` | 上架商业化 / 人工确认；只展示 SDK 清单和状态，不暴露密钥 |
+
+ADMIN-H 所有写操作必须记录配置来源、平台范围、操作者、前后值和原因；密钥、证书、支付凭证、商店材料不进入前端配置响应。
+
 ### 3.8 权限与审计
 | 页面 | 页面目标 | 阶段 | 当前状态 |
 | --- | --- | --- | --- |
@@ -604,6 +631,19 @@ ADMIN-B 页面/API 登记：
 | 角色权限 | super_admin / data_admin / operation_admin / support_admin / viewer | 产品化 | 计划 |
 | 操作日志 | 操作前后差异 | 产品化 | 计划 |
 | 审计日志 | 关键合规操作审计 | 产品化 | 计划 |
+
+ADMIN-G 页面/API 登记：
+
+| 页面 | 目标路由 | 第一版数据入口 | 状态边界 |
+| --- | --- | --- | --- |
+| 当前权限自检 | `/security/my-permissions` | 计划 `GET /api/admin/me/permissions` | MVP 计划；前端菜单隐藏不等于权限，后端仍逐接口校验 |
+| reviewer allowlist 状态 | `/security/reviewer-access` | 计划 `GET /api/admin/reviewer-access` | MVP 计划；只展示当前账号命中状态，不暴露完整内部名单 |
+| 管理员管理 | `/security/admin-users` | 计划 `GET/POST/PATCH /api/admin/admin-users` | MVP 预留 / 产品化计划；不展示 token 或密码凭证 |
+| 角色权限 | `/security/roles` | 计划 `GET/POST/PATCH /api/admin/roles` | 产品化计划；RBAC 未落地前高风险写操作保持 allowlist |
+| 操作日志 | `/security/operation-logs` | 计划 `GET /api/admin/operation-logs` | MVP/Beta 计划；敏感字段脱敏摘要记录 |
+| 审计日志 | `/security/audit-logs` | 计划 `GET /api/admin/audit-logs` | 产品化计划；关键合规操作不可绕过审计 |
+
+ADMIN-G 页面必须区分只读、处理、发布、复核、配置、管理员管理权限；数据复核、内容发布、用户禁用、配置变更、权限变更和协议版本发布均需审计。
 
 > 后台可信约束：复核工作台须明确区分 `verified_regulation` / `verified_jecfa` 与待定状态（`pending_review` / `mapped_candidate` / `unverified`），仅在复核确认后方可升级状态；任何未确认数据不得在用户端呈现为权威结论。
 
