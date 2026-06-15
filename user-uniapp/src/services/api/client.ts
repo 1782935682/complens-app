@@ -1,4 +1,4 @@
-import { readString, writeString } from '@/platform/storage';
+import { readString, removeStorage, writeString } from '@/platform/storage';
 
 export interface ApiError extends Error {
   status?: number;
@@ -10,6 +10,7 @@ export interface ApiRequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   data?: unknown;
   headers?: Record<string, string>;
+  authMode?: 'none' | 'optional' | 'required';
   timeoutMs?: number;
 }
 
@@ -27,10 +28,29 @@ export function setApiBaseUrl(value: string): void {
   writeString(API_BASE_URL_KEY, normalizeApiBaseUrl(value) || getDefaultApiBaseUrl());
 }
 
+export function setApiAuthToken(value: string): void {
+  const token = value.trim();
+  if (!token) {
+    clearApiAuthToken();
+    return;
+  }
+  writeString(AUTH_TOKEN_KEY, token);
+}
+
+export function clearApiAuthToken(): void {
+  removeStorage(AUTH_TOKEN_KEY);
+}
+
+export function getApiAuthToken(): string {
+  const token = readString(AUTH_TOKEN_KEY).trim();
+  return isValidJwt(token) ? token : '';
+}
+
 export async function requestJson<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
   const url = buildRequestUrl(path);
   const method = options.method || 'GET';
   const timeout = options.timeoutMs || DEFAULT_TIMEOUT_MS;
+  const authHeader = buildAuthHeader(options.authMode || 'optional');
 
   const response = await new Promise<UniApp.RequestSuccessCallbackResult>((resolve, reject) => {
     uni.request({
@@ -41,7 +61,7 @@ export async function requestJson<T>(path: string, options: ApiRequestOptions = 
       header: {
         Accept: 'application/json',
         ...(options.data ? { 'Content-Type': 'application/json' } : {}),
-        ...buildAuthHeader(),
+        ...authHeader,
         ...options.headers
       },
       success: resolve,
@@ -106,14 +126,14 @@ function createApiError(code: string, message: string): ApiError {
   return error;
 }
 
-function buildAuthHeader(): Record<string, string> {
+function buildAuthHeader(authMode: ApiRequestOptions['authMode'] = 'optional'): Record<string, string> {
+  if (authMode === 'none') return {};
   const token = getApiAuthToken();
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
-
-function getApiAuthToken(): string {
-  const token = readString(AUTH_TOKEN_KEY).trim();
-  return isValidJwt(token) ? token : '';
+  if (token) return { Authorization: `Bearer ${token}` };
+  if (authMode === 'required') {
+    throw createApiError('auth_required', '当前接口需要登录后访问。');
+  }
+  return {};
 }
 
 function isValidJwt(token: string): boolean {

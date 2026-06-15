@@ -30,6 +30,12 @@ function clearImage() {
   resetScanDraft();
 }
 
+function startManualTextEntry() {
+  image.value = undefined;
+  resetScanDraft();
+  uni.navigateTo({ url: `${routes.confirmText}?entry=manual` });
+}
+
 function continueToOcr() {
   if (!image.value) {
     error.value = '请先拍照或上传一张食品标签图片。';
@@ -56,6 +62,6 @@ function continueToOcr() {
       </view>
     </AppCard>
     <AppButton :disabled="!image" @click="continueToOcr">开始识别</AppButton>
-    <AppButton variant="text" @click="navigateToRoute(routes.confirmText)">手动输入标签文字</AppButton>
+    <AppButton variant="text" @click="startManualTextEntry">手动输入标签文字</AppButton>
   </view>
 </template>

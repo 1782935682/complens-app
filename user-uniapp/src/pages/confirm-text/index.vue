@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { onLoad } from '@dcloudio/uni-app';
+import { computed, ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import EmptyState from '@/components/EmptyState.vue';
 import StepIndicator from '@/components/StepIndicator.vue';
 import { labelTypeLabels } from '@/constants/labelTypes';
 import { routes, navigateToRoute } from '@/constants/routes';
-import { getScanDraft, saveScanDraft } from '@/stores/scanStore';
-import type { LabelType } from '@/types';
+import { getScanDraft, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
+import type { LabelType, ScanDraft } from '@/types';
 
 const text = ref('');
 const productName = ref('');
@@ -15,8 +16,8 @@ const labelType = ref<LabelType>('unknown_label');
 const steps = ['拍照', '识别', '确认', '报告'];
 const isEmpty = computed(() => !text.value.trim());
 
-onMounted(() => {
-  const draft = getScanDraft();
+onLoad((query) => {
+  const draft = String(query?.entry || '') === 'manual' ? resetScanDraft() : getScanDraft();
   text.value = draft.confirmedText || draft.ocr?.text || '';
   productName.value = draft.productName || '';
   labelType.value = draft.labelType || 'unknown_label';
@@ -28,7 +29,11 @@ function clearText() {
 
 function continueFlow() {
   const confirmedText = text.value.trim();
-  saveScanDraft({
+  if (!confirmedText) return;
+  const previous = getScanDraft();
+  const textChanged = confirmedText !== previous.confirmedText;
+  const labelTypeChanged = labelType.value !== previous.labelType;
+  const nextDraft: Partial<ScanDraft> = {
     confirmedText,
     productName: productName.value.trim(),
     labelType: labelType.value,
@@ -36,8 +41,10 @@ function continueFlow() {
     ingredients: [],
     nutrition: [],
     matches: []
-  });
-  if (!confirmedText) return;
+  };
+  if (textChanged || labelTypeChanged) nextDraft.classification = undefined;
+  if (textChanged) nextDraft.ocr = undefined;
+  saveScanDraft(nextDraft);
   if (labelType.value === 'ingredient_list') {
     uni.navigateTo({ url: routes.ingredients });
     return;

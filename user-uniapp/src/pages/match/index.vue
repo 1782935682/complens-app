@@ -60,10 +60,22 @@ async function loadMatches() {
 function updateDecision(match: IngredientMatch, decision: IngredientMatch['decision']) {
   match.decision = decision;
   if (decision === 'rejected') {
-    match.dataStatus = 'unknown_from_ocr';
-    match.dataStatusLabel = dataStatusLabel('unknown_from_ocr');
+    clearBackendMatchMetadata(match);
   }
   saveScanDraft({ matches: matches.value });
+}
+
+function clearBackendMatchMetadata(match: IngredientMatch) {
+  match.dataStatus = 'unknown_from_ocr';
+  match.dataStatusLabel = dataStatusLabel('unknown_from_ocr');
+  match.confidence = 0;
+  match.matchType = 'none';
+  match.sourceNote = '用户已标为暂未收录，请以包装原文为准。';
+  match.ingredientName = match.normalizedText;
+  match.isAdditive = false;
+  delete match.ingredientId;
+  delete match.sourceName;
+  delete match.sourceType;
 }
 
 function generateReport() {

@@ -5,7 +5,7 @@ import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import EmptyState from '@/components/EmptyState.vue';
 import { routes, navigateToRoute } from '@/constants/routes';
-import { getReports } from '@/stores/scanStore';
+import { getReports, resetScanDraft } from '@/stores/scanStore';
 import type { LabelReport } from '@/types';
 
 const reports = ref<LabelReport[]>([]);
@@ -24,6 +24,11 @@ onShow(() => {
 
 function openReport(report: LabelReport) {
   uni.navigateTo({ url: `${routes.report}?id=${encodeURIComponent(report.id)}` });
+}
+
+function startManualTextEntry() {
+  resetScanDraft();
+  uni.navigateTo({ url: `${routes.confirmText}?entry=manual` });
 }
 </script>
 
@@ -44,7 +49,7 @@ function openReport(report: LabelReport) {
 
     <view class="quick-grid">
       <AppButton variant="secondary" @click="navigateToRoute(routes.capture)">上传图片</AppButton>
-      <AppButton variant="secondary" @click="navigateToRoute(routes.confirmText)">粘贴文字</AppButton>
+      <AppButton variant="secondary" @click="startManualTextEntry">粘贴文字</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.search)">搜索成分</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.history)">历史记录</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.attention)">我的关注项</AppButton>

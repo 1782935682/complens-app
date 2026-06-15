@@ -37,6 +37,7 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
     const dataStatus = match ? normalizeDataStatus(match.dataStatus, 'unverified') : 'unknown_from_ocr';
     const confidence = Number(source?.confidence) || 0;
     const isAdditive = isAdditiveCategory(match?.category);
+    const sourceType = normalizeMatchSourceType(match?.sourceType, dataStatus);
     return {
       id: `${index}-${term}`,
       term,
@@ -46,7 +47,7 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
       confidence,
       matchType: source?.matchType || (match ? 'fuzzy' : 'none'),
       sourceName: match?.sourceName,
-      sourceType: match?.sourceType,
+      sourceType,
       sourceNote: match ? '来自后端成分匹配 API。' : '后端未返回匹配项，保留为暂未收录。',
       ingredientId: match?.id,
       ingredientName: match?.nameCn || match?.name || term,
@@ -69,4 +70,14 @@ function normalizeLookupTerm(value: unknown): string {
 function isAdditiveCategory(value: unknown): boolean {
   const category = String(value || '').trim();
   return /添加剂|防腐剂|甜味剂|着色剂|色素|酸度调节剂|抗氧化剂|增稠剂|稳定剂|凝固剂|膨松剂|乳化剂|水分保持剂|营养强化剂|被膜剂|消泡剂|抗结剂|漂白剂|护色剂|面粉处理剂|胶姆糖基础剂|食品用香料|香精|香料/.test(category);
+}
+
+function normalizeMatchSourceType(value: unknown, dataStatus: IngredientMatch['dataStatus']): string | undefined {
+  const explicit = String(value || '').trim();
+  if (explicit) return explicit;
+  if (dataStatus === 'verified_regulation') return 'official_standard';
+  if (dataStatus === 'verified_jecfa') return 'safety_evaluation';
+  if (dataStatus === 'common_ingredient') return 'common_ingredient';
+  if (['pending_review', 'mapped_candidate', 'unverified'].includes(dataStatus)) return 'manual_review';
+  return undefined;
 }

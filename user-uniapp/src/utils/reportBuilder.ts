@@ -12,10 +12,12 @@ export function buildLabelReport(input: {
   frontClaimsText?: string;
 }): LabelReport {
   const frontClaimsText = input.labelType === 'front_claims' ? normalizeReportText(input.frontClaimsText) : '';
+  const reportMatches = input.matches.map(sanitizeReportMatch);
+  const acceptedMatches = reportMatches.filter((match) => match.decision !== 'rejected');
   const attentionHits = buildAttentionHits(input);
-  const focusItems = buildFocusItems(input.matches, input.nutrition, attentionHits, frontClaimsText);
-  const additiveItems = input.matches.filter((match) => match.isAdditive || additiveKeywordMatch(match.normalizedText));
-  const unknownItems = input.matches
+  const focusItems = buildFocusItems(reportMatches, input.nutrition, attentionHits, frontClaimsText);
+  const additiveItems = acceptedMatches.filter((match) => match.isAdditive || additiveKeywordMatch(match.normalizedText));
+  const unknownItems = reportMatches
     .filter((match) => match.dataStatus === 'unknown_from_ocr' || match.decision === 'rejected')
     .map((match) => match.normalizedText);
   const report: LabelReport = {
@@ -29,7 +31,7 @@ export function buildLabelReport(input: {
     ingredientSection: {
       total: input.ingredients.length,
       additiveCount: additiveItems.length,
-      items: input.matches
+      items: reportMatches
     },
     nutritionSection: {
       fields: input.nutrition,
@@ -40,12 +42,27 @@ export function buildLabelReport(input: {
       highlights: buildFrontClaimHighlights(frontClaimsText)
     },
     additiveGroups: groupAdditives(additiveItems),
-    allergenHints: buildAllergenHints(input.matches),
+    allergenHints: buildAllergenHints(reportMatches),
     unknownItems,
-    sources: buildSources(input.matches),
+    sources: buildSources(acceptedMatches),
     rawText: input.rawText
   };
   return report;
+}
+
+function sanitizeReportMatch(match: IngredientMatch): IngredientMatch {
+  if (match.decision !== 'rejected') return match;
+  const { ingredientId: _ingredientId, sourceName: _sourceName, sourceType: _sourceType, ...rest } = match;
+  return {
+    ...rest,
+    dataStatus: 'unknown_from_ocr',
+    dataStatusLabel: '暂未收录',
+    confidence: 0,
+    matchType: 'none',
+    sourceNote: '用户已标为暂未收录，请以包装原文为准。',
+    ingredientName: match.normalizedText,
+    isAdditive: false
+  };
 }
 
 function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutrition: NutritionField[] }, additiveCount: number, hits: AttentionHit[], frontClaimsText: string): string {
