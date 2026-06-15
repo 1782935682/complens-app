@@ -162,6 +162,7 @@
 | Batch 8-C | loading / empty / error 状态统一复核 | ✅ 2026-06-14 |
 | Batch 5-B / UX-C | 统一结果可信表达映射层 | ✅ 2026-06-14 |
 | Batch ADMIN-F/G/H | OCR/AI 监控、权限审计、系统配置页面/API 规划 | ✅ 2026-06-15 |
+| Batch CONSUMER-LABEL-A | 标签类型识别后端化 + 扫描会话接口 `POST /api/labels/scan` + `labelStore` 草稿流对齐 | ✅ 2026-06-15 |
 
 > 这些已完成项被映射到下方各阶段并标记 ✅；详细 GB2760 完成记录见文末"附录：GB2760 导入历史记录"。
 
@@ -1423,7 +1424,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`cd backend && npm run test -- labels.test.ts` + `cd backend && npm run typecheck` + `cd user-uniapp && npm run typecheck` + `git diff --check`。
 
-状态：✅ 已完成（2026-06-15）：`user-uniapp` MVP 已完成；后端 `POST /api/labels/classify` 已正式实现并允许匿名调用，`user-uniapp` 标签 adapter 已改为后端优先、本地规则降级。`POST /api/labels/scan` 仍待独立扫描会话表/图片引用持久化后再实现。
+状态：✅ 已完成（2026-06-15）：`user-uniapp` MVP 已完成；后端 `POST /api/labels/classify` 与 `POST /api/labels/scan` 已正式实现并允许匿名调用，`user-uniapp` 标签 adapter 已改为后端优先，本地规则降级。
 
 ### Batch CONSUMER-LABEL-B：营养成分表 OCR 与结构化 [Codex]
 

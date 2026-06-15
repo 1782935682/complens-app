@@ -7,6 +7,7 @@ import LoadingState from '@/components/LoadingState.vue';
 import StepIndicator from '@/components/StepIndicator.vue';
 import { routes } from '@/constants/routes';
 import { recognizeImageByBackend, buildManualOcrResult } from '@/services/api/ocr';
+import { upsertLabelScanSessionWithAdapter } from '@/services/api/labels';
 import { getScanDraft, saveScanDraft } from '@/stores/scanStore';
 import type { OcrResult } from '@/types';
 
@@ -32,11 +33,13 @@ async function runOcr() {
   try {
     const next = await recognizeImageByBackend(draft.image);
     result.value = next;
+    void syncScanSession(next);
     saveScanDraft({ ocr: next, confirmedText: next.text || draft.confirmedText || '' });
     if (next.mode === 'fallback') error.value = next.errorMessage || '识别失败，可重试或手动输入。';
   } catch {
     const next = buildManualOcrResult();
     result.value = next;
+    void syncScanSession(next, 'manual');
     saveScanDraft({ ocr: next, confirmedText: draft.confirmedText || '' });
     error.value = '图片暂不能读取或识别失败，可手动输入。';
   } finally {
@@ -47,8 +50,38 @@ async function runOcr() {
 function manualInput() {
   const manual = buildManualOcrResult();
   result.value = manual;
+  void syncScanSession(manual, 'manual');
   saveScanDraft({ ocr: manual, confirmedText: '' });
   uni.navigateTo({ url: routes.confirmText });
+}
+
+async function syncScanSession(ocrResult: OcrResult, fallbackMode: 'manual' | 'auto' = 'auto') {
+  const draft = getScanDraft();
+  if (!draft.image) return;
+
+  const response = await upsertLabelScanSessionWithAdapter({
+    sessionId: draft.scanSessionId,
+    images: [{
+      assetId: draft.image.id,
+      labelType: draft.labelType,
+      mimeType: draft.image.mimeType,
+      status: mapScanStatus(ocrResult, fallbackMode)
+    }]
+  });
+
+  if (response?.sessionId) {
+    saveScanDraft({ scanSessionId: response.sessionId });
+  }
+}
+
+function mapScanStatus(ocrResult: OcrResult, fallbackMode: 'manual' | 'auto'): 'ocr_input' | 'ocr_success' | 'ocr_failed' | 'manual_entry' {
+  if (fallbackMode === 'manual' || ocrResult.mode === 'manual') {
+    return 'manual_entry';
+  }
+  if (ocrResult.mode === 'fallback' || ocrResult.mode === 'mock') {
+    return 'ocr_failed';
+  }
+  return ocrResult.text ? 'ocr_success' : 'ocr_failed';
 }
 
 function continueToLabelType() {

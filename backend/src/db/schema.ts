@@ -268,6 +268,39 @@ export const sourceDocuments = pgTable('source_documents', {
   index('source_documents_platform_record_id_idx').on(table.platformRecordId)
 ]);
 
+export const labelScanSessions = pgTable('label_scan_sessions', {
+  id: text('id').primaryKey(),
+  labelTypeHint: text('label_type_hint').notNull().default('unknown_label'),
+  status: text('status').notNull().default('draft'),
+  imagesRequested: integer('images_requested').notNull().default(0),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  check('label_scan_sessions_status_check', sql`${table.status} in ('draft', 'in_progress', 'completed')`),
+  check('label_scan_sessions_label_type_hint_check', sql`${table.labelTypeHint} in ('ingredient_list', 'nutrition_facts', 'front_claims', 'barcode_or_product', 'unknown_label')`),
+  index('label_scan_sessions_status_idx').on(table.status),
+  index('label_scan_sessions_created_at_idx').on(table.createdAt)
+]);
+
+export const labelScanImages = pgTable('label_scan_images', {
+  id: text('id').primaryKey(),
+  sessionId: text('session_id').notNull().references(() => labelScanSessions.id, { onDelete: 'cascade' }),
+  assetId: text('asset_id').notNull(),
+  labelType: text('label_type').notNull(),
+  mimeType: text('mime_type').notNull(),
+  ocrResultId: text('ocr_result_id'),
+  status: text('status').notNull().default('ocr_input'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('label_scan_images_session_asset_unique').on(table.sessionId, table.assetId),
+  index('label_scan_images_session_id_idx').on(table.sessionId),
+  index('label_scan_images_status_idx').on(table.status),
+  check('label_scan_images_label_type_check', sql`${table.labelType} in ('ingredient_list', 'nutrition_facts', 'front_claims', 'barcode_or_product', 'unknown_label')`),
+  check('label_scan_images_status_check', sql`${table.status} in ('ocr_input', 'ocr_success', 'ocr_failed', 'manual_entry')`),
+  check('label_scan_images_mime_type_check', sql`length(${table.mimeType}) <= 120`)
+]);
+
 export const importRuns = pgTable('import_runs', {
   id: text('id').primaryKey(),
   sourceDocumentId: text('source_document_id').notNull().references(() => sourceDocuments.id, { onDelete: 'restrict' }),
@@ -414,6 +447,10 @@ export type ImportRunRow = typeof importRuns.$inferSelect;
 export type NewImportRunRow = typeof importRuns.$inferInsert;
 export type ImportErrorRow = typeof importErrors.$inferSelect;
 export type NewImportErrorRow = typeof importErrors.$inferInsert;
+export type LabelScanSessionRow = typeof labelScanSessions.$inferSelect;
+export type NewLabelScanSessionRow = typeof labelScanSessions.$inferInsert;
+export type LabelScanImageRow = typeof labelScanImages.$inferSelect;
+export type NewLabelScanImageRow = typeof labelScanImages.$inferInsert;
 export type UserRow = typeof users.$inferSelect;
 export type NewUserRow = typeof users.$inferInsert;
 export type SessionRow = typeof sessions.$inferSelect;

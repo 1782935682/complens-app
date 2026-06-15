@@ -7,6 +7,31 @@ import { requestJson } from './client';
 
 type LabelClassifyResponse = Partial<LabelClassification>;
 
+export type ScanImageInput = {
+  assetId: string;
+  labelType?: LabelType;
+  mimeType?: string;
+  ocrResultId?: string;
+  status?: 'ocr_input' | 'ocr_success' | 'ocr_failed' | 'manual_entry';
+};
+
+export type ScanSessionPayload = {
+  sessionId?: string;
+  labelTypeHint?: LabelType;
+  images: ScanImageInput[];
+};
+
+export type ScanSessionResponse = {
+  sessionId: string;
+  images: Array<{
+    assetId: string;
+    labelType: LabelType;
+    ocrResultId?: string;
+    status: 'ocr_input' | 'ocr_success' | 'ocr_failed' | 'manual_entry';
+  }>;
+  nextSuggestedCapture: LabelType[];
+};
+
 export async function classifyLabelWithAdapter(text: string): Promise<LabelClassification> {
   try {
     const response = await requestJson<LabelClassifyResponse>('/labels/classify', {
@@ -26,6 +51,21 @@ export async function classifyLabelWithAdapter(text: string): Promise<LabelClass
         '后端标签分类暂不可用，当前使用本地规则辅助判断。'
       ]
     };
+  }
+}
+
+export async function upsertLabelScanSessionWithAdapter(payload: ScanSessionPayload): Promise<ScanSessionResponse | null> {
+  if (!payload.images.length) return null;
+
+  try {
+    return await requestJson<ScanSessionResponse>('/labels/scan', {
+      method: 'POST',
+      authMode: 'none',
+      data: payload,
+      timeoutMs: 8000
+    });
+  } catch {
+    return null;
   }
 }
 
