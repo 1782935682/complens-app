@@ -1,3 +1,4 @@
+import { hasAdditiveFunctionLabel } from '@/constants/additiveFunctions';
 import { dataStatusLabel, normalizeDataStatus } from '@/constants/dataStatus';
 import type { DataStatus, IngredientMatch, ParsedIngredient } from '@/types';
 import { requestJson } from './client';
@@ -89,8 +90,7 @@ function normalizeLookupTerm(value: unknown): string {
 }
 
 function isAdditiveCategory(value: unknown): boolean {
-  const category = String(value || '').trim();
-  return /添加剂|防腐剂|甜味剂|着色剂|色素|酸度调节剂|抗氧化剂|增稠剂|稳定剂|凝固剂|膨松剂|乳化剂|水分保持剂|营养强化剂|被膜剂|消泡剂|抗结剂|漂白剂|护色剂|面粉处理剂|胶姆糖基础剂|食品用香料|香精|香料/.test(category);
+  return hasAdditiveFunctionLabel(value);
 }
 
 function isTrustedAutoConfirmStatus(status: DataStatus): boolean {

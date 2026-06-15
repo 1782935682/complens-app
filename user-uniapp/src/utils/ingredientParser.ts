@@ -1,9 +1,9 @@
+import { isAdditiveWrapperLabel } from '@/constants/additiveFunctions';
 import type { ParsedIngredient } from '@/types';
 
 const splitDelimiterPattern = /[,，、;；\n\r]+/;
 const protectedDelimiter = '\uE000';
 const prefixPattern = /^\s*(?:配\s*料\s*表?|原\s*料|食品添加剂|ingredients?)\s*[:：-]\s*/i;
-const genericBracketPrefixes = ['食品添加剂', '添加剂', '防腐剂', '甜味剂', '色素', '食用香精', '酸度调节剂'];
 
 export function parseIngredientList(text: string): ParsedIngredient[] {
   const prepared = normalizeInput(text).replace(/单\s*[,，、]\s*双/g, `单${protectedDelimiter}双`);
@@ -44,7 +44,7 @@ function parseSegment(segment: string): Array<{ rawText: string; normalizedText:
   if (open > 0 && close > open) {
     const parent = cleanItem(rawText.slice(0, open));
     const content = rawText.slice(open + 1, close);
-    if (genericBracketPrefixes.some((prefix) => parent.includes(prefix))) {
+    if (isAdditiveWrapperLabel(parent)) {
       return splitTopLevel(content).map((child) => ({
         rawText: child,
         normalizedText: cleanItem(child),
