@@ -1,6 +1,8 @@
 import { labelTypeLabels } from '@/constants/labelTypes';
-import type { LabelClassification } from '@/types';
+import { buildLabelReport as buildLabelReportLocally } from '@/utils/reportBuilder';
+import type { AttentionSettings, IngredientMatch, LabelClassification, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient } from '@/types';
 import { classifyLabelText } from '@/utils/labelClassifier';
+import { getEditableNutritionFields, parseNutritionText } from '@/utils/nutritionParser';
 import { requestJson } from './client';
 
 type LabelClassifyResponse = Partial<LabelClassification>;
@@ -49,4 +51,79 @@ function clampConfidence(value: unknown): number {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return 0;
   return Math.min(1, Math.max(0, numeric));
+}
+
+export type NutritionParseResponse = {
+  nutrition: NutritionField[];
+  warnings?: string[];
+};
+
+type NutritionParseBody = {
+  text: string;
+  perUnit?: string;
+  servingSize?: string;
+};
+
+export async function parseNutritionWithAdapter(text: string, options: { perUnit?: string; servingSize?: string } = {}): Promise<NutritionField[]> {
+  const payload: NutritionParseBody = { text };
+  if (options.perUnit) payload.perUnit = options.perUnit;
+  if (options.servingSize) payload.servingSize = options.servingSize;
+
+  try {
+    const response = await requestJson<NutritionParseResponse>('/nutrition/parse', {
+      method: 'POST',
+      authMode: 'none',
+      data: payload,
+      timeoutMs: 5000
+    });
+    const normalizedNutrition = getEditableNutritionFields(Array.isArray(response.nutrition) ? response.nutrition : []);
+    return normalizedNutrition;
+  } catch {
+    return getEditableNutritionFields(parseNutritionText(text));
+  }
+}
+
+type ReportInput = {
+  productName: string;
+  rawText: string;
+  ingredients: ParsedIngredient[];
+  matches: IngredientMatch[];
+  nutrition: NutritionField[];
+  attention: AttentionSettings;
+  labelType?: LabelType;
+  frontClaimsText?: string;
+  ocr?: OcrResult;
+};
+
+export async function buildLabelReportWithAdapter(input: ReportInput): Promise<LabelReport> {
+  try {
+    return await requestJson<LabelReport>('/reports/label', {
+      method: 'POST',
+      authMode: 'none',
+      data: {
+        productName: input.productName,
+        rawText: input.rawText,
+        ingredients: input.ingredients,
+        matches: input.matches,
+        nutrition: input.nutrition,
+        attention: input.attention,
+        labelType: input.labelType,
+        frontClaimsText: input.frontClaimsText,
+        ocr: input.ocr
+      },
+      timeoutMs: 8000
+    });
+  } catch {
+    return buildLabelReportLocally({
+      productName: input.productName,
+      rawText: input.rawText,
+      ingredients: input.ingredients,
+      matches: input.matches,
+      nutrition: input.nutrition,
+      attention: input.attention,
+      labelType: input.labelType,
+      frontClaimsText: input.frontClaimsText,
+      ocr: input.ocr
+    });
+  }
 }

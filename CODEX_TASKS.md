@@ -115,7 +115,7 @@
   3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
 
 → 下一个可执行任务：
-  1. 本批 PR 合并后继续消费者标签后端 API（labels/nutrition/reports）代码实现，逐步减少 `user-uniapp` 前端 mock/local-only adapter。
+  1. 本批收口：`POST /api/reports/label` 后端实现已接入并在匹配确认页回退测试通过；下一步继续 Batch 1-E / UX/A 设计统一推进项。
   2. ADMIN-E 会员订阅/支付继续 `blocked_by_user`，不阻塞主路径后端化。
 
 → 后续暂缓，等待产品页面设计统一推进：
@@ -1443,11 +1443,11 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 是否需要人工：否。
 
-阻塞条件：无；后端 `/api/nutrition/parse` 为计划 API，MVP 可先本地解析。
+阻塞条件：无；后端与 `user-uniapp` 营养解析已同步。`POST /api/nutrition/parse` 已实现，`user-uniapp` 走后端优先，本地 parser 保留 fallback。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；后端 `/api/nutrition/parse` 正式实现待补，当前为本地结构化解析。
+状态：✅ 已完成（2026-06-15）；`user-uniapp` MVP 已完成，后端 `POST /api/nutrition/parse` 已落地，`user-uniapp` 页面后端优先，本地解析保留降级。
 
 ### Batch CONSUMER-LABEL-C：我的关注项本地设置 [Codex]
 
@@ -1495,7 +1495,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；产品文案和真实数据源展示仍建议人工走查。
+状态：✅ 已完成（2026-06-15）：`POST /api/reports/label` 已从本地 `reportBuilder` 改为后端可选路由，`user-uniapp` 匹配确认页先走后端适配器，后端异常回退本地构建；后续建议补充包装卖点解析与对比报告接口。
 
 ### Batch CONSUMER-LABEL-E：包装卖点核对 [Codex / 后续]
 

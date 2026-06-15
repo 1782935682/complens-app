@@ -7,12 +7,16 @@ import { createGb2760Route } from './routes/gb2760.js';
 import { healthRoute } from './routes/health.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
 import { createLabelsRoute } from './routes/labels.js';
+import { createNutritionRoute } from './routes/nutrition.js';
+import { createReportsRoute } from './routes/reports.js';
 import { createOcrRoute } from './routes/ocr.js';
 import { createUserRoute } from './routes/user.js';
 import { createLazyAuthService, type AuthService } from './services/authService.js';
 import { createLazyGb2760Service, type Gb2760Service } from './services/gb2760Service.js';
 import { createLazyIngredientService, type IngredientService } from './services/ingredientService.js';
 import { createLabelService, type LabelService } from './services/labelService.js';
+import { createNutritionService, type NutritionService } from './services/nutritionService.js';
+import { createReportService, type ReportService } from './services/reportService.js';
 import { createLazyUserService, type UserService } from './services/userService.js';
 
 export type AppServices = {
@@ -20,7 +24,9 @@ export type AppServices = {
   gb2760Service?: Gb2760Service;
   ingredientService?: IngredientService;
   labelService?: LabelService;
+  nutritionService?: NutritionService;
   userService?: UserService;
+  reportService?: ReportService;
 };
 
 export function createApp(config: AppConfig, services: AppServices = {}) {
@@ -37,6 +43,10 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   const authService = services.authService ?? createLazyAuthService(config.databaseUrl, config.jwtSecret);
   app.route('/api', createAuthRoute(authService));
   app.route('/api', createLabelsRoute(services.labelService ?? createLabelService()));
+  app.route('/api', createNutritionRoute(services.nutritionService ?? createNutritionService()));
+  app.route('/api', createReportsRoute(services.reportService ?? createReportService({
+    ingredientService: services.ingredientService ?? createLazyIngredientService(config.databaseUrl)
+  })));
   app.route('/api', createOcrRoute(authService, config));
   app.route('/api', createUserRoute(authService, services.userService ?? createLazyUserService(config.databaseUrl)));
   app.route('/api', createGb2760Route(authService, services.gb2760Service ?? createLazyGb2760Service(config.databaseUrl), {

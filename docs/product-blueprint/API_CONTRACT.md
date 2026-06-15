@@ -329,16 +329,16 @@
 | `POST /api/feedback` | ⚠️ 前端本地 | `src/services/supportService.js` 本地存储 | 是 |
 | `POST /api/labels/scan` | ❌ 后端未实现 / 前端 adapter | `user-uniapp` 单图扫描草稿；食品标签多图扫描会话待后端 | 是 |
 | `POST /api/labels/classify` | ✅ 已实现 | 后端 `backend/src/routes/labels.ts` + `labelService.ts`，`user-uniapp` adapter 后端优先、本地降级 | 是 |
-| `POST /api/nutrition/parse` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/utils/nutritionParser.ts` 本地解析 | 是 |
+| `POST /api/nutrition/parse` | ✅ 已实现 | 后端 `backend/src/routes/nutrition.ts` + `nutritionService.ts`，`user-uniapp` adapter 后端优先、本地降级 | 是 |
 | `POST /api/claims/parse` | ❌ 计划 / 后续 | 包装正面卖点解析 | 是 |
-| `POST /api/reports/label` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/utils/reportBuilder.ts` 本地报告构建 | 是 |
+| `POST /api/reports/label` | ✅ 已实现 | `backend/src/routes/reports.ts` + `backend/src/services/reportService.ts`，`user-uniapp` `buildLabelReportWithAdapter` 后端优先、本地 fallback | 是 |
 | `POST /api/reports/compare` | ❌ 计划 / 后续 | 两款商品对比报告 | 是 |
 | `GET /api/user-attention-items` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/stores/attentionStore.ts` 本地读取 | 是 |
 | `POST /api/user-attention-items` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/stores/attentionStore.ts` 本地保存 | 是 |
 
 ### 消费者标签解读计划 API（部分后端已实现）
 
-以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。`POST /api/labels/classify` 已落地；其余未实现接口不得在实现前当作已存在后端接口调用。`user-uniapp/` 已为 MVP 提供本地 parser / 本地降级 / 本地报告存储，界面必须明确这些不是权威数据来源。
+以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。`POST /api/labels/classify` 与 `POST /api/nutrition/parse` 已落地；其余未实现接口不得在实现前当作已存在后端接口调用。`user-uniapp/` 已为 MVP 提供本地 parser / 本地降级 / 本地报告存储，界面必须明确这些不是权威数据来源。
 
 实现时路由归属：
 
@@ -393,15 +393,24 @@
 - 是否需要登录：不需要。
 - 是否允许匿名：允许。
 
-#### `POST /api/reports/label`
-- 用途：生成食品标签解读报告，合并配料表、营养成分表、包装卖点和我的关注项。
-- 调用端：报告生成流程。
-- 请求参数：`sessionId?`、`ingredientParseResultId?`、`nutritionParseResultId?`、`frontClaimResultId?`、`attentionItems[]`。
-- 响应字段：`reportId`、`summarySentence`、`attentionMatches[]`、`ingredientSection`、`nutritionSection`、`claimCheckSection?`、`sources[]`。
-- 错误码：`400 invalid_parameter`、`422 insufficient_label_data`、`507 storage_full`。
+#### `POST /api/reports/label` ✅ 已实现
+- 用途：生成食品标签解读报告，合并配料表、营养成分表、关注项和 OCR 元信息。
+- 调用端：报告生成流程（`user-uniapp` 在 `/match` 页面发起）。
+- 请求参数：
+  - `productName?`（文本）
+  - `rawText?`（文本）
+  - `ingredients[]`（配料项）
+  - `matches[]`（配料匹配结果）
+  - `nutrition[]`（营养字段）
+  - `attention`（关注项：`goals/detailTerms/customTerms`）
+  - `labelType?`
+  - `frontClaimsText?`
+  - `ocr?`（`mode/provider`）
+- 响应字段：`id`、`title`、`productName`、`summarySentence`、`attentionHits`、`focusItems`、`ingredientSection`、`nutritionSection`、`frontClaimsSection?`、`additiveGroups`、`allergenHints`、`sources`、`rawText`。
+- 错误码：`400 invalid_parameter`、`422 insufficient_label_data`。
 - 数据状态字段：报告保留每个结论的来源、`dataStatus`、OCR 来源和用户确认状态。
-- 前端展示规则：报告名称为“食品标签解读”；普通人内容默认展示，专业依据折叠。
-- 是否需要登录：本地保存不需要；云同步需要。
+- 前端展示规则：报告名称为“食品标签解读”；普通人可读内容优先，专业依据可折叠展示，禁止生成医疗/安全结论。
+- 是否需要登录：本地保存不需要；云同步需登录。
 - 是否允许匿名：允许。
 
 #### `POST /api/reports/compare`

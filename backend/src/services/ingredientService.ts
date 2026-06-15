@@ -219,13 +219,22 @@ export type BatchSearchParams = {
   includeENumbers?: boolean;
 };
 
+export type BatchSearchMatch = {
+  id: string;
+  nameCn: string;
+  category: string;
+  dataStatus: string;
+  sourceName?: string;
+  sourceType?: string;
+};
+
 export type BatchSearchResult = {
   term: string;
   eNumber: string | null;
-  match: IngredientRow | null;
+  match: BatchSearchMatch | null;
   confidence: number;
   matchType: 'exact' | 'alias' | 'eNumber' | 'fuzzy' | 'none';
-  alternates: IngredientRow[];
+  alternates: BatchSearchMatch[];
 };
 
 export type IngredientService = {

@@ -6,13 +6,17 @@ import EmptyState from '@/components/EmptyState.vue';
 import { routes, navigateToRoute } from '@/constants/routes';
 import { getScanDraft, saveScanDraft } from '@/stores/scanStore';
 import type { NutritionField } from '@/types';
-import { getEditableNutritionFields, parseNutritionText } from '@/utils/nutritionParser';
+import { getEditableNutritionFields } from '@/utils/nutritionParser';
+import { parseNutritionWithAdapter } from '@/services/api/labels';
 
 const fields = ref<NutritionField[]>([]);
 
-onMounted(() => {
+onMounted(async () => {
   const draft = getScanDraft();
-  fields.value = getEditableNutritionFields(draft.nutrition.length ? draft.nutrition : parseNutritionText(draft.confirmedText));
+  const parsedNutrition = draft.nutrition.length
+    ? draft.nutrition
+    : await parseNutritionWithAdapter(draft.confirmedText);
+  fields.value = getEditableNutritionFields(parsedNutrition);
   saveScanDraft({ nutrition: fields.value });
 });
 
