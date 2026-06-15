@@ -57,6 +57,7 @@ function continueToMatch() {
 
     <EmptyState
       v-if="!items.length"
+      icon="🥗"
       title="暂未拆出配料"
       description="可以返回文本确认页修正原文，也可以手动新增配料。"
       action-label="回到文本确认"

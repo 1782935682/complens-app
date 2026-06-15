@@ -186,13 +186,41 @@ font-family:
 | `--unknown` | `#667085` | 旧风险等级标记（未知） |
 | `--connection-banner-height` | `0px` | 连接状态条占位高度（运行时调整） |
 
-### 2.14 待补 token（待确认）
+### 2.14 已落地交互与高阶设计规范 (Canonic UI Standards)
 
-以下语义在文档中需要，但当前 `:root` 未单独定义，标记为待补：
+以下为本次 UI 深度优化中全面落地的跨端高阶组件交互与设计系统规范：
 
-- Toast 专用 token（背景 / 文字 / 圆角 / 阴影）：待补 token（待确认）。
-- Modal 遮罩与容器 token：待补 token（待确认）。
-- EmptyState 专用 token（当前借用 `--muted`、`--surface`）：待补 token（待确认）。
+1. **模态框模组 (Modal & AppModal) 规范**：
+   - **遮罩层 (Mask Backdrop)**：采用高级磨砂毛玻璃特效，背景值 `rgba(24, 33, 31, 0.4)`，并通过 `backdrop-filter: blur(8px)` 实现跨端深度聚焦。
+   - **面板容器 (Panel Card)**：采用立体悬浮阴影 `box-shadow: 0 20px 40px rgba(23, 39, 35, 0.16)`，圆角固定为 `--radius-card` (`16px`)。
+   - **进入动画 (Damping Slide-up)**：入场使用阻尼滑入缓动动画（`slide-up 150ms ease-out`），淡入的同时向上平移 24px。
+   - **高度可定制化**：彻底解耦按钮，支持 `confirmLabel` 与 `cancelLabel` 以应对不同的用户决策路径（如“确认删除”）。
+
+2. **轻提示模组 (Toast) 规范**：
+   - **色彩及描边**：使用微透极轻量底色，配以 1px 细微高亮边框和 4px 轻阴影，例如成功态 (`tone="success"`) 为 `background: rgba(34, 197, 94, 0.06); border-color: rgba(34, 197, 94, 0.15)`。
+   - **滑落动画 (Slide-down & Fade)**：入场使用平滑下降淡入过渡（`slide-in 220ms ease-out`），从顶部向下飘移 12px。
+   - **多场景图标引导**：引入语意 Emojis 标志（成功：`✅`，警示：`⚠️`，提示：`💡`），丰富可读性。
+
+3. **空状态占位 (EmptyState) 规范**：
+   - **原生无感标识 (Emojis)**：移除未过滤字符 `□`。缺省值采用品牌自然绿叶 `🌱`。
+   - **高灵敏上下文适配**：在不同功能页面，传入专属轻量符号以增强代入感：
+     - 历史记录页：`📜` (历史卷轴)
+     - 成分搜索页：`🔍` (搜索镜)
+     - 配料拆分页：`🥗` (沙拉配料)
+     - 营养解析页：`📊` (营养图表)
+     - 文本确认页：`📝` (文书修改)
+     - 报告结果页：无命中目标 `🎯`、无营养表 `📊`、零添加剂 `🍃`、过敏原安全 `🛡️`、匹配成功 `✅`、未找到报告 `❌`。
+
+4. **全局阻尼页面切换 (Global Page Entry)**：
+   - 全局 `.page` 容器统一添加贝塞尔缓冲滑入动画：`animation: page-entry 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards`。
+   - 慢出、快起阻尼过渡（向内淡入并向上轻滑 6px），使得每次页面加载与 Tab 切换如原生 App 般轻盈平滑。
+
+5. **平台底层操作拦截**：
+   - **消除灰色闪烁**：添加 `-webkit-tap-highlight-color: transparent` 拦截手机端 Web 视图中所有按钮和卡片点按时的灰色滞重闪烁块。
+   - **定制滚动条 (Micro-Scrollbars)**：配置宽度仅为 `6px` 的滑槽，滑块使用轻薄透明度的 `background: rgba(5, 150, 105, 0.15)`，让界面极简干净、绝不生硬。
+
+### 2.15 待补 token（待确认）
+
 - 字重 token `--font-weight-regular/medium/bold`：待补 token（待确认）。
 - z-index 层级 token：待补 token（待确认，部分硬编码如导航 z-index、banner z-index 40）。
 

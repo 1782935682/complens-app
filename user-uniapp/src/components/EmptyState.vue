@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import AppButton from './AppButton.vue';
 
-defineProps<{ title: string; description: string; actionLabel?: string }>();
+withDefaults(defineProps<{
+  title: string;
+  description: string;
+  actionLabel?: string;
+  icon?: string;
+}>(), {
+  icon: '🌱'
+});
+
 const emit = defineEmits<{ action: [] }>();
 </script>
 
 <template>
   <view class="empty-state">
-    <text class="empty-state__icon">□</text>
+    <text class="empty-state__icon">{{ icon }}</text>
     <text class="empty-state__title">{{ title }}</text>
     <text class="empty-state__description">{{ description }}</text>
     <AppButton v-if="actionLabel" variant="secondary" @click="emit('action')">{{ actionLabel }}</AppButton>
@@ -28,8 +36,8 @@ const emit = defineEmits<{ action: [] }>();
 }
 
 .empty-state__icon {
-  color: var(--primary);
-  font-size: 28px;
+  font-size: 36px;
+  line-height: 1;
 }
 
 .empty-state__title {

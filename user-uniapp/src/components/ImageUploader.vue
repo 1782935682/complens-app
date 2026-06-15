@@ -10,7 +10,7 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
   <view class="image-uploader">
     <image v-if="image?.tempFilePath" class="image-uploader__preview" :src="image.tempFilePath" mode="aspectFill" />
     <view v-else class="image-uploader__empty">
-      <text class="image-uploader__icon">□</text>
+      <text class="image-uploader__icon">📸</text>
       <text class="image-uploader__title">拍摄或上传食品标签</text>
       <text class="image-uploader__hint">配料表、营养成分表或包装正面都可以先拍一张。</text>
     </view>

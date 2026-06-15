@@ -1,7 +1,19 @@
 <script setup lang="ts">
 import AppButton from './AppButton.vue';
 
-defineProps<{ open: boolean; title: string; message: string }>();
+withDefaults(defineProps<{
+  open: boolean;
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  variant?: 'danger' | 'primary';
+}>(), {
+  confirmLabel: '确认',
+  cancelLabel: '取消',
+  variant: 'danger'
+});
+
 const emit = defineEmits<{ close: []; confirm: [] }>();
 </script>
 
@@ -11,8 +23,8 @@ const emit = defineEmits<{ close: []; confirm: [] }>();
       <text class="modal__title">{{ title }}</text>
       <text class="modal__message">{{ message }}</text>
       <view class="modal__actions">
-        <AppButton variant="secondary" @click="emit('close')">取消</AppButton>
-        <AppButton variant="danger" @click="emit('confirm')">确认删除</AppButton>
+        <AppButton variant="secondary" @click="emit('close')">{{ cancelLabel }}</AppButton>
+        <AppButton :variant="variant" @click="emit('confirm')">{{ confirmLabel }}</AppButton>
       </view>
     </view>
   </view>
@@ -27,7 +39,8 @@ const emit = defineEmits<{ close: []; confirm: [] }>();
   align-items: flex-end;
   justify-content: center;
   padding: var(--space-lg);
-  background: rgba(24, 33, 31, 0.36);
+  background: rgba(24, 33, 31, 0.4);
+  backdrop-filter: blur(8px);
 }
 
 .modal__panel {
@@ -35,10 +48,24 @@ const emit = defineEmits<{ close: []; confirm: [] }>();
   max-width: 520px;
   border-radius: var(--radius-card);
   background: var(--surface);
+  box-shadow: 0 20px 40px rgba(23, 39, 35, 0.16);
   padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  transform: translateY(0);
+  animation: slide-up var(--transition-fast) ease-out;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .modal__title {

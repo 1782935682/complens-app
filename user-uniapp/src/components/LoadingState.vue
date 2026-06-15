@@ -12,13 +12,16 @@
   border: 1px solid var(--line);
   background: var(--surface);
   padding: var(--space-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .state__skeleton {
   width: 64%;
   height: 14px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #eef2ef, #f8faf8, #eef2ef);
+  background: linear-gradient(90deg, #eef2ef 25%, #f8faf8 50%, #eef2ef 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
   margin-bottom: var(--space-sm);
 }
 
@@ -29,5 +32,14 @@
 .state__text {
   color: var(--muted);
   font-size: var(--font-size-sm);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 </style>

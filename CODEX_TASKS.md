@@ -117,6 +117,18 @@
 → 下一个可执行任务：
   1. 本批收口：`POST /api/reports/label` 后端实现已接入并在匹配确认页回退测试通过；下一步继续 Batch 1-E / UX/A 设计统一推进项。
   2. ADMIN-E 会员订阅/支付继续 `blocked_by_user`，不阻塞主路径后端化。
+  3. Batch CONSUMER-FS-A：超市单手盲拍极速路径（自动分类默认分析 + 低置信回到文本确认）
+  4. Batch CONSUMER-FS-B：育儿守护模式（儿童关注成分筛查与复合添加剂提示）
+  5. Batch CONSUMER-FS-C：营养-配料双向核验（糖/钠交叉对比）
+  6. Batch CONSUMER-LABEL-F：两款商品 Compare Mode 并排对比（对比页与偏向提示）
+
+PR 切分约束（按你的要求固定）：
+1. Batch CONSUMER-FS-A 走一个独立 PR（本轮先做超市盲拍场景闭环）。
+2. Batch CONSUMER-FS-B 走一个独立 PR（只做育儿守护相关开关与提示层）。
+3. Batch CONSUMER-FS-C 走一个独立 PR（只做营养-配料交叉核验层）。
+4. Batch CONSUMER-LABEL-F 走一个独立 PR（只做对比页双品并排闭环）。
+
+说明：后续执行顺序以这个列表为准；每个 PR 完成后再继续下一个，保持单批次职责不交叉。
 
 → 后续暂缓，等待产品页面设计统一推进：
   Batch 1-E：成分详情页 GB2760 官方证据展示
@@ -1522,25 +1534,99 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 状态：⏸ 后置。
 
-### Batch CONSUMER-LABEL-F：两款商品对比 [Codex / 后续]
+### Batch CONSUMER-FS-A：超市单手盲拍极速路径 [Codex]
 
-目标：支持两款食品按糖、钠、脂肪、添加剂、用户关注项进行对比。
+目标：在超市/便利店等单手操作受限场景下，支持用户“拍照即分析”主路径，降低认知与操作成本。
 
-涉及文件：`src/pages/comparePage.js`、`src/services/compareService.js`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/API_CONTRACT.md`。
+涉及文件：`src/mainPage.js`、`src/pages/capturePage.js`、`src/pages/confirmPage.js`、`src/pages/reportDetailPage.js`、`src/services/scanService.js`、`src/services/labelService.js`、`docs/product-blueprint/UX_SPEC.md`（新增/更新）。
 
 实现内容：
-1. 支持拍 A 产品标签、拍 B 产品标签。
-2. 对比配料数量、添加剂数量、糖/钠/脂肪/蛋白质、用户关注项命中数量。
-3. 输出“A 的钠更低 / B 的食品添加剂数量更少 / A 更符合你当前低钠关注项”。
+1. 首页与拍照页新增“极速扫描”高优先按钮，点击后默认自动分类（`auto`）并跳过手动标签类型选择。
+2. 在报告入口保留“快速摘要”：红绿灯/星级类胶囊（建议关注 / 可能关注 / 信息不足）先行展示，避免页面首屏过长。
+3. 低置信度场景自动降级到文本确认页，保持确认链路不降级。
+4. 保持“拍照即分析”在 3 秒级响应窗口内可见状态更新（含 loading / 错误重试）。
 
 验收标准：
-1. 禁止输出“A 更健康 / B 不健康”。
-2. 对比基于标签信息和用户关注项。
-3. 数据不足时提示结合包装原文确认。
+1. 用户在无干预下可直接拍照完成 `auto` 分析主路径。
+2. 低置信结果可回到文本确认页；不直接跳过核对。
+3. 首屏摘要无医疗/绝对性结论，且可表达不确定状态。
 
 是否需要人工：否。
 
-阻塞条件：MVP 后置；`POST /api/reports/compare` 为计划 API。
+阻塞条件：无。
+
+验证命令：`git diff --check`；按实现范围补充 `npm run lint` + 相关页面验证。
+
+状态：⏸ 待开始。
+
+### Batch CONSUMER-FS-B：育儿守护模式 [Codex]
+
+目标：面向育儿用户的成分过滤场景提供一键“儿童视角”，提升家长识别色素、甜味剂、化学鸡尾酒风险效率。
+
+涉及文件：`src/pages/reportDetailPage.js`、`src/services/compareService.js`、`src/services/reportSummary.js`、`src/data/childrenIngredientFocusList.js`（新增）、`docs/product-blueprint/DATA_TRUST_SPEC.md`（补充口径）。
+
+实现内容：
+1. 报告页增加“育儿守护模式”开关，开启后优先展示儿童关注成分与风险提示。
+2. 维护/引用“儿童关注候选成分清单”，将色素、防腐剂、甜味剂按类别分层高亮。
+3. 当同一报告同时命中 3 种以上防腐剂或甜味剂类成分时，输出“复合配料复杂度较高”的温馨提示，不输出医疗化结论。
+
+验收标准：
+1. 开关可独立开启/关闭，切换后报告摘要与列表联动更新。
+2. 提示文案不使用“有害/不健康/安全/不安全”等禁忌词。
+3. 仅做“提示级”建议：`建议关注` / `需结合包装原文确认` / `信息不足请补充照片`.
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`；按实现范围补充 `npm run lint` + 表达规范自检。
+
+状态：⏸ 待开始。
+
+### Batch CONSUMER-FS-C：营养-配料双向核验 [Codex]
+
+目标：支持“伪健康”场景识别：将营养表主张与配料表线索互相校验（先做糖、钠高价值项）。
+
+涉及文件：`src/services/nutritionParser.js`、`src/services/scanService.js`、`src/pages/reportDetailPage.js`、`src/pages/reportComparePage.js`（计划）、`docs/product-blueprint/API_CONTRACT.md`（接口补充）。
+
+实现内容：
+1. 解析营养成分表中的糖/钠字段与配料表中的高糖/高钠相关词（麦芽糖浆、果葡糖浆、浓缩果汁、谷氨酸钠/盐替代）进行可疑关联。
+2. 在报告内新增“标签核对区”：展示“营养标称 vs 配料线索”双向提示，不输出绝对判定。
+3. 对无法识别营养表场景，降级为 `empty` 态并提示用户补拍营养表或阅读原包装。
+
+验收标准：
+1. 有营养表+配料表时至少产出 1 条可疑项或“未发现明显冲突”结果。
+2. 不能确认时展示 `pending`/`empty` 的明确状态，不误报。
+3. 不输出健康/不健康/可以买/不能买结论。
+
+是否需要人工：否。
+
+阻塞条件：无。
+
+验证命令：`git diff --check`；按实现范围补充 `npm run lint` + 解析字段回归测试。
+
+状态：⏸ 待开始。
+
+### Batch CONSUMER-LABEL-F：两款商品对比（Compare Mode） [Codex / 后续]
+
+目标：支持两款食品并排对比，覆盖配料干净度、添加剂数量、热量和钠含量，给出更贴合关注目标的倾向提示。
+
+涉及文件：`src/pages/comparePage.js`、`src/services/compareService.js`、`src/pages/reportDetailPage.js`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/API_CONTRACT.md`。
+
+实现内容：
+1. 支持拍 A/B 直接连拍或从历史选择两条报告进入 Compare Mode。
+2. 对比维度包含配料数、添加剂数、热量、钠含量、糖标号、用户关注项命中率。
+3. 输出“更符合当前关注目标的倾向提示”（不输出绝对健康性结论）。
+
+验收标准：
+1. 对比页支持左右分栏/同屏对比。
+2. 当关键信息缺失时给出可操作提示，不阻塞页面。
+3. 禁止输出“A 更健康 / B 不健康 / 可以/不能买”等结论性文案。
+4. 对比结果必须保留“信息不足，建议结合包装原文确认”兜底。
+
+是否需要人工：否。
+
+阻塞条件：MVP 后置；`POST /api/reports/compare` 为计划 API，先出静态对比闭环可降级。
 
 验证命令：`git diff --check`；实现时按改动范围补充 lint/test。
 

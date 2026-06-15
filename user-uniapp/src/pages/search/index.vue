@@ -35,13 +35,14 @@ async function runSearch() {
       <text class="page-title">搜索成分</text>
       <text class="page-subtitle">搜索是辅助入口。食品标签解读主流程仍从拍照或上传开始。</text>
     </view>
-    <view class="row">
+    <view class="search-bar">
+      <text class="search-bar__icon">🔍</text>
       <input v-model="query" class="input search-input" placeholder="例如：柠檬酸、E330" @confirm="runSearch" />
       <AppButton @click="runSearch">搜索</AppButton>
     </view>
     <LoadingState v-if="loading">正在搜索...</LoadingState>
     <ErrorState v-else-if="error" title="搜索失败" :description="error" action-label="重试" @action="runSearch" />
-    <EmptyState v-else-if="!items.length" title="输入成分名称" description="可查询单个配料或食品添加剂；报告会在主流程里统一展示来源和可信等级。" />
+    <EmptyState v-if="!items.length" icon="🔍" title="输入成分名称" description="可查询单个配料或食品添加剂；报告会在主流程里统一展示来源和可信等级。" />
     <view v-else class="stack">
       <AppCard v-for="item in items" :key="item.id || item.nameCn || item.name">
         <view class="search-result">
@@ -55,8 +56,26 @@ async function runSearch() {
 </template>
 
 <style scoped>
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  position: relative;
+  width: 100%;
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: 12px;
+  font-size: 15px;
+  line-height: 1;
+  z-index: 5;
+  color: var(--muted);
+}
+
 .search-input {
   flex: 1;
+  padding-left: 36px;
 }
 
 .search-result {

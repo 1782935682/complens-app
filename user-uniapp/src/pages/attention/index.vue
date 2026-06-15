@@ -65,6 +65,7 @@ function persist(next: AttentionSettings) {
         <text class="section-title">关注目标</text>
         <view class="toggle-grid">
           <button v-for="goal in attentionGoals" :key="goal.key" class="toggle" :class="{ 'toggle--active': settings.goals.includes(goal.key) }" @tap="toggleGoal(goal.key)">
+            <text v-if="settings.goals.includes(goal.key)" class="toggle__check">✓</text>
             <text>{{ goal.label }}</text>
           </button>
         </view>
@@ -76,6 +77,7 @@ function persist(next: AttentionSettings) {
         <text class="section-title">细分关注成分</text>
         <view class="toggle-grid">
           <button v-for="term in attentionDetailTerms" :key="term" class="toggle" :class="{ 'toggle--active': settings.detailTerms.includes(term) }" @tap="toggleTerm(term)">
+            <text v-if="settings.detailTerms.includes(term)" class="toggle__check">✓</text>
             <text>{{ term }}</text>
           </button>
         </view>
@@ -115,6 +117,11 @@ function persist(next: AttentionSettings) {
   color: var(--text);
   font-size: var(--font-size-sm);
   font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
 }
 
 .toggle::after,
@@ -122,10 +129,22 @@ function persist(next: AttentionSettings) {
   border: 0;
 }
 
+.toggle:active,
+.custom-pill:active {
+  transform: scale(0.97);
+  background-color: var(--surface-subtle);
+}
+
 .toggle--active {
   border-color: var(--primary);
   background: var(--primary-soft);
   color: var(--primary-strong);
+}
+
+.toggle__check {
+  font-weight: 900;
+  color: var(--primary-strong);
+  line-height: 1;
 }
 
 .custom-input {

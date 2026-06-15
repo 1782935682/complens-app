@@ -33,6 +33,11 @@ function handleTap() {
   font-size: var(--font-size-base);
   font-weight: 800;
   line-height: 44px;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.app-button:active:not([disabled]) {
+  transform: scale(0.98);
 }
 
 .app-button::after {
@@ -44,10 +49,19 @@ function handleTap() {
   color: #ffffff;
 }
 
+.app-button--primary:active:not([disabled]) {
+  background: var(--primary-darker);
+}
+
 .app-button--secondary {
   background: var(--primary-soft);
   color: var(--primary-strong);
   border-color: rgba(5, 150, 105, 0.18);
+}
+
+.app-button--secondary:active:not([disabled]) {
+  background: rgba(5, 150, 105, 0.12);
+  border-color: rgba(5, 150, 105, 0.3);
 }
 
 .app-button--text {
@@ -56,10 +70,19 @@ function handleTap() {
   border-color: transparent;
 }
 
+.app-button--text:active:not([disabled]) {
+  background: rgba(5, 150, 105, 0.06);
+}
+
 .app-button--danger {
   background: #fff1f2;
   color: var(--status-danger);
   border-color: rgba(239, 68, 68, 0.24);
+}
+
+.app-button--danger:active:not([disabled]) {
+  background: #ffe4e6;
+  border-color: rgba(239, 68, 68, 0.4);
 }
 
 .app-button[disabled] {
