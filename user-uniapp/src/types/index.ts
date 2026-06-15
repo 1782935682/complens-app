@@ -64,6 +64,7 @@ export interface IngredientMatch {
   confidence: number;
   matchType: 'exact' | 'alias' | 'eNumber' | 'fuzzy' | 'none' | 'local_attention';
   sourceName?: string;
+  sourceType?: string;
   sourceNote: string;
   ingredientId?: string;
   ingredientName?: string;
@@ -126,7 +127,7 @@ export interface ScanDraft {
 export interface ReportSource {
   label: string;
   detail: string;
-  sourceType: 'ocr_input' | 'manual_input' | 'official_standard' | 'safety_evaluation' | 'common_ingredient' | 'mock_adapter';
+  sourceType: 'ocr_input' | 'manual_input' | 'official_standard' | 'safety_evaluation' | 'manual_review' | 'common_ingredient' | 'mock_adapter';
 }
 
 export interface LabelReport {
@@ -144,6 +145,10 @@ export interface LabelReport {
   };
   nutritionSection: {
     fields: NutritionField[];
+    highlights: string[];
+  };
+  frontClaimsSection?: {
+    text: string;
     highlights: string[];
   };
   additiveGroups: Array<{ label: string; items: IngredientMatch[] }>;

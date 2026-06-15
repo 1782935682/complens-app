@@ -41,6 +41,14 @@ async function shareCurrentReport() {
     <template v-else>
       <ReportSummaryCard :title="report.title" :summary="report.summarySentence" :focus-items="report.focusItems" />
 
+      <AppCard v-if="report.frontClaimsSection?.text">
+        <view class="stack">
+          <text class="section-title">包装正面文字</text>
+          <text class="muted">{{ report.frontClaimsSection.text }}</text>
+          <text v-for="line in report.frontClaimsSection.highlights" :key="line" class="muted">{{ line }}</text>
+        </view>
+      </AppCard>
+
       <AppCard>
         <view class="stack">
           <text class="section-title">我的关注项</text>

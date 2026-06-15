@@ -28,7 +28,12 @@ function clearText() {
 
 function continueFlow() {
   const confirmedText = text.value.trim();
-  saveScanDraft({ confirmedText, productName: productName.value.trim(), labelType: labelType.value });
+  saveScanDraft({
+    confirmedText,
+    productName: productName.value.trim(),
+    labelType: labelType.value,
+    frontClaimsText: labelType.value === 'front_claims' ? confirmedText : ''
+  });
   if (!confirmedText) return;
   if (labelType.value === 'ingredient_list') {
     uni.navigateTo({ url: routes.ingredients });
@@ -39,7 +44,6 @@ function continueFlow() {
     return;
   }
   if (labelType.value === 'front_claims') {
-    saveScanDraft({ frontClaimsText: confirmedText });
     uni.navigateTo({ url: routes.match });
     return;
   }

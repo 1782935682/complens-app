@@ -14,6 +14,7 @@ interface BatchSearchResponse {
       dataStatus?: string;
       category?: string;
       sourceName?: string;
+      sourceType?: string;
     } | null;
   }>;
 }
@@ -45,6 +46,7 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
       confidence,
       matchType: source?.matchType || (match ? 'fuzzy' : 'none'),
       sourceName: match?.sourceName,
+      sourceType: match?.sourceType,
       sourceNote: match ? '来自后端成分匹配 API。' : '后端未返回匹配项，保留为暂未收录。',
       ingredientId: match?.id,
       ingredientName: match?.nameCn || match?.name || term,

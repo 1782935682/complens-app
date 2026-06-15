@@ -75,6 +75,7 @@ function generateReport() {
     matches: matches.value,
     nutrition: draft.nutrition,
     attention: getAttentionSettings(),
+    labelType: draft.labelType,
     frontClaimsText: draft.frontClaimsText
   });
   saveReport(report);

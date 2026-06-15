@@ -1,5 +1,5 @@
 import { attentionGoals } from '@/constants/attention';
-import type { AttentionHit, AttentionSettings, IngredientMatch, LabelReport, NutritionField, ParsedIngredient, ReportSource } from '@/types';
+import type { AttentionHit, AttentionSettings, IngredientMatch, LabelReport, LabelType, NutritionField, ParsedIngredient, ReportSource } from '@/types';
 
 export function buildLabelReport(input: {
   productName: string;
@@ -8,10 +8,12 @@ export function buildLabelReport(input: {
   matches: IngredientMatch[];
   nutrition: NutritionField[];
   attention: AttentionSettings;
+  labelType?: LabelType;
   frontClaimsText?: string;
 }): LabelReport {
+  const frontClaimsText = input.labelType === 'front_claims' ? normalizeReportText(input.frontClaimsText) : '';
   const attentionHits = buildAttentionHits(input);
-  const focusItems = buildFocusItems(input.matches, input.nutrition, attentionHits);
+  const focusItems = buildFocusItems(input.matches, input.nutrition, attentionHits, frontClaimsText);
   const additiveItems = input.matches.filter((match) => match.isAdditive || additiveKeywordMatch(match.normalizedText));
   const unknownItems = input.matches
     .filter((match) => match.dataStatus === 'unknown_from_ocr' || match.decision === 'rejected')
@@ -21,7 +23,7 @@ export function buildLabelReport(input: {
     title: '食品标签解读',
     productName: input.productName.trim() || '未命名食品',
     createdAt: new Date().toISOString(),
-    summarySentence: buildSummarySentence(input, additiveItems.length, attentionHits),
+    summarySentence: buildSummarySentence(input, additiveItems.length, attentionHits, frontClaimsText),
     attentionHits,
     focusItems,
     ingredientSection: {
@@ -33,6 +35,10 @@ export function buildLabelReport(input: {
       fields: input.nutrition,
       highlights: buildNutritionHighlights(input.nutrition, input.attention)
     },
+    frontClaimsSection: {
+      text: frontClaimsText,
+      highlights: buildFrontClaimHighlights(frontClaimsText)
+    },
     additiveGroups: groupAdditives(additiveItems),
     allergenHints: buildAllergenHints(input.matches),
     unknownItems,
@@ -42,8 +48,11 @@ export function buildLabelReport(input: {
   return report;
 }
 
-function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutrition: NutritionField[] }, additiveCount: number, hits: AttentionHit[]): string {
-  const parts = [`识别到 ${input.ingredients.length} 项配料`];
+function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutrition: NutritionField[] }, additiveCount: number, hits: AttentionHit[], frontClaimsText: string): string {
+  const parts: string[] = [];
+  if (input.ingredients.length) parts.push(`识别到 ${input.ingredients.length} 项配料`);
+  if (!input.ingredients.length && !frontClaimsText) parts.push('未提供配料表');
+  if (frontClaimsText) parts.push('包装正面文字已整理');
   if (additiveCount) parts.push(`其中 ${additiveCount} 项可能属于食品添加剂分组`);
   if (input.nutrition.some((field) => field.value)) parts.push('营养成分表已整理');
   if (hits.length) parts.push(`建议重点查看：${hits.map((hit) => hit.label).slice(0, 3).join('、')}`);
@@ -52,12 +61,14 @@ function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutritio
 
 function buildAttentionHits(input: {
   rawText: string;
+  frontClaimsText?: string;
   matches: IngredientMatch[];
   nutrition: NutritionField[];
   attention: AttentionSettings;
 }): AttentionHit[] {
   const text = [
     input.rawText,
+    normalizeReportText(input.frontClaimsText),
     ...input.matches.map((match) => match.normalizedText),
     ...input.nutrition.map((field) => `${field.label}${field.value}${field.unit}`)
   ].join(' ');
@@ -87,8 +98,10 @@ function buildAttentionHits(input: {
   return goalHits;
 }
 
-function buildFocusItems(matches: IngredientMatch[], nutrition: NutritionField[], hits: AttentionHit[]): string[] {
+function buildFocusItems(matches: IngredientMatch[], nutrition: NutritionField[], hits: AttentionHit[], frontClaimsText: string): string[] {
   const items = hits.map((hit) => `${hit.label}：${hit.terms.slice(0, 4).join('、')}`);
+  const frontClaimHighlights = buildFrontClaimHighlights(frontClaimsText);
+  if (frontClaimHighlights.length) items.push(...frontClaimHighlights.slice(0, 2));
   const sodium = nutrition.find((field) => field.key === 'sodium' && field.value);
   const sugar = nutrition.find((field) => field.key === 'sugar' && field.value);
   if (sodium) items.push(`钠：${sodium.value}${sodium.unit}${sodium.nrvPercent ? `，NRV ${sodium.nrvPercent}` : ''}`);
@@ -96,6 +109,24 @@ function buildFocusItems(matches: IngredientMatch[], nutrition: NutritionField[]
   const pending = matches.filter((match) => ['mapped_candidate', 'pending_review', 'unknown_from_ocr', 'unverified'].includes(match.dataStatus));
   if (pending.length) items.push(`有 ${pending.length} 项需要结合包装原文或数据来源继续确认`);
   return [...new Set(items)].slice(0, 8);
+}
+
+function buildFrontClaimHighlights(text: string): string[] {
+  if (!text) return [];
+  const highlights: string[] = [];
+  const matchedLabels = [
+    { label: '糖相关声明', pattern: /0糖|零糖|无糖|低糖|少糖/ },
+    { label: '脂肪相关声明', pattern: /0脂|零脂|低脂|脱脂|少油|非油炸/ },
+    { label: '蛋白质相关声明', pattern: /高蛋白|蛋白质/ },
+    { label: '钠/盐相关声明', pattern: /低钠|减盐|少盐/ },
+    { label: '包装卖点声明', pattern: /无添加|不添加|粗粮|膳食纤维/ }
+  ].filter((item) => item.pattern.test(text)).map((item) => item.label);
+  if (matchedLabels.length) {
+    highlights.push(`包装正面出现 ${[...new Set(matchedLabels)].join('、')}，建议结合配料表和营养成分表确认。`);
+  } else {
+    highlights.push('包装正面文字已保留，建议结合配料表和营养成分表确认。');
+  }
+  return highlights;
 }
 
 function buildNutritionHighlights(fields: NutritionField[], attention: AttentionSettings): string[] {
@@ -170,11 +201,32 @@ function buildSources(matches: IngredientMatch[]): ReportSource[] {
       sourceType: 'manual_input'
     }
   ];
-  if (matches.some((match) => match.sourceName)) {
+  if (matches.some(isOfficialStandardMatch)) {
     sources.push({
-      label: '后端成分数据库',
-      detail: '已匹配项来自后端成分 API；待复核、疑似匹配和暂未收录项不会作为权威结论。',
+      label: '官方标准数据',
+      detail: '已验证法规项来自后端成分 API 中的官方标准来源；仅 verified_regulation 可作为官方标准依据展示。',
       sourceType: 'official_standard'
+    });
+  }
+  if (matches.some((match) => match.dataStatus === 'verified_jecfa')) {
+    sources.push({
+      label: 'JECFA 评价数据库',
+      detail: 'JECFA 评价项仅用于解释对应评价来源，不代表中国法规使用范围。',
+      sourceType: 'safety_evaluation'
+    });
+  }
+  if (matches.some((match) => match.dataStatus === 'common_ingredient')) {
+    sources.push({
+      label: '普通配料词库',
+      detail: '普通配料词库仅用于标签可读性和匹配辅助，不作为法规结论。',
+      sourceType: 'common_ingredient'
+    });
+  }
+  if (matches.some(isPendingBackendMatch)) {
+    sources.push({
+      label: '待复核成分数据库',
+      detail: '待复核、疑似匹配或未验证项仅作匹配线索，不作为官方或权威结论。',
+      sourceType: 'manual_review'
     });
   }
   if (matches.some((match) => match.sourceNote.includes('后端不可用'))) {
@@ -187,10 +239,22 @@ function buildSources(matches: IngredientMatch[]): ReportSource[] {
   return sources;
 }
 
+function isOfficialStandardMatch(match: IngredientMatch): boolean {
+  return match.dataStatus === 'verified_regulation' && normalizeReportText(match.sourceType) === 'official_standard';
+}
+
+function isPendingBackendMatch(match: IngredientMatch): boolean {
+  return Boolean(match.sourceName) && ['pending_review', 'mapped_candidate', 'unverified'].includes(match.dataStatus);
+}
+
 function additiveKeywordMatch(value: string): boolean {
   return /酸|钠|钾|胶|甜味|色|香精|防腐|添加剂|磷酸|碳酸氢/.test(value);
 }
 
 function createReportId(): string {
   return `label-report-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function normalizeReportText(value: unknown): string {
+  return String(value || '').replace(/\s+/g, ' ').trim();
 }
