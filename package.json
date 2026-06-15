@@ -13,6 +13,12 @@
     "validate:gb2760": "npm --prefix backend run validate:gb2760",
     "map:gb2760": "npm --prefix backend run map:gb2760",
     "promote:gb2760": "npm --prefix backend run promote:gb2760",
+    "user:dev:h5": "npm --prefix user-uniapp run dev:h5",
+    "user:build:h5": "npm --prefix user-uniapp run build:h5",
+    "user:dev:mp-weixin": "npm --prefix user-uniapp run dev:mp-weixin",
+    "user:build:mp-weixin": "npm --prefix user-uniapp run build:mp-weixin",
+    "user:lint": "npm --prefix user-uniapp run lint",
+    "user:typecheck": "npm --prefix user-uniapp run typecheck",
     "cap:sync": "npm run build && npx cap sync",
     "cap:open:ios": "npx cap open ios",
     "cap:open:android": "npx cap open android"

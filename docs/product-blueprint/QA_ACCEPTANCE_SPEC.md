@@ -21,7 +21,7 @@
 
 - 适用范围：食品标签（配料表、营养成分表、包装正面卖点），不含化妆品、护肤品、药品（化妆品 `#/cosmetics/*` 为原型保留，非本期主路径）。
 - 主路径（不可偏离）：首页 → 拍食品标签 → 标签类型识别 → OCR → 文本确认 → 配料拆分 / 营养字段解析 → 我的关注项 → 食品标签解读报告 → 保存历史。承载页面见 `PAGE_STRUCTURE.md`。
-- 技术栈验收边界：正式用户端为计划 `user-uniapp`（uni-app + Vue3）；当前 `src/` Vite 前端是历史原型和迁移来源；后台为计划 `admin-web`（Vue3 + TDesign Web）；后端复用现有 `backend/`。计划目录和命令不得当成已实现。
+- 技术栈验收边界：正式用户端为已创建的 `user-uniapp`（uni-app + Vue3）；当前 `src/` Vite 前端是历史原型和迁移来源；后台为计划 `admin-web`（Vue3 + TDesign Web）；后端复用现有 `backend/`。未创建目录和未验证平台能力不得当成已实现。
 - 三态约定：loading / empty / error 三态已在各页复核（Batch 8-C 完成），验收时三态均须可观测。
 - 移动端通用约束：尊重安全区（顶部刘海 / 底部 Home 条）；禁止整页横向滚动；可点击控件命中区域 ≥ 44px；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 扫描 / 搜索 / 历史 / 设置）。
 - 可信枚举（仅以下 7 个，文案以 `dataStatusLabel()` 为准）：`verified_regulation`（官方标准已验证）/ `verified_jecfa`（安全评价已匹配，非中国法规范围）/ `pending_review`（待复核来源数据）/ `mapped_candidate`（疑似匹配，待确认）/ `common_ingredient`（普通配料）/ `unverified`（未验证）/ `unknown_from_ocr`（暂未收录）。
@@ -172,20 +172,20 @@
 
 | 能力 / 检查项 | Web / PWA | Android（Capacitor 7.x） | iOS（Capacitor 7.x） | 微信小程序 | 后台管理 |
 | --- | --- | --- | --- | --- | --- |
-| 主路径走通（首页→保存历史） | 必查 | 必查 | 必查 | 待办 | 不适用 |
-| 拍照 / 相册采集 | 文件输入降级 | `@capacitor/camera` 原生 | `@capacitor/camera` 原生 | 待办 | 不适用 |
-| 分享 | Web Share / 复制降级 | `@capacitor/share` 原生 | `@capacitor/share` 原生 | 待办 | 不适用 |
-| OCR 主路径与降级 | 必查 | 必查 | 必查 | 待办 | 不适用 |
-| 三态（loading/empty/error） | 必查 | 必查 | 必查 | 待办 | 部分（仅 GB2760 复核） |
-| 安全区 / 44px / 16px 输入 | 必查 | 必查 | 必查（主机型） | 待办 | 待确认 |
+| 主路径走通（首页→保存历史） | 必查（`user-uniapp` H5） | 真机待验 | 真机待验 | 开发者工具/真机待验 | 不适用 |
+| 拍照 / 相册采集 | `uni.chooseImage` / 文件输入降级 | 真机权限待验 | 真机权限待验 | `uni.chooseImage` 待开发者工具/真机验收 | 不适用 |
+| 分享 | 复制降级 / adapter | adapter 待验 | adapter 待验 | 原生转发待补 | 不适用 |
+| OCR 主路径与降级 | 必查（经后端，失败手动输入） | 真机待验 | 真机待验 | 开发者工具/真机待验 | 不适用 |
+| 三态（loading/empty/error） | 必查 | 真机待验 | 真机待验 | 开发者工具/真机待验 | 部分（仅 GB2760 复核） |
+| 安全区 / 44px / 16px 输入 | 必查 | 真机待验 | 真机待验 | 真机待验 | 待确认 |
 | PWA 安装 / Service Worker | 必查（人工 + Lighthouse） | 不适用 | 不适用 | 待办 | 待确认 |
 | 平台工程同步（`cap:sync`） | 不适用 | 必查 | 必查 | 待办 | 不适用 |
 | GB2760 内部复核工作台 | 仅内部账号 | 待确认 | 待确认 | 待办 | 部分落地（Batch 1-F，`blocked_by_user` 暂缓） |
 
 补充说明：
-- Web / PWA 为主交付形态；PWA 安装与 Lighthouse 验收为人工。
+- Web / PWA 为主交付形态；`user-uniapp` H5 构建通过后仍需浏览器人工走查、PWA 安装与 Lighthouse 验收。
 - Capacitor 锁定 7.x，匹配 `Node.js >= 20.19`，不得升级到要求 Node 22+ 的主版本。`ios/` 与 `android/` 为本机生成目录（已 gitignore），验收前需 `npm run build && npx cap add ios|android && npm run cap:sync`。`npx cap doctor` 允许提示本机未装 Xcode / Android Studio。
-- 微信小程序：全部待办。
+- 微信小程序：`user-uniapp` 构建可生成 `dist/build/mp-weixin`；微信开发者工具导入、真机拍照/相册/隐私权限验收待补。
 - 后台管理：仅内部 `gb2760ReviewPage` 部分落地，其余后台页为计划（见 `PAGE_STRUCTURE.md` §三、`ADMIN_CONSOLE_SPEC.md`）。
 
 ### 4.1 架构与安全验收
@@ -195,7 +195,7 @@
 - [ ] OCR Key / AI Key 只出现在后端环境变量或后端部署配置中，未出现在前端 bundle、localStorage、公开配置或文档示例的客户端位置。
 - [ ] OCR 服务不暴露公网；目标链路为用户端 / 小程序 / App → 后端 API → OCR Provider → Python FastAPI OCR Service → RapidOCR。
 - [ ] OCR 失败必须降级到手动输入，OCR 成功也必须进入文本确认页。
-- [ ] 当前 `src/` 旧前端没有继续新增复杂跨端业务；正式新业务若启动，优先按 `user-uniapp` 规划。
+- [ ] 当前 `src/` 旧前端没有继续新增复杂跨端业务；正式新业务优先进入 `user-uniapp/`。
 - [ ] 未创建 `admin-web` 前，不把后台菜单写成已落地；已创建后按 `ADMIN_CONSOLE_SPEC.md` 分期验收。
 - [ ] 支付、订阅、上架、IAP、微信支付等在缺少账号和法务材料时标记 `blocked_by_user` 或 `[人工+Codex]`，未伪造成功状态。
 
@@ -237,6 +237,10 @@
 | `npm run lint` | JS 语法 + `public/` service worker 语法 + `src/` 文案合规扫描（`scripts/lint.mjs`） | 任何前端代码 / 文案改动 | 无语法错误、无红线文案，退出码 0 |
 | `npm run test` | Node 原生 `assert` 测试（`scripts/test.mjs`，非 Jest/Vitest） | 任何前端逻辑 / 数据改动 | 全部断言通过，退出码 0 |
 | `npm run build` | `vite build`，产物输出 `dist/` | 任何可能影响构建的改动 | 构建成功，退出码 0 |
+| `cd user-uniapp && npm run lint` | 正式用户端文案与工程约束扫描（`user-uniapp/scripts/lint.mjs`） | `user-uniapp/` 代码 / 文案改动 | 无红线文案，退出码 0 |
+| `cd user-uniapp && npm run typecheck` | Vue3 / TypeScript 类型检查（`vue-tsc --noEmit`） | `user-uniapp/` TS / Vue 改动 | 类型检查通过，退出码 0 |
+| `cd user-uniapp && npm run build:h5` | uni-app H5 构建 | `user-uniapp/` 路由 / 构建入口 / 页面改动 | 构建成功，退出码 0 |
+| `cd user-uniapp && npm run build:mp-weixin` | uni-app 微信小程序构建 | `user-uniapp/` 平台适配 / 页面改动 | 构建成功，生成 `dist/build/mp-weixin`；开发者工具验收另做 |
 | `npm run validate:data` | 食品数据必填字段 / 枚举 / 重复 id / 重复中文名+英文名 / 来源字段 / 可信等级 / 已验证来源依据 / 医疗化文案校验 + 数据质量与 GB2760 覆盖报告（`scripts/validate-data.mjs`） | 食品数据 / 可信字段改动 | 校验通过并输出报告，退出码 0 |
 | `npm run validate:gb2760` | GB2760 正式库准入规则与禁止事项校验（封装 `backend`，读后端 DB） | 涉及 GB2760 数据 / 准入 / promote | 违规即报错退出；通过则退出码 0 |
 | `git diff --check` | 纯文档 / 小改动基础检查（无尾随空格等） | 仅改 Markdown 文档、不影响代码 / 依赖 / 构建 | 无格式问题，退出码 0 |
@@ -245,6 +249,7 @@
 门禁约定（每个 Codex Batch 结束前必须通过）：
 
 - 基线（所有 Batch）：`npm run validate:data && npm run lint && npm run test && npm run build`。
+- 涉及 `user-uniapp/`：执行 `cd user-uniapp && npm run lint && npm run typecheck && npm run build:h5`；跨端适配改动追加 `npm run build:mp-weixin`。
 - 涉及后端：追加后端三连 `cd backend && npm run typecheck && npm test && npm run build`。
 - 涉及 GB2760：追加 `npm run validate:gb2760`。
 - 纯文档改动：至少 `git diff --check`；通常无需 build/test，但应说明未运行原因。
@@ -276,7 +281,7 @@
 - 无独立前端单测框架（不使用 Jest / Vitest 前端），前端验证依赖 `scripts/test.mjs` 的 Node 原生 assert——**现状，非缺陷**，但组件级 / 渲染级断言覆盖有限。
 - 无 E2E：Playwright 为计划 Batch 11-E，**后置**，当前主路径端到端走查为人工。
 - 真机验收（iPhone Safari 安全区 / 触控 / 键盘）与 Lighthouse PWA 验收为**人工**，无自动化。
-- 跨端：微信小程序**待办**；Android / iOS 真机能力为人工抽查。
+- 跨端：微信小程序构建已具备，开发者工具/真机验收待补；Android / iOS 真机能力为人工抽查。
 - 后台管理：除内部 `gb2760ReviewPage` 部分落地外为计划，验收**待确认**。
 - 生产数据库未完成，当前仅本地 / 开发环境对接，相关验收不得描述为生产已完成。
 

@@ -26,7 +26,7 @@
 
 ## 当前架构策略
 
-- **正式用户端**：规划为 `user-uniapp/`，使用 uni-app + Vue3，目标支持 H5/PWA、微信小程序、Android、iOS。
+- **正式用户端**：已新增 `user-uniapp/`，使用 uni-app + Vue3，目标支持 H5/PWA、微信小程序、Android、iOS；当前已完成食品标签解读 MVP 主流程迁移，真实小程序/App 真机验收后置。
 - **旧 Web/PWA 原型**：当前 `src/` 纯 JS + Vite + hash 路由前端保留为历史原型和迁移来源，不直接删除，也不继续承载复杂新业务。
 - **后台管理端**：规划为 `admin-web/`，使用 Vue3 + TDesign Web，单独建设产品运营后台 + 数据治理后台 + 系统配置后台 + 权限审计后台。
 - **后端 API**：复用现有 `backend/`，Node.js + TypeScript + Hono + Drizzle + PostgreSQL；不要重复创建 Express/Nest/Fastify 第二套后端。
@@ -70,6 +70,14 @@ GB2760 导入采用 **staging 全量承接 → 高置信度 promote 到正式库
 # Terminal 1: frontend
 npm install
 npm run dev
+```
+
+正式用户端（uni-app + Vue3）：
+
+```bash
+cd user-uniapp
+npm install
+npm run dev:h5
 ```
 
 ```bash

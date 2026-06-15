@@ -1,0 +1,152 @@
+:root,
+page {
+  --font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei", sans-serif;
+  --bg: #f6f7f4;
+  --surface: #ffffff;
+  --surface-subtle: #f7fbf8;
+  --text: #18211f;
+  --muted: #66736f;
+  --line: #dce3df;
+  --primary: #059669;
+  --primary-strong: #047857;
+  --primary-darker: #035c43;
+  --primary-bright: #10b981;
+  --primary-tint: #34d399;
+  --primary-soft: #ecfdf5;
+  --accent: #c85f38;
+  --status-verified: #22c55e;
+  --status-warning: #f59e0b;
+  --status-danger: #ef4444;
+  --status-unverified: #9ca3af;
+  --status-unknown: #6b7280;
+  --status-info: #2563eb;
+  --error-border: #f4c790;
+  --error-surface: #fff8ec;
+  --error-text: #7a3b10;
+  --allergen: #dc2626;
+  --avoid: #ea580c;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --radius-card: 16px;
+  --radius-btn: 16px;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --shadow-card: 0 12px 32px rgba(23, 39, 35, 0.08);
+  --transition-fast: 150ms ease-out;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+view,
+text,
+button,
+input,
+textarea {
+  font-family: var(--font-family);
+}
+
+button {
+  margin: 0;
+}
+
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: calc(var(--space-lg) + env(safe-area-inset-top)) var(--space-lg) calc(84px + env(safe-area-inset-bottom));
+  background: var(--bg);
+  color: var(--text);
+}
+
+.page-title {
+  display: block;
+  color: var(--text);
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+}
+
+.page-subtitle,
+.muted {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.section-title {
+  display: block;
+  color: var(--text);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: var(--space-md);
+}
+
+.field-label {
+  display: block;
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  margin-bottom: var(--space-xs);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-btn);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  padding: 10px 12px;
+}
+
+.textarea {
+  min-height: 168px;
+}
+
+.link {
+  color: var(--primary);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.notice {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--primary-soft);
+  padding: var(--space-md);
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}

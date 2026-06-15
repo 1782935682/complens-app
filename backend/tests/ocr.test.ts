@@ -39,7 +39,7 @@ afterEach(() => {
 });
 
 describe('POST /api/ocr', () => {
-  it('requires auth before OCR access', async () => {
+  it('allows anonymous MVP OCR requests and returns provider configuration errors', async () => {
     const app = createTestApp();
     const response = await app.request('/api/ocr', {
       method: 'POST',
@@ -47,7 +47,8 @@ describe('POST /api/ocr', () => {
       body: JSON.stringify({ imageBase64: 'abc', mimeType: 'image/jpeg' })
     });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(503);
+    expect(await response.json()).toEqual({ error: 'ocr_not_configured', provider: 'aliyun' });
   });
 
   it('returns 503 when a real OCR provider key is not configured', async () => {

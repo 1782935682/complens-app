@@ -1,54 +1,42 @@
-# AI Review — 2026-06-15 架构与后台规划文档优化
+# AI Review — 2026-06-15 PR #90 additive parsing fix
 
 ## 本轮目标
 
-作为 CompLens / 成分镜 项目的架构规划与任务优化 Agent，审查并优化跨端产品、后端 API、后台管理、数据治理、用户会员运营相关文档。
+继续处理 PR #90 最新一轮 Codex Review 对提交 `9f0042f87e` 的两条非 outdated inline feedback：
 
-本轮只修改文档、架构规划、任务计划和开发路线，不修改业务代码，不删除旧代码，不部署，不安装依赖，不导入 GB2760 PDF。
+1. `user-uniapp/src/utils/ingredientParser.ts` 没有把 `增味剂（谷氨酸钠）`、`抗结剂（二氧化硅）` 这类添加剂功能包装拆成具体成分，导致后端批量匹配收到 `增味剂 谷氨酸钠` 这样的组合词。
+2. `user-uniapp/src/services/api/ingredients.ts` 的添加剂分类判定口径分散，容易漏掉后端返回的 GB 2760 功能类别，影响 `isAdditive`、报告 additiveCount 和分组。
+
+本轮不改 GB2760 数据、不新增数据来源、不伪造成分匹配或 OCR 结果。
 
 ## 已检查文件
 
-- `docs/product-blueprint/ARCHITECTURE_SPEC.md`
-- `docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`
-- `docs/product-blueprint/API_CONTRACT.md`
-- `docs/product-blueprint/PRODUCT_SPEC.md`
-- `docs/product-blueprint/FRONTEND_SPEC.md`
-- `docs/product-blueprint/CROSS_PLATFORM_SPEC.md`
-- `docs/product-blueprint/PAGE_STRUCTURE.md`
-- `docs/product-blueprint/UI_ROADMAP.md`
-- `docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`
-- `docs/product-blueprint/README.md`
 - `CODEX_TASKS.md`
-- `PROJECT_PLAN.md`
-- `AGENTS.md`
-- `README.md` / `readme.md`
-- `COMMANDS.md`
-- `package.json`
-- `backend/package.json`
-- 现有目录结构：`backend/`、`src/`、`ios/`、`android/`
+- `DATA_SOURCES.md`
+- `user-uniapp/src/utils/ingredientParser.ts`
+- `user-uniapp/src/services/api/ingredients.ts`
+- `user-uniapp/src/utils/reportBuilder.ts`
+- `user-uniapp/src/types/index.ts`
+- `src/data/foodAdditives.js`
+- `src/data/gb2760OfficialReferenceTables.js`
 
-## 修复的问题
+## 已完成修复
 
-1. 新增 `ARCHITECTURE_SPEC.md`，明确正式用户端为 `user-uniapp`（uni-app + Vue3）、后台为 `admin-web`（Vue3 + TDesign Web）、后端复用现有 `backend/`（Hono + Drizzle + PostgreSQL）。
-2. 将旧 `src/` 纯 JS + Vite 前端定位为历史 Web/PWA 原型和迁移来源：保留、不删除、不继续承载复杂新业务。
-3. 明确本项目必须有后端，所有端通过后端 API 调用 OCR、AI、数据库、报告、历史、用户、会员、后台和数据治理能力。
-4. 明确 OCR 服务链路：用户端 / 小程序 / App → 后端 API → OCR Provider → Python FastAPI OCR Service → RapidOCR；OCR 服务不暴露公网，前端不直连。
-5. 补齐后台定位：产品运营后台 + 数据治理后台 + 系统配置后台 + 权限审计后台，不再只写 GB2760 / 添加剂后台。
-6. 在 `ADMIN_CONSOLE_SPEC.md` 补齐用户与会员、订阅订单、公告 Banner、内容运营、系统配置、功能开关、OCR/AI 成本监控、角色权限和审计日志。
-7. 在 `API_CONTRACT.md` 补充后台计划 API，并明确这些接口未实现，不得当作已落地调用。
-8. 在 `CODEX_TASKS.md` 新增“统一跨端技术栈重构”和“后台管理系统规划”阶段，拆分 `STACK-A..F`、`ADMIN-A..H`。
-9. 同步 `PROJECT_PLAN.md`、`AGENTS.md`、`README.md`、`readme.md`、`COMMANDS.md`、`UI_ROADMAP.md`、`QA_ACCEPTANCE_SPEC.md` 的技术路线、分期和验证边界。
+1. 新增 `user-uniapp/src/constants/additiveFunctions.ts`，集中维护 GB 2760 附录 D 功能类别和兼容历史 seed 的 category 别名。
+2. `ingredientParser` 改为通过共享 `isAdditiveWrapperLabel()` 判断括号父级，支持 `增味剂（谷氨酸钠）`、`抗结剂（二氧化硅）` 等纯包装标签拆分为具体配料。
+3. 根据本地 review 反馈，解析侧只对“纯 wrapper 标签”或“安全修饰词 + wrapper 标签”触发拆分，支持 `复配甜味剂（赤藓糖醇、三氯蔗糖）`、`天然色素（胭脂树橙）`，同时避免 `着色剂胭脂红（以胭脂红计）`、`增稠剂黄原胶（又名汉生胶）` 这类真实成分名被误丢弃。
+4. `ingredients` API mapper 改为通过共享 `hasAdditiveFunctionLabel()` 判定后端 category，避免 `增味剂`、`抗结剂`、`稳定剂和凝固剂`、`香料类`、`食品添加剂`、`添加剂` 等有效添加剂功能类别漏标；`其他` 作为 GB 2760 附录 D 功能类别仅按 exact category/wrapper 支持。
 
-## 仍有风险
+## 验证结果
 
-1. `user-uniapp/` 和 `admin-web/` 尚未创建，当前只是规划；后续不能把计划命令写成已实现命令。
-2. 现有 `src/` 前端仍承载已落地原型能力，后续需要按迁移策略逐步迁移，不能一次性删除或大改。
-3. 当前后端已经是 Hono + Drizzle + PostgreSQL，应优先复用；若后续改框架，需要单独迁移方案，不应创建第二套服务。
-4. OCR 当前代码仍使用 `OCR_SERVICE_URL` 和 8000 端口，本轮文档规划了 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr` 目标；后续需要专门配置迁移，避免两个变量长期并存。
-5. 会员、订阅、支付、IAP、微信支付、国内渠道、上架和隐私协议版本管理均需要人工账号或法务材料，当前只能规划，不得伪造真实支付闭环。
+- `cd user-uniapp && npm run lint`：通过。
+- `cd user-uniapp && npm run typecheck`：通过。
+- `cd user-uniapp && npm run build:h5`：通过。
+- `cd user-uniapp && npm run build:mp-weixin`：通过。
+- `git diff --check`：通过。
+- 临时 bundled smoke check：通过，确认 `增味剂（谷氨酸钠）` / `抗结剂（二氧化硅）` / `其他（三聚磷酸钠）` / `复配甜味剂（赤藓糖醇、三氯蔗糖）` / `天然色素（胭脂树橙）` 被拆成具体成分，`着色剂胭脂红（以胭脂红计）` / `增稠剂黄原胶（又名汉生胶）` 不被误拆，并且 `增味剂` / `抗结剂` / `稳定剂和凝固剂` / `食品用香料` / `香料类` / `保湿剂` / `食品添加剂` / `添加剂` / `其他` 会被识别为添加剂 category。
 
-## 建议 Codex 下一步
+## 剩余风险
 
-1. 提交本轮架构与后台规划文档 PR，合并前只需文档级检查。
-2. PR 合并后先执行 `STACK-A`：确认现有 backend/frontend/Capacitor 结构并形成迁移方案。
-3. 再执行 `STACK-B/STACK-C`：规划 `user-uniapp` 工程和现有后端 API 规范化，然后回到消费者标签识别和营养解析实现。
+1. 本轮覆盖的是解析和前端匹配标记口径；真实后端返回 category 的完整端到端表现仍建议在浏览器或小程序联调时走查。
+2. `user-uniapp` 当前仍没有正式单元测试框架，本轮用 typecheck、双端构建和临时 bundled smoke check 覆盖关键行为。

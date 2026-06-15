@@ -13,7 +13,7 @@
 > - `API_CONTRACT.md`（接口契约）
 > - `DATA_TRUST_SPEC.md`（数据可信规范）
 >
-> 本规范区分“正式目标架构”和“当前历史原型”。正式用户端采用 `user-uniapp`（uni-app + Vue3）；当前 `src/` 纯 JS + Vite/hash 路由前端保留为历史原型和迁移来源，不把计划迁移写成已完成。
+> 本规范区分“正式用户端”和“当前历史原型”。正式用户端采用 `user-uniapp`（uni-app + Vue3），已完成食品标签解读 MVP 迁移；当前 `src/` 纯 JS + Vite/hash 路由前端保留为历史原型和迁移来源。
 
 ---
 
@@ -23,7 +23,7 @@
 
 正式用户端采用：
 
-- 目录：`user-uniapp/`（规划，尚未创建）
+- 目录：`user-uniapp/`（已创建）
 - 框架：uni-app + Vue3
 - 目标平台：H5/PWA、微信小程序、Android、iOS
 - API：所有端统一调用后端 API
@@ -75,8 +75,8 @@
 ## 1. 前端总体原则
 
 1. **移动端优先**：所有页面、组件、交互首先满足移动端竖屏体验，再适配宽屏。
-2. **正式用户端按 uni-app + Vue3 规划**：新复杂功能优先进入 `user-uniapp` 规划，不继续压在旧 `src/` 原型上。
-3. **不一次性重写全部业务代码**：先建目录、API 契约和迁移边界，再逐步迁移页面、服务和状态。
+2. **正式用户端按 uni-app + Vue3 落地**：新复杂功能优先进入 `user-uniapp/`，不继续压在旧 `src/` 原型上。
+3. **渐进迁移业务能力**：`user-uniapp/` 已承载消费者食品标签解读 MVP；后续真实后端 API、真机权限、登录云同步再分批补齐。
 4. **旧前端栈稳定**：旧 `src/` 原型内不新增 Vue/React/Tailwind/状态库等新栈；如要使用 Vue3，只能在正式 `user-uniapp` 或 `admin-web` 中使用。
 5. **渐进增强**：核心信息（关注项、配料、营养字段、数据来源）在低端机 / 弱网下也可读；增强能力（动画、懒加载图）失败不影响主信息。
 6. **单一事实来源**：迁移完成前，状态枚举以 `src/utils/dataStatus.js` 为当前实现参考；正式端需迁移为 shared 契约，不得各端自造状态。
@@ -91,10 +91,26 @@
 目标目录：
 
 ```text
-user-uniapp/    计划  正式用户端，uni-app + Vue3
+user-uniapp/    已存在  正式用户端，uni-app + Vue3
 admin-web/      计划  后台管理端，Vue3 + TDesign Web
 backend/        已存在  统一后端 API，Node.js + Hono + Drizzle/PostgreSQL
 src/            已存在  旧 Web/PWA 原型，迁移来源
+```
+
+当前 `user-uniapp/` 真实目录结构：
+
+```text
+user-uniapp/
+  src/
+    pages/       已存在  首页、拍照/上传、OCR、标签类型、文本确认、配料、营养、匹配、报告、历史、关注项、搜索、数据说明、隐私说明
+    components/  已存在  Button/Card/Badge/上传/步骤/报告卡/三态/弹窗/Toast/底部导航等基础组件
+    services/    已存在  集中 API client、OCR、标签分类、配料匹配 adapter
+    stores/      已存在  扫描草稿、报告历史、关注项本地存储
+    utils/       已存在  标签判断、配料拆分、营养解析、报告构建
+    styles/      已存在  design tokens
+    constants/   已存在  路由、关注项、标签类型、数据状态
+    platform/    已存在  camera / file / storage / share 适配层
+    assets/      已存在  静态资源预留
 ```
 
 当前 `src/` 真实目录结构（迁移来源），逐目录说明用途，并标注「已存在」/「建议迁移」。
