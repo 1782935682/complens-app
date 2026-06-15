@@ -82,6 +82,8 @@
 - 数据溯源字段：`dataStatus`/`matchConfidence`/`sourceScope`/`sourceName`/`sourceVersion`/`sourceUrl`/`regulatoryBasis`/`rawSourceText`/`lastReviewedAt`/`reviewNote`/`isVerified`。
 - GB2760 官方来源确认 + 264 页全文 + 2404 行 A.1 staging + 2800 行参考表（边界修复完成）+ 导入审计骨架（来源文档、批次、错误表和查询接口）+ `additive_usage_rules` 正式规则表 + `promote:gb2760` 准入脚本 + 本轮人工签核 promote 2391 条正式规则 + `validate:gb2760` 数据准入校验。
 - OCR 主路径：拍照/上传入口、图片预处理（EXIF/压缩/IndexedDB）、OCR manual/mock/real-provider 抽象、文本确认页、配料解析、批量匹配；后端 `OCR_PROVIDER=mock` 可返回明确标注的 mock OCR 结果，`OCR_PROVIDER=rapidocr` 已接入本机 `/home/downloads/tools/complens-ocr` 服务，生产 Aliyun OCR 待 Key 后切换。
+- 平台能力：`src/` 扫描流程补齐 `PLATFORM-B` 平台适配口径，统一 `capturePhoto` / `pickImage` / `compressImage`，并把主流程改为适配层调用、Web 降级走文件选择。
+- 平台本地存储：`src/services/storageService.js` 增加跨平台设置存储后备（兼容微信/Web 本地存储），`src/services/imageStoreService.js` 补齐图片清理接口并接入本机数据清空链路，`src/services/ingredientApiService.js` 与 `src/main.js` 统一走存储适配层读写，不再直接访问 `localStorage`。
 - 消费者标签后端 API：`POST /api/labels/classify` 已落地，支持配料表、营养成分表、包装正面、产品名/条码和未知标签识别，允许匿名调用；`user-uniapp` 标签 adapter 已从 mock-only 改为后端优先、本地规则降级。
 - 分析报告：整体评级、关注摘要、配料顺序、添加剂分类、未收录、特殊人群、来源说明、Markdown/JSON 导出、分享、历史。
 - 产品档案 + 收藏 + 历史 + 个人关注/忌口/过敏原 + 全局高亮 + 登录态云同步。
@@ -250,6 +252,8 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-15 | Batch PLATFORM-C：补齐本地存储适配接口（`storageService` 平台后备、`imageStoreService` 清理能力、`clearLocalUserData` 联动清理、`ingredientApiService`/`main.js` 改用适配层） | Codex | `npm run lint` / `npm run test` / `git diff --check` |
+| 2026-06-15 | Batch PLATFORM-B：补齐旧原型扫描能力适配接口 (`capturePhoto` / `pickImage` / `compressImage`) 并统一入口调用；`src/main.js` 使用适配层抽象替代平台分支判断 | Codex | `npm run lint` / `git diff --check` |
 | 2026-06-15 | Batch CONSUMER-LABEL-A 后端化：新增后端 `POST /api/labels/classify` 与 labelService，支持配料表、营养成分表、包装正面、产品名/条码和未知标签判断；`user-uniapp` 标签 adapter 改为后端优先、本地规则降级，不再显示“后端未实现”的 mock-only 状态 | Codex | `cd backend && npm run test -- labels.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
 | 2026-06-15 | Batch CONSUMER-LABEL-B 后端化：新增 `POST /api/nutrition/parse` 与 nutritionService，补充 `user-uniapp` 营养页后端优先 adapter + 本地 fallback，`API_CONTRACT.md`/`CODEX_TASKS.md`/`AI_REVIEW.md` 同步 | Codex | `cd backend && npm run test -- nutrition.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
 | 2026-06-15 | Batch CONSUMER-LABEL-D 后端化：新增 `POST /api/reports/label` 与 reportService，补充 `user-uniapp` 匹配确认页后端优先 report 适配 + 本地 fallback，`API_CONTRACT.md`/`CODEX_TASKS.md` 同步 | Codex | `cd backend && npm run test -- reports.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `cd user-uniapp && npm run lint` / `git diff --check` |

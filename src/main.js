@@ -12,9 +12,8 @@ import { getCompareOverview } from './services/compareService.js';
 import { clearProductArchives, deleteProductArchive, getProductArchiveById, saveProductArchiveFromReport, toggleProductArchiveFavorite } from './services/productArchiveService.js';
 import { buildReportExportPayload, buildReportFileName, buildReportMarkdown } from './services/reportExportService.js';
 import { buildCompareSharePayload, buildIngredientSharePayload, buildReportSharePayload, sharePayloadWithFallback } from './services/shareService.js';
-import { getNativePhoto, isNativePlatform } from './services/nativeBridgeService.js';
+import { capturePhoto, compressImage, pickImage } from './services/nativeBridgeService.js';
 import { deleteImage, getImage, saveImage } from './services/imageStoreService.js';
-import { compressImage } from './utils/imageProcessor.js';
 import { buildSupportRequestMarkdown } from './services/supportService.js';
 import { matchIngredients } from './services/ingredientMatchService.js';
 import { renderDatabaseMatchSummary } from './pages/analyzePage.js';
@@ -22,6 +21,7 @@ import { renderGb2760ReferenceRowsState } from './pages/dataPage.js';
 import { addCompareIngredient, addHistory, clearAnalysisReports, clearCompareItems, clearHistory, clearLocalUserData, clearPendingScan, clearScanDraft, clearSupportRequests, completeOnboarding, deleteAnalysisReport, deleteSupportRequest, getAnalysisReportById, getLocalDataSnapshot, getLocalDataSummary, getOnboardingState, getPendingScan, getSupportRequests, getUserAllergens, importLocalDataSnapshot, isHistoryRecordingEnabled, markScanTipsSeen, removeCompareIngredient, removeHistory, saveAnalysisReport, saveScanDraft, saveSupportRequest, setHistoryRecordingEnabled, setPendingScan, setUserAllergens, skipOnboarding, toggleFavorite, updateAnalysisReportMatchDecision } from './store/userStore.js';
 import { formatBytes, validateScanImageFile } from './utils/imageFile.js';
 import { parseIngredientList, SAMPLE_OPTIONS, SAMPLES } from './utils/text.js';
+import { readRaw, writeRaw } from './services/storageService.js';
 
 const app = document.querySelector('#app');
 const API_SEARCH_PAGE_SIZE = 6;
@@ -822,7 +822,7 @@ function bindPageEvents(route) {
       if (!confirmed) return;
 
       const pending = getPendingScan();
-      clearLocalUserData();
+      await clearLocalUserData();
       if (pending.pendingImageId) {
         try {
           await deleteImage(pending.pendingImageId);
@@ -1242,23 +1242,22 @@ function getPendingScanForReport(route) {
 
 async function openScanSource(source) {
   const fallbackInput = document.querySelector(source === 'camera' ? '[data-scan-camera-input]' : '[data-scan-photos-input]');
-  if (!isNativePlatform()) {
-    updateScanFeedback('当前为 Web 环境，已打开文件选择。');
-    openScanFilePicker(fallbackInput);
-    return;
-  }
-
+  const getPhoto = source === 'camera' ? capturePhoto : pickImage;
   updateScanFeedback(source === 'camera' ? '正在打开系统相机...' : '正在打开系统相册...');
-  const result = await getNativePhoto(source);
+  const result = await getPhoto();
   if (!result.ok) {
     updateScanFeedback(result.message || '系统相机或相册不可用，已切换到文件选择。');
     if (!['cancelled', 'empty'].includes(result.reason)) openScanFilePicker(fallbackInput);
     return;
   }
 
-  const blob = dataUrlToBlob(result.dataUrl, result.mimeType);
-  const fileName = `native-${source}.${result.format || 'jpeg'}`;
-  const scanFile = createScanFileFromBlob(blob, fileName, result.mimeType);
+  const scanFile = result.file || result.blob;
+  if (!scanFile) {
+    updateScanFeedback('系统返回图片失败，请改用文件选择。');
+    openScanFilePicker(fallbackInput);
+    return;
+  }
+
   await handleScanFile(scanFile, resolveRoute(window.location.hash).category);
 }
 
@@ -1672,28 +1671,6 @@ function updateScanImageActionState({ canRotate, canClear }) {
   if (clearButton) clearButton.disabled = !canClear;
 }
 
-function dataUrlToBlob(dataUrl, mimeType = 'image/jpeg') {
-  const base64 = String(dataUrl || '').split(',')[1] || '';
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let index = 0; index < binary.length; index += 1) {
-    bytes[index] = binary.charCodeAt(index);
-  }
-  return new Blob([bytes], { type: mimeType });
-}
-
-function createScanFileFromBlob(blob, fileName, mimeType = 'image/jpeg') {
-  const type = blob.type || mimeType || 'image/jpeg';
-  if (typeof File === 'function') {
-    try {
-      return new File([blob], fileName, { type });
-    } catch {
-      // Older WebViews can expose File without supporting the constructor.
-    }
-  }
-  return Object.assign(blob, { name: fileName });
-}
-
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
 
@@ -1761,7 +1738,7 @@ function setupPwaInstallPrompt() {
   });
 
   window.addEventListener('appinstalled', () => {
-    writeLocalFlag(PWA_INSTALLED_KEY, 'true');
+    writeRaw(PWA_INSTALLED_KEY, 'true');
     deferredInstallPrompt = null;
     promptNode.hidden = true;
   });
@@ -1770,7 +1747,7 @@ function setupPwaInstallPrompt() {
     if (!deferredInstallPrompt) {
       promptNode.hidden = true;
       if (!isIosSafari()) {
-        writeLocalFlag(PWA_INSTALL_DISMISSED_KEY, 'true');
+        writeRaw(PWA_INSTALL_DISMISSED_KEY, 'true');
       }
       return;
     }
@@ -1778,14 +1755,14 @@ function setupPwaInstallPrompt() {
     deferredInstallPrompt.prompt();
     const choice = await deferredInstallPrompt.userChoice.catch(() => null);
     if (choice?.outcome === 'accepted') {
-      writeLocalFlag(PWA_INSTALLED_KEY, 'true');
+      writeRaw(PWA_INSTALLED_KEY, 'true');
     }
     deferredInstallPrompt = null;
     promptNode.hidden = true;
   });
 
   dismissButton.addEventListener('click', () => {
-    writeLocalFlag(PWA_INSTALL_DISMISSED_KEY, 'true');
+      writeRaw(PWA_INSTALL_DISMISSED_KEY, 'true');
     promptNode.hidden = true;
   });
 
@@ -1793,15 +1770,15 @@ function setupPwaInstallPrompt() {
 }
 
 function recordPwaOpen() {
-  const current = Number(readLocalValue(PWA_OPEN_COUNT_KEY) || '0') || 0;
-  writeLocalFlag(PWA_OPEN_COUNT_KEY, String(current + 1));
+  const current = Number(readRaw(PWA_OPEN_COUNT_KEY) || '0') || 0;
+  writeRaw(PWA_OPEN_COUNT_KEY, String(current + 1));
 }
 
 function shouldShowPwaInstallPrompt() {
-  const openCount = Number(readLocalValue(PWA_OPEN_COUNT_KEY) || '0') || 0;
+  const openCount = Number(readRaw(PWA_OPEN_COUNT_KEY) || '0') || 0;
   return openCount >= 3
-    && readLocalValue(PWA_INSTALL_DISMISSED_KEY) !== 'true'
-    && readLocalValue(PWA_INSTALLED_KEY) !== 'true'
+    && readRaw(PWA_INSTALL_DISMISSED_KEY) !== 'true'
+    && readRaw(PWA_INSTALLED_KEY) !== 'true'
     && !isStandalonePwa()
     && (Boolean(deferredInstallPrompt) || isIosSafari());
 }
@@ -1816,22 +1793,6 @@ function isIosSafari() {
   const isIos = /iphone|ipad|ipod/i.test(userAgent);
   const isWebKit = /safari/i.test(userAgent) && !/crios|fxios|edgios/i.test(userAgent);
   return isIos && isWebKit;
-}
-
-function readLocalValue(key) {
-  try {
-    return window.localStorage?.getItem(key) || '';
-  } catch {
-    return '';
-  }
-}
-
-function writeLocalFlag(key, value) {
-  try {
-    window.localStorage?.setItem(key, value);
-  } catch {
-    // Installation hints are optional; blocked storage should not affect app use.
-  }
 }
 
 function getInitialHash() {

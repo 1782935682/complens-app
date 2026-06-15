@@ -1747,7 +1747,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
-状态：⏸ 待开始。
+状态：✅ 已完成 2026-06-15。
 
 ### Batch PLATFORM-C：本地存储适配接口设计 [Codex]
 
@@ -1769,9 +1769,9 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 阻塞条件：小程序/App 真机文件系统验证后置。
 
-验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
+状态：✅ 已完成 2026-06-15。
 
-状态：⏸ 待开始。
+验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`。
 
 ### Batch PLATFORM-D：分享/登录/支付能力后置规划 [Codex]
 
