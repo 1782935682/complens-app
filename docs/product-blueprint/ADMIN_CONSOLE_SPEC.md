@@ -411,6 +411,26 @@ OCR / AI / Provider
 
 不在 MVP 强制实现复杂 CRM，不做营销自动化。
 
+### ADMIN-C 用户与反馈管理页面/API 矩阵（2026-06-15）
+
+| 页面 / 能力 | 阶段 | 第一版数据来源 | 后台 API 状态 | 隐私与权限边界 |
+|---|---|---|---|---|
+| 用户列表 | Beta | `users`、`user_reports`、`product_archives` 聚合；现有 `/api/auth/me` 只返回当前用户 | `GET /api/admin/users` 计划 | 邮箱/手机号/openid 脱敏；不展示密码 hash、token、完整设备指纹 |
+| 用户详情 | Beta | `users` + favorites/history/allergens/profile/reports/products 摘要 | `GET /api/admin/users/:id` 计划 | 默认只读；敏感字段最小必要展示 |
+| 用户设备与登录记录 | Beta | 当前仅有 `sessions` token / expiresAt；缺平台、设备、IP、UA 结构化字段 | `GET /api/admin/users/:id/devices` 后置计划 | 不保存或展示超出登录安全排查需要的原始指纹 |
+| 扫描记录 | Beta | 用户端本地/`user_reports.data` 里可能含 OCR/标签上下文；尚无独立 scan sessions 表 | `GET /api/admin/label-scans` 计划 | 图片仍按 IndexedDB/对象存储边界处理；后台不直接读取前端 IndexedDB |
+| 标签解读报告 | Beta | 现有 `/api/user/reports` 仅服务登录用户本人；DB 表为 `user_reports` | `GET /api/admin/reports`、`GET /api/admin/reports/:id` 计划 | 报告原文、过敏/忌口、关注项属于敏感上下文，需按管理员权限和审计查看 |
+| 产品档案 | Beta | 现有 `/api/user/products` 仅服务登录用户本人；DB 表为 `product_archives` | `GET /api/admin/products` 计划 | 产品图片、原始标签文本不作为公开运营素材 |
+| 用户反馈 | MVP | 旧 `supportService` 仅本机 markdown/复制流；无后端反馈表；用户提交入口应为公开 `POST /api/feedback` | `GET/PATCH /api/admin/feedback` 计划 | 反馈可能包含联系方式、报告原文和过敏信息；处理状态写操作需审计 |
+| 禁用 / 恢复用户 | Beta | 现有 `users` 表没有 accountStatus 字段 | `PATCH /api/admin/users/:id/status` 计划 | 需管理员权限、原因、操作者、前后状态；不得作为支付或客服结论替代 |
+
+ADMIN-C 落地约束：
+
+1. 现有 `/api/user/*` 仍是“当前登录用户自己的收藏、历史、关注项、报告、产品档案同步接口”，不能直接当后台跨用户查询接口使用。
+2. 后台用户/报告/反馈 API 必须走 `backend/`，不得让 `admin-web/` 直连数据库或读取前端 IndexedDB。
+3. 没有 `accountStatus`、`feedback_tickets`、`scan_sessions`、`login_devices` 等后端结构前，只能写计划和数据来源假设，不能把禁用/恢复、反馈处理、扫描追踪写成已实现。
+4. 用户隐私字段默认脱敏；报告原文、联系方式、过敏/忌口/关注项、OCR 原文和图片引用都需要权限和审计。
+
 ## 12. 会员管理（产品化）
 
 ### 会员字段
