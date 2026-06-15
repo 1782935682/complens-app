@@ -105,6 +105,7 @@
   6. Batch STACK-D：后台管理端 `admin-web` 规划（独立工程边界、工作台路由分组、后台 API 落地边界）
   7. Batch ADMIN-A：后台信息架构与菜单细化（Dashboard、数据治理、食品标签业务、用户与会员、内容运营、Provider、系统配置、权限审计阶段矩阵）
   8. Batch ADMIN-B：数据治理后台 MVP 页面/API 计划（复用 `/api/gb2760/*` 与 `/api/ingredients*`，明确只读、写权限和接口缺口）
+  9. Batch ADMIN-C：用户与反馈管理页面/API 计划（用户列表/详情、扫描/报告、产品档案、反馈工单、隐私和审计边界）
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
@@ -112,7 +113,7 @@
   3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
 
 → 下一个可执行任务：
-  1. 本批 PR 合并后执行 ADMIN-C / ADMIN-D：用户反馈、扫描/报告记录、内容运营与协议版本管理规划。
+  1. 本批 PR 合并后执行 ADMIN-D：公告、Banner、FAQ、数据说明、隐私政策、用户协议版本管理规划。
   2. 然后执行 ADMIN-F / ADMIN-G / ADMIN-H：OCR/AI 监控、权限审计、系统配置规划；ADMIN-E 支付订阅继续人工阻塞。
   3. 消费者标签后端 API（labels/nutrition/reports）在后台规划边界确认后继续。
 
@@ -2044,7 +2045,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`；实现时补充后端/admin-web 验证。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-15）：已在 `ADMIN_CONSOLE_SPEC.md` 补 ADMIN-C 用户与反馈管理页面/API 矩阵；在 `API_CONTRACT.md` 明确现有 `/api/user/*` 只服务当前用户同步，后台 `/api/admin/users`、`/api/admin/label-scans`、`/api/admin/reports`、`/api/admin/products`、`GET/PATCH /api/admin/feedback` 均为计划接口，普通用户提交反馈保留公开 `POST /api/feedback` 计划入口；在 `PAGE_STRUCTURE.md` 登记目标路由、第一版数据入口、隐私脱敏和审计边界。未创建 `admin-web/` 工程，未新增后端接口。
 
 ### Batch ADMIN-D：内容运营后台 [Codex]
 

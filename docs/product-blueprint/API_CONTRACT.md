@@ -547,6 +547,7 @@
 - 是否允许匿名：不允许。
 
 ### `POST /api/feedback`
+- 状态：❌ 计划；后端当前无 feedback 路由，旧 `supportService` 仍是客户端本地 markdown/复制流。
 - 用途：提交用户反馈、未收录成分、纠错建议。
 - 调用端：报告页、成分详情页、我的/反馈页。
 - 请求参数：`type`、`message`、`relatedReportId?`、`relatedIngredientId?`、`contact?`。
@@ -645,6 +646,36 @@ ADMIN-B 禁止事项：
 - 用途：禁用、恢复或标记删除申请中。
 - 请求参数：`status: "normal" | "disabled" | "delete_requested"`、`reason`。
 - 审计：必须记录操作前后状态。
+- 状态边界：当前 `users` 表尚无 `accountStatus` 字段，该接口必须等用户状态字段、管理员权限和审计日志落地后实现。
+
+#### `GET /api/admin/users/:id/devices`  ❌ 计划
+- 用途：查看用户设备与登录记录摘要。
+- 响应字段：`deviceId?`、`platform`、`lastSeenAt`、`loginMethod`、`sessionExpiresAt`、`riskHint?`。
+- 状态边界：当前只有 `sessions` 的 token / userId / expiresAt，不足以支撑设备管理；不得展示 token 明文。
+
+#### `GET /api/admin/label-scans`  ❌ 计划
+- 用途：后台查看扫描会话和 OCR/标签类型链路。
+- 请求参数：`userId?`、`labelType?`、`ocrProvider?`、`dateRange?`、`page`、`limit`。
+- 响应字段：`scanId`、`userId`、`labelType`、`ocrProvider`、`ocrStatus`、`reportId?`、`createdAt`、`hasImage`。
+- 状态边界：当前没有独立后端 scan sessions 表；用户端图片在 IndexedDB，不允许后台直接读取。
+
+#### `GET /api/admin/reports` / `GET /api/admin/reports/:id`  ❌ 计划
+- 用途：后台查看标签解读报告和问题回溯。
+- 请求参数：`userId?`、`category?`、`riskGrade?`、`dateRange?`、`page`、`limit`。
+- 响应字段：报告摘要、标签类型、产品名、匹配统计、可信状态统计、关联扫描/OCR 摘要。
+- 状态边界：现有 `/api/user/reports` 只允许当前登录用户读写自己的报告；后台跨用户读取必须新增管理员权限和审计。
+
+#### `GET /api/admin/products` / `GET /api/admin/products/:id`  ❌ 计划
+- 用途：后台查看产品档案和关联报告。
+- 请求参数：`userId?`、`search?`、`riskGrade?`、`isFavorite?`、`page`、`limit`。
+- 响应字段：产品名、品牌、报告 ID、风险等级、标签摘要、收藏状态、创建/更新时间。
+- 状态边界：现有 `/api/user/products` 只服务当前用户；后台不得把产品图片或原始标签文本公开化。
+
+#### `GET /api/admin/feedback` / `PATCH /api/admin/feedback/:id`  ❌ 计划
+- 用途：后台查看和处理用户反馈 / 纠错 / 支持请求队列。
+- 字段：`feedbackId`、`userId?`、`topic`、`subject`、`message`、`contact?`、`status`、`sourceReportId?`、`sourceScanId?`、`assignee?`、`handledBy?`、`handledAt?`、`internalNote?`。
+- 状态边界：旧 `supportService` 只是客户端本地保存和 markdown 复制流；没有后端反馈表前，后台只能显示计划入口。普通用户提交反馈走公开 `POST /api/feedback`，不得要求 admin 权限。
+- 隐私：联系方式、报告原文、过敏/忌口和 OCR 原文均按敏感字段处理，处理状态变更必须审计。
 
 #### `GET /api/admin/memberships`  ❌ 计划
 - 用途：会员列表与状态查询。

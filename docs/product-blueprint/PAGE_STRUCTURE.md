@@ -521,6 +521,20 @@ ADMIN-A 导航落地规则：
 | 产品档案管理 | 查看用户产品档案 | Beta | 计划 |
 | 用户反馈管理 | 查看和处理反馈 | MVP | 计划 |
 
+ADMIN-C 页面/API 登记：
+
+| 页面 | 目标路由 | 第一版数据入口 | 状态边界 |
+| --- | --- | --- | --- |
+| 用户列表 | `/users` | 计划 `GET /api/admin/users` | Beta 计划；跨用户聚合接口未实现 |
+| 用户详情 | `/users/:id` | 计划 `GET /api/admin/users/:id` | Beta 计划；隐私字段脱敏展示 |
+| 用户设备与登录记录 | `/users/:id/devices` | 计划 `GET /api/admin/users/:id/devices` | Beta 计划；当前 sessions 不足以支撑设备管理 |
+| 扫描记录 | `/label-business/scans` | 计划 `GET /api/admin/label-scans` | Beta 计划；无独立 scan sessions 表 |
+| 标签解读报告 | `/label-business/reports` | 计划 `GET /api/admin/reports` | Beta 计划；现有 `/api/user/reports` 仅当前用户可用 |
+| 产品档案管理 | `/label-business/products` | 计划 `GET /api/admin/products` | Beta 计划；图片和原始标签文本按敏感数据处理 |
+| 用户反馈管理 | `/label-business/feedback` | 计划 `GET/PATCH /api/admin/feedback`；用户提交走公开 `POST /api/feedback` | MVP 计划；旧 supportService 仍是客户端本地反馈流 |
+
+ADMIN-C 所有页面必须具备 loading / empty / error 三态；后台跨用户查询、禁用/恢复、反馈处理写操作必须等权限与审计接口落地后再实现。
+
 ### 3.5 数据治理
 | 页面 | 页面目标 | 阶段 | 当前状态 |
 | --- | --- | --- | --- |
