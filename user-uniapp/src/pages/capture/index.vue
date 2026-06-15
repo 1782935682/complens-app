@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
@@ -7,12 +8,22 @@ import ImageUploader from '@/components/ImageUploader.vue';
 import StepIndicator from '@/components/StepIndicator.vue';
 import { routes, navigateToRoute } from '@/constants/routes';
 import { chooseLabelImage } from '@/platform/camera';
-import { resetScanDraft, saveScanDraft } from '@/stores/scanStore';
+import { getScanDraft, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
 import type { LocalImageAsset } from '@/types';
 
 const image = ref<LocalImageAsset | undefined>();
 const error = ref('');
 const steps = ['拍照', '识别', '确认', '报告'];
+
+onShow(() => {
+  const draftImage = getScanDraft().image;
+  if (!draftImage) {
+    image.value = undefined;
+    return;
+  }
+  if (image.value?.id === draftImage.id && image.value.tempFilePath && !draftImage.tempFilePath) return;
+  image.value = draftImage;
+});
 
 async function choose(source: 'camera' | 'album') {
   error.value = '';

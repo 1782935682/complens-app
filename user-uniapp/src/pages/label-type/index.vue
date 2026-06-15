@@ -8,7 +8,7 @@ import Toast from '@/components/Toast.vue';
 import { labelTypeActions, labelTypeLabels } from '@/constants/labelTypes';
 import { routes, navigateToRoute } from '@/constants/routes';
 import { classifyLabelWithAdapter } from '@/services/api/labels';
-import { getScanDraft, saveScanDraft } from '@/stores/scanStore';
+import { getScanDraft, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
 import type { LabelClassification, LabelType } from '@/types';
 
 const loading = ref(false);
@@ -28,7 +28,7 @@ onMounted(async () => {
 
 function selectType(type: LabelType) {
   if (type === 'unknown_label') {
-    navigateToRoute(routes.capture);
+    restartScan();
     return;
   }
   selectedType.value = type;
@@ -40,6 +40,11 @@ function continueToConfirm() {
   if (classification.value) classification.value = applyManualTypeOverride(classification.value, selectedType.value);
   saveScanDraft({ classification: classification.value, labelType: selectedType.value });
   uni.navigateTo({ url: routes.confirmText });
+}
+
+function restartScan() {
+  resetScanDraft();
+  navigateToRoute(routes.capture);
 }
 
 function getPreferredLabelType(savedType: LabelType, inferredType: LabelType): LabelType {

@@ -51,6 +51,11 @@ function editLabelType() {
   uni.navigateTo({ url: routes.labelType });
 }
 
+function restartScan() {
+  resetScanDraft();
+  navigateToRoute(routes.capture);
+}
+
 function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<ScanDraft> {
   const confirmedText = text.value.trim();
   const previous = getScanDraft();
@@ -68,7 +73,7 @@ function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<Scan
     nextDraft.matches = [];
   }
   if (textChanged || labelTypeChanged) nextDraft.classification = undefined;
-  if (textChanged) nextDraft.ocr = undefined;
+  if (textChanged && previous.ocr) nextDraft.ocr = { ...previous.ocr, text: confirmedText };
   return nextDraft;
 }
 </script>
@@ -101,10 +106,10 @@ function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<Scan
       title="还没有可分析文本"
       description="你可以手动输入，也可以返回重新上传清晰图片。"
       action-label="重新上传"
-      @action="navigateToRoute(routes.capture)"
+      @action="restartScan"
     />
     <AppButton :disabled="isEmpty" @click="continueFlow">确认继续</AppButton>
     <AppButton variant="secondary" @click="clearText">清空</AppButton>
-    <AppButton variant="text" @click="navigateToRoute(routes.capture)">重新上传</AppButton>
+    <AppButton variant="text" @click="restartScan">重新上传</AppButton>
   </view>
 </template>
