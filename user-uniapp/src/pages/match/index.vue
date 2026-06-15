@@ -61,8 +61,19 @@ function updateDecision(match: IngredientMatch, decision: IngredientMatch['decis
   match.decision = decision;
   if (decision === 'rejected') {
     clearBackendMatchMetadata(match);
+  } else if (decision === 'confirmed') {
+    restoreConfirmedMatchMetadata(match);
   }
   saveScanDraft({ matches: matches.value });
+}
+
+function restoreConfirmedMatchMetadata(match: IngredientMatch) {
+  const dataStatus = match.matchedDataStatus || match.dataStatus;
+  match.dataStatus = dataStatus;
+  match.dataStatusLabel = dataStatusLabel(dataStatus);
+  match.sourceType = match.matchedSourceType || match.sourceType;
+  match.sourceNote = match.matchedSourceNote || match.sourceNote;
+  match.isAdditive = match.matchedIsAdditive ?? match.isAdditive;
 }
 
 function clearBackendMatchMetadata(match: IngredientMatch) {

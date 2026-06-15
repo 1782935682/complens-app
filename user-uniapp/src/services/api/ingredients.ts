@@ -34,10 +34,20 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
   return terms.map((term, index) => {
     const source = resultsByTerm.get(normalizeLookupTerm(term));
     const match = source?.match || null;
-    const dataStatus = match ? normalizeDataStatus(match.dataStatus, 'unverified') : 'unknown_from_ocr';
     const confidence = Number(source?.confidence) || 0;
+    const matchType = source?.matchType || (match ? 'fuzzy' : 'none');
+    const decision: IngredientMatch['decision'] = match && confidence >= 0.9 ? 'confirmed' : 'pending';
+    const matchedDataStatus = match ? normalizeDataStatus(match.dataStatus, 'unverified') : 'unknown_from_ocr';
     const isAdditive = isAdditiveCategory(match?.category);
-    const sourceType = normalizeMatchSourceType(match?.sourceType, dataStatus);
+    const matchedSourceType = normalizeMatchSourceType(match?.sourceType, matchedDataStatus);
+    const requiresConfirmation = Boolean(match) && decision === 'pending';
+    const dataStatus = requiresConfirmation ? 'mapped_candidate' : matchedDataStatus;
+    const sourceType = requiresConfirmation ? normalizeMatchSourceType(undefined, dataStatus) : matchedSourceType;
+    const sourceNote = requiresConfirmation
+      ? '后端返回疑似匹配，需确认后才作为数据来源。'
+      : match
+        ? '来自后端成分匹配 API。'
+        : '后端未返回匹配项，保留为暂未收录。';
     return {
       id: `${index}-${term}`,
       term,
@@ -45,14 +55,22 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
       dataStatus,
       dataStatusLabel: dataStatusLabel(dataStatus),
       confidence,
-      matchType: source?.matchType || (match ? 'fuzzy' : 'none'),
+      matchType,
       sourceName: match?.sourceName,
       sourceType,
-      sourceNote: match ? '来自后端成分匹配 API。' : '后端未返回匹配项，保留为暂未收录。',
+      sourceNote,
       ingredientId: match?.id,
       ingredientName: match?.nameCn || match?.name || term,
       isAdditive,
-      decision: confidence >= 0.55 && confidence < 0.9 ? 'pending' : match ? 'confirmed' : 'pending'
+      decision,
+      ...(requiresConfirmation
+        ? {
+            matchedDataStatus,
+            matchedSourceType,
+            matchedSourceNote: '来自后端成分匹配 API。',
+            matchedIsAdditive: isAdditive
+          }
+        : {})
     };
   });
 }

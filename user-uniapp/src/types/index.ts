@@ -70,6 +70,10 @@ export interface IngredientMatch {
   ingredientName?: string;
   isAdditive: boolean;
   decision: 'pending' | 'confirmed' | 'rejected';
+  matchedDataStatus?: DataStatus;
+  matchedSourceType?: string;
+  matchedSourceNote?: string;
+  matchedIsAdditive?: boolean;
 }
 
 export type NutritionKey =

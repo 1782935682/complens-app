@@ -13,7 +13,7 @@ export function buildLabelReport(input: {
 }): LabelReport {
   const frontClaimsText = input.labelType === 'front_claims' ? normalizeReportText(input.frontClaimsText) : '';
   const reportMatches = input.matches.map(sanitizeReportMatch);
-  const acceptedMatches = reportMatches.filter((match) => match.decision !== 'rejected');
+  const acceptedMatches = reportMatches.filter((match) => match.decision === 'confirmed');
   const attentionHits = buildAttentionHits(input);
   const focusItems = buildFocusItems(reportMatches, input.nutrition, attentionHits, frontClaimsText);
   const additiveItems = acceptedMatches.filter((match) => match.isAdditive || additiveKeywordMatch(match.normalizedText));
@@ -44,7 +44,7 @@ export function buildLabelReport(input: {
     additiveGroups: groupAdditives(additiveItems),
     allergenHints: buildAllergenHints(reportMatches),
     unknownItems,
-    sources: buildSources(acceptedMatches),
+    sources: buildSources(acceptedMatches, reportMatches),
     rawText: input.rawText
   };
   return report;
@@ -205,7 +205,7 @@ const allergenTerms = [
   { label: '海鲜', patterns: ['海鲜', '虾', '蟹', '鱼', '贝类'] }
 ];
 
-function buildSources(matches: IngredientMatch[]): ReportSource[] {
+function buildSources(matches: IngredientMatch[], allMatches: IngredientMatch[] = matches): ReportSource[] {
   const sources: ReportSource[] = [
     {
       label: 'OCR / 手动确认文本',
@@ -246,7 +246,7 @@ function buildSources(matches: IngredientMatch[]): ReportSource[] {
       sourceType: 'manual_review'
     });
   }
-  if (matches.some((match) => match.sourceNote.includes('后端不可用'))) {
+  if (allMatches.some((match) => match.sourceNote.includes('后端不可用'))) {
     sources.push({
       label: 'mock only / 待后端实现',
       detail: '当前匹配服务不可用时仅保留暂未收录状态，不伪造成分来源。',
