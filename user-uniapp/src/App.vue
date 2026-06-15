@@ -10,23 +10,11 @@ onShow(() => {
 });
 </script>
 
-<template>
-  <view class="app-shell">
-    <slot />
-  </view>
-</template>
-
 <style>
 page {
-  min-height: 100%;
+  min-height: 100vh;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-family);
-}
-
-.app-shell {
-  min-height: 100vh;
-  min-height: 100dvh;
-  background: var(--bg);
 }
 </style>

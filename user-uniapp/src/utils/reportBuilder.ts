@@ -239,7 +239,7 @@ function buildSources(matches: IngredientMatch[], allMatches: IngredientMatch[] 
       sourceType: 'common_ingredient'
     });
   }
-  if (matches.some(isPendingBackendMatch)) {
+  if (allMatches.some(isPendingBackendMatch)) {
     sources.push({
       label: '待复核成分数据库',
       detail: '待复核、疑似匹配或未验证项仅作匹配线索，不作为官方或权威结论。',
@@ -261,7 +261,7 @@ function isOfficialStandardMatch(match: IngredientMatch): boolean {
 }
 
 function isPendingBackendMatch(match: IngredientMatch): boolean {
-  return Boolean(match.sourceName) && ['pending_review', 'mapped_candidate', 'unverified'].includes(match.dataStatus);
+  return match.decision !== 'rejected' && ['pending_review', 'mapped_candidate', 'unverified'].includes(match.dataStatus);
 }
 
 function createReportId(): string {
