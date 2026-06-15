@@ -23,7 +23,15 @@ export function saveInlineImageData(asset: LocalImageAsset): boolean {
   if (!isInlineImageDataUrl(asset.tempFilePath)) return false;
   const blob = dataUrlToBlob(asset.tempFilePath, asset.mimeType);
   if (!blob) return false;
+  return saveImageBlob(asset, blob);
+}
 
+export function saveFileImageData(asset: LocalImageAsset): boolean {
+  if (!isBlobLike(asset.file)) return false;
+  return saveImageBlob(asset, asset.file);
+}
+
+function saveImageBlob(asset: LocalImageAsset, blob: Blob): boolean {
   const record: StoredImageRecord = {
     id: asset.id,
     blob,
@@ -65,6 +73,10 @@ export async function deleteStoredImage(id?: string): Promise<void> {
 
 function isInlineImageDataUrl(path: string): boolean {
   return /^data:image\//i.test(path);
+}
+
+function isBlobLike(value: unknown): value is Blob {
+  return typeof Blob !== 'undefined' && value instanceof Blob;
 }
 
 function dataUrlToBlob(dataUrl: string, fallbackMimeType: string): Blob | undefined {

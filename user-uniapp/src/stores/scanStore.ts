@@ -1,4 +1,4 @@
-import { clearStoredImageMemory, deleteStoredImage, saveInlineImageData } from '@/platform/imageStore';
+import { clearStoredImageMemory, deleteStoredImage, saveFileImageData, saveInlineImageData } from '@/platform/imageStore';
 import { readJson, writeJson } from '@/platform/storage';
 import type { LabelReport, LocalImageAsset, ScanDraft } from '@/types';
 
@@ -70,9 +70,15 @@ function toPersistedDraft(draft: ScanDraft): ScanDraft {
 
 function toPersistedImage(image?: LocalImageAsset): LocalImageAsset | undefined {
   if (!image) return undefined;
-  const { file: _file, ...imageMeta } = image;
-  if (isInlineImageDataUrl(imageMeta.tempFilePath)) {
-    saveInlineImageData(imageMeta);
+  const { file, ...imageMeta } = image;
+  if (file && saveFileImageData(image)) {
+    return {
+      ...imageMeta,
+      storage: 'h5-file',
+      tempFilePath: ''
+    };
+  }
+  if (isInlineImageDataUrl(imageMeta.tempFilePath) && saveInlineImageData(image)) {
     return {
       ...imageMeta,
       storage: 'h5-file',
