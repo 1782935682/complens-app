@@ -18,12 +18,14 @@ import { createLabelService, type LabelService } from './services/labelService.j
 import { createNutritionService, type NutritionService } from './services/nutritionService.js';
 import { createReportService, type ReportService } from './services/reportService.js';
 import { createLazyUserService, type UserService } from './services/userService.js';
+import { createLazyLabelScanService, type LabelScanService } from './services/labelScanService.js';
 
 export type AppServices = {
   authService?: AuthService;
   gb2760Service?: Gb2760Service;
   ingredientService?: IngredientService;
   labelService?: LabelService;
+  labelScanService?: LabelScanService;
   nutritionService?: NutritionService;
   userService?: UserService;
   reportService?: ReportService;
@@ -42,7 +44,10 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.route('/', healthRoute);
   const authService = services.authService ?? createLazyAuthService(config.databaseUrl, config.jwtSecret);
   app.route('/api', createAuthRoute(authService));
-  app.route('/api', createLabelsRoute(services.labelService ?? createLabelService()));
+  app.route('/api', createLabelsRoute(
+    services.labelService ?? createLabelService(),
+    services.labelScanService ?? createLazyLabelScanService(config.databaseUrl)
+  ));
   app.route('/api', createNutritionRoute(services.nutritionService ?? createNutritionService()));
   app.route('/api', createReportsRoute(services.reportService ?? createReportService({
     ingredientService: services.ingredientService ?? createLazyIngredientService(config.databaseUrl)

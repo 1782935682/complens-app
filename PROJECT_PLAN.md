@@ -104,7 +104,7 @@
 
 - 成分详情页 GB2760 官方证据展示（Batch 1-E）。
 - 生产 Aliyun OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key；本机 RapidOCR 已接入）。
-- 标签类型识别已补后端 `POST /api/labels/classify`；营养成分表结构化、我的关注项主路径化、食品标签解读报告结构改造已在 `user-uniapp/` 完成 MVP；`labels/scan`、`nutrition/parse`、`reports/label` 后端正式 API 和跨端真机验收仍待补齐。
+- 标签类型识别后端 `POST /api/labels/classify` 与扫描会话 `POST /api/labels/scan` 已补齐；营养成分表结构化、我的关注项主路径化、食品标签解读报告后端化已在 `user-uniapp/` 完成 MVP；`nutrition/parse`、`reports/label` 后端正式 API 与跨端真机验收仍待补齐。
 - 包装正面卖点核对、两款商品对比、扫码识别（MVP 后置）。
 - 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
 - 移动端组件统一、报告页产品化复核、首页/OCR 产品体验整体复核（阶段 7；统一可信表达映射层已完成）。
@@ -147,7 +147,7 @@
 
 Codex 下一步任务：
 
-1. 继续后端化消费者主路径 API：`nutrition`（营养解析）→ `reports`（食品标签解读报告）；`labels/scan` 等扫描会话接口待独立 scan sessions 表和图片引用持久化设计后补。
+1. 继续后端化消费者主路径 API：`nutrition`（营养解析）→ `reports`（食品标签解读报告）；扫描会话接口已初步落地，后续补充 `admin-web` 扫描记录与导出能力。
 2. ADMIN-E 会员订阅/支付继续人工阻塞；后台 `admin-web/` 工程和后台 API 代码仍待后续批次按计划落地。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核；生产 DATABASE_URL、Aliyun OCR Key、AI Key、商店账号和法务材料均不阻塞当前本地 MVP。
@@ -183,7 +183,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 - **产品化**：会员管理、订阅计划、订单/支付记录、退款/取消记录、App/小程序版本配置、消息通知、AI/OCR 成本统计、角色权限、审计日志。
 - **上架/商业化**：Apple IAP、Google Play Billing、微信支付、国内安卓渠道、订阅权益、第三方 SDK 清单、隐私协议版本管理。
 
-- **Codex 下一步**：完成本轮 CONSUMER-LABEL-A 后端 API PR；合并后继续消费者主路径后端 API（nutrition/reports），逐步减少 `user-uniapp` 前端 local-only parser/report builder。
+- **Codex 下一步**：继续本轮 `CONSUMER-LABEL-D` 与 `nutrition/reports` 后端化收口，完成 `labels/scan` 会话闭环后逐步减少 `user-uniapp` 前端 local-only parser/report builder 依赖。
 
 ## 8. 7 天执行计划
 
@@ -254,7 +254,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 |---|---|---|---|
 | 2026-06-15 | Batch PLATFORM-C：补齐本地存储适配接口（`storageService` 平台后备、`imageStoreService` 清理能力、`clearLocalUserData` 联动清理、`ingredientApiService`/`main.js` 改用适配层） | Codex | `npm run lint` / `npm run test` / `git diff --check` |
 | 2026-06-15 | Batch PLATFORM-B：补齐旧原型扫描能力适配接口 (`capturePhoto` / `pickImage` / `compressImage`) 并统一入口调用；`src/main.js` 使用适配层抽象替代平台分支判断 | Codex | `npm run lint` / `git diff --check` |
-| 2026-06-15 | Batch CONSUMER-LABEL-A 后端化：新增后端 `POST /api/labels/classify` 与 labelService，支持配料表、营养成分表、包装正面、产品名/条码和未知标签判断；`user-uniapp` 标签 adapter 改为后端优先、本地规则降级，不再显示“后端未实现”的 mock-only 状态 | Codex | `cd backend && npm run test -- labels.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
+| 2026-06-15 | Batch CONSUMER-LABEL-A 后端化：新增后端 `POST /api/labels/classify` 与扫描会话 `POST /api/labels/scan`；`labels.scan` 已支持 `labelScanSession`/`labelScanImage` 落库与去重；`user-uniapp` 标签 adapter 改为后端优先，本地规则降级 | Codex | `cd backend && npm run test -- labels.test.ts` / `cd backend && npm run typecheck` / `cd backend && npm run build` / `cd user-uniapp && npm run typecheck` / `cd user-uniapp && npm run lint` / `git diff --check` |
 | 2026-06-15 | Batch CONSUMER-LABEL-B 后端化：新增 `POST /api/nutrition/parse` 与 nutritionService，补充 `user-uniapp` 营养页后端优先 adapter + 本地 fallback，`API_CONTRACT.md`/`CODEX_TASKS.md`/`AI_REVIEW.md` 同步 | Codex | `cd backend && npm run test -- nutrition.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
 | 2026-06-15 | Batch CONSUMER-LABEL-D 后端化：新增 `POST /api/reports/label` 与 reportService，补充 `user-uniapp` 匹配确认页后端优先 report 适配 + 本地 fallback，`API_CONTRACT.md`/`CODEX_TASKS.md` 同步 | Codex | `cd backend && npm run test -- reports.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `cd user-uniapp && npm run lint` / `git diff --check` |
 | 2026-06-15 | Batch ADMIN-F/G/H：补齐 OCR/AI Provider 监控、OCR 失败日志/指标、AI 调用日志/成本、降级策略、功能开关、平台/版本/分享/通知/SDK 配置、管理员/角色权限/操作日志/审计日志页面/API 计划；明确密钥不展示、AI Key 阻塞、配置变更审计、RBAC 后置和 `admin-web` 尚未创建 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |

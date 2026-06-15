@@ -327,7 +327,7 @@
 | `GET /api/data-sources` | ❌ 未实现 | 当前为 `DATA_SOURCES.md` + `/data` 页面 | 是 |
 | `GET /api/imports/gb2760/status` | ✅ 等价已实现 | `GET /api/gb2760/import-runs` 等后台接口 | 否，后台/内部查看 |
 | `POST /api/feedback` | ⚠️ 前端本地 | `src/services/supportService.js` 本地存储 | 是 |
-| `POST /api/labels/scan` | ❌ 后端未实现 / 前端 adapter | `user-uniapp` 单图扫描草稿；食品标签多图扫描会话待后端 | 是 |
+| `POST /api/labels/scan` | ✅ 已实现 | `backend/src/routes/labels.ts` + `backend/src/services/labelScanService.ts` | 是 |
 | `POST /api/labels/classify` | ✅ 已实现 | 后端 `backend/src/routes/labels.ts` + `labelService.ts`，`user-uniapp` adapter 后端优先、本地降级 | 是 |
 | `POST /api/nutrition/parse` | ✅ 已实现 | 后端 `backend/src/routes/nutrition.ts` + `nutritionService.ts`，`user-uniapp` adapter 后端优先、本地降级 | 是 |
 | `POST /api/claims/parse` | ❌ 计划 / 后续 | 包装正面卖点解析 | 是 |
@@ -338,7 +338,7 @@
 
 ### 消费者标签解读计划 API（部分后端已实现）
 
-以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。`POST /api/labels/classify` 与 `POST /api/nutrition/parse` 已落地；其余未实现接口不得在实现前当作已存在后端接口调用。`user-uniapp/` 已为 MVP 提供本地 parser / 本地降级 / 本地报告存储，界面必须明确这些不是权威数据来源。
+以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。`POST /api/labels/scan`、`POST /api/labels/classify` 与 `POST /api/nutrition/parse` 已落地；`POST /api/reports/label` 已在后端接入。其余未实现接口不得在实现前当作已存在后端接口调用。`user-uniapp/` 已为 MVP 提供本地 parser / 本地降级 / 本地报告存储，界面必须明确这些不是权威数据来源。
 
 实现时路由归属：
 
@@ -351,9 +351,9 @@
 #### `POST /api/labels/scan`
 - 用途：创建或更新一次食品标签扫描会话，支持一张到三张图片组合。
 - 调用端：拍照页、多图上传 / 补拍页。
-- 请求参数：`images[]`（`assetId` 或文件引用、`labelTypeHint?`、`mimeType`）、`sessionId?`。
+- 请求参数：`sessionId?`、`labelTypeHint?`、`images[]`（`assetId`、`labelType?`、`mimeType?`、`ocrResultId?`、`status?`）。
 - 响应字段：`sessionId`、`images[]`（`assetId`、`labelType`、`ocrResultId`、`status`）、`nextSuggestedCapture[]`。
-- 错误码：`400 invalid_parameter`、`413 image_too_large`、`503 ocr_unavailable`。
+- 错误码：`400 invalid_parameter`。
 - 数据状态字段：图片和 OCR 结果标记为 `ocr_input`，不是权威来源。
 - 前端展示规则：拍一张也能继续；推荐补拍配料表和营养成分表；单张失败不影响其他图片。
 - 是否需要登录：目标不需要。

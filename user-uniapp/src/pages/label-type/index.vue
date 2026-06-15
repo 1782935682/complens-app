@@ -7,7 +7,7 @@ import StepIndicator from '@/components/StepIndicator.vue';
 import Toast from '@/components/Toast.vue';
 import { labelTypeActions, labelTypeLabels } from '@/constants/labelTypes';
 import { routes, navigateToRoute } from '@/constants/routes';
-import { classifyLabelWithAdapter } from '@/services/api/labels';
+import { classifyLabelWithAdapter, upsertLabelScanSessionWithAdapter } from '@/services/api/labels';
 import { getScanDraft, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
 import type { LabelClassification, LabelType } from '@/types';
 
@@ -47,6 +47,7 @@ function selectType(type: LabelType) {
 function continueToConfirm() {
   if (classification.value) classification.value = applyManualTypeOverride(classification.value, selectedType.value);
   saveScanDraft({ classification: classification.value, labelType: selectedType.value });
+  void syncScanType(selectedType.value);
   uni.navigateTo({ url: routes.confirmText });
 }
 
@@ -67,6 +68,26 @@ function applyManualTypeOverride(base: LabelClassification, type: LabelType): La
     requiresUserSelection: false,
     reasons: [`已按手动选择设置为${labelTypeLabels[type]}。`, ...base.reasons.filter((reason) => !reason.startsWith('已按手动选择'))]
   };
+}
+
+async function syncScanType(type: LabelType) {
+  const draft = getScanDraft();
+  if (!draft.image) return;
+
+  const response = await upsertLabelScanSessionWithAdapter({
+    sessionId: draft.scanSessionId,
+    labelTypeHint: type,
+    images: [{
+      assetId: draft.image.id,
+      labelType: type,
+      mimeType: draft.image.mimeType || 'image/jpeg',
+      status: 'ocr_input'
+    }]
+  });
+
+  if (response?.sessionId) {
+    saveScanDraft({ scanSessionId: response.sessionId });
+  }
 }
 </script>
 

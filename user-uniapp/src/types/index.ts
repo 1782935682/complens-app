@@ -118,6 +118,7 @@ export interface AttentionHit {
 export interface ScanDraft {
   image?: LocalImageAsset;
   labelType: LabelType;
+  scanSessionId?: string;
   classification?: LabelClassification;
   ocr?: OcrResult;
   confirmedText: string;
