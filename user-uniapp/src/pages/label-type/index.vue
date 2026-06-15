@@ -19,10 +19,15 @@ const steps = ['拍照', '识别', '确认', '报告'];
 onMounted(async () => {
   loading.value = true;
   const draft = getScanDraft();
-  const shouldReclassify = !draft.classification || draft.classification.fallbackOnly || draft.classification.mockOnly;
-  const nextClassification = shouldReclassify
-    ? await classifyLabelWithAdapter(draft.confirmedText || draft.ocr?.text || '')
-    : draft.classification;
+  const cachedClassification = draft.classification;
+  let nextClassification: LabelClassification;
+
+  if (!cachedClassification || cachedClassification.fallbackOnly || cachedClassification.mockOnly) {
+    nextClassification = await classifyLabelWithAdapter(draft.confirmedText || draft.ocr?.text || '');
+  } else {
+    nextClassification = cachedClassification;
+  }
+
   selectedType.value = getPreferredLabelType(draft.labelType, nextClassification.labelType);
   classification.value = applyManualTypeOverride(nextClassification, selectedType.value);
   saveScanDraft({ classification: classification.value, labelType: selectedType.value });
