@@ -511,6 +511,19 @@ ADMIN-A 导航落地规则：
 | 数据说明文案管理 | 数据来源、OCR 隐私、标签解读说明 | Beta | 计划 |
 | 隐私政策 / 用户协议管理 | 协议版本管理 | 上架商业化 | 计划 |
 
+ADMIN-D 页面/API 登记：
+
+| 页面 | 目标路由 | 第一版数据入口 | 状态边界 |
+| --- | --- | --- | --- |
+| 公告管理 | `/content/announcements` | 计划 `GET/POST/PATCH/DELETE /api/admin/announcements` | Beta 计划；发布/下架需审计 |
+| Banner 管理 | `/content/banners` | 计划 `GET/POST/PATCH /api/admin/banners` | Beta 计划；图片走 asset 引用 |
+| 首页场景卡片管理 | `/content/home-cards` | 计划 `GET/POST/PATCH /api/admin/home-cards` | Beta 计划；只配置关注入口，不给结论 |
+| FAQ 管理 | `/content/faq` | 计划 `GET/POST/PATCH /api/admin/content?type=faq` | Beta 计划；不得替代法律条款或医学建议 |
+| 数据说明文案管理 | `/content/data-notes` | 计划 `GET/POST/PATCH /api/admin/content` | Beta 计划；需与数据可信/隐私规范一致 |
+| 隐私政策 / 用户协议管理 | `/content/legal-documents` | 计划 `GET/POST/PATCH /api/admin/legal-documents` | 上架商业化 / 人工确认；最终文案需法务确认 |
+
+ADMIN-D 所有列表页必须具备 loading / empty / error 三态；内容发布、下架、定时发布、协议版本切换必须等权限与审计接口落地后再实现。
+
 ### 3.4 食品标签业务
 | 页面 | 页面目标 | 阶段 | 当前状态 |
 | --- | --- | --- | --- |

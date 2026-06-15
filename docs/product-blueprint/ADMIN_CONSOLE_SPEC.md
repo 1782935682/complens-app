@@ -587,6 +587,25 @@ failed
 
 隐私政策和用户协议必须支持版本管理。
 
+### ADMIN-D 内容运营页面/API 矩阵（2026-06-15）
+
+| 页面 / 能力 | 阶段 | 目标内容 | 后台 API 状态 | 发布与合规边界 |
+|---|---|---|---|---|
+| 公告管理 | Beta | 版本更新、服务维护、数据源更新、隐私政策更新、系统公告 | `GET/POST/PATCH/DELETE /api/admin/announcements` 计划 | 发布、下架、定时发布必须记录操作者和前后状态 |
+| Banner 管理 | Beta | 首页运营位、活动入口、数据说明入口 | `GET/POST/PATCH /api/admin/banners` 计划 | 图片使用后台 asset 引用，不提交字体或大图；不得作为支付/医疗承诺 |
+| 首页场景卡片管理 | Beta | 控糖、低钠、孩子、忌口等入口配置 | `GET/POST/PATCH /api/admin/home-cards` 计划 | 文案只能引导“重点查看/建议关注”，不得写购买或医疗结论 |
+| FAQ 管理 | Beta | 常见问题、使用流程、OCR 失败处理、数据可信说明 | `GET/POST/PATCH /api/admin/content?type=faq` 计划 | FAQ 不能替代法律条款或医学建议 |
+| 数据说明文案管理 | Beta | 数据来源、可信等级、OCR 隐私、AI 非权威、标签解读说明、免责声明 | `GET/POST/PATCH /api/admin/content` 计划 | 必须与 `DATA_TRUST_SPEC.md`、`PRIVACY_AND_COMPLIANCE_SPEC.md` 保持一致 |
+| 隐私政策 / 用户协议版本管理 | 上架商业化 / 人工确认 | 隐私政策、用户协议、订阅说明、数据安全说明版本 | `GET/POST/PATCH /api/admin/legal-documents` 后置计划 | 最终文案需人工/法务确认；可规划草稿/发布/归档状态，不能伪造法务通过 |
+
+ADMIN-D 落地约束：
+
+1. 当前 `src/data/legalContent.js` 只是旧前端法律文案草案，`user-uniapp/src/pages/privacy/index.vue` 是用户端隐私说明页；后台内容运营不得把这些静态草案写成已发布正式协议。
+2. 所有内容发布接口必须走 `backend/`，不得让 `admin-web/` 直连静态文件、数据库或对象存储。
+3. 内容状态至少区分 `draft` / `scheduled` / `published` / `archived`；发布、下架、定时发布、协议版本切换都必须有审计记录。
+4. 隐私政策、用户协议、订阅说明、数据安全说明最终版属于人工/法务阻塞；Codex 只规划结构、状态和接口边界。
+5. 运营文案必须遵守禁用词边界，不得出现“可以买/不能买/健康/不健康/安全/有害/治疗/诊断”等结论。
+
 ## 15. 系统配置和功能开关
 
 配置项包括：

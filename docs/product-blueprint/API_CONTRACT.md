@@ -699,17 +699,30 @@ ADMIN-B 禁止事项：
 
 #### `GET /api/admin/announcements` / `POST /api/admin/announcements` / `PATCH /api/admin/announcements/:id` / `DELETE /api/admin/announcements/:id`  ❌ 计划
 - 用途：公告管理。
-- 字段：`announcementId`、`title`、`content`、`platform`（`all|web|wechat_mp|ios|android`）、`position`、`startAt`、`endAt`、`status`、`priority`、`createdBy`、`updatedAt`。
+- 字段：`announcementId`、`title`、`content`、`platform`（`all|web|wechat_mp|ios|android`）、`position`、`startAt`、`endAt`、`status`（`draft|scheduled|published|archived`）、`priority`、`createdBy`、`updatedAt`。
 - 操作：创建、编辑、上架、下架、预览、定时发布。
+- 审计：发布、下架、定时发布和删除必须记录操作者、原因和前后状态。
 
 #### `GET /api/admin/banners` / `POST /api/admin/banners` / `PATCH /api/admin/banners/:id`  ❌ 计划
 - 用途：Banner 与首页运营位管理。
-- 字段：`title`、`subtitle`、`imageAssetId`、`linkType`、`linkUrl`、`platform`、`sortOrder`、`status`、`startAt`、`endAt`。
+- 字段：`title`、`subtitle`、`imageAssetId`、`linkType`（`internal_route|external_url|content|none`）、`linkTarget`、`platform`、`sortOrder`、`status`、`startAt`、`endAt`。
+- 规则：图片通过后台 asset 引用；不得把大图、字体文件或外部支付链接直接写入前端静态代码。
+
+#### `GET /api/admin/home-cards` / `POST /api/admin/home-cards` / `PATCH /api/admin/home-cards/:id`  ❌ 计划
+- 用途：首页场景卡片管理。
+- 字段：`cardId`、`title`、`description`、`scenarioKey`（`sugar_control|low_sodium|children|avoidance|custom`）、`routeTarget`、`platform`、`sortOrder`、`status`。
+- 规则：只做关注项入口配置，不给购买、医疗或营养诊断结论。
 
 #### `GET /api/admin/content` / `POST /api/admin/content` / `PATCH /api/admin/content/:id`  ❌ 计划
-- 用途：FAQ、数据说明、OCR 隐私说明、食品标签解读说明、免责声明、隐私政策、用户协议管理。
-- 字段：`contentType`、`title`、`content`、`language`、`version`、`status`、`publishedAt`、`updatedAt`。
-- 规则：隐私政策和用户协议必须版本化。
+- 用途：FAQ、数据说明、OCR 隐私说明、食品标签解读说明、免责声明等普通内容管理。
+- 字段：`contentId`、`contentType`（`faq|data_source_note|ocr_privacy_note|label_report_note|disclaimer`）、`title`、`content`、`language`、`version`、`status`、`platform`、`publishedAt`、`updatedAt`。
+- 规则：内容必须遵守 `DATA_TRUST_SPEC.md` 和 `PRIVACY_AND_COMPLIANCE_SPEC.md`，不能把 AI/OCR/未验证数据写成权威结论。
+
+#### `GET /api/admin/legal-documents` / `POST /api/admin/legal-documents` / `PATCH /api/admin/legal-documents/:id`  ❌ 计划 / 人工确认
+- 用途：隐私政策、用户协议、订阅说明、数据安全说明版本管理。
+- 字段：`documentId`、`documentType`（`privacy_policy|terms_of_service|subscription_terms|data_security`）、`title`、`content`、`version`、`language`、`platform`、`status`（`draft|legal_review|approved|published|archived`）、`effectiveAt`、`publishedAt`、`approvedBy?`、`updatedAt`。
+- 边界：最终文案必须人工/法务确认；Codex 只能规划草稿、审核、发布和归档流程，不得伪造 `approved` 或法务通过。
+- 审计：版本切换、发布、归档必须记录操作者、原因和前后版本。
 
 ### 4. 系统配置与功能开关
 
