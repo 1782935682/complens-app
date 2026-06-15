@@ -23,6 +23,62 @@ CompLens 产品运营后台 + 数据治理后台 + 系统配置后台
   - 对应迭代批次 **Batch 1-F**，状态 **⛔ blocked_by_user**（用户要求等产品页面设计统一后再继续推进）。
 - 其余后台页面均为**计划**，部分能力依赖尚未确认的后端接口（见各节「当前状态」）。
 
+### STACK-D 工程边界（2026-06-15）
+
+本节用于确认 `admin-web/` 的建设边界。本批次仅规划，不创建工程目录；在 `admin-web/` 真实初始化前，不得把任何后台页面或命令写成已实现。
+
+| 项 | 规划值 | 当前状态 |
+|---|---|---|
+| 目标目录 | `admin-web/` | 计划，尚未创建 |
+| 技术栈 | Vue3 + TypeScript + Vite + TDesign Web | 计划 |
+| 后端入口 | 现有 `backend/` Hono API，优先 `/api/admin/*`，MVP 可复用已存在 `/api/gb2760/*` 内部接口 | 部分后端接口已存在 |
+| 设计系统 | 共用产品级 design tokens、数据状态枚举、文案红线；视觉形态按 TDesign 工作台而非消费端大卡片布局 | 计划 |
+| 权限模型 | MVP 预留管理员登录；GB2760 写操作继续使用 `GB2760_INTERNAL_REVIEWERS` allowlist；产品化阶段补 RBAC | 部分后端 allowlist 已存在 |
+| 实现边界 | 不直连数据库、OCR 服务、AI 服务、导入脚本或密钥；所有能力通过后端 API | 强制约束 |
+
+目标目录结构（创建工程时再落地）：
+
+```text
+admin-web/
+  src/
+    main.ts
+    App.vue
+    router/
+    layouts/
+      AdminLayout.vue
+    pages/
+      dashboard/
+      users/
+      content/
+      label-business/
+      data-governance/
+      providers/
+      system/
+      security/
+    services/
+      api/
+    constants/
+      dataStatus.ts
+      routes.ts
+    styles/
+      tokens.css
+```
+
+MVP 启动范围：
+
+1. Dashboard 概览：导入批次、待复核、OCR 失败、用户反馈、系统告警。
+2. 数据治理：数据源、GB2760 导入任务、staging 复核、添加剂、食品分类、使用规则。
+3. 食品标签业务：OCR 记录、用户反馈；扫描记录和报告记录先只读规划。
+4. 系统配置：功能开关和 provider 状态只读；不展示密钥明文。
+5. 权限与审计：管理员登录预留、操作日志规划；RBAC 后置到产品化。
+
+明确不进入 MVP 强制范围：
+
+- 会员、订阅、订单、支付、退款真实闭环。
+- Apple IAP、Google Play Billing、微信支付、国内安卓渠道支付。
+- AI 调用日志真实成本统计（AI Key 未提供前只能规划）。
+- 自动部署生产或生产数据写入。
+
 ### 后台四类能力
 
 1. **运营管理**：用户、会员、订阅、公告、Banner、FAQ、内容配置。

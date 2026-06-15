@@ -576,6 +576,29 @@
 - 审计：新增、编辑、删除、禁用、发布、复核、配置变更等写操作必须写入操作日志 / 审计日志。
 - 展示规则：后台可展示专业字段，但不得把 `pending_review` / `mapped_candidate` / `unverified` 当成正式结论。
 
+### 后台 API 落地边界（STACK-D）
+
+`admin-web/` 创建前，本节仍是规划。落地时遵守：
+
+1. 后台通过现有 `backend/` 访问数据，禁止直连数据库、OCR 服务、AI 服务、GB2760 导入脚本或密钥。
+2. 已存在的 GB2760 内部接口继续作为数据治理 MVP 的真实接口：`GET /api/gb2760/import-runs`、`GET /api/gb2760/import-runs/:id/errors`、`GET /api/gb2760/reference-rows`、`GET /api/gb2760/staging-rows`、`PUT /api/gb2760/staging-rows/*`。
+3. 新后台聚合接口统一规划在 `/api/admin/*`；不要为了后台 UI 重复实现已存在的 `ingredients` / `gb2760` 查询能力。
+4. MVP 可先复用普通 JWT 登录和 `GB2760_INTERNAL_REVIEWERS` allowlist 保护高风险写操作；产品化阶段再补独立 admin RBAC、角色权限和审计日志。
+5. Provider、支付、AI、第三方 SDK 配置接口不得返回密钥明文；后台只展示 provider 名称、启用状态、配置来源和最近错误。
+6. 会员、订阅、订单和支付接口保持 `blocked_by_user` / 计划状态，直到对应平台账号、沙箱和法务材料齐备。
+
+后台 MVP API 优先级：
+
+| 优先级 | 能力 | 路由策略 | 当前状态 |
+|---|---|---|---|
+| P0 | GB2760 导入状态与 staging 复核 | 复用 `/api/gb2760/*` | 部分已实现 |
+| P0 | 配料/添加剂只读查询 | 复用 `/api/ingredients*` | 已实现 |
+| P1 | Dashboard 汇总 | 新增 `/api/admin/dashboard` 聚合现有统计 | 计划 |
+| P1 | OCR 失败日志和反馈列表 | 新增 `/api/admin/ocr-logs`、`/api/admin/feedback` | 计划 |
+| P1 | 功能开关只读/受控编辑 | 新增 `/api/admin/feature-flags` | 计划 |
+| P2 | 用户、报告、内容运营 | 新增 `/api/admin/users`、`/api/admin/content` 等 | 计划 |
+| P3 | 会员、订阅、支付、订单 | 新增 `/api/admin/memberships`、`subscriptions`、`orders` | 计划 / blocked_by_user |
+
 ### 1. Dashboard
 
 #### `GET /api/admin/dashboard`  ❌ 计划
