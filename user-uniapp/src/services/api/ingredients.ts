@@ -19,21 +19,23 @@ interface BatchSearchResponse {
 }
 
 export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<IngredientMatch[]> {
-  const terms = items.map((item) => item.normalizedText).filter(Boolean);
+  const terms = items.map((item) => item.normalizedText.trim()).filter(Boolean);
   if (!terms.length) return [];
+  const requestTerms = [...new Set(terms)];
 
   const response = await requestJson<BatchSearchResponse>('/ingredients/batch-search', {
     method: 'POST',
-    data: { terms, includeENumbers: true },
+    data: { terms: requestTerms, includeENumbers: true },
     timeoutMs: 5000
   });
+  const resultsByTerm = new Map((response.results || []).map((result) => [normalizeLookupTerm(result.term), result]));
 
   return terms.map((term, index) => {
-    const source = response.results?.[index];
+    const source = resultsByTerm.get(normalizeLookupTerm(term));
     const match = source?.match || null;
     const dataStatus = match ? normalizeDataStatus(match.dataStatus, 'unverified') : 'unknown_from_ocr';
     const confidence = Number(source?.confidence) || 0;
-    const isAdditive = Boolean(match?.category && String(match.category).includes('添加剂'));
+    const isAdditive = isAdditiveCategory(match?.category);
     return {
       id: `${index}-${term}`,
       term,
@@ -56,4 +58,13 @@ export async function searchIngredients(query: string) {
   const q = encodeURIComponent(query.trim());
   if (!q) return { items: [] };
   return requestJson<{ items?: unknown[] }>(`/ingredients/search?q=${q}&limit=10`, { timeoutMs: 5000 });
+}
+
+function normalizeLookupTerm(value: unknown): string {
+  return String(value || '').trim();
+}
+
+function isAdditiveCategory(value: unknown): boolean {
+  const category = String(value || '').trim();
+  return /添加剂|防腐剂|甜味剂|着色剂|色素|酸度调节剂|抗氧化剂|增稠剂|稳定剂|凝固剂|膨松剂|乳化剂|水分保持剂|营养强化剂|被膜剂|消泡剂|抗结剂|漂白剂|护色剂|面粉处理剂|胶姆糖基础剂|食品用香料|香精|香料/.test(category);
 }
