@@ -12,7 +12,7 @@ export function buildLabelReport(input: {
   frontClaimsText?: string;
   ocr?: OcrResult;
 }): LabelReport {
-  const frontClaimsText = input.labelType === 'front_claims' ? normalizeReportText(input.frontClaimsText) : '';
+  const frontClaimsText = isPackagingSupplementType(input.labelType) ? normalizeReportText(input.frontClaimsText) : '';
   const reportMatches = input.matches.map(sanitizeReportMatch);
   const acceptedMatches = reportMatches.filter((match) => match.decision === 'confirmed');
   const attentionHits = buildAttentionHits(input);
@@ -64,6 +64,10 @@ function sanitizeReportMatch(match: IngredientMatch): IngredientMatch {
     ingredientName: match.normalizedText,
     isAdditive: false
   };
+}
+
+function isPackagingSupplementType(labelType: LabelType | undefined): boolean {
+  return labelType === 'front_claims' || labelType === 'barcode_or_product';
 }
 
 function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutrition: NutritionField[] }, additiveCount: number, hits: AttentionHit[], frontClaimsText: string): string {

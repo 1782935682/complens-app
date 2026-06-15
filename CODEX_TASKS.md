@@ -1419,11 +1419,11 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 是否需要人工：否。
 
-阻塞条件：无；后端 `/api/labels/classify` 为计划 API，MVP 可先前端本地判断。
+阻塞条件：无。
 
-验证命令：按改动范围选择 `git diff --check`、`npm run lint`、`npm run test`；不默认跑完整测试。
+验证命令：`cd backend && npm run test -- labels.test.ts` + `cd backend && npm run typecheck` + `cd user-uniapp && npm run typecheck` + `git diff --check`。
 
-状态：✅ `user-uniapp` MVP 已完成（2026-06-15）；后端 `/api/labels/classify` 正式实现待补，当前为明确标注的本地 adapter。
+状态：✅ 已完成（2026-06-15）：`user-uniapp` MVP 已完成；后端 `POST /api/labels/classify` 已正式实现并允许匿名调用，`user-uniapp` 标签 adapter 已改为后端优先、本地规则降级。`POST /api/labels/scan` 仍待独立扫描会话表/图片引用持久化后再实现。
 
 ### Batch CONSUMER-LABEL-B：营养成分表 OCR 与结构化 [Codex]
 

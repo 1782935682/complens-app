@@ -4,6 +4,7 @@ export const labelTypeLabels: Record<LabelType, string> = {
   ingredient_list: '配料表',
   nutrition_facts: '营养成分表',
   front_claims: '包装正面',
+  barcode_or_product: '产品名/条码',
   unknown_label: '未知标签'
 };
 
@@ -22,6 +23,11 @@ export const labelTypeActions: Array<{ type: LabelType; label: string; descripti
     type: 'front_claims',
     label: '这是包装正面',
     description: '用于记录 0 糖、低脂、高蛋白等包装文案，当前作为补充信息。'
+  },
+  {
+    type: 'barcode_or_product',
+    label: '这是产品名/条码',
+    description: '用于记录产品名、净含量或条码等包装识别信息，当前作为补充信息。'
   },
   {
     type: 'unknown_label',

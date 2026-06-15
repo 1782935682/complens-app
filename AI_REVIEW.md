@@ -1,63 +1,66 @@
-# AI Review — 2026-06-15 Batch ADMIN-F/G/H operations, security and config planning
+# AI Review — 2026-06-15 Batch CONSUMER-LABEL-A backend labels API
 
 ## 本轮目标
 
-PR #98 合并后继续原计划，跳过 ADMIN-E 会员订阅/支付人工阻塞，执行 ADMIN-F / ADMIN-G / ADMIN-H：OCR/AI 监控、权限审计、系统配置与功能开关页面/API 规划。
+PR #99 合并后继续原计划，进入消费者主路径后端 API：先实现 `POST /api/labels/classify`，减少 `user-uniapp` 标签类型识别的 mock/local-only adapter。
 
-本轮只做规划文档同步，不创建 `admin-web/` 工程，不新增后端接口，不创建 RBAC/config/log 表，不把 OCR/AI 成本、Provider 配置、权限系统或系统配置写成已实现。
+本轮不实现 `POST /api/labels/scan`，因为当前后端还没有独立 scan sessions 表、图片引用持久化和多图扫描会话模型；避免为了接口名创建空接口。
 
 ## 已检查文件
 
 - `CODEX_TASKS.md`
 - `PROJECT_PLAN.md`
-- `COMMANDS.md`
-- `DATA_SOURCES.md`
-- `docs/product-blueprint/ADMIN_CONSOLE_SPEC.md`
-- `docs/product-blueprint/PAGE_STRUCTURE.md`
 - `docs/product-blueprint/API_CONTRACT.md`
+- `backend/src/app.ts`
+- `backend/src/routes/ocr.ts`
+- `backend/src/routes/ingredients.ts`
+- `backend/tests/ocr.test.ts`
+- `user-uniapp/src/services/api/labels.ts`
+- `user-uniapp/src/utils/labelClassifier.ts`
+- `user-uniapp/src/pages/label-type/index.vue`
+- `user-uniapp/src/pages/confirm-text/index.vue`
+- `user-uniapp/src/utils/reportBuilder.ts`
 
 ## 已确认现状
 
-1. `admin-web/` 仍未创建，后台规划仍是文档/API 契约阶段。
-2. 真实后端已存在 `POST /api/ocr` 和 OCR provider 抽象；但后台 OCR 日志、OCR 指标、Provider 状态和成本统计接口均未实现。
-3. AI Key 和模型选型未提供，AI Provider、AI 调用日志和 AI 成本只能规划，不能伪造可用状态或成本数据。
-4. GB2760 写操作目前由 `GB2760_INTERNAL_REVIEWERS` allowlist 保护；完整 admin RBAC、管理员管理、操作日志和审计日志仍未实现。
-5. 系统配置、平台配置、版本配置、分享、通知、SDK 清单均无后台接口；密钥、证书、支付凭证和商店材料不得进入前端配置响应。
+1. 后端已有 Hono 单后端和 `/api/ocr`、`/api/ingredients/*` 路由模式，可直接新增 `labels` 路由。
+2. `user-uniapp` 之前的 `classifyLabelWithAdapter` 只做本地规则判断，并明确写着后端分类 API 尚未实现。
+3. 前端类型原先没有 `barcode_or_product`，但 API 契约已把它列为标签类型之一；需要补齐类型和前端补充信息流。
+4. `labels/scan` 需要后端扫描会话和图片引用设计，当前不适合在本轮空实现。
 
 ## 已完成修改
 
-1. `ADMIN_CONSOLE_SPEC.md`：
-   - 新增 ADMIN-F OCR/AI/Provider 页面/API 矩阵，覆盖 OCR Provider 状态、OCR 失败日志、OCR 指标、AI Provider 状态、AI 日志、成本统计和降级策略。
-   - 新增 ADMIN-G 权限与审计页面/API 矩阵，覆盖管理员、角色权限、操作日志、审计日志、reviewer allowlist 状态和当前权限自检。
-   - 新增 ADMIN-H 系统配置页面/API 矩阵，覆盖功能开关、平台配置、版本配置、分享、通知和第三方 SDK 配置。
-2. `API_CONTRACT.md`：
-   - 补充 `/api/admin/providers/ocr`、`/api/admin/ocr-logs`、`/api/admin/ocr-metrics`、`/api/admin/providers/ai`、`/api/admin/ai-logs`、`/api/admin/cost-summary`、`/api/admin/degradation-policies` 等计划接口。
-   - 补充 `/api/admin/platform-config`、`/api/admin/app-versions`、`/api/admin/share-config`、`/api/admin/notification-config`、`/api/admin/sdk-config` 等计划接口。
-   - 补充 `/api/admin/me/permissions`、`/api/admin/reviewer-access`、`/api/admin/operation-logs`、`/api/admin/audit-logs` 等权限与审计计划接口。
-3. `PAGE_STRUCTURE.md`：
-   - 登记 ADMIN-F/G/H 目标路由、第一版数据入口和状态边界。
-4. `CODEX_TASKS.md`：
-   - 将 ADMIN-F/G/H 标记为已完成。
-   - 保留 ADMIN-E 为 `blocked_by_user`。
-   - 将下一步切到消费者标签后端 API：`labels` → `nutrition` → `reports`。
-5. `PROJECT_PLAN.md`：
-   - 更新整体进度到约 79%，M13 后台管理进度到约 40%。
-   - 同步已完成、未完成、下一步和最近修改记录。
+1. `backend/src/services/labelService.ts`：
+   - 新增标签分类服务，支持 `ingredient_list`、`nutrition_facts`、`front_claims`、`barcode_or_product`、`unknown_label`。
+   - 支持用户手动选择覆盖 `userSelectedType`。
+   - 低置信或无文本时返回 `unknown_label` 和 `requiresUserSelection: true`。
+2. `backend/src/routes/labels.ts`：
+   - 新增 `POST /api/labels/classify`。
+   - 允许匿名调用。
+   - 校验 JSON body、`text`、`imageAssetId` 和 `userSelectedType`。
+3. `backend/src/app.ts`：
+   - 挂载 labels 路由到 `/api`。
+4. `backend/tests/labels.test.ts`：
+   - 覆盖匿名调用、配料表判断、营养成分表判断、低证据文本、用户手动选择和非法标签类型。
+5. `user-uniapp`：
+   - 标签 adapter 改为后端优先、本地规则降级。
+   - 本地降级时显示“后端标签分类暂不可用”，不再写“后端未实现 / mock-only”。
+   - 扩展 `barcode_or_product` 标签类型、选择项、确认页流转和报告补充信息。
+6. 文档同步：
+   - `API_CONTRACT.md` 将 `POST /api/labels/classify` 标为已实现，`POST /api/labels/scan` 继续计划。
+   - `CODEX_TASKS.md` 更新 CONSUMER-LABEL-A 状态。
+   - `PROJECT_PLAN.md` 更新整体进度、已完成、未完成、下一步和最近修改记录。
 
 ## 验证计划
 
+- `cd backend && npm run test -- labels.test.ts`
+- `cd backend && npm run typecheck`
+- `cd user-uniapp && npm run typecheck`
 - `git diff --check`
-- 本地自审：
-  - 检查是否把计划接口写成已实现。
-  - 检查是否暴露 OCR/AI Key、token、支付凭证或敏感图片。
-  - 检查 AI Key 未提供时是否保持 blocked/未配置表达。
-  - 检查配置开关是否绕过后端鉴权、数据可信、OCR 文本确认或人工阻塞边界。
-
-未计划运行 build/test：本轮是纯文档和任务状态修改，不触达业务代码、依赖、构建入口、路由实现、数据库 schema 或数据文件。
 
 ## 剩余风险
 
-1. ADMIN-F/G/H 仍缺真实后端 API、数据库表、后台页面和权限中间件。
-2. OCR/AI 日志与成本统计需要后续实际调用日志表和 provider 计费口径支撑。
-3. RBAC、管理员管理、操作日志和审计日志还需要后续 schema/API/admin-web 实现。
-4. 平台版本、通知、SDK、支付/订阅和法务材料仍依赖人工账号、平台权限和法律确认。
+1. `POST /api/labels/scan` 尚未实现；需要后续扫描会话表、图片引用和多图状态模型。
+2. `POST /api/nutrition/parse` 和 `POST /api/reports/label` 仍未后端化，`user-uniapp` 仍保留本地 parser/report builder。
+3. 标签分类当前是规则式判断，不是 ML 模型；它只做辅助判断，低置信必须继续让用户手动选择。
+4. 微信小程序/App 真机 API base、请求域名和图片权限仍待后续验收。
