@@ -1,4 +1,5 @@
-import type { BatchSearchResult, DataStatus as IngredientDataStatus, IngredientService } from './ingredientService.js';
+import { randomUUID } from 'node:crypto';
+import type { BatchSearchMatch, BatchSearchResult, IngredientService } from './ingredientService.js';
 
 export type ReportLabelType = 'ingredient_list' | 'nutrition_facts' | 'front_claims' | 'barcode_or_product' | 'unknown_label';
 
@@ -217,13 +218,14 @@ export function createReportService(deps: ReportServiceDeps = {}): ReportService
       const nutrition = normalizeNutrition(input.nutrition || []);
       const frontClaimsText = normalizeOptionalString(input.frontClaimsText);
       const labelType = isLabelType(input.labelType) ? input.labelType : 'unknown_label';
+      const providedMatches = sanitizeMatches(input.matches || []);
       const matches = await resolveMatches({
-        providedMatches: sanitizeMatches(input.matches || []),
+        providedMatches,
         ingredients,
         ingredientService: deps.ingredientService
       });
 
-      const acceptedMatches = matches.filter((match) => match.decision === 'confirmed');
+      const acceptedMatches = matches.filter((match) => shouldCountMatchAsAdditive(match));
       const attentionHits = buildAttentionHits({
         rawText,
         frontClaimsText,
@@ -262,7 +264,7 @@ export function createReportService(deps: ReportServiceDeps = {}): ReportService
         additiveGroups: groupAdditives(additiveItems),
         allergenHints: buildAllergenHints(matches),
         unknownItems,
-        sources: buildSources(matches, input.ocr, input.matches),
+        sources: buildSources(matches, input.ocr, providedMatches),
         frontClaimsSection: frontClaimsText
           ? {
               text: frontClaimsText,
@@ -291,7 +293,10 @@ function resolveMatches(input: {
   }
 
   if (!input.ingredientService) {
-    return Promise.resolve(input.ingredients.map((ingredient, index) => unknownMatch(index, ingredient)));
+    console.warn('[reports] ingredientService is not configured; falling back to unknown matches.');
+    return Promise.resolve(input.ingredients.map((ingredient, index) => unknownMatch(index, ingredient, {
+      sourceNote: '后端成分匹配服务暂不可用，已退回为暂未验证匹配。'
+    })));
   }
 
   return input.ingredientService
@@ -302,23 +307,34 @@ function resolveMatches(input: {
       return input.ingredients.map((ingredient, index) => {
         const term = String(ingredient.normalizedText || ingredient.rawText || '').trim();
         const result = matchesByTerm.get(normalizeLookup(term));
-        if (!result || !result.match) {
+        const match = result ? sanitizeBatchMatch(result.match) : null;
+        if (!result || !match) {
           return unknownMatch(index, { ...ingredient, normalizedText: term, rawText: term });
         }
-        return fromBatchSearchResult(index, term, result);
+        return fromBatchSearchResult(index, term, {
+          ...result,
+          match
+        });
       });
     })
-    .catch(() => input.ingredients.map((ingredient, index) => unknownMatch(index, ingredient)));
+    .catch((error) => {
+      console.warn('[reports] failed to resolve ingredient matches from backend', {
+        message: error?.message || 'unknown error'
+      });
+      return input.ingredients.map((ingredient, index) => unknownMatch(index, ingredient, {
+        sourceNote: '后端成分匹配失败，已回退为暂未收录。'
+      }));
+    });
 }
 
-function fromBatchSearchResult(index: number, term: string, result: BatchSearchResult) {
+function fromBatchSearchResult(index: number, term: string, result: Omit<BatchSearchResult, 'match'> & { match: BatchSearchMatch }) {
   const match = result.match;
-  const matchedDataStatus = normalizeDataStatus(match?.dataStatus as IngredientDataStatus | undefined);
-  const canAutoConfirm = Boolean(match) && result.confidence >= 0.9 && trustedAutoConfirmStatuses.includes(matchedDataStatus);
-  const requiresConfirmation = Boolean(match) && !canAutoConfirm;
+  const matchedDataStatus = normalizeDataStatus(match?.dataStatus);
+  const canAutoConfirm = result.confidence >= 0.9 && trustedAutoConfirmStatuses.includes(matchedDataStatus);
+  const requiresConfirmation = !canAutoConfirm;
   const dataStatus: ReportDataStatus = requiresConfirmation ? 'mapped_candidate' : matchedDataStatus;
   const isAdditive = isAdditiveCategory(match?.category);
-  const sourceType = requiresConfirmation ? normalizeMatchSourceType(undefined, dataStatus) : normalizeMatchSourceType(match?.sourceType, dataStatus);
+  const sourceType = requiresConfirmation ? normalizeMatchSourceType(undefined, dataStatus) : normalizeMatchSourceType(match.sourceType, dataStatus);
   const sourceNote = requiresConfirmation
     ? '后端返回疑似匹配，需确认后才作为数据来源。'
     : '来自后端成分匹配 API。';
@@ -347,32 +363,86 @@ function fromBatchSearchResult(index: number, term: string, result: BatchSearchR
 
 function sanitizeMatches(values: IngredientMatchInput[]): IngredientMatch[] {
   return values.map((value, index) => {
-    const term = normalizeOptionalString(value.term) || normalizeOptionalString(value.normalizedText) || `配料项 ${index + 1}`;
-    const decision = normalizeDecision(value.decision);
-    const dataStatus = normalizeDataStatus(value.dataStatus);
-    const isAdditive = value.isAdditive !== undefined ? Boolean(value.isAdditive) : false;
-
-    return {
-      id: normalizeOptionalString(value.id) || `${index}-${normalizeLookup(term)}`,
-      term,
-      normalizedText: term,
-      dataStatus,
-      dataStatusLabel: normalizeOptionalString(value.dataStatusLabel) || dataStatusLabel(dataStatus),
-      confidence: Number(value.confidence || 0),
-      matchType: isMatchType(value.matchType),
-      sourceName: normalizeOptionalString(value.sourceName),
-      sourceType: normalizeOptionalString(value.sourceType),
-      sourceNote: normalizeOptionalString(value.sourceNote) || '来自后端成分匹配 API。',
-      ingredientId: normalizeOptionalString(value.ingredientId),
-      ingredientName: normalizeOptionalString(value.ingredientName) || term,
-      isAdditive,
-      decision,
-      matchedDataStatus: value.matchedDataStatus ? normalizeDataStatus(value.matchedDataStatus as IngredientDataStatus) : undefined,
-      matchedSourceType: normalizeOptionalString(value.matchedSourceType),
-      matchedSourceNote: normalizeOptionalString(value.matchedSourceNote),
-      matchedIsAdditive: value.matchedIsAdditive === undefined ? undefined : Boolean(value.matchedIsAdditive)
-    };
+    const sanitized = sanitizeProvidedMatch(value, index);
+    if (sanitized.decision === 'rejected') {
+      return sanitizeRejectedMatch(sanitized);
+    }
+    return sanitized;
   });
+}
+
+function sanitizeProvidedMatch(value: IngredientMatchInput, index: number): IngredientMatch {
+  const term = normalizeOptionalString(value.term) || normalizeOptionalString(value.normalizedText) || `配料项 ${index + 1}`;
+  const decision = normalizeDecision(value.decision);
+  const dataStatus = normalizeDataStatus(value.dataStatus);
+  const isAdditive = value.isAdditive !== undefined ? Boolean(value.isAdditive) : false;
+
+  return {
+    id: normalizeOptionalString(value.id) || `${index}-${normalizeLookup(term)}`,
+    term,
+    normalizedText: term,
+    dataStatus,
+    dataStatusLabel: normalizeOptionalString(value.dataStatusLabel) || dataStatusLabel(dataStatus),
+    confidence: Number(value.confidence || 0),
+    matchType: isMatchType(value.matchType),
+    sourceName: normalizeOptionalString(value.sourceName),
+    sourceType: normalizeOptionalString(value.sourceType),
+    sourceNote: normalizeOptionalString(value.sourceNote) || '来自后端成分匹配 API。',
+    ingredientId: normalizeOptionalString(value.ingredientId),
+    ingredientName: normalizeOptionalString(value.ingredientName) || term,
+    isAdditive,
+    decision,
+    matchedDataStatus: value.matchedDataStatus ? normalizeDataStatus(value.matchedDataStatus) : undefined,
+    matchedSourceType: normalizeOptionalString(value.matchedSourceType),
+    matchedSourceNote: normalizeOptionalString(value.matchedSourceNote),
+    matchedIsAdditive: value.matchedIsAdditive === undefined ? undefined : Boolean(value.matchedIsAdditive)
+  };
+}
+
+function sanitizeBatchMatch(match: BatchSearchResult['match'] | null | undefined): BatchSearchMatch | null {
+  if (!match) {
+    return null;
+  }
+
+  const id = normalizeOptionalString(match.id);
+  if (!id) {
+    return null;
+  }
+
+  const nameCn = normalizeOptionalString(match.nameCn);
+  const category = normalizeOptionalString(match.category);
+
+  if (!category) {
+    return null;
+  }
+
+  return {
+    id,
+    nameCn: nameCn || id,
+    category,
+    dataStatus: match.dataStatus || 'unverified',
+    sourceName: normalizeOptionalString(match.sourceName),
+    sourceType: normalizeOptionalString(match.sourceType)
+  };
+}
+
+function sanitizeRejectedMatch(match: IngredientMatch): IngredientMatch {
+  return {
+    ...match,
+    decision: 'rejected',
+    dataStatus: 'unknown_from_ocr',
+    dataStatusLabel: dataStatusLabel('unknown_from_ocr'),
+    matchType: 'none',
+    sourceName: undefined,
+    sourceType: undefined,
+    sourceNote: '用户已标记该项不匹配成分库，不作为权威匹配来源。',
+    ingredientId: undefined,
+    matchedDataStatus: undefined,
+    matchedSourceType: undefined,
+    matchedSourceNote: undefined,
+    matchedIsAdditive: false,
+    isAdditive: false
+  };
 }
 
 function sanitizeIngredients(values: ParsedIngredientInput[]): ParsedIngredientInput[] {
@@ -388,34 +458,29 @@ function sanitizeIngredients(values: ParsedIngredientInput[]): ParsedIngredientI
 }
 
 function normalizeNutrition(values: NutritionFieldInput[]): NutritionField[] {
-  const normalizedValues = values.map((item) => {
+  const normalizedValues: NutritionField[] = [];
+  const seen = new Set<NutritionKey>();
+
+  for (const item of values) {
     const key = normalizeNutritionKey(item.key);
-    const definitionLabel = key ? nutritionDefinitions[key].label : '营养成分';
-    return {
-      key: key || 'energy',
+    if (!key || seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    const definitionLabel = nutritionDefinitions[key].label;
+    normalizedValues.push({
+      key,
       label: normalizeOptionalString(item.label) || definitionLabel,
       value: normalizeOptionalString(item.value),
       unit: normalizeOptionalString(item.unit),
       nrvPercent: normalizeOptionalString(item.nrvPercent),
       sourceText: normalizeOptionalString(item.sourceText),
       confidence: Number(item.confidence || 0)
-    } as NutritionField;
-  });
+    });
+  }
 
-  const knownKeys = normalizedValues.filter((value) => value.key).map((value) => value.key);
-  const keysToAppend: NutritionField[] = (Object.keys(nutritionDefinitions) as NutritionKey[])
-    .filter((key) => !knownKeys.includes(key))
-    .map((key) => ({
-      key,
-      label: nutritionDefinitions[key].label,
-      value: '',
-      unit: '',
-      nrvPercent: '',
-      sourceText: '',
-      confidence: 0
-    }));
-
-  return [...normalizedValues.slice(0, 50), ...keysToAppend];
+  return normalizedValues.slice(0, 50);
 }
 
 function buildSources(matches: IngredientMatch[], ocr?: OcrResultInput, originalMatches?: IngredientMatchInput[]): ReportSource[] {
@@ -465,10 +530,8 @@ function buildSources(matches: IngredientMatch[], ocr?: OcrResultInput, original
     });
   }
 
-  const hadLocalFallback = originalMatches?.some((match) =>
-    match.sourceNote?.includes('后端') === false
-    || match.sourceNote?.includes('待后端')
-  );
+  const hadLocalFallback = originalMatches?.some((match) => isFallbackMatch(match))
+    || matches.some((match) => isFallbackMatch(match));
   if (hadLocalFallback) {
     base.push({
       label: 'mock only / 待后端实现',
@@ -515,13 +578,14 @@ function buildAttentionHits(input: {
       .filter((field) => Boolean(hasNutritionEvidence(field)))
       .map((field) => `${field.label}${field.value}${field.unit}${normalizeOptionalString(field.sourceText)}`)
   ].join(' ');
+  const normalizedText = normalizeForTermMatch(text);
 
-  const customTerms = (input.attention.customTerms || []).filter((term) => text.includes(term));
+  const customTerms = (input.attention.customTerms || []).filter((term) => hasTermInText(normalizedText, term));
   const goalHits = attentionGoals
     .filter((goal) => input.attention.goals.includes(goal.key))
     .map((goal) => {
       const terms = [...goal.keywords, ...getSelectedDetailTermsForGoal(goal.keywords, input.attention.detailTerms)]
-        .filter((term) => text.includes(term));
+        .filter((term) => hasTermInText(normalizedText, term));
       if (!terms.length) return null;
       return {
         key: goal.key,
@@ -615,18 +679,22 @@ function addFieldHighlight(target: string[], field: NutritionField | undefined, 
 }
 
 function buildAllergenHints(matches: IngredientMatch[]): string[] {
-  const text = matches.map((match) => match.normalizedText).join(' ');
+  const text = matches
+    .filter((match) => match.decision !== 'rejected')
+    .map((match) => match.normalizedText)
+    .join(' ');
+  const normalizedText = normalizeForTermMatch(text);
   return allergenTerms
-    .filter((item) => item.patterns.some((pattern) => text.includes(pattern)))
+    .filter((item) => item.patterns.some((pattern) => hasTermInText(normalizedText, pattern)))
     .map((item) => `可能需要查看 ${item.label} 相关标示，请以包装过敏原提示和配料表为准。`);
 }
 
 function groupAdditives(items: IngredientMatch[]): Array<{ label: string; items: IngredientMatch[] }> {
   const specificGroups = [
-    { label: '防腐剂', test: (value: string) => /山梨酸|苯甲酸|防腐/.test(value) },
-    { label: '甜味剂', test: (value: string) => /甜味|阿斯巴甜|三氯蔗糖|安赛蜜/.test(value) },
-    { label: '色素', test: (value: string) => /色|胭脂红|柠檬黄|焦糖/.test(value) },
-    { label: '食用香精', test: (value: string) => /香精|香料/.test(value) }
+    { label: '防腐剂', test: (value: string) => matchesStandardizedText(value, ['山梨酸', '苯甲酸', '防腐']) },
+    { label: '甜味剂', test: (value: string) => matchesStandardizedText(value, ['甜味', '阿斯巴甜', '三氯蔗糖', '安赛蜜']) },
+    { label: '色素', test: (value: string) => matchesStandardizedText(value, ['色', '胭脂红', '柠檬黄', '焦糖']) },
+    { label: '食用香精', test: (value: string) => matchesStandardizedText(value, ['香精', '香料']) }
   ];
 
   const assignedIds = new Set<string>();
@@ -640,6 +708,13 @@ function groupAdditives(items: IngredientMatch[]): Array<{ label: string; items:
 
   const otherItems = items.filter((item) => !assignedIds.has(item.id));
   return otherItems.length ? [...groups, { label: '其他食品添加剂', items: otherItems }] : groups;
+}
+
+function shouldCountMatchAsAdditive(match: IngredientMatch): boolean {
+  if (!match.isAdditive) return false;
+  if (match.decision === 'confirmed') return true;
+  if (match.decision === 'pending' && trustedAutoConfirmStatuses.includes(match.dataStatus)) return true;
+  return false;
 }
 
 function isAdditiveCategory(value: unknown): boolean {
@@ -661,6 +736,18 @@ function isAdditiveCategory(value: unknown): boolean {
   return labels.some((label) => normalized === label || normalized.includes(label));
 }
 
+function isFallbackMatch(match: IngredientMatchInput | IngredientMatch | undefined): boolean {
+  if (!match) return false;
+  const sourceNote = normalizeOptionalString((match as IngredientMatchInput).sourceNote || (match as IngredientMatch).sourceNote);
+  const sourceType = normalizeOptionalString((match as IngredientMatchInput).sourceType || (match as IngredientMatch).sourceType);
+  const decision = normalizeDecision((match as IngredientMatch).decision);
+
+  if (decision === 'rejected') return true;
+  if (!sourceNote && match.decision !== 'confirmed') return true;
+  return /mock|本地|未返回|暂未收录|待后端|回退|fallback|不可用|失败/.test(sourceNote)
+    || /local|fallback|mock/.test(sourceType);
+}
+
 function isPendingBackendMatch(match: IngredientMatch) {
   return match.decision !== 'rejected' && ['pending_review', 'mapped_candidate', 'unverified'].includes(match.dataStatus);
 }
@@ -677,19 +764,21 @@ function getSelectedDetailTermsForGoal(goalKeywords: string[], detailTerms: stri
   return detailTerms.filter((term) => goalKeywords.some((keyword) => keyword === term || term.includes(keyword) || keyword.includes(term)));
 }
 
-function unknownMatch(index: number, ingredient: ParsedIngredientInput): IngredientMatch {
+function unknownMatch(index: number, ingredient: ParsedIngredientInput, options?: { sourceNote?: string }): IngredientMatch {
   const term = ingredient.normalizedText || ingredient.rawText || `配料项 ${index + 1}`;
+  const normalizedTerm = normalizeOptionalString(term);
+  const sourceNote = normalizeOptionalString(options?.sourceNote) || '后端未返回匹配项，保留为暂未收录。';
   return {
     id: `${index}-${normalizeLookup(term)}`,
-    term,
-    normalizedText: term,
+    term: normalizedTerm || `配料项 ${index + 1}`,
+    normalizedText: normalizedTerm || `配料项 ${index + 1}`,
     dataStatus: 'unknown_from_ocr',
     dataStatusLabel: dataStatusLabel('unknown_from_ocr'),
     confidence: 0,
     matchType: 'none',
-    sourceNote: '后端未返回匹配项，保留为暂未收录。',
+    sourceNote,
     ingredientId: undefined,
-    ingredientName: term,
+    ingredientName: normalizedTerm || `配料项 ${index + 1}`,
     isAdditive: false,
     decision: 'pending'
   };
@@ -711,6 +800,29 @@ function normalizeLookup(value: unknown): string {
 
 function normalizeDecision(value: unknown): MatchDecision {
   return value === 'confirmed' || value === 'rejected' ? value : 'pending';
+}
+
+function hasTermInText(text: string, term: string) {
+  const normalizedText = normalizeForTermMatch(text);
+  const normalizedTerm = normalizeForTermMatch(term);
+  if (!normalizedTerm) return false;
+  const escaped = escapeRegExp(normalizedTerm);
+  return new RegExp(`(^|[^\\p{L}\\p{N}])${escaped}(?=[^\\p{L}\\p{N}]|$)`, 'ui').test(normalizedText);
+}
+
+function normalizeForTermMatch(value: string) {
+  return normalizeOptionalString(value)
+    .normalize('NFKC')
+    .toLowerCase();
+}
+
+function matchesStandardizedText(value: string, patterns: string[]) {
+  const normalized = normalizeForTermMatch(value);
+  return patterns.some((pattern) => normalized.includes(normalizeForTermMatch(pattern)));
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function isMatchType(value: unknown): MatchType {
@@ -776,7 +888,7 @@ function normalizeAttention(value?: AttentionSettingsInput) {
 }
 
 function createReportId(): string {
-  return `label-report-${new Date().toISOString().replace(/[-:.]/g, '')}-${Math.random().toString(36).slice(2, 8)}`;
+  return `label-report-${new Date().toISOString().replace(/[-:.]/g, '')}-${randomUUID()}`;
 }
 
 const allergenTerms = [
