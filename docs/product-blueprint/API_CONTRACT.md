@@ -22,6 +22,34 @@
 
 技术栈现状：后端 Node 20 + TypeScript + Hono + Drizzle/PostgreSQL。路由模块：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。除 `GET /health` 挂载于根路径 `/` 外，其余均挂载于 `/api` 前缀（见 `backend/src/app.ts`）。
 
+后端分层边界（STACK-C，2026-06-15 已核对）：
+
+| 层 | 当前真实目录 | 责任 |
+|---|---|---|
+| App 装配 | `backend/src/app.ts` | 创建 Hono app、挂载中间件、组合路由、统一 404/500 响应 |
+| 启动入口 | `backend/src/index.ts` | 读取配置并启动 Node server |
+| 路由层 | `backend/src/routes/*` | HTTP 路径、鉴权、参数读取、状态码和响应形状 |
+| 中间件 | `backend/src/middleware/*` | JWT 鉴权、请求日志等横切逻辑 |
+| 服务层 | `backend/src/services/*` | 业务编排、数据库查询组合、数据可信状态判断、报告/解析逻辑 |
+| Provider | 当前 `backend/src/services/ocrProviders/*` | OCR 外部服务适配；AI/支付等 provider 真实落地后再扩展，不提前空建目录 |
+| 数据层 | `backend/src/db/*` | Drizzle client、schema 和 migrations |
+
+新增 API 的落地规则：
+
+1. 不创建 Express / Nest / Fastify 第二套服务，所有端继续复用现有 Hono 后端。
+2. 新业务先补 `routes/<domain>.ts` + `services/<domain>Service.ts`，必要时再补 `tests/<domain>.test.ts`。
+3. 请求/响应 validator、shared schema、jobs 目录只在真实接口需要复用时创建，不为目录结构本身空建文件。
+4. `user-uniapp`、旧 `src/`、小程序、App、后台均不得直连 OCR / AI / 数据库 / GB2760 导入脚本。
+5. 计划接口在代码实现前必须继续标为 ❌ 或 ⚠️；本地 parser、mock-only adapter 和本地报告存储不能写成后端已实现。
+
+消费者主路径后端化建议顺序：
+
+1. `labels`：新增 `POST /api/labels/scan` 与 `POST /api/labels/classify`，收敛标签类型识别和扫描会话状态。
+2. `nutrition`：新增 `POST /api/nutrition/parse`，把营养表解析从各端本地工具收敛到服务层，保留手动修正。
+3. `reports`：新增 `POST /api/reports/label`，由后端聚合配料匹配、营养字段、关注项和来源证据；匿名本地 MVP 仍可保留。
+4. `data-sources` / `feedback`：补数据说明和用户纠错入口；不影响 OCR 主路径闭环。
+5. `admin`：随 `admin-web` 分期建设后台聚合 API；会员、订阅、支付仍按人工阻塞处理。
+
 通用错误约定（实测）：
 - 参数校验失败：`400 { error: "invalid_parameter", field, message }`
 - 资源不存在：`404 { error: "not_found" }`
@@ -311,6 +339,14 @@
 ### 消费者标签解读计划 API（后端当前未实现）
 
 以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。后端当前均为计划 API，不得在实现前当作已存在后端接口调用；`user-uniapp/` 已为 MVP 提供本地 parser / mock-only adapter / 本地报告存储，界面必须明确这些不是权威数据来源。
+
+实现时路由归属：
+
+- `labels` 相关接口进入 `backend/src/routes/labels.ts` 与 `backend/src/services/labelService.ts`。
+- `nutrition` 相关接口进入 `backend/src/routes/nutrition.ts` 与 `backend/src/services/nutritionService.ts`。
+- `reports/label` 进入 `backend/src/routes/reports.ts` 与 `backend/src/services/reportService.ts`；登录后云同步可复用现有 `user` 服务，但报告生成逻辑不应散落在用户数据路由里。
+- 包装正面卖点和对比属于后续消费者能力，不阻塞标签类型、营养解析和报告后端化。
+- 所有新接口必须补后端测试；涉及数据可信表达时同步 `DATA_TRUST_SPEC.md` 与 `DATA_SOURCES.md`。
 
 #### `POST /api/labels/scan`
 - 用途：创建或更新一次食品标签扫描会话，支持一张到三张图片组合。
