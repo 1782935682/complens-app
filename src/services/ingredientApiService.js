@@ -1,3 +1,4 @@
+import { readRaw } from './storageService.js';
 const API_BASE_URL_KEY = 'compcheck:api-base-url';
 const DEFAULT_API_BASE_URL = '/api';
 const REQUEST_TIMEOUT_MS = 3500;
@@ -76,15 +77,4 @@ async function requestIngredientJson(path, options = {}) {
 function getApiBaseUrl() {
   const configured = readRaw(API_BASE_URL_KEY);
   return String(configured || DEFAULT_API_BASE_URL).trim().replace(/\/$/, '') || DEFAULT_API_BASE_URL;
-}
-
-function readRaw(key) {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return window.localStorage.getItem(key);
-    }
-  } catch {
-    return '';
-  }
-  return '';
 }

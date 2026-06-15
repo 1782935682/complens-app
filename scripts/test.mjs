@@ -606,7 +606,7 @@ assert.match(mainJs, /--connection-banner-height/);
 assert.match(mainJs, /banner\.offsetHeight/);
 assert.doesNotMatch(mainJs, /addEventListener\('resize', update\)/);
 assert.match(mainJs, /new ResizeObserver\(update\)\.observe\(banner\)/);
-assert.match(mainJs, /if \(!isIosSafari\(\)\) \{\s*writeLocalFlag\(PWA_INSTALL_DISMISSED_KEY, 'true'\);/);
+assert.match(mainJs, /if \(!isIosSafari\(\)\) \{\s*writeRaw\(PWA_INSTALL_DISMISSED_KEY, 'true'\);/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory, '\/onboarding'\)/);
 assert.match(mainJs, /categoryPath\(onboardingState\.preferredCategory\)/);
 assert.match(mainJs, /categoryPath\(route\.category, '\/legal'\)/);
@@ -621,8 +621,8 @@ assert.match(mainJs, /if \(requestedPage > totalPages\)/);
 assert.match(mainJs, /requestIngredientSearchPage\(route, totalPages\)/);
 assert.match(mainJs, /page: responsePage/);
 assert.match(mainJs, /sharePayloadWithFallback\(payload, \{ copyText, updateStatus \}\)/);
-assert.match(mainJs, /getNativePhoto\(source\)/);
-assert.match(mainJs, /isNativePlatform\(\)/);
+assert.match(mainJs, /capturePhoto/);
+assert.match(mainJs, /pickImage/);
 assert.match(mainJs, /compressImage\(file, \{ maxWidth: 1200, maxBytes: 800_000 \}\)/);
 assert.match(mainJs, /saveImage\(processed\.blob, meta\)/);
 assert.match(mainJs, /async function clearPendingScanImage\(\)[\s\S]*clearPendingScan\(\)[\s\S]*deleteImage\(pending\.pendingImageId\)/);
@@ -638,8 +638,7 @@ assert.match(mainJs, /data-history-search-form/);
 assert.match(mainJs, /data-clear-product-history/);
 assert.match(mainJs, /bindHistorySwipeActions\(\)/);
 assert.match(mainJs, /\['cancelled', 'empty'\]\.includes\(result\.reason\)/);
-assert.match(mainJs, /dataUrlToBlob\(result\.dataUrl, result\.mimeType\)/);
-assert.match(mainJs, /new File\(\[blob\], fileName/);
+assert.match(mainJs, /result\.file \|\| result\.blob/);
 assert.match(mainJs, /validateScanImageFile\(file\)/);
 assert.match(mainJs, /openScanFilePicker\(fileInput\)/);
 assert.match(mainJs, /recognizeImage\(image\?\.blob, \{ category: route\.category \}\)/);
@@ -666,6 +665,9 @@ assert.match(nativeBridgeServiceJs, /CameraSource\.Prompt/);
 assert.match(nativeBridgeServiceJs, /CameraSource\.Camera/);
 assert.match(nativeBridgeServiceJs, /CameraSource\.Photos/);
 assert.match(nativeBridgeServiceJs, /getBase64ByteSize\(photo\.base64String\)/);
+assert.match(nativeBridgeServiceJs, /capturePhoto\(/);
+assert.match(nativeBridgeServiceJs, /pickImage\(/);
+assert.match(nativeBridgeServiceJs, /new File\(\[blob\], fileName,/);
 assert.match(nativeBridgeServiceJs, /Share\.share/);
 assert.match(nativeBridgeServiceJs, /if \(payload\.url\) shareOptions\.url = payload\.url/);
 const serviceWorkerJs = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
@@ -2698,7 +2700,7 @@ assert.deepEqual(localDataSnapshot.watchIngredients, ['sodium-bicarbonate']);
 assert.deepEqual(localDataSnapshot.avoidIngredients, ['sodium-metabisulfite']);
 assert.equal(localDataSnapshot.scanDrafts.food, '柠檬酸，山梨酸钾');
 setHistoryRecordingEnabled(false);
-assert.deepEqual(clearLocalUserData(), {
+assert.deepEqual(await clearLocalUserData(), {
   favorites: 0,
   compareItems: 0,
   history: 0,
@@ -2835,7 +2837,7 @@ const importedReportWithSafeId = getAnalysisReports('food')[0];
 assert.match(importedReportWithSafeId.id, /^[a-z0-9][a-z0-9_-]{0,80}$/i);
 assert.doesNotMatch(importedReportWithSafeId.id, /["'<>\s]/);
 assert.doesNotMatch(renderRoute(resolveRoute('#/food/reports')), /onclick=/);
-clearLocalUserData();
+await clearLocalUserData();
 const emptyFavoritesHtml = renderRoute(resolveRoute('#/food/favorites'));
 assert.match(emptyFavoritesHtml, /data-empty-favorites/);
 assert.match(emptyFavoritesHtml, /暂无收藏成分/);

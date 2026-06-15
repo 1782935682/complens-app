@@ -3,6 +3,7 @@ import { defaultSupportTopic, isSupportTopic } from '../data/supportTopics.js';
 import { getIngredientById } from '../services/ingredientService.js';
 import { AVOID_INGREDIENTS_KEY, WATCH_INGREDIENTS_KEY, normalizePersonalIngredientIds } from '../services/personalProfileService.js';
 import { clearProductArchives, getProductArchives, normalizeProductArchives, PRODUCT_ARCHIVES_KEY } from '../services/productArchiveService.js';
+import { clearAllImages } from '../services/imageStoreService.js';
 import { applyReportMatchDecision, buildIngredientReport, normalizeIngredientReport } from '../services/reportService.js';
 import { readJson, writeJson } from '../services/storageService.js';
 
@@ -467,7 +468,7 @@ export function importLocalDataSnapshot(snapshot) {
   };
 }
 
-export function clearLocalUserData() {
+export async function clearLocalUserData() {
   writeJson(FAVORITES_KEY, []);
   writeJson(COMPARE_ITEMS_KEY, []);
   writeJson(HISTORY_KEY, []);
@@ -479,6 +480,7 @@ export function clearLocalUserData() {
   writeJson(SUPPORT_REQUESTS_KEY, []);
   writeJson(SCAN_DRAFTS_KEY, {});
   writeJson(SCAN_PENDING_KEY, createDefaultPendingScan());
+  await clearAllImages();
   resetOnboarding();
   return getLocalDataSummary();
 }

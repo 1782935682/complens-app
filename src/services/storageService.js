@@ -18,8 +18,31 @@ const LOCAL_ACCOUNT_SCOPED_KEYS = new Set();
 
 function getStorage() {
   try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return window.localStorage;
+    const win = typeof window !== 'undefined' ? window : null;
+    if (!win) return null;
+
+    const wx = win.wx;
+    if (wx && typeof wx.getStorageSync === 'function' && typeof wx.setStorageSync === 'function' && typeof wx.removeStorageSync === 'function') {
+      return {
+        getItem(key) {
+          try {
+            const value = wx.getStorageSync(key);
+            return value == null ? null : String(value);
+          } catch {
+            return null;
+          }
+        },
+        setItem(key, value) {
+          wx.setStorageSync(key, String(value));
+        },
+        removeItem(key) {
+          wx.removeStorageSync(key);
+        }
+      };
+    }
+
+    if (win.localStorage) {
+      return win.localStorage;
     }
   } catch {
     return null;

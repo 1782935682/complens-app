@@ -69,6 +69,13 @@ export async function cleanOldImages(daysToKeep = 30) {
   return oldIds.length;
 }
 
+export async function clearAllImages() {
+  const images = await listImages();
+  const deletedIds = images.map((image) => image.id);
+  await Promise.all(deletedIds.map((id) => deleteImage(id)));
+  return deletedIds.length;
+}
+
 function openImageDb() {
   if (typeof indexedDB === 'undefined') {
     return Promise.reject(new Error('IndexedDB unavailable'));
