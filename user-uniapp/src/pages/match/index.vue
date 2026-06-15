@@ -11,10 +11,10 @@ import Toast from '@/components/Toast.vue';
 import { dataStatusLabel } from '@/constants/dataStatus';
 import { routes } from '@/constants/routes';
 import { matchIngredientsByApi } from '@/services/api/ingredients';
+import { buildLabelReportWithAdapter } from '@/services/api/labels';
 import { getAttentionSettings } from '@/stores/attentionStore';
 import { getScanDraft, saveReport, saveScanDraft } from '@/stores/scanStore';
 import type { IngredientMatch } from '@/types';
-import { buildLabelReport } from '@/utils/reportBuilder';
 
 const loading = ref(false);
 const error = ref('');
@@ -89,9 +89,9 @@ function clearBackendMatchMetadata(match: IngredientMatch) {
   delete match.sourceType;
 }
 
-function generateReport() {
+async function generateReport() {
   const draft = getScanDraft();
-  const report = buildLabelReport({
+  const report = await buildLabelReportWithAdapter({
     productName: draft.productName,
     rawText: draft.confirmedText,
     ingredients: draft.ingredients,
