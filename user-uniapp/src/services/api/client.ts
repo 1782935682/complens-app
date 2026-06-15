@@ -14,6 +14,7 @@ export interface ApiRequestOptions {
 }
 
 const API_BASE_URL_KEY = 'complens:user-api-base-url';
+const AUTH_TOKEN_KEY = 'compcheck:auth-token';
 const DEFAULT_API_BASE_URL = '/api';
 const DEFAULT_TIMEOUT_MS = 8000;
 
@@ -39,6 +40,7 @@ export async function requestJson<T>(path: string, options: ApiRequestOptions = 
       header: {
         Accept: 'application/json',
         ...(options.data ? { 'Content-Type': 'application/json' } : {}),
+        ...buildAuthHeader(),
         ...options.headers
       },
       success: resolve,
@@ -66,6 +68,21 @@ export async function requestJson<T>(path: string, options: ApiRequestOptions = 
 function normalizeRequestError(error: unknown): string {
   if (error instanceof Error) return error.message;
   return String((error as { errMsg?: string })?.errMsg || 'network_error');
+}
+
+function buildAuthHeader(): Record<string, string> {
+  const token = getApiAuthToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+function getApiAuthToken(): string {
+  const token = readString(AUTH_TOKEN_KEY).trim();
+  return isValidJwt(token) ? token : '';
+}
+
+function isValidJwt(token: string): boolean {
+  const parts = token.split('.');
+  return parts.length === 3 && parts.every(Boolean);
 }
 
 function isPlainObject(value: unknown): value is Record<string, string> {

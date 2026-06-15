@@ -29,11 +29,19 @@ async function runOcr() {
   loading.value = true;
   error.value = '';
   result.value = undefined;
-  const next = await recognizeImageByBackend(draft.image);
-  result.value = next;
-  saveScanDraft({ ocr: next, confirmedText: next.text || draft.confirmedText || '' });
-  loading.value = false;
-  if (next.mode === 'fallback') error.value = next.errorMessage || '识别失败，可重试或手动输入。';
+  try {
+    const next = await recognizeImageByBackend(draft.image);
+    result.value = next;
+    saveScanDraft({ ocr: next, confirmedText: next.text || draft.confirmedText || '' });
+    if (next.mode === 'fallback') error.value = next.errorMessage || '识别失败，可重试或手动输入。';
+  } catch {
+    const next = buildManualOcrResult();
+    result.value = next;
+    saveScanDraft({ ocr: next, confirmedText: draft.confirmedText || '' });
+    error.value = '图片暂不能读取或识别失败，可手动输入。';
+  } finally {
+    loading.value = false;
+  }
 }
 
 function manualInput() {

@@ -34,7 +34,7 @@ export function buildLabelReport(input: {
       highlights: buildNutritionHighlights(input.nutrition, input.attention)
     },
     additiveGroups: groupAdditives(additiveItems),
-    allergenHints: buildAllergenHints(input.matches, input.attention),
+    allergenHints: buildAllergenHints(input.matches),
     unknownItems,
     sources: buildSources(input.matches),
     rawText: input.rawText
@@ -65,7 +65,8 @@ function buildAttentionHits(input: {
   const goalHits = attentionGoals
     .filter((goal) => input.attention.goals.includes(goal.key))
     .map((goal) => {
-      const terms = [...goal.keywords, ...input.attention.detailTerms].filter((term) => text.includes(term));
+      const terms = [...goal.keywords, ...getSelectedDetailTermsForGoal(goal.keywords, input.attention.detailTerms)]
+        .filter((term) => text.includes(term));
       if (!terms.length) return null;
       return {
         key: goal.key,
@@ -130,12 +131,25 @@ function groupAdditives(items: IngredientMatch[]): Array<{ label: string; items:
     .filter((group) => group.items.length);
 }
 
-function buildAllergenHints(matches: IngredientMatch[], attention: AttentionSettings): string[] {
-  const text = `${matches.map((match) => match.normalizedText).join(' ')} ${attention.detailTerms.join(' ')} ${attention.customTerms.join(' ')}`;
-  return ['乳', '大豆', '坚果', '麸质', '蛋', '海鲜']
-    .filter((term) => text.includes(term))
-    .map((term) => `可能需要查看 ${term} 相关标示，请以包装过敏原提示和配料表为准。`);
+function buildAllergenHints(matches: IngredientMatch[]): string[] {
+  const text = matches.map((match) => match.normalizedText).join(' ');
+  return allergenTerms
+    .filter((item) => item.patterns.some((pattern) => text.includes(pattern)))
+    .map((item) => `可能需要查看 ${item.label} 相关标示，请以包装过敏原提示和配料表为准。`);
 }
+
+function getSelectedDetailTermsForGoal(goalKeywords: string[], detailTerms: string[]): string[] {
+  return detailTerms.filter((term) => goalKeywords.some((keyword) => keyword === term || keyword.includes(term) || term.includes(keyword)));
+}
+
+const allergenTerms = [
+  { label: '乳', patterns: ['乳制品', '牛乳', '羊乳', '牛奶', '奶粉', '乳粉', '乳清', '乳糖', '炼乳', '奶油'] },
+  { label: '大豆', patterns: ['大豆', '黄豆', '豆粉', '豆乳'] },
+  { label: '坚果', patterns: ['坚果', '花生', '杏仁', '核桃', '腰果', '榛子', '开心果'] },
+  { label: '麸质', patterns: ['麸质', '小麦', '麦麸', '面粉', '燕麦'] },
+  { label: '蛋', patterns: ['鸡蛋', '蛋黄', '蛋清', '全蛋', '蛋粉', '蛋类'] },
+  { label: '海鲜', patterns: ['海鲜', '虾', '蟹', '鱼', '贝类'] }
+];
 
 function buildSources(matches: IngredientMatch[]): ReportSource[] {
   const sources: ReportSource[] = [

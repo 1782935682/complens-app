@@ -10,10 +10,12 @@ interface OcrApiResponse {
 }
 
 export async function recognizeImageByBackend(asset?: LocalImageAsset): Promise<OcrResult> {
-  const imageBase64 = await readImageAsBase64(asset);
-  if (!asset || !imageBase64) return buildFallbackResult('manual_required', '图片暂不能读取为后端 OCR 请求，请手动输入。');
+  if (!asset) return buildFallbackResult('manual_required', '图片暂不能读取为后端 OCR 请求，请手动输入。');
 
   try {
+    const imageBase64 = await readImageAsBase64(asset);
+    if (!imageBase64) return buildFallbackResult('manual_required', '图片暂不能读取为后端 OCR 请求，请手动输入。');
+
     const response = await requestJson<OcrApiResponse>('/ocr', {
       method: 'POST',
       data: {
@@ -34,7 +36,7 @@ export async function recognizeImageByBackend(asset?: LocalImageAsset): Promise<
       requiresUserConfirmation: true
     };
   } catch (error) {
-    const code = String((error as { code?: string })?.code || 'ocr_failed');
+    const code = String((error as { code?: string })?.code || 'image_read_or_ocr_failed');
     return buildFallbackResult(code, mapOcrErrorMessage(code));
   }
 }
@@ -70,6 +72,7 @@ function clampConfidence(value: unknown): number {
 }
 
 function mapOcrErrorMessage(code: string): string {
+  if (code === 'manual_required' || code === 'image_read_or_ocr_failed') return '图片暂不能读取或识别失败，可重试或手动输入。';
   if (code === 'ocr_not_configured' || code === 'http_401') return '当前 OCR 需要后端配置或登录，已保留手动输入路径。';
   if (code === 'ocr_provider_timeout' || code === 'timeout') return '识别超时，可重试或手动输入。';
   return '识别失败，可重试或手动输入。';
