@@ -77,7 +77,8 @@ function splitTopLevel(value: string): string[] {
 function cleanItem(value: string): string {
   return String(value || '')
     .replace(prefixPattern, '')
-    .replace(/\s*[\(（][^()（）]*[\)）]\s*/g, '')
+    .replace(/\s*[\(（]([^()（）]*)[\)）]\s*/g, ' $1 ')
     .replace(/\s*(?:含量|添加量)?\s*[:：]?\s*\d+(?:\.\d+)?\s*(?:%|g|kg|mg|ml|克|千克|毫克|毫升)\s*$/i, '')
+    .replace(/\s+/g, ' ')
     .trim();
 }
