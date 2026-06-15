@@ -48,7 +48,7 @@
 
 ## 3. 当前真实进度
 
-整体产品进度：**约 74%**（按数据底座 + OCR 主路径闭环 + 正式用户端迁移 + 后端/API/admin-web 架构规划口径）。
+整体产品进度：**约 75%**（按数据底座 + OCR 主路径闭环 + 正式用户端迁移 + 后端/API/admin-web 架构规划口径）。
 
 | 里程碑 | 名称 | 状态 | 完成度 |
 |---|---|---|---|
@@ -64,7 +64,7 @@
 | M10 | 登录、云同步（本地完成，跨设备验收待补） | 🔄 进行中 | ~40% |
 | M11 | 订阅、支付、上架 | ⏸ 后置 | 0% |
 | M12 | 统一跨端技术栈（uni-app / admin-web / backend 复用） | 🔄 用户端工程已创建，后端 API 边界和后台工程边界已规范化 | ~58% |
-| M13 | 后台管理系统（运营 + 数据治理 + 系统 + 审计） | 🔄 admin-web 工程边界已规划，菜单/API 继续细化 | ~22% |
+| M13 | 后台管理系统（运营 + 数据治理 + 系统 + 审计） | 🔄 admin-web 工程边界和后台菜单 IA 已规划，数据治理 MVP 继续细化 | ~25% |
 
 数据底座真实口径（详见 `DATA_SOURCES.md`）：
 
@@ -92,7 +92,7 @@
 - 消费者食品标签解读规划：已新增 `CONSUMER_DECISION_SPEC.md` 与 `CONSUMER_UX_SPEC.md`，明确产品从“配料表识别/添加剂查询”升级为“食品标签拍照解读 + 消费决策助手”。
 - 统一架构规划：已新增 `ARCHITECTURE_SPEC.md`，明确正式用户端 `user-uniapp`（uni-app + Vue3）、后台 `admin-web`（Vue3 + TDesign Web）、复用现有 `backend/`（Hono + Drizzle + PostgreSQL）、OCR 服务链路（后端调用 Python FastAPI + RapidOCR），并规定旧 `src/` Vite 前端只作为历史原型和迁移来源。
 - 后端 API 框架规范化：已核对 `backend/src` 真实结构，确认继续复用 Hono 单后端；`ARCHITECTURE_SPEC.md` / `API_CONTRACT.md` 已补 routes/services/db/provider 分层边界、计划接口状态和 labels/nutrition/reports 后端化顺序。
-- 后台管理端规划：已明确 `admin-web/` 独立工程边界、目标目录结构、工作台路由分组、后台 API 落地边界和 MVP/非 MVP 范围；当前仍未创建工程，支付/订阅/上架继续人工阻塞。
+- 后台管理端规划：已明确 `admin-web/` 独立工程边界、目标目录结构、工作台路由分组、后台 API 落地边界、MVP/非 MVP 范围，以及 Dashboard / 数据治理 / 食品标签业务 / 用户与会员 / 内容运营 / Provider / 系统配置 / 权限审计的信息架构与阶段矩阵；当前仍未创建工程，支付/订阅/上架继续人工阻塞。
 - 正式用户端迁移 MVP：已新增 `user-uniapp/`（uni-app + Vue3），迁移首页、拍照/上传、OCR 降级、标签类型选择、文本确认、配料拆分、营养解析、匹配确认、食品标签解读报告、历史、我的关注项、搜索、数据说明、隐私说明；集中建立设计 token、基础组件、API client、平台适配层和本地草稿/报告存储。
 
 ---
@@ -144,8 +144,8 @@
 
 Codex 下一步任务：
 
-1. 执行 Batch ADMIN-A：后台信息架构与菜单细化，只做文档规划，不创建 `admin-web/` 工程，除非用户确认启动。
-2. 执行 ADMIN-B：数据治理后台 MVP 的页面/API 计划，优先复用现有 `/api/gb2760/*` 与 `/api/ingredients*`。
+1. 执行 ADMIN-B：数据治理后台 MVP 的页面/API 计划，优先复用现有 `/api/gb2760/*` 与 `/api/ingredients*`。
+2. 执行 ADMIN-C / ADMIN-D：用户、扫描/报告、反馈、公告、Banner、FAQ、隐私协议版本管理规划。
 3. 继续后端化消费者主路径 API：`labels`（扫描会话/标签类型）→ `nutrition`（营养解析）→ `reports`（食品标签解读报告），逐步减少前端 mock/local-only adapter。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核；生产 DATABASE_URL、Aliyun OCR Key、AI Key、商店账号和法务材料均不阻塞当前本地 MVP。
@@ -181,7 +181,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 - **产品化**：会员管理、订阅计划、订单/支付记录、退款/取消记录、App/小程序版本配置、消息通知、AI/OCR 成本统计、角色权限、审计日志。
 - **上架/商业化**：Apple IAP、Google Play Billing、微信支付、国内安卓渠道、订阅权益、第三方 SDK 清单、隐私协议版本管理。
 
-- **Codex 下一步**：完成本轮 STACK-D PR；合并后推进后台 ADMIN-A / ADMIN-B 文档细化，或转入消费者主路径后端 API（labels/nutrition/reports）。
+- **Codex 下一步**：完成本轮 ADMIN-A PR；合并后推进 ADMIN-B 数据治理后台 MVP 文档细化，或转入消费者主路径后端 API（labels/nutrition/reports）。
 
 ## 8. 7 天执行计划
 
@@ -202,8 +202,8 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 - 验收标准：所有端通过后端 API；前端不直连 OCR/AI/数据库；小程序/App 不假设浏览器全局对象。
 - 是否需要人工：需要确认正式初始化时间点。
 
-**Day 4：ADMIN-A / ADMIN-B 后台 IA 与数据治理 MVP**
-- 目标：细化后台菜单和数据治理 MVP 页面/API。
+**Day 4：ADMIN-B 后台数据治理 MVP**
+- 目标：在 ADMIN-A 菜单 IA 已收口后，细化数据治理 MVP 页面/API。
 - 验收标准：MVP 后台只做数据治理、OCR 记录、反馈、基础配置和管理员登录预留。
 - 是否需要人工：GB2760 promote 仍需人工复核。
 
@@ -250,6 +250,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-15 | Batch ADMIN-A：补齐后台信息架构与菜单矩阵，明确 Dashboard、数据治理、食品标签业务、用户与会员、内容运营、OCR/AI Provider、系统配置、权限审计的阶段归属和 MVP 边界；未创建后台工程，不触达业务代码 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-15 | Batch STACK-D：补齐 `admin-web/` 独立后台工程边界、目标目录结构、TDesign 工作台路由分组、MVP 启动范围、后台 API 落地边界和优先级；未创建后台工程，不触达业务代码 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-15 | Batch STACK-C：核对现有 `backend/src` Hono 后端结构，补齐 routes/services/db/provider 分层边界、计划接口状态和消费者主路径 labels/nutrition/reports 后端化顺序；不创建第二套后端、不空建目录 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-15 | 架构与后台规划文档优化：新增 `ARCHITECTURE_SPEC.md`，统一正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`、OCR Provider 链路和旧 `src/` 迁移边界；补齐后台用户/会员/订阅/公告/系统配置/OCR-AI 成本/权限审计/API/任务阶段；仅文档，不改业务代码 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
