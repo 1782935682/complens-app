@@ -1,9 +1,9 @@
+import { clearStoredImageMemory, deleteStoredImage, saveInlineImageData } from '@/platform/imageStore';
 import { readJson, writeJson } from '@/platform/storage';
 import type { LabelReport, LocalImageAsset, ScanDraft } from '@/types';
 
 const DRAFT_KEY = 'complens:user-scan-draft';
 const REPORTS_KEY = 'complens:user-label-reports';
-const inlineImageDataById = new Map<string, string>();
 
 export function getDefaultDraft(): ScanDraft {
   return {
@@ -19,7 +19,7 @@ export function getDefaultDraft(): ScanDraft {
 }
 
 export function getScanDraft(): ScanDraft {
-  return hydrateRuntimeImage(readJson<ScanDraft>(DRAFT_KEY, getDefaultDraft()));
+  return readJson<ScanDraft>(DRAFT_KEY, getDefaultDraft());
 }
 
 export function saveScanDraft(partial: Partial<ScanDraft>): ScanDraft {
@@ -33,8 +33,10 @@ export function saveScanDraft(partial: Partial<ScanDraft>): ScanDraft {
 }
 
 export function resetScanDraft(): ScanDraft {
+  const previousImageId = getScanDraft().image?.id;
   const next = getDefaultDraft();
-  inlineImageDataById.clear();
+  clearStoredImageMemory();
+  void deleteStoredImage(previousImageId);
   writeJson(DRAFT_KEY, next);
   return next;
 }
@@ -70,9 +72,10 @@ function toPersistedImage(image?: LocalImageAsset): LocalImageAsset | undefined 
   if (!image) return undefined;
   const { file: _file, ...imageMeta } = image;
   if (isInlineImageDataUrl(imageMeta.tempFilePath)) {
-    inlineImageDataById.set(imageMeta.id, imageMeta.tempFilePath);
+    saveInlineImageData(imageMeta);
     return {
       ...imageMeta,
+      storage: 'h5-file',
       tempFilePath: ''
     };
   }
@@ -83,16 +86,4 @@ function toPersistedImage(image?: LocalImageAsset): LocalImageAsset | undefined 
 
 function isInlineImageDataUrl(path: string): boolean {
   return /^data:image\//i.test(path);
-}
-
-function hydrateRuntimeImage(draft: ScanDraft): ScanDraft {
-  const image = draft.image;
-  if (!image || image.tempFilePath || !inlineImageDataById.has(image.id)) return draft;
-  return {
-    ...draft,
-    image: {
-      ...image,
-      tempFilePath: inlineImageDataById.get(image.id) || ''
-    }
-  };
 }

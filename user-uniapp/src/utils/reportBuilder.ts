@@ -88,7 +88,9 @@ function buildAttentionHits(input: {
     input.rawText,
     normalizeReportText(input.frontClaimsText),
     ...input.matches.map((match) => match.normalizedText),
-    ...input.nutrition.map((field) => `${field.label}${field.value}${field.unit}`)
+    ...input.nutrition
+      .filter(hasNutritionEvidence)
+      .map((field) => `${field.label}${field.value}${field.unit}${normalizeReportText(field.sourceText)}`)
   ].join(' ');
   const customTerms = input.attention.customTerms.filter((term) => text.includes(term));
   const goalHits = attentionGoals
@@ -165,6 +167,10 @@ function buildNutritionHighlights(fields: NutritionField[], attention: Attention
 function addFieldHighlight(target: string[], field: NutritionField | undefined, goalLabel: string) {
   if (!field?.value) return;
   target.push(`${goalLabel}关注项可查看 ${field.label}：${field.value}${field.unit}${field.nrvPercent ? `，NRV ${field.nrvPercent}` : ''}`);
+}
+
+function hasNutritionEvidence(field: NutritionField): boolean {
+  return Boolean(normalizeReportText(field.value) || normalizeReportText(field.sourceText));
 }
 
 function groupAdditives(items: IngredientMatch[]): Array<{ label: string; items: IngredientMatch[] }> {

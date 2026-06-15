@@ -1,4 +1,5 @@
 import type { LocalImageAsset } from '@/types';
+import { readStoredImageAsBase64 } from '@/platform/imageStore';
 
 export async function readImageAsBase64(asset?: LocalImageAsset): Promise<string> {
   if (!asset) return '';
@@ -9,6 +10,9 @@ export async function readImageAsBase64(asset?: LocalImageAsset): Promise<string
     const blob = await fetch(asset.tempFilePath).then((response) => response.blob());
     return readFileObjectAsBase64(blob);
   }
+
+  const storedBase64 = await readStoredImageAsBase64(asset);
+  if (storedBase64) return storedBase64;
 
   const appBase64 = await readAppFileAsBase64(asset.tempFilePath);
   if (appBase64) return appBase64;
