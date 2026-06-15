@@ -39,7 +39,7 @@ function continueFlow() {
     uni.navigateTo({ url: routes.nutrition });
     return;
   }
-  if (labelType.value === 'front_claims') {
+  if (labelType.value === 'front_claims' || labelType.value === 'barcode_or_product') {
     uni.navigateTo({ url: routes.match });
     return;
   }
@@ -65,7 +65,7 @@ function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<Scan
     confirmedText,
     productName: productName.value.trim(),
     labelType: labelType.value,
-    frontClaimsText: labelType.value === 'front_claims' ? confirmedText : ''
+    frontClaimsText: labelType.value === 'front_claims' || labelType.value === 'barcode_or_product' ? confirmedText : ''
   };
   if (options.resetDerived || textChanged || labelTypeChanged) {
     nextDraft.ingredients = [];

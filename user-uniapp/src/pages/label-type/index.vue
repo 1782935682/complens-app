@@ -19,7 +19,15 @@ const steps = ['拍照', '识别', '确认', '报告'];
 onMounted(async () => {
   loading.value = true;
   const draft = getScanDraft();
-  const nextClassification = draft.classification || await classifyLabelWithAdapter(draft.confirmedText || draft.ocr?.text || '');
+  const cachedClassification = draft.classification;
+  let nextClassification: LabelClassification;
+
+  if (!cachedClassification || cachedClassification.fallbackOnly || cachedClassification.mockOnly) {
+    nextClassification = await classifyLabelWithAdapter(draft.confirmedText || draft.ocr?.text || '');
+  } else {
+    nextClassification = cachedClassification;
+  }
+
   selectedType.value = getPreferredLabelType(draft.labelType, nextClassification.labelType);
   classification.value = applyManualTypeOverride(nextClassification, selectedType.value);
   saveScanDraft({ classification: classification.value, labelType: selectedType.value });
@@ -71,7 +79,7 @@ function applyManualTypeOverride(base: LabelClassification, type: LabelType): La
     <StepIndicator :steps="steps" :active-index="2" />
     <LoadingState v-if="loading">正在判断标签类型...</LoadingState>
     <template v-else>
-      <Toast v-if="classification?.mockOnly" message="mock only：后端分类 API 尚未实现，当前使用前端本地判断。" />
+      <Toast v-if="classification?.fallbackOnly || classification?.mockOnly" message="后端标签分类暂不可用，已使用本地规则辅助判断。" />
       <AppCard>
         <view class="stack">
           <text class="section-title">当前判断</text>

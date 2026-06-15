@@ -48,7 +48,7 @@
 
 ## 3. 当前真实进度
 
-整体产品进度：**约 79%**（按数据底座 + OCR 主路径闭环 + 正式用户端迁移 + 后端/API/admin-web 架构规划口径）。
+整体产品进度：**约 80%**（按数据底座 + OCR 主路径闭环 + 正式用户端迁移 + 后端/API/admin-web 架构规划口径）。
 
 | 里程碑 | 名称 | 状态 | 完成度 |
 |---|---|---|---|
@@ -56,7 +56,7 @@
 | M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~70% |
 | M3 | OCR 拍照识别主流程（manual/mock/本机 RapidOCR 闭环） | 🔄 进行中 | ~82% |
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
-| M5 | 食品标签解读报告（配料 + 营养 + 关注项） | 🔄 uni-app MVP 已落地 | ~58% |
+| M5 | 食品标签解读报告（配料 + 营养 + 关注项） | 🔄 uni-app MVP 已落地，标签类型后端 API 已接入 | ~60% |
 | M6 | 我的关注项、产品档案、收藏、历史、个性化 | 🔄 uni-app 本地 MVP 已落地 | ~64% |
 | M7 | 消费者体验与信息架构优化（UX） | 🔄 uni-app 主路径已迁移 | ~52% |
 | M8 | 移动端 / PWA 体验 | 🔄 uni-app H5/小程序构建通过 | ~58% |
@@ -82,6 +82,7 @@
 - 数据溯源字段：`dataStatus`/`matchConfidence`/`sourceScope`/`sourceName`/`sourceVersion`/`sourceUrl`/`regulatoryBasis`/`rawSourceText`/`lastReviewedAt`/`reviewNote`/`isVerified`。
 - GB2760 官方来源确认 + 264 页全文 + 2404 行 A.1 staging + 2800 行参考表（边界修复完成）+ 导入审计骨架（来源文档、批次、错误表和查询接口）+ `additive_usage_rules` 正式规则表 + `promote:gb2760` 准入脚本 + 本轮人工签核 promote 2391 条正式规则 + `validate:gb2760` 数据准入校验。
 - OCR 主路径：拍照/上传入口、图片预处理（EXIF/压缩/IndexedDB）、OCR manual/mock/real-provider 抽象、文本确认页、配料解析、批量匹配；后端 `OCR_PROVIDER=mock` 可返回明确标注的 mock OCR 结果，`OCR_PROVIDER=rapidocr` 已接入本机 `/home/downloads/tools/complens-ocr` 服务，生产 Aliyun OCR 待 Key 后切换。
+- 消费者标签后端 API：`POST /api/labels/classify` 已落地，支持配料表、营养成分表、包装正面、产品名/条码和未知标签识别，允许匿名调用；`user-uniapp` 标签 adapter 已从 mock-only 改为后端优先、本地规则降级。
 - 分析报告：整体评级、关注摘要、配料顺序、添加剂分类、未收录、特殊人群、来源说明、Markdown/JSON 导出、分享、历史。
 - 产品档案 + 收藏 + 历史 + 个人关注/忌口/过敏原 + 全局高亮 + 登录态云同步。
 - 前端登录/注册 + 访客模式 + JWT 管理 + 本机数据登录态同步。
@@ -101,7 +102,7 @@
 
 - 成分详情页 GB2760 官方证据展示（Batch 1-E）。
 - 生产 Aliyun OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key；本机 RapidOCR 已接入）。
-- 标签类型识别、营养成分表结构化、我的关注项主路径化、食品标签解读报告结构改造已在 `user-uniapp/` 完成 MVP；后端正式 API 和跨端真机验收仍待补齐。
+- 标签类型识别已补后端 `POST /api/labels/classify`；营养成分表结构化、我的关注项主路径化、食品标签解读报告结构改造已在 `user-uniapp/` 完成 MVP；`labels/scan`、`nutrition/parse`、`reports/label` 后端正式 API 和跨端真机验收仍待补齐。
 - 包装正面卖点核对、两款商品对比、扫码识别（MVP 后置）。
 - 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
 - 移动端组件统一、报告页产品化复核、首页/OCR 产品体验整体复核（阶段 7；统一可信表达映射层已完成）。
@@ -144,7 +145,7 @@
 
 Codex 下一步任务：
 
-1. 继续后端化消费者主路径 API：`labels`（扫描会话/标签类型）→ `nutrition`（营养解析）→ `reports`（食品标签解读报告），逐步减少前端 mock/local-only adapter。
+1. 继续后端化消费者主路径 API：`nutrition`（营养解析）→ `reports`（食品标签解读报告）；`labels/scan` 等扫描会话接口待独立 scan sessions 表和图片引用持久化设计后补。
 2. ADMIN-E 会员订阅/支付继续人工阻塞；后台 `admin-web/` 工程和后台 API 代码仍待后续批次按计划落地。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核；生产 DATABASE_URL、Aliyun OCR Key、AI Key、商店账号和法务材料均不阻塞当前本地 MVP。
@@ -180,7 +181,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 - **产品化**：会员管理、订阅计划、订单/支付记录、退款/取消记录、App/小程序版本配置、消息通知、AI/OCR 成本统计、角色权限、审计日志。
 - **上架/商业化**：Apple IAP、Google Play Billing、微信支付、国内安卓渠道、订阅权益、第三方 SDK 清单、隐私协议版本管理。
 
-- **Codex 下一步**：完成本轮 ADMIN-F/G/H PR；合并后转入消费者主路径后端 API（labels/nutrition/reports），逐步减少 `user-uniapp` 前端 mock/local-only adapter。
+- **Codex 下一步**：完成本轮 CONSUMER-LABEL-A 后端 API PR；合并后继续消费者主路径后端 API（nutrition/reports），逐步减少 `user-uniapp` 前端 local-only parser/report builder。
 
 ## 8. 7 天执行计划
 
@@ -249,6 +250,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-15 | Batch CONSUMER-LABEL-A 后端化：新增后端 `POST /api/labels/classify` 与 labelService，支持配料表、营养成分表、包装正面、产品名/条码和未知标签判断；`user-uniapp` 标签 adapter 改为后端优先、本地规则降级，不再显示“后端未实现”的 mock-only 状态 | Codex | `cd backend && npm run test -- labels.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
 | 2026-06-15 | Batch ADMIN-F/G/H：补齐 OCR/AI Provider 监控、OCR 失败日志/指标、AI 调用日志/成本、降级策略、功能开关、平台/版本/分享/通知/SDK 配置、管理员/角色权限/操作日志/审计日志页面/API 计划；明确密钥不展示、AI Key 阻塞、配置变更审计、RBAC 后置和 `admin-web` 尚未创建 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-15 | Batch ADMIN-D：补齐内容运营后台页面/API 计划，明确公告、Banner、首页场景卡、FAQ、数据说明文案、隐私政策和用户协议版本管理的目标路由、计划接口、状态枚举、平台范围、发布审计和人工/法务确认边界；未创建后台工程，不新增后端接口 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-15 | Batch ADMIN-C：补齐用户与反馈管理页面/API 计划，明确用户列表/详情、设备登录、扫描记录、标签解读报告、产品档案、用户反馈和禁用/恢复的目标路由、计划接口、现有 `/api/user/*` 边界、公开反馈提交与后台反馈处理分离、隐私脱敏和审计要求；未创建后台工程，不新增后端接口 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |

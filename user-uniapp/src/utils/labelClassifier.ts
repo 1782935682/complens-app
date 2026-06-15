@@ -6,6 +6,7 @@ export function classifyLabelText(text: string): LabelClassification {
     ingredient_list: scoreByKeywords(normalized, ['配料', '原料', '食品添加剂', '白砂糖', '食用盐', '香精']),
     nutrition_facts: scoreByKeywords(normalized, ['营养成分表', '能量', '蛋白质', '脂肪', '碳水化合物', '钠', 'NRV']),
     front_claims: scoreByKeywords(normalized, ['0糖', '零糖', '低脂', '高蛋白', '无添加', '非油炸', '粗粮']),
+    barcode_or_product: scoreByKeywords(normalized, ['条形码', '条码', '商品名称', '产品名称', '净含量', '生产日期', '保质期', 'SC']),
     unknown_label: normalized.length ? 0.1 : 0.6
   };
   const [labelType, score] = Object.entries(scores).sort((a, b) => b[1] - a[1])[0] as [LabelType, number];
@@ -22,7 +23,7 @@ export function classifyLabelText(text: string): LabelClassification {
 
 function scoreByKeywords(text: string, keywords: string[]): number {
   if (!text) return 0;
-  return keywords.reduce((score, keyword) => score + (text.includes(keyword) ? 0.18 : 0), 0);
+  return keywords.reduce((score, keyword) => score + (text.includes(keyword) ? 0.2 : 0), 0);
 }
 
 function buildReasons(labelType: LabelType, text: string): string[] {
@@ -30,5 +31,6 @@ function buildReasons(labelType: LabelType, text: string): string[] {
   if (labelType === 'ingredient_list') return ['文本中出现配料或食品添加剂相关词。'];
   if (labelType === 'nutrition_facts') return ['文本中出现营养字段或 NRV 标识。'];
   if (labelType === 'front_claims') return ['文本中出现包装正面常见卖点词。'];
+  if (labelType === 'barcode_or_product') return ['文本中出现产品名、条码、净含量或日期等包装识别信息。'];
   return ['当前文本特征不足，需要用户手动选择。'];
 }

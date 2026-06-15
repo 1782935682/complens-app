@@ -1,4 +1,4 @@
-export type LabelType = 'ingredient_list' | 'nutrition_facts' | 'front_claims' | 'unknown_label';
+export type LabelType = 'ingredient_list' | 'nutrition_facts' | 'front_claims' | 'barcode_or_product' | 'unknown_label';
 
 export type DataStatus =
   | 'verified_regulation'
@@ -43,6 +43,7 @@ export interface LabelClassification {
   requiresUserSelection: boolean;
   reasons: string[];
   mockOnly?: boolean;
+  fallbackOnly?: boolean;
 }
 
 export interface ParsedIngredient {

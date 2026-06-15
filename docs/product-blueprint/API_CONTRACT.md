@@ -328,7 +328,7 @@
 | `GET /api/imports/gb2760/status` | ✅ 等价已实现 | `GET /api/gb2760/import-runs` 等后台接口 | 否，后台/内部查看 |
 | `POST /api/feedback` | ⚠️ 前端本地 | `src/services/supportService.js` 本地存储 | 是 |
 | `POST /api/labels/scan` | ❌ 后端未实现 / 前端 adapter | `user-uniapp` 单图扫描草稿；食品标签多图扫描会话待后端 | 是 |
-| `POST /api/labels/classify` | ❌ 后端未实现 / 前端 mock-only adapter | `user-uniapp/src/services/api/labels.ts` 本地辅助判断，明确 `mockOnly` | 是 |
+| `POST /api/labels/classify` | ✅ 已实现 | 后端 `backend/src/routes/labels.ts` + `labelService.ts`，`user-uniapp` adapter 后端优先、本地降级 | 是 |
 | `POST /api/nutrition/parse` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/utils/nutritionParser.ts` 本地解析 | 是 |
 | `POST /api/claims/parse` | ❌ 计划 / 后续 | 包装正面卖点解析 | 是 |
 | `POST /api/reports/label` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/utils/reportBuilder.ts` 本地报告构建 | 是 |
@@ -336,9 +336,9 @@
 | `GET /api/user-attention-items` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/stores/attentionStore.ts` 本地读取 | 是 |
 | `POST /api/user-attention-items` | ❌ 后端未实现 / 前端本地 | `user-uniapp/src/stores/attentionStore.ts` 本地保存 | 是 |
 
-### 消费者标签解读计划 API（后端当前未实现）
+### 消费者标签解读计划 API（部分后端已实现）
 
-以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。后端当前均为计划 API，不得在实现前当作已存在后端接口调用；`user-uniapp/` 已为 MVP 提供本地 parser / mock-only adapter / 本地报告存储，界面必须明确这些不是权威数据来源。
+以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。`POST /api/labels/classify` 已落地；其余未实现接口不得在实现前当作已存在后端接口调用。`user-uniapp/` 已为 MVP 提供本地 parser / 本地降级 / 本地报告存储，界面必须明确这些不是权威数据来源。
 
 实现时路由归属：
 
@@ -360,11 +360,12 @@
 - 是否允许匿名：允许。
 
 #### `POST /api/labels/classify`
+- 状态：✅ 已实现。
 - 用途：识别 OCR 文本或图片属于配料表、营养成分表、包装正面、条码/产品名或未知标签。
 - 调用端：扫描页、标签类型选择页、文本确认页。
 - 请求参数：`text?`、`imageAssetId?`、`userSelectedType?`。
 - 响应字段：`labelType`（`ingredient_list|nutrition_facts|front_claims|barcode_or_product|unknown_label`）、`confidence`、`requiresUserSelection`。
-- 错误码：`400 invalid_parameter`、`422 classify_failed`。
+- 错误码：`400 invalid_parameter`。
 - 数据状态字段：分类结果是辅助判断，不是权威结论。
 - 前端展示规则：低置信或 unknown 时必须允许用户手动选择。
 - 是否需要登录：不需要。
