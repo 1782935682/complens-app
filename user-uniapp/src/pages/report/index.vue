@@ -121,7 +121,7 @@ async function shareCurrentReport() {
               <text class="muted">{{ source.detail }}</text>
             </view>
           </view>
-          <text class="muted">仅供标签信息参考，不构成医疗或营养诊断。</text>
+          <text class="muted">仅供标签信息参考，请结合包装原文和个人情况判断。</text>
         </view>
       </AppCard>
 

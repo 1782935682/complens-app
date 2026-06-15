@@ -99,7 +99,8 @@ function generateReport() {
     nutrition: draft.nutrition,
     attention: getAttentionSettings(),
     labelType: draft.labelType,
-    frontClaimsText: draft.frontClaimsText
+    frontClaimsText: draft.frontClaimsText,
+    ocr: draft.ocr
   });
   saveReport(report);
   saveScanDraft({ matches: matches.value });

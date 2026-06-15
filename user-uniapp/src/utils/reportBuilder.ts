@@ -1,5 +1,5 @@
 import { attentionGoals } from '@/constants/attention';
-import type { AttentionHit, AttentionSettings, IngredientMatch, LabelReport, LabelType, NutritionField, ParsedIngredient, ReportSource } from '@/types';
+import type { AttentionHit, AttentionSettings, IngredientMatch, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient, ReportSource } from '@/types';
 
 export function buildLabelReport(input: {
   productName: string;
@@ -10,6 +10,7 @@ export function buildLabelReport(input: {
   attention: AttentionSettings;
   labelType?: LabelType;
   frontClaimsText?: string;
+  ocr?: OcrResult;
 }): LabelReport {
   const frontClaimsText = input.labelType === 'front_claims' ? normalizeReportText(input.frontClaimsText) : '';
   const reportMatches = input.matches.map(sanitizeReportMatch);
@@ -44,7 +45,7 @@ export function buildLabelReport(input: {
     additiveGroups: groupAdditives(additiveItems),
     allergenHints: buildAllergenHints(reportMatches),
     unknownItems,
-    sources: buildSources(acceptedMatches, { allMatches: reportMatches }),
+    sources: buildSources(acceptedMatches, { allMatches: reportMatches, ocr: input.ocr }),
     rawText: input.rawText
   };
   return report;
@@ -205,7 +206,7 @@ const allergenTerms = [
   { label: '海鲜', patterns: ['海鲜', '虾', '蟹', '鱼', '贝类'] }
 ];
 
-function buildSources(matches: IngredientMatch[], options: { allMatches?: IngredientMatch[] } = {}): ReportSource[] {
+function buildSources(matches: IngredientMatch[], options: { allMatches?: IngredientMatch[]; ocr?: OcrResult } = {}): ReportSource[] {
   const allMatches = options.allMatches ?? matches;
   const sources: ReportSource[] = [
     {
@@ -215,10 +216,17 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
     },
     {
       label: '我的关注项',
-      detail: '关注项保存在本机，用于排序和提示，不作为医疗或营养诊断。',
+      detail: '关注项保存在本机，用于排序和提示，不作为医疗或营养建议。',
       sourceType: 'manual_input'
     }
   ];
+  if (options.ocr?.mode === 'mock' || options.ocr?.provider === 'mock') {
+    sources.push({
+      label: 'mock only OCR',
+      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示，报告需结合包装原文确认。',
+      sourceType: 'mock_adapter'
+    });
+  }
   if (matches.some(isOfficialStandardMatch)) {
     sources.push({
       label: '官方标准数据',
