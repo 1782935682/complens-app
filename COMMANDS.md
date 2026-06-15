@@ -229,12 +229,11 @@ curl -X POST "http://127.0.0.1:8000/ocr" \
   -F "file=@/path/to/ingredient-label.jpg"
 ```
 
-通过 CompCheck 后端代理验证（需要先登录取得 JWT）：
+通过 CompCheck 后端代理验证（MVP OCR 主流程允许匿名调用；无 provider/key 时返回明确降级错误）：
 
 ```bash
 curl -X POST "http://127.0.0.1:3000/api/ocr" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <jwt>" \
   -d '{"imageBase64":"<base64>","mimeType":"image/jpeg","category":"food"}'
 ```
 
@@ -347,12 +346,11 @@ curl -X POST "http://127.0.0.1:3000/api/ingredients/batch-search" \
   -d '{"terms":["E211","柠檬酸","未知配料"]}'
 ```
 
-OCR 代理占位验收（需要先登录取得 JWT；`aliyun` / `paddleocr` 无 `OCR_API_KEY` 时预期返回 503）：
+OCR 代理占位验收（MVP OCR 主流程允许匿名调用；`aliyun` / `paddleocr` 无 `OCR_API_KEY` 时预期返回 503）：
 
 ```bash
 curl -i -X POST "http://127.0.0.1:3000/api/ocr" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <jwt>" \
   -d '{"imageBase64":"AA==","mimeType":"image/jpeg","category":"food"}'
 ```
 
@@ -361,7 +359,6 @@ OCR mock provider 验收（后端环境设置 `OCR_PROVIDER=mock`，不需要真
 ```bash
 curl -X POST "http://127.0.0.1:3000/api/ocr" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <jwt>" \
   -d '{"imageBase64":"AA==","mimeType":"image/jpeg","category":"food"}'
 ```
 

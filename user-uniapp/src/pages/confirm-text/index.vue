@@ -32,7 +32,10 @@ function continueFlow() {
     confirmedText,
     productName: productName.value.trim(),
     labelType: labelType.value,
-    frontClaimsText: labelType.value === 'front_claims' ? confirmedText : ''
+    frontClaimsText: labelType.value === 'front_claims' ? confirmedText : '',
+    ingredients: [],
+    nutrition: [],
+    matches: []
   });
   if (!confirmedText) return;
   if (labelType.value === 'ingredient_list') {

@@ -169,7 +169,7 @@
 #### `POST /api/ocr`  ✅ 已实现
 - 用途：图片配料表 OCR 识别。
 - 调用端：拍照/上传识别流程。
-- 鉴权：**需登录（JWT）**。
+- 鉴权：MVP 主流程允许匿名调用；生产如加入配额/账号限制，必须保留手动输入降级路径。
 - 请求体：
   ```
   {
@@ -288,7 +288,7 @@
 
 | 目标接口 | 当前状态 | 当前真实对应 | 是否应允许匿名完成 MVP |
 |---|---|---|---|
-| `POST /api/ocr` | ✅ 已实现但需调整匿名策略 | `POST /api/ocr`（当前需登录） | 是，MVP 主流程应允许匿名识别或降级手动输入 |
+| `POST /api/ocr` | ✅ 已实现 | `POST /api/ocr`（MVP 主流程允许匿名调用） | 是，MVP 主流程应允许匿名识别或降级手动输入 |
 | `POST /api/ingredients/parse` | ⚠️ 前端本地 | 历史 `src/utils/text.js`；正式端 `user-uniapp/src/utils/ingredientParser.ts`；后端无同名路由 | 是 |
 | `POST /api/ingredients/match` | ✅ 等价已实现 | `POST /api/ingredients/batch-search` | 是 |
 | `POST /api/reports` | ⚠️ 部分 | `user-uniapp` 本地报告 + 登录后 `POST /api/user/reports` 云同步 | 是，本地保存应可匿名 |
@@ -405,10 +405,10 @@
 - 调用端：Web / PWA 拍照上传页、后续小程序/App 拍照入口。
 - 请求参数：`imageBase64` 或文件上传引用、`mimeType`、`category?: "food"`。
 - 响应字段：`text`、`confidence`、`blocks[]`、`provider`、`sourceType: "ocr_input"`、`requiresUserConfirmation: true`。
-- 错误码：`400 invalid_parameter`、`401 unauthorized`（当前实现）、`413 image_too_large`、`503 ocr_unavailable`。
+- 错误码：`400 invalid_parameter`、`501 ocr_provider_pending`、`502 ocr_provider_invalid_response / ocr_provider_failed`、`503 ocr_not_configured / ocr_provider_unreachable`、`504 ocr_provider_timeout`。
 - 数据状态字段：OCR 输出必须标记为 `ocr_input`，不能作为 `verified_*` 数据。
 - 前端展示规则：无论成功/失败都必须进入文本确认或手动输入路径；禁止跳过确认直接分析。
-- 是否需要登录：目标不需要；当前实现需登录，列入后续任务。
+- 是否需要登录：MVP 主流程不需要；生产如加入配额/账号限制，必须保留手动输入降级路径。
 - 是否允许匿名：目标允许。
 
 ### `POST /api/ingredients/parse`

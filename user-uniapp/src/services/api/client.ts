@@ -27,10 +27,6 @@ export function setApiBaseUrl(value: string): void {
   writeString(API_BASE_URL_KEY, normalizeApiBaseUrl(value) || getDefaultApiBaseUrl());
 }
 
-export function hasApiAuthToken(): boolean {
-  return Boolean(getApiAuthToken());
-}
-
 export async function requestJson<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
   const url = buildRequestUrl(path);
   const method = options.method || 'GET';

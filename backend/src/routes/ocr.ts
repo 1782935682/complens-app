@@ -1,5 +1,4 @@
 import { Hono } from 'hono';
-import { createAuthMiddleware, type AuthVariables } from '../middleware/auth.js';
 import type { AppConfig } from '../config.js';
 import type { AuthService } from '../services/authService.js';
 import { OcrProviderError, normalizeOcrProvider, recognizeWithOcrProvider, requiresOcrApiKey, requiresOcrServiceUrl } from '../services/ocrProviders/index.js';
@@ -13,11 +12,10 @@ type OcrJsonBody = {
 const MAX_OCR_IMAGE_BYTES = 10 * 1024 * 1024;
 const MAX_OCR_IMAGE_BASE64_LENGTH = Math.ceil(MAX_OCR_IMAGE_BYTES / 3) * 4;
 
-export function createOcrRoute(authService: AuthService, config: Pick<AppConfig, 'ocrApiKey' | 'ocrProvider' | 'ocrServiceUrl'>) {
-  const route = new Hono<{ Variables: AuthVariables }>();
-  const requireAuth = createAuthMiddleware(authService);
+export function createOcrRoute(_authService: AuthService, config: Pick<AppConfig, 'ocrApiKey' | 'ocrProvider' | 'ocrServiceUrl'>) {
+  const route = new Hono();
 
-  route.post('/ocr', requireAuth, async (context) => {
+  route.post('/ocr', async (context) => {
     const body = await readOcrBody(context);
     const validation = validateOcrBody(body);
     if (!validation.ok) {
