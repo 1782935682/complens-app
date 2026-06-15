@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import StatusTag from './StatusTag.vue';
-import { dataStatusClass } from '@/constants/dataStatus';
+import { dataStatusClass } from '../constants/dataStatus';
 
 const props = defineProps<{
   name: string;
@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ remove: [] }>();
 
-const statusClass = computed(() => props.status ? `chip--${dataStatusClass(props.status)}` : '');
+const statusClass = computed(() => (props.status ? `chip-${dataStatusClass(props.status)}` : ''));
 </script>
 
 <template>
@@ -73,26 +73,26 @@ const statusClass = computed(() => props.status ? `chip--${dataStatusClass(props
 }
 
 /* 状态色分阶边框与软底色，构建极具信息可读性的色彩地貌 */
-.chip--status-verified {
+.chip-status-verified {
   border-color: rgba(34, 197, 94, 0.24);
   background-color: rgba(34, 197, 94, 0.02);
 }
 
-.chip--status-info {
+.chip-status-info {
   border-color: rgba(37, 99, 235, 0.2);
   background-color: rgba(37, 99, 235, 0.02);
 }
 
-.chip--status-candidate {
+.chip-status-candidate {
   border-color: rgba(245, 158, 11, 0.24);
   background-color: rgba(245, 158, 11, 0.02);
 }
 
-.chip--status-unverified {
+.chip-status-unverified {
   border-color: rgba(156, 163, 175, 0.24);
 }
 
-.chip--status-unknown {
+.chip-status-unknown {
   border-color: rgba(107, 114, 128, 0.24);
 }
 </style>

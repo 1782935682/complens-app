@@ -65,8 +65,8 @@ const icon = computed(() => {
 }
 
 .toast--error {
-  background: #fff8ec;
-  border-color: var(--error-border);
-  color: #7a3b10;
+  background: var(--error-surface, #fff8ec);
+  border-color: var(--error-border, #f4c790);
+  color: var(--error-text, #7a3b10);
 }
 </style>
