@@ -141,7 +141,7 @@ function generateReport() {
         </view>
       </AppCard>
     </view>
-    <AppButton @click="generateReport">生成食品标签解读</AppButton>
+    <AppButton :disabled="loading" @click="generateReport">生成食品标签解读</AppButton>
   </view>
 </template>
 

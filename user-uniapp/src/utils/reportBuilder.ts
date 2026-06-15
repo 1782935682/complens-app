@@ -16,7 +16,7 @@ export function buildLabelReport(input: {
   const acceptedMatches = reportMatches.filter((match) => match.decision === 'confirmed');
   const attentionHits = buildAttentionHits(input);
   const focusItems = buildFocusItems(reportMatches, input.nutrition, attentionHits, frontClaimsText);
-  const additiveItems = acceptedMatches.filter((match) => match.isAdditive || additiveKeywordMatch(match.normalizedText));
+  const additiveItems = acceptedMatches.filter((match) => match.isAdditive);
   const unknownItems = reportMatches
     .filter((match) => match.dataStatus === 'unknown_from_ocr' || match.decision === 'rejected')
     .map((match) => match.normalizedText);
@@ -262,10 +262,6 @@ function isOfficialStandardMatch(match: IngredientMatch): boolean {
 
 function isPendingBackendMatch(match: IngredientMatch): boolean {
   return Boolean(match.sourceName) && ['pending_review', 'mapped_candidate', 'unverified'].includes(match.dataStatus);
-}
-
-function additiveKeywordMatch(value: string): boolean {
-  return /酸|钠|钾|胶|甜味|色|香精|防腐|添加剂|磷酸|碳酸氢/.test(value);
 }
 
 function createReportId(): string {
