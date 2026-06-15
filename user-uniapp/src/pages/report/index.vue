@@ -11,11 +11,12 @@ import StatusTag from '@/components/StatusTag.vue';
 import { routes, navigateToRoute } from '@/constants/routes';
 import { shareReport } from '@/platform/share';
 import { getReportById, getReports } from '@/stores/scanStore';
-import type { LabelReport } from '@/types';
+import type { LabelReport, NutritionField } from '@/types';
 
 const report = ref<LabelReport | undefined>();
 const showSources = ref(false);
 const sourceButtonLabel = computed(() => showSources.value ? '收起查看依据' : '查看数据来源和依据');
+const nutritionFieldsWithValues = computed(() => report.value?.nutritionSection.fields.filter((field) => field.value.trim()) ?? []);
 
 onLoad((query) => {
   const id = String(query?.id || '');
@@ -26,6 +27,15 @@ async function shareCurrentReport() {
   if (!report.value) return;
   const ok = await shareReport(report.value);
   uni.showToast({ title: ok ? '已复制/分享报告摘要' : '分享失败', icon: 'none' });
+}
+
+function formatNutritionValue(field: NutritionField): string {
+  const value = field.value.trim();
+  const unit = field.unit.trim();
+  const mainValue = unit && !value.endsWith(unit) ? `${value}${unit}` : value;
+  const nrvPercent = field.nrvPercent?.trim();
+  if (!nrvPercent || field.key === 'nrvPercent') return mainValue;
+  return `${mainValue}，NRV ${nrvPercent}`;
 }
 </script>
 
@@ -76,7 +86,13 @@ async function shareCurrentReport() {
         <view class="stack">
           <text class="section-title">营养成分解读</text>
           <text v-for="line in report.nutritionSection.highlights" :key="line" class="muted">{{ line }}</text>
-          <EmptyState v-if="!report.nutritionSection.fields.some((field) => field.value)" title="未提供营养成分表" description="如需查看糖、钠、脂肪等字段，可补拍或粘贴营养成分表文字。" />
+          <view v-if="nutritionFieldsWithValues.length" class="nutrition-value-list">
+            <view v-for="field in nutritionFieldsWithValues" :key="field.key" class="nutrition-value-row">
+              <text class="nutrition-value-row__label">{{ field.label }}</text>
+              <text class="nutrition-value-row__value">{{ formatNutritionValue(field) }}</text>
+            </view>
+          </view>
+          <EmptyState v-else title="未提供营养成分表" description="如需查看糖、钠、脂肪等字段，可补拍或粘贴营养成分表文字。" />
         </view>
       </AppCard>
 
@@ -146,5 +162,33 @@ async function shareCurrentReport() {
   color: var(--text);
   font-size: var(--font-size-base);
   font-weight: 800;
+}
+
+.nutrition-value-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.nutrition-value-row {
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: var(--space-sm) var(--space-md);
+}
+
+.nutrition-value-row__label {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.nutrition-value-row__value {
+  color: var(--text);
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  text-align: right;
 }
 </style>
