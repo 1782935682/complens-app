@@ -173,8 +173,8 @@
 | 能力 / 检查项 | Web / PWA | Android（Capacitor 7.x） | iOS（Capacitor 7.x） | 微信小程序 | 后台管理 |
 | --- | --- | --- | --- | --- | --- |
 | 主路径走通（首页→保存历史） | 必查（`user-uniapp` H5） | 真机待验 | 真机待验 | 开发者工具/真机待验 | 不适用 |
-| 拍照 / 相册采集 | `uni.chooseImage` / 文件输入降级 | 真机权限待验 | 真机权限待验 | `uni.chooseImage` 待开发者工具/真机验收 | 不适用 |
-| 分享 | 复制降级 / adapter | adapter 待验 | adapter 待验 | 原生转发待补 | 不适用 |
+| 拍照 / 相册采集 | `uni.chooseImage` / 文件输入降级 | 真机权限待验 | 真机权限待验 | `uni.chooseImage` 已接入，待开发者工具/真机验收 | 不适用 |
+| 分享 | 复制降级 / adapter | adapter 待验 | adapter 待验 | 报告页原生转发 + 复制降级，待真机验收 | 不适用 |
 | OCR 主路径与降级 | 必查（经后端，失败手动输入） | 真机待验 | 真机待验 | 开发者工具/真机待验 | 不适用 |
 | 三态（loading/empty/error） | 必查 | 真机待验 | 真机待验 | 开发者工具/真机待验 | 部分（仅 GB2760 复核） |
 | 安全区 / 44px / 16px 输入 | 必查 | 真机待验 | 真机待验 | 真机待验 | 待确认 |
@@ -185,7 +185,7 @@
 补充说明：
 - Web / PWA 为主交付形态；`user-uniapp` H5 构建通过后仍需浏览器人工走查、PWA 安装与 Lighthouse 验收。
 - Capacitor 锁定 7.x，匹配 `Node.js >= 20.19`，不得升级到要求 Node 22+ 的主版本。`ios/` 与 `android/` 为本机生成目录（已 gitignore），验收前需 `npm run build && npx cap add ios|android && npm run cap:sync`。`npx cap doctor` 允许提示本机未装 Xcode / Android Studio。
-- 微信小程序：`user-uniapp` 构建可生成 `dist/build/mp-weixin`；微信开发者工具导入、真机拍照/相册/隐私权限验收待补。
+- 微信小程序：`user-uniapp` 构建可生成 `dist/build/mp-weixin`；已补 AppID 环境注入、后端 API 基址配置、相机权限说明、图片压缩、平台文件缓存和报告转发；微信开发者工具导入、request 合法域名、真机拍照/相册/隐私权限验收待人工完成。
 - 后台管理：仅内部 `gb2760ReviewPage` 部分落地，其余后台页为计划（见 `PAGE_STRUCTURE.md` §三、`ADMIN_CONSOLE_SPEC.md`）。
 
 ### 4.1 架构与安全验收

@@ -92,7 +92,7 @@ function continueToOcr() {
   <view class="page stack">
     <view>
       <text class="page-title">拍照/上传食品标签</text>
-      <text class="page-subtitle">尽量拍清楚配料表、营养成分表或包装正面。H5/PWA 会使用文件选择作为降级入口。</text>
+      <text class="page-subtitle">尽量拍清楚配料表、营养成分表或包装正面。不同平台会调用系统拍照或相册能力，识别失败时仍可手动输入。</text>
     </view>
     <StepIndicator :steps="steps" :active-index="0" />
     <ImageUploader :image="image" @camera="choose('camera')" @album="choose('album')" @clear="clearImage" />

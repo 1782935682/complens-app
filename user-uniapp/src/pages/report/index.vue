@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onLoad } from '@dcloudio/uni-app';
+import { onLoad, onShareAppMessage } from '@dcloudio/uni-app';
 import { computed, ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
@@ -9,7 +9,7 @@ import ReportSummaryCard from '@/components/ReportSummaryCard.vue';
 import SourceBadge from '@/components/SourceBadge.vue';
 import { routes, navigateToRoute } from '@/constants/routes';
 import { childGuardCategories, type ChildGuardCategory } from '@/constants/childGuard';
-import { shareReport } from '@/platform/share';
+import { buildReportShareMessage, enableWeixinShareMenu, shareReport } from '@/platform/share';
 import { getReportById, getReports } from '@/stores/scanStore';
 import type { IngredientMatch, LabelReport, NutritionField } from '@/types';
 
@@ -221,9 +221,12 @@ function openIngredientDetail(item: IngredientMatch) {
 }
 
 onLoad((query) => {
+  enableWeixinShareMenu();
   const id = String(query?.id || '');
   report.value = id ? getReportById(id) : getReports()[0];
 });
+
+onShareAppMessage(() => buildReportShareMessage(report.value));
 
 async function shareCurrentReport() {
   if (!report.value) return;

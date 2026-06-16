@@ -4,7 +4,7 @@ import AppCard from '@/components/AppCard.vue';
 const sections = [
   {
     title: '图片处理',
-    detail: '图片用于食品标签识别和预览。H5/PWA 使用临时文件或 IndexedDB，localStorage 只保存索引、设置和小型元数据。'
+    detail: '图片用于食品标签识别和预览。H5/PWA 使用临时文件或 IndexedDB，小程序使用平台文件缓存，localStorage/Storage 只保存索引、设置和小型元数据。'
   },
   {
     title: 'OCR 与文本',
