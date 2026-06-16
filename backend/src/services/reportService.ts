@@ -109,6 +109,7 @@ export type LabelReport = {
     fields: NutritionField[];
     highlights: string[];
   };
+  nutritionIngredientChecks?: NutritionIngredientCheck[];
   frontClaimsSection?: {
     text: string;
     highlights: string[];
@@ -128,6 +129,18 @@ export type NutritionField = {
   nrvPercent?: string;
   sourceText?: string;
   confidence: number;
+};
+
+export type NutritionIngredientCheckState = 'possible_issue' | 'no_obvious_issue' | 'insufficient_data';
+
+export type NutritionIngredientCheck = {
+  key: 'sugar' | 'sodium';
+  title: string;
+  nutritionValue: string;
+  nutritionUnit: string;
+  ingredientSignals: string[];
+  state: NutritionIngredientCheckState;
+  summary: string;
 };
 
 export type IngredientMatch = {
@@ -234,6 +247,7 @@ export function createReportService(deps: ReportServiceDeps = {}): ReportService
         attention: normalizedAttention
       });
       const focusItems = buildFocusItems(matches, nutrition, attentionHits, frontClaimsText);
+      const nutritionIngredientChecks = buildNutritionIngredientChecks(ingredients, nutrition);
       const additiveItems = acceptedMatches.filter((match) => match.isAdditive);
       const unknownItems = matches
         .filter((match) => match.dataStatus === 'unknown_from_ocr' || match.decision === 'rejected')
@@ -261,6 +275,7 @@ export function createReportService(deps: ReportServiceDeps = {}): ReportService
           fields: nutrition,
           highlights: buildNutritionHighlights(nutrition, normalizedAttention)
         },
+        nutritionIngredientChecks,
         additiveGroups: groupAdditives(additiveItems),
         allergenHints: buildAllergenHints(matches),
         unknownItems,
@@ -633,6 +648,88 @@ function buildFocusItems(matches: IngredientMatch[], nutrition: NutritionField[]
   return [...new Set(items)].slice(0, 8);
 }
 
+function buildNutritionIngredientChecks(ingredients: ParsedIngredientInput[], nutrition: NutritionField[]): NutritionIngredientCheck[] {
+  const ingredientText = normalizeForTermMatch(ingredients.map((item) => item.normalizedText).join(' '));
+  const sugarMatchedSignals = findMatches(ingredientText, sugarNutritionSignals);
+  const sodiumMatchedSignals = findMatches(ingredientText, sodiumNutritionSignals);
+  const sugarField = nutrition.find((field) => field.key === 'sugar');
+  const sodiumField = nutrition.find((field) => field.key === 'sodium');
+  return [
+    buildNutritionIngredientCheck({
+      key: 'sugar',
+      title: '糖核验',
+      nutritionField: sugarField,
+      ingredientSignals: sugarMatchedSignals
+    }),
+    buildNutritionIngredientCheck({
+      key: 'sodium',
+      title: '钠核验',
+      nutritionField: sodiumField,
+      ingredientSignals: sodiumMatchedSignals
+    })
+  ];
+}
+
+function buildNutritionIngredientCheck(options: {
+  key: 'sugar' | 'sodium';
+  title: string;
+  nutritionField?: NutritionField;
+  ingredientSignals: string[];
+}): NutritionIngredientCheck {
+  const valueText = (options.nutritionField?.value || '').trim();
+  const hasNutrition = Boolean(valueText);
+  const hasSignal = options.ingredientSignals.length > 0;
+  const unit = options.nutritionField?.unit || '';
+  if (!hasNutrition && !hasSignal) {
+    return {
+      key: options.key,
+      title: options.title,
+      nutritionValue: '未抓取到',
+      nutritionUnit: '',
+      ingredientSignals: [],
+      state: 'insufficient_data',
+      summary: `未抓取到该项营养值与配料线索，信息不足。建议补拍营养成分表或配料表并结合包装原文核对。`
+    };
+  }
+  if (!hasNutrition || !hasSignal) {
+    return {
+      key: options.key,
+      title: options.title,
+      nutritionValue: hasNutrition ? valueText : '未抓取到',
+      nutritionUnit: hasNutrition ? unit : '',
+      ingredientSignals: options.ingredientSignals,
+      state: 'insufficient_data',
+      summary: hasNutrition
+        ? `${options.title}营养值有记录，但未识别到与其高价值对应的配料线索，建议继续核对原文。`
+        : `已命中${options.title}相关配料线索，但未抓取到该项营养值，请补充营养表信息。`
+    };
+  }
+
+  const numericValue = parseNutritionValue(valueText, unit, options.key);
+  const threshold = options.key === 'sugar' ? 10 : 300;
+  if (numericValue > threshold) {
+    return {
+      key: options.key,
+      title: options.title,
+      nutritionValue: valueText,
+      nutritionUnit: unit,
+      ingredientSignals: [...new Set(options.ingredientSignals)],
+      state: 'possible_issue',
+      summary: `${options.title}营养值 ${valueText}${unit} 与配料线索 ${options.ingredientSignals.join('、')} 同时出现，建议结合包装原文核对是否存在标识偏差。`
+    };
+  }
+
+  return {
+    key: options.key,
+    title: options.title,
+    nutritionValue: valueText,
+    nutritionUnit: unit,
+    ingredientSignals: [...new Set(options.ingredientSignals)],
+    state: 'no_obvious_issue',
+    summary: `${options.title}营养值 ${valueText}${unit} 与配料线索 ${options.ingredientSignals.join('、')} 暂未形成明显冲突。建议结合包装原文确认。`
+  };
+}
+
 function buildFrontClaimHighlights(text: string): string[] {
   if (!text) return [];
   const highlights: string[] = [];
@@ -758,6 +855,63 @@ function isOfficialStandardMatch(match: IngredientMatch) {
 
 function hasNutritionEvidence(field: NutritionField) {
   return Boolean(normalizeOptionalString(field.value) || normalizeOptionalString(field.sourceText));
+}
+
+function parseNutritionValue(value: string, unit: string, key: 'sugar' | 'sodium'): number {
+  const valueText = value.replace(/,/g, '').trim();
+  const matched = valueText.match(/(\d+(?:\.\d+)?)/);
+  const numeric = matched ? Number.parseFloat(matched[1]) : 0;
+  if (!Number.isFinite(numeric)) return 0;
+
+  const normalizedUnit = normalizeNutritionUnit(String(unit || '').toLowerCase());
+  if (key === 'sodium') {
+    if (normalizedUnit === 'g') {
+      return numeric * 1000;
+    }
+    if (normalizedUnit === 'ug') {
+      return numeric / 1000;
+    }
+    return numeric;
+  }
+
+  if (key === 'sugar') {
+    if (normalizedUnit === 'mg') {
+      return numeric / 1000;
+    }
+    if (normalizedUnit === 'ug') {
+      return numeric / 1000000;
+    }
+    return numeric;
+  }
+
+  if (normalizedUnit === 'kcal' || valueText.includes('kcal')) {
+    return numeric * 4.184;
+  }
+  return numeric;
+}
+
+function normalizeNutritionUnit(unit: string): string {
+  const compactUnit = String(unit || '')
+    .replace(/\s+/g, '')
+    .toLowerCase();
+  if (!compactUnit) return '';
+  if (compactUnit.includes('kcal') || compactUnit.includes('cal') || compactUnit.includes('千卡') || compactUnit.includes('大卡')) return 'kcal';
+  if (compactUnit.includes('kj')) return 'kj';
+  if (compactUnit.includes('ug') || compactUnit.includes('μg') || compactUnit.includes('微克')) return 'ug';
+  if (compactUnit.includes('mg') || compactUnit.includes('毫克')) return 'mg';
+  if (compactUnit.includes('g') || compactUnit.includes('克')) return 'g';
+  return compactUnit;
+}
+
+const sugarNutritionSignals = ['麦芽糖浆', '果葡糖浆', '浓缩果汁', '高果糖', '葡萄糖', '果糖浆', '果葡糖'];
+const sodiumNutritionSignals = ['谷氨酸钠', '味精', '盐替代', '低钠盐', '氯化钠', '碳酸氢钠', '亚硝酸钠'];
+
+function findMatches(text: string, terms: string[]): string[] {
+  return terms.filter((term) => text.includes(normalizeTerm(term)));
+}
+
+function normalizeTerm(value: string): string {
+  return normalizeOptionalString(value).toLowerCase();
 }
 
 function getSelectedDetailTermsForGoal(goalKeywords: string[], detailTerms: string[]): string[] {

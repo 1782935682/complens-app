@@ -183,7 +183,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 - **产品化**：会员管理、订阅计划、订单/支付记录、退款/取消记录、App/小程序版本配置、消息通知、AI/OCR 成本统计、角色权限、审计日志。
 - **上架/商业化**：Apple IAP、Google Play Billing、微信支付、国内安卓渠道、订阅权益、第三方 SDK 清单、隐私协议版本管理。
 
-- **Codex 下一步**：继续本轮 `CONSUMER-LABEL-D` 与 `nutrition/reports` 后端化收口，完成 `labels/scan` 会话闭环后逐步减少 `user-uniapp` 前端 local-only parser/report builder 依赖。
+- **Codex 下一步**：继续包装卖点核对与内容页推进；`CONSUMER-LABEL-F` 已收口。
 
 ## 8. 7 天执行计划
 
@@ -257,6 +257,10 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 | 2026-06-15 | Batch CONSUMER-LABEL-A 后端化：新增后端 `POST /api/labels/classify` 与扫描会话 `POST /api/labels/scan`；`labels.scan` 已支持 `labelScanSession`/`labelScanImage` 落库与去重；`user-uniapp` 标签 adapter 改为后端优先，本地规则降级 | Codex | `cd backend && npm run test -- labels.test.ts` / `cd backend && npm run typecheck` / `cd backend && npm run build` / `cd user-uniapp && npm run typecheck` / `cd user-uniapp && npm run lint` / `git diff --check` |
 | 2026-06-15 | Batch CONSUMER-LABEL-B 后端化：新增 `POST /api/nutrition/parse` 与 nutritionService，补充 `user-uniapp` 营养页后端优先 adapter + 本地 fallback，`API_CONTRACT.md`/`CODEX_TASKS.md`/`AI_REVIEW.md` 同步 | Codex | `cd backend && npm run test -- nutrition.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
 | 2026-06-15 | Batch CONSUMER-LABEL-D 后端化：新增 `POST /api/reports/label` 与 reportService，补充 `user-uniapp` 匹配确认页后端优先 report 适配 + 本地 fallback，`API_CONTRACT.md`/`CODEX_TASKS.md` 同步 | Codex | `cd backend && npm run test -- reports.test.ts` / `cd backend && npm run typecheck` / `cd user-uniapp && npm run typecheck` / `cd user-uniapp && npm run lint` / `git diff --check` |
+| 2026-06-16 | Batch CONSUMER-FS-B：报告页新增育儿守护开关与儿童关注成分分层提示（色素/防腐剂/甜味剂），仅前端显示层增强 | Codex | `cd user-uniapp && npm run lint` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
+| 2026-06-16 | Batch CONSUMER-FS-C：新增营养-配料双向核验（糖/钠高价值项）并在报告页展示提示级核对结果 | Codex | `cd user-uniapp && npm run lint` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
+| 2026-06-16 | Batch CONSUMER-FS-D：报告页配料项与添加剂项增加可追溯入口，支持跳转 `ingredientDetail`（有 ID 直接跳转，无 ID 提示） | Codex | `git diff --check`（未运行 lint/typecheck：建议后续按影响范围补跑） |
+| 2026-06-16 | Batch CONSUMER-LABEL-F：完成两款商品 Compare Mode 并排对比（含偏向提示），并补齐首页/报告入口与页面结构登记 | Codex | `cd user-uniapp && npm run lint` / `cd user-uniapp && npm run typecheck` / `git diff --check` |
 | 2026-06-15 | Batch ADMIN-F/G/H：补齐 OCR/AI Provider 监控、OCR 失败日志/指标、AI 调用日志/成本、降级策略、功能开关、平台/版本/分享/通知/SDK 配置、管理员/角色权限/操作日志/审计日志页面/API 计划；明确密钥不展示、AI Key 阻塞、配置变更审计、RBAC 后置和 `admin-web` 尚未创建 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-15 | Batch ADMIN-D：补齐内容运营后台页面/API 计划，明确公告、Banner、首页场景卡、FAQ、数据说明文案、隐私政策和用户协议版本管理的目标路由、计划接口、状态枚举、平台范围、发布审计和人工/法务确认边界；未创建后台工程，不新增后端接口 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |
 | 2026-06-15 | Batch ADMIN-C：补齐用户与反馈管理页面/API 计划，明确用户列表/详情、设备登录、扫描记录、标签解读报告、产品档案、用户反馈和禁用/恢复的目标路由、计划接口、现有 `/api/user/*` 边界、公开反馈提交与后台反馈处理分离、隐私脱敏和审计要求；未创建后台工程，不新增后端接口 | Codex | `git diff --check` 通过（未运行 build/test：纯文档修改） |

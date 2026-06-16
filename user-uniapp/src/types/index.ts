@@ -115,9 +115,22 @@ export interface AttentionHit {
   terms: string[];
 }
 
+export type NutritionIngredientCheckState = 'possible_issue' | 'no_obvious_issue' | 'insufficient_data';
+
+export interface NutritionIngredientCheck {
+  key: 'sugar' | 'sodium';
+  title: string;
+  nutritionValue: string;
+  nutritionUnit: string;
+  ingredientSignals: string[];
+  state: NutritionIngredientCheckState;
+  summary: string;
+}
+
 export interface ScanDraft {
   image?: LocalImageAsset;
   labelType: LabelType;
+  isFastScan?: boolean;
   scanSessionId?: string;
   classification?: LabelClassification;
   ocr?: OcrResult;
@@ -157,6 +170,7 @@ export interface LabelReport {
     text: string;
     highlights: string[];
   };
+  nutritionIngredientChecks?: NutritionIngredientCheck[];
   additiveGroups: Array<{ label: string; items: IngredientMatch[] }>;
   allergenHints: string[];
   unknownItems: string[];

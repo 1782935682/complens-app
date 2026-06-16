@@ -406,7 +406,7 @@
   - `labelType?`
   - `frontClaimsText?`
   - `ocr?`（`mode/provider`）
-- 响应字段：`id`、`title`、`productName`、`summarySentence`、`attentionHits`、`focusItems`、`ingredientSection`、`nutritionSection`、`frontClaimsSection?`、`additiveGroups`、`allergenHints`、`sources`、`rawText`。
+- 响应字段：`id`、`title`、`productName`、`summarySentence`、`attentionHits`、`focusItems`、`ingredientSection`、`nutritionSection`、`nutritionIngredientChecks`、`frontClaimsSection?`、`additiveGroups`、`allergenHints`、`sources`、`rawText`。
 - 错误码：`400 invalid_parameter`、`422 insufficient_label_data`。
 - 数据状态字段：报告保留每个结论的来源、`dataStatus`、OCR 来源和用户确认状态。
 - 前端展示规则：报告名称为“食品标签解读”；普通人可读内容优先，专业依据可折叠展示，禁止生成医疗/安全结论。

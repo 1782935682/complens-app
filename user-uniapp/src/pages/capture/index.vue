@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onShow } from '@dcloudio/uni-app';
+import { onLoad, onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import ErrorState from '@/components/ErrorState.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
 import StepIndicator from '@/components/StepIndicator.vue';
-import { routes, navigateToRoute } from '@/constants/routes';
+import { routes } from '@/constants/routes';
 import { chooseLabelImage } from '@/platform/camera';
 import { getScanDraft, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
 import type { LocalImageAsset } from '@/types';
@@ -14,8 +14,35 @@ import type { LocalImageAsset } from '@/types';
 const image = ref<LocalImageAsset | undefined>();
 const error = ref('');
 const steps = ['拍照', '识别', '确认', '报告'];
+const isFastMode = ref(false);
+type QueryMap = Record<string, unknown>;
+
+function isQuickScanMode(value: unknown): boolean {
+  const normalized = String(value || '').toLowerCase();
+  return normalized === 'fast' || normalized === '1' || normalized === 'true' || normalized === 'auto';
+}
+
+function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
+  const value = rawQuery?.[key];
+  if (Array.isArray(value)) return String(value[0] || '').trim();
+  return typeof value === 'string' ? value : '';
+}
+
+function syncFastScanMode(query?: QueryMap) {
+  const draft = getScanDraft();
+  const queryFastMode = isQuickScanMode(
+    getQueryValue(query, 'mode') || getQueryValue(query, 'auto') || getQueryValue(query, 'scanMode')
+  );
+  const persistedFastMode = Boolean(draft.isFastScan);
+  isFastMode.value = queryFastMode || persistedFastMode;
+}
+
+onLoad((query) => {
+  syncFastScanMode(query);
+});
 
 onShow(() => {
+  syncFastScanMode();
   const draftImage = getScanDraft().image;
   if (!draftImage) {
     image.value = undefined;
@@ -28,9 +55,10 @@ onShow(() => {
 async function choose(source: 'camera' | 'album') {
   error.value = '';
   try {
+    const persistedFastMode = Boolean(getScanDraft().isFastScan);
     image.value = await chooseLabelImage(source);
     resetScanDraft();
-    saveScanDraft({ image: image.value });
+    saveScanDraft({ image: image.value, isFastScan: persistedFastMode });
   } catch {
     error.value = source === 'camera' ? '相机暂不可用，请检查权限，或改用相册上传。' : '没有选择图片，请重新上传。';
   }
@@ -52,8 +80,11 @@ function continueToOcr() {
     error.value = '请先拍照或上传一张食品标签图片。';
     return;
   }
-  saveScanDraft({ image: image.value });
-  uni.navigateTo({ url: routes.ocr });
+  const nextFastMode = isFastMode.value;
+  saveScanDraft({ image: image.value, isFastScan: false });
+  isFastMode.value = false;
+  const nextRoute = nextFastMode ? `${routes.ocr}?mode=fast` : routes.ocr;
+  uni.navigateTo({ url: nextRoute });
 }
 </script>
 
