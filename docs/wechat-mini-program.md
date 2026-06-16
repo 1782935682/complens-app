@@ -16,13 +16,30 @@
 
 | 项目 | 用途 | 是否必须 |
 |---|---|---|
-| 微信小程序 AppID | 构建可导入并绑定真实项目 | 必须 |
+| 微信小程序 AppID | 构建可导入并绑定真实项目 | 已配置本机 `.env.local`：`wx4fbc4f0e40e4068d` |
 | 微信开发者工具登录账号 | 导入 `dist/build/mp-weixin`、预览和真机调试 | 必须 |
-| 后端 API 域名 | 小程序 `wx.request` 调用后端，例如 `https://api.example.com/api` | 必须 |
-| request 合法域名 | 在微信公众平台配置后端域名，正式真机和提交审核需要 | 必须 |
-| HTTPS 证书和域名备案状态 | 小程序正式环境通常要求 HTTPS 合法域名 | 必须 |
+| 后端 API 域名 | 小程序 `wx.request` 调用后端 | 已配置：`https://api.yxl123.xyz/api` |
+| request 合法域名 | 在微信公众平台配置后端域名，正式真机和提交审核需要 | 待在微信公众平台确认：`https://api.yxl123.xyz` |
+| HTTPS 证书和域名备案状态 | 小程序正式环境通常要求 HTTPS 合法域名 | HTTPS 已由 Caddy 接通；备案/微信后台校验待确认 |
 | 隐私政策最终文本 | 披露拍照/相册、OCR、后端处理和第三方 OCR 供应商 | 提审前必须 |
 | 生产 OCR Provider/Key | 真实 OCR 质量；无 Key 时仍走手动输入降级 | 可后置 |
+
+## 2.1 当前测试环境
+
+| 项目 | 当前值 |
+|---|---|
+| API 域名 | `https://api.yxl123.xyz` |
+| API base path | `https://api.yxl123.xyz/api` |
+| Caddy 反代 | `api.yxl123.xyz` → `127.0.0.1:3010` |
+| 后端服务 | `compcheck-api.service` |
+| 健康检查 | `curl https://api.yxl123.xyz/health` |
+| 数据接口检查 | `curl "https://api.yxl123.xyz/api/ingredients?limit=1"` |
+
+当前已验证：
+
+- `https://api.yxl123.xyz/health` 返回 `200`。
+- `https://api.yxl123.xyz/api/ingredients?limit=1` 能返回数据库数据。
+- `compcheck-api.service` 为 `active`。
 
 ## 3. 构建命令
 

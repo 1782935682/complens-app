@@ -35,12 +35,11 @@
 4. OCR 图片读取增加 `uni.compressImage` 压缩路径，H5 仍保留 Canvas 压缩；压缩后仍超限时进入手动输入降级。
 5. 报告页接入 `onShareAppMessage` 原生转发菜单，同时保留复制摘要降级。
 6. 补齐微信开发者工具导入、公众平台 request 合法域名、隐私/权限和真机验收清单。
+7. 已完成当前测试域名链路：`api.yxl123.xyz` 通过 Caddy 反代到本机 `compcheck-api.service`，后端监听 `127.0.0.1:3010`。
 
 ### 仍需人工提供
 
-- 真实微信小程序 AppID。
-- 可被小程序访问的 HTTPS 后端 API 域名。
-- 微信公众平台 request 合法域名配置。
+- 微信公众平台 request 合法域名配置：`https://api.yxl123.xyz`。
 - 微信开发者工具导入与真机拍照/相册/OCR/分享验收。
 - 提审前隐私政策最终文本和 OCR 供应商披露。
 
@@ -50,6 +49,9 @@
 - `cd user-uniapp && npm run typecheck`（通过）
 - `cd user-uniapp && npm run build:mp-weixin`（通过；首次沙箱内因 uni CLI 读取网络接口失败，提升权限后同命令通过）
 - `cd user-uniapp && npm run build:h5`（通过）
+- `curl https://api.yxl123.xyz/health`（通过，返回 200）
+- `curl "https://api.yxl123.xyz/api/ingredients?limit=1"`（通过，返回数据库数据）
+- `systemctl is-active compcheck-api.service`（通过，`active`）
 - `git diff --check`（通过）
 
 ## 2026-06-16 REPORT-TRACE: 报告页成分条目追溯入口
