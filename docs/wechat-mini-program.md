@@ -41,7 +41,34 @@
 - `https://api.yxl123.xyz/api/ingredients?limit=1` 能返回数据库数据。
 - `compcheck-api.service` 为 `active`。
 
-## 3. 构建命令
+## 3. 命令总表
+
+以下命令默认在仓库根目录 `/home/downloads/git/compcheck` 执行；进入子目录的命令会显式写出 `cd`。
+
+### 3.1 小程序本地配置
+
+本机配置文件：
+
+```bash
+cd user-uniapp
+cp .env.example .env.local
+```
+
+当前测试环境建议内容：
+
+```env
+WEIXIN_MP_APPID=wx4fbc4f0e40e4068d
+USER_API_BASE_URL=https://api.yxl123.xyz/api
+WEIXIN_MP_URL_CHECK=false
+```
+
+说明：
+
+- `.env.local` 已被 gitignore，不能提交真实账号、域名或密钥。
+- `USER_API_BASE_URL` 是公开后端 API base path，不得填写 OCR Key、AI Key 或数据库连接串。
+- 提交审核或正式真机验证时，把 `WEIXIN_MP_URL_CHECK` 改为 `true`，并先在微信公众平台配置 request 合法域名。
+
+### 3.2 小程序构建与开发者工具
 
 无 AppID 的本地构建：
 
@@ -60,14 +87,6 @@ WEIXIN_MP_URL_CHECK=true \
 npm run build:mp-weixin
 ```
 
-也可以把本机调试配置写入 `user-uniapp/.env.local`（已被 gitignore，不能提交真实账号或域名）：
-
-```env
-WEIXIN_MP_APPID=wx0000000000000000
-USER_API_BASE_URL=https://api.example.com/api
-WEIXIN_MP_URL_CHECK=false
-```
-
 本地开发者工具调试时可临时关闭合法域名校验：
 
 ```bash
@@ -83,6 +102,236 @@ npm run dev:mp-weixin
 - `WEIXIN_MP_APPID` 只临时写入构建过程和生成产物，不会提交到 `src/manifest.json`。
 - `USER_API_BASE_URL` 是公开后端 API base path，不得填写任何密钥。
 - H5 仍默认使用 `/api` 和 Vite proxy；小程序没有 H5 proxy，必须使用绝对 URL 或在设置页手工填写。
+
+小程序构建产物目录：
+
+```text
+user-uniapp/dist/build/mp-weixin
+```
+
+### 3.3 后端本地配置
+
+本机后端配置文件：
+
+```bash
+cd backend
+cp .env.example .env
+```
+
+当前测试环境关键值：
+
+```env
+DATABASE_URL=postgres://postgres:password@localhost:15432/compcheck
+POSTGRES_PORT=15432
+HOST=127.0.0.1
+PORT=3010
+CORS_ORIGIN=https://api.yxl123.xyz
+JWT_SECRET=<本机随机 32 字节以上密钥>
+OCR_PROVIDER=rapidocr
+OCR_SERVICE_URL=http://127.0.0.1:8000
+```
+
+说明：
+
+- 后端监听 `127.0.0.1:3010`，只给 Caddy 反代，不直接暴露端口。
+- `JWT_SECRET` 必须是本机私密值，不提交。
+- `OCR_SERVICE_URL` 当前仍是代码实际读取的变量；后续统一迁移到 `OCR_LOCAL_URL` 时再改。
+
+### 3.4 数据库启动、迁移和 seed
+
+启动本地 Postgres：
+
+```bash
+cd backend
+docker compose up -d postgres
+```
+
+查看 Postgres 容器：
+
+```bash
+cd backend
+docker compose ps
+```
+
+迁移数据库：
+
+```bash
+cd backend
+npm run db:migrate
+```
+
+导入 seed 和 GB2760 数据：
+
+```bash
+cd backend
+npm run db:seed
+```
+
+如宿主机连接 Postgres 出现密码认证失败，可在容器内重置为 `.env` 使用的本地密码：
+
+```bash
+docker exec backend-postgres-1 psql -U postgres -d compcheck -c "alter user postgres with password 'password';"
+```
+
+### 3.5 后端开发启动
+
+临时开发启动：
+
+```bash
+cd backend
+npm run dev
+```
+
+如果要用 Caddy 当前配置联调，需要确保 `backend/.env` 为：
+
+```env
+HOST=127.0.0.1
+PORT=3010
+```
+
+验证本机后端：
+
+```bash
+curl http://127.0.0.1:3010/health
+curl "http://127.0.0.1:3010/api/ingredients?limit=1"
+```
+
+### 3.6 后端生产式启动（systemd）
+
+构建后端：
+
+```bash
+cd backend
+npm run build
+```
+
+当前测试环境使用 systemd 服务：
+
+```bash
+sudo systemctl status compcheck-api.service --no-pager
+sudo systemctl restart compcheck-api.service
+sudo systemctl is-active compcheck-api.service
+sudo journalctl -u compcheck-api.service -n 100 --no-pager
+```
+
+当前服务文件位置：
+
+```text
+/etc/systemd/system/compcheck-api.service
+```
+
+当前服务关键配置：
+
+```ini
+WorkingDirectory=/home/downloads/git/compcheck/backend
+ExecStart=/root/.nvm/versions/node/v22.22.0/bin/node /home/downloads/git/compcheck/backend/dist/index.js
+Restart=always
+```
+
+如需首次创建或重建服务：
+
+```bash
+sudo tee /etc/systemd/system/compcheck-api.service >/dev/null <<'EOF'
+[Unit]
+Description=CompCheck API
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/downloads/git/compcheck/backend
+Environment=NODE_ENV=production
+ExecStart=/root/.nvm/versions/node/v22.22.0/bin/node /home/downloads/git/compcheck/backend/dist/index.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now compcheck-api.service
+```
+
+### 3.7 Caddy 反代和 HTTPS
+
+当前 Caddy 配置文件：
+
+```text
+/etc/caddy/Caddyfile
+```
+
+当前需要存在的站点块：
+
+```caddyfile
+api.yxl123.xyz {
+    encode gzip
+
+    reverse_proxy /api/* 127.0.0.1:3010
+    reverse_proxy /health 127.0.0.1:3010
+}
+```
+
+格式化和校验 Caddy：
+
+```bash
+sudo caddy fmt --overwrite /etc/caddy/Caddyfile
+sudo caddy validate --config /etc/caddy/Caddyfile
+```
+
+重载 Caddy：
+
+```bash
+sudo caddy reload --config /etc/caddy/Caddyfile
+```
+
+查看 Caddy 状态：
+
+```bash
+sudo systemctl status caddy --no-pager
+```
+
+### 3.8 公网 API 验证
+
+健康检查：
+
+```bash
+curl https://api.yxl123.xyz/health
+```
+
+数据库接口检查：
+
+```bash
+curl "https://api.yxl123.xyz/api/ingredients?limit=1"
+```
+
+小程序 API base path 检查：
+
+```bash
+cd user-uniapp
+npm run build:mp-weixin
+```
+
+构建日志不应出现：
+
+```text
+USER_API_BASE_URL is not set
+WEIXIN_MP_APPID is not set
+```
+
+### 3.9 本轮验证命令
+
+```bash
+cd user-uniapp
+npm run lint
+npm run typecheck
+npm run build:mp-weixin
+npm run build:h5
+```
+
+```bash
+git diff --check
+```
 
 ## 4. 微信开发者工具导入
 
@@ -128,8 +377,6 @@ npm run dev:mp-weixin
 
 ## 7. 当前仍需人工完成
 
-- 提供真实 `WEIXIN_MP_APPID`。
-- 提供可被小程序访问的 HTTPS 后端 API 域名。
 - 在微信公众平台配置 request 合法域名。
 - 用微信开发者工具完成真机预览验收。
 - 提审前确认隐私政策最终文本、OCR 供应商披露和服务条款。
