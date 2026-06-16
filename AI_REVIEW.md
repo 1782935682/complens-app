@@ -1,34 +1,33 @@
 # AI Review — 2026-06-16
 
-## MP-WEIXIN-A 构建脚本修复
+## MP-WEIXIN-A 真机 WXSS 编译修复
 
 ### 本轮目标
 
-修复 Windows 执行 `npm run build:mp-weixin` 时出现 `系统找不到指定的路径。`，并消除旧启动方式触发的 Node `DEP0190` 风险提示。
+修复微信开发者工具真机调试时 `app.wxss(1:1143): unexpected token \`*\`` 的 WXSS 编译错误。
 
 ### 已检查并修改的文件
 
-- `user-uniapp/scripts/mp-weixin.mjs`
-- `docs/wechat-mini-program.md`
-- `COMMANDS.md`
+- `user-uniapp/src/styles/tokens.css`
 - `PROJECT_PLAN.md`
 - `AI_REVIEW.md`
 
 ### 已完成修改
 
-1. 小程序构建脚本不再直接调用 `node_modules/.bin/uni` 或 Windows `uni.cmd` shim。
-2. 脚本改为使用当前 Node 可执行文件 `process.execPath` 直接启动 `@dcloudio/vite-plugin-uni/bin/uni.js`，避免 Windows shell 路径转换和 `.cmd` shim 问题。
-3. 当 uni CLI 入口缺失时，脚本输出明确的 `npm install` 修复提示，而不是只返回低信息量路径错误。
-4. 补充 Windows / Git Bash 小程序构建排查说明，覆盖 `系统找不到指定的路径。` 和 `DEP0190` 场景。
+1. 定位生成产物 `user-uniapp/dist/build/mp-weixin/app.wxss` 中的错误位置，对应源文件 `tokens.css` 的全局 `*` reset。
+2. 将全局通配选择器替换为小程序可接受的显式元素选择器：`page`、`view`、`scroll-view`、`text`、`button`、`input`、`textarea`、`image`。
+3. 移除 Web-only 的 `::-webkit-scrollbar` 相关选择器，避免真机 WXSS 编译器继续在全局样式里遇到不兼容选择器。
+4. 保留字体、盒模型和点击高亮 reset，不改变页面业务逻辑、API、数据口径或小程序 AppID 注入逻辑。
 
 ### 影响范围与风险
 
-- 仅改变小程序构建脚本的 CLI 启动方式，不改变 `manifest.json` 注入逻辑、AppID 处理、API base path、页面代码或数据口径。
+- 影响范围仅为 `user-uniapp` 全局样式 reset。
 - `DATA_SOURCES.md` 无需更新：本轮不涉及食品数据、GB2760、OCR 结果或权威来源。
 - 微信开发者工具导入、真实 AppID、request 合法域名、隐私政策和真机验收仍是人工项。
 
 ### 验证
 
-- `cd user-uniapp && npm run lint`（通过）
 - `cd user-uniapp && npm run build:mp-weixin`（通过）
+- 检查生成的 `dist/build/mp-weixin/app.wxss`，不再包含 `*{` 或 `::-webkit-scrollbar`（通过）
+- `cd user-uniapp && npm run lint`（通过）
 - `git diff --check`（通过）
