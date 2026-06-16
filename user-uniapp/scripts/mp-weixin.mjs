@@ -44,29 +44,33 @@ try {
     console.warn('[mp-weixin] USER_API_BASE_URL is not set. Non-H5 API calls will fall back to manual paths until a backend base URL is configured.');
   }
 
-  const isWindows = process.platform === 'win32';
-  const uniBin = join(rootDir, 'node_modules', '.bin', isWindows ? 'uni.cmd' : 'uni');
+  const uniCliPath = join(rootDir, 'node_modules', '@dcloudio', 'vite-plugin-uni', 'bin', 'uni.js');
   const args = isDev ? ['-p', 'mp-weixin'] : ['build', '-p', 'mp-weixin'];
-  const result = spawnSync(uniBin, args, {
-    cwd: rootDir,
-    stdio: 'inherit',
-    env: process.env,
-    shell: isWindows
-  });
 
-  if (result.error) {
-    console.error(`[mp-weixin] Failed to run uni CLI: ${result.error.message}`);
+  if (!existsSync(uniCliPath)) {
+    console.error('[mp-weixin] uni CLI is missing. Run `npm install` in user-uniapp before building.');
     process.exitCode = 1;
-  } else if (result.signal) {
-    console.error(`[mp-weixin] uni CLI exited by signal: ${result.signal}`);
-    process.exitCode = 1;
-  } else if (typeof result.status !== 'number') {
-    console.error('[mp-weixin] uni CLI exited without a status code.');
-    process.exitCode = 1;
-  } else if (result.status !== 0) {
-    process.exitCode = result.status || 1;
   } else {
-    patchGeneratedProjectConfig();
+    const result = spawnSync(process.execPath, [uniCliPath, ...args], {
+      cwd: rootDir,
+      stdio: 'inherit',
+      env: process.env
+    });
+
+    if (result.error) {
+      console.error(`[mp-weixin] Failed to start uni CLI: ${result.error.message}`);
+      process.exitCode = 1;
+    } else if (result.signal) {
+      console.error(`[mp-weixin] uni CLI stopped with signal ${result.signal}.`);
+      process.exitCode = 1;
+    } else if (typeof result.status !== 'number') {
+      console.error('[mp-weixin] uni CLI exited without a status code.');
+      process.exitCode = 1;
+    } else if (result.status !== 0) {
+      process.exitCode = result.status || 1;
+    } else {
+      patchGeneratedProjectConfig();
+    }
   }
 } finally {
   writeFileSync(manifestPath, originalManifest);

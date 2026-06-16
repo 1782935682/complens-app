@@ -100,6 +100,14 @@ cd user-uniapp
 npm run build:mp-weixin
 ```
 
+如果 Windows 输出 `系统找不到指定的路径。` 或 Node `DEP0190`，通常是旧脚本通过 `.cmd` shim / shell 启动 uni CLI。更新到包含本修复的分支后，脚本会直接使用当前 Node 执行 `@dcloudio/vite-plugin-uni/bin/uni.js`；如仍失败，先重新安装依赖：
+
+```bash
+cd user-uniapp
+npm install
+npm run build:mp-weixin
+```
+
 如果在仓库根目录误跑 `npm run build:mp-weixin` 并提示缺少脚本，改用：
 
 ```bash
