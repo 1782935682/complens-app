@@ -253,6 +253,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-16 | Batch MP-WEIXIN-A 真机 WXSS 编译修复：移除 `user-uniapp` 全局样式中的 `*` 通配 reset 和 Web-only scrollbar 伪元素，改用小程序可接受的显式元素选择器，解决 `app.wxss unexpected token *` | Codex | `cd user-uniapp && npm run build:mp-weixin` / `npm run lint` / `git diff --check` |
 | 2026-06-16 | Batch MP-WEIXIN-A 构建脚本修复：`user-uniapp/scripts/mp-weixin.mjs` 改为直接通过当前 Node 执行 uni JS 入口，避开 Windows `.cmd` shim / shell 路径问题；补充 Windows `系统找不到指定的路径` / `DEP0190` 排查文档 | Codex | `cd user-uniapp && npm run lint` / `npm run build:mp-weixin` / `git diff --check` |
 | 2026-06-16 | 合并根目录 `README.md` / `readme.md`：保留完整产品与协作入口为标准 `README.md`，删除小写入口，并同步修正 Agent 规则、文档索引和产品蓝图引用；仅文档整理，不改业务代码 | Codex | `git diff --check` |
 | 2026-06-15 | Batch PLATFORM-C：补齐本地存储适配接口（`storageService` 平台后备、`imageStoreService` 清理能力、`clearLocalUserData` 联动清理、`ingredientApiService`/`main.js` 改用适配层） | Codex | `npm run lint` / `npm run test` / `git diff --check` |
