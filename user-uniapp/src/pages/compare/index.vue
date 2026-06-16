@@ -20,6 +20,18 @@ interface CompareMetric {
   note: string;
 }
 
+interface NutritionCompareValue {
+  value: number | null;
+  text: string;
+  basisKey: string;
+  basisLabel: string;
+}
+
+interface NutritionCheckSummary {
+  count: number | null;
+  text: string;
+}
+
 const reports = ref<LabelReport[]>([]);
 const leftId = ref('');
 const rightId = ref('');
@@ -80,6 +92,41 @@ function resolveNutritionDisplayUnit(unitFromField: string, value: string): stri
   return normalizedUnit || '';
 }
 
+function getReportNutritionBasis(nutritionFields: Array<{ key: string; value: string }>): {
+  key: string;
+  label: string;
+} {
+  const perUnitField = nutritionFields.find((field) => field.key === 'perUnit')?.value.trim() || '';
+  if (perUnitField) {
+    return {
+      key: `perunit-${normalizeNutritionBasis(perUnitField)}`,
+      label: perUnitField
+    };
+  }
+
+  const servingSize = nutritionFields.find((field) => field.key === 'servingSize')?.value.trim() || '';
+  if (servingSize) {
+    return {
+      key: `serving-${normalizeNutritionBasis(servingSize)}`,
+      label: servingSize
+    };
+  }
+
+  return {
+    key: '',
+    label: '未提供'
+  };
+}
+
+function normalizeNutritionBasis(value: string): string {
+  const raw = String(value || '').replace(/\s+/g, '').toLowerCase();
+  if (!raw) return 'unknown';
+  if (raw.includes('每100g') || raw.includes('每100克')) return '100g';
+  if (raw.includes('每100ml') || raw.includes('每100毫升') || raw.includes('每100毫')) return '100ml';
+  if (raw.includes('每份') || raw.includes('per-serve') || raw.includes('每颗') || raw.includes('每包')) return 'serving';
+  return `raw-${raw}`;
+}
+
 function parseUnitFromValue(value: string): string {
   const normalizedValue = String(value || '').trim().toLowerCase();
   const match = normalizedValue.match(/(kcal|kj|mg|ug|μg|g|克|毫克|微克|千卡|大卡|cal)/);
@@ -118,13 +165,35 @@ function pickReportById(id: string): LabelReport | undefined {
   return reports.value.find((report) => report.id === id);
 }
 
-function parseNutrition(report: LabelReport | undefined, key: 'sugar' | 'sodium' | 'energy') {
-  if (!report) return { value: null, text: '未提供' };
+function summarizePossibleNutritionChecks(report: LabelReport | undefined): NutritionCheckSummary {
+  if (!report?.nutritionIngredientChecks) {
+    return {
+      count: null,
+      text: '未计算'
+    };
+  }
+  const count = report.nutritionIngredientChecks.filter((item) => item.state === 'possible_issue').length;
+  return {
+    count,
+    text: `${count} 项`
+  };
+}
+
+function parseNutrition(report: LabelReport | undefined, key: 'sugar' | 'sodium' | 'energy'): NutritionCompareValue {
+  if (!report) {
+    return {
+      value: null,
+      text: '未提供',
+      basisKey: '',
+      basisLabel: '未提供'
+    };
+  }
   const field = report.nutritionSection.fields.find((item) => item.key === key);
-  if (!field) return { value: null, text: '未提供' };
+  const basis = getReportNutritionBasis(report.nutritionSection.fields);
+  if (!field) return { value: null, text: '未提供', basisKey: basis.key, basisLabel: basis.label };
   const hasValue = !!field.value.trim();
   if (!hasValue) {
-    return { value: null, text: '未提供' };
+    return { value: null, text: '未提供', basisKey: basis.key, basisLabel: basis.label };
   }
   const parsed = parseNutritionForComparison(field, key);
   const unit = resolveNutritionDisplayUnit(field.unit, field.value);
@@ -133,8 +202,46 @@ function parseNutrition(report: LabelReport | undefined, key: 'sugar' | 'sodium'
   const valueText = `${field.value}${suffix}`.trim();
   return {
     value: parsed,
-    text: nrv ? `${valueText}（NRV ${nrv}）` : valueText
+    text: nrv ? `${valueText}（NRV ${nrv}）` : valueText,
+    basisKey: basis.key,
+    basisLabel: basis.label
   };
+}
+
+function buildNutritionMetric(
+  label: string,
+  leftText: string,
+  rightText: string,
+  leftMetric: NutritionCompareValue,
+  rightMetric: NutritionCompareValue,
+  lowerIsBetter: boolean,
+  baseNote: string
+): CompareMetric {
+  let leftValue = leftMetric.value;
+  let rightValue = rightMetric.value;
+  const bothHaveBasis = Boolean(leftMetric.basisKey && rightMetric.basisKey);
+  if (bothHaveBasis && leftMetric.basisKey !== rightMetric.basisKey) {
+    leftValue = null;
+    rightValue = null;
+    return buildMetric(
+      label,
+      leftText,
+      rightText,
+      leftValue,
+      rightValue,
+      lowerIsBetter,
+      `两侧营养口径不一致（${leftMetric.basisLabel || '左侧未提供'} / ${rightMetric.basisLabel || '右侧未提供'}），建议先统一口径后比较。`
+    );
+  }
+
+  return buildMetric(label, leftText, rightText, leftValue, rightValue, lowerIsBetter, baseNote);
+}
+
+function getNutritionCheckTitles(report: LabelReport | undefined): string[] {
+  if (!report?.nutritionIngredientChecks) {
+    return ['未计算'];
+  }
+  return report.nutritionIngredientChecks.map((item) => item.title);
 }
 
 function buildMetric(
@@ -252,8 +359,8 @@ const compareRows = computed<CompareMetric[]>(() => {
   const leftEnergy = parseNutrition(left, 'energy');
   const rightEnergy = parseNutrition(right, 'energy');
 
-  const leftPossibleChecks = left.nutritionIngredientChecks?.filter((item) => item.state === 'possible_issue').length ?? 0;
-  const rightPossibleChecks = right.nutritionIngredientChecks?.filter((item) => item.state === 'possible_issue').length ?? 0;
+  const leftPossibleChecks = summarizePossibleNutritionChecks(left);
+  const rightPossibleChecks = summarizePossibleNutritionChecks(right);
 
   return [
     buildMetric(
@@ -294,37 +401,39 @@ const compareRows = computed<CompareMetric[]>(() => {
     ),
     buildMetric(
       '营养核对：待复核信号（糖/钠）',
-      `${leftPossibleChecks} 项`,
-      `${rightPossibleChecks} 项`,
-      leftPossibleChecks,
-      rightPossibleChecks,
+      leftPossibleChecks.text,
+      rightPossibleChecks.text,
+      leftPossibleChecks.count,
+      rightPossibleChecks.count,
       true,
-      '该值越少，通常意味着标称与配料线索不易出现信息缺口。'
+      leftPossibleChecks.count === null || rightPossibleChecks.count === null
+        ? '未生成该项时仅能依赖包装原文核验，不参与“偏向”比较。'
+        : '该值越少，通常意味着标称与配料线索不易出现信息缺口。'
     ),
-    buildMetric(
+    buildNutritionMetric(
       '糖（标称）',
       leftSugar.text,
       rightSugar.text,
-      leftSugar.value,
-      rightSugar.value,
+      leftSugar,
+      rightSugar,
       true,
       '仅做标签对比提示，较低值可作为“低糖关注”侧重参考。'
     ),
-    buildMetric(
+    buildNutritionMetric(
       '钠（标称）',
       leftSodium.text,
       rightSodium.text,
-      leftSodium.value,
-      rightSodium.value,
+      leftSodium,
+      rightSodium,
       true,
       '仅做标签对比提示，较低值可作为“低钠关注”侧重参考。'
     ),
-    buildMetric(
+    buildNutritionMetric(
       '热量（标称）',
       leftEnergy.text,
       rightEnergy.text,
-      leftEnergy.value,
-      rightEnergy.value,
+      leftEnergy,
+      rightEnergy,
       true,
       '仅用于主观标签对比，建议结合人群需求自行权衡。'
     )
@@ -408,11 +517,11 @@ const preferenceNotes = computed(() => {
                 <text>添加剂：{{ leftReport.ingredientSection.additiveCount }}</text>
                 <text>关注项：{{ leftReport.attentionHits.length }}</text>
                 <text>暂未识别：{{ leftReport.unknownItems.length }}</text>
-                <text>可疑营养核对：{{ leftReport.nutritionIngredientChecks?.filter((item) => item.state === 'possible_issue').length || 0 }}</text>
+                <text>可疑营养核对：{{ summarizePossibleNutritionChecks(leftReport).text }}</text>
               </view>
               <text class="section-title compare-panel__subtitle">关注点预览</text>
               <text class="muted">{{ toTopItems('关注项', leftReport.attentionHits.map((hit) => hit.label)) }}</text>
-              <text class="muted">{{ toTopItems('营养核对线索', leftReport.nutritionIngredientChecks?.map((item) => item.title) || []) }}</text>
+              <text class="muted">{{ toTopItems('营养核对线索', getNutritionCheckTitles(leftReport)) }}</text>
             </view>
           </AppCard>
 
@@ -426,11 +535,11 @@ const preferenceNotes = computed(() => {
                 <text>添加剂：{{ rightReport.ingredientSection.additiveCount }}</text>
                 <text>关注项：{{ rightReport.attentionHits.length }}</text>
                 <text>暂未识别：{{ rightReport.unknownItems.length }}</text>
-                <text>可疑营养核对：{{ rightReport.nutritionIngredientChecks?.filter((item) => item.state === 'possible_issue').length || 0 }}</text>
+                <text>可疑营养核对：{{ summarizePossibleNutritionChecks(rightReport).text }}</text>
               </view>
               <text class="section-title compare-panel__subtitle">关注点预览</text>
               <text class="muted">{{ toTopItems('关注项', rightReport.attentionHits.map((hit) => hit.label)) }}</text>
-              <text class="muted">{{ toTopItems('营养核对线索', rightReport.nutritionIngredientChecks?.map((item) => item.title) || []) }}</text>
+              <text class="muted">{{ toTopItems('营养核对线索', getNutritionCheckTitles(rightReport)) }}</text>
             </view>
           </AppCard>
         </view>
