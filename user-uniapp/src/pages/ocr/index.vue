@@ -57,7 +57,7 @@ async function runOcr() {
         classification,
         labelType: autoLabelType
       });
-      void syncScanSession(next, 'auto', autoLabelType);
+      await syncScanSession(next, 'auto', autoLabelType);
       if (!next.text) {
         error.value = '当前未识别到有效文字，请补充手动输入或重拍。';
       } else if (next.mode === 'fallback') {
@@ -67,14 +67,14 @@ async function runOcr() {
       return;
     }
 
-    void syncScanSession(next);
+    await syncScanSession(next);
     saveScanDraft({ ocr: next, confirmedText: next.text || draft.confirmedText || '' });
     if (next.mode === 'fallback') error.value = next.errorMessage || '识别失败，可重试或手动输入。';
   } catch {
     const next = buildManualOcrResult();
     result.value = next;
     autoClassification.value = undefined;
-    void syncScanSession(next, 'manual');
+    await syncScanSession(next, 'manual');
     saveScanDraft({ ocr: next, confirmedText: draft.confirmedText || '' });
     error.value = '图片暂不能读取或识别失败，可手动输入。';
     if (isFastMode.value) {
@@ -86,10 +86,10 @@ async function runOcr() {
   }
 }
 
-function manualInput() {
+async function manualInput() {
   const manual = buildManualOcrResult();
   result.value = manual;
-  void syncScanSession(manual, 'manual');
+  await syncScanSession(manual, 'manual');
   saveScanDraft({ ocr: manual, confirmedText: '' });
   continueToQuickConfirm();
 }
@@ -102,22 +102,28 @@ async function syncScanSession(
   const draft = getScanDraft();
   if (!draft.image) return;
 
-  const response = await upsertLabelScanSessionWithAdapter({
-    sessionId: draft.scanSessionId,
-    images: [{
-      assetId: draft.image.id,
-      labelType: labelType || draft.labelType || 'unknown_label',
-      mimeType: draft.image.mimeType,
-      status: mapScanStatus(ocrResult, fallbackMode)
-    }]
-  });
+  try {
+    const response = await upsertLabelScanSessionWithAdapter({
+      sessionId: draft.scanSessionId,
+      images: [{
+        assetId: draft.image.id,
+        labelType: labelType || draft.labelType || 'unknown_label',
+        mimeType: draft.image.mimeType,
+        status: mapScanStatus(ocrResult, fallbackMode)
+      }]
+    });
 
-  if (response?.sessionId) {
-    saveScanDraft({ scanSessionId: response.sessionId });
+    if (response?.sessionId) {
+      saveScanDraft({ scanSessionId: response.sessionId });
+    }
+  } catch {
+    error.value = error.value || '识别会话同步暂时失败，已继续后续流程。';
   }
 }
 
 function continueToQuickConfirm() {
+  error.value = '';
+  loading.value = false;
   const target = isFastMode.value ? `${routes.confirmText}?mode=fast` : routes.confirmText;
   uni.navigateTo({ url: target });
 }

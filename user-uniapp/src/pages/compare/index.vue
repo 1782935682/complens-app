@@ -10,6 +10,7 @@ import type { LabelReport } from '@/types';
 
 type QueryMap = Record<string, unknown>;
 type MetricWinner = 'left' | 'right' | 'tie';
+type CompareNutritionKey = 'sugar' | 'sodium' | 'energy';
 
 interface CompareMetric {
   label: string;
@@ -55,9 +56,51 @@ function pickReportId(targetId: string, fallbackExcludeId?: string): string {
   return '';
 }
 
-function normalizeNumeric(value: string): number | null {
-  const matched = String(value).match(/-?\d+(?:\.\d+)?/);
+function normalizeNumeric(rawValue: string): number | null {
+  const text = String(rawValue).replace(/,/g, '');
+  const matched = text.match(/-?\d+(?:\.\d+)?/);
   return matched ? Number.parseFloat(matched[0]) : null;
+}
+
+function resolveNutritionDisplayUnit(unitFromField: string, value: string): string {
+  const normalizedUnit = normalizeNutritionUnit(unitFromField || parseUnitFromValue(value));
+  return normalizedUnit || '';
+}
+
+function parseUnitFromValue(value: string): string {
+  const normalizedValue = String(value || '').trim().toLowerCase();
+  const match = normalizedValue.match(/(kcal|kj|mg|g)\b/);
+  return match ? match[1] : '';
+}
+
+function normalizeNutritionUnit(unit: string): string {
+  return String(unit || '').trim().toLowerCase();
+}
+
+function parseNutritionForComparison(
+  field: { value: string; unit: string },
+  key: CompareNutritionKey
+): number | null {
+  const numeric = normalizeNumeric(field.value);
+  if (numeric === null) return null;
+  const unit = normalizeNutritionUnit(resolveNutritionDisplayUnit(field.unit, field.value));
+
+  if (key === 'energy') {
+    if (unit === 'kcal' || unit === 'cal') return numeric * 4.184;
+    return numeric;
+  }
+
+  if (key === 'sodium') {
+    if (unit === 'g') return numeric * 1000;
+    return numeric;
+  }
+
+  if (key === 'sugar') {
+    if (unit === 'mg') return numeric / 1000;
+    return numeric;
+  }
+
+  return numeric;
 }
 
 function pickReportById(id: string): LabelReport | undefined {
@@ -68,11 +111,15 @@ function parseNutrition(report: LabelReport | undefined, key: 'sugar' | 'sodium'
   if (!report) return { value: null, text: '未提供' };
   const field = report.nutritionSection.fields.find((item) => item.key === key);
   if (!field) return { value: null, text: '未提供' };
-  const parsed = normalizeNumeric(field.value);
-  const unit = field.unit ? field.unit : '';
+  const parsed = parseNutritionForComparison(field, key);
+  const hasValue = !!field.value.trim();
+  if (!hasValue) {
+    return { value: null, text: '未提供' };
+  }
+  const unit = resolveNutritionDisplayUnit(field.unit, field.value);
   const suffix = unit && !field.value.includes(unit) ? unit : '';
   const nrv = field.nrvPercent?.trim();
-  const valueText = `${field.value}${suffix}`.trim() || '未提供';
+  const valueText = `${field.value}${suffix}`.trim();
   return {
     value: parsed,
     text: nrv ? `${valueText}（NRV ${nrv}）` : valueText

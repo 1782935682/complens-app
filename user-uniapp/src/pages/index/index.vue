@@ -33,7 +33,7 @@ function startManualTextEntry() {
 
 function startFastScan() {
   resetScanDraft();
-  uni.navigateTo({ url: `${routes.capture}?mode=fast` });
+  uni.switchTab({ url: `${routes.capture}?mode=fast` });
 }
 
 function openCompareMode() {
