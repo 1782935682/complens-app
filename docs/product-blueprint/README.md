@@ -1,7 +1,7 @@
 # 产品蓝图规范集（product-blueprint）
 
 > CompLens / 成分镜（CompCheck）的产品、消费者体验、统一架构、UI、前端、跨端、数据可信、后台、隐私合规、测试验收完整规范。
-> 本目录是规范集合，不重复粘贴根目录入口文档内容；根目录 [`../../readme.md`](../../readme.md)、[`../../AGENTS.md`](../../AGENTS.md)、[`../../CODEX_TASKS.md`](../../CODEX_TASKS.md) 只引用本目录，不重复正文。
+> 本目录是规范集合，不重复粘贴根目录入口文档内容；根目录 [`../../README.md`](../../README.md)、[`../../AGENTS.md`](../../AGENTS.md)、[`../../CODEX_TASKS.md`](../../CODEX_TASKS.md) 只引用本目录，不重复正文。
 
 产品定位：**面向普通消费者的食品标签拍照解读与消费决策助手**。核心价值：
 

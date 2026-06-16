@@ -4,7 +4,7 @@
 >
 > 关联文档：
 > - [`README.md`](./README.md)：蓝图集索引。
-> - 根目录 `readme.md`：项目入口说明。
+> - 根目录 `README.md`：项目入口说明。
 > - 根目录 `DATA_SOURCES.md`：数据治理与来源原则的**权威依据**。本文件与 `DATA_SOURCES.md` 冲突时以后者为准。
 > - `docs/product-blueprint/DATA_TRUST_SPEC.md`：展示层数据可信规范（dataStatus / 来源类型 / 展示规则）。本文件可信字段约定与之对齐。
 > - `docs/product-blueprint/FRONTEND_SPEC.md`：前端规格。

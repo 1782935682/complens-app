@@ -4,7 +4,7 @@
 
 ## 阅读顺序
 
-1. 项目入口：[`../README.md`](../README.md)（薄入口）/ [`../readme.md`](../readme.md)（完整入口）
+1. 项目入口：[`../README.md`](../README.md)
 2. 当前任务与阶段：[`../CODEX_TASKS.md`](../CODEX_TASKS.md)
 3. 项目计划和进度：[`../PROJECT_PLAN.md`](../PROJECT_PLAN.md)
 4. 常用命令：[`../COMMANDS.md`](../COMMANDS.md)
@@ -14,7 +14,7 @@
 
 | 分类 | 文档 | 用途 |
 |---|---|---|
-| 项目入口 | [`../README.md`](../README.md)、[`../readme.md`](../readme.md) | 产品主路径、快速开始、历史协作说明 |
+| 项目入口 | [`../README.md`](../README.md) | 产品主路径、快速开始、历史协作说明 |
 | Agent 规则 | [`../AGENTS.md`](../AGENTS.md) | Codex / Claude 工作规范和强约束 |
 | 任务计划 | [`../CODEX_TASKS.md`](../CODEX_TASKS.md)、[`../PROJECT_PLAN.md`](../PROJECT_PLAN.md) | 阶段、批次、阻塞项、进度 |
 | 产品蓝图 | [`product-blueprint/README.md`](product-blueprint/README.md) | 产品 / 消费者决策 / UI / 视觉 / 前端 / 跨端 / API / 数据可信 / 后台 / 隐私 / 测试验收完整规范集 |

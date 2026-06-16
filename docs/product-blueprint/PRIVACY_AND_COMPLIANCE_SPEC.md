@@ -2,7 +2,7 @@
 
 > 本文件属 `docs/product-blueprint/` 产品蓝图集，作为 CompLens/成分镜 隐私、权限与合规的权威说明。
 > 关联文档：
-> - 项目总览：[`README.md`](../../readme.md)
+> - 项目总览：[`README.md`](../../README.md)
 > - 跨平台规范：[`CROSS_PLATFORM_SPEC.md`](./CROSS_PLATFORM_SPEC.md)
 > - 数据信任规范：[`DATA_TRUST_SPEC.md`](./DATA_TRUST_SPEC.md)
 > - 外部集成清单：[`INTEGRATIONS.md`](../../INTEGRATIONS.md)
