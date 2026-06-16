@@ -24,6 +24,7 @@
 微信小程序构建可额外设置 `WEIXIN_MP_APPID` 临时注入真实 AppID，设置 `WEIXIN_MP_URL_CHECK=true|false` 控制生成产物的开发者工具合法域名校验配置。详细导入、公众平台域名和真机验收见 [`docs/wechat-mini-program.md`](./docs/wechat-mini-program.md)。
 也可以把本机调试配置写入 `user-uniapp/.env.local`；该文件已被 gitignore，仅用于本地微信开发者工具调试，不能提交真实账号、域名或密钥。
 微信小程序专项命令（小程序构建、后端 3010 启动、Postgres、Caddy、systemd、公网 API 验证）集中维护在 [`docs/wechat-mini-program.md`](./docs/wechat-mini-program.md)。
+Windows Git Bash 运行小程序时，优先看 `docs/wechat-mini-program.md` 的“Windows / Git Bash 快速运行”小节；仓库根目录使用 `npm run user:build:mp-weixin`，`user-uniapp/` 子目录内使用 `npm run build:mp-weixin`。
 
 OCR Provider 抽象已支持 `manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。`OCR_PROVIDER=mock` 会返回明确标注为 `provider: "mock"` 的固定测试结果；`OCR_PROVIDER=rapidocr` 会调用本机 `/home/downloads/tools/complens-ocr` FastAPI 服务，不需要 `OCR_API_KEY`，当前代码配置名为 `OCR_SERVICE_URL`。统一架构目标把本机 OCR 固定为后端内网调用（目标 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr`），变量改名和端口统一属于后续配置迁移，未完成前不要让 `OCR_SERVICE_URL` 和 `OCR_LOCAL_URL` 长期并存且含义不清。`aliyun` / `paddleocr` 缺少 `OCR_API_KEY` 时，`POST /api/ocr` 返回 `503 ocr_not_configured`；已配置但供应商适配未实现时返回 `501 ocr_provider_pending`。前端会进入 manual/fallback 确认页，不会伪造 OCR 识别文本。
 
