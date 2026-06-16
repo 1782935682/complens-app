@@ -60,29 +60,43 @@ function persist(next: AttentionSettings) {
     </view>
     <Toast :message="message" tone="success" />
 
-    <AppCard>
-      <view class="stack">
-        <text class="section-title">关注目标</text>
-        <view class="toggle-grid">
-          <button v-for="goal in attentionGoals" :key="goal.key" class="toggle" :class="{ 'toggle--active': settings.goals.includes(goal.key) }" @tap="toggleGoal(goal.key)">
+      <AppCard>
+        <view class="stack">
+          <text class="section-title">关注目标</text>
+          <view class="toggle-grid">
+          <AppButton
+            v-for="goal in attentionGoals"
+            :key="goal.key"
+            variant="secondary"
+            class="toggle"
+            :class="{ 'toggle--active': settings.goals.includes(goal.key) }"
+            @click="toggleGoal(goal.key)"
+          >
             <text v-if="settings.goals.includes(goal.key)" class="toggle__check">✓</text>
             <text>{{ goal.label }}</text>
-          </button>
+          </AppButton>
         </view>
       </view>
     </AppCard>
 
-    <AppCard>
-      <view class="stack">
-        <text class="section-title">细分关注成分</text>
-        <view class="toggle-grid">
-          <button v-for="term in attentionDetailTerms" :key="term" class="toggle" :class="{ 'toggle--active': settings.detailTerms.includes(term) }" @tap="toggleTerm(term)">
-            <text v-if="settings.detailTerms.includes(term)" class="toggle__check">✓</text>
-            <text>{{ term }}</text>
-          </button>
+      <AppCard>
+        <view class="stack">
+          <text class="section-title">细分关注成分</text>
+          <view class="toggle-grid">
+            <AppButton
+              v-for="term in attentionDetailTerms"
+              :key="term"
+              variant="secondary"
+              class="toggle"
+              :class="{ 'toggle--active': settings.detailTerms.includes(term) }"
+              @click="toggleTerm(term)"
+            >
+              <text v-if="settings.detailTerms.includes(term)" class="toggle__check">✓</text>
+              <text>{{ term }}</text>
+            </AppButton>
+          </view>
         </view>
-      </view>
-    </AppCard>
+      </AppCard>
 
     <AppCard>
       <view class="stack">
@@ -92,7 +106,15 @@ function persist(next: AttentionSettings) {
           <AppButton variant="secondary" @click="addCustomTerm">添加</AppButton>
         </view>
         <view class="pill-list">
-          <button v-for="term in settings.customTerms" :key="term" class="custom-pill" @tap="removeCustomTerm(term)">{{ term }} ×</button>
+          <AppButton
+            v-for="term in settings.customTerms"
+            :key="term"
+            variant="secondary"
+            class="custom-pill"
+            @click="removeCustomTerm(term)"
+          >
+            {{ term }} ×
+          </AppButton>
         </view>
       </view>
     </AppCard>
@@ -110,29 +132,18 @@ function persist(next: AttentionSettings) {
 
 .toggle,
 .custom-pill {
+  width: 100%;
+  display: flex;
   min-height: 44px;
-  border-radius: var(--radius-btn);
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--text);
   font-size: var(--font-size-sm);
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  color: var(--text);
+  line-height: 1.2;
   transition: all var(--transition-fast);
-}
-
-.toggle::after,
-.custom-pill::after {
-  border: 0;
-}
-
-.toggle:active,
-.custom-pill:active {
-  transform: scale(0.97);
-  background-color: var(--surface-subtle);
 }
 
 .toggle--active {

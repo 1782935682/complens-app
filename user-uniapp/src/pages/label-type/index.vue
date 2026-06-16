@@ -109,16 +109,17 @@ async function syncScanType(type: LabelType) {
         </view>
       </AppCard>
       <view class="label-options">
-        <button
+        <AppButton
           v-for="item in labelTypeActions"
           :key="item.type"
           class="label-option"
           :class="{ 'label-option--active': selectedType === item.type }"
-          @tap="selectType(item.type)"
+          variant="secondary"
+          @click="selectType(item.type)"
         >
           <text class="label-option__title">{{ item.label }}</text>
           <text class="label-option__desc">{{ item.description }}</text>
-        </button>
+        </AppButton>
       </view>
       <AppButton :disabled="selectedType === 'unknown_label'" @click="continueToConfirm">进入文本确认</AppButton>
     </template>
@@ -149,6 +150,10 @@ async function syncScanType(type: LabelType) {
   gap: var(--space-xs);
   padding: var(--space-md);
   text-align: left;
+  justify-content: flex-start;
+  width: 100%;
+  line-height: 1.2;
+  box-sizing: border-box;
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-card);
 }

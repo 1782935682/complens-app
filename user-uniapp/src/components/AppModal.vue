@@ -36,11 +36,12 @@ const emit = defineEmits<{ close: []; confirm: [] }>();
   inset: 0;
   z-index: 60;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding: var(--space-lg);
+  padding: calc(var(--space-lg) + env(safe-area-inset-top)) var(--space-lg) calc(var(--space-lg) + env(safe-area-inset-bottom));
   background: rgba(24, 33, 31, 0.4);
   backdrop-filter: blur(8px);
+  overflow: hidden;
 }
 
 .modal__panel {
@@ -55,6 +56,9 @@ const emit = defineEmits<{ close: []; confirm: [] }>();
   gap: var(--space-md);
   transform: translateY(0);
   animation: slide-up var(--transition-fast) ease-out;
+  max-height: calc(100dvh - var(--space-lg) - var(--space-lg) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow-y: auto;
+  flex-shrink: 0;
 }
 
 @keyframes slide-up {

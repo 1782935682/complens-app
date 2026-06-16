@@ -26,14 +26,19 @@ function handleTap() {
 
 <style scoped>
 .app-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
+  min-width: 44px;
   border-radius: var(--radius-btn);
   border: 1px solid transparent;
   padding: 0 16px;
   font-size: var(--font-size-base);
   font-weight: 800;
-  line-height: 44px;
+  line-height: 1.2;
   transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  touch-action: manipulation;
 }
 
 .app-button:active:not([disabled]) {

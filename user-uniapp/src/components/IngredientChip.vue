@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import StatusTag from './StatusTag.vue';
+import AppButton from './AppButton.vue';
 import { dataStatusClass } from '../constants/dataStatus';
 
 const props = defineProps<{
@@ -18,7 +19,7 @@ const statusClass = computed(() => (props.status ? `chip-${dataStatusClass(props
   <view class="ingredient-chip" :class="statusClass">
     <text class="ingredient-chip__name">{{ name }}</text>
     <StatusTag v-if="status" :status="status" />
-    <button v-if="removable" class="ingredient-chip__remove" @tap="emit('remove')">×</button>
+    <AppButton v-if="removable" variant="text" class="ingredient-chip__remove" @click="emit('remove')">×</AppButton>
   </view>
 </template>
 
@@ -61,6 +62,7 @@ const statusClass = computed(() => (props.status ? `chip-${dataStatusClass(props
   align-items: center;
   justify-content: center;
   transition: all var(--transition-fast);
+  line-height: 20px;
 }
 
 .ingredient-chip__remove::after {

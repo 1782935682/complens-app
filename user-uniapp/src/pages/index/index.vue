@@ -47,6 +47,14 @@ function openCapture() {
 function openCompareMode() {
   uni.navigateTo({ url: routes.compare });
 }
+
+function openAttention() {
+  navigateToRoute(routes.attention);
+}
+
+function openDataSources() {
+  uni.navigateTo({ url: routes.dataSources });
+}
 </script>
 
 <template>
@@ -60,27 +68,36 @@ function openCompareMode() {
       <view class="home-hero">
         <text class="home-hero__title">食品标签解读</text>
         <text class="home-hero__subtitle">支持配料表、营养成分表和包装正面。OCR 结果会先进入文本确认页。</text>
-        <AppButton @click="startFastScan">极速扫描（拍照即分析）</AppButton>
-        <AppButton variant="secondary" @click="openCapture">拍照解读食品标签</AppButton>
+        <AppButton @click="openCapture">拍照解读食品标签</AppButton>
+        <view class="hero-subactions">
+          <AppButton variant="secondary" @click="openCapture">从相册上传图片</AppButton>
+          <AppButton variant="secondary" @click="startFastScan">极速扫描（拍照即分析）</AppButton>
+        </view>
       </view>
     </AppCard>
 
     <view class="quick-grid">
-      <AppButton variant="secondary" @click="openCapture">上传图片</AppButton>
+      <AppButton variant="secondary" @click="openAttention">我的关注项</AppButton>
       <AppButton variant="secondary" class="wide-action" @click="startManualTextEntry">粘贴文字</AppButton>
       <AppButton variant="secondary" @click="openCompareMode">两款商品对比</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.search)">搜索成分</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.history)">历史记录</AppButton>
-      <AppButton variant="secondary" @click="navigateToRoute(routes.attention)">我的关注项</AppButton>
+      <AppButton variant="secondary" @click="openDataSources">数据可信说明</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.settings)">设置</AppButton>
     </view>
 
     <view>
       <text class="section-title">常见场景</text>
       <view class="scenario-grid">
-        <button v-for="scenario in scenarioCards" :key="scenario" class="scenario-card" @tap="openCapture">
+        <AppButton
+          v-for="scenario in scenarioCards"
+          :key="scenario"
+          variant="secondary"
+          class="scenario-button"
+          @click="openCapture"
+        >
           <text>{{ scenario }}</text>
-        </button>
+        </AppButton>
       </view>
     </view>
 
@@ -113,6 +130,12 @@ function openCompareMode() {
   gap: var(--space-md);
 }
 
+.hero-subactions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
 .home-hero__title {
   color: var(--primary-strong);
   font-size: var(--font-size-2xl);
@@ -136,29 +159,33 @@ function openCompareMode() {
   grid-column: 1 / -1;
 }
 
-.scenario-card {
-  min-height: 64px;
+.scenario-button {
+  width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
   color: var(--text);
+  box-sizing: border-box;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: var(--space-sm) var(--space-md);
+  min-height: 72px;
   font-size: var(--font-size-sm);
   font-weight: 800;
   line-height: 1.4;
-  padding: var(--space-md);
   text-align: left;
   transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
 }
 
-.scenario-card:active {
+.scenario-button::after {
+  border: 0;
+}
+
+.scenario-button:active {
   border-color: var(--primary-tint);
   background-color: var(--primary-soft);
   color: var(--primary-strong);
   transform: scale(0.98);
-}
-
-.scenario-card::after {
-  border: 0;
 }
 
 .report-row {

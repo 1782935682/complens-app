@@ -92,7 +92,7 @@ backend/
 
 当前没有 `providers/validators/jobs` 时，不要为“目录好看”空建大量无用文件；应在对应业务落地时补齐。
 
-### 4.1 当前后端真实结构（2026-06-15）
+### 4.1 当前后端真实结构（2026-06-16）
 
 本轮已核对 `backend/src`，当前真实结构如下：
 
@@ -117,7 +117,11 @@ backend/src/
     gb2760PromoteService.ts
     gb2760ValidateService.ts
     ingredientService.ts
+    labelService.ts
+    labelScanService.ts
+    nutritionService.ts
     ocrProviders/index.ts
+    reportService.ts
     userService.ts
   db/
     client.ts
@@ -135,7 +139,9 @@ backend/src/
 | `ocr` | 已实现 | OCR Provider 代理；manual/mock/rapidocr/aliyun/paddleocr 配置边界 |
 | `user` | 已实现 | 登录态用户收藏、报告、产品档案、关注项、过敏原等个人数据 |
 | `gb2760` | 已实现 | 内部 GB2760 导入状态、参考表、staging 审核与映射；写操作需要内部 reviewer |
-| `labels` / `nutrition` / `reports` | 计划 | 食品标签扫描会话、标签类型识别、营养解析、标签报告生成 |
+| `labels` | 已实现 | 食品标签扫描会话、标签类型识别，返回结构化会话与文本 |
+| `nutrition` | 已实现 | 营养字段解析与结构化结果 |
+| `reports` | 已实现 | 标签报告生成与持久化 |
 | `admin` | 计划 | 后台管理端聚合 API，后续随 `admin-web` 分期落地 |
 
 ### 4.2 后端分层边界（STACK-C）

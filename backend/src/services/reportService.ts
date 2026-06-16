@@ -549,7 +549,7 @@ function buildSources(matches: IngredientMatch[], ocr?: OcrResultInput, original
     || matches.some((match) => isFallbackMatch(match));
   if (hadLocalFallback) {
     base.push({
-      label: 'mock only / 待后端实现',
+      label: '后端暂不可用（降级）',
       detail: '当前匹配服务不可用时仅保留为暂未收录状态，不伪造成分来源。'
     });
   }

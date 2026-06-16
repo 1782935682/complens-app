@@ -362,8 +362,8 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   }
   if (allMatches.some((match) => match.sourceNote.includes('后端不可用'))) {
     sources.push({
-      label: 'mock only / 待后端实现',
-      detail: '当前匹配服务不可用时仅保留暂未收录状态，不伪造成分来源。',
+      label: '后端暂不可用（降级）',
+      detail: '匹配服务不可用时仅保留暂未收录状态，不伪造成分来源；请以包装原文为准。',
       sourceType: 'mock_adapter'
     });
   }
