@@ -14,6 +14,11 @@
   },
   "mp-weixin": {
     "appid": "",
+    "permission": {
+      "scope.camera": {
+        "desc": "用于拍摄食品标签图片，完成标签文字识别和文本确认。"
+      }
+    },
     "setting": {
       "urlCheck": false
     },

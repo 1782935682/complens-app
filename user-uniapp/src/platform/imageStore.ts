@@ -59,16 +59,33 @@ export function clearStoredImageMemory(): void {
   memoryImages.clear();
 }
 
-export async function deleteStoredImage(id?: string): Promise<void> {
-  const imageId = String(id || '').trim();
+export async function deleteStoredImage(target?: string | LocalImageAsset): Promise<void> {
+  const imageId = typeof target === 'string' ? target.trim() : String(target?.id || '').trim();
   if (!imageId) return;
   memoryImages.delete(imageId);
+  await removeSavedPlatformFile(target);
   try {
     const db = await openImageDb();
     await runStoreRequest(db, 'readwrite', (store) => store.delete(imageId));
   } catch {
     // IndexedDB is unavailable on some targets; memory cleanup above is enough there.
   }
+}
+
+async function removeSavedPlatformFile(target?: string | LocalImageAsset): Promise<void> {
+  if (!target || typeof target === 'string' || target.storage !== 'platform-file' || !target.tempFilePath) return;
+
+  const removeSavedFile = (uni as typeof uni & {
+    removeSavedFile?: (options: { filePath: string; complete?: () => void }) => void;
+  }).removeSavedFile;
+
+  if (typeof removeSavedFile !== 'function') return;
+  await new Promise<void>((resolve) => {
+    removeSavedFile({
+      filePath: target.tempFilePath,
+      complete: () => resolve()
+    });
+  });
 }
 
 function isInlineImageDataUrl(path: string): boolean {

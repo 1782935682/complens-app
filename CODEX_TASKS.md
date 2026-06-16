@@ -132,6 +132,7 @@ PR 切分约束（按你的要求固定）：
 → 当前人工阻塞（跳过，不阻断 Codex）：
   内部控制台 / 产品页面设计统一方案（用户要求最后一起做）
   GB2760 后续增量人工复核（本轮 2391 条 A.1 staging 已完成签核并 promote）
+  微信小程序真实 AppID / request 合法域名 / 隐私政策最终确认 / 真机验收（不阻塞工程对接）
   生产 DATABASE_URL（阶段 2 生产部分）
   生产 Aliyun OCR API Key（阶段 3-E 生产切换；本机 RapidOCR 已接入）
   AI API Key（阶段 9 真实调用）
@@ -1888,6 +1889,49 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 验证命令：`git diff --check`。
 
 状态：⏸ 后置。
+
+### Batch MP-WEIXIN-A：微信小程序工程对接与真机验收准备 [Codex + 人工]
+
+目标：把 `user-uniapp` 微信小程序从“可构建”推进到“可导入、可配置、可真机验收”的工程状态。
+
+涉及文件：
+- `user-uniapp/scripts/mp-weixin.mjs`
+- `user-uniapp/src/manifest.json`
+- `user-uniapp/src/platform/camera.ts`
+- `user-uniapp/src/platform/file.ts`
+- `user-uniapp/src/platform/imageStore.ts`
+- `user-uniapp/src/platform/share.ts`
+- `user-uniapp/src/pages/report/index.vue`
+- `docs/wechat-mini-program.md`
+- `docs/product-blueprint/CROSS_PLATFORM_SPEC.md`
+- `docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`
+- `COMMANDS.md`
+
+实现内容：
+1. 构建脚本支持 `WEIXIN_MP_APPID` 临时注入真实 AppID，不把账号信息提交到源码。
+2. 小程序 API 请求使用 `USER_API_BASE_URL` 绝对后端地址，继续禁止客户端保存 OCR/AI Key。
+3. 拍照/相册走 `uni.chooseImage`，小程序图片路径保存为平台文件缓存。
+4. OCR 前大图优先走 `uni.compressImage`，超限时仍降级手动输入。
+5. 报告页接入 `onShareAppMessage` 原生转发，同时保留复制摘要降级。
+6. 文档补齐微信开发者工具导入、公众平台 request 合法域名、隐私权限和真机验收清单。
+
+人工操作：
+- [ ] 提供真实微信小程序 AppID。
+- [ ] 提供可被小程序访问的 HTTPS 后端 API 域名。
+- [ ] 在微信公众平台配置 request 合法域名。
+- [ ] 用微信开发者工具导入 `user-uniapp/dist/build/mp-weixin` 并完成真机验收。
+- [ ] 提审前确认隐私政策最终文本、OCR 供应商披露和服务条款。
+
+验收标准：
+1. `cd user-uniapp && npm run build:mp-weixin` 构建成功。
+2. 设置 `WEIXIN_MP_APPID` / `USER_API_BASE_URL` 后生成产物可导入微信开发者工具。
+3. 无后端域名或 OCR 配置时，识别流程进入手动输入降级，不伪造 OCR 文本。
+4. 拍照/相册、文本确认、报告、历史、关注项、报告分享都有开发者工具/真机验收路径。
+
+状态：🔄 进行中（Codex 工程对接已实现，等待本轮验证和人工账号/域名真机验收）。
+是否需要人工：是（AppID、公众平台域名、隐私政策、真机验收）。
+阻塞条件：人工项不阻塞代码 PR；只阻塞真实发布与最终提审。
+验证命令：`cd user-uniapp && npm run lint && npm run typecheck && npm run build:mp-weixin`，`git diff --check`。
 
 ### Batch PLATFORM-E：后台管理端规划 [Codex]
 

@@ -25,17 +25,18 @@ export async function chooseLabelImage(sourceType: 'camera' | 'album'): Promise<
   const tempFile = tempFiles[0] as UniTempImageFile | undefined;
   const tempFilePath = result.tempFilePaths?.[0] || tempFile?.path || '';
   if (!tempFilePath) throw new Error('image_not_selected');
+  const storedFilePath = await persistPlatformImage(tempFilePath);
 
   return {
     id: createImageId(),
-    tempFilePath,
+    tempFilePath: storedFilePath,
     name: normalizeFileName(tempFile),
-    mimeType: inferMimeType(tempFilePath, tempFile),
+    mimeType: inferMimeType(storedFilePath, tempFile),
     size: Number(tempFile?.size) || 0,
     width: Number(tempFile?.width) || undefined,
     height: Number(tempFile?.height) || undefined,
     file: tempFile?.file,
-    storage: tempFile?.file ? 'h5-file' : 'temp-file'
+    storage: inferStorage(tempFile?.file, storedFilePath, tempFilePath)
   };
 }
 
@@ -55,4 +56,35 @@ function inferMimeType(path: string, file?: UniTempImageFile): string {
   if (lower.endsWith('.png')) return 'image/png';
   if (lower.endsWith('.webp')) return 'image/webp';
   return 'image/jpeg';
+}
+
+function inferStorage(file: File | undefined, nextPath: string, originalPath: string): LocalImageAsset['storage'] {
+  if (file) return 'h5-file';
+  return nextPath && nextPath !== originalPath ? 'platform-file' : 'temp-file';
+}
+
+function persistPlatformImage(tempFilePath: string): Promise<string> {
+  const saveFile = (uni as typeof uni & {
+    saveFile?: (options: {
+      tempFilePath: string;
+      success?: (result: { savedFilePath?: string }) => void;
+      fail?: () => void;
+    }) => void;
+  }).saveFile;
+
+  if (!tempFilePath || typeof saveFile !== 'function' || isH5LikePath(tempFilePath)) {
+    return Promise.resolve(tempFilePath);
+  }
+
+  return new Promise((resolve) => {
+    saveFile({
+      tempFilePath,
+      success: (result) => resolve(result.savedFilePath || tempFilePath),
+      fail: () => resolve(tempFilePath)
+    });
+  });
+}
+
+function isH5LikePath(path: string): boolean {
+  return /^blob:/i.test(path) || /^data:image\//i.test(path);
 }

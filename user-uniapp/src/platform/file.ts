@@ -39,7 +39,7 @@ export async function readImageAsBase64ForOcr(asset?: LocalImageAsset): Promise<
     return { base64: originalBase64, compressed: false, exceedsLimit: false };
   }
 
-  const compressedBase64 = await compressBase64ImageForOcr(asset, originalBase64);
+  const compressedBase64 = await compressUniImageFileForOcr(asset) || await compressBase64ImageForOcr(asset, originalBase64);
   if (!compressedBase64) {
     return { base64: originalBase64, compressed: false, exceedsLimit: true };
   }
@@ -76,6 +76,46 @@ async function compressBase64ImageForOcr(asset: LocalImageAsset, base64: string)
   return null;
 }
 
+async function compressUniImageFileForOcr(asset: LocalImageAsset): Promise<string | null> {
+  if (!asset.tempFilePath || isH5BlobUrl(asset.tempFilePath)) return null;
+
+  const qualityLevels = [80, 65, 50, 35];
+  let bestBase64 = '';
+  for (const quality of qualityLevels) {
+    const compressedPath = await compressUniImageFile(asset.tempFilePath, quality);
+    if (!compressedPath) continue;
+
+    const base64 = await readAppFileAsBase64(compressedPath) || await readUniFileSystemAsBase64(compressedPath);
+    if (!base64) continue;
+    bestBase64 = base64.length < bestBase64.length || !bestBase64 ? base64 : bestBase64;
+    if (isWithinOcrBase64Limit(base64)) return base64;
+  }
+
+  return bestBase64 || null;
+}
+
+function compressUniImageFile(src: string, quality: number): Promise<string> {
+  const compressImage = (uni as typeof uni & {
+    compressImage?: (options: {
+      src: string;
+      quality: number;
+      success?: (result: { tempFilePath?: string }) => void;
+      fail?: () => void;
+    }) => void;
+  }).compressImage;
+
+  if (typeof compressImage !== 'function') return Promise.resolve('');
+
+  return new Promise((resolve) => {
+    compressImage({
+      src,
+      quality,
+      success: (result) => resolve(result.tempFilePath || ''),
+      fail: () => resolve('')
+    });
+  });
+}
+
 async function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -110,8 +150,10 @@ function isWithinOcrBase64Limit(base64: string): boolean {
 }
 
 function readUniFileSystemAsBase64(filePath: string): Promise<string> {
-  const fileSystemManager = (uni as typeof uni & { getFileSystemManager?: () => UniApp.FileSystemManager })
-    .getFileSystemManager;
+  const fileSystemManager = (
+    (uni as typeof uni & { getFileSystemManager?: () => UniApp.FileSystemManager }).getFileSystemManager
+    || (globalThis as { wx?: { getFileSystemManager?: () => UniApp.FileSystemManager } }).wx?.getFileSystemManager
+  );
   if (typeof fileSystemManager === 'function') {
     return new Promise((resolve) => {
       fileSystemManager().readFile({

@@ -37,10 +37,10 @@ export function saveScanDraft(partial: Partial<ScanDraft>): ScanDraft {
 }
 
 export function resetScanDraft(): ScanDraft {
-  const previousImageId = getScanDraft().image?.id;
+  const previousImage = getScanDraft().image;
   const next = getDefaultDraft();
   clearStoredImageMemory();
-  void deleteStoredImage(previousImageId);
+  void deleteStoredImage(previousImage);
   writeJson(DRAFT_KEY, next);
   return next;
 }
