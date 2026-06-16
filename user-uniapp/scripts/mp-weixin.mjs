@@ -44,15 +44,26 @@ try {
     console.warn('[mp-weixin] USER_API_BASE_URL is not set. Non-H5 API calls will fall back to manual paths until a backend base URL is configured.');
   }
 
-  const uniBin = join(rootDir, 'node_modules', '.bin', process.platform === 'win32' ? 'uni.cmd' : 'uni');
+  const isWindows = process.platform === 'win32';
+  const uniBin = join(rootDir, 'node_modules', '.bin', isWindows ? 'uni.cmd' : 'uni');
   const args = isDev ? ['-p', 'mp-weixin'] : ['build', '-p', 'mp-weixin'];
   const result = spawnSync(uniBin, args, {
     cwd: rootDir,
     stdio: 'inherit',
-    env: process.env
+    env: process.env,
+    shell: isWindows
   });
 
-  if (result.status !== 0) {
+  if (result.error) {
+    console.error(`[mp-weixin] Failed to run uni CLI: ${result.error.message}`);
+    process.exitCode = 1;
+  } else if (result.signal) {
+    console.error(`[mp-weixin] uni CLI exited by signal: ${result.signal}`);
+    process.exitCode = 1;
+  } else if (typeof result.status !== 'number') {
+    console.error('[mp-weixin] uni CLI exited without a status code.');
+    process.exitCode = 1;
+  } else if (result.status !== 0) {
     process.exitCode = result.status || 1;
   } else {
     patchGeneratedProjectConfig();
