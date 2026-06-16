@@ -45,6 +45,75 @@
 
 以下命令默认在仓库根目录 `/home/downloads/git/compcheck` 执行；进入子目录的命令会显式写出 `cd`。
 
+### 3.0 Windows / Git Bash 快速运行
+
+如果在 Windows Git Bash 中运行，先进入本地仓库根目录，例如：
+
+```bash
+cd ~/Desktop/complens/complens-app
+```
+
+如果刚拉完代码，先安装依赖：
+
+```bash
+npm install
+cd user-uniapp
+npm install
+cd ..
+```
+
+创建小程序本地配置：
+
+```bash
+cat > user-uniapp/.env.local <<'EOF'
+WEIXIN_MP_APPID=wx4fbc4f0e40e4068d
+USER_API_BASE_URL=https://api.yxl123.xyz/api
+WEIXIN_MP_URL_CHECK=false
+EOF
+```
+
+从仓库根目录构建小程序：
+
+```bash
+npm run user:build:mp-weixin
+```
+
+也可以进入 `user-uniapp` 后构建：
+
+```bash
+cd user-uniapp
+npm run build:mp-weixin
+```
+
+构建成功后，微信开发者工具导入：
+
+```text
+C:\Users\刘亚星\Desktop\complens\complens-app\user-uniapp\dist\build\mp-weixin
+```
+
+如果 `npm run build:mp-weixin` 只输出脚本名但没有 `Compiling...`，先确认当前分支包含 Windows 修复：
+
+```bash
+git switch main
+git pull --ff-only
+cd user-uniapp
+npm run build:mp-weixin
+```
+
+如果在仓库根目录误跑 `npm run build:mp-weixin` 并提示缺少脚本，改用：
+
+```bash
+npm run user:build:mp-weixin
+```
+
+如果提示找不到 `uni` 或依赖缺失：
+
+```bash
+cd user-uniapp
+npm install
+npm run build:mp-weixin
+```
+
 ### 3.1 小程序本地配置
 
 本机配置文件：
