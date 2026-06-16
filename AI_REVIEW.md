@@ -30,10 +30,11 @@
 ### 已完成修改
 
 1. 新增微信小程序构建脚本，支持 `WEIXIN_MP_APPID` 临时注入、`USER_API_BASE_URL` 后端基址和 `WEIXIN_MP_URL_CHECK` 开发者工具配置，不把真实账号信息写死。
-2. 小程序端拍照/相册继续走 `uni.chooseImage`，并将平台文件路径通过 `uni.saveFile` 持久化为平台文件缓存。
-3. OCR 图片读取增加 `uni.compressImage` 压缩路径，H5 仍保留 Canvas 压缩；压缩后仍超限时进入手动输入降级。
-4. 报告页接入 `onShareAppMessage` 原生转发菜单，同时保留复制摘要降级。
-5. 补齐微信开发者工具导入、公众平台 request 合法域名、隐私/权限和真机验收清单。
+2. 构建脚本支持读取 `user-uniapp/.env.local` 本地配置，便于本机微信开发者工具调试；真实 AppID 不提交到仓库。
+3. 小程序端拍照/相册继续走 `uni.chooseImage`，并将平台文件路径通过 `uni.saveFile` 持久化为平台文件缓存。
+4. OCR 图片读取增加 `uni.compressImage` 压缩路径，H5 仍保留 Canvas 压缩；压缩后仍超限时进入手动输入降级。
+5. 报告页接入 `onShareAppMessage` 原生转发菜单，同时保留复制摘要降级。
+6. 补齐微信开发者工具导入、公众平台 request 合法域名、隐私/权限和真机验收清单。
 
 ### 仍需人工提供
 

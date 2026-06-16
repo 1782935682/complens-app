@@ -43,6 +43,14 @@ WEIXIN_MP_URL_CHECK=true \
 npm run build:mp-weixin
 ```
 
+也可以把本机调试配置写入 `user-uniapp/.env.local`（已被 gitignore，不能提交真实账号或域名）：
+
+```env
+WEIXIN_MP_APPID=wx0000000000000000
+USER_API_BASE_URL=https://api.example.com/api
+WEIXIN_MP_URL_CHECK=false
+```
+
 本地开发者工具调试时可临时关闭合法域名校验：
 
 ```bash

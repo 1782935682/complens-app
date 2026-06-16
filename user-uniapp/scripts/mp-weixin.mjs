@@ -5,6 +5,11 @@ import { spawnSync } from 'node:child_process';
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const manifestPath = join(rootDir, 'src', 'manifest.json');
+const shellEnvKeys = new Set(Object.keys(process.env));
+
+loadLocalEnvFile('.env');
+loadLocalEnvFile('.env.local');
+
 const appId = String(process.env.WEIXIN_MP_APPID || '').trim();
 const apiBaseUrl = String(process.env.USER_API_BASE_URL || '').trim();
 const urlCheck = String(process.env.WEIXIN_MP_URL_CHECK || '').trim().toLowerCase() === 'true';
@@ -67,4 +72,34 @@ function patchGeneratedProjectConfig() {
     urlCheck
   };
   writeFileSync(projectConfigPath, `${JSON.stringify(projectConfig, null, 2)}\n`);
+}
+
+function loadLocalEnvFile(fileName) {
+  const filePath = join(rootDir, fileName);
+  if (!existsSync(filePath)) return;
+
+  const lines = readFileSync(filePath, 'utf8').split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+
+    const equalsIndex = trimmed.indexOf('=');
+    if (equalsIndex <= 0) continue;
+
+    const key = trimmed.slice(0, equalsIndex).trim();
+    const value = trimEnvValue(trimmed.slice(equalsIndex + 1).trim());
+    if (!key || shellEnvKeys.has(key)) continue;
+
+    process.env[key] = value;
+  }
+}
+
+function trimEnvValue(value) {
+  if (
+    (value.startsWith('"') && value.endsWith('"'))
+    || (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    return value.slice(1, -1);
+  }
+  return value;
 }
