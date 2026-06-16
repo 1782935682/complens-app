@@ -63,6 +63,7 @@ async function runOcr() {
       } else if (next.mode === 'fallback') {
         error.value = next.errorMessage || '识别结果置信度不足，建议确认后再继续。';
       }
+      loading.value = false;
       continueToQuickConfirm();
       return;
     }
@@ -78,6 +79,7 @@ async function runOcr() {
     saveScanDraft({ ocr: next, confirmedText: draft.confirmedText || '' });
     error.value = '图片暂不能读取或识别失败，可手动输入。';
     if (isFastMode.value) {
+      loading.value = false;
       continueToQuickConfirm();
       return;
     }
