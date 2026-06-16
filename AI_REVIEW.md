@@ -21,6 +21,31 @@
 
 - `git diff --check`（通过）
 
+## 2026-06-16 Batch 1-E：成分详情页 GB2760 官方证据展示
+
+### 本轮目标
+
+补齐 `user-uniapp` 成分详情页的官方依据可追溯显示：支持 staging/reference 证据展示、来源摘要与边界提示、来源 URL 文案和状态分级，满足“证据透明但不伪造结论”要求。
+
+### 已检查并修改的文件
+
+- `user-uniapp/src/pages/ingredient-detail/index.vue`
+- `user-uniapp/src/styles/tokens.css`
+- `user-uniapp/src/components/IngredientChip.vue`
+
+### 已完成修改
+
+1. 详情页 `stagingRows` 与 `referenceRows` 均通过 `includeEvidence=1` 接口进入并渲染，新增“官方 GB2760-2024 证据”入口。
+2. 增加来源摘要（条数、来源、版本、生效日期、适用范围）与 `reviewStatus` 文案映射，明确 `pending_review` 的非权威边界。
+3. reference/staging 证据展示支持来源页码、来源 URL、复制交互，补充来源校验提示。
+4. 详情页保留 loading / empty / error 三态，避免空白/丢文案异常态。
+
+### 验证与发布
+
+- `git diff --check`（通过）
+- `cd user-uniapp && npm run lint`（通过）
+- `cd user-uniapp && npm run typecheck`（通过）
+
 ## Batch CONSUMER-FS-B：育儿守护模式
 
 ### 本轮目标

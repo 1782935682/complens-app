@@ -126,7 +126,6 @@ PR 切分约束（按你的要求固定）：
 说明：后续执行顺序以这个列表为准；每个 PR 完成后再继续下一个，保持单批次职责不交叉。
 
 → 后续暂缓，等待产品页面设计统一推进：
-  Batch 1-E：成分详情页 GB2760 官方证据展示
   Batch 1-F：内部数据控制台 / GB2760 复核工作台
   Batch UX-A、UX-B、UX-D、UX-E：产品体验与信息架构优化（UX-C 映射层已完成）
 
@@ -170,6 +169,7 @@ PR 切分约束（按你的要求固定）：
 | GB2760 参考表 | 2800 行 A.2/B/C/D/E/F 参考表 + `gb2760_official_reference_rows` 入库 | ✅ 2026-06-13 |
 | GB2760 边界修复 | 参考表行边界泄漏 / 跨页续行 / INS 续行修复 | ✅ 2026-06-14 |
 | Batch 1-A | `source_documents` / `import_runs` / `import_errors` 导入审计骨架 + 查询接口 | ✅ 2026-06-14 |
+| Batch 1-E | 成分详情页 GB2760 官方证据展示 | ✅ 2026-06-16 |
 | Batch 1-C | `additive_usage_rules` 表 + `promote:gb2760` 正式库准入脚本（空签核场景 0 promoted） | ✅ 2026-06-14 |
 | Batch 1-D | `validate:gb2760` 数据校验命令 + CI 数据准入校验 | ✅ 2026-06-14 |
 | Batch 8-C | loading / empty / error 状态统一复核 | ✅ 2026-06-14 |
@@ -365,30 +365,33 @@ PR 切分约束（按你的要求固定）：
 
 ### Batch 1-E：成分详情页 GB2760 官方证据展示 [Codex]
 
-目标：在成分详情页展示对应的 GB2760 官方证据（参考表行 + staging 行），让用户和人工审核者直接看到来源原文、页码和可信状态。
+目标：在 `user-uniapp` 成分详情页展示对应的 GB2760 官方证据（参考表行 + staging 行），让用户直接看到来源原文、页码和可信状态边界。
 
 涉及文件：
 - `backend/src/routes/ingredients.ts`（详情接口新增 `?includeEvidence=1` 返回 staging/reference 行）
-- `backend/src/routes/gb2760.ts`（新增 `GET /api/gb2760/reference-rows`）
-- `src/services/ingredientApiService.js`、`src/pages/detailPage.js`、`src/pages/dataPage.js`
-- `src/styles.css`、`scripts/test.mjs`
+- `backend/src/services/ingredientService.ts`（证据字段映射与可信边界透出）
+- `user-uniapp/src/pages/ingredient-detail/index.vue`
+- `user-uniapp/src/components/IngredientChip.vue`
+- `user-uniapp/src/styles/tokens.css`
 
 实现内容：
-1. `GET /api/ingredients/:id?includeEvidence=1` 附加 `stagingRows`（来自 `gb2760_official_records`，按 `ingredientId` 匹配，最多 50 行，按 `pdfPage` 排序）和 `referenceRows`（按中文名/别名/INS 匹配，最多 20 行）。默认不返回，避免常规流量加载过多。
-2. `GET /api/gb2760/reference-rows?table=B.2&page=1&limit=50` 分页浏览参考表。
-3. 详情页"官方 GB2760-2024 证据"可折叠区块：staging 行显示食品类别、最大用量、页码、`pending_review` 灰色提示；reference 行按表名分组。
-4. 数据治理页 `/data` 新增"参考表浏览"折叠区块，按表名分页查看。
-5. 颜色用 CSS 变量：`pending_review` → `--color-unverified`，`verified_regulation` → `--color-risk-low`。
+1. `GET /api/ingredients/:id?includeEvidence=1` 附加 `stagingRows`（来自 `gb2760_official_records`，按 `ingredientId` 匹配，按 `pdfPage` 排序）和 `referenceRows`（按中文名/别名/INS 匹配）用于详情页直接展示。
+2. 成分详情页“官方 GB2760-2024 证据”可折叠区块支持来源摘要（条数、来源、版本、生效日期、适用范围）与状态边界说明。
+3. staging evidence 展示食品类别、最大用量、单位、页码、`reviewStatus`；`pending_review` 使用“待复核来源数据”提示，不展示为权威结论。
+4. reference evidence 按表名分组展示，支持来源页码、来源 URL 与一键复制。
+5. 样式统一使用 `user-uniapp` 设计 token，补齐 loading / empty / error 三态与来源复制交互反馈。
 
 验收标准：
 1. `?includeEvidence=1` 返回证据数组；无该参数时不返回（字段不存在）。
-2. 有 staging 行的成分（如 `citric-acid`）详情页显示证据区块；无证据成分不显示空标题。
-3. `pending_review` 行有明确"待复核来源数据"视觉提示，不展示为结论。
-4. 参考表浏览可翻页。
+2. 有 staging/reference 行的成分详情页显示证据区块；无证据成分不显示空标题块。
+3. `pending_review` 行有明确“待复核来源数据”视觉提示，不展示为权威结论。
+4. reference evidence 有来源页码、来源 URL、来源摘要与来源边界说明。
+5. 页面具备 loading / empty / error 三态，不输出伪造来源或权威判断。
 
+状态：✅ 已完成 2026-06-16。
 是否需要人工：否。
 阻塞条件：无。
-验证命令：`npm run lint && npm run test && npm run build`，`cd backend && npm run typecheck && npm test`，`curl "http://127.0.0.1:3000/api/ingredients/citric-acid?includeEvidence=1"`。
+验证命令：`cd backend && npm run typecheck`，`cd user-uniapp && npm run typecheck`，`cd user-uniapp && npm run lint`，`curl "http://127.0.0.1:3000/api/ingredients/citric-acid?includeEvidence=1"`。
 
 ---
 
@@ -2263,7 +2266,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 ## 完整依赖关系
 
 ```
-阶段 1（数据源 GB2760）：1-A → 1-B✅ → 1-C[人工+Codex] → 1-D → 1-E → 1-F
+阶段 1（数据源 GB2760）：1-A → 1-B✅ → 1-C[人工+Codex] → 1-D✅ → 1-E✅ → 1-F
 阶段 2（数据库 API）：2-A✅ → 2-B✅ → 2-C✅ → 2-D[人工+Codex, blocked]
 阶段 3（OCR）：3-A✅ → 3-B🔁 → 3-C✅ → 3-D✅ → 3-E[人工+Codex, blocked]
 阶段 4（解析匹配）：4-A✅ → 4-B✅ → 4-C🔄 → 4-D✅

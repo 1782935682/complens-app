@@ -37,7 +37,7 @@ async function loadMatches() {
   try {
     matches.value = await matchIngredientsByApi(draft.ingredients);
   } catch {
-    fallbackMessage.value = 'mock only / 待后端实现：当前后端匹配不可用，已保留为暂未收录状态，不伪造来源。';
+    fallbackMessage.value = '后端匹配服务暂不可用，当前项已按暂未收录状态保留，不伪造来源。';
     matches.value = draft.ingredients.map((item, index) => ({
       id: `${index}-${item.normalizedText}`,
       term: item.normalizedText,

@@ -159,6 +159,55 @@ const quickSignal = computed<QuickSignal>(() => {
   };
 });
 
+const matchOverview = computed(() => {
+  if (!report.value) {
+    return { confirmed: 0, pending: 0, unmatched: 0, unknown: 0, total: 0 };
+  }
+
+  let confirmed = 0;
+  let pending = 0;
+  let unmatched = 0;
+
+  for (const item of report.value.ingredientSection.items) {
+    if (item.decision === 'confirmed') {
+      confirmed += 1;
+      continue;
+    }
+    if (item.decision === 'rejected') {
+      unmatched += 1;
+      continue;
+    }
+
+    if (item.decision === 'pending') {
+      if (item.dataStatus === 'unknown_from_ocr') {
+        unmatched += 1;
+      } else {
+        pending += 1;
+      }
+      continue;
+    }
+
+    if (item.ingredientId || ['verified_regulation', 'verified_jecfa', 'common_ingredient'].includes(item.dataStatus)) {
+      confirmed += 1;
+      continue;
+    }
+
+    if (item.dataStatus === 'unknown_from_ocr') {
+      unmatched += 1;
+    } else {
+      pending += 1;
+    }
+  }
+
+  return {
+    confirmed,
+    pending,
+    unmatched,
+    unknown: report.value.unknownItems.length,
+    total: report.value.ingredientSection.items.length
+  };
+});
+
 function openIngredientDetail(item: IngredientMatch) {
   const ingredientId = item.ingredientId;
   if (!ingredientId) {
@@ -223,6 +272,21 @@ function openCompareMode() {
               <text>{{ quickSignal.label }}</text>
             </view>
           </view>
+          <view class="quick-summary__stats">
+            <view class="quick-summary__stat">
+              <text class="quick-summary__stat-value">{{ matchOverview.confirmed }}</text>
+              <text class="quick-summary__stat-label">已匹配</text>
+            </view>
+            <view class="quick-summary__stat">
+              <text class="quick-summary__stat-value">{{ matchOverview.pending }}</text>
+              <text class="quick-summary__stat-label">待确认</text>
+            </view>
+            <view class="quick-summary__stat">
+              <text class="quick-summary__stat-value">{{ matchOverview.unmatched + matchOverview.unknown }}</text>
+              <text class="quick-summary__stat-label">未收录/暂未识别</text>
+            </view>
+          </view>
+          <text class="muted">共 {{ matchOverview.total }} 项配料，支持点开每项查看来源。</text>
           <text class="muted">{{ quickSignal.reason }}</text>
         </view>
       </AppCard>
@@ -231,9 +295,14 @@ function openCompareMode() {
         <view class="stack">
           <view class="child-care-row">
             <text class="section-title">育儿守护模式</text>
-            <button class="child-care-row__button" :class="{ 'child-care-row__button--on': isChildCareMode }" @tap="toggleChildCareMode">
+            <AppButton
+              variant="secondary"
+              class="child-care-row__button"
+              :class="{ 'child-care-row__button--on': isChildCareMode }"
+              @click="toggleChildCareMode"
+            >
               <text>{{ isChildCareMode ? '已开启' : '已关闭' }}</text>
-            </button>
+            </AppButton>
           </view>
           <text class="muted">{{ isChildCareMode ? '育儿守护已开启：优先展示色素、防腐剂、甜味剂类成分。' : '如需更细颗粒的儿童关注提示，请开启育儿守护模式。' }}</text>
         </view>
@@ -497,6 +566,31 @@ function openCompareMode() {
   color: var(--status-unverified);
 }
 
+.quick-summary__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.quick-summary__stat {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  text-align: center;
+}
+
+.quick-summary__stat-value {
+  color: var(--text);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+}
+
+.quick-summary__stat-label {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  margin-top: 2px;
+}
+
 .report-ingredient-item {
   display: flex;
 }
@@ -521,13 +615,12 @@ function openCompareMode() {
 }
 
 .child-care-row__button {
-  border: 1px solid var(--line);
   border-radius: 999px;
-  color: var(--text);
+  min-height: 34px;
+  padding: 0 14px;
+  line-height: 1.2;
   font-size: var(--font-size-sm);
   font-weight: 800;
-  min-height: 36px;
-  padding: 4px 12px;
 }
 
 .child-care-row__button--on {
@@ -536,7 +629,6 @@ function openCompareMode() {
   color: var(--primary-strong);
 }
 
-.child-care-row__button::after,
 .child-guard-item::after {
   border: 0;
 }

@@ -213,7 +213,7 @@ OCR / AI / Provider
 | 食品分类管理 | 查看 GB2760 食品分类系统和参考表 | 复用 `GET /api/gb2760/reference-rows?table=表 E.1`（表名以实际 reference 行为准） | 第一版只读；独立分类表/树编辑后置 | 计划；reference 行查询已存在 |
 | 使用规则管理 | 查看 promote 后的使用范围/限量及溯源 | 第一版从 ingredient 详情证据与 `usageLimits` 展示；后续补 `/api/admin/additive-usage-rules` 聚合列表 | 编辑规则后置，且必须有审计和来源校验 | 计划；正式规则数据已存在 |
 | 普通配料词库 | 查看普通配料可读性词条 | 复用 `GET /api/ingredients?dataStatus=common_ingredient` | 词库编辑后置 | Beta 计划 |
-| 营养成分字段规则 | 规划能量、蛋白质、脂肪、糖、钠等解析字段 | 等待 `POST /api/nutrition/parse` 后端化 | 暂无后台写操作 | Beta 计划 |
+| 营养成分字段规则 | 规划能量、蛋白质、脂肪、糖、钠等解析字段 | `POST /api/nutrition/parse` 已后端接入，后台先复用 parse 结果展示 | 暂无后台写操作 | Beta 计划 |
 | 包装卖点词库 | 规划 0 糖、低脂、高蛋白、无添加等卖点词库 | 等待包装卖点解析后端化 | 暂无后台写操作 | Beta 计划 |
 
 数据治理 MVP 约束：

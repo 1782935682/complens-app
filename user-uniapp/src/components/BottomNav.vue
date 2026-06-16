@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { routes, navigateToRoute } from '@/constants/routes';
+import AppButton from './AppButton.vue';
 
 defineProps<{ active: 'home' | 'capture' | 'history' | 'attention' }>();
 
@@ -13,10 +14,17 @@ const items = [
 
 <template>
   <view class="bottom-nav">
-    <button v-for="item in items" :key="item.key" class="bottom-nav__item" :class="{ 'bottom-nav__item--active': active === item.key }" @tap="navigateToRoute(item.route)">
+    <AppButton
+      v-for="item in items"
+      :key="item.key"
+      variant="text"
+      class="bottom-nav__item"
+      :class="{ 'bottom-nav__item--active': active === item.key }"
+      @click="navigateToRoute(item.route)"
+    >
       <text class="bottom-nav__dot" />
       <text>{{ item.label }}</text>
-    </button>
+    </AppButton>
   </view>
 </template>
 
@@ -36,8 +44,6 @@ const items = [
 .bottom-nav__item {
   flex: 1;
   min-height: 44px;
-  border: 0;
-  background: transparent;
   color: var(--muted);
   display: flex;
   flex-direction: column;
@@ -48,10 +54,6 @@ const items = [
   font-weight: 800;
   line-height: 1;
   padding: 0;
-}
-
-.bottom-nav__item::after {
-  border: 0;
 }
 
 .bottom-nav__dot {

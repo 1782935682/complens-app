@@ -12,9 +12,12 @@ onShow(() => {
 
 <style>
 page {
+  min-height: 100dvh;
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-family);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 </style>
