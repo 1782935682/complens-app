@@ -21,16 +21,22 @@ function isQuickScanMode(value: unknown): boolean {
   return normalized === 'fast' || normalized === '1' || normalized === 'true' || normalized === 'auto';
 }
 
-onLoad((query) => {
+function syncFastScanMode(query: Record<string, string | undefined> | undefined) {
+  const draft = getScanDraft();
   const queryFastMode = isQuickScanMode(query?.mode || query?.auto || query?.scanMode);
-  const persistedFastMode = Boolean(getScanDraft().isFastScan);
+  const persistedFastMode = Boolean(draft.isFastScan);
   isFastMode.value = queryFastMode || persistedFastMode;
   if (isFastMode.value) {
     saveScanDraft({ isFastScan: false });
   }
+}
+
+onLoad((query) => {
+  syncFastScanMode(query);
 });
 
 onShow(() => {
+  syncFastScanMode();
   const draftImage = getScanDraft().image;
   if (!draftImage) {
     image.value = undefined;

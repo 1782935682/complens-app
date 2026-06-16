@@ -865,7 +865,7 @@ function parseNutritionValue(value: string, unit: string, key: 'sugar' | 'sodium
 
   const normalizedUnit = String(unit || '').toLowerCase();
   if (key === 'sodium') {
-    if (normalizedUnit === 'g' && valueText.includes('g')) {
+    if (normalizedUnit === 'g') {
       return numeric * 1000;
     }
     return numeric;
