@@ -404,17 +404,23 @@ function parseNutritionValue(value: string, unit: string, key: 'sugar' | 'sodium
   const numeric = Number.parseFloat(match[1]);
   if (!Number.isFinite(numeric)) return 0;
 
-  const normalizedUnit = String(unit || '').toLowerCase();
+  const normalizedUnit = normalizeNutritionUnit(String(unit || '').toLowerCase());
   if (key === 'sodium') {
     if (normalizedUnit === 'g') {
       return numeric * 1000;
+    }
+    if (normalizedUnit === 'ug') {
+      return numeric / 1000;
     }
     return numeric;
   }
 
   if (key === 'sugar') {
-    if (normalizedUnit === 'mg' && valueText.includes('mg')) {
+    if (normalizedUnit === 'mg') {
       return numeric / 1000;
+    }
+    if (normalizedUnit === 'ug') {
+      return numeric / 1000000;
     }
     return numeric;
   }
@@ -424,4 +430,17 @@ function parseNutritionValue(value: string, unit: string, key: 'sugar' | 'sodium
   }
 
   return numeric;
+}
+
+function normalizeNutritionUnit(unit: string): string {
+  const compactUnit = String(unit || '')
+    .replace(/\s+/g, '')
+    .toLowerCase();
+  if (!compactUnit) return '';
+  if (compactUnit.includes('kcal') || compactUnit.includes('cal') || compactUnit.includes('千卡') || compactUnit.includes('大卡')) return 'kcal';
+  if (compactUnit.includes('kj')) return 'kj';
+  if (compactUnit.includes('ug') || compactUnit.includes('μg') || compactUnit.includes('微克')) return 'ug';
+  if (compactUnit.includes('mg') || compactUnit.includes('毫克')) return 'mg';
+  if (compactUnit.includes('g') || compactUnit.includes('克')) return 'g';
+  return compactUnit;
 }

@@ -15,20 +15,26 @@ const image = ref<LocalImageAsset | undefined>();
 const error = ref('');
 const steps = ['拍照', '识别', '确认', '报告'];
 const isFastMode = ref(false);
+type QueryMap = Record<string, unknown>;
 
 function isQuickScanMode(value: unknown): boolean {
   const normalized = String(value || '').toLowerCase();
   return normalized === 'fast' || normalized === '1' || normalized === 'true' || normalized === 'auto';
 }
 
-function syncFastScanMode(query: Record<string, string | undefined> | undefined) {
+function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
+  const value = rawQuery?.[key];
+  if (Array.isArray(value)) return String(value[0] || '').trim();
+  return typeof value === 'string' ? value : '';
+}
+
+function syncFastScanMode(query?: QueryMap) {
   const draft = getScanDraft();
-  const queryFastMode = isQuickScanMode(query?.mode || query?.auto || query?.scanMode);
+  const queryFastMode = isQuickScanMode(
+    getQueryValue(query, 'mode') || getQueryValue(query, 'auto') || getQueryValue(query, 'scanMode')
+  );
   const persistedFastMode = Boolean(draft.isFastScan);
   isFastMode.value = queryFastMode || persistedFastMode;
-  if (isFastMode.value) {
-    saveScanDraft({ isFastScan: false });
-  }
 }
 
 onLoad((query) => {
@@ -49,9 +55,10 @@ onShow(() => {
 async function choose(source: 'camera' | 'album') {
   error.value = '';
   try {
+    const persistedFastMode = Boolean(getScanDraft().isFastScan);
     image.value = await chooseLabelImage(source);
     resetScanDraft();
-    saveScanDraft({ image: image.value });
+    saveScanDraft({ image: image.value, isFastScan: persistedFastMode });
   } catch {
     error.value = source === 'camera' ? '相机暂不可用，请检查权限，或改用相册上传。' : '没有选择图片，请重新上传。';
   }
@@ -73,8 +80,10 @@ function continueToOcr() {
     error.value = '请先拍照或上传一张食品标签图片。';
     return;
   }
-  saveScanDraft({ image: image.value });
-  const nextRoute = isFastMode.value ? `${routes.ocr}?mode=fast` : routes.ocr;
+  const nextFastMode = isFastMode.value;
+  saveScanDraft({ image: image.value, isFastScan: false });
+  isFastMode.value = false;
+  const nextRoute = nextFastMode ? `${routes.ocr}?mode=fast` : routes.ocr;
   uni.navigateTo({ url: nextRoute });
 }
 </script>

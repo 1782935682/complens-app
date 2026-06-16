@@ -62,6 +62,19 @@ function normalizeNumeric(rawValue: string): number | null {
   return matched ? Number.parseFloat(matched[0]) : null;
 }
 
+function normalizeNutritionUnit(unit: string): string {
+  const compactUnit = String(unit || '')
+    .replace(/\s+/g, '')
+    .toLowerCase();
+  if (!compactUnit) return '';
+  if (compactUnit.includes('kcal') || compactUnit.includes('cal') || compactUnit.includes('千卡') || compactUnit.includes('大卡')) return 'kcal';
+  if (compactUnit.includes('kj')) return 'kj';
+  if (compactUnit.includes('ug') || compactUnit.includes('μg') || compactUnit.includes('微克')) return 'ug';
+  if (compactUnit.includes('mg') || compactUnit.includes('毫克')) return 'mg';
+  if (compactUnit.includes('g') || compactUnit.includes('克')) return 'g';
+  return compactUnit;
+}
+
 function resolveNutritionDisplayUnit(unitFromField: string, value: string): string {
   const normalizedUnit = normalizeNutritionUnit(unitFromField || parseUnitFromValue(value));
   return normalizedUnit || '';
@@ -69,12 +82,8 @@ function resolveNutritionDisplayUnit(unitFromField: string, value: string): stri
 
 function parseUnitFromValue(value: string): string {
   const normalizedValue = String(value || '').trim().toLowerCase();
-  const match = normalizedValue.match(/(kcal|kj|mg|g)\b/);
+  const match = normalizedValue.match(/(kcal|kj|mg|ug|μg|g|克|毫克|微克|千卡|大卡|cal)/);
   return match ? match[1] : '';
-}
-
-function normalizeNutritionUnit(unit: string): string {
-  return String(unit || '').trim().toLowerCase();
 }
 
 function parseNutritionForComparison(
@@ -86,17 +95,19 @@ function parseNutritionForComparison(
   const unit = normalizeNutritionUnit(resolveNutritionDisplayUnit(field.unit, field.value));
 
   if (key === 'energy') {
-    if (unit === 'kcal' || unit === 'cal') return numeric * 4.184;
+    if (unit === 'kcal') return numeric * 4.184;
     return numeric;
   }
 
   if (key === 'sodium') {
     if (unit === 'g') return numeric * 1000;
+    if (unit === 'ug') return numeric / 1000;
     return numeric;
   }
 
   if (key === 'sugar') {
     if (unit === 'mg') return numeric / 1000;
+    if (unit === 'ug') return numeric / 1_000_000;
     return numeric;
   }
 
@@ -111,11 +122,11 @@ function parseNutrition(report: LabelReport | undefined, key: 'sugar' | 'sodium'
   if (!report) return { value: null, text: '未提供' };
   const field = report.nutritionSection.fields.find((item) => item.key === key);
   if (!field) return { value: null, text: '未提供' };
-  const parsed = parseNutritionForComparison(field, key);
   const hasValue = !!field.value.trim();
   if (!hasValue) {
     return { value: null, text: '未提供' };
   }
+  const parsed = parseNutritionForComparison(field, key);
   const unit = resolveNutritionDisplayUnit(field.unit, field.value);
   const suffix = unit && !field.value.includes(unit) ? unit : '';
   const nrv = field.nrvPercent?.trim();
@@ -227,6 +238,12 @@ const compareRows = computed<CompareMetric[]>(() => {
   if (!canCompare.value || !leftReport.value || !rightReport.value) return [];
   const left = leftReport.value;
   const right = rightReport.value;
+  const hasLeftIngredients = left.ingredientSection.items.length > 0;
+  const hasRightIngredients = right.ingredientSection.items.length > 0;
+  const leftIngredientTotal = hasLeftIngredients ? left.ingredientSection.total : null;
+  const rightIngredientTotal = hasRightIngredients ? right.ingredientSection.total : null;
+  const leftAdditiveCount = hasLeftIngredients ? left.ingredientSection.additiveCount : null;
+  const rightAdditiveCount = hasRightIngredients ? right.ingredientSection.additiveCount : null;
 
   const leftSugar = parseNutrition(left, 'sugar');
   const rightSugar = parseNutrition(right, 'sugar');
@@ -241,19 +258,19 @@ const compareRows = computed<CompareMetric[]>(() => {
   return [
     buildMetric(
       '配料项数量',
-      `${left.ingredientSection.total} 项`,
-      `${right.ingredientSection.total} 项`,
-      left.ingredientSection.total,
-      right.ingredientSection.total,
+      hasLeftIngredients ? `${left.ingredientSection.total} 项` : '未提供',
+      hasRightIngredients ? `${right.ingredientSection.total} 项` : '未提供',
+      leftIngredientTotal,
+      rightIngredientTotal,
       true,
       '配料项更少时，逐项复核通常更清晰。'
     ),
     buildMetric(
       '添加剂相关条目',
-      `${left.ingredientSection.additiveCount} 项`,
-      `${right.ingredientSection.additiveCount} 项`,
-      left.ingredientSection.additiveCount,
-      right.ingredientSection.additiveCount,
+      hasLeftIngredients ? `${left.ingredientSection.additiveCount} 项` : '未提供',
+      hasRightIngredients ? `${right.ingredientSection.additiveCount} 项` : '未提供',
+      leftAdditiveCount,
+      rightAdditiveCount,
       true,
       '添加剂项数更少表示可快速缩短“逐项核对”关注链路。'
     ),
