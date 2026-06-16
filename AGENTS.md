@@ -1,6 +1,6 @@
 # AGENTS.md
 
-编码 Agent（Codex 等）在本仓库工作的强制规范。详细产品说明和历史完整开发约定见 [`readme.md`](./readme.md)，任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)。
+编码 Agent（Codex 等）在本仓库工作的强制规范。详细产品说明和历史完整开发约定见 [`README.md`](./README.md)，任务清单见 [`CODEX_TASKS.md`](./CODEX_TASKS.md)。
 
 ---
 

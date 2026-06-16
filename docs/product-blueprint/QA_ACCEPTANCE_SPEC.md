@@ -10,7 +10,7 @@
 > - `docs/product-blueprint/CROSS_PLATFORM_SPEC.md`：跨端平台能力与验收边界。
 > - `docs/product-blueprint/ARCHITECTURE_SPEC.md`：正式技术栈、旧前端迁移、后端唯一入口、OCR 服务链路和后台分期。
 > - 根目录 `COMMANDS.md`：本仓库**真实可用命令**的权威清单，本文档第 6 章命令矩阵以其为准。
-> - 根目录 `readme.md` 与 `docs/README.md`：项目入口与文档分类索引。
+> - 根目录 `README.md` 与 `docs/README.md`：项目入口与文档分类索引。
 > - 数据状态枚举代码权威来源：`src/utils/dataStatus.js`。
 >
 > 验收原则：所有勾选项以"可观测、可复现"为准；无法确认的标注"待确认"；计划未实现的标注"待办 / 后置"，不得当作已通过。
