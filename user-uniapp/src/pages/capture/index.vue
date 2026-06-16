@@ -6,7 +6,7 @@ import AppCard from '@/components/AppCard.vue';
 import ErrorState from '@/components/ErrorState.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
 import StepIndicator from '@/components/StepIndicator.vue';
-import { routes, navigateToRoute } from '@/constants/routes';
+import { routes } from '@/constants/routes';
 import { chooseLabelImage } from '@/platform/camera';
 import { getScanDraft, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
 import type { LocalImageAsset } from '@/types';
@@ -22,7 +22,12 @@ function isQuickScanMode(value: unknown): boolean {
 }
 
 onLoad((query) => {
-  isFastMode.value = isQuickScanMode(query?.mode || query?.auto || query?.scanMode);
+  const queryFastMode = isQuickScanMode(query?.mode || query?.auto || query?.scanMode);
+  const persistedFastMode = Boolean(getScanDraft().isFastScan);
+  isFastMode.value = queryFastMode || persistedFastMode;
+  if (isFastMode.value) {
+    saveScanDraft({ isFastScan: false });
+  }
 });
 
 onShow(() => {

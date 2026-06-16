@@ -130,6 +130,7 @@ export interface NutritionIngredientCheck {
 export interface ScanDraft {
   image?: LocalImageAsset;
   labelType: LabelType;
+  isFastScan?: boolean;
   scanSessionId?: string;
   classification?: LabelClassification;
   ocr?: OcrResult;

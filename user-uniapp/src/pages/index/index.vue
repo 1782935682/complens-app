@@ -5,7 +5,7 @@ import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import EmptyState from '@/components/EmptyState.vue';
 import { routes, navigateToRoute } from '@/constants/routes';
-import { getReports, resetScanDraft } from '@/stores/scanStore';
+import { getReports, resetScanDraft, setFastScanMode } from '@/stores/scanStore';
 import type { LabelReport } from '@/types';
 
 const reports = ref<LabelReport[]>([]);
@@ -28,12 +28,20 @@ function openReport(report: LabelReport) {
 
 function startManualTextEntry() {
   resetScanDraft();
+  setFastScanMode(false);
   uni.navigateTo({ url: `${routes.confirmText}?entry=manual` });
 }
 
 function startFastScan() {
   resetScanDraft();
-  uni.switchTab({ url: `${routes.capture}?mode=fast` });
+  setFastScanMode(true);
+  uni.switchTab({ url: routes.capture });
+}
+
+function openCapture() {
+  resetScanDraft();
+  setFastScanMode(false);
+  navigateToRoute(routes.capture);
 }
 
 function openCompareMode() {
@@ -53,12 +61,12 @@ function openCompareMode() {
         <text class="home-hero__title">食品标签解读</text>
         <text class="home-hero__subtitle">支持配料表、营养成分表和包装正面。OCR 结果会先进入文本确认页。</text>
         <AppButton @click="startFastScan">极速扫描（拍照即分析）</AppButton>
-        <AppButton variant="secondary" @click="navigateToRoute(routes.capture)">拍照解读食品标签</AppButton>
+        <AppButton variant="secondary" @click="openCapture">拍照解读食品标签</AppButton>
       </view>
     </AppCard>
 
     <view class="quick-grid">
-      <AppButton variant="secondary" @click="navigateToRoute(routes.capture)">上传图片</AppButton>
+      <AppButton variant="secondary" @click="openCapture">上传图片</AppButton>
       <AppButton variant="secondary" class="wide-action" @click="startManualTextEntry">粘贴文字</AppButton>
       <AppButton variant="secondary" @click="openCompareMode">两款商品对比</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.search)">搜索成分</AppButton>
@@ -70,7 +78,7 @@ function openCompareMode() {
     <view>
       <text class="section-title">常见场景</text>
       <view class="scenario-grid">
-        <button v-for="scenario in scenarioCards" :key="scenario" class="scenario-card" @tap="navigateToRoute(routes.capture)">
+        <button v-for="scenario in scenarioCards" :key="scenario" class="scenario-card" @tap="openCapture">
           <text>{{ scenario }}</text>
         </button>
       </view>
@@ -83,7 +91,7 @@ function openCompareMode() {
         title="还没有历史记录"
         description="完成一次食品标签解读后，会在这里看到最近报告。"
         action-label="开始拍照"
-        @action="navigateToRoute(routes.capture)"
+        @action="openCapture"
       />
       <view v-else class="stack">
         <AppCard v-for="report in recentReports" :key="report.id" clickable>

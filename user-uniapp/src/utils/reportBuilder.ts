@@ -205,7 +205,7 @@ function buildNutritionIngredientCheck(options: {
     };
   }
 
-  const numericValue = parseNutritionValue(valueText);
+  const numericValue = parseNutritionValue(valueText, unit, options.key);
   const threshold = options.key === 'sugar' ? 10 : 300;
   if (numericValue > threshold) {
     return {
@@ -397,8 +397,31 @@ function normalizeTerm(value: string): string {
   return normalizeReportText(value).toLowerCase();
 }
 
-function parseNutritionValue(value: string): number {
-  const match = value.match(/(\d+(?:\.\d+)?)/);
+function parseNutritionValue(value: string, unit: string, key: 'sugar' | 'sodium'): number {
+  const valueText = value.replace(/,/g, '').trim();
+  const match = valueText.match(/(\d+(?:\.\d+)?)/);
   if (!match) return 0;
-  return Number.parseFloat(match[1]);
+  const numeric = Number.parseFloat(match[1]);
+  if (!Number.isFinite(numeric)) return 0;
+
+  const normalizedUnit = String(unit || '').toLowerCase();
+  if (key === 'sodium') {
+    if (normalizedUnit === 'g' && valueText.includes('g')) {
+      return numeric * 1000;
+    }
+    return numeric;
+  }
+
+  if (key === 'sugar') {
+    if (normalizedUnit === 'mg' && valueText.includes('mg')) {
+      return numeric / 1000;
+    }
+    return numeric;
+  }
+
+  if (normalizedUnit === 'kcal' || valueText.includes('kcal')) {
+    return numeric * 4.184;
+  }
+
+  return numeric;
 }

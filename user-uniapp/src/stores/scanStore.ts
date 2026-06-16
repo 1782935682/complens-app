@@ -22,6 +22,10 @@ export function getScanDraft(): ScanDraft {
   return readJson<ScanDraft>(DRAFT_KEY, getDefaultDraft());
 }
 
+export function setFastScanMode(enabled: boolean): ScanDraft {
+  return saveScanDraft({ isFastScan: enabled });
+}
+
 export function saveScanDraft(partial: Partial<ScanDraft>): ScanDraft {
   const next = {
     ...getScanDraft(),
