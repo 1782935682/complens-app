@@ -22,6 +22,84 @@ interface BatchSearchResponse {
   }>;
 }
 
+export interface IngredientEvidence {
+  stagingRows?: Array<{
+    id?: string;
+    tableName?: string;
+    additiveNameCn?: string;
+    additiveNameEn?: string;
+    functionText?: string;
+    foodCategoryName?: string;
+    cnsNumber?: string | null;
+    insNumber?: string | null;
+    maxUseLevel?: string;
+    unit?: string;
+    note?: string;
+    sourceName?: string;
+    sourceType?: string;
+    sourceUrl?: string;
+    standardPage?: number;
+    pdfPage?: number;
+    reviewStatus?: string;
+    rawSourceText?: string;
+    reviewedAt?: string;
+  }>;
+  referenceRows?: Array<{
+    id?: string;
+    tableName?: string;
+    tableTitle?: string;
+    rowNumber?: number;
+    rowName?: string;
+    rowCode?: string;
+    rowData?: Record<string, unknown>;
+    sourceName?: string;
+    sourceUrl?: string;
+    rawSourceText?: string;
+    standardPage?: number;
+    pdfPage?: number;
+    reviewStatus?: string;
+  }>;
+}
+
+export interface IngredientDetail extends Record<string, unknown> {
+  id?: string;
+  nameCn?: string;
+  nameEn?: string;
+  aliases?: string[];
+  category?: string;
+  functions?: string[];
+  description?: string;
+  riskLevel?: string;
+  dataStatus?: DataStatus;
+  sourceName?: string;
+  sourceType?: string;
+  sourceScope?: string;
+  sourceVersion?: string;
+  sourceUrl?: string;
+  effectiveDate?: string;
+  confidenceLevel?: string;
+  matchConfidence?: string;
+  reviewNote?: string;
+  rawSourceText?: string;
+  isVerified?: boolean;
+  regulatoryBasis?: string;
+  gbCode?: string;
+  gbStatus?: string;
+  eNumber?: string | null;
+  usageLimits?: Array<{ foodCategory: string; limit: string; note?: string }>;
+  foodCategories?: string[];
+  sourceReferences?: Array<{
+    title?: string;
+    standard?: string;
+    region?: string;
+    url?: string;
+    publishedAt?: string;
+    retrievedAt?: string;
+  }>;
+}
+
+export interface IngredientDetailResponse extends IngredientDetail, IngredientEvidence {}
+
 export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<IngredientMatch[]> {
   const terms = items.map((item) => item.normalizedText.trim()).filter(Boolean);
   if (!terms.length) return [];
@@ -83,6 +161,11 @@ export async function searchIngredients(query: string) {
   const q = encodeURIComponent(query.trim());
   if (!q) return { items: [] };
   return requestJson<{ items?: unknown[] }>(`/ingredients/search?q=${q}&limit=10`, { timeoutMs: 5000 });
+}
+
+export async function getIngredientWithEvidence(id: string) {
+  const encodedId = encodeURIComponent(id);
+  return requestJson<IngredientDetailResponse>(`/ingredients/${encodedId}?includeEvidence=1`, { timeoutMs: 8000 });
 }
 
 function normalizeLookupTerm(value: unknown): string {

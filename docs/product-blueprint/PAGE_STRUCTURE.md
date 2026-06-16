@@ -71,6 +71,7 @@
 | 历史页 | 本地报告列表、打开报告、删除记录、按时间排序 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 已落地 MVP |
 | 我的关注项页 | 本地保存控糖、低钠、少添加、过敏/忌口等关注项和细分项 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 已落地 MVP |
 | 成分搜索页 | 辅助搜索成分，不作为主路径 | `user-uniapp/src/pages/search/index.vue` / `/pages/search/index` | 已落地 MVP |
+| 成分详情页 | 查看单条成分的详情、可信状态、官方依据与复核说明 | `user-uniapp/src/pages/ingredient-detail/index.vue` / `/pages/ingredient-detail/index` | 已落地 MVP |
 | 数据说明页 | 说明 OCR 确认、数据来源分级、AI 非权威、未验证口径 | `user-uniapp/src/pages/data-sources/index.vue` / `/pages/data-sources/index` | 已落地 MVP |
 | 隐私说明页 | 说明图片隐私、后端 OCR、Key 不暴露、本地历史、非医疗建议 | `user-uniapp/src/pages/privacy/index.vue` / `/pages/privacy/index` | 已落地 MVP |
 
@@ -228,7 +229,7 @@
 ### 1.9 成分详情页
 
 - **页面目标**：展示单条成分 / 添加剂的详情，包括来源、可信状态与相关说明。
-- **对应文件 / 路由**：`src/pages/detailPage.js`；`#/ingredient/:id`（带类别如 `#/food/ingredient/:id`，见 `resolveRoute` view `detail`）。
+- **对应文件 / 路由**：`src/pages/ingredient-detail/index.vue`；`/pages/ingredient-detail/index`（`?id=`）。
 - **入口（从哪来）**：analyzePage / 报告中单条配料；搜索结果；对比页。
 - **核心组件**：成分基本信息、可信徽标与来源、相关法规 / 评价说明、收藏入口。
 - **主要操作**：查看详情；收藏；返回来源页。

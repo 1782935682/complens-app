@@ -13,6 +13,7 @@
     { "path": "pages/history/index", "style": { "navigationBarTitleText": "历史记录" } },
     { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的关注项" } },
     { "path": "pages/search/index", "style": { "navigationBarTitleText": "搜索成分" } },
+    { "path": "pages/ingredient-detail/index", "style": { "navigationBarTitleText": "成分详情" } },
     { "path": "pages/data-sources/index", "style": { "navigationBarTitleText": "数据说明" } },
     { "path": "pages/settings/index", "style": { "navigationBarTitleText": "设置" } },
     { "path": "pages/privacy/index", "style": { "navigationBarTitleText": "隐私说明" } }

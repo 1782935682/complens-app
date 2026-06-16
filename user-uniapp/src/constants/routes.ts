@@ -12,6 +12,7 @@ export const routes = {
   history: '/pages/history/index',
   attention: '/pages/attention/index',
   search: '/pages/search/index',
+  ingredientDetail: '/pages/ingredient-detail/index',
   dataSources: '/pages/data-sources/index',
   settings: '/pages/settings/index',
   privacy: '/pages/privacy/index'

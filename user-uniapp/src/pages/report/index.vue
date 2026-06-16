@@ -11,7 +11,7 @@ import { routes, navigateToRoute } from '@/constants/routes';
 import { childGuardCategories, type ChildGuardCategory } from '@/constants/childGuard';
 import { shareReport } from '@/platform/share';
 import { getReportById, getReports } from '@/stores/scanStore';
-import type { LabelReport, NutritionField } from '@/types';
+import type { IngredientMatch, LabelReport, NutritionField } from '@/types';
 
 const report = ref<LabelReport | undefined>();
 const showSources = ref(false);
@@ -159,6 +159,18 @@ const quickSignal = computed<QuickSignal>(() => {
   };
 });
 
+function openIngredientDetail(item: IngredientMatch) {
+  const ingredientId = item.ingredientId;
+  if (!ingredientId) {
+    uni.showToast({
+      title: '该项暂无可复用成分 ID，请先在搜索页确认后查看。',
+      icon: 'none'
+    });
+    return;
+  }
+  navigateToRoute(`${routes.ingredientDetail}?id=${encodeURIComponent(ingredientId)}`);
+}
+
 onLoad((query) => {
   const id = String(query?.id || '');
   report.value = id ? getReportById(id) : getReports()[0];
@@ -276,7 +288,15 @@ function openCompareMode() {
           <text class="section-title">配料表解读</text>
           <text class="muted">识别到 {{ report.ingredientSection.total }} 项配料，{{ report.ingredientSection.additiveCount }} 项进入食品添加剂分组。</text>
           <view class="pill-list">
-            <IngredientChip v-for="item in report.ingredientSection.items" :key="item.id" :name="item.normalizedText" :status="item.dataStatus" />
+            <view v-for="item in report.ingredientSection.items" :key="item.id" class="report-ingredient-item">
+              <AppCard :clickable="Boolean(item.ingredientId)" @click="openIngredientDetail(item)">
+                <view class="report-ingredient-row">
+                  <IngredientChip :name="item.normalizedText" :status="item.dataStatus" />
+                  <text v-if="item.ingredientId" class="muted report-ingredient-row__hint">点击查看成分依据</text>
+                  <text v-else class="muted report-ingredient-row__hint">当前项暂未绑定官方成分 ID。</text>
+                </view>
+              </AppCard>
+            </view>
           </view>
         </view>
       </AppCard>
@@ -333,7 +353,17 @@ function openCompareMode() {
           <EmptyState v-if="!report.additiveGroups.length" icon="🍃" title="未识别到添加剂分组" description="这只表示当前文本和数据未匹配到相关分组，建议结合包装原文确认。" />
           <view v-for="group in report.additiveGroups" :key="group.label" class="report-list-item">
             <text class="report-list-item__title">{{ group.label }}</text>
-            <text class="muted">{{ group.items.map((item) => item.normalizedText).join('、') }}</text>
+            <view class="pill-list">
+              <view v-for="item in group.items" :key="item.id" class="report-ingredient-item">
+                <AppCard :clickable="Boolean(item.ingredientId)" @click="openIngredientDetail(item)">
+                  <view class="report-ingredient-row">
+                    <IngredientChip :name="item.normalizedText" :status="item.dataStatus" />
+                    <text v-if="item.ingredientId" class="muted report-ingredient-row__hint">点击查看成分依据</text>
+                    <text v-else class="muted report-ingredient-row__hint">当前项暂未绑定官方成分 ID。</text>
+                  </view>
+                </AppCard>
+              </view>
+            </view>
           </view>
         </view>
       </AppCard>
@@ -465,6 +495,22 @@ function openCompareMode() {
   background: rgba(156, 163, 175, 0.12);
   border: 1px solid var(--status-unverified);
   color: var(--status-unverified);
+}
+
+.report-ingredient-item {
+  display: flex;
+}
+
+.report-ingredient-row {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.report-ingredient-row__hint {
+  font-size: var(--font-size-xs);
 }
 
 .child-care-row {

@@ -1,5 +1,26 @@
 # AI Review — 2026-06-16
 
+## 2026-06-16 REPORT-TRACE: 报告页成分条目追溯入口
+
+### 本轮目标
+
+补齐 `user-uniapp` 报告页到成分详情页的追溯入口：配料表与添加剂分组条目支持跳转；无可复用 ID 时给出轻提示，保持数据可信边界（不输出权威结论）。
+
+### 已检查并修改的文件
+
+- `user-uniapp/src/pages/report/index.vue`
+
+### 已完成修改
+
+1. 在报告页定义 `IngredientMatch` 路由参数类型，新增 `openIngredientDetail(item: IngredientMatch)`。有 `ingredientId` 时跳转 `routes.ingredientDetail`；无 `ingredientId` 时提示“暂无可复用成分 ID”。
+2. “配料表解读”列表项改为可点击卡片，保留状态与复用提示文案（可追溯/未绑定）。
+3. “食品添加剂分组”内每个 `group.items` 同步改为可追溯项，支持有 ID 可进详情、无 ID 提示未绑定。
+4. 新增配套样式（`.report-ingredient-item`、`.report-ingredient-row`、`.report-ingredient-row__hint`）强化点击与状态区分。
+
+### 验证与发布
+
+- `git diff --check`（通过）
+
 ## Batch CONSUMER-FS-B：育儿守护模式
 
 ### 本轮目标
