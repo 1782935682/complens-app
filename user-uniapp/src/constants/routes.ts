@@ -8,6 +8,7 @@ export const routes = {
   nutrition: '/pages/nutrition/index',
   match: '/pages/match/index',
   report: '/pages/report/index',
+  compare: '/pages/compare/index',
   history: '/pages/history/index',
   attention: '/pages/attention/index',
   search: '/pages/search/index',

@@ -67,6 +67,7 @@
 | 营养成分表解析页 | 结构化能量、蛋白质、脂肪、糖、钠、NRV% 等字段 | `user-uniapp/src/pages/nutrition/index.vue` / `/pages/nutrition/index` | 已落地 MVP |
 | 匹配确认页 | 汇总配料/营养与我的关注项命中，确认后生成报告 | `user-uniapp/src/pages/match/index.vue` / `/pages/match/index` | 已落地 MVP |
 | 食品标签解读报告页 | 展示一句话摘要、关注项、配料/营养解读、添加剂分组、过敏/忌口、来源依据 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 已落地 MVP |
+| 对比页 | 两款报告并排展示关键指标、偏向提示、缺失兜底提示 | `user-uniapp/src/pages/compare/index.vue` / `/pages/compare/index` | 已落地 MVP |
 | 历史页 | 本地报告列表、打开报告、删除记录、按时间排序 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 已落地 MVP |
 | 我的关注项页 | 本地保存控糖、低钠、少添加、过敏/忌口等关注项和细分项 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 已落地 MVP |
 | 成分搜索页 | 辅助搜索成分，不作为主路径 | `user-uniapp/src/pages/search/index.vue` / `/pages/search/index` | 已落地 MVP |

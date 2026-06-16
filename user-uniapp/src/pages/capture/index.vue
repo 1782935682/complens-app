@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onShow } from '@dcloudio/uni-app';
+import { onLoad, onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
@@ -14,6 +14,16 @@ import type { LocalImageAsset } from '@/types';
 const image = ref<LocalImageAsset | undefined>();
 const error = ref('');
 const steps = ['拍照', '识别', '确认', '报告'];
+const isFastMode = ref(false);
+
+function isQuickScanMode(value: unknown): boolean {
+  const normalized = String(value || '').toLowerCase();
+  return normalized === 'fast' || normalized === '1' || normalized === 'true' || normalized === 'auto';
+}
+
+onLoad((query) => {
+  isFastMode.value = isQuickScanMode(query?.mode || query?.auto || query?.scanMode);
+});
 
 onShow(() => {
   const draftImage = getScanDraft().image;
@@ -53,7 +63,8 @@ function continueToOcr() {
     return;
   }
   saveScanDraft({ image: image.value });
-  uni.navigateTo({ url: routes.ocr });
+  const nextRoute = isFastMode.value ? `${routes.ocr}?mode=fast` : routes.ocr;
+  uni.navigateTo({ url: nextRoute });
 }
 </script>
 

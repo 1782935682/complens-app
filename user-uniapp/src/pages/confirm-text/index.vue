@@ -13,11 +13,14 @@ import type { LabelType, ScanDraft } from '@/types';
 const text = ref('');
 const productName = ref('');
 const labelType = ref<LabelType>('unknown_label');
+const isFastFlow = ref(false);
 const steps = ['拍照', '识别', '确认', '报告'];
 const isEmpty = computed(() => !text.value.trim());
 
 onLoad((query) => {
-  const draft = String(query?.entry || '') === 'manual' ? resetScanDraft() : getScanDraft();
+  const shouldResetDraft = String(query?.entry || '') === 'manual' && String(query?.mode || '') !== 'fast';
+  isFastFlow.value = String(query?.mode || '') === 'fast';
+  const draft = shouldResetDraft ? resetScanDraft() : getScanDraft();
   text.value = draft.confirmedText || draft.ocr?.text || '';
   productName.value = draft.productName || '';
   labelType.value = draft.labelType || 'unknown_label';
@@ -83,6 +86,7 @@ function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<Scan
     <view>
       <text class="page-title">文本确认</text>
       <text class="page-subtitle">请先核对 OCR 原文。确认后的文本才会进入配料拆分、营养解析和报告。</text>
+      <text v-if="isFastFlow" class="muted">极速扫描已进入文本确认，建议先核对文本与标签类型，再进入下一步。</text>
     </view>
     <StepIndicator :steps="steps" :active-index="2" />
     <AppCard>

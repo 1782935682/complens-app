@@ -9,6 +9,7 @@
     { "path": "pages/nutrition/index", "style": { "navigationBarTitleText": "营养解析" } },
     { "path": "pages/match/index", "style": { "navigationBarTitleText": "匹配确认" } },
     { "path": "pages/report/index", "style": { "navigationBarTitleText": "食品标签解读" } },
+    { "path": "pages/compare/index", "style": { "navigationBarTitleText": "两款商品对比" } },
     { "path": "pages/history/index", "style": { "navigationBarTitleText": "历史记录" } },
     { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的关注项" } },
     { "path": "pages/search/index", "style": { "navigationBarTitleText": "搜索成分" } },

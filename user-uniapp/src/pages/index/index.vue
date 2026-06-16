@@ -30,6 +30,15 @@ function startManualTextEntry() {
   resetScanDraft();
   uni.navigateTo({ url: `${routes.confirmText}?entry=manual` });
 }
+
+function startFastScan() {
+  resetScanDraft();
+  uni.navigateTo({ url: `${routes.capture}?mode=fast` });
+}
+
+function openCompareMode() {
+  uni.navigateTo({ url: routes.compare });
+}
 </script>
 
 <template>
@@ -43,13 +52,15 @@ function startManualTextEntry() {
       <view class="home-hero">
         <text class="home-hero__title">食品标签解读</text>
         <text class="home-hero__subtitle">支持配料表、营养成分表和包装正面。OCR 结果会先进入文本确认页。</text>
-        <AppButton @click="navigateToRoute(routes.capture)">拍照解读食品标签</AppButton>
+        <AppButton @click="startFastScan">极速扫描（拍照即分析）</AppButton>
+        <AppButton variant="secondary" @click="navigateToRoute(routes.capture)">拍照解读食品标签</AppButton>
       </view>
     </AppCard>
 
     <view class="quick-grid">
       <AppButton variant="secondary" @click="navigateToRoute(routes.capture)">上传图片</AppButton>
       <AppButton variant="secondary" class="wide-action" @click="startManualTextEntry">粘贴文字</AppButton>
+      <AppButton variant="secondary" @click="openCompareMode">两款商品对比</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.search)">搜索成分</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.history)">历史记录</AppButton>
       <AppButton variant="secondary" @click="navigateToRoute(routes.attention)">我的关注项</AppButton>

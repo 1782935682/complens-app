@@ -1,21 +1,33 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import { onLoad } from '@dcloudio/uni-app';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import ErrorState from '@/components/ErrorState.vue';
 import LoadingState from '@/components/LoadingState.vue';
 import StepIndicator from '@/components/StepIndicator.vue';
+import { labelTypeLabels } from '@/constants/labelTypes';
 import { routes } from '@/constants/routes';
-import { recognizeImageByBackend, buildManualOcrResult } from '@/services/api/ocr';
-import { upsertLabelScanSessionWithAdapter } from '@/services/api/labels';
+import { buildManualOcrResult, recognizeImageByBackend } from '@/services/api/ocr';
+import { classifyLabelWithAdapter, upsertLabelScanSessionWithAdapter } from '@/services/api/labels';
 import { getScanDraft, saveScanDraft } from '@/stores/scanStore';
-import type { OcrResult } from '@/types';
+import type { LabelClassification, LabelType, OcrResult } from '@/types';
+
+const AUTO_LABEL_CONFIDENCE = 0.72;
+const AUTO_OCR_CONFIDENCE = 0.35;
 
 const loading = ref(false);
 const result = ref<OcrResult | undefined>();
 const error = ref('');
+const isFastMode = ref(false);
+const autoClassification = ref<LabelClassification | undefined>();
 const steps = ['拍照', '识别', '确认', '报告'];
 const canContinue = computed(() => Boolean(result.value));
+
+onLoad((query) => {
+  const mode = String(query?.mode || '');
+  isFastMode.value = mode === 'fast' || mode === 'auto';
+});
 
 onMounted(() => {
   void runOcr();
@@ -30,18 +42,45 @@ async function runOcr() {
   loading.value = true;
   error.value = '';
   result.value = undefined;
+  autoClassification.value = undefined;
   try {
     const next = await recognizeImageByBackend(draft.image);
     result.value = next;
+    const classification = isFastMode.value ? await classifyLabelWithAdapter(next.text || '') : undefined;
+
+    if (isFastMode.value && classification) {
+      autoClassification.value = classification;
+      const autoLabelType = shouldUseAutoLabelType(classification, next) ? classification.labelType : 'unknown_label';
+      saveScanDraft({
+        ocr: next,
+        confirmedText: next.text || draft.confirmedText || '',
+        classification,
+        labelType: autoLabelType
+      });
+      void syncScanSession(next, 'auto', autoLabelType);
+      if (!next.text) {
+        error.value = '当前未识别到有效文字，请补充手动输入或重拍。';
+      } else if (next.mode === 'fallback') {
+        error.value = next.errorMessage || '识别结果置信度不足，建议确认后再继续。';
+      }
+      continueToQuickConfirm();
+      return;
+    }
+
     void syncScanSession(next);
     saveScanDraft({ ocr: next, confirmedText: next.text || draft.confirmedText || '' });
     if (next.mode === 'fallback') error.value = next.errorMessage || '识别失败，可重试或手动输入。';
   } catch {
     const next = buildManualOcrResult();
     result.value = next;
+    autoClassification.value = undefined;
     void syncScanSession(next, 'manual');
     saveScanDraft({ ocr: next, confirmedText: draft.confirmedText || '' });
     error.value = '图片暂不能读取或识别失败，可手动输入。';
+    if (isFastMode.value) {
+      continueToQuickConfirm();
+      return;
+    }
   } finally {
     loading.value = false;
   }
@@ -52,10 +91,14 @@ function manualInput() {
   result.value = manual;
   void syncScanSession(manual, 'manual');
   saveScanDraft({ ocr: manual, confirmedText: '' });
-  uni.navigateTo({ url: routes.confirmText });
+  continueToQuickConfirm();
 }
 
-async function syncScanSession(ocrResult: OcrResult, fallbackMode: 'manual' | 'auto' = 'auto') {
+async function syncScanSession(
+  ocrResult: OcrResult,
+  fallbackMode: 'manual' | 'auto' = 'auto',
+  labelType?: LabelType
+) {
   const draft = getScanDraft();
   if (!draft.image) return;
 
@@ -63,7 +106,7 @@ async function syncScanSession(ocrResult: OcrResult, fallbackMode: 'manual' | 'a
     sessionId: draft.scanSessionId,
     images: [{
       assetId: draft.image.id,
-      labelType: draft.labelType,
+      labelType: labelType || draft.labelType || 'unknown_label',
       mimeType: draft.image.mimeType,
       status: mapScanStatus(ocrResult, fallbackMode)
     }]
@@ -74,6 +117,43 @@ async function syncScanSession(ocrResult: OcrResult, fallbackMode: 'manual' | 'a
   }
 }
 
+function continueToQuickConfirm() {
+  const target = isFastMode.value ? `${routes.confirmText}?mode=fast` : routes.confirmText;
+  uni.navigateTo({ url: target });
+}
+
+function continueToLabelType() {
+  uni.navigateTo({ url: routes.labelType });
+}
+
+function continueToNext() {
+  if (isFastMode.value) {
+    continueToQuickConfirm();
+    return;
+  }
+  continueToLabelType();
+}
+
+function shouldUseAutoLabelType(classification: LabelClassification, ocrResult: OcrResult): boolean {
+  if (ocrResult.mode !== 'real') return false;
+  if (!classification.labelType || classification.labelType === 'unknown_label') return false;
+  if (classification.requiresUserSelection) return false;
+  if (classification.confidence < AUTO_LABEL_CONFIDENCE) return false;
+  if (ocrResult.confidence < AUTO_OCR_CONFIDENCE) return false;
+  return true;
+}
+
+const autoLabelTypeText = computed(() => {
+  if (!autoClassification.value) return '';
+  return labelTypeLabels[autoClassification.value.labelType];
+});
+
+function mapLabelSelectionState() {
+  if (!autoClassification.value) return '';
+  if (autoClassification.value.requiresUserSelection) return '置信度不足，已降级到文本确认。';
+  return `${autoLabelTypeText.value}（${Math.round(autoClassification.value.confidence * 100)}%）`;
+}
+
 function mapScanStatus(ocrResult: OcrResult, fallbackMode: 'manual' | 'auto'): 'ocr_input' | 'ocr_success' | 'ocr_failed' | 'manual_entry' {
   if (fallbackMode === 'manual' || ocrResult.mode === 'manual') {
     return 'manual_entry';
@@ -82,10 +162,6 @@ function mapScanStatus(ocrResult: OcrResult, fallbackMode: 'manual' | 'auto'): '
     return 'ocr_failed';
   }
   return ocrResult.text ? 'ocr_success' : 'ocr_failed';
-}
-
-function continueToLabelType() {
-  uni.navigateTo({ url: routes.labelType });
 }
 </script>
 
@@ -102,10 +178,11 @@ function continueToLabelType() {
       <view class="stack">
         <text class="section-title">识别结果</text>
         <text class="muted">Provider：{{ result.provider }}；置信度：{{ Math.round(result.confidence * 100) }}%</text>
+        <text v-if="isFastMode && autoClassification" class="muted">标签类型识别：{{ mapLabelSelectionState() }}</text>
         <text class="ocr-text">{{ result.text || '当前没有自动识别文本，可手动输入。' }}</text>
       </view>
     </AppCard>
-    <AppButton :disabled="!canContinue || loading" @click="continueToLabelType">确认标签类型</AppButton>
+    <AppButton :disabled="!canContinue || loading" @click="continueToNext">{{ isFastMode ? '进入文本确认' : '确认标签类型' }}</AppButton>
     <AppButton variant="secondary" @click="manualInput">手动输入</AppButton>
   </view>
 </template>

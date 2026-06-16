@@ -115,12 +115,7 @@
   3. 同步 `ARCHITECTURE_SPEC.md`、`ADMIN_CONSOLE_SPEC.md`、`API_CONTRACT.md`、`PROJECT_PLAN.md`、`AGENTS.md`、`COMMANDS.md`。
 
 → 下一个可执行任务：
-  1. 本批收口：`POST /api/reports/label` 后端实现已接入并在匹配确认页回退测试通过；下一步继续 Batch 1-E / UX/A 设计统一推进项。
-  2. ADMIN-E 会员订阅/支付继续 `blocked_by_user`，不阻塞主路径后端化。
-  3. Batch CONSUMER-FS-A：超市单手盲拍极速路径（自动分类默认分析 + 低置信回到文本确认）
-  4. Batch CONSUMER-FS-B：育儿守护模式（儿童关注成分筛查与复合添加剂提示）
-  5. Batch CONSUMER-FS-C：营养-配料双向核验（糖/钠交叉对比）
-  6. Batch CONSUMER-LABEL-F：两款商品 Compare Mode 并排对比（对比页与偏向提示）
+  1. ADMIN-E 会员订阅/支付继续 `blocked_by_user`，不阻塞主路径。
 
 PR 切分约束（按你的要求固定）：
 1. Batch CONSUMER-FS-A 走一个独立 PR（本轮先做超市盲拍场景闭环）。
@@ -153,6 +148,11 @@ PR 切分约束（按你的要求固定）：
 | Batch 1-Seed | 食品数据扩充确认（100 条 seed） | ✅ 2026-06-11 |
 | Batch 2-Vite | 前端工程化迁移（Vite） | ✅ 2026-06-11 |
 | Batch 2-Cap | Capacitor 项目脚手架 + 原生权限适配 | ✅ 2026-06-11 |
+| CONSUMER-FS-A | 超市单手盲拍极速路径（自动分类默认分析 + 低置信回到文本确认） | ✅ 2026-06-16 |
+| CONSUMER-FS-B | 育儿守护模式（儿童关注成分筛查与复合添加剂提示） | ✅ 2026-06-16 |
+| CONSUMER-FS-C | 营养-配料双向核验（糖/钠高价值项交叉核验） | ✅ 2026-06-16 |
+| CONSUMER-LABEL-F | 两款商品对比（Compare Mode） | ✅ 2026-06-16 |
+
 | Batch 3-API | 后端初始化（Hono/TS）+ 数据库 Schema + 成分 API | ✅ 2026-06-11 |
 | Batch 3-Auth | 账号鉴权 + 收藏/历史云同步 | ✅ 2026-06-12 |
 | Data 旧 1-A | 来源字段、数据库 API、前端降级闭环 | ✅ 2026-06-12 |
@@ -1532,13 +1532,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`；实现时按改动范围补充 lint/test。
 
-状态：⏸ 后置。
+状态：✅ 已完成（2026-06-16）。
 
 ### Batch CONSUMER-FS-A：超市单手盲拍极速路径 [Codex]
 
 目标：在超市/便利店等单手操作受限场景下，支持用户“拍照即分析”主路径，降低认知与操作成本。
 
-涉及文件：`src/mainPage.js`、`src/pages/capturePage.js`、`src/pages/confirmPage.js`、`src/pages/reportDetailPage.js`、`src/services/scanService.js`、`src/services/labelService.js`、`docs/product-blueprint/UX_SPEC.md`（新增/更新）。
+涉及文件：`user-uniapp/src/pages/index/index.vue`、`user-uniapp/src/pages/capture/index.vue`、`user-uniapp/src/pages/ocr/index.vue`、`user-uniapp/src/pages/confirm-text/index.vue`、`user-uniapp/src/pages/report/index.vue`、`docs/product-blueprint/UX_SPEC.md`（如需更新可同步补充）。
 
 实现内容：
 1. 首页与拍照页新增“极速扫描”高优先按钮，点击后默认自动分类（`auto`）并跳过手动标签类型选择。
@@ -1557,13 +1557,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`；按实现范围补充 `npm run lint` + 相关页面验证。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-16）。
 
 ### Batch CONSUMER-FS-B：育儿守护模式 [Codex]
 
 目标：面向育儿用户的成分过滤场景提供一键“儿童视角”，提升家长识别色素、甜味剂、化学鸡尾酒风险效率。
 
-涉及文件：`src/pages/reportDetailPage.js`、`src/services/compareService.js`、`src/services/reportSummary.js`、`src/data/childrenIngredientFocusList.js`（新增）、`docs/product-blueprint/DATA_TRUST_SPEC.md`（补充口径）。
+涉及文件：`user-uniapp/src/pages/report/index.vue`、`user-uniapp/src/constants/childGuard.ts`（新增） 、`docs/product-blueprint/DATA_TRUST_SPEC.md`（如需补充口径）。
 
 实现内容：
 1. 报告页增加“育儿守护模式”开关，开启后优先展示儿童关注成分与风险提示。
@@ -1581,13 +1581,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`；按实现范围补充 `npm run lint` + 表达规范自检。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-16）。
 
 ### Batch CONSUMER-FS-C：营养-配料双向核验 [Codex]
 
 目标：支持“伪健康”场景识别：将营养表主张与配料表线索互相校验（先做糖、钠高价值项）。
 
-涉及文件：`src/services/nutritionParser.js`、`src/services/scanService.js`、`src/pages/reportDetailPage.js`、`src/pages/reportComparePage.js`（计划）、`docs/product-blueprint/API_CONTRACT.md`（接口补充）。
+涉及文件：`user-uniapp/src/utils/reportBuilder.ts`、`user-uniapp/src/pages/report/index.vue`、`user-uniapp/src/types/index.ts`（新增/复用字段）、`docs/product-blueprint/API_CONTRACT.md`（如需补充）。
 
 实现内容：
 1. 解析营养成分表中的糖/钠字段与配料表中的高糖/高钠相关词（麦芽糖浆、果葡糖浆、浓缩果汁、谷氨酸钠/盐替代）进行可疑关联。
@@ -1605,18 +1605,19 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 验证命令：`git diff --check`；按实现范围补充 `npm run lint` + 解析字段回归测试。
 
-状态：⏸ 待开始。
+状态：✅ 已完成（2026-06-16）。
 
-### Batch CONSUMER-LABEL-F：两款商品对比（Compare Mode） [Codex / 后续]
+### Batch CONSUMER-LABEL-F：两款商品对比（Compare Mode） [Codex]
 
 目标：支持两款食品并排对比，覆盖配料干净度、添加剂数量、热量和钠含量，给出更贴合关注目标的倾向提示。
 
-涉及文件：`src/pages/comparePage.js`、`src/services/compareService.js`、`src/pages/reportDetailPage.js`、`docs/product-blueprint/PAGE_STRUCTURE.md`、`docs/product-blueprint/API_CONTRACT.md`。
+涉及文件：`user-uniapp/src/pages/compare/index.vue`、`user-uniapp/src/constants/routes.ts`、`user-uniapp/src/pages.json`、`user-uniapp/src/pages/index/index.vue`、`user-uniapp/src/pages/report/index.vue`、`docs/product-blueprint/PAGE_STRUCTURE.md`。
 
 实现内容：
-1. 支持拍 A/B 直接连拍或从历史选择两条报告进入 Compare Mode。
-2. 对比维度包含配料数、添加剂数、热量、钠含量、糖标号、用户关注项命中率。
-3. 输出“更符合当前关注目标的倾向提示”（不输出绝对健康性结论）。
+1. 新增 `user-uniapp` Compare Mode 页面与左右商品 report 选择入口，支持从历史直接选择两份报告或通过 query 预填对比对象。
+2. 对比维度覆盖配料项、添加剂项、关注项命中、暂未识别项、糖/钠/热量标称与可疑营养核对计数，支持信息缺失兜底。
+3. 输出“更符合当前关注目标的偏向提示”（不输出绝对健康性结论）。
+4. 在 `docs/product-blueprint/PAGE_STRUCTURE.md` 登记新增 compare 页面。
 
 验收标准：
 1. 对比页支持左右分栏/同屏对比。
@@ -1626,11 +1627,11 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 是否需要人工：否。
 
-阻塞条件：MVP 后置；`POST /api/reports/compare` 为计划 API，先出静态对比闭环可降级。
+阻塞条件：无（本轮为前端降级闭环）。
 
-验证命令：`git diff --check`；实现时按改动范围补充 lint/test。
+验证命令：`git diff --check`；按实现范围补充 `cd user-uniapp && npm run lint` + `cd user-uniapp && npm run typecheck`。
 
-状态：⏸ 后置。
+状态：✅ 已完成（2026-06-16）。
 
 ---
 

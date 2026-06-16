@@ -1,4 +1,85 @@
-# AI Review — 2026-06-16 UI/UX Style Optimization
+# AI Review — 2026-06-16
+
+## Batch CONSUMER-FS-B：育儿守护模式
+
+### 本轮目标
+
+为 `user-uniapp` 报告页补齐“育儿守护模式”，支持儿童关注成分（色素/防腐剂/甜味剂）分层筛查与复合风险提示，降低家长在配料主路径下的识别成本。
+
+### 已检查并修改的文件
+
+- `user-uniapp/src/pages/report/index.vue`
+- `user-uniapp/src/constants/childGuard.ts`
+
+### 已完成修改
+
+1. 报告页新增“育儿守护模式”开关，并与“快速摘要”联动，支持开启/关闭即时更新提示结果。
+2. 维护 `childGuard.ts` 候选库（防腐剂、甜味剂、色素）并在报告配料文本内进行按类别命中匹配与分组展示。
+3. 当防腐剂/甜味剂命中较多时，输出复合风险温馨提示；文案统一为提示级，不输出医疗化断言。
+4. 快速摘要提示词统一为 `建议关注` / `可能关注` / `信息不足`，并加入“信息不足请补充照片 / 需结合包装原文确认”。
+
+### 验证与发布
+
+- `git diff --check`（通过）
+- `cd user-uniapp && npm run lint`（通过）
+- `cd user-uniapp && npm run typecheck`（通过）
+
+## 2026-06-16 CONSUMER-FS-C：营养-配料双向核验
+
+### 本轮目标
+
+在报告页补齐“营养表-配料表”双向核验：先做糖、钠高价值项，生成提示级核对信息，支持 `信息不足` 与 `未发现明显冲突` 两类空/弱信号，不输出医疗化或健康性结论。
+
+### 已检查并修改的文件
+
+- `user-uniapp/src/types/index.ts`
+- `user-uniapp/src/utils/reportBuilder.ts`
+- `user-uniapp/src/pages/report/index.vue`
+
+### 已完成修改
+
+1. 扩展 `LabelReport` 的营养核验字段，沉淀 `nutritionIngredientChecks`（糖/钠）数据。
+2. 在报告构建中新增营养值与配料线索匹配逻辑：糖/钠营养字段命中高价值配料词时给出提示；未命中或信息不足则给出降级态说明。
+3. 报告页新增“营养-配料双向核验”卡片，展示可疑关联、未发现明显冲突与信息不足三类状态，并保留可追溯线索展示。
+4. 未引入医疗/健康性结论，所有文案都约束为“核对优先”与“结合包装原文确认”。
+
+### 验证与发布
+
+- `git diff --check`（通过）
+- `cd user-uniapp && npm run lint`（通过）
+- `cd user-uniapp && npm run typecheck`（通过）
+
+## 2026-06-16 CONSUMER-LABEL-F：两款商品 Compare Mode
+
+### 本轮目标
+
+为 `user-uniapp` 增加 Compare Mode 并排对比页，支持两份历史报告选取/对比、指标差异提示与信息不足降级，提供“偏向提示”但不输出医疗或健康性结论。
+
+### 已检查并修改的文件
+
+- `user-uniapp/src/pages/compare/index.vue`
+- `user-uniapp/src/constants/routes.ts`
+- `user-uniapp/src/pages.json`
+- `user-uniapp/src/pages/index/index.vue`
+- `user-uniapp/src/pages/report/index.vue`
+- `docs/product-blueprint/PAGE_STRUCTURE.md`
+
+### 已完成修改
+
+1. 新增 `Compare Mode` 页面，支持左右商品从历史切换，支持 query 预选 (`left`/`right`/`a`/`b`/`id`)。
+2. 对比卡与指标矩阵覆盖配料项、添加剂项、关注项、暂未识别项、糖/钠/热量指标和营养核对信号；缺失指标自动走 `空态/可操作提示`。
+3. 新增“偏向提示”区块，基于指标差异给出文案建议，并保留“信息不足，需结合包装原文确认”兜底。
+4. 报告页和首页新增对比入口，`PAGE_STRUCTURE.md` 完成新页面登记。
+
+### 验证与发布
+
+- `git diff --check`（通过）
+- `cd user-uniapp && npm run lint`（通过）
+- `cd user-uniapp && npm run typecheck`（通过）
+
+---
+
+## 2026-06-16 UI/UX Style Optimization
 
 ## 本轮目标
 
