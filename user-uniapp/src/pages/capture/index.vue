@@ -1,26 +1,34 @@
 <script setup lang="ts">
-import { onLoad, onShow } from '@dcloudio/uni-app';
+import { onLoad, onShow, onUnload } from '@dcloudio/uni-app';
 import { computed, ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
-import EmptyState from '@/components/EmptyState.vue';
 import ErrorState from '@/components/ErrorState.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
 import LoadingState from '@/components/LoadingState.vue';
 import PageHeader from '@/components/PageHeader.vue';
 import StepIndicator from '@/components/StepIndicator.vue';
-import { dataStatusLabel } from '@/constants/dataStatus';
-import { routes, navigateToRoute } from '@/constants/routes';
+import { allergenOptions } from '@/constants/attention';
+import { routes } from '@/constants/routes';
 import { chooseLabelImage } from '@/platform/camera';
-import { buildLabelReportWithAdapter, classifyLabelWithAdapter, parseNutritionWithAdapter, upsertLabelScanSessionWithAdapter } from '@/services/api/labels';
+import { matchIngredientsByApi } from '@/services/api/ingredients';
+import { buildLabelReportWithAdapter, parseNutritionWithAdapter } from '@/services/api/labels';
 import { buildManualOcrResult, recognizeImageByBackend } from '@/services/api/ocr';
-import { buildWebSearchUrl, matchIngredientsByApi } from '@/services/api/ingredients';
 import { getAttentionSettings } from '@/stores/attentionStore';
 import { getScanDraft, resetScanDraft, saveReport, saveScanDraft } from '@/stores/scanStore';
-import type { AttentionSettings, IngredientMatch, LabelClassification, LabelType, LocalImageAsset, OcrResult, ParsedIngredient, ReportAnalysisSource, ScanDraft } from '@/types';
+import type { AttentionSettings, LabelType, LocalImageAsset, OcrResult, ScanDraft } from '@/types';
 import { recognizeAdditivesFromText } from '@/utils/additiveRules';
 import { parseIngredientList } from '@/utils/ingredientParser';
-import { buildMockProductText, findMockProductByText, type MockProductRecord } from '@/utils/mockProductLibrary';
+import { extractLabelText, type LabelTextExtraction, type LabelTextConfidence, type LabelTextSourceType } from '@/utils/labelTextExtractor';
+import { classifyLabelText } from '@/utils/labelClassifier';
+import {
+  buildEffectiveLabelTextFromParts,
+  buildLocalLabelAnalysis,
+  buildScanDraftFromAnalysis,
+  type LocalLabelAnalysisInput,
+  type LocalLabelAnalysisResult
+} from '@/utils/localLabelAnalysis';
+import { normalizeOcrResult } from '@/utils/ocrAdapter';
 
 type CaptureStage = 'pick' | 'recognizing' | 'confirm';
 type QueryMap = Record<string, unknown>;
@@ -28,25 +36,48 @@ type QueryMap = Record<string, unknown>;
 const image = ref<LocalImageAsset | undefined>();
 const stage = ref<CaptureStage>('pick');
 const error = ref('');
+const editHint = ref('');
 const ocrResult = ref<OcrResult | undefined>();
-const text = ref('');
+const rawOcrText = ref('');
+const ingredientText = ref('');
+const nutritionText = ref('');
+const allergenText = ref('');
+const frontClaimsText = ref('');
+const ignoredText = ref<string[]>([]);
+const extractionConfidence = ref<LabelTextConfidence>('low');
+const extractionSourceType = ref<LabelTextSourceType>('ocr');
+const manualOverride = ref(false);
 const productName = ref('');
-const classification = ref<LabelClassification | undefined>();
 const labelType = ref<LabelType>('unknown_label');
-const isFastMode = ref(false);
 const generating = ref(false);
-const libraryCandidate = ref<MockProductRecord | undefined>();
+const loadingText = ref('');
+const loadingTimer = ref<ReturnType<typeof setInterval> | undefined>();
 const attentionSettings = ref<AttentionSettings>(getAttentionSettings());
-const steps = ['输入', '分析', '结果'];
-const isEmpty = computed(() => !text.value.trim());
-const activeStep = computed(() => (stage.value === 'confirm' ? 1 : 0));
-const additivePreview = computed(() => recognizeAdditivesFromText(text.value, attentionSettings.value).slice(0, 4));
-const quickSignals = computed(() => buildQuickSignals(text.value, additivePreview.value.length));
+const steps = ['输入', '确认', '解读'];
 
-function isQuickScanMode(value: unknown): boolean {
-  const normalized = String(value || '').toLowerCase();
-  return normalized === 'fast' || normalized === '1' || normalized === 'true' || normalized === 'auto';
-}
+const activeStep = computed(() => (stage.value === 'confirm' ? 1 : 0));
+const additivePreview = computed(() => recognizeAdditivesFromText(ingredientText.value, attentionSettings.value).slice(0, 5));
+const quickSignals = computed(() => buildQuickSignals({
+  ingredientText: ingredientText.value,
+  nutritionText: nutritionText.value,
+  allergenText: allergenText.value,
+  additiveCount: additivePreview.value.length
+}));
+const isLowConfidence = computed(() => extractionConfidence.value === 'low');
+const hasPrimaryLabelText = computed(() => Boolean(ingredientText.value.trim() || nutritionText.value.trim()));
+const hasAnyLabelText = computed(() => Boolean(ingredientText.value.trim() || nutritionText.value.trim() || frontClaimsText.value.trim()));
+const isNutritionOnly = computed(() => !ingredientText.value.trim() && Boolean(nutritionText.value.trim()));
+const isFrontOnly = computed(() => !ingredientText.value.trim() && !nutritionText.value.trim() && Boolean(frontClaimsText.value.trim()));
+const shouldShowLowConfidence = computed(() => isLowConfidence.value && extractionSourceType.value === 'ocr' && !manualOverride.value && !isNutritionOnly.value);
+const canGenerate = computed(() => hasAnyLabelText.value && (!isLowConfidence.value || manualOverride.value || extractionSourceType.value === 'manual' || isNutritionOnly.value || isFrontOnly.value));
+const hasAnyConfirmedText = computed(() => Boolean(ingredientText.value.trim() || nutritionText.value.trim() || allergenText.value.trim() || frontClaimsText.value.trim()));
+const shouldShowManualModifyAction = computed(() => extractionSourceType.value !== 'manual' && !manualOverride.value);
+const confidenceText = computed(() => {
+  if (extractionSourceType.value === 'manual') return '手动输入';
+  if (extractionConfidence.value === 'high') return '识别较清楚';
+  if (extractionConfidence.value === 'medium') return '基本可用';
+  return '需要确认';
+});
 
 function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
   const value = rawQuery?.[key];
@@ -54,49 +85,49 @@ function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
   return typeof value === 'string' ? value : '';
 }
 
-function syncFastScanMode(query?: QueryMap) {
-  const draft = getScanDraft();
-  const queryFastMode = isQuickScanMode(
-    getQueryValue(query, 'mode') || getQueryValue(query, 'auto') || getQueryValue(query, 'scanMode')
-  );
-  isFastMode.value = queryFastMode || Boolean(draft.isFastScan);
-}
-
 onLoad((query) => {
-  syncFastScanMode(query);
   if (getQueryValue(query, 'mode') === 'manual') {
     startManualTextEntry();
   }
 });
 
 onShow(() => {
-  syncFastScanMode();
   attentionSettings.value = getAttentionSettings();
   const draft = getScanDraft();
   image.value = draft.image;
-  text.value = draft.confirmedText || draft.ocr?.text || text.value;
+  if (draft.confirmedText) {
+    const normalizedDraft = normalizeOcrResult({
+      text: draft.confirmedText,
+      rawText: draft.confirmedText,
+      blocks: draft.ocr?.blocks,
+      mode: draft.ocr?.mode,
+      provider: draft.ocr?.provider
+    }, draft.ocr?.mode === 'manual' ? 'manual' : undefined);
+    applyExtraction(extractLabelText(normalizedDraft), draft.ocr?.mode === 'manual', normalizedDraft.rawText);
+  }
   productName.value = draft.productName || productName.value;
   labelType.value = draft.labelType || 'unknown_label';
-  classification.value = draft.classification;
   ocrResult.value = draft.ocr;
-  if (text.value) stage.value = 'confirm';
+  if (buildEffectiveLabelText()) stage.value = 'confirm';
+});
+
+onUnload(() => {
+  stopLoadingMessages();
 });
 
 async function choose(source: 'camera' | 'album') {
   error.value = '';
+  editHint.value = '';
   try {
-    const persistedFastMode = Boolean(getScanDraft().isFastScan);
     const nextImage = await chooseLabelImage(source);
     resetScanDraft();
     image.value = nextImage;
-    text.value = '';
+    resetExtractedText();
     productName.value = '';
-    libraryCandidate.value = undefined;
-    classification.value = undefined;
     ocrResult.value = undefined;
     labelType.value = 'unknown_label';
     stage.value = 'pick';
-    saveScanDraft({ image: nextImage, isFastScan: persistedFastMode });
+    saveScanDraft({ image: nextImage });
   } catch {
     error.value = source === 'camera' ? '相机暂不可用，请检查权限，或改用相册上传。' : '没有选择图片，请重新上传。';
   }
@@ -104,271 +135,264 @@ async function choose(source: 'camera' | 'album') {
 
 function clearImage() {
   image.value = undefined;
-  text.value = '';
+  resetExtractedText();
   productName.value = '';
-  libraryCandidate.value = undefined;
-  classification.value = undefined;
   ocrResult.value = undefined;
   labelType.value = 'unknown_label';
+  editHint.value = '';
   stage.value = 'pick';
   resetScanDraft();
 }
 
 async function startRecognize() {
   if (!image.value) {
-    error.value = '请先拍照或选择一张商品图片。';
+    error.value = '请先拍照或选择一张清晰的食品标签图片。';
     return;
   }
   stage.value = 'recognizing';
+  startLoadingMessages(['正在扫描食品标签文字...', '正在剔除无关噪音...']);
   error.value = '';
+  editHint.value = '';
   try {
     const next = await recognizeImageByBackend(image.value);
+    const normalized = normalizeOcrResult(next);
     ocrResult.value = next;
-    text.value = next.text || '';
-    classification.value = text.value ? await classifyLabelWithAdapter(text.value) : undefined;
-    labelType.value = resolveDetectedType(classification.value, text.value);
-    await syncScanSession(next, 'auto', labelType.value);
-    const mockProduct = findMockProductByText(text.value);
-    libraryCandidate.value = mockProduct;
-    if (mockProduct) productName.value = mockProduct.productName;
+    rawOcrText.value = normalized.rawText || next.text || '';
+    loadingText.value = '正在剔除无关噪音...';
+    applyExtraction(extractLabelText(normalized), false, normalized.rawText || next.text || '');
+    const effectiveText = buildEffectiveLabelText();
+    labelType.value = resolveDetectedType(effectiveText);
     saveScanDraft({
       image: image.value,
       ocr: next,
-      confirmedText: text.value,
-      classification: classification.value,
-      labelType: labelType.value,
-      isFastScan: false
+      confirmedText: effectiveText,
+      labelType: labelType.value
     });
-    if (!text.value) error.value = '没有识别到清楚文字，可以手动输入配料或营养信息。';
-    if (mockProduct) {
-      error.value = '识别到本地示例商品库记录，请先核对识别文字，再决定是否使用商品库结果。';
-    } else if (text.value && (labelType.value === 'front_claims' || labelType.value === 'barcode_or_product' || labelType.value === 'unknown_label')) {
-      error.value = '暂未命中本地商品库。可以继续拍配料表或营养成分表，也可以手动输入包装文字。';
+    const hasIngredient = Boolean(ingredientText.value.trim());
+    const hasNutrition = Boolean(nutritionText.value.trim());
+    if (!hasIngredient && !hasNutrition && !frontClaimsText.value.trim()) {
+      error.value = '没有识别到清晰配料表、营养成分表或包装文字，请重新拍摄标签区域，或手动粘贴文字。';
+    } else if (!hasIngredient && hasNutrition) {
+      editHint.value = '当前只识别到营养成分表，也可以生成解读；如包装有配料表，建议补充后结果更完整。';
+    } else if (!hasIngredient && frontClaimsText.value.trim()) {
+      editHint.value = '当前主要识别到包装正面或其他文字，可以先生成信息不足提示；建议继续补拍配料表或营养成分表。';
+    } else if (extractionConfidence.value === 'low') {
+      error.value = '没有识别到清晰配料表或营养成分表，请重新拍摄标签区域，或手动粘贴标签文字。';
+    } else if (next.mode === 'fallback') {
+      error.value = next.errorMessage || '识别失败，可以重新拍摄食品标签区域，或手动粘贴标签文字。';
     }
-    if (next.mode === 'fallback') error.value = next.errorMessage || '识别结果不完整，可以先手动修正。';
   } catch {
     const manual = buildManualOcrResult();
     ocrResult.value = manual;
-    text.value = getScanDraft().confirmedText || '';
-    libraryCandidate.value = undefined;
-    classification.value = undefined;
+    resetExtractedText();
+    rawOcrText.value = getScanDraft().confirmedText || '';
     labelType.value = 'unknown_label';
-    await syncScanSession(manual, 'manual', labelType.value);
-    saveScanDraft({ image: image.value, ocr: manual, confirmedText: text.value, labelType: labelType.value });
-    error.value = '图片暂时识别失败，可以直接手动输入。';
+    saveScanDraft({ image: image.value, ocr: manual, confirmedText: '', labelType: labelType.value });
+    error.value = '识别失败，可以重新拍摄食品标签区域，或手动粘贴标签文字。';
   } finally {
+    stopLoadingMessages();
     stage.value = 'confirm';
   }
 }
 
 function startManualTextEntry() {
   image.value = undefined;
-  text.value = '';
+  resetExtractedText('manual');
   productName.value = '';
-  libraryCandidate.value = undefined;
-  classification.value = undefined;
   ocrResult.value = buildManualOcrResult();
   labelType.value = 'unknown_label';
   error.value = '';
+  editHint.value = '可以直接粘贴配料表、营养成分表或包装正面文字；致敏原提示可选补充。';
   stage.value = 'confirm';
   resetScanDraft();
   saveScanDraft({ ocr: ocrResult.value, confirmedText: '', labelType: labelType.value });
 }
 
+function showEditHint() {
+  manualOverride.value = true;
+  editHint.value = '请在下方文本框里简单修改错字或漏字，改完后点击生成解读。';
+}
+
 function clearText() {
-  text.value = '';
+  resetExtractedText(extractionSourceType.value);
+  manualOverride.value = true;
+  editHint.value = '可以重新粘贴或输入食品标签文字。';
+}
+
+function applyExtraction(result: LabelTextExtraction, allowManualOverride = false, sourceText = '') {
+  ingredientText.value = result.ingredientText;
+  nutritionText.value = result.nutritionText;
+  allergenText.value = result.allergenText;
+  frontClaimsText.value = resolveFrontClaimsText(sourceText, result);
+  ignoredText.value = result.ignoredText;
+  extractionConfidence.value = result.confidence;
+  extractionSourceType.value = result.sourceType;
+  manualOverride.value = allowManualOverride || result.sourceType === 'manual';
+}
+
+function resetExtractedText(sourceType: LabelTextSourceType = 'ocr') {
+  rawOcrText.value = '';
+  ingredientText.value = '';
+  nutritionText.value = '';
+  allergenText.value = '';
+  frontClaimsText.value = '';
+  ignoredText.value = [];
+  extractionConfidence.value = 'low';
+  extractionSourceType.value = sourceType;
+  manualOverride.value = sourceType === 'manual';
+}
+
+function buildEffectiveLabelText(): string {
+  return buildEffectiveLabelTextFromParts({
+    ingredientText: ingredientText.value,
+    nutritionText: nutritionText.value,
+    allergenText: allergenText.value,
+    frontClaimsText: frontClaimsText.value
+  });
 }
 
 async function generateResult() {
-  const confirmedText = text.value.trim();
-  if (!confirmedText) return;
+  const confirmedText = buildEffectiveLabelText();
+  if (!hasAnyLabelText.value) {
+    error.value = '未识别到清晰的食品标签文字，请重新拍摄标签区域，或手动输入标签文字。';
+    return;
+  }
+  if (!canGenerate.value) {
+    error.value = '当前食品标签识别置信度较低，请先手动修改或重新拍摄标签区域。';
+    return;
+  }
   generating.value = true;
+  startLoadingMessages(['正在识别添加剂和营养信息...', buildTargetLoadingText()]);
   error.value = '';
   try {
-    const nextClassification = await classifyLabelWithAdapter(confirmedText);
-    const detectedType = resolveDetectedType(nextClassification, confirmedText);
-    const ingredients = detectedType === 'ingredient_list' ? parseIngredientList(confirmedText) : [];
-    const nutrition = shouldParseNutrition(confirmedText, detectedType) ? await parseNutritionWithAdapter(confirmedText) : [];
-    const matches = ingredients.length ? await matchOrBuildNetworkLines(ingredients) : [];
-    const frontClaimsText = detectedType === 'front_claims' || detectedType === 'barcode_or_product' || detectedType === 'unknown_label'
-      ? confirmedText
-      : '';
-    const report = await buildLabelReportWithAdapter({
+    const attention = getAttentionSettings();
+    const analysis = await buildAnalysisWithAdapters({
       productName: productName.value.trim(),
-      rawText: confirmedText,
-      ingredients,
-      matches,
-      nutrition,
-      attention: getAttentionSettings(),
-      labelType: detectedType,
-      frontClaimsText,
+      ingredientText: ingredientText.value,
+      nutritionText: nutritionText.value,
+      allergenText: allergenText.value,
+      frontClaimsText: frontClaimsText.value,
+      confidence: resolveEffectiveConfidence(),
+      attention,
+      sourceType: resolveInputSourceType(),
       ocr: ocrResult.value || getScanDraft().ocr,
-      sourceMeta: buildSourceMeta(detectedType, confirmedText, ocrResult.value || getScanDraft().ocr)
+      image: image.value
     });
-    saveReport(report);
+    saveReport(analysis.report);
     saveScanDraft({
       ...buildCurrentTextDraft({ resetDerived: true }),
-      classification: nextClassification,
-      labelType: detectedType,
-      ingredients,
-      nutrition,
-      matches,
-      frontClaimsText,
-      sourceMeta: report.analysisSource
+      ...buildScanDraftFromAnalysis(analysis)
     });
-    uni.redirectTo({ url: `${routes.report}?id=${encodeURIComponent(report.id)}` });
+    uni.redirectTo({ url: `${routes.report}?id=${encodeURIComponent(analysis.report.id)}` });
   } catch {
-    error.value = '暂时无法生成结果，请检查网络后重试。';
+    error.value = '暂时无法生成解读，请检查文字后重试。';
   } finally {
+    stopLoadingMessages();
     generating.value = false;
   }
 }
 
-async function useLibraryCandidate() {
-  if (!libraryCandidate.value || !ocrResult.value) return;
-  await generateProductLibraryResult(libraryCandidate.value, ocrResult.value);
+async function buildAnalysisWithAdapters(input: LocalLabelAnalysisInput): Promise<LocalLabelAnalysisResult> {
+  const localAnalysis = buildLocalLabelAnalysis(input);
+  const nutrition = input.nutritionText?.trim()
+    ? await parseNutritionWithAdapter(input.nutritionText)
+    : localAnalysis.nutrition;
+  let matches = localAnalysis.matches;
+  if (localAnalysis.ingredients.length) {
+    try {
+      matches = await matchIngredientsByApi(localAnalysis.ingredients);
+    } catch {
+      matches = localAnalysis.matches;
+    }
+  }
+  const report = await buildLabelReportWithAdapter({
+    productName: input.productName || '',
+    rawText: localAnalysis.confirmedText,
+    ingredients: localAnalysis.ingredients,
+    matches,
+    nutrition,
+    attention: input.attention,
+    labelType: localAnalysis.labelType,
+    frontClaimsText: input.frontClaimsText || '',
+    ocr: input.ocr,
+    sourceMeta: localAnalysis.report.analysisSource
+  });
+  return {
+    ...localAnalysis,
+    report,
+    nutrition,
+    matches
+  };
 }
 
-async function generateProductLibraryResult(product: MockProductRecord, nextOcrResult: OcrResult) {
-  generating.value = true;
-  error.value = '';
-  try {
-    const rawProductText = buildMockProductText(product);
-    const ingredients = parseIngredientList(product.ingredientText);
-    const nutrition = await parseNutritionWithAdapter(product.nutritionText);
-    const matches = ingredients.length ? await matchOrBuildNetworkLines(ingredients) : [];
-    const attention = getAttentionSettings();
-    const sourceMeta = buildProductLibrarySourceMeta(product, nextOcrResult, attention);
-    const report = await buildLabelReportWithAdapter({
-      productName: product.productName,
-      rawText: rawProductText,
-      ingredients,
-      matches,
-      nutrition,
-      attention,
-      labelType: 'barcode_or_product',
-      frontClaimsText: nextOcrResult.text,
-      ocr: nextOcrResult,
-      sourceMeta
-    });
-    saveReport(report);
-    saveScanDraft({
-      image: image.value,
-      ocr: nextOcrResult,
-      confirmedText: rawProductText,
-      productName: product.productName,
-      classification: classification.value,
-      labelType: 'barcode_or_product',
-      ingredients,
-      nutrition,
-      matches,
-      frontClaimsText: nextOcrResult.text,
-      sourceMeta
-    });
-    uni.redirectTo({ url: `${routes.report}?id=${encodeURIComponent(report.id)}` });
-  } catch {
-    error.value = '商品库记录暂时无法整理，可以继续拍配料表或手动输入。';
-    stage.value = 'confirm';
-  } finally {
-    generating.value = false;
-  }
+function resolveEffectiveConfidence(): LabelTextConfidence {
+  if (manualOverride.value && hasPrimaryLabelText.value) return 'medium';
+  if (isNutritionOnly.value && extractionConfidence.value === 'low') return 'medium';
+  return extractionConfidence.value;
 }
 
 function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<ScanDraft> {
-  const confirmedText = text.value.trim();
+  const confirmedText = buildEffectiveLabelText();
   const previous = getScanDraft();
   const textChanged = confirmedText !== previous.confirmedText;
-  const labelTypeChanged = labelType.value !== previous.labelType;
   const nextDraft: Partial<ScanDraft> = {
     confirmedText,
     productName: productName.value.trim(),
     labelType: labelType.value,
-    frontClaimsText: labelType.value === 'front_claims' || labelType.value === 'barcode_or_product' ? confirmedText : ''
+    frontClaimsText: frontClaimsText.value.trim()
   };
-  if (options.resetDerived || textChanged || labelTypeChanged) {
+  if (options.resetDerived || textChanged) {
     nextDraft.ingredients = [];
     nextDraft.nutrition = [];
     nextDraft.matches = [];
   }
-  if (textChanged || labelTypeChanged) nextDraft.classification = undefined;
-  if (textChanged && previous.ocr) nextDraft.ocr = { ...previous.ocr, text: confirmedText };
+  if (textChanged && previous.ocr) nextDraft.ocr = { ...previous.ocr, text: rawOcrText.value || confirmedText };
   return nextDraft;
 }
 
-function buildSourceMeta(
-  detectedType: LabelType,
-  confirmedText: string,
-  sourceOcr?: OcrResult
-): ReportAnalysisSource {
+function resolveInputSourceType(): 'ocr' | 'manual' | 'demo' {
+  if (manualOverride.value && (!rawOcrText.value.trim() || ocrResult.value?.mode === 'fallback')) return 'manual';
+  return extractionSourceType.value === 'manual' ? 'manual' : 'ocr';
+}
+
+function resolveFrontClaimsText(sourceText: string, result: LabelTextExtraction): string {
+  const rawText = sourceText.trim();
+  if (!rawText || result.ingredientText.trim() || result.nutritionText.trim()) return '';
+  return rawText.replace(/^包装文字\s*[:：]\s*/i, '').trim();
+}
+
+function buildTargetLoadingText(): string {
   const attention = getAttentionSettings();
-  const sourceType = sourceOcr?.mode === 'manual'
-    ? 'manual_input'
-    : detectedType === 'nutrition_facts'
-      ? 'captured_nutrition'
-      : detectedType === 'front_claims' || detectedType === 'barcode_or_product'
-        ? 'captured_product'
-        : 'captured_ingredient';
-  return {
-    sourceType,
-    sourceLabel: sourceLabelForType(sourceType),
-    description: sourceDescriptionForType(sourceType),
-    fromProductLibrary: false,
-    fromUserCapture: Boolean(image.value && sourceOcr?.mode !== 'manual'),
-    fromManualInput: sourceOcr?.mode === 'manual',
-    imagePath: image.value?.tempFilePath,
-    imageSummary: image.value ? `${image.value.name || '商品图片'}，${Math.round((image.value.size || 0) / 1024)}KB` : undefined,
-    ocrText: confirmedText,
-    targetSnapshot: {
-      goals: [...attention.goals],
-      detailTerms: [...attention.detailTerms],
-      customTerms: [...attention.customTerms]
-    }
-  };
+  if (attention.primaryGoal === 'sugar') return '正在结合您的控糖目标分析...';
+  if (attention.primaryGoal === 'lowSodium') return '正在结合您的低钠目标分析...';
+  if (attention.primaryGoal === 'fatLoss') return '正在结合您的减脂目标分析...';
+  if (attention.isChildrenMode) return '正在结合儿童模式分析...';
+  return '正在结合您的关注目标分析...';
 }
 
-function buildProductLibrarySourceMeta(product: MockProductRecord, sourceOcr: OcrResult, attention: AttentionSettings): ReportAnalysisSource {
-  return {
-    sourceType: 'mock_product_library',
-    sourceLabel: '本地示例商品库',
-    description: '本次分析依据：本地示例商品库记录，建议以包装实物为准。',
-    fromProductLibrary: true,
-    fromUserCapture: Boolean(image.value),
-    fromManualInput: false,
-    imagePath: image.value?.tempFilePath,
-    imageSummary: image.value ? `${image.value.name || '商品图片'}，${Math.round((image.value.size || 0) / 1024)}KB` : undefined,
-    ocrText: sourceOcr.text,
-    productLibraryId: product.id,
-    productLibraryName: product.productName,
-    targetSnapshot: {
-      goals: [...attention.goals],
-      detailTerms: [...attention.detailTerms],
-      customTerms: [...attention.customTerms]
-    }
-  };
+function startLoadingMessages(messages: string[]) {
+  stopLoadingMessages();
+  let index = 0;
+  loadingText.value = messages[0] || '正在处理...';
+  if (messages.length <= 1) return;
+  loadingTimer.value = setInterval(() => {
+    index = Math.min(index + 1, messages.length - 1);
+    loadingText.value = messages[index];
+  }, 900);
 }
 
-function sourceLabelForType(type: ReportAnalysisSource['sourceType']): string {
-  if (type === 'manual_input') return '手动输入内容';
-  if (type === 'captured_nutrition') return '用户拍摄的营养成分表';
-  if (type === 'captured_product') return '用户拍摄的商品正面/条码';
-  return '用户拍摄的配料表';
+function stopLoadingMessages() {
+  if (loadingTimer.value) clearInterval(loadingTimer.value);
+  loadingTimer.value = undefined;
+  loadingText.value = '';
 }
 
-function sourceDescriptionForType(type: ReportAnalysisSource['sourceType']): string {
-  if (type === 'manual_input') return '本次分析依据：手动输入内容。';
-  if (type === 'captured_nutrition') return '本次分析依据：你拍摄的营养成分表。';
-  if (type === 'captured_product') return '本次分析依据：你拍摄的商品正面或条码文字。';
-  return '本次分析依据：你拍摄的配料表。';
-}
-
-function resolveDetectedType(nextClassification: LabelClassification | undefined, confirmedText: string): LabelType {
-  if (nextClassification && !nextClassification.requiresUserSelection && nextClassification.labelType !== 'unknown_label') {
-    return nextClassification.labelType;
-  }
-  const parsed = parseIngredientList(confirmedText);
-  if (parsed.length >= 3) return 'ingredient_list';
-  const compact = confirmedText.replace(/\s+/g, '');
-  if (/营养成分表|能量|蛋白质|脂肪|碳水化合物|钠|NRV/i.test(compact)) return 'nutrition_facts';
+function resolveDetectedType(value: string): LabelType {
+  const localResult = classifyLabelText(value);
+  if (!localResult.requiresUserSelection && localResult.labelType === 'nutrition_facts') return 'nutrition_facts';
+  const parsed = parseIngredientList(value);
+  if (parsed.length >= 2) return 'ingredient_list';
+  if (shouldParseNutrition(value, localResult.labelType)) return 'nutrition_facts';
   return 'unknown_label';
 }
 
@@ -378,79 +402,38 @@ function shouldParseNutrition(value: string, detectedType: LabelType): boolean {
   return /营养成分表|营养素参考值|NRV|每100(?:g|克|ml|毫升).*(?:能量|蛋白质|脂肪|碳水化合物|钠)/i.test(compact);
 }
 
-async function matchOrBuildNetworkLines(ingredients: ParsedIngredient[]): Promise<IngredientMatch[]> {
-  try {
-    return await matchIngredientsByApi(ingredients);
-  } catch {
-    return ingredients.map((ingredient, index) => buildNetworkLine(ingredient.normalizedText, index));
-  }
-}
-
-function buildNetworkLine(term: string, index: number): IngredientMatch {
-  return {
-    id: `network-${index}-${term}`,
-    term,
-    normalizedText: term,
-    dataStatus: 'unknown_from_ocr',
-    dataStatusLabel: dataStatusLabel('unknown_from_ocr'),
-    confidence: 0,
-    matchType: 'none',
-    sourceName: '网络搜索线索',
-    sourceType: 'web_search',
-    sourceNote: '成分库暂未确认，已提供网络搜索线索，请打开后查看来源站点。',
-    ingredientName: term,
-    isAdditive: false,
-    decision: 'pending',
-    webSearchUrl: buildWebSearchUrl(term)
-  };
-}
-
-async function syncScanSession(
-  nextOcrResult: OcrResult,
-  fallbackMode: 'manual' | 'auto',
-  nextLabelType: LabelType
-) {
-  if (!image.value) return;
-  try {
-    const response = await upsertLabelScanSessionWithAdapter({
-      sessionId: getScanDraft().scanSessionId,
-      images: [{
-        assetId: image.value.id,
-        labelType: nextLabelType,
-        mimeType: image.value.mimeType,
-        status: mapScanStatus(nextOcrResult, fallbackMode)
-      }]
-    });
-    if (response?.sessionId) saveScanDraft({ scanSessionId: response.sessionId });
-  } catch {
-    error.value = error.value || '识别记录同步暂时失败，已继续后续流程。';
-  }
-}
-
-function mapScanStatus(nextOcrResult: OcrResult, fallbackMode: 'manual' | 'auto'): 'ocr_input' | 'ocr_success' | 'ocr_failed' | 'manual_entry' {
-  if (fallbackMode === 'manual' || nextOcrResult.mode === 'manual') return 'manual_entry';
-  if (nextOcrResult.mode === 'fallback' || nextOcrResult.mode === 'mock') return 'ocr_failed';
-  return nextOcrResult.text ? 'ocr_success' : 'ocr_failed';
-}
-
-function buildQuickSignals(value: string, additiveCount: number) {
-  const compact = value.replace(/\s+/g, '');
+function buildQuickSignals(value: {
+  ingredientText: string;
+  nutritionText: string;
+  allergenText: string;
+  additiveCount: number;
+}) {
+  const compactIngredient = value.ingredientText.replace(/\s+/g, '');
+  const compactNutrition = value.nutritionText.replace(/\s+/g, '');
+  const compactAllergen = value.allergenText.replace(/\s+/g, '');
   return [
-    additiveCount ? `已识别到 ${additiveCount} 种添加剂` : '暂未明显识别到添加剂',
-    /营养成分表|能量|蛋白质|脂肪|碳水化合物|钠|NRV/i.test(compact) ? '识别到营养成分表' : '未明显识别到营养成分表',
-    /白砂糖|糖浆|果葡糖浆|葡萄糖浆|麦芽糖浆|甜味剂|碳水化合物/.test(compact) ? '识别到糖或甜味相关词' : '',
-    /钠|食盐|味精|谷氨酸钠|酱油粉|复合调味料/.test(compact) ? '识别到钠或盐相关词' : '',
-    /脂肪|植物油|植脂末|代可可脂|反式脂肪/.test(compact) ? '识别到脂肪相关词' : '',
-    /花生|坚果|牛奶|乳|大豆|麸质|小麦|鸡蛋|咖啡因/.test(compact) ? '识别到常见过敏/忌口词' : ''
+    value.additiveCount ? `添加剂：${value.additiveCount} 种` : '添加剂：暂未明显识别',
+    /白砂糖|蔗糖|糖浆|果葡糖浆|葡萄糖浆|麦芽糖浆|甜味剂|碳水化合物/.test(`${compactIngredient}${compactNutrition}`) ? '糖类关键词' : '',
+    /钠|食盐|味精|谷氨酸钠|酱油粉|复合调味料/.test(`${compactIngredient}${compactNutrition}`) ? '钠/盐相关' : '',
+    /脂肪|植物油|植脂末|代可可脂|反式脂肪/.test(`${compactIngredient}${compactNutrition}`) ? '脂肪相关' : '',
+    /蛋白质/.test(compactNutrition) ? '蛋白质' : '',
+    matchedAllergenLabels(`${compactIngredient}${compactAllergen}`).length ? `过敏原：${matchedAllergenLabels(`${compactIngredient}${compactAllergen}`).join('、')}` : ''
   ].filter(Boolean);
+}
+
+function matchedAllergenLabels(text: string): string[] {
+  return allergenOptions
+    .filter((option) => option.keywords.some((keyword) => text.includes(keyword)))
+    .map((option) => option.label)
+    .slice(0, 4);
 }
 </script>
 
 <template>
   <view class="page page--calm stack">
     <PageHeader
-      title="拍商品 / 拍配料表"
-      subtitle="支持商品正面、条码、配料表、营养成分表和手动输入。"
+      title="拍食品标签"
+      subtitle="优先拍配料表，也支持营养成分表和包装正面文字；识别后必须先确认再生成解读。"
     />
     <StepIndicator :steps="steps" :active-index="activeStep" />
 
@@ -459,50 +442,45 @@ function buildQuickSignals(value: string, additiveCount: number) {
       <ErrorState v-if="error" title="图片选择失败" :description="error" action-label="重试上传" @action="choose('album')" />
       <AppCard>
         <view class="stack">
-          <text class="section-title">可以拍这些</text>
+          <text class="section-title">建议这样拍</text>
           <view class="simple-grid">
             <view class="simple-list-item">
-              <text class="simple-list-item__title">商品正面 / 条码</text>
-              <text class="simple-list-item__desc">先尝试识别商品名、品牌、条码和包装文字。</text>
+              <text class="simple-list-item__title">优先拍配料表</text>
+              <text class="simple-list-item__desc">配料表最适合识别添加剂、糖类关键词、油脂和过敏原。</text>
             </view>
             <view class="simple-list-item">
-              <text class="simple-list-item__title">配料表</text>
-              <text class="simple-list-item__desc">商品未命中时，继续拍配料表分析添加剂。</text>
-            </view>
-            <view class="simple-list-item">
-              <text class="simple-list-item__title">营养成分表</text>
-              <text class="simple-list-item__desc">看糖、钠、脂肪、能量等字段。</text>
-            </view>
-            <view class="simple-list-item">
-              <text class="simple-list-item__title">看不清时</text>
-              <text class="simple-list-item__desc">可以直接手动输入文字。</text>
+              <text class="simple-list-item__title">也可补拍营养表或正面文字</text>
+              <text class="simple-list-item__desc">营养成分表和正面声明会进入确认区，产品名、规格、厂家和条码会弱化处理。</text>
             </view>
           </view>
+          <text class="muted">小字、反光或弯曲包装可能识别不准，后面可以轻量修正；不要跳过文本确认。</text>
         </view>
       </AppCard>
-      <LoadingState v-if="stage === 'recognizing'">正在识别商品信息...</LoadingState>
-      <AppButton :disabled="!image || stage === 'recognizing'" :loading="stage === 'recognizing'" @click="startRecognize">识别商品</AppButton>
-      <AppButton variant="secondary" @click="startManualTextEntry">手动输入</AppButton>
+      <LoadingState v-if="stage === 'recognizing'">{{ loadingText || '正在扫描食品标签文字...' }}</LoadingState>
+      <AppButton :disabled="!image || stage === 'recognizing'" :loading="stage === 'recognizing'" @click="startRecognize">开始识别食品标签</AppButton>
+      <AppButton variant="secondary" @click="startManualTextEntry">手动输入 / 粘贴</AppButton>
     </template>
 
     <template v-else>
-      <ErrorState v-if="error" title="需要你确认一下" :description="error" action-label="重新识别" @action="startRecognize" />
-      <AppCard v-if="libraryCandidate">
-        <view class="stack">
-          <text class="section-title">识别到示例商品库记录</text>
-          <text class="muted">{{ libraryCandidate.productName }}。请先核对识别文字，确认无误后可用商品库里的配料和营养信息生成结果。</text>
-          <AppButton :disabled="generating" :loading="generating" @click="useLibraryCandidate">使用商品库结果</AppButton>
-        </view>
-      </AppCard>
+      <ErrorState v-if="error" title="请先确认有效文字" :description="error" action-label="重新拍食品标签" @action="clearImage" />
       <AppCard>
         <view class="stack">
           <view>
             <text class="field-label">商品名（可选）</text>
             <input v-model="productName" class="input" placeholder="例如：草莓味酸奶" />
           </view>
-          <view v-if="text" class="scan-summary">
-            <text class="scan-summary__title">识别摘要</text>
-            <view class="pill-list">
+          <view class="scan-summary">
+            <text class="scan-summary__title">请确认识别内容</text>
+            <text class="muted">系统优先保留配料表，也会单独整理营养成分、致敏原提示和包装正面文字；产品名、规格、厂家和条码会弱化处理。</text>
+            <view class="confidence-row">
+              <text class="soft-tag" :class="{ 'soft-tag--warning': isLowConfidence }">{{ confidenceText }}</text>
+              <text v-if="ignoredText.length" class="muted">已过滤 {{ ignoredText.length }} 行广告语或包装信息。</text>
+            </view>
+            <view v-if="shouldShowLowConfidence" class="low-confidence">
+              <text class="low-confidence__title">未识别到清晰配料表</text>
+              <text class="muted">建议重新拍摄配料表或营养成分表，或手动粘贴食品标签文字后再生成解读。</text>
+            </view>
+            <view v-if="quickSignals.length" class="pill-list">
               <text v-for="signal in quickSignals" :key="signal" class="soft-tag">{{ signal }}</text>
             </view>
             <view v-if="additivePreview.length" class="simple-list">
@@ -511,26 +489,31 @@ function buildQuickSignals(value: string, additiveCount: number) {
                 <text class="simple-list-item__desc">{{ item.effect }}</text>
               </view>
             </view>
-            <text class="muted">如果没有命中商品库，可以继续用识别到的配料表或营养成分表生成结果；明显识别错的地方可以直接改。</text>
           </view>
           <view>
-            <text class="field-label">包装文字（可选修正）</text>
-            <textarea v-model="text" class="textarea" auto-height placeholder="粘贴或输入配料表、营养成分表上的文字" />
+            <text class="field-label">已识别到的配料表</text>
+            <textarea v-model="ingredientText" class="textarea textarea--ingredient" auto-height placeholder="粘贴或输入配料表文字，例如：水、白砂糖、乳粉、食品添加剂..." @input="manualOverride = true" />
+          </view>
+          <view>
+            <text class="field-label">已识别到的营养成分</text>
+            <textarea v-model="nutritionText" class="textarea textarea--compact" auto-height placeholder="可选，例如：能量、蛋白质、脂肪、碳水化合物、糖、钠" @input="manualOverride = true" />
+          </view>
+          <view>
+            <text class="field-label">已识别到的致敏原提示</text>
+            <textarea v-model="allergenText" class="textarea textarea--compact" auto-height placeholder="可选，例如：本品含有牛奶、大豆，可能含有花生" @input="manualOverride = true" />
+            <text v-if="editHint" class="muted">{{ editHint }}</text>
+          </view>
+          <view v-if="frontClaimsText">
+            <text class="field-label">包装正面 / 其他文字</text>
+            <textarea v-model="frontClaimsText" class="textarea textarea--compact" auto-height placeholder="识别到的包装正面、产品名、规格或其他文字" @input="manualOverride = true" />
           </view>
         </view>
       </AppCard>
-      <LoadingState v-if="generating">正在整理消费建议...</LoadingState>
-      <EmptyState
-        v-if="isEmpty"
-        icon=""
-        title="还没有可分析文字"
-        description="可以手动输入商品名、配料或营养成分，也可以重新拍商品正面、条码或配料表。"
-        action-label="重新拍商品"
-        @action="clearImage"
-      />
-      <AppButton :disabled="isEmpty || generating" :loading="generating" @click="generateResult">生成消费建议</AppButton>
-      <AppButton variant="secondary" @click="clearText">清空文字</AppButton>
-      <AppButton variant="text" @click="clearImage">重新拍摄</AppButton>
+      <LoadingState v-if="generating">{{ loadingText || '正在识别添加剂和营养信息...' }}</LoadingState>
+      <AppButton :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">确认无误，生成解读</AppButton>
+      <AppButton v-if="shouldShowManualModifyAction" variant="secondary" @click="showEditHint">有误，手动修改</AppButton>
+      <AppButton v-if="hasAnyConfirmedText" variant="text" @click="clearText">清空文字</AppButton>
+      <AppButton variant="text" @click="clearImage">重新拍食品标签</AppButton>
     </template>
   </view>
 </template>
@@ -551,5 +534,41 @@ function buildQuickSignals(value: string, additiveCount: number) {
   font-size: var(--font-size-base);
   font-weight: 800;
   line-height: 1.35;
+}
+
+.confidence-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.soft-tag--warning {
+  background: rgba(236, 176, 70, 0.16);
+  color: #8a5d12;
+}
+
+.low-confidence {
+  border: 1px solid rgba(236, 176, 70, 0.28);
+  border-radius: var(--radius-card);
+  background: rgba(236, 176, 70, 0.12);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.low-confidence__title {
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.textarea--ingredient {
+  min-height: 132px;
+}
+
+.textarea--compact {
+  min-height: 104px;
 }
 </style>

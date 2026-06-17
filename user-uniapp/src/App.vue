@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { onLaunch, onShow } from '@dcloudio/uni-app';
+import { primeRulesDictionary } from '@/utils/rulesLoader';
 
 onLaunch(() => {
-  // Keep launch work lightweight; pages hydrate their own local state.
+  void primeRulesDictionary();
 });
 
 onShow(() => {

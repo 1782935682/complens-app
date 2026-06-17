@@ -1,4 +1,4 @@
-import { attentionGoals } from '@/constants/attention';
+import { allergenOptions, childrenModeKeywords, primaryGoalOptions } from '@/constants/attention';
 import type {
   AttentionHit,
   AttentionSettings,
@@ -113,30 +113,44 @@ function buildAttentionHits(input: {
       .filter(hasNutritionEvidence)
       .map((field) => `${field.label}${field.value}${field.unit}${normalizeReportText(field.sourceText)}`)
   ].join(' ');
-  const customTerms = input.attention.customTerms.filter((term) => text.includes(term));
-  const goalHits = attentionGoals
-    .filter((goal) => input.attention.goals.includes(goal.key))
-    .map((goal) => {
-      const terms = [...goal.keywords, ...getSelectedDetailTermsForGoal(goal.keywords, input.attention.detailTerms)]
-        .filter((term) => text.includes(term));
-      if (!terms.length) return null;
-      return {
-        key: goal.key,
-        label: goal.label,
-        reason: `${goal.label}相关词已在标签文本中出现。`,
-        terms: [...new Set(terms)]
-      };
-    })
-    .filter(Boolean) as AttentionHit[];
-  if (customTerms.length) {
-    goalHits.push({
-      key: 'custom',
-      label: '自定义忌口',
-      reason: '识别到你设置的自定义关注词。',
-      terms: customTerms
+  const hits: AttentionHit[] = [];
+  const primaryGoal = primaryGoalOptions.find((goal) => goal.key === input.attention.primaryGoal) || primaryGoalOptions[0];
+  const primaryTerms = primaryGoal.keywords.filter((term) => text.includes(term));
+  if (primaryTerms.length) {
+    hits.push({
+      key: primaryGoal.key,
+      label: primaryGoal.label,
+      reason: `${primaryGoal.label}相关词已在标签文本中出现。`,
+      terms: [...new Set(primaryTerms)]
     });
   }
-  return goalHits;
+  if (input.attention.isChildrenMode) {
+    const childrenTerms = childrenModeKeywords.filter((term) => text.includes(term));
+    if (childrenTerms.length) {
+      hits.push({
+        key: 'children',
+        label: '儿童模式',
+        reason: '儿童模式关注词已在标签文本中出现。',
+        terms: [...new Set(childrenTerms)]
+      });
+    }
+  }
+  const allergenHits = allergenOptions
+    .filter((option) => input.attention.allergens.includes(option.key))
+    .map((option) => ({
+      label: option.label,
+      terms: option.keywords.filter((term) => text.includes(term))
+    }))
+    .filter((item) => item.terms.length);
+  if (allergenHits.length) {
+    hits.push({
+      key: 'allergen',
+      label: '过敏/忌口',
+      reason: '识别到你设置的过敏或忌口关注词。',
+      terms: [...new Set(allergenHits.flatMap((item) => item.terms.length ? [item.label] : []))]
+    });
+  }
+  return hits;
 }
 
 function buildFocusItems(matches: IngredientMatch[], nutrition: NutritionField[], hits: AttentionHit[], frontClaimsText: string): string[] {
@@ -254,15 +268,17 @@ function buildFrontClaimHighlights(text: string): string[] {
 
 function buildNutritionHighlights(fields: NutritionField[], attention: AttentionSettings): string[] {
   const highlights: string[] = [];
-  const hasGoal = (key: string) => attention.goals.includes(key);
   const byKey = new Map(fields.map((field) => [field.key, field]));
-  if (hasGoal('sugar_control')) addFieldHighlight(highlights, byKey.get('sugar'), '控糖');
-  if (hasGoal('low_sodium')) addFieldHighlight(highlights, byKey.get('sodium'), '低钠');
-  if (hasGoal('fat_control')) {
+  if (attention.primaryGoal === 'sugar') addFieldHighlight(highlights, byKey.get('sugar'), '控糖');
+  if (attention.primaryGoal === 'lowSodium') addFieldHighlight(highlights, byKey.get('sodium'), '低钠');
+  if (attention.primaryGoal === 'fatLoss') {
     addFieldHighlight(highlights, byKey.get('fat'), '减脂');
     addFieldHighlight(highlights, byKey.get('transFat'), '减脂');
   }
-  if (hasGoal('high_protein')) addFieldHighlight(highlights, byKey.get('protein'), '高蛋白');
+  if (attention.isChildrenMode) {
+    addFieldHighlight(highlights, byKey.get('sugar'), '儿童模式');
+    addFieldHighlight(highlights, byKey.get('sodium'), '儿童模式');
+  }
   if (!highlights.length && fields.some((field) => field.value)) highlights.push('营养字段已整理，请以包装标示为准。');
   return highlights;
 }
@@ -292,7 +308,7 @@ function groupAdditives(items: IngredientMatch[]): Array<{ label: string; items:
     })
     .filter((group) => group.items.length);
   const otherItems = items.filter((item) => !assignedIds.has(item.id));
-  return otherItems.length ? [...groups, { label: '其他食品添加剂', items: otherItems }] : groups;
+  return otherItems.length ? [...groups, { label: '其他添加剂', items: otherItems }] : groups;
 }
 
 function buildAllergenHints(matches: IngredientMatch[]): string[] {
@@ -300,10 +316,6 @@ function buildAllergenHints(matches: IngredientMatch[]): string[] {
   return allergenTerms
     .filter((item) => item.patterns.some((pattern) => text.includes(pattern)))
     .map((item) => `可能需要查看 ${item.label} 相关标示，请以包装过敏原提示和配料表为准。`);
-}
-
-function getSelectedDetailTermsForGoal(goalKeywords: string[], detailTerms: string[]): string[] {
-  return detailTerms.filter((term) => goalKeywords.some((keyword) => keyword === term || keyword.includes(term) || term.includes(keyword)));
 }
 
 const allergenTerms = [

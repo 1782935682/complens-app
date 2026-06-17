@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import AppModal from '@/components/AppModal.vue';
@@ -11,13 +11,7 @@ import { deleteReport, getReports } from '@/stores/scanStore';
 import type { LabelReport } from '@/types';
 
 const reports = ref<LabelReport[]>([]);
-const query = ref('');
 const deletingId = ref('');
-const filteredReports = computed(() => {
-  const keyword = query.value.trim();
-  if (!keyword) return reports.value;
-  return reports.value.filter((report) => `${report.productName}${report.summarySentence}${report.analysisSource?.sourceLabel || ''}${report.analysisSource?.description || ''}`.includes(keyword));
-});
 
 onShow(loadReports);
 
@@ -33,31 +27,36 @@ function confirmDelete() {
   reports.value = deleteReport(deletingId.value);
   deletingId.value = '';
 }
+
+function sourceKindLabel(report: LabelReport): string {
+  if (report.analysisSource?.sourceType === 'demo_sample') return 'Demo';
+  if (report.analysisSource?.fromUserCapture) return 'OCR';
+  if (report.analysisSource?.fromManualInput) return '手动输入';
+  return '本机记录';
+}
 </script>
 
 <template>
   <view class="page page--calm stack">
     <PageHeader title="扫描记录" subtitle="打开之前的识别结果，也可以删除本机记录。" />
 
-    <input v-model="query" class="input" placeholder="搜索产品名或结果摘要" />
-
     <EmptyState
-      v-if="!filteredReports.length"
+      v-if="!reports.length"
       icon=""
       title="还没有扫描记录"
-      description="拍一次商品、条码、配料表或营养成分表，结果会保存在这里。"
-      action-label="拍商品"
+      description="拍一次配料表或营养成分表，结果会保存在这里。"
+      action-label="拍食品标签"
       @action="navigateToRoute(routes.capture)"
     />
 
     <view v-else class="stack">
-      <AppCard v-for="report in filteredReports" :key="report.id">
+      <AppCard v-for="report in reports" :key="report.id">
         <view class="history-card">
           <text class="history-card__title">{{ report.productName }}</text>
           <text class="muted">{{ new Date(report.createdAt).toLocaleString() }}</text>
           <view v-if="report.analysisSource" class="history-source">
             <text class="history-source__label">{{ report.analysisSource.sourceLabel }}</text>
-            <text class="history-source__text">{{ report.analysisSource.fromProductLibrary ? '商品库记录' : report.analysisSource.fromUserCapture ? '用户拍摄' : report.analysisSource.fromManualInput ? '手动输入' : '历史记录' }}</text>
+            <text class="history-source__text">{{ sourceKindLabel(report) }}</text>
           </view>
           <text class="history-card__summary">{{ report.decision?.label || report.summarySentence }}</text>
           <text v-if="report.decision?.summary" class="muted">{{ report.decision.summary }}</text>

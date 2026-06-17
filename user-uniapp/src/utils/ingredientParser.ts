@@ -3,10 +3,12 @@ import type { ParsedIngredient } from '@/types';
 
 const splitDelimiterPattern = /[,，、;；\n\r]+/;
 const protectedDelimiter = '\uE000';
-const prefixPattern = /^\s*(?:配\s*料\s*表?|原\s*料|食品添加剂|ingredients?)\s*[:：-]\s*/i;
+const prefixPattern = /^\s*(?:配\s*料\s*(?:表|衰)?|食品\s*配\s*料|原\s*料|食品添加剂|ingredients?)\s*[:：-]\s*/i;
 
 export function parseIngredientList(text: string): ParsedIngredient[] {
-  const prepared = normalizeInput(text).replace(/单\s*[,，、]\s*双/g, `单${protectedDelimiter}双`);
+  const prepared = normalizeInput(text)
+    .replace(/单\s*[,，、]\s*双/g, `单${protectedDelimiter}双`)
+    .replace(/5\s*'\s*[-－]?\s*呈味/g, "5'-呈味");
   const parsed = splitTopLevel(prepared).flatMap(parseSegment);
   const seen = new Set<string>();
   return parsed
@@ -39,10 +41,10 @@ function normalizeInput(text: string): string {
 
 function extractIngredientSection(text: string): string {
   const normalized = String(text || '').normalize('NFKC');
-  const heading = normalized.search(/(?:配\s*料\s*表?|原\s*料|成\s*分)\s*[:：]/i);
+  const heading = normalized.search(/(?:配\s*料\s*(?:表|衰)?|食品\s*配\s*料|原\s*料|成\s*[分份]|ingredients?)\s*[:：]/i);
   if (heading < 0) return normalized;
   const section = normalized.slice(heading);
-  const stop = section.search(/(?:营养成分表|营养成分|净含量|产品名称|商品名称|生产日期|保质期|生产商|制造商|委托方|经销商|地址|电话|食品生产许可证|执行标准|条码|条形码|贮存|储存|\bSC\d{8,}\b)/i);
+  const stop = section.search(/(?:营养成分表|营养成分|營養成分表|營養成分|致敏原提示|过敏原提示|净含量|产品名称|商品名称|生产日期|保质期|生产商|制造商|委托方|经销商|地址|电话|食品生产许可证|执行标准|条码|条形码|贮存|储存|\bSC\s*\d{6,}\b)/i);
   return stop > 0 ? section.slice(0, stop) : section;
 }
 

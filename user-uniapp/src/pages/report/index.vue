@@ -7,16 +7,17 @@ import EmptyState from '@/components/EmptyState.vue';
 import PageHeader from '@/components/PageHeader.vue';
 import { routes, navigateToRoute } from '@/constants/routes';
 import { buildReportShareMessage, enableWeixinShareMenu, shareReport } from '@/platform/share';
+import { buildManualOcrResult } from '@/services/api/ocr';
 import { getAttentionSettings } from '@/stores/attentionStore';
-import { getReportById, getReports } from '@/stores/scanStore';
-import type { AdditiveRecognition, IngredientMatch, LabelReport } from '@/types';
+import { getReportById, getReports, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
+import type { AdditiveRecognition, IngredientMatch, LabelReport, LabelType } from '@/types';
 import { summarizeAdditiveRecognitions } from '@/utils/additiveRules';
 import { buildAdditiveRecognitions, buildConsumerDecision, buildNutritionSnapshot } from '@/utils/decisionRules';
 
 const report = ref<LabelReport | undefined>();
 const selectedAdditive = ref<AdditiveRecognition | undefined>();
 const attentionSettings = ref(getAttentionSettings());
-const sourceOpen = ref(false);
+const moreOpen = ref(false);
 
 const ingredients = computed(() => report.value?.ingredientSection.items ?? []);
 const networkItems = computed(() => ingredients.value.filter((item) => isNetworkItem(item)));
@@ -41,6 +42,7 @@ const decision = computed(() => {
     nutritionSnapshot: nutritionSnapshot.value
   }, attentionSettings.value);
 });
+const visibleWatchPoints = computed(() => decision.value?.watchPoints.slice(0, 4) ?? []);
 const additiveSummaryText = computed(() => {
   const summary = additiveRecognition.value;
   if (!summary.total) return '暂未识别到明显食品添加剂。';
@@ -48,6 +50,8 @@ const additiveSummaryText = computed(() => {
 });
 const allergyWarnings = computed(() => decision.value?.allergyWarnings ?? []);
 const analysisSource = computed(() => report.value?.analysisSource);
+const isDemoReport = computed(() => analysisSource.value?.sourceType === 'demo_sample');
+const isInsufficient = computed(() => decision.value?.level === 'insufficient');
 
 onLoad((query) => {
   enableWeixinShareMenu();
@@ -74,9 +78,56 @@ function openAdditiveDetail(item: AdditiveRecognition) {
 
 function nutritionLevelClass(level: string) {
   if (level === '较低') return 'low';
-  if (level === '中等') return 'medium';
+  if (level === '中等' || level === '一般') return 'medium';
   if (level === '较高') return 'high';
   return 'missing';
+}
+
+function showFeedbackFallback() {
+  uni.showToast({ title: '请在小程序右上角反馈，或重新拍摄更清晰的食品标签。', icon: 'none' });
+}
+
+function openManualModify() {
+  if (!report.value) {
+    uni.navigateTo({ url: `${routes.capture}?mode=manual` });
+    return;
+  }
+  const confirmedText = buildReportManualText(report.value);
+  const ocr = {
+    ...buildManualOcrResult(),
+    text: confirmedText,
+    blocks: confirmedText ? [{ text: confirmedText, confidence: 1 }] : []
+  };
+  resetScanDraft();
+  saveScanDraft({
+    ocr,
+    confirmedText,
+    productName: report.value.productName,
+    labelType: resolveReportLabelType(report.value),
+    frontClaimsText: report.value.frontClaimsSection?.text || report.value.analysisSource?.frontClaimsText || ''
+  });
+  navigateToRoute(routes.capture);
+}
+
+function retryScan() {
+  resetScanDraft();
+  navigateToRoute(routes.capture);
+}
+
+function buildReportManualText(value: LabelReport): string {
+  const source = value.analysisSource;
+  return [
+    source?.ingredientText,
+    source?.nutritionText,
+    source?.allergenText,
+    source?.frontClaimsText || value.frontClaimsSection?.text
+  ].filter(Boolean).join('\n') || value.rawText || source?.ocrText || '';
+}
+
+function resolveReportLabelType(value: LabelReport): LabelType {
+  if (value.analysisSource?.sourceType === 'captured_nutrition') return 'nutrition_facts';
+  if (value.analysisSource?.sourceType === 'captured_product') return 'front_claims';
+  return value.ingredientSection.items.length ? 'ingredient_list' : 'unknown_label';
 }
 
 </script>
@@ -97,6 +148,13 @@ function nutritionLevelClass(level: string) {
         :subtitle="report.productName || '未命名食品'"
       />
 
+      <AppCard v-if="isDemoReport">
+        <view class="demo-notice">
+          <text class="demo-notice__title">这是示例解读，不代表真实商品。</text>
+          <text class="muted">Demo 只用于体验配料表和营养成分表的本地规则解读流程。</text>
+        </view>
+      </AppCard>
+
       <AppCard v-if="allergyWarnings.length">
         <view class="allergy-alert">
           <text class="allergy-alert__title">过敏/忌口提醒</text>
@@ -115,21 +173,20 @@ function nutritionLevelClass(level: string) {
         </view>
       </AppCard>
 
-      <AppCard v-if="decision">
-        <view class="stack">
-          <text class="section-title">一句话建议</text>
-          <text class="advice-text">{{ decision.summary }}</text>
+      <AppCard v-if="isInsufficient">
+        <view class="insufficient-actions">
+          <text class="section-title">补充信息后再解读</text>
+          <text class="muted">信息不足，建议重新拍摄食品标签，或手动补充配料表 / 营养成分表。</text>
+          <AppButton @click="retryScan">重新拍摄</AppButton>
+          <AppButton variant="secondary" @click="openManualModify">手动修改</AppButton>
+          <AppButton variant="text" @click="navigateToRoute(routes.home)">返回首页</AppButton>
         </view>
       </AppCard>
 
       <AppCard v-if="decision">
         <view class="stack">
-          <text class="section-title">你需要留意的点</text>
-          <view class="simple-list">
-            <view v-for="(item, index) in decision.watchPoints" :key="item" class="simple-list-item">
-              <text class="simple-list-item__title">{{ index + 1 }}. {{ item }}</text>
-            </view>
-          </view>
+          <text class="section-title">一句话建议</text>
+          <text class="advice-text">{{ decision.summary }}</text>
         </view>
       </AppCard>
 
@@ -167,72 +224,20 @@ function nutritionLevelClass(level: string) {
         </view>
       </AppCard>
 
-      <AppCard>
-        <view class="stack">
-          <text class="section-title">营养快照</text>
-          <view class="nutrition-snapshot">
-            <view v-for="item in nutritionSnapshot" :key="item.key" class="nutrition-item">
-              <view class="nutrition-item__head">
-                <text class="nutrition-item__label">{{ item.label }}</text>
-                <text class="nutrition-item__value">{{ item.valueText }}，{{ item.level }}</text>
-              </view>
-              <view class="nutrition-item__track">
-                <view class="nutrition-item__bar" :class="`nutrition-item__bar--${nutritionLevelClass(item.level)}`" :style="{ width: `${item.percent}%` }" />
-              </view>
-              <text class="nutrition-item__note">{{ item.note }}</text>
-            </view>
-          </view>
-        </view>
-      </AppCard>
-
-      <AppCard v-if="decision">
-        <view class="decision-grid">
-          <view class="decision-block">
-            <text class="decision-block__title">适合谁</text>
-            <text v-for="item in decision.suitableFor" :key="item" class="decision-block__line">{{ item }}</text>
-          </view>
-          <view class="decision-block decision-block--warm">
-            <text class="decision-block__title">不适合谁</text>
-            <text v-for="item in decision.lessSuitableFor" :key="item" class="decision-block__line">{{ item }}</text>
-          </view>
-        </view>
-      </AppCard>
-
       <AppCard v-if="decision">
         <view class="stack">
-          <text class="section-title">怎么选更合适</text>
-          <view class="simple-list">
-            <view v-for="item in decision.suggestions" :key="item" class="simple-list-item">
-              <text class="simple-list-item__desc">{{ item }}</text>
+          <view class="section-head">
+            <view>
+              <text class="section-title">重点提醒</text>
+              <text class="muted">先看和当前目标最相关的几项。</text>
             </view>
           </view>
-        </view>
-      </AppCard>
-
-      <AppCard v-if="report.focusItems.length">
-        <view class="stack">
-          <text class="section-title">目标命中</text>
-          <view class="simple-list">
-            <view v-for="item in report.focusItems.slice(0, 5)" :key="item" class="simple-list-item">
-              <text class="simple-list-item__title">{{ item }}</text>
+          <view class="watch-list">
+            <view v-for="(item, index) in visibleWatchPoints" :key="item" class="watch-item">
+              <text class="watch-item__index">{{ index + 1 }}</text>
+              <text class="watch-item__text">{{ item }}</text>
             </view>
           </view>
-        </view>
-      </AppCard>
-
-      <AppCard>
-        <view class="stack">
-          <text class="section-title">原始配料/营养信息</text>
-          <view v-if="ingredients.length" class="ingredient-plain-list">
-            <text v-for="item in ingredients" :key="item.id" class="ingredient-pill" :class="{ 'ingredient-pill--additive': item.isAdditive, 'ingredient-pill--network': isNetworkItem(item) }">{{ item.normalizedText }}</text>
-          </view>
-          <view v-if="visibleNutritionFields.length" class="simple-list">
-            <view v-for="field in visibleNutritionFields" :key="field.key" class="simple-list-item">
-              <text class="simple-list-item__title">{{ field.label }}：{{ field.value }}{{ field.unit }}</text>
-            </view>
-          </view>
-          <text v-if="report.frontClaimsSection?.text" class="raw-text">{{ report.frontClaimsSection.text }}</text>
-          <text v-if="report.rawText" class="raw-text">{{ report.rawText }}</text>
         </view>
       </AppCard>
 
@@ -240,24 +245,71 @@ function nutritionLevelClass(level: string) {
         <view class="stack">
           <view class="section-head">
             <view>
-              <text class="section-title">本次分析依据</text>
-              <text class="muted">{{ analysisSource?.description || '本次分析依据：用户确认后的包装文字。' }}</text>
+              <text class="section-title">更多信息</text>
+              <text class="muted">营养快照、原文、数据说明和免责声明默认折叠。</text>
             </view>
-            <text class="link" @tap="sourceOpen = !sourceOpen">{{ sourceOpen ? '收起' : '展开' }}</text>
+            <text class="link" @tap="moreOpen = !moreOpen">{{ moreOpen ? '收起' : '展开' }}</text>
           </view>
-          <view v-if="sourceOpen" class="simple-list">
-            <view v-if="analysisSource" class="simple-list-item">
-              <text class="simple-list-item__title">{{ analysisSource.sourceLabel }}</text>
-              <text class="simple-list-item__desc">商品库：{{ analysisSource.fromProductLibrary ? '是' : '否' }}；用户拍摄：{{ analysisSource.fromUserCapture ? '是' : '否' }}；手动输入：{{ analysisSource.fromManualInput ? '是' : '否' }}</text>
-              <text v-if="analysisSource.imageSummary" class="simple-list-item__desc">图片摘要：{{ analysisSource.imageSummary }}</text>
+          <view v-if="moreOpen" class="stack">
+            <view>
+              <text class="section-title">营养快照</text>
+              <view class="nutrition-snapshot">
+                <view v-for="item in nutritionSnapshot" :key="item.key" class="nutrition-item">
+                  <view class="nutrition-item__head">
+                    <text class="nutrition-item__label">{{ item.label }}</text>
+                    <text class="nutrition-item__value">{{ item.valueText }}，{{ item.level }}</text>
+                  </view>
+                  <view class="nutrition-item__track">
+                    <view class="nutrition-item__bar" :class="`nutrition-item__bar--${nutritionLevelClass(item.level)}`" :style="{ width: `${item.percent}%` }" />
+                  </view>
+                  <text class="nutrition-item__note">{{ item.note }}</text>
+                </view>
+              </view>
             </view>
-            <view v-for="source in report.sources" :key="source.label" class="simple-list-item">
-              <text class="simple-list-item__title">{{ source.label }}</text>
-              <text class="simple-list-item__desc">{{ source.detail }}</text>
+
+            <view>
+              <text class="section-title">确认后的标签文字</text>
+              <view v-if="ingredients.length" class="ingredient-plain-list">
+                <text v-for="item in ingredients" :key="item.id" class="ingredient-pill" :class="{ 'ingredient-pill--additive': item.isAdditive, 'ingredient-pill--network': isNetworkItem(item) }">{{ item.normalizedText }}</text>
+              </view>
+              <view v-if="visibleNutritionFields.length" class="simple-list">
+                <view v-for="field in visibleNutritionFields" :key="field.key" class="simple-list-item">
+                  <text class="simple-list-item__title">{{ field.label }}：{{ field.value }}{{ field.unit }}</text>
+                </view>
+              </view>
+              <text v-if="report.rawText" class="raw-text">{{ report.rawText }}</text>
             </view>
-            <text class="muted">本次建议基于包装文字、本机目标设置、添加剂识别、营养字段和本地规则生成。</text>
+
+            <view class="simple-list">
+              <view class="simple-list-item">
+                <text class="simple-list-item__title">本次分析依据</text>
+                <text class="simple-list-item__desc">{{ analysisSource?.description || '本次分析依据：用户确认后的食品标签文字。' }}</text>
+                <text v-if="analysisSource?.imageSummary" class="simple-list-item__desc">图片摘要：{{ analysisSource.imageSummary }}</text>
+              </view>
+              <view v-for="source in report.sources" :key="source.label" class="simple-list-item">
+                <text class="simple-list-item__title">{{ source.label }}</text>
+                <text class="simple-list-item__desc">{{ source.detail }}</text>
+              </view>
+              <view class="simple-list-item">
+                <text class="simple-list-item__title">免责声明</text>
+                <text class="simple-list-item__desc">本工具仅用于食品标签信息整理和关注提示，不替代医生、营养师或监管机构意见。</text>
+              </view>
+            </view>
+            <text v-if="networkItems.length" class="muted">有 {{ networkItems.length }} 个词需要结合包装原文核对。</text>
           </view>
-          <text v-if="sourceOpen && networkItems.length" class="muted">有 {{ networkItems.length }} 个词需要结合包装原文或搜索线索核对。</text>
+        </view>
+      </AppCard>
+
+      <AppCard>
+        <view class="feedback-block">
+          <text class="section-title">结果反馈</text>
+          <text class="muted">如果识别或解读不符合包装原文，可以反馈给我们继续改进。</text>
+          <!-- #ifdef MP-WEIXIN -->
+          <button class="feedback-native" open-type="feedback">结果不准确？告诉我们</button>
+          <!-- #endif -->
+          <!-- #ifndef MP-WEIXIN -->
+          <AppButton variant="secondary" @click="showFeedbackFallback">结果不准确？告诉我们</AppButton>
+          <!-- #endif -->
         </view>
       </AppCard>
 
@@ -294,6 +346,43 @@ function nutritionLevelClass(level: string) {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+}
+
+.demo-notice,
+.feedback-block,
+.insufficient-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.demo-notice {
+  border: 1px solid rgba(216, 138, 36, 0.22);
+  border-radius: var(--radius-card);
+  background: var(--accent-soft);
+  padding: var(--space-md);
+}
+
+.demo-notice__title {
+  color: var(--text);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.feedback-native {
+  border: 1px solid rgba(18, 151, 128, 0.22);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--primary-strong);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  line-height: 1.2;
+  padding: 13px var(--space-lg);
+}
+
+.feedback-native::after {
+  border: 0;
 }
 
 .allergy-alert__title {
@@ -458,6 +547,44 @@ function nutritionLevelClass(level: string) {
   color: var(--muted);
   font-size: var(--font-size-sm);
   line-height: 1.55;
+}
+
+.watch-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.watch-item {
+  border: 1px solid rgba(18, 151, 128, 0.12);
+  border-radius: var(--radius-sm);
+  background: var(--surface-subtle);
+  padding: 10px var(--space-md);
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: start;
+}
+
+.watch-item__index {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.watch-item__text {
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  line-height: 1.5;
 }
 
 .nutrition-item {

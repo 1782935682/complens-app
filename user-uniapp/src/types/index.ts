@@ -23,7 +23,11 @@ export interface LocalImageAsset {
 
 export interface OcrBlock {
   text: string;
-  confidence: number;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  confidence?: number;
 }
 
 export interface OcrResult {
@@ -87,6 +91,7 @@ export type NutritionKey =
   | 'carbohydrate'
   | 'sugar'
   | 'sodium'
+  | 'salt'
   | 'dietaryFiber'
   | 'servingSize'
   | 'perUnit'
@@ -103,9 +108,9 @@ export interface NutritionField {
 }
 
 export interface AttentionSettings {
-  goals: string[];
-  detailTerms: string[];
-  customTerms: string[];
+  primaryGoal: 'daily' | 'sugar' | 'fatLoss' | 'lowSodium';
+  isChildrenMode: boolean;
+  allergens: string[];
   updatedAt: string;
 }
 
@@ -132,13 +137,9 @@ export type AdditiveCategory =
   | '防腐剂'
   | '甜味剂'
   | '色素'
-  | '增稠剂/稳定剂'
-  | '乳化剂'
-  | '酸度调节剂'
-  | '抗氧化剂'
+  | '质地改良剂'
   | '香精香料'
-  | '膨松剂'
-  | '其他食品添加剂';
+  | '其他添加剂';
 
 export interface AdditiveRecognition {
   id: string;
@@ -161,7 +162,7 @@ export interface NutritionSnapshotItem {
   key: NutritionKey;
   label: string;
   valueText: string;
-  level: '较低' | '中等' | '较高' | '未识别';
+  level: '较低' | '中等' | '一般' | '较高' | '未识别';
   note: string;
   percent: number;
 }
@@ -206,29 +207,32 @@ export interface ReportSource {
 }
 
 export type AnalysisSourceType =
-  | 'captured_product'
   | 'captured_ingredient'
   | 'captured_nutrition'
+  | 'captured_product'
   | 'manual_input'
-  | 'mock_product_library'
+  | 'demo_sample'
   | 'history';
 
 export interface ReportAnalysisSource {
   sourceType: AnalysisSourceType;
   sourceLabel: string;
   description: string;
-  fromProductLibrary: boolean;
   fromUserCapture: boolean;
   fromManualInput: boolean;
   imagePath?: string;
   imageSummary?: string;
   ocrText?: string;
-  productLibraryId?: string;
-  productLibraryName?: string;
+  ingredientText?: string;
+  nutritionText?: string;
+  allergenText?: string;
+  frontClaimsText?: string;
+  confidence?: 'high' | 'medium' | 'low';
+  inputSourceType?: 'ocr' | 'manual' | 'demo';
   targetSnapshot: {
-    goals: string[];
-    detailTerms: string[];
-    customTerms: string[];
+    primaryGoal: AttentionSettings['primaryGoal'];
+    isChildrenMode: boolean;
+    allergens: string[];
   };
 }
 

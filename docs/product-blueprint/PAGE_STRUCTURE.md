@@ -12,7 +12,7 @@
 - 产品代号：CompCheck
 - 产品名：CompLens / 成分镜
 - 文档类型：页面结构（信息架构 / 页面清单 / 主流程 / 后台规划）
-- 适用范围：食品标签（配料表、营养成分表、包装正面卖点）；不含化妆品、护肤品、药品
+- 适用范围：食品标签（配料表、营养成分表）；不含商品正面识别、条码识别、化妆品、护肤品、药品
 
 > **登记约定（强制）**：任何新增页面（用户端或后台）必须登记到本文件对应小节，包含「页面目标 / 对应文件 / 路由 / 当前状态」四项，否则不视为完成。
 
@@ -51,23 +51,25 @@
 ## 一、用户端页面
 
 > 每个页面统一模板：页面目标 / 对应文件·路由 / 入口 / 核心组件 / 主要操作 / 页面状态（含 loading·empty·error 三态）/ 移动端注意事项 / 数据可信展示规则 / 验收标准。
-> 移动端通用约束（除非另注，对所有页面生效）：尊重安全区（顶部刘海 / 底部 Home 条）；**禁止整页横向滚动**；可点击控件命中区域 **≥ 44px**；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 拍商品 / 对比 / 历史 / 我的）。
+> 移动端通用约束（除非另注，对所有页面生效）：尊重安全区（顶部刘海 / 底部 Home 条）；**禁止整页横向滚动**；可点击控件命中区域 **≥ 44px**；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 拍食品标签 / 历史 / 我的）。
 > 三态通用约束：loading / empty / error 三态已在各页复核（Batch 8-C 完成）。
 
 ### 1.0 正式 `user-uniapp/` 页面登记
 
-> 2026-06-17 UI 口径：微信小程序用户端品牌暂定「配料雷达」，首屏以“拍商品，马上看懂”为核心；当前小程序注册页收敛为 6 个 P0 页面，商品对比保留为 P1 文件但不注册、不作为首页核心入口。
+> 2026-06-17 MVP 收缩口径：微信小程序用户端品牌暂定「配料雷达」，首屏以“拍配料表，看懂成分”为核心；P0 只承诺食品配料表 / 营养成分表 OCR、文本清洗、有效标签提取、轻确认、本地规则识别和 10 秒可读解读结果。商品正面识别、条码识别、商品库优先匹配、商品对比和日化识别均后置到 P1 / P2，不作为当前主流程入口。首页 Demo 仅使用内置食品标签文本体验本地规则解读，不代表商品库能力。
 
 | 页面 | 页面目标 | 对应文件 / 路由 | 当前状态 |
 | --- | --- | --- | --- |
-| 首页 | 扫描主控台，首屏只突出“拍一下 / 扫一下”，外露当前关注目标，并弱化手动输入、最近扫描和隐私提示 | `user-uniapp/src/pages/index/index.vue` / `/pages/index/index` | 核心注册页 |
-| 拍商品 | 合并商品正面/条码、配料表/营养成分表、相册、OCR、手动输入、识别摘要、轻量文本确认和结果生成；先尝试本地商品库/mock 商品库命中，未命中再引导拍配料表或营养成分表 | `user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index` | 核心注册页 |
-| 消费建议 | 第一屏展示比较适合/可以偶尔选/建议少选/不太适合当前目标，再展示一句话建议、留意点、添加剂识别、营养快照、适合谁/不适合谁、怎么选、原文、本次分析依据和数据说明 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 核心注册页 |
-| 我的关注目标 | 本地保存日常均衡、控糖、减脂、少盐/低钠、儿童、健身、过敏/忌口等目标和关注词 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 核心注册页 |
-| 扫描记录 | 本地结果列表、重新打开结果、删除记录、按时间排序 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 核心注册页 |
-| 设置 | 隐私说明、免责声明、规则库版本、清空历史和关于产品；普通用户不展示后端地址配置 | `user-uniapp/src/pages/settings/index.vue` / `/pages/settings/index` | 核心注册页 |
+| 首页 | 扫描主控台，首屏只突出“拍食品标签”，外露当前关注目标，提供手动输入、最近扫描、避坑提示、隐私提示和轻量 Demo 体验入口 | `user-uniapp/src/pages/index/index.vue` / `/pages/index/index` | 核心注册页 |
+| 拍食品标签 | 合并拍照、相册、OCR、OCR adapter、文本清洗、配料/营养/致敏原提取、手动输入、轻量文本确认、阶段式 loading 和结果生成；只处理食品配料表 / 营养成分表，不走商品库命中或条码识别 | `user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index` | 核心注册页 |
+| 消费建议 | 第一屏展示适合当前目标 / 可以偶尔选 / 需要留意 / 不太适合当前目标，再展示一句话建议、重点提醒、添加剂识别、Demo 标识、结果反馈和更多信息折叠区 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 核心注册页 |
+| 我的关注 | 本地保存单选主目标（日常 / 控糖 / 减脂 / 低钠）、儿童模式开关和过敏 / 忌口多选 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 核心注册页 |
+| 扫描记录 | 本地结果列表、重新打开结果、删除记录、按时间排序；最多保留最近 20 条，不保存图片 base64 或图片路径 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 核心注册页 |
+| 设置 | 隐私说明、免责声明、清空历史和关于产品；普通用户不展示后端地址、商品库配置、规则库版本或开发调试项 | `user-uniapp/src/pages/settings/index.vue` / `/pages/settings/index` | 核心注册页 |
 
-降级 / 清理页面：`compare` 保留为 P1 页面文件但不注册；`report-sources` 的数据说明已并入消费建议页底部；`ingredient-detail` 改为消费建议页内半屏添加剂解释；`ocr`、`confirm-text`、`ingredients`、`nutrition`、`match`、`search`、`privacy`、`data-sources`、`mine` 等 legacy 页面已从小程序工程清理。
+降级 / 清理页面：`compare` 保留为 P1 页面文件但不注册；`report-sources` 的数据说明已并入消费建议页更多信息折叠区；`ingredient-detail` 后续改为消费建议页内半屏添加剂解释；`mockProductLibrary` 仅保留为后续开发资料，不参与 P0 用户主流程；`ocr`、`confirm-text`、`ingredients`、`nutrition`、`match`、`search`、`privacy`、`data-sources`、`mine` 等 legacy 页面已从小程序工程清理。
+
+> 注意：下方 1.1 起登记的是历史 Web/PWA 原型和后续规划页面，用于迁移参考；当前微信小程序 P0 范围以上表为准，不承诺商品正面、条码、商品库或日化识别。
 
 ### 1.1 首页
 

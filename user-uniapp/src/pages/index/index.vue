@@ -3,37 +3,37 @@ import { onShow } from '@dcloudio/uni-app';
 import { computed, ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
-import AppModal from '@/components/AppModal.vue';
 import PageHeader from '@/components/PageHeader.vue';
-import { attentionGoals } from '@/constants/attention';
+import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
 import { routes, navigateToRoute } from '@/constants/routes';
-import { readJson, writeJson } from '@/platform/storage';
 import { getAttentionSettings } from '@/stores/attentionStore';
-import { getReports } from '@/stores/scanStore';
+import { getReports, saveReport } from '@/stores/scanStore';
 import { resetScanDraft, setFastScanMode } from '@/stores/scanStore';
 import type { AttentionSettings, LabelReport } from '@/types';
+import { pickDemoFoodLabelSample } from '@/utils/demoSamples';
+import { extractLabelText } from '@/utils/labelTextExtractor';
+import { buildLocalLabelAnalysis } from '@/utils/localLabelAnalysis';
+import { normalizeOcrResult } from '@/utils/ocrAdapter';
 
 const reports = ref<LabelReport[]>([]);
 const attentionSettings = ref<AttentionSettings>(getAttentionSettings());
-const targetGuideOpen = ref(false);
-const targetGuideKey = 'complens:target-guide-seen';
 
 const attentionTerms = computed(() => [
-  ...currentGoalLabels.value,
-  ...attentionSettings.value.detailTerms,
-  ...attentionSettings.value.customTerms
+  currentGoalLabel.value,
+  ...(attentionSettings.value.isChildrenMode ? ['儿童模式'] : []),
+  ...allergenLabels.value
 ].slice(0, 6));
 
-const currentGoalLabels = computed(() => attentionGoals
-  .filter((goal) => attentionSettings.value.goals.includes(goal.key))
-  .map((goal) => goal.label));
+const currentGoalLabel = computed(() => primaryGoalOptions.find((goal) => goal.key === attentionSettings.value.primaryGoal)?.label || '日常');
+const allergenLabels = computed(() => allergenOptions
+  .filter((item) => attentionSettings.value.allergens.includes(item.key))
+  .map((item) => item.label));
 
 const recentReports = computed(() => reports.value.slice(0, 3));
 
 onShow(() => {
   reports.value = getReports();
   attentionSettings.value = getAttentionSettings();
-  targetGuideOpen.value = !readJson<boolean>(targetGuideKey, false);
 });
 
 function openCapture() {
@@ -48,30 +48,52 @@ function openManualInput() {
   uni.navigateTo({ url: `${routes.capture}?mode=manual` });
 }
 
+function openDemo() {
+  resetScanDraft();
+  const sample = pickDemoFoodLabelSample(reports.value.length);
+  const extraction = extractLabelText(normalizeOcrResult(sample.text, 'mock'), 'demo');
+  const analysis = buildLocalLabelAnalysis({
+    productName: sample.title,
+    ingredientText: extraction.ingredientText,
+    nutritionText: extraction.nutritionText,
+    allergenText: extraction.allergenText,
+    confidence: extraction.confidence,
+    attention: getAttentionSettings(),
+    sourceType: 'demo'
+  });
+  saveReport(analysis.report);
+  uni.navigateTo({ url: `${routes.report}?id=${encodeURIComponent(analysis.report.id)}` });
+}
+
 function openReport(id: string) {
   uni.navigateTo({ url: `${routes.report}?id=${encodeURIComponent(id)}` });
 }
 
-function closeTargetGuide(openSettings: boolean) {
-  writeJson(targetGuideKey, true);
-  targetGuideOpen.value = false;
-  if (openSettings) navigateToRoute(routes.attention);
-}
 </script>
 
 <template>
   <view class="page page--calm stack">
     <PageHeader
       eyebrow="配料雷达"
-      title="拍商品，马上看懂"
-      subtitle="支持商品正面、条码、配料表和营养成分表。识别不到商品时，再拍配料表分析。"
+      title="拍配料表，看懂成分"
+      subtitle="支持配料表和营养成分表，识别添加剂、糖、钠、脂肪和过敏原。"
     />
 
     <AppCard class="home-card--hero">
       <view class="home-hero">
-        <text class="home-hero__title">拍一下 / 扫一下</text>
-        <text class="home-hero__subtitle">先识别商品正面或条码；识别不到商品时，再拍配料表、营养成分表继续分析。</text>
-        <AppButton class="home-hero__button" @click="openCapture">拍一下 / 扫一下</AppButton>
+        <text class="home-hero__title">拍食品标签</text>
+        <text class="home-hero__subtitle">对准配料表或营养成分表，识别后简单确认，再生成解读。</text>
+        <AppButton class="home-hero__button" @click="openCapture">拍食品标签</AppButton>
+      </view>
+    </AppCard>
+
+    <AppCard clickable class="demo-card">
+      <view class="demo-entry" @tap="openDemo">
+        <view>
+          <text class="section-title">身边没商品？点我体验一次</text>
+          <text class="muted">用内置食品标签走一遍识别和解读流程。</text>
+        </view>
+        <text class="demo-entry__badge">Demo</text>
       </view>
     </AppCard>
 
@@ -84,7 +106,7 @@ function closeTargetGuide(openSettings: boolean) {
         <view v-if="attentionTerms.length" class="pill-list">
           <text v-for="term in attentionTerms" :key="term" class="soft-tag">{{ term }}</text>
         </view>
-        <text v-else class="link">快速设置控糖、减脂、少盐、儿童、过敏</text>
+        <text v-else class="link">快速设置控糖、减脂、低钠、儿童和过敏</text>
       </view>
     </AppCard>
 
@@ -110,7 +132,7 @@ function closeTargetGuide(openSettings: boolean) {
         </view>
         <view v-else class="home-empty">
           <text class="home-empty__title">还没有扫描记录</text>
-          <text class="muted">拍一次商品或配料表，结果会保存在这里。</text>
+          <text class="muted">拍一次配料表或营养成分表，结果会保存在这里。</text>
         </view>
       </view>
     </AppCard>
@@ -136,16 +158,6 @@ function closeTargetGuide(openSettings: boolean) {
       <text class="link" @tap="navigateToRoute(routes.settings)">设置</text>
     </view>
 
-    <AppModal
-      :open="targetGuideOpen"
-      title="先设一个关注目标"
-      message="控糖、减脂、少盐、儿童和过敏/忌口会影响结果页的提醒重点。你也可以先用默认目标扫描。"
-      confirm-label="去设置"
-      cancel-label="先扫描"
-      variant="primary"
-      @close="closeTargetGuide(false)"
-      @confirm="closeTargetGuide(true)"
-    />
   </view>
 </template>
 
@@ -183,6 +195,28 @@ function closeTargetGuide(openSettings: boolean) {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.demo-card {
+  border-color: rgba(216, 138, 36, 0.18);
+  background: rgba(255, 250, 238, 0.72);
+}
+
+.demo-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.demo-entry__badge {
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: #8a5d12;
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  padding: 5px 10px;
+  white-space: nowrap;
 }
 
 .quick-actions {

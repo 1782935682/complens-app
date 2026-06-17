@@ -1,3 +1,4 @@
+import { allergenOptions } from '@/constants/attention';
 import type { AdditiveRecognition, AttentionSettings, ConsumerDecision, IngredientMatch, LabelReport, NutritionField, NutritionKey, NutritionSnapshotItem } from '@/types';
 import { recognizeAdditives, summarizeAdditiveRecognitions } from './additiveRules';
 
@@ -50,34 +51,21 @@ export function buildConsumerDecision(report: LabelReport, attention?: Attention
     ...ingredients.map((item) => `${item.normalizedText} ${item.ingredientName || ''}`)
   ].join(' '));
 
-  if (!ingredients.length && !hasNutritionValues(nutrition)) {
-    return {
-      level: 'insufficient',
-      label: '信息不足',
-      summary: '这次没有足够的配料或营养信息，建议重拍配料表或营养成分表。',
-      tags: ['信息不足'],
-      watchPoints: ['没有识别到可用于判断的配料或营养字段。'],
-      allergyWarnings: [],
-      suitableFor: ['需要先补充包装文字后再判断'],
-      lessSuitableFor: ['需要明确控糖、低钠、过敏等目标的人'],
-      reasons: ['没有识别到可用于判断的配料或营养字段。'],
-      suggestions: ['重拍更清楚的配料表或营养成分表。'],
-      score: 0
-    };
-  }
+  const insufficientReason = getInsufficientReason(report, ingredients, nutrition);
+  if (insufficientReason) return buildInsufficientDecision(insufficientReason);
 
   const additiveRecognitions = report.additiveRecognition?.items?.length
     ? report.additiveRecognition.items
     : buildAdditiveRecognitions(report, attention);
   const allergyWarnings = buildConfiguredAllergyWarnings(report, attention);
-  const signals = [
+  const signals = sortSignalsByPriority([
     ...buildIngredientSignals(text, ingredients, attention),
     ...buildAdditiveSignals(additiveRecognitions, attention),
     ...buildNutritionSignals(nutrition, attention),
     ...buildAttentionSignals(report, attention)
-  ];
-  const score = signals.reduce((sum, item) => sum + item.score, 0);
-  const level = resolveLevel(score, signals);
+  ], attention);
+  const score = signals.reduce((sum, item) => sum + item.score, 0) + (allergyWarnings.length ? 6 : 0);
+  const level = allergyWarnings.length ? 'alternative' : resolveLevel(score, signals, attention);
   const label = labelForLevel(level);
   const tags = unique(signals.map((item) => item.tag)).slice(0, 8);
   const reasons = unique(signals.map((item) => item.reason)).slice(0, 6);
@@ -86,12 +74,12 @@ export function buildConsumerDecision(report: LabelReport, attention?: Attention
   const watchPoints = unique([
     ...allergyWarnings,
     ...reasons
-  ]).slice(0, 6);
+  ]).slice(0, 4);
 
   return {
     level,
     label,
-    summary: buildSummary(level, signals, allergyWarnings),
+    summary: buildSummary(level, signals, allergyWarnings, attention),
     tags: tags.length ? tags : ['普通提示'],
     watchPoints: watchPoints.length ? watchPoints : ['没有识别到需要优先提醒的内容，仍建议以包装原文为准。'],
     allergyWarnings,
@@ -100,6 +88,37 @@ export function buildConsumerDecision(report: LabelReport, attention?: Attention
     reasons: reasons.length ? reasons : ['没有识别到需要优先提醒的配料或营养字段。'],
     suggestions,
     score
+  };
+}
+
+function getInsufficientReason(report: LabelReport, ingredients: IngredientMatch[], nutrition: NutritionField[]): string {
+  const source = report.analysisSource;
+  const sourceConfidence = source?.confidence;
+  const sourceIngredientText = String(source?.ingredientText || '').trim();
+  const hasIngredientEvidence = Boolean(ingredients.length || sourceIngredientText);
+  const hasNutritionEvidence = hasNutritionValues(nutrition);
+  const rawText = normalizeText(report.rawText || source?.ocrText || '');
+  if (!rawText && !hasIngredientEvidence && !hasNutritionEvidence) return '没有识别到可用于判断的包装文字。';
+  if (sourceConfidence === 'low' && !hasIngredientEvidence && !hasNutritionEvidence) return '识别结果可能不完整，当前文字不足以形成清晰建议。';
+  if (!hasIngredientEvidence && !hasNutritionEvidence) return '没有识别到清晰的配料表或营养成分表。';
+  if (isMostlyAdCopy(rawText) && !hasIngredientEvidence && !hasNutritionEvidence) return '当前文字更像广告语或包装卖点，缺少有效配料表。';
+  return '';
+}
+
+function buildInsufficientDecision(reason: string): ConsumerDecision {
+  const summary = '信息不足，建议重新拍摄配料表区域，或手动补充配料表 / 营养成分表。';
+  return {
+    level: 'insufficient',
+    label: '信息不足',
+    summary,
+    tags: ['信息不足'],
+    watchPoints: [reason, summary],
+    allergyWarnings: [],
+    suitableFor: ['补充包装文字后再判断'],
+    lessSuitableFor: ['需要明确控糖、低钠、过敏等目标的人'],
+    reasons: [reason],
+    suggestions: ['重新拍摄配料表区域。', '手动补充配料表 / 营养成分表文字。', '回到首页后重新开始。'],
+    score: 0
   };
 }
 
@@ -138,7 +157,6 @@ export function buildAdditiveRecognitions(report: LabelReport, attention?: Atten
   return recognizeAdditives({
     text: [
       report.rawText,
-      report.frontClaimsSection?.text,
       ...report.ingredientSection.items.map((item) => `${item.normalizedText} ${item.ingredientName || ''}`)
     ].join(' '),
     ingredients: report.ingredientSection.items,
@@ -234,13 +252,17 @@ function buildIngredientSignals(text: string, ingredients: IngredientMatch[], at
     lessSuitableFor: ['儿童'],
     suggestions: ['给儿童选择时，可以换成不含酒精相关配料的同类商品。']
   });
+  const selectedAllergenKeywords = getSelectedAllergenKeywords(attention);
   const allergens = allergenGroups.filter((group) => group.terms.some((term) => text.includes(term)));
   allergens.forEach((group) => {
+    const isConfigured = group.terms.some((term) => selectedAllergenKeywords.some((keyword) => term.includes(keyword) || keyword.includes(term)));
     signals.push({
       tag: `${group.label}关注`,
-      score: 3,
-      reason: `配料中出现${group.label}相关词，对应过敏关注人群需要重点查看包装提示。`,
-      lessSuitableFor: [`${group.label}过敏关注人群`],
+      score: isConfigured ? 3 : 0,
+      reason: isConfigured
+        ? `配料中出现你关注的${group.label}相关词，需要重点查看包装提示。`
+        : `配料中出现${group.label}相关词，相关人群可以查看包装提示。`,
+      lessSuitableFor: isConfigured ? [`${group.label}过敏关注人群`] : [],
       suggestions: ['有明确过敏史时，需要以包装过敏原提示和个人情况为准。']
     });
   });
@@ -294,10 +316,10 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
   const signals: DecisionSignal[] = [];
   const sugar = getNutritionValue(fields, 'sugar');
   const sodium = getNutritionValue(fields, 'sodium');
+  const salt = getNutritionValue(fields, 'salt');
   const fat = getNutritionValue(fields, 'fat');
   const energy = getNutritionValue(fields, 'energy');
   const carbohydrate = getNutritionValue(fields, 'carbohydrate');
-  const protein = getNutritionValue(fields, 'protein');
   if (sugar !== null && sugar >= 15) {
     signals.push({
       tag: '糖偏高',
@@ -332,6 +354,15 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
       suggestions: ['搭配其他食物时注意当天总钠摄入。']
     });
   }
+  if (salt !== null && salt >= 1.5) {
+    signals.push({
+      tag: '盐需留意',
+      score: hasGoal(attention, 'low_sodium') || hasGoal(attention, 'for_children') ? 3 : 2,
+      reason: `盐含量识别为 ${formatNumber(salt)}g，低钠关注人群可以留意。`,
+      lessSuitableFor: ['低钠关注人群'],
+      suggestions: ['优先对比盐或钠含量更低的同类商品。']
+    });
+  }
   if (fat !== null && fat >= 20) {
     signals.push({
       tag: '脂肪偏高',
@@ -359,27 +390,37 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
       suggestions: ['可以对比碳水更低或蛋白质更高的版本。']
     });
   }
-  if (hasGoal(attention, 'high_protein') && (protein === null || protein < 8)) {
-    signals.push({
-      tag: '蛋白质不突出',
-      score: 1,
-      reason: '健身目标下，当前没有识别到明显高蛋白优势。',
-      lessSuitableFor: ['健身目标人群'],
-      suggestions: ['健身目标可优先对比蛋白质更高、糖和脂肪更低的版本。']
-    });
-  }
   return signals;
 }
 
 function buildAttentionSignals(report: LabelReport, attention?: AttentionSettings): DecisionSignal[] {
-  if (!attention?.goals.length && !report.attentionHits.length) return [];
+  if (!attention && !report.attentionHits.length) return [];
   return report.attentionHits.map((hit) => ({
     tag: hit.label,
-    score: hit.key === 'avoidance' || hit.key === 'custom' ? 2 : 1,
+    score: hit.key === 'allergen' ? 4 : hit.key === 'children' ? 2 : 1,
     reason: `${hit.label}相关词已出现：${hit.terms.slice(0, 4).join('、')}。`,
     lessSuitableFor: [mapGoalToAudience(hit.key, hit.label)],
     suggestions: ['可以根据自己的目标，把这类成分放到优先查看。']
   }));
+}
+
+function sortSignalsByPriority(signals: DecisionSignal[], attention?: AttentionSettings): DecisionSignal[] {
+  return [...signals].sort((left, right) => {
+    const priorityDiff = signalPriority(right, attention) - signalPriority(left, attention);
+    if (priorityDiff) return priorityDiff;
+    return right.score - left.score;
+  });
+}
+
+function signalPriority(signal: DecisionSignal, attention?: AttentionSettings): number {
+  const text = `${signal.tag}${signal.reason}`;
+  if (/过敏|忌口|致敏/.test(text)) return 50;
+  if (attention?.isChildrenMode && /儿童|色素|咖啡因|甜味剂|糖偏高|钠偏高|高糖|高钠/.test(text)) return 40;
+  if (attention?.primaryGoal === 'lowSodium' && /钠|盐|味精|酱油粉/.test(text)) return 35;
+  if (attention?.primaryGoal === 'sugar' && /糖|糖浆|甜味剂|碳水|代糖/.test(text)) return 30;
+  if (attention?.primaryGoal === 'fatLoss' && /能量|热量|脂肪|糖|碳水/.test(text)) return 30;
+  if (/添加剂|防腐剂|色素|香精/.test(text)) return 20;
+  return 10;
 }
 
 function addTermSignal(target: DecisionSignal[], text: string, terms: string[], signal: DecisionSignal) {
@@ -388,8 +429,14 @@ function addTermSignal(target: DecisionSignal[], text: string, terms: string[], 
   }
 }
 
-function resolveLevel(score: number, signals: DecisionSignal[]): ConsumerDecision['level'] {
+function resolveLevel(score: number, signals: DecisionSignal[], attention?: AttentionSettings): ConsumerDecision['level'] {
   if (signals.length === 0) return 'daily_ok';
+  if (isDailyOnly(attention)) {
+    if (score >= 16) return 'alternative';
+    if (score >= 7) return 'caution';
+    if (score >= 3) return 'occasional';
+    return 'daily_ok';
+  }
   if (score >= 9) return 'alternative';
   if (score >= 6) return 'caution';
   if (score >= 3) return 'occasional';
@@ -398,17 +445,18 @@ function resolveLevel(score: number, signals: DecisionSignal[]): ConsumerDecisio
 
 function labelForLevel(level: ConsumerDecision['level']): string {
   if (level === 'alternative') return '不太适合当前目标';
-  if (level === 'caution') return '建议少选';
+  if (level === 'caution') return '需要留意';
   if (level === 'occasional') return '可以偶尔选';
   if (level === 'insufficient') return '信息不足';
-  return '比较适合';
+  return '适合当前目标';
 }
 
-function buildSummary(level: ConsumerDecision['level'], signals: DecisionSignal[], allergyWarnings: string[]): string {
+function buildSummary(level: ConsumerDecision['level'], signals: DecisionSignal[], allergyWarnings: string[], attention?: AttentionSettings): string {
   if (allergyWarnings.length) return allergyWarnings[0];
-  if (level === 'alternative') return '和你当前目标不太匹配，建议优先对比配料更简单或营养字段更合适的同类商品。';
-  if (level === 'caution') return '建议少选或降低频率，控糖、减脂、少盐、儿童或过敏关注人群建议多看几项。';
-  if (level === 'occasional') return '可以偶尔选择，建议结合你的目标控制频率和份量。';
+  const focusText = buildActiveFocusText(attention);
+  if (level === 'alternative') return `和${focusText}不太匹配，建议优先对比配料更简单或营养字段更合适的同类商品。`;
+  if (level === 'caution') return `这款有几项需要留意，建议结合${focusText}控制频率和份量。`;
+  if (level === 'occasional') return `可以偶尔选择，建议结合${focusText}看频率和份量。`;
   if (!signals.length) return '这次没有识别到明显需要优先提醒的内容，仍建议以包装原文为准。';
   return '整体提醒较少，适合把配料表和营养表再简单核对一遍。';
 }
@@ -433,22 +481,18 @@ function buildSuggestions(level: ConsumerDecision['level'], signals: DecisionSig
 }
 
 function buildConfiguredAllergyWarnings(report: LabelReport, attention?: AttentionSettings): string[] {
-  if (!attention) return [];
+  if (!attention?.allergens.length) return [];
   const text = normalizeText([
     report.rawText,
     ...report.ingredientSection.items.map((item) => `${item.normalizedText}${item.ingredientName || ''}`)
   ].join(' '));
-  const allergyTerms = unique([
-    ...attention.detailTerms.filter(isAllergyLikeTerm),
-    ...attention.customTerms
-  ]);
-  const hits = allergyTerms.filter((term) => text.includes(normalizeText(term))).slice(0, 3);
+  const hits = allergenOptions
+    .filter((option) => attention.allergens.includes(option.key))
+    .filter((option) => option.keywords.some((keyword) => text.includes(normalizeText(keyword))))
+    .map((option) => option.label)
+    .slice(0, 3);
   if (!hits.length) return [];
-  return [`识别到你关注的过敏/忌口词：${hits.join('、')}。请重点核对包装过敏原提示，并结合个人情况判断。`];
-}
-
-function isAllergyLikeTerm(term: string): boolean {
-  return /花生|坚果|牛奶|乳|大豆|黄豆|麸质|小麦|鸡蛋|蛋|虾|蟹|鱼|海鲜|咖啡因/.test(term);
+  return [`含有你关注的过敏原：${hits.join('、')}。建议优先核对包装过敏原提示和个人忌口要求。`];
 }
 
 function buildNutritionSnapshotItem(
@@ -499,7 +543,7 @@ function resolveNutritionLevel(key: NutritionKey, value: number, attention?: Att
   }
   if (key === 'protein') {
     if (value >= 8) return '较高';
-    if (value >= 4) return '中等';
+    if (value >= 4) return '一般';
     return '较低';
   }
   if (key === 'energy') {
@@ -527,8 +571,8 @@ function nutritionNote(key: NutritionKey, value: number, level: NutritionSnapsho
     return '脂肪较低。';
   }
   if (key === 'protein') {
-    if (level === '较高') return '蛋白质较高，健身目标可以重点查看。';
-    if (level === '中等') return '蛋白质中等。';
+    if (level === '较高') return '蛋白质较高，可以结合份量查看。';
+    if (level === '一般' || level === '中等') return '蛋白质一般。';
     return '蛋白质不突出。';
   }
   if (key === 'energy') {
@@ -567,6 +611,14 @@ function hasNutritionValues(fields: NutritionField[]): boolean {
   return fields.some((field) => Boolean(String(field.value || '').trim()));
 }
 
+function isMostlyAdCopy(text: string): boolean {
+  const adHits = ['0蔗糖', '零蔗糖', '低脂', '高蛋白', '非油炸', '无添加', '天然', `健${'康'}`, '新鲜', '美味', '儿童优选', '轻负担', '饱腹']
+    .filter((term) => text.includes(normalizeText(term))).length;
+  const ingredientSignals = ['配料', '食品配料', '原料', 'ingredients', '水', '白砂糖', '食用盐', '植物油', '食品添加剂']
+    .filter((term) => text.includes(normalizeText(term))).length;
+  return adHits >= 2 && ingredientSignals === 0;
+}
+
 function hasNutritionValue(fields: NutritionField[], key: string): boolean {
   return getNutritionValue(fields, key) !== null;
 }
@@ -589,7 +641,7 @@ function normalizeUnit(value: string): string {
 }
 
 function normalizeText(value: string): string {
-  return String(value || '').normalize('NFKC').replace(/\s+/g, '');
+  return String(value || '').normalize('NFKC').replace(/\s+/g, '').toLowerCase();
 }
 
 function unique(values: string[]): string[] {
@@ -601,16 +653,49 @@ function formatNumber(value: number): string {
 }
 
 function mapGoalToAudience(key: string, label: string): string {
-  if (key === 'sugar_control') return '控糖人群';
-  if (key === 'fat_control') return '减脂期';
-  if (key === 'low_sodium') return '低钠关注人群';
-  if (key === 'for_children') return '儿童高频食用';
-  if (key === 'high_protein') return '健身目标人群';
-  if (key === 'daily_balance') return '日常饮食关注人群';
-  if (key === 'avoidance' || key === 'custom') return '过敏或忌口关注人群';
+  if (key === 'sugar') return '控糖人群';
+  if (key === 'fatLoss') return '减脂期';
+  if (key === 'lowSodium') return '低钠关注人群';
+  if (key === 'children') return '儿童高频食用';
+  if (key === 'daily') return '日常饮食关注人群';
+  if (key === 'allergen') return '过敏或忌口关注人群';
   return `${label}关注人群`;
 }
 
 function hasGoal(attention: AttentionSettings | undefined, key: string): boolean {
-  return Boolean(attention?.goals.includes(key));
+  if (!attention) return false;
+  if (key === 'sugar_control') return attention.primaryGoal === 'sugar';
+  if (key === 'fat_control') return attention.primaryGoal === 'fatLoss';
+  if (key === 'low_sodium') return attention.primaryGoal === 'lowSodium';
+  if (key === 'for_children') return attention.isChildrenMode;
+  if (key === 'daily_balance' || key === 'fewer_additives') return attention.primaryGoal === 'daily';
+  return false;
+}
+
+function buildActiveFocusText(attention: AttentionSettings | undefined): string {
+  const parts: string[] = [];
+  if (!attention || attention.primaryGoal === 'daily') {
+    parts.push('日常关注');
+  } else if (attention.primaryGoal === 'sugar') {
+    parts.push('控糖目标');
+  } else if (attention.primaryGoal === 'fatLoss') {
+    parts.push('减脂目标');
+  } else if (attention.primaryGoal === 'lowSodium') {
+    parts.push('低钠/少盐目标');
+  }
+  if (attention?.isChildrenMode) parts.push('儿童模式');
+  if (attention?.allergens.length) parts.push('过敏/忌口');
+  return parts.join('、');
+}
+
+function isDailyOnly(attention: AttentionSettings | undefined): boolean {
+  if (!attention) return true;
+  return attention.primaryGoal === 'daily' && !attention.isChildrenMode && !attention.allergens.length;
+}
+
+function getSelectedAllergenKeywords(attention: AttentionSettings | undefined): string[] {
+  if (!attention?.allergens.length) return [];
+  return allergenOptions
+    .filter((option) => attention.allergens.includes(option.key))
+    .flatMap((option) => option.keywords.map(normalizeText));
 }
