@@ -8,7 +8,7 @@ const emit = defineEmits<{ action: [] }>();
 <template>
   <view class="error-state">
     <view class="error-state__header">
-      <text class="error-state__icon">⚠️</text>
+      <view class="error-state__icon" />
       <text class="error-state__title">{{ title }}</text>
     </view>
     <text class="error-state__description">{{ description }}</text>
@@ -25,7 +25,7 @@ const emit = defineEmits<{ action: [] }>();
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.02);
+  box-shadow: 0 4px 12px rgba(216, 138, 36, 0.04);
 }
 
 .error-state__header {
@@ -35,14 +35,18 @@ const emit = defineEmits<{ action: [] }>();
 }
 
 .error-state__icon {
-  font-size: 18px;
-  line-height: 1;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--status-warning);
+  flex: none;
 }
 
 .error-state__title {
   color: var(--error-text);
   font-size: var(--font-size-lg);
   font-weight: 800;
+  line-height: 1.35;
 }
 
 .error-state__description {

@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
 const props = defineProps<{ message: string; tone?: 'info' | 'success' | 'error' }>();
-
-const icon = computed(() => {
-  if (props.tone === 'success') return '✅';
-  if (props.tone === 'error') return '⚠️';
-  return '💡';
-});
 </script>
 
 <template>
   <view v-if="message" class="toast" :class="`toast--${tone || 'info'}`">
-    <text class="toast__icon">{{ icon }}</text>
+    <view class="toast__dot" />
     <text class="toast__text">{{ message }}</text>
   </view>
 </template>
@@ -42,9 +34,12 @@ const icon = computed(() => {
   }
 }
 
-.toast__icon {
-  font-size: 16px;
-  line-height: 1;
+.toast__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  flex: none;
 }
 
 .toast__text {

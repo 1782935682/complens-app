@@ -1,33 +1,54 @@
-# AI Review — 2026-06-16
+# AI Review — 2026-06-17
 
-## MP-WEIXIN-A 真机 WXSS 编译修复
+## 配料雷达 P0 主流程收敛
 
 ### 本轮目标
 
-修复微信开发者工具真机调试时 `app.wxss(1:1143): unexpected token \`*\`` 的 WXSS 编译错误。
+把微信小程序从“成分 OCR 工具 / 专业报告工具”继续收敛成普通消费者日常使用的配料表消费决策助手。
 
-### 已检查并修改的文件
+产品输出顺序调整为：
 
-- `user-uniapp/src/styles/tokens.css`
-- `PROJECT_PLAN.md`
-- `AI_REVIEW.md`
+```
+添加剂识别 → 配料解释 → 营养快照 → 我的关注目标联动 → 消费建议
+```
+
+实现边界：
+
+- MVP 只聚焦食品、饮料、零食、酸奶、调味品等食品标签。
+- 不混用日化、护肤品、药品规则。
+- 不改 OCR Provider、后端接口、数据库 schema、GB2760 数据或生产部署。
+- 不输出绝对购买、医疗或监管结论。
 
 ### 已完成修改
 
-1. 定位生成产物 `user-uniapp/dist/build/mp-weixin/app.wxss` 中的错误位置，对应源文件 `tokens.css` 的全局 `*` reset。
-2. 将全局通配选择器替换为小程序可接受的显式元素选择器：`page`、`view`、`scroll-view`、`text`、`button`、`input`、`textarea`、`image`。
-3. 移除 Web-only 的 `::-webkit-scrollbar` 相关选择器，避免真机 WXSS 编译器继续在全局样式里遇到不兼容选择器。
-4. 保留字体、盒模型和点击高亮 reset，不改变页面业务逻辑、API、数据口径或小程序 AppID 注入逻辑。
+1. 首页改为扫描主控台：首屏主标题调整为“拍商品，马上看懂”，主按钮为“拍一下 / 扫一下”，当前关注目标外露，手动输入和最近扫描弱化，商品对比不再作为首页核心入口。
+2. 拍商品页保留拍照、相册、手动输入三种输入；支持商品正面、条码、配料表、营养成分表；OCR 失败直接引导手动输入；确认区改为“识别摘要 + 可选修正”，展示添加剂、营养成分表、糖、钠、脂肪、过敏/忌口是否命中。
+3. 结果页按 10 秒可读结构重构：顶部结论、一句话建议、你需要留意的点、添加剂识别、营养快照、适合谁/不适合谁、怎么选更合适、原始配料/营养信息、数据说明、底部操作栏。
+4. 新增 `utils/additiveRules.ts` 本地食品添加剂规则字典，覆盖防腐剂、甜味剂、色素、增稠剂/稳定剂、乳化剂、酸度调节剂、抗氧化剂、香精香料、膨松剂等类别。
+5. 新增 `utils/mockProductLibrary.ts` 本地示例商品库，命中样例商品名或样例条码时直接使用库内配料表和营养成分表生成结果；报告会标注为本地示例商品库并提示以包装实物为准。
+6. 扩展本地分析输出：`additiveRecognition`、`nutritionSnapshot`、`analysisSource`、`decision.watchPoints`、`decision.allergyWarnings`。
+7. 添加剂识别成为独立模块，展示“识别到 X 类 Y 种添加剂”，每项展示名称、类别、作用、提醒，并支持半屏解释。
+8. 营养分析降维为糖、钠、脂肪、蛋白质、热量五项快照，使用低/中/高分档和生活化说明。
+9. 我的关注目标补齐控糖、减脂、少盐/低钠、儿童、健身、过敏/忌口、敏感体质关键词，并真实影响结论、留意点、添加剂排序和营养提醒。
+10. 过敏/忌口命中时，结果页顶部会给出强提醒：含有关注词，建议避免食用。
+11. 小程序注册页调整为 6 个 P0 页面：首页、拍商品、消费建议、我的关注、扫描记录、设置。
+12. 结果页新增默认折叠的“本次分析依据”，历史记录保存并展示来源类型、商品库/拍摄/手动输入状态、图片摘要、OCR 原文和目标快照。
+13. 设置页隐藏后端地址配置，面向普通用户只保留隐私说明、免责声明、清空历史记录、规则库版本和关于产品。
+14. 商品对比保留为 P1 未注册页面文件，不再作为 MVP 首页核心入口。
+15. 清理 legacy 页面文件：`ocr`、`confirm-text`、`ingredients`、`nutrition`、`match`、`label-type`、`search`、`privacy`、`data-sources`、`report-sources`、`ingredient-detail`、`mine`。
 
 ### 影响范围与风险
 
-- 影响范围仅为 `user-uniapp` 全局样式 reset。
-- `DATA_SOURCES.md` 无需更新：本轮不涉及食品数据、GB2760、OCR 结果或权威来源。
-- 微信开发者工具导入、真实 AppID、request 合法域名、隐私政策和真机验收仍是人工项。
+- 影响范围集中在 `user-uniapp` 前端页面、页面注册、文案、本地规则和本机存储。
+- 新增添加剂规则是本地识别和解释字典，不替代后端权威数据或 GB2760 准入数据。
+- 商品对比文件仍保留但未注册；后续 P1 完善时需要重新登记页面和入口。
+- OCR 真实效果仍取决于后端 Provider 和用户确认文本，当前保留手动输入降级。
 
 ### 验证
 
-- `cd user-uniapp && npm run build:mp-weixin`（通过）
-- 检查生成的 `dist/build/mp-weixin/app.wxss`，不再包含 `*{` 或 `::-webkit-scrollbar`（通过）
-- `cd user-uniapp && npm run lint`（通过）
-- `git diff --check`（通过）
+- 禁止文案扫描：通过，无命中
+- 旧页面引用扫描：通过，无命中
+- `cd user-uniapp && npm run lint`：通过
+- `cd user-uniapp && npm run typecheck`：通过
+- `cd user-uniapp && npm run build:mp-weixin`：通过
+- `git diff --check`：通过

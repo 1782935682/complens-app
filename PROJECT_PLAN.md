@@ -2,22 +2,23 @@
 
 ## 1. 当前产品定位
 
-**CompLens / 成分镜 是面向普通消费者的食品标签拍照解读与消费决策助手。**
+**CompLens / 成分镜（小程序品牌暂定「配料雷达」）是面向普通消费者的商品包装拍照解读与消费决策助手。**
 
 核心主路径：
 
 ```
-拍照/上传食品标签
-→ 自动识别标签类型：配料表 / 营养成分表 / 包装正面 / 未知
-→ OCR 识别文字
-→ 用户确认和修正识别文本
-→ 配料拆分 / 营养字段解析 / 包装卖点识别
-→ 匹配食品成分、食品添加剂、营养字段和用户关注项
-→ 生成食品标签解读报告
-→ 保存历史记录和产品档案
+首页扫描主控台
+→ 拍商品正面 / 条码 / 配料表 / 营养成分表，或手动输入
+→ 同页 OCR 识别商品信息 / 手动输入 / 轻量识别摘要与文本确认
+→ 命中本地商品库或 mock 商品库时，直接使用库内配料与营养字段生成结果
+→ 未命中商品时，引导继续拍配料表或营养成分表
+→ 配料拆分 / 添加剂识别 / 营养字段解析 / 包装卖点识别
+→ 本地消费建议规则 + 成分匹配 + 我的关注目标/忌口
+→ 生成消费建议页（结论 / 留意点 / 添加剂识别 / 营养快照 / 适合谁 / 怎么选 / 本次分析依据）
+→ 保存扫描记录
 ```
 
-用户拍的不一定只有配料表，也可能是营养成分表或包装正面。成分搜索和专业法规查询只是辅助能力，不是主路径。当前阶段只做食品标签，不混入化妆品、护肤品、药品。
+用户拍的不一定只有配料表，也可能是营养成分表、商品正面或条码。添加剂识别是核心能力，配料解释是理解过程，营养分析是辅助判断，个性化消费建议是最终输出。成分搜索、商品对比和专业法规查询只是辅助能力，不是 MVP 主路径。当前阶段仍以食品标签为实现边界，不混入化妆品、护肤品、药品或日化规则判断。
 
 ---
 
@@ -253,6 +254,8 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-17 | 将「配料雷达」P0 主流程收敛为扫描主控台：小程序注册页为首页、拍商品、消费建议、我的关注、扫描记录、设置 6 页；首页首屏改为“拍商品，马上看懂”和“拍一下 / 扫一下”；`capture` 先识别商品正面/条码并尝试本地 mock 商品库，命中则直接使用库内配料和营养生成结果，未命中再引导拍配料表/营养表；新增 `additiveRules` 食品添加剂识别字典、`analysisSource` 来源元数据、`additiveRecognition` / `nutritionSnapshot` 结构化输出；结果页展示折叠的本次分析依据，历史记录保存来源信息；商品对比降级为 P1 未注册文件，设置页隐藏后端地址配置 | Codex | `cd user-uniapp && npm run lint` / `npm run typecheck` / `npm run build:mp-weixin` / `git diff --check` |
+| 2026-06-17 | 新增 `DESIGN_GUIDE.md`：确立微信小程序消费者端品牌暂定「配料雷达」，定义清新蓝绿色/米白背景、轻卡片、圆角按钮、柔和标签、空/错/加载态、页面结构与文案红线；同步优化 `user-uniapp` 首页、拍照、OCR、文本确认、识别结果、数据来源、配料说明、关注成分、扫描记录和设置等页面 UI/文案 | Codex | `cd user-uniapp && npm run lint` / `npm run typecheck` / `npm run build:mp-weixin` / `git diff --check` |
 | 2026-06-16 | Batch MP-WEIXIN-A 真机 WXSS 编译修复：移除 `user-uniapp` 全局样式中的 `*` 通配 reset 和 Web-only scrollbar 伪元素，改用小程序可接受的显式元素选择器，解决 `app.wxss unexpected token *` | Codex | `cd user-uniapp && npm run build:mp-weixin` / `npm run lint` / `git diff --check` |
 | 2026-06-16 | Batch MP-WEIXIN-A 构建脚本修复：`user-uniapp/scripts/mp-weixin.mjs` 改为直接通过当前 Node 执行 uni JS 入口，避开 Windows `.cmd` shim / shell 路径问题；补充 Windows `系统找不到指定的路径` / `DEP0190` 排查文档 | Codex | `cd user-uniapp && npm run lint` / `npm run build:mp-weixin` / `git diff --check` |
 | 2026-06-16 | 合并根目录 `README.md` / `readme.md`：保留完整产品与协作入口为标准 `README.md`，删除小写入口，并同步修正 Agent 规则、文档索引和产品蓝图引用；仅文档整理，不改业务代码 | Codex | `git diff --check` |

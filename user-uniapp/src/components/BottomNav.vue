@@ -2,13 +2,14 @@
 import { routes, navigateToRoute } from '@/constants/routes';
 import AppButton from './AppButton.vue';
 
-defineProps<{ active: 'home' | 'capture' | 'history' | 'attention' }>();
+defineProps<{ active: 'home' | 'capture' | 'attention' | 'history' | 'settings' }>();
 
 const items = [
   { key: 'home', label: '首页', route: routes.home },
-  { key: 'capture', label: '拍照', route: routes.capture },
+  { key: 'capture', label: '拍配料表', route: routes.capture },
+  { key: 'attention', label: '关注', route: routes.attention },
   { key: 'history', label: '历史', route: routes.history },
-  { key: 'attention', label: '关注', route: routes.attention }
+  { key: 'settings', label: '设置', route: routes.settings }
 ] as const;
 </script>
 

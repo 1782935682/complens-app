@@ -22,7 +22,7 @@ defineProps<{
 
 .app-card--clickable:active {
   transform: translateY(1px) scale(0.99);
-  box-shadow: 0 4px 12px rgba(23, 39, 35, 0.04);
+  box-shadow: 0 4px 12px rgba(26, 44, 37, 0.04);
   border-color: var(--primary-tint);
   background-color: var(--surface-subtle);
 }

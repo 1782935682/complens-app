@@ -3,6 +3,7 @@ import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
+import PageHeader from '@/components/PageHeader.vue';
 import Toast from '@/components/Toast.vue';
 import { attentionDetailTerms, attentionGoals } from '@/constants/attention';
 import { clearAttentionSettings, getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
@@ -53,17 +54,17 @@ function persist(next: AttentionSettings) {
 </script>
 
 <template>
-  <view class="page stack">
-    <view>
-      <text class="page-title">我的关注项</text>
-      <text class="page-subtitle">MVP 本地保存，不要求登录。关注项用于报告排序和购买前建议关注。</text>
-    </view>
+  <view class="page page--calm stack">
+    <PageHeader
+      title="我的关注目标"
+      subtitle="设置控糖、减脂、少盐、儿童、健身和过敏/忌口，结果页会按这些目标调整提醒重点。"
+    />
     <Toast :message="message" tone="success" />
 
-      <AppCard>
-        <view class="stack">
-          <text class="section-title">关注目标</text>
-          <view class="toggle-grid">
+    <AppCard>
+      <view class="stack">
+        <text class="section-title">消费目标</text>
+        <view class="toggle-grid">
           <AppButton
             v-for="goal in attentionGoals"
             :key="goal.key"
@@ -79,30 +80,31 @@ function persist(next: AttentionSettings) {
       </view>
     </AppCard>
 
-      <AppCard>
-        <view class="stack">
-          <text class="section-title">细分关注成分</text>
-          <view class="toggle-grid">
-            <AppButton
-              v-for="term in attentionDetailTerms"
-              :key="term"
-              variant="secondary"
-              class="toggle"
-              :class="{ 'toggle--active': settings.detailTerms.includes(term) }"
-              @click="toggleTerm(term)"
-            >
-              <text v-if="settings.detailTerms.includes(term)" class="toggle__check">✓</text>
-              <text>{{ term }}</text>
-            </AppButton>
-          </view>
+    <AppCard>
+      <view class="stack">
+        <text class="section-title">过敏/忌口和关注词</text>
+        <text class="muted">例如花生、牛奶、鸡蛋、阿斯巴甜、咖啡因、色素。命中后会影响顶部结论和留意点。</text>
+        <view class="toggle-grid">
+          <AppButton
+            v-for="term in attentionDetailTerms"
+            :key="term"
+            variant="secondary"
+            class="toggle"
+            :class="{ 'toggle--active': settings.detailTerms.includes(term) }"
+            @click="toggleTerm(term)"
+          >
+            <text v-if="settings.detailTerms.includes(term)" class="toggle__check">✓</text>
+            <text>{{ term }}</text>
+          </AppButton>
         </view>
-      </AppCard>
+      </view>
+    </AppCard>
 
     <AppCard>
       <view class="stack">
-        <text class="section-title">自定义忌口</text>
+        <text class="section-title">自己添加忌口</text>
         <view class="row">
-          <input v-model="customTerm" class="input custom-input" placeholder="输入自定义词" @confirm="addCustomTerm" />
+          <input v-model="customTerm" class="input custom-input" placeholder="例如：花生、咖啡因" @confirm="addCustomTerm" />
           <AppButton variant="secondary" @click="addCustomTerm">添加</AppButton>
         </view>
         <view class="pill-list">
@@ -119,7 +121,7 @@ function persist(next: AttentionSettings) {
       </view>
     </AppCard>
 
-    <AppButton variant="danger" @click="clearAll">清空本机关注项</AppButton>
+    <AppButton variant="danger" @click="clearAll">清空目标/忌口</AppButton>
   </view>
 </template>
 
@@ -148,7 +150,7 @@ function persist(next: AttentionSettings) {
 
 .toggle--active {
   border-color: var(--primary);
-  background: var(--primary-soft);
+  background: linear-gradient(180deg, var(--primary-soft), #ffffff);
   color: var(--primary-strong);
 }
 

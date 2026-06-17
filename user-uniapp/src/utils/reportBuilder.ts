@@ -9,8 +9,10 @@ import type {
   NutritionIngredientCheck,
   OcrResult,
   ParsedIngredient,
+  ReportAnalysisSource,
   ReportSource
 } from '@/types';
+import { enrichReportDecision } from './decisionRules';
 
 export function buildLabelReport(input: {
   productName: string;
@@ -22,6 +24,7 @@ export function buildLabelReport(input: {
   labelType?: LabelType;
   frontClaimsText?: string;
   ocr?: OcrResult;
+  sourceMeta?: ReportAnalysisSource;
 }): LabelReport {
   const frontClaimsText = isPackagingSupplementType(input.labelType) ? normalizeReportText(input.frontClaimsText) : '';
   const reportMatches = input.matches.map(sanitizeReportMatch);
@@ -35,7 +38,7 @@ export function buildLabelReport(input: {
     .map((match) => match.normalizedText);
   const report: LabelReport = {
     id: createReportId(),
-    title: '食品标签解读',
+    title: '消费建议',
     productName: input.productName.trim() || '未命名食品',
     createdAt: new Date().toISOString(),
     summarySentence: buildSummarySentence(input, additiveItems.length, attentionHits, frontClaimsText),
@@ -58,10 +61,11 @@ export function buildLabelReport(input: {
     additiveGroups: groupAdditives(additiveItems),
     allergenHints: buildAllergenHints(reportMatches),
     unknownItems,
+    analysisSource: input.sourceMeta,
     sources: buildSources(acceptedMatches, { allMatches: reportMatches, ocr: input.ocr }),
     rawText: input.rawText
   };
-  return report;
+  return enrichReportDecision(report, input.attention);
 }
 
 function sanitizeReportMatch(match: IngredientMatch): IngredientMatch {
@@ -316,7 +320,7 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   const sources: ReportSource[] = [
     {
       label: 'OCR / 手动确认文本',
-      detail: '报告基于用户确认后的食品标签文本生成，OCR 原文不是权威来源。',
+      detail: '结果基于用户确认后的食品标签文本生成，OCR 原文不是权威来源。',
       sourceType: 'ocr_input'
     },
     {
@@ -328,7 +332,7 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   if (options.ocr?.mode === 'mock' || options.ocr?.provider === 'mock') {
     sources.push({
       label: 'mock only OCR',
-      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示，报告需结合包装原文确认。',
+      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示，结果需结合包装原文确认。',
       sourceType: 'mock_adapter'
     });
   }

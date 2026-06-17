@@ -10,13 +10,13 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
   <view class="image-uploader">
     <image v-if="image?.tempFilePath" class="image-uploader__preview" :src="image.tempFilePath" mode="aspectFill" />
     <view v-else class="image-uploader__empty">
-      <text class="image-uploader__icon">📸</text>
-      <text class="image-uploader__title">拍摄或上传食品标签</text>
-      <text class="image-uploader__hint">配料表、营养成分表或包装正面都可以先拍一张。</text>
+      <view class="image-uploader__icon" />
+      <text class="image-uploader__title">拍清楚商品文字</text>
+      <text class="image-uploader__hint">包装、配料表或营养成分表都可以。</text>
     </view>
     <view class="image-uploader__actions">
-      <AppButton @click="emit('camera')">拍照</AppButton>
-      <AppButton variant="secondary" @click="emit('album')">上传图片</AppButton>
+      <AppButton @click="emit('camera')">拍商品</AppButton>
+      <AppButton variant="secondary" @click="emit('album')">从相册选择</AppButton>
       <AppButton v-if="image" variant="text" @click="emit('clear')">重新选择</AppButton>
     </view>
   </view>
@@ -33,9 +33,11 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
 .image-uploader__empty {
   width: 100%;
   min-height: 220px;
-  border: 1px dashed rgba(5, 150, 105, 0.38);
+  border: 1px dashed rgba(18, 151, 128, 0.34);
   border-radius: var(--radius-card);
-  background: var(--primary-soft);
+  background:
+    linear-gradient(180deg, rgba(238, 250, 245, 0.9), rgba(255, 255, 255, 0.84)),
+    var(--primary-soft);
 }
 
 .image-uploader__empty {
@@ -49,9 +51,33 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
 }
 
 .image-uploader__icon {
-  color: var(--primary);
-  font-size: 32px;
-  line-height: 1;
+  width: 42px;
+  height: 32px;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  position: relative;
+}
+
+.image-uploader__icon::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--primary);
+  border-radius: 999px;
+}
+
+.image-uploader__icon::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: -6px;
+  width: 14px;
+  height: 7px;
+  border-radius: 6px 6px 0 0;
+  background: var(--primary);
 }
 
 .image-uploader__title {

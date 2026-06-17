@@ -1,39 +1,16 @@
 {
   "pages": [
-    { "path": "pages/index/index", "style": { "navigationBarTitleText": "成分镜" } },
-    { "path": "pages/capture/index", "style": { "navigationBarTitleText": "拍照解读" } },
-    { "path": "pages/ocr/index", "style": { "navigationBarTitleText": "OCR 识别" } },
-    { "path": "pages/label-type/index", "style": { "navigationBarTitleText": "标签类型" } },
-    { "path": "pages/confirm-text/index", "style": { "navigationBarTitleText": "文本确认" } },
-    { "path": "pages/ingredients/index", "style": { "navigationBarTitleText": "配料拆分" } },
-    { "path": "pages/nutrition/index", "style": { "navigationBarTitleText": "营养解析" } },
-    { "path": "pages/match/index", "style": { "navigationBarTitleText": "匹配确认" } },
-    { "path": "pages/report/index", "style": { "navigationBarTitleText": "食品标签解读" } },
-    { "path": "pages/compare/index", "style": { "navigationBarTitleText": "两款商品对比" } },
-    { "path": "pages/history/index", "style": { "navigationBarTitleText": "历史记录" } },
-    { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的关注项" } },
-    { "path": "pages/search/index", "style": { "navigationBarTitleText": "搜索成分" } },
-    { "path": "pages/ingredient-detail/index", "style": { "navigationBarTitleText": "成分详情" } },
-    { "path": "pages/data-sources/index", "style": { "navigationBarTitleText": "数据说明" } },
-    { "path": "pages/settings/index", "style": { "navigationBarTitleText": "设置" } },
-    { "path": "pages/privacy/index", "style": { "navigationBarTitleText": "隐私说明" } }
+    { "path": "pages/index/index", "style": { "navigationBarTitleText": "配料雷达" } },
+    { "path": "pages/capture/index", "style": { "navigationBarTitleText": "拍商品" } },
+    { "path": "pages/report/index", "style": { "navigationBarTitleText": "消费建议" } },
+    { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的关注" } },
+    { "path": "pages/history/index", "style": { "navigationBarTitleText": "扫描记录" } },
+    { "path": "pages/settings/index", "style": { "navigationBarTitleText": "设置" } }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "成分镜",
-    "navigationBarBackgroundColor": "#ecfdf5",
-    "backgroundColor": "#f6f7f4"
-  },
-  "tabBar": {
-    "color": "#66736f",
-    "selectedColor": "#059669",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "white",
-    "list": [
-      { "pagePath": "pages/index/index", "text": "首页" },
-      { "pagePath": "pages/capture/index", "text": "拍照" },
-      { "pagePath": "pages/history/index", "text": "历史" },
-      { "pagePath": "pages/attention/index", "text": "关注" }
-    ]
+    "navigationBarTitleText": "配料雷达",
+    "navigationBarBackgroundColor": "#eefaf5",
+    "backgroundColor": "#f7f6f1"
   }
 }

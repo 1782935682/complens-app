@@ -75,6 +75,7 @@ export interface IngredientMatch {
   matchedSourceType?: string;
   matchedSourceNote?: string;
   matchedIsAdditive?: boolean;
+  webSearchUrl?: string;
 }
 
 export type NutritionKey =
@@ -127,6 +128,60 @@ export interface NutritionIngredientCheck {
   summary: string;
 }
 
+export type AdditiveCategory =
+  | '防腐剂'
+  | '甜味剂'
+  | '色素'
+  | '增稠剂/稳定剂'
+  | '乳化剂'
+  | '酸度调节剂'
+  | '抗氧化剂'
+  | '香精香料'
+  | '膨松剂'
+  | '其他食品添加剂';
+
+export interface AdditiveRecognition {
+  id: string;
+  name: string;
+  category: AdditiveCategory;
+  effect: string;
+  reminder: string;
+  displayLevel: 'normal' | 'watch' | 'focus';
+  matchedTerms: string[];
+  targetNotes: string[];
+}
+
+export interface AdditiveRecognitionSummary {
+  total: number;
+  categoryCount: number;
+  items: AdditiveRecognition[];
+}
+
+export interface NutritionSnapshotItem {
+  key: NutritionKey;
+  label: string;
+  valueText: string;
+  level: '较低' | '中等' | '较高' | '未识别';
+  note: string;
+  percent: number;
+}
+
+export type ConsumerDecisionLevel = 'daily_ok' | 'occasional' | 'caution' | 'alternative' | 'insufficient';
+
+export interface ConsumerDecision {
+  level: ConsumerDecisionLevel;
+  label: string;
+  summary: string;
+  tags: string[];
+  watchPoints: string[];
+  allergyWarnings: string[];
+  suitableFor: string[];
+  lessSuitableFor: string[];
+  reasons: string[];
+  suggestions: string[];
+  score: number;
+}
+
 export interface ScanDraft {
   image?: LocalImageAsset;
   labelType: LabelType;
@@ -140,6 +195,7 @@ export interface ScanDraft {
   nutrition: NutritionField[];
   matches: IngredientMatch[];
   frontClaimsText: string;
+  sourceMeta?: ReportAnalysisSource;
   updatedAt: string;
 }
 
@@ -149,12 +205,40 @@ export interface ReportSource {
   sourceType: 'ocr_input' | 'manual_input' | 'official_standard' | 'safety_evaluation' | 'manual_review' | 'common_ingredient' | 'mock_adapter';
 }
 
+export type AnalysisSourceType =
+  | 'captured_product'
+  | 'captured_ingredient'
+  | 'captured_nutrition'
+  | 'manual_input'
+  | 'mock_product_library'
+  | 'history';
+
+export interface ReportAnalysisSource {
+  sourceType: AnalysisSourceType;
+  sourceLabel: string;
+  description: string;
+  fromProductLibrary: boolean;
+  fromUserCapture: boolean;
+  fromManualInput: boolean;
+  imagePath?: string;
+  imageSummary?: string;
+  ocrText?: string;
+  productLibraryId?: string;
+  productLibraryName?: string;
+  targetSnapshot: {
+    goals: string[];
+    detailTerms: string[];
+    customTerms: string[];
+  };
+}
+
 export interface LabelReport {
   id: string;
   title: string;
   productName: string;
   createdAt: string;
   summarySentence: string;
+  decision?: ConsumerDecision;
   attentionHits: AttentionHit[];
   focusItems: string[];
   ingredientSection: {
@@ -166,6 +250,8 @@ export interface LabelReport {
     fields: NutritionField[];
     highlights: string[];
   };
+  additiveRecognition?: AdditiveRecognitionSummary;
+  nutritionSnapshot?: NutritionSnapshotItem[];
   frontClaimsSection?: {
     text: string;
     highlights: string[];
@@ -174,6 +260,7 @@ export interface LabelReport {
   additiveGroups: Array<{ label: string; items: IngredientMatch[] }>;
   allergenHints: string[];
   unknownItems: string[];
+  analysisSource?: ReportAnalysisSource;
   sources: ReportSource[];
   rawText: string;
 }

@@ -1,8 +1,9 @@
 import { labelTypeLabels } from '@/constants/labelTypes';
 import { buildLabelReport as buildLabelReportLocally } from '@/utils/reportBuilder';
-import type { AttentionSettings, IngredientMatch, LabelClassification, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient } from '@/types';
+import type { AttentionSettings, IngredientMatch, LabelClassification, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient, ReportAnalysisSource } from '@/types';
 import { classifyLabelText } from '@/utils/labelClassifier';
 import { getEditableNutritionFields, parseNutritionText } from '@/utils/nutritionParser';
+import { enrichReportDecision } from '@/utils/decisionRules';
 import { requestJson } from './client';
 
 type LabelClassifyResponse = Partial<LabelClassification>;
@@ -40,7 +41,7 @@ export async function classifyLabelWithAdapter(text: string): Promise<LabelClass
       data: { text },
       timeoutMs: 5000
     });
-    return normalizeClassificationResponse(response);
+    return normalizeClassificationResponse(response, text);
   } catch {
     const localResult = classifyLabelText(text);
     return {
@@ -69,12 +70,22 @@ export async function upsertLabelScanSessionWithAdapter(payload: ScanSessionPayl
   }
 }
 
-function normalizeClassificationResponse(response: LabelClassifyResponse): LabelClassification {
-  const fallback = classifyLabelText('');
+function normalizeClassificationResponse(response: LabelClassifyResponse, text: string): LabelClassification {
+  const fallback = classifyLabelText(text);
+  const labelType = normalizeLabelType(response.labelType, fallback.labelType);
+  const confidence = clampConfidence(response.confidence);
+  if (labelType === 'ingredient_list' && fallback.labelType !== 'ingredient_list' && confidence < 0.85) {
+    return {
+      ...fallback,
+      labelType: 'unknown_label',
+      requiresUserSelection: true,
+      reasons: ['识别到的文字不像完整配料表，将按包装原文整理并提示核对。']
+    };
+  }
   return {
-    labelType: normalizeLabelType(response.labelType, fallback.labelType),
-    confidence: clampConfidence(response.confidence),
-    requiresUserSelection: Boolean(response.requiresUserSelection),
+    labelType,
+    confidence,
+    requiresUserSelection: Boolean(response.requiresUserSelection) || fallback.requiresUserSelection,
     reasons: Array.isArray(response.reasons) && response.reasons.length
       ? response.reasons.map((reason) => String(reason || '').trim()).filter(Boolean)
       : fallback.reasons
@@ -133,11 +144,12 @@ type ReportInput = {
   labelType?: LabelType;
   frontClaimsText?: string;
   ocr?: OcrResult;
+  sourceMeta?: ReportAnalysisSource;
 };
 
 export async function buildLabelReportWithAdapter(input: ReportInput): Promise<LabelReport> {
   try {
-    return await requestJson<LabelReport>('/reports/label', {
+    const report = await requestJson<LabelReport>('/reports/label', {
       method: 'POST',
       authMode: 'none',
       data: {
@@ -149,12 +161,17 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
         attention: input.attention,
         labelType: input.labelType,
         frontClaimsText: input.frontClaimsText,
-        ocr: input.ocr
+        ocr: input.ocr,
+        sourceMeta: input.sourceMeta
       },
       timeoutMs: 8000
     });
+    return enrichReportDecision({
+      ...report,
+      analysisSource: report.analysisSource || input.sourceMeta
+    }, input.attention);
   } catch {
-    return buildLabelReportLocally({
+    return enrichReportDecision(buildLabelReportLocally({
       productName: input.productName,
       rawText: input.rawText,
       ingredients: input.ingredients,
@@ -163,7 +180,8 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
       attention: input.attention,
       labelType: input.labelType,
       frontClaimsText: input.frontClaimsText,
-      ocr: input.ocr
-    });
+      ocr: input.ocr,
+      sourceMeta: input.sourceMeta
+    }), input.attention);
   }
 }
