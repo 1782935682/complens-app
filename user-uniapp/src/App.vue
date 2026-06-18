@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { onLaunch, onShow } from '@dcloudio/uni-app';
+import { primeRulesDictionary } from '@/utils/rulesLoader';
 
 onLaunch(() => {
-  // Keep launch work lightweight; pages hydrate their own local state.
+  void primeRulesDictionary();
 });
 
 onShow(() => {
@@ -12,7 +13,6 @@ onShow(() => {
 
 <style>
 page {
-  min-height: 100dvh;
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);

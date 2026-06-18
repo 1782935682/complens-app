@@ -4,6 +4,7 @@ import type { LabelReport, LocalImageAsset, ScanDraft } from '@/types';
 
 const DRAFT_KEY = 'complens:user-scan-draft';
 const REPORTS_KEY = 'complens:user-label-reports';
+const MAX_REPORTS = 20;
 
 export function getDefaultDraft(): ScanDraft {
   return {
@@ -54,15 +55,36 @@ export function getReportById(id: string): LabelReport | undefined {
 }
 
 export function saveReport(report: LabelReport): LabelReport[] {
-  const next = [report, ...getReports().filter((item) => item.id !== report.id)].slice(0, 100);
-  writeJson(REPORTS_KEY, next);
+  const next = [toPersistedReport(report), ...getReports().filter((item) => item.id !== report.id)].slice(0, MAX_REPORTS);
+  writeReportsWithRetry(next);
   return next;
 }
 
 export function deleteReport(id: string): LabelReport[] {
   const next = getReports().filter((report) => report.id !== id);
-  writeJson(REPORTS_KEY, next);
+  writeReportsWithRetry(next);
   return next;
+}
+
+function writeReportsWithRetry(reports: LabelReport[]): void {
+  try {
+    writeJson(REPORTS_KEY, reports.slice(0, MAX_REPORTS));
+  } catch {
+    try {
+      writeJson(REPORTS_KEY, reports.slice(0, Math.max(0, MAX_REPORTS - 1)));
+    } catch {
+      // Storage may be full or unavailable on device; keep the current session alive.
+    }
+  }
+}
+
+function toPersistedReport(report: LabelReport): LabelReport {
+  if (!report.analysisSource?.imagePath && !report.analysisSource?.imageSummary) return report;
+  const { imagePath: _imagePath, imageSummary: _imageSummary, ...analysisSource } = report.analysisSource;
+  return {
+    ...report,
+    analysisSource
+  };
 }
 
 function toPersistedDraft(draft: ScanDraft): ScanDraft {

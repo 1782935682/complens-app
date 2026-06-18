@@ -127,9 +127,9 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
     const sourceType = requiresConfirmation ? normalizeMatchSourceType(undefined, dataStatus) : matchedSourceType;
     const sourceNote = requiresConfirmation
       ? '后端返回疑似匹配，需确认后才作为数据来源。'
-      : match
+        : match
         ? '来自后端成分匹配 API。'
-        : '后端未返回匹配项，保留为暂未收录。';
+        : '未在成分库中确认，已提供网络搜索线索，请打开后查看来源站点。';
     return {
       id: `${index}-${term}`,
       term,
@@ -145,6 +145,11 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
       ingredientName: match?.nameCn || match?.name || term,
       isAdditive,
       decision,
+      ...(match ? {} : {
+        sourceName: '网络搜索线索',
+        sourceType: 'web_search',
+        webSearchUrl: buildWebSearchUrl(term)
+      }),
       ...(requiresConfirmation
         ? {
             matchedDataStatus,
@@ -188,4 +193,9 @@ function normalizeMatchSourceType(value: unknown, dataStatus: IngredientMatch['d
   if (dataStatus === 'common_ingredient') return 'common_ingredient';
   if (['pending_review', 'mapped_candidate', 'unverified'].includes(dataStatus)) return 'manual_review';
   return undefined;
+}
+
+export function buildWebSearchUrl(term: string): string {
+  const keyword = `${term.trim()} 食品 配料 来源`;
+  return `https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`;
 }

@@ -4,7 +4,7 @@ defineProps<{ label: string }>();
 
 <template>
   <view class="source-badge">
-    <text class="source-badge__icon">📄</text>
+    <view class="source-badge__icon" />
     <text class="source-badge__text">{{ label }}</text>
   </view>
 </template>
@@ -17,7 +17,7 @@ defineProps<{ label: string }>();
   min-height: 22px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  padding: 1px 8px;
+  padding: 2px 9px;
   background: var(--surface-subtle);
   color: var(--muted);
   font-size: var(--font-size-xs);
@@ -26,8 +26,21 @@ defineProps<{ label: string }>();
 }
 
 .source-badge__icon {
-  font-size: 11px;
-  line-height: 1;
+  width: 8px;
+  height: 10px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  position: relative;
+}
+
+.source-badge__icon::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 3px;
+  height: 1px;
+  background: currentColor;
 }
 
 .source-badge__text {

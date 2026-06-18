@@ -6,8 +6,19 @@ interface OcrApiResponse {
   text?: string;
   confidence?: number;
   provider?: OcrResult['provider'];
-  blocks?: Array<{ text?: string; confidence?: number }>;
+  blocks?: OcrApiBlock[];
 }
+
+type OcrApiBlock = {
+  text?: string;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  confidence?: number;
+  bounds?: unknown;
+  box?: unknown;
+};
 
 interface OcrApiError {
   error?: string;
@@ -31,7 +42,9 @@ export async function recognizeImageByBackend(asset?: LocalImageAsset): Promise<
       data: {
         imageBase64: image.base64,
         mimeType: asset.mimeType,
-        category: 'food'
+        category: 'food',
+        target: 'food_label',
+        expectedText: ['配料表', '配料', '食品配料', '营养成分表', '包装正面文字', 'Ingredients', 'Nutrition Facts']
       },
       timeoutMs: 15000
     });
@@ -41,7 +54,7 @@ export async function recognizeImageByBackend(asset?: LocalImageAsset): Promise<
       confidence: clampConfidence(response.confidence),
       provider: response.provider || 'none',
       blocks: Array.isArray(response.blocks)
-        ? response.blocks.map((block) => ({ text: String(block.text || ''), confidence: clampConfidence(block.confidence) }))
+        ? response.blocks.map(normalizeApiBlock)
         : [],
       requiresUserConfirmation: true
     };
@@ -81,6 +94,60 @@ function clampConfidence(value: unknown): number {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return 0;
   return Math.min(1, Math.max(0, numeric));
+}
+
+function toOptionalNumber(value: unknown): number | undefined {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : undefined;
+}
+
+function normalizeApiBlock(block: OcrApiBlock) {
+  const rect = boundsToRect(block.bounds) || boundsToRect(block.box);
+  return {
+    text: String(block.text || ''),
+    x: toOptionalNumber(block.x) ?? rect?.x,
+    y: toOptionalNumber(block.y) ?? rect?.y,
+    width: toOptionalNumber(block.width) ?? rect?.width,
+    height: toOptionalNumber(block.height) ?? rect?.height,
+    confidence: clampConfidence(block.confidence)
+  };
+}
+
+function boundsToRect(value: unknown): { x: number; y: number; width: number; height: number } | undefined {
+  const points = extractBoundsPoints(value);
+  if (!points.length) return undefined;
+  const xs = points.map((point) => point.x);
+  const ys = points.map((point) => point.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  return {
+    x: minX,
+    y: minY,
+    width: Math.max(0, maxX - minX),
+    height: Math.max(0, maxY - minY)
+  };
+}
+
+function extractBoundsPoints(value: unknown): Array<{ x: number; y: number }> {
+  const rawPoints = value && typeof value === 'object' && 'points' in value
+    ? (value as { points?: unknown }).points
+    : value;
+  if (!Array.isArray(rawPoints)) return [];
+  return rawPoints.flatMap((point) => {
+    if (Array.isArray(point) && point.length >= 2) {
+      const x = Number(point[0]);
+      const y = Number(point[1]);
+      return Number.isFinite(x) && Number.isFinite(y) ? [{ x, y }] : [];
+    }
+    if (point && typeof point === 'object') {
+      const x = Number((point as { x?: unknown }).x);
+      const y = Number((point as { y?: unknown }).y);
+      return Number.isFinite(x) && Number.isFinite(y) ? [{ x, y }] : [];
+    }
+    return [];
+  });
 }
 
 function mapOcrErrorMessage(code: string, detail = '', field = ''): string {

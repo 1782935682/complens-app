@@ -101,7 +101,7 @@ function buildRequestUrl(path: string): string {
     throw createApiError('api_base_url_required', '非 H5 平台需要配置 USER_API_BASE_URL 后才能访问后端 API。');
   }
   if (requiresAbsoluteApiBaseUrl() && !/^https?:\/\//i.test(baseUrl)) {
-    throw createApiError('api_base_url_required', '非 H5 平台需要配置绝对后端 API 地址。');
+    throw createApiError('api_base_url_required', '非 H5 平台需要配置完整后端 API 地址。');
   }
   return `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
 }

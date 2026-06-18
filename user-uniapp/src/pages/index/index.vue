@@ -1,208 +1,370 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
 import { onShow } from '@dcloudio/uni-app';
-import AppButton from '@/components/AppButton.vue';
+import { computed, ref } from 'vue';
 import AppCard from '@/components/AppCard.vue';
-import EmptyState from '@/components/EmptyState.vue';
+import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
 import { routes, navigateToRoute } from '@/constants/routes';
-import { getReports, resetScanDraft, setFastScanMode } from '@/stores/scanStore';
-import type { LabelReport } from '@/types';
+import { getAttentionSettings } from '@/stores/attentionStore';
+import { resetScanDraft, setFastScanMode } from '@/stores/scanStore';
+import type { AttentionSettings } from '@/types';
 
-const reports = ref<LabelReport[]>([]);
-const recentReports = computed(() => reports.value.slice(0, 3));
-const scenarioCards = [
-  '控糖看配料',
-  '低钠看营养',
-  '给孩子买零食',
-  '过敏/忌口检查',
-  '少添加选择'
-];
+const attentionSettings = ref<AttentionSettings>(getAttentionSettings());
+
+const currentGoalLabel = computed(() => primaryGoalOptions.find((goal) => goal.key === attentionSettings.value.primaryGoal)?.label || '日常');
+const allergenLabels = computed(() => allergenOptions
+  .filter((item) => attentionSettings.value.allergens.includes(item.key))
+  .map((item) => item.label));
+const allergenText = computed(() => allergenLabels.value.length ? allergenLabels.value.join('、') : '未设置');
 
 onShow(() => {
-  reports.value = getReports();
+  attentionSettings.value = getAttentionSettings();
 });
-
-function openReport(report: LabelReport) {
-  uni.navigateTo({ url: `${routes.report}?id=${encodeURIComponent(report.id)}` });
-}
-
-function startManualTextEntry() {
-  resetScanDraft();
-  setFastScanMode(false);
-  uni.navigateTo({ url: `${routes.confirmText}?entry=manual` });
-}
-
-function startFastScan() {
-  resetScanDraft();
-  setFastScanMode(true);
-  uni.switchTab({ url: routes.capture });
-}
 
 function openCapture() {
   resetScanDraft();
-  setFastScanMode(false);
+  setFastScanMode(true);
   navigateToRoute(routes.capture);
 }
 
-function openCompareMode() {
-  uni.navigateTo({ url: routes.compare });
-}
-
-function openAttention() {
-  navigateToRoute(routes.attention);
-}
-
-function openDataSources() {
-  uni.navigateTo({ url: routes.dataSources });
+function openSearch() {
+  navigateToRoute(routes.search);
 }
 </script>
 
 <template>
-  <view class="page stack">
-    <view>
-      <text class="page-title">CompLens 成分镜</text>
-      <text class="page-subtitle">拍一下食品包装，整理配料、营养和购买前建议关注。</text>
+  <view class="page page--home">
+    <view class="brand-row">
+      <view class="brand-mark">
+        <text class="brand-mark__dot">⌕</text>
+      </view>
+      <text class="brand-name">配料雷达</text>
     </view>
 
-    <AppCard>
-      <view class="home-hero">
-        <text class="home-hero__title">食品标签解读</text>
-        <text class="home-hero__subtitle">支持配料表、营养成分表和包装正面。OCR 结果会先进入文本确认页。</text>
-        <AppButton @click="openCapture">拍照解读食品标签</AppButton>
-        <view class="hero-subactions">
-          <AppButton variant="secondary" @click="openCapture">从相册上传图片</AppButton>
-          <AppButton variant="secondary" @click="startFastScan">极速扫描（拍照即分析）</AppButton>
+    <view class="hero">
+      <text class="hero__title">拍照解读食品标签</text>
+      <text class="hero__desc">拍摄配料表或营养成分表，自动识别并生成解读</text>
+    </view>
+
+    <view class="scan-stage">
+      <view class="scan-ring scan-ring--outer">
+        <view class="scan-ring scan-ring--middle">
+          <view class="scan-button" hover-class="scan-button--active" @tap="openCapture">
+            <view class="camera-icon">
+              <view class="camera-icon__lens" />
+            </view>
+            <text class="scan-button__text">拍照识别</text>
+          </view>
         </view>
       </view>
-    </AppCard>
-
-    <view class="quick-grid">
-      <AppButton variant="secondary" @click="openAttention">我的关注项</AppButton>
-      <AppButton variant="secondary" class="wide-action" @click="startManualTextEntry">粘贴文字</AppButton>
-      <AppButton variant="secondary" @click="openCompareMode">两款商品对比</AppButton>
-      <AppButton variant="secondary" @click="navigateToRoute(routes.search)">搜索成分</AppButton>
-      <AppButton variant="secondary" @click="navigateToRoute(routes.history)">历史记录</AppButton>
-      <AppButton variant="secondary" @click="openDataSources">数据可信说明</AppButton>
-      <AppButton variant="secondary" @click="navigateToRoute(routes.settings)">设置</AppButton>
+      <text class="scan-hint">请将镜头对准“配料表”或“营养成分表”</text>
     </view>
 
-    <view>
-      <text class="section-title">常见场景</text>
-      <view class="scenario-grid">
-        <AppButton
-          v-for="scenario in scenarioCards"
-          :key="scenario"
-          variant="secondary"
-          class="scenario-button"
-          @click="openCapture"
-        >
-          <text>{{ scenario }}</text>
-        </AppButton>
-      </view>
-    </view>
-
-    <view>
-      <text class="section-title">最近报告</text>
-      <EmptyState
-        v-if="!recentReports.length"
-        title="还没有历史记录"
-        description="完成一次食品标签解读后，会在这里看到最近报告。"
-        action-label="开始拍照"
-        @action="openCapture"
-      />
-      <view v-else class="stack">
-        <AppCard v-for="report in recentReports" :key="report.id" clickable>
-          <view class="report-row" @tap="openReport(report)">
-            <text class="report-row__title">{{ report.productName }}</text>
-            <text class="report-row__summary">{{ report.summarySentence }}</text>
-            <text class="link">打开报告</text>
+    <view class="home-stack">
+      <AppCard clickable class="search-card">
+        <view class="search-card__inner" @tap="openSearch">
+          <view class="search-icon" />
+          <view class="search-copy">
+            <text class="search-title">搜索成分</text>
+            <text class="search-desc">查询成分作用、用途与注意事项</text>
           </view>
-        </AppCard>
-      </view>
+          <text class="search-arrow">›</text>
+        </view>
+      </AppCard>
+
+      <AppCard class="preference-card">
+        <view class="preference-row">
+          <text class="preference-icon">▣</text>
+          <text class="preference-text">当前关注：{{ currentGoalLabel }}</text>
+        </view>
+        <view class="preference-row">
+          <text class="preference-icon">♧</text>
+          <text class="preference-text">过敏提醒：{{ allergenText }}</text>
+        </view>
+      </AppCard>
     </view>
   </view>
 </template>
 
 <style scoped>
-.home-hero {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
+.page--home {
+  min-height: 100vh;
+  padding-bottom: calc(176rpx + env(safe-area-inset-bottom));
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f9fbf8 52%, #f2faf6 100%);
 }
 
-.hero-subactions {
+.brand-row {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+  align-items: center;
+  gap: 8px;
+  padding-top: var(--space-sm);
 }
 
-.home-hero__title {
+.brand-mark {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(8, 122, 104, 0.24);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--primary-strong);
-  font-size: var(--font-size-2xl);
-  font-weight: 800;
 }
 
-.home-hero__subtitle {
-  color: var(--muted);
-  font-size: var(--font-size-sm);
-  line-height: 1.6;
+.brand-mark__dot {
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
 }
 
-.quick-grid,
-.scenario-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.brand-name {
+  color: var(--primary-strong);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.hero {
+  margin-top: 68rpx;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-sm);
 }
 
-.quick-grid .wide-action {
-  grid-column: 1 / -1;
-}
-
-.scenario-button {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  background: var(--surface);
+.hero__title {
   color: var(--text);
-  box-sizing: border-box;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: var(--space-sm) var(--space-md);
-  min-height: 72px;
-  font-size: var(--font-size-sm);
-  font-weight: 800;
-  line-height: 1.4;
-  text-align: left;
-  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+  font-size: 56rpx;
+  font-weight: 900;
+  line-height: 1.18;
 }
 
-.scenario-button::after {
-  border: 0;
+.hero__desc {
+  color: var(--muted);
+  font-size: var(--font-size-base);
+  line-height: 1.7;
 }
 
-.scenario-button:active {
-  border-color: var(--primary-tint);
-  background-color: var(--primary-soft);
-  color: var(--primary-strong);
-  transform: scale(0.98);
-}
-
-.report-row {
+.scan-stage {
+  margin-top: 54rpx;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  align-items: center;
+  gap: var(--space-lg);
 }
 
-.report-row__title {
+.scan-ring {
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-ring--outer {
+  width: 304rpx;
+  height: 304rpx;
+  background: rgba(18, 151, 128, 0.1);
+  animation: scan-breathe 2600ms ease-in-out infinite;
+}
+
+.scan-ring--middle {
+  width: 258rpx;
+  height: 258rpx;
+  background: rgba(18, 151, 128, 0.14);
+}
+
+.scan-button {
+  width: 212rpx;
+  height: 212rpx;
+  border-radius: 999px;
+  background: linear-gradient(145deg, #12a979, #037f58);
+  box-shadow: 0 18px 36px rgba(3, 127, 88, 0.28);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+@keyframes scan-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+.scan-button--active {
+  transform: scale(0.96);
+  box-shadow: 0 10px 22px rgba(3, 127, 88, 0.24);
+}
+
+.camera-icon {
+  width: 72rpx;
+  height: 54rpx;
+  border: 6rpx solid #ffffff;
+  border-radius: 18rpx;
+  position: relative;
+}
+
+.camera-icon::before {
+  content: "";
+  position: absolute;
+  left: 17rpx;
+  top: -16rpx;
+  width: 32rpx;
+  height: 16rpx;
+  border-radius: 12rpx 12rpx 0 0;
+  background: #ffffff;
+}
+
+.camera-icon__lens {
+  position: absolute;
+  left: 20rpx;
+  top: 10rpx;
+  width: 20rpx;
+  height: 20rpx;
+  border: 6rpx solid #ffffff;
+  border-radius: 999px;
+}
+
+.scan-button__text {
+  color: #ffffff;
+  font-size: var(--font-size-lg);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.scan-hint {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+}
+
+.home-stack {
+  margin-top: 48rpx;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.search-card,
+.preference-card {
+  border-radius: 24rpx;
+}
+
+.search-card__inner {
+  min-height: 132rpx;
+  display: grid;
+  grid-template-columns: 76rpx minmax(0, 1fr) 28rpx;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.search-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border: 6rpx solid var(--primary);
+  border-radius: 999px;
+  position: relative;
+}
+
+.search-icon::after {
+  content: "";
+  position: absolute;
+  right: -12rpx;
+  bottom: -8rpx;
+  width: 26rpx;
+  height: 6rpx;
+  border-radius: 999px;
+  background: var(--primary);
+  transform: rotate(45deg);
+}
+
+.search-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.search-title {
   color: var(--text);
-  font-size: var(--font-size-base);
-  font-weight: 800;
+  font-size: var(--font-size-lg);
+  font-weight: 900;
+  line-height: 1.2;
 }
 
-.report-row__summary {
+.search-desc,
+.preference-text {
   color: var(--muted);
   font-size: var(--font-size-sm);
-  line-height: 1.5;
+  line-height: 1.45;
+}
+
+.search-arrow {
+  color: var(--muted);
+  font-size: 26px;
+  line-height: 1;
+}
+
+.preference-card {
+  background: linear-gradient(180deg, rgba(238, 250, 245, 0.88), #ffffff);
+  border-color: rgba(18, 151, 128, 0.16);
+}
+
+.preference-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 32px;
+}
+
+.preference-icon {
+  color: var(--primary-strong);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  width: 22px;
+}
+
+@media screen and (max-height: 700px) {
+  .brand-row {
+    padding-top: 0;
+  }
+
+  .hero {
+    margin-top: 36rpx;
+  }
+
+  .hero__title {
+    font-size: 48rpx;
+  }
+
+  .scan-stage {
+    margin-top: 36rpx;
+    gap: var(--space-md);
+  }
+
+  .scan-ring--outer {
+    width: 270rpx;
+    height: 270rpx;
+  }
+
+  .scan-ring--middle {
+    width: 230rpx;
+    height: 230rpx;
+  }
+
+  .scan-button {
+    width: 190rpx;
+    height: 190rpx;
+  }
+
+  .home-stack {
+    margin-top: 34rpx;
+    gap: var(--space-md);
+  }
 }
 </style>

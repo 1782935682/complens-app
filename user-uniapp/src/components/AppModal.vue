@@ -33,7 +33,10 @@ const emit = defineEmits<{ close: []; confirm: [] }>();
 <style scoped>
 .modal {
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   z-index: 60;
   display: flex;
   align-items: center;
@@ -56,7 +59,7 @@ const emit = defineEmits<{ close: []; confirm: [] }>();
   gap: var(--space-md);
   transform: translateY(0);
   animation: slide-up var(--transition-fast) ease-out;
-  max-height: calc(100dvh - var(--space-lg) - var(--space-lg) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  max-height: calc(100vh - var(--space-lg) - var(--space-lg) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   overflow-y: auto;
   flex-shrink: 0;
 }

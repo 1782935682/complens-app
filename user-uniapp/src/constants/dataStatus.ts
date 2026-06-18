@@ -2,7 +2,7 @@ import type { DataStatus } from '@/types';
 
 export const dataStatusLabels: Record<DataStatus, string> = {
   verified_regulation: '官方标准已验证',
-  verified_jecfa: 'JECFA 评价已匹配（非中国法规范围）',
+  verified_jecfa: '评价来源已匹配（非中国法规范围）',
   pending_review: '待复核来源数据',
   mapped_candidate: '疑似匹配，待确认',
   common_ingredient: '普通配料',

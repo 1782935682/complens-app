@@ -29,20 +29,22 @@ function handleTap() {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: 46px;
   min-width: 44px;
-  border-radius: var(--radius-btn);
+  border-radius: 999px;
   border: 1px solid transparent;
-  padding: 0 16px;
+  padding: 0 18px;
   font-size: var(--font-size-base);
   font-weight: 800;
   line-height: 1.2;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  box-shadow: none;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
   touch-action: manipulation;
+  word-break: keep-all;
 }
 
 .app-button:active:not([disabled]) {
-  transform: scale(0.98);
+  transform: translateY(1px) scale(0.975);
 }
 
 .app-button::after {
@@ -50,23 +52,25 @@ function handleTap() {
 }
 
 .app-button--primary {
-  background: var(--primary-strong);
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   color: #ffffff;
+  box-shadow: 0 8px 18px rgba(8, 122, 104, 0.18);
 }
 
 .app-button--primary:active:not([disabled]) {
   background: var(--primary-darker);
+  box-shadow: 0 5px 12px rgba(8, 122, 104, 0.2);
 }
 
 .app-button--secondary {
-  background: var(--primary-soft);
+  background: var(--surface);
   color: var(--primary-strong);
-  border-color: rgba(5, 150, 105, 0.18);
+  border-color: rgba(18, 151, 128, 0.22);
 }
 
 .app-button--secondary:active:not([disabled]) {
-  background: rgba(5, 150, 105, 0.12);
-  border-color: rgba(5, 150, 105, 0.3);
+  background: var(--primary-soft);
+  border-color: rgba(18, 151, 128, 0.32);
 }
 
 .app-button--text {
@@ -76,22 +80,25 @@ function handleTap() {
 }
 
 .app-button--text:active:not([disabled]) {
-  background: rgba(5, 150, 105, 0.06);
+  background: rgba(18, 151, 128, 0.06);
 }
 
 .app-button--danger {
-  background: #fff1f2;
+  background: #fff2ef;
   color: var(--status-danger);
-  border-color: rgba(239, 68, 68, 0.24);
+  border-color: rgba(217, 107, 95, 0.22);
 }
 
 .app-button--danger:active:not([disabled]) {
-  background: #ffe4e6;
-  border-color: rgba(239, 68, 68, 0.4);
+  background: #ffe7e1;
+  border-color: rgba(217, 107, 95, 0.36);
 }
 
 .app-button[disabled] {
-  opacity: 0.56;
+  background: #f2f5f3;
+  border-color: var(--line);
+  box-shadow: none;
+  color: #9aa5a0;
 }
 
 .app-button__spinner {

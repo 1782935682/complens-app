@@ -4,46 +4,30 @@ import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import Toast from '@/components/Toast.vue';
-import { attentionDetailTerms, attentionGoals } from '@/constants/attention';
-import { clearAttentionSettings, getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
+import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
+import { getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
 import type { AttentionSettings } from '@/types';
 
 const settings = ref<AttentionSettings>(getAttentionSettings());
-const customTerm = ref('');
 const message = ref('');
 
 onShow(() => {
   settings.value = getAttentionSettings();
 });
 
-function toggleGoal(key: string) {
-  const goals = settings.value.goals.includes(key)
-    ? settings.value.goals.filter((item) => item !== key)
-    : [...settings.value.goals, key];
-  persist({ ...settings.value, goals });
+function selectPrimaryGoal(primaryGoal: AttentionSettings['primaryGoal']) {
+  persist({ ...settings.value, primaryGoal });
 }
 
-function toggleTerm(term: string) {
-  const detailTerms = settings.value.detailTerms.includes(term)
-    ? settings.value.detailTerms.filter((item) => item !== term)
-    : [...settings.value.detailTerms, term];
-  persist({ ...settings.value, detailTerms });
+function toggleChildrenMode() {
+  persist({ ...settings.value, isChildrenMode: !settings.value.isChildrenMode });
 }
 
-function addCustomTerm() {
-  const value = customTerm.value.trim();
-  if (!value) return;
-  persist({ ...settings.value, customTerms: [...settings.value.customTerms, value] });
-  customTerm.value = '';
-}
-
-function removeCustomTerm(term: string) {
-  persist({ ...settings.value, customTerms: settings.value.customTerms.filter((item) => item !== term) });
-}
-
-function clearAll() {
-  settings.value = clearAttentionSettings();
-  message.value = '已清空本机关注项。';
+function toggleAllergen(key: string) {
+  const allergens = settings.value.allergens.includes(key)
+    ? settings.value.allergens.filter((item) => item !== key)
+    : [...settings.value.allergens, key];
+  persist({ ...settings.value, allergens });
 }
 
 function persist(next: AttentionSettings) {
@@ -53,112 +37,152 @@ function persist(next: AttentionSettings) {
 </script>
 
 <template>
-  <view class="page stack">
-    <view>
-      <text class="page-title">我的关注项</text>
-      <text class="page-subtitle">MVP 本地保存，不要求登录。关注项用于报告排序和购买前建议关注。</text>
-    </view>
+  <view class="page page--mine stack">
     <Toast :message="message" tone="success" />
 
-      <AppCard>
-        <view class="stack">
-          <text class="section-title">关注目标</text>
-          <view class="toggle-grid">
+    <AppCard>
+      <view class="mine-section">
+        <view>
+          <text class="mine-title">关注目标</text>
+          <text class="muted">单选一个主要目标。</text>
+        </view>
+        <view class="option-grid">
           <AppButton
-            v-for="goal in attentionGoals"
+            v-for="goal in primaryGoalOptions"
             :key="goal.key"
             variant="secondary"
-            class="toggle"
-            :class="{ 'toggle--active': settings.goals.includes(goal.key) }"
-            @click="toggleGoal(goal.key)"
+            class="option"
+            :class="{ 'option--active': settings.primaryGoal === goal.key }"
+            @click="selectPrimaryGoal(goal.key)"
           >
-            <text v-if="settings.goals.includes(goal.key)" class="toggle__check">✓</text>
-            <text>{{ goal.label }}</text>
+            <text class="option__title">{{ goal.label }}</text>
           </AppButton>
         </view>
       </view>
     </AppCard>
-
-      <AppCard>
-        <view class="stack">
-          <text class="section-title">细分关注成分</text>
-          <view class="toggle-grid">
-            <AppButton
-              v-for="term in attentionDetailTerms"
-              :key="term"
-              variant="secondary"
-              class="toggle"
-              :class="{ 'toggle--active': settings.detailTerms.includes(term) }"
-              @click="toggleTerm(term)"
-            >
-              <text v-if="settings.detailTerms.includes(term)" class="toggle__check">✓</text>
-              <text>{{ term }}</text>
-            </AppButton>
-          </view>
-        </view>
-      </AppCard>
 
     <AppCard>
-      <view class="stack">
-        <text class="section-title">自定义忌口</text>
-        <view class="row">
-          <input v-model="customTerm" class="input custom-input" placeholder="输入自定义词" @confirm="addCustomTerm" />
-          <AppButton variant="secondary" @click="addCustomTerm">添加</AppButton>
+      <view class="setting-row">
+        <view class="setting-row__copy">
+          <text class="mine-title">儿童模式</text>
+          <text class="muted">更重点提醒高糖、咖啡因、酒精、人工色素、甜味剂和高钠。</text>
         </view>
-        <view class="pill-list">
+        <switch :checked="settings.isChildrenMode" color="#129780" @change="toggleChildrenMode" />
+      </view>
+    </AppCard>
+
+    <AppCard>
+      <view class="mine-section">
+        <view>
+          <text class="mine-title">过敏 / 忌口</text>
+          <text class="muted">可多选，命中后会优先提醒。</text>
+        </view>
+        <view class="allergen-grid">
           <AppButton
-            v-for="term in settings.customTerms"
-            :key="term"
+            v-for="item in allergenOptions"
+            :key="item.key"
             variant="secondary"
-            class="custom-pill"
-            @click="removeCustomTerm(term)"
+            class="allergen"
+            :class="{ 'option--active': settings.allergens.includes(item.key) }"
+            @click="toggleAllergen(item.key)"
           >
-            {{ term }} ×
+            <text>{{ item.label }}</text>
           </AppButton>
         </view>
       </view>
     </AppCard>
-
-    <AppButton variant="danger" @click="clearAll">清空本机关注项</AppButton>
   </view>
 </template>
 
 <style scoped>
-.toggle-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.page--mine {
+  min-height: 100vh;
+  padding-top: calc(28rpx + env(safe-area-inset-top));
+  padding-bottom: calc(176rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+.page--mine :deep(.app-card) {
+  border-color: rgba(23, 33, 29, 0.08);
+  box-shadow: 0 10px 24px rgba(26, 44, 37, 0.045);
+}
+
+.mine-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.mine-title {
+  display: block;
+  color: var(--text);
+  font-size: var(--font-size-lg);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: var(--space-xs);
+}
+
+.option-grid {
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-sm);
 }
 
-.toggle,
-.custom-pill {
-  width: 100%;
-  display: flex;
-  min-height: 44px;
-  font-size: var(--font-size-sm);
-  font-weight: 800;
+.option,
+.allergen {
+  width: auto;
+  min-height: 76rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: var(--space-sm);
   color: var(--text);
-  line-height: 1.2;
-  transition: all var(--transition-fast);
+  line-height: 1.3;
+  padding: 0 32rpx;
+  border-radius: 999px;
 }
 
-.toggle--active {
+.option--active {
   border-color: var(--primary);
-  background: var(--primary-soft);
-  color: var(--primary-strong);
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(8, 122, 104, 0.16);
 }
 
-.toggle__check {
+.option__title {
   font-weight: 900;
-  color: var(--primary-strong);
-  line-height: 1;
 }
 
-.custom-input {
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  min-height: 160rpx;
+}
+
+.setting-row__copy {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.allergen-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.allergen {
+  min-width: 124rpx;
+  font-weight: 800;
+}
+
+@media screen and (max-width: 340px) {
+  .setting-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 </style>

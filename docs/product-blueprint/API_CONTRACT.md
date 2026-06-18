@@ -362,12 +362,12 @@
 #### `POST /api/labels/classify`
 - 状态：✅ 已实现。
 - 用途：识别 OCR 文本或图片属于配料表、营养成分表、包装正面、条码/产品名或未知标签。
-- 调用端：扫描页、标签类型选择页、文本确认页。
+- 调用端：拍照页、OCR 页、文本确认页。
 - 请求参数：`text?`、`imageAssetId?`、`userSelectedType?`。
 - 响应字段：`labelType`（`ingredient_list|nutrition_facts|front_claims|barcode_or_product|unknown_label`）、`confidence`、`requiresUserSelection`。
 - 错误码：`400 invalid_parameter`。
 - 数据状态字段：分类结果是辅助判断，不是权威结论。
-- 前端展示规则：低置信或 unknown 时必须允许用户手动选择。
+- 前端展示规则：低置信或 unknown 时不要让消费者选择专业标签类型；继续进入文本确认和报告生成，按包装原文展示并提示核对。
 - 是否需要登录：不需要。
 - 是否允许匿名：允许。
 

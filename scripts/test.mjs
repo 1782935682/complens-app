@@ -369,7 +369,7 @@ assert.match(backendDockerfile, /CMD \["node", "dist\/index\.js"\]/);
 const backendDockerCompose = await readFile(new URL('../backend/docker-compose.yml', import.meta.url), 'utf8');
 assert.match(backendDockerCompose, /postgres:15-alpine/);
 assert.match(backendDockerCompose, /\$\{POSTGRES_PORT:-15432\}:5432/);
-assert.match(backendDockerCompose, /env_file:\n\s+- \.env/);
+assert.match(backendDockerCompose, /env_file:\r?\n\s+- \.env/);
 assert.match(backendDockerCompose, /HOST: 0\.0\.0\.0/);
 assert.match(backendDockerCompose, /DATABASE_URL: postgres:\/\/postgres:password@postgres:5432\/compcheck/);
 const backendAppSource = await readFile(new URL('../backend/src/app.ts', import.meta.url), 'utf8');

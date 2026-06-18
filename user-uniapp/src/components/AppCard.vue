@@ -17,13 +17,23 @@ defineProps<{
   background: var(--surface);
   box-shadow: var(--shadow-card);
   padding: var(--space-lg);
+  animation: card-lift-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .app-card--clickable:active {
-  transform: translateY(1px) scale(0.99);
-  box-shadow: 0 4px 12px rgba(23, 39, 35, 0.04);
+  transform: translateY(2px) scale(0.985);
+  box-shadow: 0 4px 12px rgba(26, 44, 37, 0.04);
   border-color: var(--primary-tint);
   background-color: var(--surface-subtle);
+}
+
+@keyframes card-lift-in {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 </style>

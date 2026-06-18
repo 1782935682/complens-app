@@ -12,14 +12,14 @@
   border: 1px solid var(--line);
   background: var(--surface);
   padding: var(--space-lg);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-soft);
 }
 
 .state__skeleton {
   width: 64%;
   height: 14px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #eef2ef 25%, #f8faf8 50%, #eef2ef 75%);
+  background: linear-gradient(90deg, #edf3ef 25%, #fafcf8 50%, #edf3ef 75%);
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite linear;
   margin-bottom: var(--space-sm);

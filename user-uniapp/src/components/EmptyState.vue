@@ -7,7 +7,7 @@ withDefaults(defineProps<{
   actionLabel?: string;
   icon?: string;
 }>(), {
-  icon: '🌱'
+  icon: ''
 });
 
 const emit = defineEmits<{ action: [] }>();
@@ -15,7 +15,9 @@ const emit = defineEmits<{ action: [] }>();
 
 <template>
   <view class="empty-state">
-    <text class="empty-state__icon">{{ icon }}</text>
+    <view class="empty-state__mark">
+      <text v-if="icon" class="empty-state__icon">{{ icon }}</text>
+    </view>
     <text class="empty-state__title">{{ title }}</text>
     <text class="empty-state__description">{{ description }}</text>
     <AppButton v-if="actionLabel" variant="secondary" @click="emit('action')">{{ actionLabel }}</AppButton>
@@ -26,7 +28,7 @@ const emit = defineEmits<{ action: [] }>();
 .empty-state {
   border-radius: var(--radius-card);
   border: 1px solid var(--line);
-  background: var(--surface);
+  background: var(--surface-subtle);
   padding: var(--space-xl) var(--space-lg);
   display: flex;
   flex-direction: column;
@@ -35,8 +37,23 @@ const emit = defineEmits<{ action: [] }>();
   gap: var(--space-sm);
 }
 
+.empty-state__mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(18, 151, 128, 0.16);
+  background:
+    linear-gradient(135deg, rgba(143, 228, 204, 0.35), rgba(255, 255, 255, 0.9)),
+    var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .empty-state__icon {
-  font-size: 36px;
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
   line-height: 1;
 }
 
@@ -44,6 +61,7 @@ const emit = defineEmits<{ action: [] }>();
   color: var(--text);
   font-size: var(--font-size-lg);
   font-weight: 800;
+  line-height: 1.35;
 }
 
 .empty-state__description {

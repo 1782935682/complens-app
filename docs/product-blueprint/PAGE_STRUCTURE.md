@@ -12,7 +12,7 @@
 - 产品代号：CompCheck
 - 产品名：CompLens / 成分镜
 - 文档类型：页面结构（信息架构 / 页面清单 / 主流程 / 后台规划）
-- 适用范围：食品标签（配料表、营养成分表、包装正面卖点）；不含化妆品、护肤品、药品
+- 适用范围：食品标签（配料表、营养成分表）；不含商品正面识别、条码识别、化妆品、护肤品、药品
 
 > **登记约定（强制）**：任何新增页面（用户端或后台）必须登记到本文件对应小节，包含「页面目标 / 对应文件 / 路由 / 当前状态」四项，否则不视为完成。
 
@@ -51,29 +51,25 @@
 ## 一、用户端页面
 
 > 每个页面统一模板：页面目标 / 对应文件·路由 / 入口 / 核心组件 / 主要操作 / 页面状态（含 loading·empty·error 三态）/ 移动端注意事项 / 数据可信展示规则 / 验收标准。
-> 移动端通用约束（除非另注，对所有页面生效）：尊重安全区（顶部刘海 / 底部 Home 条）；**禁止整页横向滚动**；可点击控件命中区域 **≥ 44px**；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 扫描 / 搜索 / 历史 / 设置）。
+> 移动端通用约束（除非另注，对所有页面生效）：尊重安全区（顶部刘海 / 底部 Home 条）；**禁止整页横向滚动**；可点击控件命中区域 **≥ 44px**；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 拍食品标签 / 历史 / 我的）。
 > 三态通用约束：loading / empty / error 三态已在各页复核（Batch 8-C 完成）。
 
 ### 1.0 正式 `user-uniapp/` 页面登记
 
+> 2026-06-17 MVP 收缩口径：微信小程序用户端品牌暂定「配料雷达」，首屏以“拍配料表，看懂成分”为核心；P0 只承诺食品配料表 / 营养成分表 OCR、文本清洗、有效标签提取、轻确认、本地规则识别和 10 秒可读解读结果。商品正面识别、条码识别、商品库优先匹配、商品对比和日化识别均后置到 P1 / P2，不作为当前主流程入口。首页 Demo 仅使用内置食品标签文本体验本地规则解读，不代表商品库能力。
+
 | 页面 | 页面目标 | 对应文件 / 路由 | 当前状态 |
 | --- | --- | --- | --- |
-| 首页 | 引导进入拍照解读食品标签主路径，提供上传、粘贴、搜索、历史、关注项入口 | `user-uniapp/src/pages/index/index.vue` / `/pages/index/index` | 已落地 MVP |
-| 拍照/上传页 | 拍照、相册上传、图片预览、重选、质量和权限提示 | `user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index` | 已落地 MVP |
-| OCR 识别页 | 经后端 OCR adapter 识别，失败可重试或手动输入 | `user-uniapp/src/pages/ocr/index.vue` / `/pages/ocr/index` | 已落地 MVP |
-| 标签类型识别页 | 配料表、营养成分表、包装正面、未知标签确认 | `user-uniapp/src/pages/label-type/index.vue` / `/pages/label-type/index` | 已落地 MVP |
-| 文本确认页 | 展示 OCR/手动文本，允许编辑、清空、重新上传、确认继续 | `user-uniapp/src/pages/confirm-text/index.vue` / `/pages/confirm-text/index` | 已落地 MVP |
-| 配料拆分页 | 拆分配料、手动编辑、删除错误项、新增遗漏项、保留暂未识别 | `user-uniapp/src/pages/ingredients/index.vue` / `/pages/ingredients/index` | 已落地 MVP |
-| 营养成分表解析页 | 结构化能量、蛋白质、脂肪、糖、钠、NRV% 等字段 | `user-uniapp/src/pages/nutrition/index.vue` / `/pages/nutrition/index` | 已落地 MVP |
-| 匹配确认页 | 汇总配料/营养与我的关注项命中，确认后生成报告 | `user-uniapp/src/pages/match/index.vue` / `/pages/match/index` | 已落地 MVP |
-| 食品标签解读报告页 | 展示一句话摘要、关注项、配料/营养解读、添加剂分组、过敏/忌口、来源依据 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 已落地 MVP |
-| 对比页 | 两款报告并排展示关键指标、偏向提示、缺失兜底提示 | `user-uniapp/src/pages/compare/index.vue` / `/pages/compare/index` | 已落地 MVP |
-| 历史页 | 本地报告列表、打开报告、删除记录、按时间排序 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 已落地 MVP |
-| 我的关注项页 | 本地保存控糖、低钠、少添加、过敏/忌口等关注项和细分项 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 已落地 MVP |
-| 成分搜索页 | 辅助搜索成分，不作为主路径 | `user-uniapp/src/pages/search/index.vue` / `/pages/search/index` | 已落地 MVP |
-| 成分详情页 | 查看单条成分的详情、可信状态、官方依据与复核说明 | `user-uniapp/src/pages/ingredient-detail/index.vue` / `/pages/ingredient-detail/index` | 已落地 MVP |
-| 数据说明页 | 说明 OCR 确认、数据来源分级、AI 非权威、未验证口径 | `user-uniapp/src/pages/data-sources/index.vue` / `/pages/data-sources/index` | 已落地 MVP |
-| 隐私说明页 | 说明图片隐私、后端 OCR、Key 不暴露、本地历史、非医疗建议 | `user-uniapp/src/pages/privacy/index.vue` / `/pages/privacy/index` | 已落地 MVP |
+| 首页 | 扫描主控台，首屏只突出“拍食品标签”，外露当前关注目标，提供手动输入、最近扫描、避坑提示、隐私提示和轻量 Demo 体验入口 | `user-uniapp/src/pages/index/index.vue` / `/pages/index/index` | 核心注册页 |
+| 拍食品标签 | 合并拍照、相册、OCR、OCR adapter、文本清洗、配料/营养/致敏原提取、手动输入、轻量文本确认、阶段式 loading 和结果生成；只处理食品配料表 / 营养成分表，不走商品库命中或条码识别 | `user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index` | 核心注册页 |
+| 消费建议 | 第一屏展示适合当前目标 / 可以偶尔选 / 需要留意 / 不太适合当前目标，再展示一句话建议、重点提醒、添加剂识别、Demo 标识、结果反馈和更多信息折叠区 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 核心注册页 |
+| 我的关注 | 本地保存单选主目标（日常 / 控糖 / 减脂 / 低钠）、儿童模式开关和过敏 / 忌口多选 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 核心注册页 |
+| 扫描记录 | 本地结果列表、重新打开结果、删除记录、按时间排序；最多保留最近 20 条，不保存图片 base64 或图片路径 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 核心注册页 |
+| 设置 | 隐私说明、免责声明、清空历史和关于产品；普通用户不展示后端地址、商品库配置、规则库版本或开发调试项 | `user-uniapp/src/pages/settings/index.vue` / `/pages/settings/index` | 核心注册页 |
+
+降级 / 清理页面：`compare` 保留为 P1 页面文件但不注册；`report-sources` 的数据说明已并入消费建议页更多信息折叠区；`ingredient-detail` 后续改为消费建议页内半屏添加剂解释；`mockProductLibrary` 仅保留为后续开发资料，不参与 P0 用户主流程；`ocr`、`confirm-text`、`ingredients`、`nutrition`、`match`、`search`、`privacy`、`data-sources`、`mine` 等 legacy 页面已从小程序工程清理。
+
+> 注意：下方 1.1 起登记的是历史 Web/PWA 原型和后续规划页面，用于迁移参考；当前微信小程序 P0 范围以上表为准，不承诺商品正面、条码、商品库或日化识别。
 
 ### 1.1 首页
 
