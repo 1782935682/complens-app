@@ -1,40 +1,42 @@
 # AI Review — 2026-06-18
 
-## 食品成分官方材料管线加固
+## 食品成分官方源缺口决策清单
 
 ### 本轮范围
 
-本轮只处理 `docs/source-materials/` 官方材料管线的错误隔离和回归测试。未修改小程序页面、现有查询 API、数据库 schema、导入数据计数、生产配置或用户端业务行为。
+本轮只处理食品成分官方材料管线的缺口决策报告。未新增、删除、提升任何成分数据；未修改小程序页面、现有查询 API、数据库 schema、生产配置或用户端业务行为。
 
 ### 代码审查结论
 
-- PR #116 已合并到 `main`，食品成分知识库扩展层已经落地。
-- 合并后的 `buildPipelineSnapshot({ extract: true })` 已具备逐来源处理和 `extract-failures.json` 输出，但抽取失败和解析失败原先共用同一 catch 分支，后续排查会把解析问题误归因为 `pdftotext`。
-- `pdftotext` 执行失败时原始异常信息偏底层，不利于人工补依赖或判断是否应使用已复核缓存文本。
-- 数据准入边界保持不变：失败来源不能进入正式 verified 层，其他来源可继续解析并保留 `pending_review`。
+- PR #117 已合并到 `main`，官方材料管线已有 `failed_extract` / `failed_parse` 失败分层。
+- 当前剩余缺口里，数字标签独立公告和 GB 28050-2025 糖醇能量规则都会影响数据来源等级或正式展示边界，不能只散落在普通报告里。
+- 按 Agent 规则，需要把用户/人工确认事项集中记录到 `docs/decision-required.md`，并明确默认安全处理。
+- 未找到可核验 S0 原文前，不能用第三方转载、搜索摘要或推测规则补入 verified 数据。
 
 ### 已完成
 
 - `backend/scripts/ingredient-official-data-pipeline.ts`
-  - 将官方材料处理拆成抽取阶段和解析阶段两个失败分支。
-  - 抽取失败标记 `parse_status=failed_extract`，失败记录 `stage=extract`。
-  - 解析失败标记 `parse_status=failed_parse`，失败记录 `stage=parse`。
-  - `pdftotext` 缺失时输出“安装 poppler-utils 或提供已复核缓存文本”的可执行说明。
-  - `pdftotext` 处理缺失依赖或损坏 PDF 失败时保留具体本地文件路径和可执行原因。
+  - 新增 `buildDecisionRequiredReport(snapshot)`。
+  - `ingredient:report` 现在会生成 `docs/decision-required.md`。
+  - 决策清单包含问题描述、涉及数据量、选项、Codex 推荐选项、影响、默认安全处理和需要用户回复的问题。
+  - 糖醇能量规则只有在 staging 中没有 `nutrition_polyol_energy_rule` 时才列为待确认缺口。
 - `backend/tests/ingredientKnowledge.test.ts`
-  - 新增 PDF 抽取失败回归测试，确认单个文件失败会写入 `snapshot.failed`，不会中断其他官方材料 staging 抽取。
+  - 新增回归测试，确认数字标签公告缺口、GB 28050-2025 糖醇能量规则缺口、`不导入、不标 S0 verified` 和 `nutrition_polyol_energy_rules=0` 会进入决策清单。
+- `docs/decision-required.md`
+  - 新增 2 个待处理事项：数字标签独立公告官方原文缺失、GB 28050-2025 糖醇能量规则官方原文未定位。
 
 ### 数据边界
 
-- 本轮没有新增、删除或提升任何成分数据。
-- `ingredient_master=3041`、`ingredient_import_staging=462`、`nutrition_reference_values=32` 等 DB 口径未变化。
-- 失败分层只影响后续 pipeline 报告和排查语义，不把 `pending_review` 改为 verified。
+- 本轮没有新增 `official_sources`、`ingredient_master`、`ingredient_import_staging` 或营养规则数据。
+- `nutrition_polyol_energy_rules` 继续保持 0，糖醇能量规则不参与计算、不展示为 GB 28050 官方规则。
+- 数字标签独立公告未进入 S0；现有数字标签规则仍只来自 GB 7718-2025 正文和 CFSA/SPPT 解读材料，且保持 `pending_review`。
 
 ### 验证
 
 已通过：
 
-- `npm --prefix backend test -- tests/ingredientKnowledge.test.ts`：12 tests passed。
+- `npm run ingredient:report`
+- `npm --prefix backend test -- tests/ingredientKnowledge.test.ts`：13 tests passed。
 - `npm --prefix backend run typecheck`
 - `npm run lint`
 - `npm run ingredient:validate -- --no-db`

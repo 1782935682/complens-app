@@ -128,6 +128,7 @@
   15. user-uniapp P0 配料表 OCR 精准收敛：拍照页和上传框统一引导只拍配料表区域；`labelTextExtractor` 无锚点兜底必须满足配料清单形态，净含量、规格、产品名、厂家地址、条码、生产日期等包装信息只过滤不分析；营养提取要求营养锚点或“字段 + 单位”，避免配料糖类词误触发；OCR block 支持把 RapidOCR `bounds.points` 转成矩形坐标后再标准化排序。
   16. 食品成分知识库数据补充：新增 `ingredient_master` / `ingredient_aliases` / `official_sources` / 来源关系 / 规则 / 关系表，并补 `ingredient_import_staging`、营养强化剂、营养、过敏原、菌种、新食品原料、食药物质规则表；已扫描 `docs/source-materials/` 14 个官方材料文件，补入 GB 28050-2011 官方 PDF，并导入 479 条 S2 普通配料待复核种子；本轮再用 RapidOCR 辅助抽取官方扫描 PDF 中 14 条婴幼儿食品菌种候选，全部保持 `pending_review`；导入本地开发 DB 后 `ingredient_master=3041`、`ordinary_ingredient=480`、`food_microorganism=121`、`ingredient_aliases=8735`、`ingredient_source_relations=5631`、`ingredient_regulatory_rules=2587`、`nutrition_fortifier_rules=116`、`nutrition_reference_values=32`、`nutrition_claim_rules=15`、`official_sources=15`、`ingredient_import_staging=462`，未签核新增数据保持 `pending_review`，S2/OCR 辅助数据不得展示为 S0 或 verified。
   17. 食品成分官方材料管线加固：`buildPipelineSnapshot` 将抽取失败和解析失败分开记录为 `failed_extract` / `failed_parse`，`pdftotext` 缺失或损坏 PDF 失败时输出可执行原因；新增 PDF 抽取失败回归测试，确认单个来源失败不会中断其他官方材料 staging 抽取。
+  18. 食品成分官方源缺口决策清单：`ingredient:report` 现在生成 `docs/decision-required.md`，集中列出数字标签独立公告官方原文缺失和 GB 28050-2025 糖醇能量规则原文未定位两个需要人工处理/用户确认的事项；新增回归测试，确保这些缺口不会从报告中消失或被误标为 verified。
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。

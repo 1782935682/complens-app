@@ -8,7 +8,7 @@ import {
   validateIngredientKnowledgeDataset,
   type Gb2760KnowledgeSourceMetadata
 } from '../src/services/ingredientKnowledgeService.js';
-import { buildPipelineSnapshot } from '../scripts/ingredient-official-data-pipeline.js';
+import { buildDecisionRequiredReport, buildPipelineSnapshot } from '../scripts/ingredient-official-data-pipeline.js';
 import type { FoodAdditiveInput, Gb2760OfficialRecordInput, Gb2760OfficialReferenceRowInput } from '../src/services/ingredientService.js';
 
 const source: Gb2760KnowledgeSourceMetadata = {
@@ -124,6 +124,16 @@ describe('official source-materials pipeline', () => {
     )).toBe(true);
     expect(snapshot.staging_records.every((record) => record.review_status === 'pending_review')).toBe(true);
     expect(snapshot.failed).toEqual([]);
+  });
+
+  it('renders manual decision items for unresolved official source gaps', async () => {
+    const snapshot = await buildPipelineSnapshot({ extract: true });
+    const report = buildDecisionRequiredReport(snapshot);
+
+    expect(report).toContain('国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告');
+    expect(report).toContain('GB 28050-2025 糖醇能量规则官方原文未定位');
+    expect(report).toContain('不导入、不标 S0 verified');
+    expect(report).toContain('nutrition_polyol_energy_rules=0');
   });
 });
 
