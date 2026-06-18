@@ -368,7 +368,12 @@ async function querySkippedSummary(pool: pg.Pool) {
             where r.ingredient_id = m.id
               and s.verification_status <> 'verified_by_local_content_and_checksum'
           ) then 'official source page or checksum verification incomplete'
-          when m.ingredient_type = 'food_microorganism' then 'non-catalog microorganism references require dedicated row-level promotion'
+          when exists (
+            select 1
+            from ingredient_relations ir
+            where ir.target_ingredient_id = m.id
+              and ir.relation_type in ('enzyme_source', 'enzyme_donor')
+          ) then 'GB 2760 C.3 enzyme source/donor references remain non-food microorganism records'
           when m.ingredient_type in ('food_medicine_substance', 'novel_food_ingredient') then 'special catalog remains pending for row-level verification'
           else 'not eligible for this conservative promotion batch'
         end as reason
@@ -428,7 +433,7 @@ function renderPromotionReport(result: PromotionResult) {
 - dry-run：${result.dryRun ? '是' : '否'}
 - 本轮只提升 S0 中国官方来源中已通过本地文件内容和 SHA-256 校验的记录。
 - 本轮处理 \`ingredient_master\`、\`ingredient_source_relations\`、\`ingredient_regulatory_rules\`、\`nutrition_fortifier_rules\`、\`novel_food_ingredient_rules\`、\`food_medicine_rules\` 和 \`microorganism_strains\`。
-- 官方目录仅限 \`source_type=official_catalog\` 且非 OCR 辅助来源；GB 2760 C.3 等非目录菌种引用继续保持待复核。
+- 官方目录仅限 \`source_type=official_catalog\` 且非 OCR 辅助来源；GB 2760 C.3 酶制剂来源/供体引用继续保持待复核。
 - S2 普通配料、OCR 辅助抽取、数字标签独立公告本地原文未保存项、营养声称阈值和过敏原规则继续保持待复核。
 
 ## 本轮已正式化
@@ -468,7 +473,7 @@ ${renderCountTable(result.skippedSummary, 'reason')}
 
 - 本轮没有把任何 S2、未验证、OCR 辅助或缺官方页面定位的数据标记为官方正式数据。
 - 本轮没有变更旧 \`ingredients\` / \`additive_usage_rules\` 用户端展示表；GB2760 A.1 正式规则仍由 \`promote:gb2760\` 管理。
-- 被跳过的数据需要后续保存官方原文、逐条核对 OCR/阈值/标签规则，或补非目录菌种专用 promote 逻辑后再升级。
+- 被跳过的数据需要后续保存官方原文、逐条核对 OCR/阈值/标签规则，或补 C.3 来源/供体专用复核/提升逻辑后再升级。
 `;
 }
 

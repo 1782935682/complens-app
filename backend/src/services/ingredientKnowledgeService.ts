@@ -683,9 +683,9 @@ function addMicroorganismRelation(
     id: `ik-${relationType}-${hashText(parsed.canonicalName).slice(0, 16)}`,
     canonicalName: parsed.canonicalName,
     normalizedName: normalizeIngredientName(parsed.canonicalName),
-    ingredientType: 'food_microorganism',
+    ingredientType: 'other',
     regulatoryStatus: 'pending_review',
-    description: `GB 2760-2024 表 C.3 食品用酶制剂${relationType === 'enzyme_source' ? '来源' : '供体'}。`,
+    description: `GB 2760-2024 表 C.3 食品用酶制剂${relationType === 'enzyme_source' ? '来源' : '供体'}；不是可用于食品的菌种目录记录。`,
     cnsCode: null,
     insCode: null,
     casNumber: null,
@@ -694,7 +694,9 @@ function addMicroorganismRelation(
     legacyKind: null,
     enabled: true
   });
-  addTypeTag(builder, microorganism.id, 'food_microorganism', builder.officialSourceId);
+  addTypeTag(builder, microorganism.id, 'other', builder.officialSourceId);
+  addTypeTag(builder, microorganism.id, relationType, builder.officialSourceId);
+  addTypeTag(builder, microorganism.id, 'gb2760_enzyme_microorganism_reference', builder.officialSourceId);
   addAlias(builder, microorganism.id, parsed.canonicalName, 'canonical_name', 'zh', builder.officialSourceId, 'official');
   if (parsed.latinName) {
     addAlias(builder, microorganism.id, parsed.latinName, 'official_name_variant', 'la', builder.officialSourceId, 'official');

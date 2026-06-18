@@ -2780,6 +2780,7 @@ ${renderCountTable(stagingByType, 'record_type')}
 - 三新食品 2023 汇总目录：已补齐 NHC 官方公告页和附件 URL，非 OCR 目录项已通过受控 promote 进入 current；后续增量公告仍需先进入 pending_review。
 - 食药物质新增目录：已补齐 NHC 官方公告页和附件 URL，13 个目录项已通过受控 promote 进入 current。
 - 可用于食品的菌种名单：已补齐 NHC 官方公告页和附件 URL，文本层可识别的通用食品菌种已通过受控 promote 进入 current；可用于婴幼儿食品的菌种名单本地 PDF 无文本层，已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据并抽取 14 条进入 pending_review，仍需人工复核，不提升为 verified。
+- GB 2760 表 C.3 酶制剂来源/供体微生物：归入 \`other\` 并保留 \`enzyme_source\` / \`enzyme_donor\` 关系证据，不计入 NHC 可用于食品菌种覆盖。
 
 ## 缺失或需人工补齐
 

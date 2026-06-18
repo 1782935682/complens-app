@@ -1,6 +1,6 @@
 # 食品成分知识库覆盖报告
 
-生成时间：2026-06-18T15:43:29.717Z
+生成时间：2026-06-18T16:16:33.962Z
 
 统计口径：本地 PostgreSQL ingredient_* 知识库表实际导入结果。
 
@@ -11,7 +11,7 @@
 | 当前食品源文件原有数据数量 | 112 |
 | 本轮知识库成分主表数量 | 3041 |
 | 新增知识库成分数量 | 2285 |
-| 有官方来源关系的成分数量 | 2431 |
+| 有官方来源关系的成分数量 | 2290 |
 | 未验证旧数据数量 | 10 |
 | 内部普通配料词库数量（非官方） | 12 |
 | 非中国法规安全评价旧数据数量 | 27 |
@@ -27,10 +27,11 @@
 |---|---:|
 | food_additive | 2311 |
 | food_medicine_substance | 13 |
-| food_microorganism | 121 |
+| food_microorganism | 40 |
 | novel_food_ingredient | 95 |
 | nutrition_fortifier | 21 |
 | ordinary_ingredient | 480 |
+| other | 81 |
 
 ## 规则状态
 
@@ -73,7 +74,8 @@
 - 营养强化剂：当前 nutrition_fortifier 为 21，GB 14880 source-materials 结构化规则已通过受控 promote 进入 current；后续增量仍需先 pending_review。
 - 新食品原料：当前 novel_food_ingredient 为 95，来自已保存官方目录抽取，已通过受控 promote 进入 current。
 - 食药物质：当前 food_medicine_substance 为 13，来自本地官方目录抽取，已通过受控 promote 进入 current。
-- 可用于食品的菌种：当前 food_microorganism 为 121。NHC 通用食品菌种名单中非 OCR 文本层记录已通过受控 promote 进入 current；GB 2760 表 C.3 的酶制剂来源/供体微生物仍需专用复核；婴幼儿菌种 PDF 无文本层，已用 RapidOCR 辅助抽取 14 条 pending_review 候选，原始 OCR JSON 已保存，不能展示为 verified。
+- 可用于食品的菌种：当前 food_microorganism 为 40，仅统计 NHC 菌种名单来源。NHC 通用食品菌种名单中非 OCR 文本层记录已通过受控 promote 进入 current；婴幼儿菌种 PDF 无文本层，已用 RapidOCR 辅助抽取 14 条 pending_review 候选，原始 OCR JSON 已保存，不能展示为 verified。
+- GB 2760 表 C.3 酶制剂来源/供体微生物：当前归入 other，不计入可用于食品的菌种覆盖；仅保留 enzyme_source / enzyme_donor 关系证据，后续需专用复核。
 - 过敏原、营养 NRV、营养声称和数字标签规则已进入专用表或 staging，但均保持 pending_review，不作为 verified 结论展示。
 - 官方公告新增、修改、废止记录：已预留 ingredient_relations 和 valid_from/valid_to/status，本轮没有自动推断废止链。
 - 完整 source-materials 覆盖、S2 种子和专用规则表数量以 [official-food-data-coverage.md](./official-food-data-coverage.md) 与 [data-quality-report.md](./data-quality-report.md) 为准。
