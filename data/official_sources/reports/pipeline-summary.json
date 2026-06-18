@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-18T13:20:57.996Z",
+  "generated_at": "2026-06-18T13:36:35.223Z",
   "sources": [
     {
       "source_id": "official-source-gb7718-2011-151874644937",
@@ -20,7 +20,7 @@
       "publication_date": "2011-04-20",
       "effective_date": "2012-04-20",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.588Z",
+      "retrieved_at": "2026-06-18T13:36:32.776Z",
       "source_version": "GB 7718-2011",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -51,7 +51,7 @@
       "publication_date": "2025-03-16",
       "effective_date": "2027-03-16",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.589Z",
+      "retrieved_at": "2026-06-18T13:36:32.776Z",
       "source_version": "GB 7718-2025",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -82,7 +82,7 @@
       "publication_date": "2025-03-16",
       "effective_date": "2027-03-16",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.589Z",
+      "retrieved_at": "2026-06-18T13:36:32.777Z",
       "source_version": "GB 28050-2025",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -113,7 +113,7 @@
       "publication_date": "2023-12-31",
       "effective_date": "",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.590Z",
+      "retrieved_at": "2026-06-18T13:36:32.777Z",
       "source_version": "2023汇总目录",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -144,7 +144,7 @@
       "publication_date": "2025-03-16",
       "effective_date": "2027-03-16",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.589Z",
+      "retrieved_at": "2026-06-18T13:36:32.776Z",
       "source_version": "2025年第2号公告",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -175,7 +175,7 @@
       "publication_date": "2025-03-16",
       "effective_date": "2027-03-16",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.589Z",
+      "retrieved_at": "2026-06-18T13:36:32.776Z",
       "source_version": "GB 28050-2025 解读材料",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -206,7 +206,7 @@
       "publication_date": "2025-03-16",
       "effective_date": "2027-03-16",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.589Z",
+      "retrieved_at": "2026-06-18T13:36:32.776Z",
       "source_version": "GB 7718-2025 解读材料",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -237,7 +237,7 @@
       "publication_date": "2024-02-08",
       "effective_date": "2025-02-08",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.595Z",
+      "retrieved_at": "2026-06-18T13:36:32.781Z",
       "source_version": "GB 2760-2024",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -268,7 +268,7 @@
       "publication_date": "2011-10-12",
       "effective_date": "2013-01-01",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.590Z",
+      "retrieved_at": "2026-06-18T13:36:32.779Z",
       "source_version": "GB 28050-2011",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -299,7 +299,7 @@
       "publication_date": "2012-03-15",
       "effective_date": "2013-01-01",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.592Z",
+      "retrieved_at": "2026-06-18T13:36:32.779Z",
       "source_version": "GB 14880-2012",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -330,7 +330,7 @@
       "publication_date": "",
       "effective_date": "",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.591Z",
+      "retrieved_at": "2026-06-18T13:36:32.777Z",
       "source_version": "食药物质新增目录",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -361,7 +361,7 @@
       "publication_date": "",
       "effective_date": "",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.592Z",
+      "retrieved_at": "2026-06-18T13:36:32.780Z",
       "source_version": "婴幼儿食品菌种名单",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -392,7 +392,7 @@
       "publication_date": "",
       "effective_date": "",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.591Z",
+      "retrieved_at": "2026-06-18T13:36:32.778Z",
       "source_version": "食品菌种名单",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -423,7 +423,7 @@
       "publication_date": "",
       "effective_date": "",
       "expiry_date": "",
-      "retrieved_at": "2026-06-18T13:20:55.591Z",
+      "retrieved_at": "2026-06-18T13:36:32.778Z",
       "source_version": "食药物质新增目录",
       "license": "government_public_document",
       "parser_name": "ingredient-official-source-pipeline",
@@ -475,10 +475,10 @@
       "canonical_name": "维生素 A",
       "normalized_name": "维生素a",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-7",
-      "raw_source_text": "维生素 A",
+      "raw_source_text": "膳食纤维b 25g 磷 700 mg\n维生素 A 800μgRE 钾 2000 mg\n维生素 D 10μg 钠c 2000 mg\n维生素 E 14 mgα",
       "parsed_data": {
         "value": "800",
         "unit": "μgRE",
@@ -490,7 +490,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "36390874a3dc79a10a3736e15b052c1fe1e407bfc935b0102ced45604e59c3c8"
+      "content_hash": "2cd278c9a55723ab9eec72440cd339f907cdeda865c951921c6d68fb29ad88b0"
     },
     {
       "id": "official-staging-010e466bfc3dc1e28e09075a",
@@ -655,10 +655,10 @@
       "canonical_name": "维生素 B6",
       "normalized_name": "维生素b6",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-13",
-      "raw_source_text": "维生素 B6",
+      "raw_source_text": "4 mg 碘 120μg\n维生素 B6 1.\n4 mg 硒 60μg\n维生素 B12 2.",
       "parsed_data": {
         "value": "1.4",
         "unit": "mg",
@@ -670,7 +670,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "98ad04d9b493c378ee95529aa00d95bfd7b4f1ee346f6bcd49f30496cd59771e"
+      "content_hash": "de5c9d7c6f0990c91a97af9904c140729469eb22aff4ea35809299235cc72227"
     },
     {
       "id": "official-staging-05568d59660e7d4b1f74cc9d",
@@ -1268,10 +1268,10 @@
       "canonical_name": "碘",
       "normalized_name": "碘",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-28",
-      "raw_source_text": "碘",
+      "raw_source_text": "维生素 B2 1.\n4 mg 碘 120μg\n维生素 B6 1.\n4 mg 硒 60μg",
       "parsed_data": {
         "value": "120",
         "unit": "μg",
@@ -1283,7 +1283,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "a63fc1ed7a6cc3d450abf77792c6b82795ad8bc731d582e3f104ba72abcef2d7"
+      "content_hash": "17b1120022659f4c3f1033eaeb07b5fbb174805059c7fe188e28e835619cec82"
     },
     {
       "id": "official-staging-10f2df04994d4efe8369a4b0",
@@ -2446,10 +2446,10 @@
       "canonical_name": "氟",
       "normalized_name": "氟",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-31",
-      "raw_source_text": "氟",
+      "raw_source_text": "8 mg\n维生素 C 100 mg 氟 1 mg\n烟 酸 14 mg 锰 3 mg\n能量 8400kJ相当于 2000kc",
       "parsed_data": {
         "value": "1",
         "unit": "mg",
@@ -2461,7 +2461,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "87b0b52fa07722814052d55470d9d192d4abde385085df872fed18b595c6ab9a"
+      "content_hash": "84bdf65a872f124740a8ef065c388319ff6db4906edaa3ec2241c2f2607bf123"
     },
     {
       "id": "official-staging-2e25accde8f8abfece6843ee",
@@ -2599,10 +2599,10 @@
       "canonical_name": "铜",
       "normalized_name": "铜",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-30",
-      "raw_source_text": "铜",
+      "raw_source_text": "维生素 B12 2.\n4μg 铜 0.\n8 mg\n维生素 C 100 mg 氟 1 mg",
       "parsed_data": {
         "value": "0.8",
         "unit": "mg",
@@ -2614,7 +2614,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "27ada174601d886d33214e84b0eebbcb45da1877689e6e93ca9d903abed836b5"
+      "content_hash": "bcbbb9aafa98e99f6ab394ee5e2379713f633480bb6f5afef50f6db481cc828c"
     },
     {
       "id": "official-staging-30d1df0cb00d54429a868fc3",
@@ -3196,10 +3196,10 @@
       "canonical_name": "锌",
       "normalized_name": "锌",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-27",
-      "raw_source_text": "锌",
+      "raw_source_text": "维生素 B1 1.\n4 mg 锌 11 mg\n维生素 B2 1.\n4 mg 碘 120μg",
       "parsed_data": {
         "value": "11",
         "unit": "mg",
@@ -3211,7 +3211,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "24d6ef926e506abd5d43e11ba2738edcf69c82ddaee6d350174d8565f1b46c6b"
+      "content_hash": "93379736501b4b28509fd1bc19800eb8609226133247574fc1935ce009c6e63f"
     },
     {
       "id": "official-staging-449a01a5495b1907d3b32b96",
@@ -3642,10 +3642,10 @@
       "canonical_name": "胆碱",
       "normalized_name": "胆碱",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-20",
-      "raw_source_text": "胆碱",
+      "raw_source_text": "脂肪 60g 生物素 40μg\n饱和脂肪 20g 胆碱 500 mg\n碳水化合物 300g 钙 800 mg\n膳食纤维b 25g 磷 700 mg",
       "parsed_data": {
         "value": "500",
         "unit": "mg",
@@ -3657,7 +3657,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "3598f164907ab2fd3844e1188e8d446ff44b03665987314d3db6024f30ee80fb"
+      "content_hash": "88fb4a2776d4f8fd2ebfec35e4e141e4346e147e6c19e2b2e3b208fea969f6a9"
     },
     {
       "id": "official-staging-4d214ea7559db97874562de0",
@@ -3744,10 +3744,10 @@
       "canonical_name": "维生素 B1",
       "normalized_name": "维生素b1",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-11",
-      "raw_source_text": "维生素 B1",
+      "raw_source_text": "维生素 K 80μg 铁 15 mg\n维生素 B1 1.\n4 mg 锌 11 mg\n维生素 B2 1.",
       "parsed_data": {
         "value": "1.4",
         "unit": "mg",
@@ -3759,7 +3759,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "43b694614938331159d1ed735b29cc6cdfeb5a109aea76863f3dd5e171e41c8c"
+      "content_hash": "4159120c5d260d291d4a6b1104383d6d9b54372413a059c5625cb72ab983de77"
     },
     {
       "id": "official-staging-4dfe4a9a19d2156e2b8403c1",
@@ -3824,10 +3824,10 @@
       "canonical_name": "生物素",
       "normalized_name": "生物素",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-19",
-      "raw_source_text": "生物素",
+      "raw_source_text": "蛋白质 60g 泛酸 5 mg\n脂肪 60g 生物素 40μg\n饱和脂肪 20g 胆碱 500 mg\n碳水化合物 300g 钙 800 mg",
       "parsed_data": {
         "value": "40",
         "unit": "μg",
@@ -3839,7 +3839,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "9cd08e89a595c866b85d8bde8d92dbca6d007a404f9b953d59841555ccf95bc6"
+      "content_hash": "41a1becbb16a7c8d3e43390f2e41c75b573dba8471a8a73fdc97a0f9db68bf4d"
     },
     {
       "id": "official-staging-500f1040509cbc71399eaa80",
@@ -4874,10 +4874,10 @@
       "canonical_name": "泛酸",
       "normalized_name": "泛酸",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-18",
-      "raw_source_text": "泛酸",
+      "raw_source_text": "8400kJ 叶酸 400μg (或 μgDFE)\n蛋白质 60g 泛酸 5 mg\n脂肪 60g 生物素 40μg\n饱和脂肪 20g 胆碱 500 mg",
       "parsed_data": {
         "value": "5",
         "unit": "mg",
@@ -4889,7 +4889,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "c84fd419ecae3b0ecb001262e1168e0dd889e930e95e9b7f7cfd8764e2a6418e"
+      "content_hash": "662998dac6fea39407a31d2c42b1725e2bced984c9031bc5d8246ed3477e8dd5"
     },
     {
       "id": "official-staging-63c5d3625fc2cb3a729dc948",
@@ -5079,10 +5079,10 @@
       "canonical_name": "钾",
       "normalized_name": "钾",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-23",
-      "raw_source_text": "钾",
+      "raw_source_text": "膳食纤维b 25g 磷 700 mg\n维生素 A 800μgRE 钾 2000 mg\n维生素 D 10μg 钠c 2000 mg\n维生素 E 14 mgα",
       "parsed_data": {
         "value": "2000",
         "unit": "mg",
@@ -5094,7 +5094,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "419ccd2e6206e10f9b28b17401473ac7cd2de360bf1cc6499949867858a91a21"
+      "content_hash": "2cd278c9a55723ab9eec72440cd339f907cdeda865c951921c6d68fb29ad88b0"
     },
     {
       "id": "official-staging-69dde23e6c623cf0612b484c",
@@ -5953,10 +5953,10 @@
       "canonical_name": "维生素 D",
       "normalized_name": "维生素d",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-8",
-      "raw_source_text": "维生素 D",
+      "raw_source_text": "维生素 A 800μgRE 钾 2000 mg\n维生素 D 10μg 钠c 2000 mg\n维生素 E 14 mgα\n-TE 镁 300 mg",
       "parsed_data": {
         "value": "10",
         "unit": "μg",
@@ -5968,7 +5968,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "0d75d2fc46e25fcf8f332fd91df1b623ec796468489a617d8302d8bb01be125b"
+      "content_hash": "c7d80b85dd2e5c7fc93f6e1f9216f3cfaaae90e50881911f1e367c42147f54d3"
     },
     {
       "id": "official-staging-7ed74eb57be0a910b8908289",
@@ -6019,10 +6019,10 @@
       "canonical_name": "维生素 B2",
       "normalized_name": "维生素b2",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-12",
-      "raw_source_text": "维生素 B2",
+      "raw_source_text": "4 mg 锌 11 mg\n维生素 B2 1.\n4 mg 碘 120μg\n维生素 B6 1.",
       "parsed_data": {
         "value": "1.4",
         "unit": "mg",
@@ -6034,7 +6034,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "89f7abc9b9e3b45b8f5a3114697c13ef9b9b22d3a3358898d15af20a03b60c6e"
+      "content_hash": "e3a03a152b6986b905ac93a5f24ee6e11c8ab2a9a1ce9f3d9be805769b685e7b"
     },
     {
       "id": "official-staging-8093a5aad171e45fb3c3bc1f",
@@ -8342,10 +8342,10 @@
       "canonical_name": "维生素 K",
       "normalized_name": "维生素k",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-10",
-      "raw_source_text": "维生素 K",
+      "raw_source_text": "-TE 镁 300 mg\n维生素 K 80μg 铁 15 mg\n维生素 B1 1.\n4 mg 锌 11 mg",
       "parsed_data": {
         "value": "80",
         "unit": "μg",
@@ -8357,7 +8357,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "80d455bac42d1625638c1bd61e97476819df049ece4713366b67604177f70938"
+      "content_hash": "387c904a793d288833365b8055a2e79e6e95e80642a49a50b77bfe5d8888509a"
     },
     {
       "id": "official-staging-aaa9298d2313f51dbf8ffbe5",
@@ -8584,10 +8584,10 @@
       "canonical_name": "锰",
       "normalized_name": "锰",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-32",
-      "raw_source_text": "锰",
+      "raw_source_text": "维生素 C 100 mg 氟 1 mg\n烟 酸 14 mg 锰 3 mg\n能量 8400kJ相当于 2000kc\nal。",
       "parsed_data": {
         "value": "3",
         "unit": "mg",
@@ -8599,7 +8599,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "f2917bcea2334d18eb3200201f64c8e20949734e8e9d748b91f8c101da08b27e"
+      "content_hash": "fb91ed7ecfc6136ee762b6e5c9832b14623a87eee3b94fe1c22af8507b286beb"
     },
     {
       "id": "official-staging-b074d41b1c479f1119ab422d",
@@ -8660,10 +8660,10 @@
       "canonical_name": "维生素 E",
       "normalized_name": "维生素e",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-9",
-      "raw_source_text": "维生素 E",
+      "raw_source_text": "维生素 D 10μg 钠c 2000 mg\n维生素 E 14 mgα\n-TE 镁 300 mg\n维生素 K 80μg 铁 15 mg",
       "parsed_data": {
         "value": "14",
         "unit": "mgα-TE",
@@ -8675,7 +8675,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "b4411b0e21849a40f8cc098b8f3d71994a1a3de1de622bee3421f9eb01727c7e"
+      "content_hash": "d95b417da343f67382dbf926b34a174548665e622e5df30b036040e662d7b3fb"
     },
     {
       "id": "official-staging-b4e07390af7d487ab38c2d7c",
@@ -8870,10 +8870,10 @@
       "canonical_name": "钠",
       "normalized_name": "钠",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-24",
-      "raw_source_text": "钠",
+      "raw_source_text": "维生素 A 800μgRE 钾 2000 mg\n维生素 D 10μg 钠c 2000 mg\n维生素 E 14 mgα\n-TE 镁 300 mg",
       "parsed_data": {
         "value": "2000",
         "unit": "mg",
@@ -8885,7 +8885,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "9fca35d38ae2799130ded7754f9298deaa9835778771b3a84c66b69daae5a6c8"
+      "content_hash": "c7d80b85dd2e5c7fc93f6e1f9216f3cfaaae90e50881911f1e367c42147f54d3"
     },
     {
       "id": "official-staging-b998b4ba5e0f4a7fcc8a90dc",
@@ -9392,10 +9392,10 @@
       "canonical_name": "钙",
       "normalized_name": "钙",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-21",
-      "raw_source_text": "钙",
+      "raw_source_text": "饱和脂肪 20g 胆碱 500 mg\n碳水化合物 300g 钙 800 mg\n膳食纤维b 25g 磷 700 mg\n维生素 A 800μgRE 钾 2000 mg",
       "parsed_data": {
         "value": "800",
         "unit": "mg",
@@ -9407,7 +9407,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "cea47a70abf5cb18cf36f26624b086db541f035b7223893afec2ad168f281c3d"
+      "content_hash": "85ba9f16eef9ca533f691ad35cbaedbeeaa692ef427a53e6cb40558ba67dc605"
     },
     {
       "id": "official-staging-c2a0a81218f31b7e3de07914",
@@ -9418,10 +9418,10 @@
       "canonical_name": "饱和脂肪",
       "normalized_name": "饱和脂肪",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-4",
-      "raw_source_text": "饱和脂肪",
+      "raw_source_text": "脂肪 60g 生物素 40μg\n饱和脂肪 20g 胆碱 500 mg\n碳水化合物 300g 钙 800 mg\n膳食纤维b 25g 磷 700 mg",
       "parsed_data": {
         "value": "20",
         "unit": "g",
@@ -9433,7 +9433,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "8e4abac9442c6d05e88b8ca187383dacdc5ed7d5c37a9b3c1a5406e4236d848a"
+      "content_hash": "88fb4a2776d4f8fd2ebfec35e4e141e4346e147e6c19e2b2e3b208fea969f6a9"
     },
     {
       "id": "official-staging-c34fa63aa6e486eaca032503",
@@ -9884,10 +9884,10 @@
       "canonical_name": "蛋白质",
       "normalized_name": "蛋白质",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-2",
-      "raw_source_text": "蛋白质",
+      "raw_source_text": "8400kJ 叶酸 400μg (或 μgDFE)\n蛋白质 60g 泛酸 5 mg\n脂肪 60g 生物素 40μg\n饱和脂肪 20g 胆碱 500 mg",
       "parsed_data": {
         "value": "60",
         "unit": "g",
@@ -9899,7 +9899,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "3a7f3540c20c00708602e65c9dbc66bcf5bf18d93d041430a01548df607ba7a3"
+      "content_hash": "662998dac6fea39407a31d2c42b1725e2bced984c9031bc5d8246ed3477e8dd5"
     },
     {
       "id": "official-staging-cafbf500930db46cba8bbd91",
@@ -10063,10 +10063,10 @@
       "canonical_name": "膳食纤维",
       "normalized_name": "膳食纤维",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-6",
-      "raw_source_text": "膳食纤维",
+      "raw_source_text": "碳水化合物 300g 钙 800 mg\n膳食纤维b 25g 磷 700 mg\n维生素 A 800μgRE 钾 2000 mg\n维生素 D 10μg 钠c 2000 mg",
       "parsed_data": {
         "value": "25",
         "unit": "g",
@@ -10078,7 +10078,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "ba5a5f5180d02087519b95c11b85ae92f103cf23334e19c1e9c18f9d8bdcd116"
+      "content_hash": "dfccd7b4129c73f3529b944eafe027e53e1184453d5f8557a486fc8590660a68"
     },
     {
       "id": "official-staging-ce3bc518fba26423c2081f9c",
@@ -10304,10 +10304,10 @@
       "canonical_name": "叶酸",
       "normalized_name": "叶酸",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-17",
-      "raw_source_text": "叶酸",
+      "raw_source_text": "能量a\n8400kJ 叶酸 400μg (或 μgDFE)\n蛋白质 60g 泛酸 5 mg\n脂肪 60g 生物素 40μg",
       "parsed_data": {
         "value": "400",
         "unit": "μg 或 μgDFE",
@@ -10319,7 +10319,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "386e750237963fbbbbf7bd58b60a24846d5030caf0ec671dee33d672bab94e08"
+      "content_hash": "2e3843f144145ff75b9e52d08494d0380460ac5d3cbef743e0fa705e8016f67e"
     },
     {
       "id": "official-staging-d35e36c79c0d1a566ffc6145",
@@ -10356,10 +10356,10 @@
       "canonical_name": "铁",
       "normalized_name": "铁",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-26",
-      "raw_source_text": "铁",
+      "raw_source_text": "-TE 镁 300 mg\n维生素 K 80μg 铁 15 mg\n维生素 B1 1.\n4 mg 锌 11 mg",
       "parsed_data": {
         "value": "15",
         "unit": "mg",
@@ -10371,7 +10371,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "c35c9ce508d222e0233df134d9aca56fc94298695451b363f84f25df36b37736"
+      "content_hash": "387c904a793d288833365b8055a2e79e6e95e80642a49a50b77bfe5d8888509a"
     },
     {
       "id": "official-staging-d43ae61ae54bdeb49d1c5dd7",
@@ -10480,10 +10480,10 @@
       "canonical_name": "镁",
       "normalized_name": "镁",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-25",
-      "raw_source_text": "镁",
+      "raw_source_text": "维生素 E 14 mgα\n-TE 镁 300 mg\n维生素 K 80μg 铁 15 mg\n维生素 B1 1.",
       "parsed_data": {
         "value": "300",
         "unit": "mg",
@@ -10495,7 +10495,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "7096a160d740387437f235e7b1736298afd58b8cb56e38f6da0a12963966e5b7"
+      "content_hash": "af2645076a9a32ae9568c2feb014f417634c28c26623836754e7434ef92f7911"
     },
     {
       "id": "official-staging-d57364aaa9573627388d4c94",
@@ -10589,10 +10589,10 @@
       "canonical_name": "能量",
       "normalized_name": "能量",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-1",
-      "raw_source_text": "能量",
+      "raw_source_text": "1 营养素参考值(\n能量和营养成分 NRV 营养成分 NRV\n能量a\n8400kJ 叶酸 400μg (或 μgDFE)",
       "parsed_data": {
         "value": "8400",
         "unit": "kJ",
@@ -10604,7 +10604,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "a703de744e773de6514ad5497d973a573c31d4e4ae5f99de16b0660677089637"
+      "content_hash": "5a256423962405283e4112253b6b31f1aec4f793718372b6c792ae9b48c9b60a"
     },
     {
       "id": "official-staging-d7d220ee7fc3030a54128af0",
@@ -10950,10 +10950,10 @@
       "canonical_name": "磷",
       "normalized_name": "磷",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-22",
-      "raw_source_text": "磷",
+      "raw_source_text": "碳水化合物 300g 钙 800 mg\n膳食纤维b 25g 磷 700 mg\n维生素 A 800μgRE 钾 2000 mg\n维生素 D 10μg 钠c 2000 mg",
       "parsed_data": {
         "value": "700",
         "unit": "mg",
@@ -10965,7 +10965,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "f2798014cf7f6e1457dcfe1dc849f71df339666a369d77115c8bdba3704d58df"
+      "content_hash": "dfccd7b4129c73f3529b944eafe027e53e1184453d5f8557a486fc8590660a68"
     },
     {
       "id": "official-staging-e0b7cb007c39c90676e2bc7a",
@@ -11111,10 +11111,10 @@
       "canonical_name": "维生素 C",
       "normalized_name": "维生素c",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-15",
-      "raw_source_text": "维生素 C",
+      "raw_source_text": "8 mg\n维生素 C 100 mg 氟 1 mg\n烟 酸 14 mg 锰 3 mg\n能量 8400kJ相当于 2000kc",
       "parsed_data": {
         "value": "100",
         "unit": "mg",
@@ -11126,7 +11126,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "f5ec1a3bb8bcf3f9bcb9338b45511ebf877e6afaa5bd944c407d421ba188034c"
+      "content_hash": "84bdf65a872f124740a8ef065c388319ff6db4906edaa3ec2241c2f2607bf123"
     },
     {
       "id": "official-staging-e706c38dcc0ed0a778cf9e62",
@@ -11239,10 +11239,10 @@
       "canonical_name": "烟酸",
       "normalized_name": "烟酸",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-16",
-      "raw_source_text": "烟酸",
+      "raw_source_text": "维生素 C 100 mg 氟 1 mg\n烟 酸 14 mg 锰 3 mg\n能量 8400kJ相当于 2000kc\nal。",
       "parsed_data": {
         "value": "14",
         "unit": "mg",
@@ -11254,7 +11254,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "c314e77b37bb21780bbd8bdb57dbca67b989bf40bcf08a69377b3d20779eecf9"
+      "content_hash": "fb91ed7ecfc6136ee762b6e5c9832b14623a87eee3b94fe1c22af8507b286beb"
     },
     {
       "id": "official-staging-ea3279e09fe640f19f85e069",
@@ -12055,10 +12055,10 @@
       "canonical_name": "脂肪",
       "normalized_name": "脂肪",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-3",
-      "raw_source_text": "脂肪",
+      "raw_source_text": "蛋白质 60g 泛酸 5 mg\n脂肪 60g 生物素 40μg\n饱和脂肪 20g 胆碱 500 mg\n碳水化合物 300g 钙 800 mg",
       "parsed_data": {
         "value": "60",
         "unit": "g",
@@ -12070,7 +12070,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "239c2923c4e1ac8baa36f14ede2f552abe2058ee5230da2348861ced57ad0549"
+      "content_hash": "41a1becbb16a7c8d3e43390f2e41c75b573dba8471a8a73fdc97a0f9db68bf4d"
     },
     {
       "id": "official-staging-f4fd5886e9b0c6a1afe8ca34",
@@ -12144,10 +12144,10 @@
       "canonical_name": "碳水化合物",
       "normalized_name": "碳水化合物",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-5",
-      "raw_source_text": "碳水化合物",
+      "raw_source_text": "饱和脂肪 20g 胆碱 500 mg\n碳水化合物 300g 钙 800 mg\n膳食纤维b 25g 磷 700 mg\n维生素 A 800μgRE 钾 2000 mg",
       "parsed_data": {
         "value": "300",
         "unit": "g",
@@ -12159,7 +12159,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "4f3b6b91140abeb4698ec1a22ca8107e5bdd3bd60b5422d0ea3a488e97531bfd"
+      "content_hash": "85ba9f16eef9ca533f691ad35cbaedbeeaa692ef427a53e6cb40558ba67dc605"
     },
     {
       "id": "official-staging-f6dec0e76f1ac298d8dbe7e2",
@@ -12296,10 +12296,10 @@
       "canonical_name": "维生素 B12",
       "normalized_name": "维生素b12",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-14",
-      "raw_source_text": "维生素 B12",
+      "raw_source_text": "4 mg 硒 60μg\n维生素 B12 2.\n4μg 铜 0.\n8 mg",
       "parsed_data": {
         "value": "2.4",
         "unit": "μg",
@@ -12311,7 +12311,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "c4dec86acff7fb9e16b1ab1e2e795ad5c39ff15284cc66353b063116429b6d30"
+      "content_hash": "93e450bb255e958a5a7dfeea6c2765b8f53f1e25455aa9eed5478d3c05d19845"
     },
     {
       "id": "official-staging-f988a0644ecd848a68d08306",
@@ -12474,10 +12474,10 @@
       "canonical_name": "硒",
       "normalized_name": "硒",
       "ingredient_type": "other",
-      "page_number": 2,
+      "page_number": 9,
       "table_name": "表 A.1 营养素参考值（NRV）",
       "row_reference": "GB28050-2025-A1-NRV-29",
-      "raw_source_text": "硒",
+      "raw_source_text": "维生素 B6 1.\n4 mg 硒 60μg\n维生素 B12 2.\n4μg 铜 0.",
       "parsed_data": {
         "value": "60",
         "unit": "μg",
@@ -12489,7 +12489,7 @@
       "parse_status": "parsed",
       "review_status": "pending_review",
       "confidence_score": "0.84",
-      "content_hash": "0e7a7618699e5cc32bc2477661ca3463d0f5f952b3e0d84feb2529edcffffd24"
+      "content_hash": "51ee945a90c595b6970f011d0258f51be8a05683d178dd1cb152d7ed698e31de"
     },
     {
       "id": "official-staging-fd5f0af5264e8a746c143ee3",

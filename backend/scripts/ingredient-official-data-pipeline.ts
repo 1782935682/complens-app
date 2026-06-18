@@ -1289,11 +1289,17 @@ async function upsertFoodMedicineRule(pool: pg.Pool, ingredientId: string, recor
 }
 
 async function listSourceFiles(dir: string): Promise<string[]> {
+  const paths = getPipelinePaths();
+  const currentDir = resolve(dir);
+  const downloadedDir = resolve(paths.downloadedDir);
+  if (currentDir === downloadedDir) return [];
+
   const entries = await readdir(dir, { withFileTypes: true });
   const files: string[] = [];
   for (const entry of entries) {
     const fullPath = join(dir, entry.name);
     if (entry.isDirectory()) {
+      if (resolve(fullPath) === downloadedDir) continue;
       files.push(...await listSourceFiles(fullPath));
       continue;
     }
@@ -2009,9 +2015,9 @@ function parseGb28050PolyolEnergyRules(source: SourceManifestItem, text: string)
 }
 
 function parseGb28050NrvRows(source: SourceManifestItem, text: string): StagingRecord[] {
-  const tableEvidence = findEvidenceExcerpt(text, ['表 A.', '营养素参考值'], { maxLines: 70 });
+  const tableEvidence = findNrvTableEvidence(text);
   if (!tableEvidence) return [];
-  const rows = [
+  const rows: Array<[string, string, string]> = [
     ['能量', '8400', 'kJ'],
     ['蛋白质', '60', 'g'],
     ['脂肪', '60', 'g'],
@@ -2046,24 +2052,28 @@ function parseGb28050NrvRows(source: SourceManifestItem, text: string): StagingR
     ['锰', '3', 'mg']
   ];
 
-  return rows.map(([name, value, unit], index) => buildStagingRecord(source, {
-    recordType: 'nutrition_reference_value',
-    canonicalName: name,
-    ingredientType: 'other',
-    pageNumber: tableEvidence.pageNumber,
-    tableName: '表 A.1 营养素参考值（NRV）',
-    rowReference: `GB28050-2025-A1-NRV-${index + 1}`,
-    rawSourceText: findEvidenceLine(tableEvidence.text, name) || tableEvidence.text,
-    confidenceScore: '0.84',
-    parsedData: {
-      value,
-      unit,
-      populationScope: '36月龄以上人群',
-      standardNo: source.standard_no,
-      validFrom: source.effective_date,
-      verificationMethod: 'official_pdf_appendix_a_table_a1_text_layer'
-    }
-  }));
+  return rows.flatMap(([name, value, unit], index) => {
+    const rowEvidence = findNrvRowEvidence(tableEvidence.lines, name, value, unit);
+    if (!rowEvidence) return [];
+    return [buildStagingRecord(source, {
+      recordType: 'nutrition_reference_value',
+      canonicalName: name,
+      ingredientType: 'other',
+      pageNumber: tableEvidence.pageNumber,
+      tableName: '表 A.1 营养素参考值（NRV）',
+      rowReference: `GB28050-2025-A1-NRV-${index + 1}`,
+      rawSourceText: rowEvidence,
+      confidenceScore: '0.84',
+      parsedData: {
+        value,
+        unit,
+        populationScope: '36月龄以上人群',
+        standardNo: source.standard_no,
+        validFrom: source.effective_date,
+        verificationMethod: 'official_pdf_appendix_a_table_a1_text_layer'
+      }
+    })];
+  });
 }
 
 function parseGb28050ContentClaimRows(source: SourceManifestItem, text: string): StagingRecord[] {
@@ -3459,6 +3469,59 @@ function findEvidenceExcerpt(
     }
   }
   return null;
+}
+
+function findNrvTableEvidence(text: string) {
+  for (const [pageIndex, pageText] of splitPages(text).entries()) {
+    const lines = pageText.split('\n').map((line) => normalizeSpaces(line)).filter(Boolean);
+    const compactPage = compactEvidence(lines.join(' '));
+    const looksLikeAppendixNrvTable = compactPage.includes('营养标签用营养素参考值')
+      && compactPage.includes('8400kj')
+      && compactPage.includes('维生素a800μgre')
+      && compactPage.includes('钠c2000mg');
+    if (!looksLikeAppendixNrvTable) continue;
+    return {
+      pageNumber: pageIndex + 1,
+      lines
+    };
+  }
+  return null;
+}
+
+function findNrvRowEvidence(lines: string[], name: string, value: string, unit: string) {
+  const normalizedName = compactEvidence(name);
+  for (const [index, line] of lines.entries()) {
+    if (!compactEvidence(line).includes(normalizedName)) continue;
+    const start = Math.max(0, index - 1);
+    const end = Math.min(lines.length, index + 3);
+    const evidence = lines.slice(start, end).join('\n');
+    if (containsNrvValueAndUnit(evidence, name, value, unit)) return evidence;
+  }
+  return '';
+}
+
+function containsNrvValueAndUnit(evidence: string, name: string, value: string, unit: string) {
+  const compact = compactEvidence(evidence);
+  const compactName = compactEvidence(name);
+  const compactValue = compactEvidence(value);
+  if (!compact.includes(compactName) || !compact.includes(compactValue)) return false;
+  return getNrvUnitTokens(unit).some((token) => compact.includes(token));
+}
+
+function getNrvUnitTokens(unit: string) {
+  const compactUnit = compactEvidence(unit);
+  if (compactUnit.includes('或')) {
+    return compactUnit.split('或').map((item) => item.trim()).filter(Boolean);
+  }
+  return [compactUnit];
+}
+
+function compactEvidence(value: string) {
+  return String(value || '')
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/[()（）]/g, '');
 }
 
 function findAppendixC1Evidence(text: string, terms: string[], options: { maxLines?: number } = {}) {

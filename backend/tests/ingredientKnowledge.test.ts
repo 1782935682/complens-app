@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { mkdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 import { fileURLToPath } from 'node:url';
 import {
@@ -62,6 +62,21 @@ describe('official source-materials pipeline', () => {
     expect(snapshot.duplicates).toEqual([]);
   });
 
+  it('does not treat source-materials download cache files as inventory sources', async () => {
+    const downloadedDir = fileURLToPath(new URL('../../docs/source-materials/downloaded/', import.meta.url));
+    const cachedFile = fileURLToPath(new URL('../../docs/source-materials/downloaded/codex-test-cache.pdf', import.meta.url));
+    await mkdir(downloadedDir, { recursive: true });
+    await writeFile(cachedFile, 'temporary cache file for source scan test');
+    try {
+      const snapshot = await buildPipelineSnapshot({ extract: false });
+
+      expect(snapshot.sources.some((source) => source.local_file_path.includes('/downloaded/'))).toBe(false);
+      expect(snapshot.sources.some((source) => source.local_file_path.endsWith('codex-test-cache.pdf'))).toBe(false);
+    } finally {
+      await unlink(cachedFile).catch(() => undefined);
+    }
+  });
+
   it('extracts local official PDFs into typed pending-review staging records', async () => {
     const snapshot = await buildPipelineSnapshot({ extract: true });
     const byType = new Map<string, number>();
@@ -77,6 +92,9 @@ describe('official source-materials pipeline', () => {
     );
 
     expect(byType.get('food_microorganism')).toBe(40);
+    const nrvRows = snapshot.staging_records.filter((record) => record.record_type === 'nutrition_reference_value');
+    expect(nrvRows).toHaveLength(32);
+    expect(nrvRows.every((record) => hasNrvSourceEvidence(record))).toBe(true);
     expect(infantMicroorganisms).toHaveLength(14);
     expect(infantMicroorganisms.every((record) => record.review_status === 'pending_review')).toBe(true);
     expect(infantMicroorganisms.every((record) =>
@@ -235,6 +253,24 @@ function createFoodIngredient(overrides: Partial<FoodAdditiveInput>): FoodAdditi
     cautionGroups: [],
     ...overrides
   };
+}
+
+function hasNrvSourceEvidence(record: { canonical_name: string; raw_source_text: string; parsed_data: Record<string, unknown> }) {
+  const compactEvidence = compactNrvEvidence(record.raw_source_text);
+  const compactName = compactNrvEvidence(record.canonical_name);
+  const compactValue = compactNrvEvidence(String(record.parsed_data.value || ''));
+  const unitTokens = compactNrvEvidence(String(record.parsed_data.unit || '')).split('或').filter(Boolean);
+  return compactEvidence.includes(compactName)
+    && compactEvidence.includes(compactValue)
+    && unitTokens.some((unit) => compactEvidence.includes(unit));
+}
+
+function compactNrvEvidence(value: string) {
+  return String(value || '')
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/[()（）]/g, '');
 }
 
 function createA1Record(overrides: Partial<Gb2760OfficialRecordInput>): Gb2760OfficialRecordInput {
