@@ -1,6 +1,6 @@
 # 别名冲突复核报告
 
-生成时间：2026-06-18T12:51:20.588Z
+生成时间：2026-06-18T13:31:58.900Z
 
 说明：本报告列出同一 normalized alias 指向多个 ingredient_master 的情况。本轮对这些 alias 统一标记为 `alias_confidence=ambiguous`、`match_policy=candidate_only`；未自动合并不确定项。
 

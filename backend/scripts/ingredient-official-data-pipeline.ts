@@ -2885,7 +2885,7 @@ async function writeAllergenDataReport(pool: pg.Pool | null) {
   const rules = pool ? await queryRows(pool, `
     select rule_type, title, review_status, confidence, source_file, source_url, evidence_summary
     from allergen_labeling_rules
-    order by rule_type, title
+    order by rule_type, title, source_file, source_url, evidence_summary
   `) : [];
   const relations = pool ? await queryRows(pool, `
     select iar.ingredient_id, im.canonical_name as ingredient_name, ac.canonical_name as allergen_category,
@@ -2895,6 +2895,9 @@ async function writeAllergenDataReport(pool: pg.Pool | null) {
     join allergen_categories ac on ac.id = iar.allergen_category_id
     order by ac.canonical_name, im.canonical_name
   `) : [];
+  const noRelationNote = relations.length === 0
+    ? '\n- 本轮未生成 ingredient_allergen_relations：当前 ingredient_master/ingredient_aliases 中没有“小麦、虾、鸡蛋、花生、大豆、牛奶、坚果”等过敏原普通食材的可靠 exact normalized match。为避免强行关联或新增无证据 ingredient，关系表保持 0，待普通食品原料官方/企业一手来源补齐后再关联。'
+    : '';
   const content = `# 过敏原数据报告
 
 生成时间：${new Date().toISOString()}
@@ -2936,8 +2939,7 @@ ${relations.length === 0 ? '| none | none | none | none | none | none | none |' 
 
 - 所有过敏原分类、别名、标示规则和自动关联均为 \`pending_review\`。
 - 别名中未逐字出现在官方片段内的项目只作为候选别名，不能用于高置信自动匹配。
-- ingredient 关联仅使用 exact normalized match；跳过了明显易混淆的候选词。
-${relations.length === 0 ? '- 本轮未生成 ingredient_allergen_relations：当前 ingredient_master/ingredient_aliases 中没有“小麦、虾、鸡蛋、花生、大豆、牛奶、坚果”等过敏原普通食材的可靠 exact normalized match。为避免强行关联或新增无证据 ingredient，关系表保持 0，待普通食品原料官方/企业一手来源补齐后再关联。' : ''}
+- ingredient 关联仅使用 exact normalized match；跳过了明显易混淆的候选词。${noRelationNote}
 `;
   await writeFile(join(paths.docsDir, 'allergen-data-report.md'), content);
 }

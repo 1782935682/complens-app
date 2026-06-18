@@ -184,7 +184,8 @@ export async function importIngredientKnowledgeDataset(db: Database, dataset: In
             aliasName: alias.aliasName,
             language: alias.language,
             sourceId: alias.sourceId,
-            sourceStatus: alias.sourceStatus
+            sourceStatus: alias.sourceStatus,
+            isOfficial: alias.isOfficial
           }
         });
     }
@@ -780,7 +781,8 @@ function addAlias(
     aliasType,
     language,
     sourceId,
-    sourceStatus
+    sourceStatus,
+    isOfficial: sourceStatus === 'official'
   });
 
   const formattingAlias = normalizeFormatVariant(aliasName);
@@ -795,7 +797,8 @@ function addAlias(
       aliasType: 'format_variant',
       language,
       sourceId: null,
-      sourceStatus: 'format_variant'
+      sourceStatus: 'format_variant',
+      isOfficial: false
     });
   }
 }
