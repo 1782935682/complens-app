@@ -496,8 +496,9 @@ export async function buildPipelineSnapshot(options: { extract: boolean }): Prom
 
   if (options.extract) {
     for (const source of sources) {
+      let text = '';
       try {
-        const text = await extractSourceText(source);
+        text = await extractSourceText(source);
         if (!text.trim()) {
           failed.push({
             source_id: source.source_id,
@@ -508,8 +509,6 @@ export async function buildPipelineSnapshot(options: { extract: boolean }): Prom
           source.parse_status = 'failed_no_text_layer';
           continue;
         }
-        stagingRecords.push(...parseSourceRecords(source, text));
-        source.parse_status = 'parsed';
       } catch (error) {
         failed.push({
           source_id: source.source_id,
@@ -517,7 +516,21 @@ export async function buildPipelineSnapshot(options: { extract: boolean }): Prom
           stage: 'extract',
           reason: error instanceof Error ? error.message : String(error)
         });
-        source.parse_status = 'failed';
+        source.parse_status = 'failed_extract';
+        continue;
+      }
+
+      try {
+        stagingRecords.push(...parseSourceRecords(source, text));
+        source.parse_status = 'parsed';
+      } catch (error) {
+        failed.push({
+          source_id: source.source_id,
+          local_file_path: source.local_file_path,
+          stage: 'parse',
+          reason: error instanceof Error ? error.message : String(error)
+        });
+        source.parse_status = 'failed_parse';
       }
     }
   }
@@ -1383,7 +1396,7 @@ async function extractSourceText(source: SourceManifestItem) {
   } catch (error) {
     const cachedText = await readCachedExtractedText(outputPath);
     if (cachedText) return cachedText;
-    throw error;
+    throw new Error(formatPdfTextExtractionError(error, source.local_file_path));
   }
   const ocrText = stdout.trim() ? '' : await readInfantMicroorganismOcrText(source);
   const cachedText = stdout.trim() || ocrText.trim() ? '' : await readCachedExtractedText(outputPath);
@@ -1392,6 +1405,17 @@ async function extractSourceText(source: SourceManifestItem) {
     : ocrText || cachedText;
   await writeFile(outputPath, fallbackText);
   return fallbackText;
+}
+
+function formatPdfTextExtractionError(error: unknown, localFilePath: string) {
+  const maybeNodeError = error as { code?: unknown; message?: unknown };
+  if (maybeNodeError.code === 'ENOENT') {
+    return `pdftotext command not found while extracting ${localFilePath}; install poppler-utils or keep a reviewed cached text file before rerunning.`;
+  }
+  const message = typeof maybeNodeError.message === 'string'
+    ? maybeNodeError.message.split('\n').map((line) => line.trim()).filter(Boolean)[0]
+    : String(error);
+  return `pdftotext failed while extracting ${localFilePath}: ${message}`;
 }
 
 async function readCachedExtractedText(outputPath: string) {
