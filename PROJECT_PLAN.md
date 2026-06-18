@@ -49,12 +49,12 @@
 
 ## 3. 当前真实进度
 
-整体产品进度：**约 84%**（按数据底座 + OCR 主路径闭环 + 正式用户端迁移 + 微信小程序工程对接 + 后端/API/admin-web 架构规划口径）。
+整体产品进度：**约 86%**（按数据底座 + OCR 主路径闭环 + 正式用户端迁移 + 微信小程序工程对接 + 后端/API/admin-web 架构规划口径）。
 
 | 里程碑 | 名称 | 状态 | 完成度 |
 |---|---|---|---|
-| M1 | 数据源准确性 + GB2760 可追溯导入 | 🔄 进行中 | ~87% |
-| M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~70% |
+| M1 | 数据源准确性 + GB2760 可追溯导入 | 🔄 进行中 | ~92% |
+| M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~78% |
 | M3 | OCR 拍照识别主流程（manual/mock/本机 RapidOCR 闭环，配料表提取继续收敛） | 🔄 进行中 | ~84% |
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
 | M5 | 食品标签解读报告（配料 + 营养 + 关注项） | 🔄 uni-app MVP 已落地，标签类型后端 API 已接入 | ~60% |
@@ -71,6 +71,7 @@
 
 - 食品基础库 DB 当前 329 条：`verified_regulation` 308、`verified_jecfa` 1、`common_ingredient` 12、`unverified` 8；源文件静态 seed 仍为 112 条，`validate:data` 继续校验源文件口径。
 - GB2760 官方 PDF：264 页全文入库；表 A.1 第 8-148 页 → 2404 行 staging（后端 DB 2391 行已人工签核并 `promoted`，13 行历史 `verified`，缺映射 0）；A.2/B/C/D/E/F → 2800 行参考表，边界已修复；`source_documents` / `import_runs` / `import_errors` 导入审计骨架已落地；`additive_usage_rules`、`promote:gb2760` 与 `validate:gb2760` 已落地，当前正式规则 2391 行、错误数 0；内部复核写接口已加 `GB2760_INTERNAL_REVIEWERS` allowlist 和 reviewer 审计字段。
+- 食品成分知识库扩展层：已新增 `official_sources`、`ingredient_master`、`ingredient_aliases`、`ingredient_source_relations`、`ingredient_regulatory_rules`、`ingredient_relations`、`ingredient_type_tags`、`ingredient_import_staging`、营养强化剂/营养/过敏原/菌种/新食品原料/食药物质规则表和统一 CLI；本轮实际写入本地开发 DB，当前 `ingredient_master=3041`、`ordinary_ingredient=480`、`food_microorganism=121`、`ingredient_aliases=8735`、`ingredient_source_relations=5631`、`ingredient_regulatory_rules=2587`、`nutrition_fortifier_rules=116`、`nutrition_reference_values=32`、`nutrition_claim_rules=15`、`official_sources=15`、`ingredient_import_staging=462`；其中 479 条普通配料来自 S2 待复核种子，14 条婴幼儿食品菌种来自官方扫描 PDF 的 RapidOCR 辅助抽取候选，均不是已验证结论，覆盖报告见 `docs/official-food-data-coverage.md`。
 - 这不是完整成分库，也不是完整 GB2760 法规库；正式库只接收高置信、可追溯、字段完整的 promote 数据。
 
 ---

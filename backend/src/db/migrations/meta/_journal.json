@@ -127,6 +127,27 @@
       "when": 1781439999000,
       "tag": "0017_calm_gentle_wave",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1781754690262,
+      "tag": "0018_narrow_zombie",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1781788800000,
+      "tag": "0019_ingredient_source_coverage",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1781798400000,
+      "tag": "0020_label_nutrition_governance",
+      "breakpoints": true
     }
   ]
 }

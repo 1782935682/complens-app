@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const defaultPdfPath = '/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf';
+const defaultPdfPath = resolve('docs/source-materials/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf');
 const pdfPath = process.argv[2] ? resolve(process.argv[2]) : defaultPdfPath;
 const outputPath = process.argv[3]
   ? resolve(process.argv[3])

@@ -8,7 +8,7 @@ const gb2760OfficialSearchUrl = 'https://sppt.cfsa.net.cn:8086/db?task=indexSear
 const gb2760OfficialDownloadUrl = 'https://sppt.cfsa.net.cn:8086/cfsa_aiguo';
 const gb2760OfficialFileGuid = '43C9B75E-3D84-4577-80FC-0F7D77D36407';
 const gb2760OfficialFactName = '1747898473246.pdf';
-const gb2760OfficialPdfPath = '/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf';
+const gb2760OfficialPdfPath = 'docs/source-materials/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf';
 const gb2760OfficialPdfSha256 = '2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de';
 const seedSourceName = '国家卫生健康委公告（2024年第1号）/ 食品安全国家标准数据检索平台';
 const seedSourceVersion = 'GB 2760-2024（发布日期 2024-02-08，实施日期 2025-02-08）';

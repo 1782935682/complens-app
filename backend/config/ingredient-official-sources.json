@@ -1,0 +1,26 @@
+[
+  {
+    "id": "official-source-gb2760-2024-2a2c4a867cf5",
+    "sourceOrg": "国家卫生健康委员会 / 食品安全国家标准数据检索平台",
+    "sourceType": "official_standard",
+    "standardNo": "GB 2760-2024",
+    "announcementNo": "2024年第1号",
+    "title": "食品安全国家标准 食品添加剂使用标准",
+    "sourceUrl": "https://sppt.cfsa.net.cn:8086/db?task=indexSearch",
+    "publicationDate": "2024-02-08",
+    "effectiveDate": "2025-02-08",
+    "retrievedAt": "2026-06-12",
+    "contentHash": "2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de",
+    "parserVersion": "ingredient-knowledge-gb2760-v1",
+    "platformRecordId": "6CA1489A-9570-4906-8CE8-CC86FBFB1941",
+    "announcementRecordId": "3D0601E8-A77C-4EC5-B148-30E2E7020822",
+    "downloadEndpoint": "https://sppt.cfsa.net.cn:8086/cfsa_aiguo",
+    "downloadTask": "d_p",
+    "fileGuid": "43C9B75E-3D84-4577-80FC-0F7D77D36407",
+    "factName": "1747898473246.pdf",
+    "localDerivedModules": [
+      "../../src/data/gb2760OfficialStaging.js",
+      "../../src/data/gb2760OfficialReferenceTables.js"
+    ]
+  }
+]

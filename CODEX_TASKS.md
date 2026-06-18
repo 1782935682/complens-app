@@ -40,7 +40,7 @@
 产品边界：
 
 - 当前阶段只聚焦食品、饮料、零食、酸奶、调味品等食品标签里的配料、食品添加剂、营养成分和包装卖点核对提示；不混入化妆品、护肤品、药品或日化规则。
-- 数据必须来自可追溯官方来源，AI 不能作为原始数据来源。
+- 中国监管结论必须来自可追溯中国官方来源；普通原料、商品标签写法、别名、营养基础信息等非监管事实可按来源等级使用可靠非官方来源补充，但不得伪装为官方监管数据；AI 不能作为原始数据来源。
 - 所有提示谨慎表达，只做标签信息参考，不构成医疗或营养诊断。
 - 禁止文案：`可以买 / 不能买 / 健康 / 不健康 / 安全 / 有害 / 致癌 / 治疗 / 诊断 / 一定过敏 / 绝对安全 / 绝对有害 / 一定致敏 / 一定不能吃 / 有毒`
 - 推荐文案：`建议关注 / 更适合重点查看 / 部分人群可能需要留意 / 信息不足，建议结合包装原文确认 / 仅供标签信息参考，不构成医疗或营养诊断`
@@ -126,6 +126,7 @@
   13. user-uniapp P0 稳定性补强：新增首页 Demo 体验入口、OCR adapter、标签文本提取、英文/繁体/噪音样例、营养结构化解析、添加剂 alias 匹配、规则库本地 fallback、阶段式 loading、结果反馈按钮和历史 LRU；Demo 与 capture 共用本地规则分析流程，仍不接真实后端、不走商品库、条码、商品正面、商品对比或日化识别。
   14. user-uniapp P0 识别质量与隐私补强：`labelTextExtractor` 只接收标准 OCR 结构，配料/营养/致敏原提取补繁体、英文、OCR 错字和停止条件；`ingredientParser` 保护特殊添加剂名称；`nutritionParser` 新增 Salt/盐独立解析和 kJ/kcal 换算；`additiveRules` 补 CMC、单双甘油脂肪酸酯、5'-呈味核苷酸二钠等 alias；低置信、只营养表或广告语进入信息不足状态；历史 LRU 不保存图片路径/摘要；设置页补 OCR 图片处理和第三方 OCR 隐私说明。
   15. user-uniapp P0 配料表 OCR 精准收敛：拍照页和上传框统一引导只拍配料表区域；`labelTextExtractor` 无锚点兜底必须满足配料清单形态，净含量、规格、产品名、厂家地址、条码、生产日期等包装信息只过滤不分析；营养提取要求营养锚点或“字段 + 单位”，避免配料糖类词误触发；OCR block 支持把 RapidOCR `bounds.points` 转成矩形坐标后再标准化排序。
+  16. 食品成分知识库数据补充：新增 `ingredient_master` / `ingredient_aliases` / `official_sources` / 来源关系 / 规则 / 关系表，并补 `ingredient_import_staging`、营养强化剂、营养、过敏原、菌种、新食品原料、食药物质规则表；已扫描 `docs/source-materials/` 14 个官方材料文件，补入 GB 28050-2011 官方 PDF，并导入 479 条 S2 普通配料待复核种子；本轮再用 RapidOCR 辅助抽取官方扫描 PDF 中 14 条婴幼儿食品菌种候选，全部保持 `pending_review`；导入本地开发 DB 后 `ingredient_master=3041`、`ordinary_ingredient=480`、`food_microorganism=121`、`ingredient_aliases=8735`、`ingredient_source_relations=5631`、`ingredient_regulatory_rules=2587`、`nutrition_fortifier_rules=116`、`nutrition_reference_values=32`、`nutrition_claim_rules=15`、`official_sources=15`、`ingredient_import_staging=462`，未签核新增数据保持 `pending_review`，S2/OCR 辅助数据不得展示为 S0 或 verified。
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。

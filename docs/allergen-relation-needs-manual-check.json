@@ -1,0 +1,462 @@
+[
+  {
+    "ingredient": "三文鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "乳清",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "乳清蛋白粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "乳矿物盐",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "乳脂",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "乳脂肪",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "乳蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "人造奶油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "低筋小麦粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "低聚半乳糖",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "全脂乳粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "全脂牛奶",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "全蛋液",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "全蛋粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "凤尾鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "发酵乳",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "咸蛋黄",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "墨鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "复原乳",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大米蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大豆分离蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大豆卵磷脂",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大豆油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大豆粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大豆组织蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大豆膳食纤维",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大豆蛋白粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "大麦粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "奶油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "奶粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "奶酪",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "奶酪粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "小麦淀粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "小麦粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "小麦纤维",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "小麦胚芽",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "小麦蛋白粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "小麦麸皮",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "带鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "开心果仁",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "无水奶油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "杏仁粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "核桃仁",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "核桃油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "核桃粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "椰奶",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "榛子仁",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "榛子酱",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "水解大豆蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "水解植物蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "沙丁鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "浓缩乳清蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "液态蛋",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "淡炼乳",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "混合坚果",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "炼乳",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "燕麦片",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "燕麦粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "燕麦纤维",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "牛乳蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "甜炼乳",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "生牛乳",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "皮蛋",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "稀奶油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "章鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "羊乳粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "羊奶",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "胶原蛋白肽",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "脱脂乳粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "脱脂牛奶",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "腰果仁",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "腰果酱",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "花生仁",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "花生油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "花生碎",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "虾仁",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "虾皮",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "虾米",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "虾粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "虾酱",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蛋液",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蛋清液",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蛋白粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蛋黄粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蛋黄酱",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蟹棒",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蟹肉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "蟹黄",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "调制乳粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "豆乳粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "豌豆蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "豌豆蛋白粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "酪蛋白酸钠",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "酸奶",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "金枪鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "高筋小麦粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱼子",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱼油",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱼籽",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱼糜",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱼肉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱼胶原蛋白",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱼露",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鱿鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鲈鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鲤鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鲫鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鲭鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鳕鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鸭蛋",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "鹌鹑蛋",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "黄花鱼",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "黄豆粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  },
+  {
+    "ingredient": "黑麦粉",
+    "reason": "名称或类别可能涉及常见致敏物质，但没有 exact normalized allergen_alias 命中，未强行关联。"
+  }
+]

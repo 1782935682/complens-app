@@ -1,0 +1,107 @@
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name ="keywords" content="食品安全,食品,安全,全国,国家标准,国家,标准,数据检索,数据,检索,平台">
+<meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0;" />
+<title>食品安全国家标准数据检索平台</title>
+
+		<link href="/website/css/contents01.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="/website/js/cont.js"></script>
+		<script type="text/javascript" src="/website/js/public.js"></script>
+		<link rel="stylesheet" href="/website/css/style.css">
+	</head>
+	<body style="position: absolute;width: 100%;height: 100%;left: 0;top: 0">
+	<div class="top" style="background: rgb(202, 228, 244);margin-bottom: 0">
+			<div class="layout headerTitle">
+				<img src="/website/img/index_icon_03.png" alt="">
+				<span>食品安全国家标准数据检索平台</span>
+			</div>
+			<div class="layout conten_wz">
+				您的位置：
+				<a href="javascript:void(0);" onclick="index();">首页</a> > 《食品安全国家标准 预包装食品营养标签通则》（GB 28050-2025）解读材料
+				<form name="form1" id="form1" method="post">
+					<input type="hidden" name="task"  value="">
+					<input type="hidden" name="guid"  value="">
+					<input type="hidden" name="file_guid"  value="">
+					<input type="hidden" name="num_tn"  value="">
+					<input type="hidden" name="filePath" id="filePath" value="/opt/tomcat/Res_upload/swfupload/"/>
+					
+					<input type="hidden" name="fact_name"  value="">
+				</form>
+			</div>
+		</div>
+		<div class="conten_con"  style="width: 80%;margin: 0 9%;min-height: 690px">
+		<div class="bz_tit">
+			问答名称：《食品安全国家标准 预包装食品营养标签通则》（GB 28050-2025）解读材料
+		</div>
+		<div class="bz_cont">
+			<div class="bz_zt">
+				<span class="list_zt_top">
+					
+					<i>发布日期：2025-03-16 00:00:00.0</i>
+<!--					<i>浏览次数：8757次</i> -->
+					<i>发布单位：国家卫生健康委员会&ensp;国家市场监管总局</i>
+				</span>
+			</div>
+			<div class="bz_det">
+				<div class="bz_det_tit">
+					
+				</div>
+				<div class="bz_det_cot">
+					<p>
+						<h1 label="标题居中" style="font-size: 32px; font-weight: bold; border-bottom: 2px solid rgb(204, 204, 204); padding: 0px 4px 0px 0px; text-align: center; margin: 0px 0px 20px;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-family: 黑体; font-size: 24px;">《食品安全国家标准</span> <span style="font-family: 黑体; font-size: 24px;">预包装食品营养标签通则》（</span><span style="font-family: &quot;Times New Roman&quot;; font-size: 24px;">GB 28050-2025</span><span style="font-family: 黑体; font-size: 24px;">）</span></span><span style="font-family: 黑体; font-size: 24px;">解读材料</span></h1><p style="text-align: justify; line-height: 2em;">&nbsp; &nbsp; &nbsp; &nbsp;<span style="font-size: 24px; font-family: 仿宋, SimSun;">&nbsp;</span><span style="text-align: justify; text-indent: 43px; font-size: 24px; font-family: 仿宋, SimSun;">一、</span><span style="text-align: justify; text-indent: 43px; font-family: &quot;Times New Roman&quot;; font-size: 21px;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">标准的修订目的</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">营养标签是预包装食品上向消费者提供食品营养信息和特性的说明，也是消费者直观了解食品营养成分、特征的有效方式。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">有效实施营养标签的意义重大：一是满足消费者的知情权，引导个人和家庭科学选购食品；二是有利于规范企业正确标示营养标签，促进食品产业健康发展；三是有利于宣传普及食品营养知识，加强营养和膳食指导。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">近年来，由于经济水平的发展，居民膳食中预包装食品消费的占比越来越高，随着公众的营养健康意识日益提高，消费者也越来越关注营养标签。营养标签作为落实《“健康中国2030”规划纲要》和《国民营养计划（2017-2030年）》的重要举措，对国民营养健康素养提升，促进健康中国建设具有重要意义。因此，加强预包装食品的营养标签管理越发重要。《食品安全国家标准 预包装食品营养标签通则》从2013年正式实施，期间营养标签标准的国际发展形势和我国居民营养健康状况都发生了诸多变化，为使营养标签更加适应国内规范化生产和消费者营养需求，启动了本标准的修订。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">二、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">标准的修订原则</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">一是坚持科学性。食品营养标签管理的技术性和科学性较强，必须遵循营养科学的规律和特点。标准修订过程中，依据《中国居民膳食营养素参考摄入量》《中国居民膳食指南》《中国居民营养与慢性病状况报告》等最新科学证据更新了标准内容。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">二是坚持先进性。世界卫生组织（WHO）发布了营养标签相关指导原则和手册，也正在制定营养标签政策指南；国际食品法典委员会（CAC）先后制定了多个标准和技术文件，这些均对世界各国营养标签的管理起到了重要指导作用。大多数国家也已制定了食品营养标签有关法规和标准，并且部分国家根据本国居民最新调查发现的营养健康问题开展或完成了新一轮的修订。本次修订充分借鉴国际指导原则和他国先进经验。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">三是坚持实用性。密切联系国内实际情况，一方面以我国居民的膳食结构、消费特点、健康状况和问题为基础，满足消费者健康和健康中国建设的需求；另一方面也要考虑企业执行能力、监管部门需求等，确保标准的可操作性。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">四是坚持协调性。食品营养标签涉及的标准较多，如《食品安全国家标准</span> <span style="font-size: 24px; font-family: 仿宋, SimSun;">预包装食品标签通则》《食品安全国家标准</span> <span style="font-size: 24px; font-family: 仿宋, SimSun;">预包装特殊膳食用食品标签》和《食品安全国家标准</span> <span style="font-size: 24px; font-family: 仿宋, SimSun;">食品营养强化剂使用标准》等，要确保与相关法规和标准间的有效衔接和配套。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">三、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">标准的主要修订内容</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">标准修订调整了标准适用范围；增加了强制标示的营养素“饱和脂肪（酸）”“糖”及“盐油糖”相关提示语；增加了能量和部分营养成分的术语和定义；增加了其他补充信息，如允许采用图形、文字等方式对营养信息进行补充说明；调整了维生素A、维生素D等营养成分含量的允许误差范围；调整了豁免强制标示营养标签的预包装食品的范围；更新了维生素D、胆碱、锌、硒等的营养素参考值（NRV）；增加了两种营养标签格式；修改了部分营养声称条件及多种营养成分作用声称标准用语；增加了附录 E 预包装食品份量参考值的推荐。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">四、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于能量和部分营养成分术语和定义的修订</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">营养成分的定义、计算或者检测方法对于食品营养标签的正确标示起到重要作用。为了统一概念、方便理解和执行，本次修订增加了能量、蛋白质、脂肪、碳水化合物、糖等强制性标示成分的定义及测算依据。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">五、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于强制标示的营养素“饱和脂肪（酸）”“糖”的修订</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">本次修订在强制性标示能量、蛋白质、脂肪、碳水化合物和钠的基础上，增加了饱和脂肪（酸）和糖两项内容。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">当前我国面临的主要营养健康问题，主要聚焦在肥胖等慢性病的高发以及由慢性病导致的死亡率升高，这是公共卫生防控工作的重点与难点。高盐、高脂、高糖等不合理膳食是引起肥胖、心脑血管疾病、糖尿病及其他代谢性疾病和肿瘤的危险因素。《中国居民膳食营养素参考摄入量》和《中国居民膳食指南》中明确提出，“饱和脂肪酸的供能比控制在10%以下”，“控制添加糖的摄入量，每天不超过50g，最好控制在25g以下”。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">改善膳食</span></span><span style="font-size: 24px; font-family: 仿宋, SimSun;">结构</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">、促进食品</span></span><span style="font-size: 24px; font-family: 仿宋, SimSun;">产业营养健康</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">发展是助力合理膳食行动的重要举措。为引导消费者合理选择食品，最终确定增加饱和脂肪（酸）和糖的强制标示。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">六、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于强制标示“盐油糖”提示语的修订</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">近年来，我国居民超重肥胖问题凸显，儿童青少年超重肥胖率也在持续上升。当前我国6岁以下儿童超重率和肥胖率分别为6.8%和3.6%，6-17岁儿童青少年超重率和肥胖率分别为11.1%和7.9%。同时，儿童青少年时期对其口味的形成是非常重要的，要从小引导孩子们健康的饮食理念，培养清淡的饮食习惯。此外，《未成年人保护法》第五十五条明确要求用于未成年人的食品、用品应当在显著位置标明注意事项。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">为落实“三减”健康生活方式，即减盐、减油、减糖和《未成年人保护法》要求，引导消费者、特别是儿童青少年关注膳食中盐油糖摄入总量，本次标准修订要求预包装食品应标示“儿童青少年应避免</span></span><span style="font-size: 24px; font-family: 仿宋, SimSun;">过量</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">摄入盐油糖”，希望对于创造健康生活环境以及教育儿童青少年从小懂得食物营养价值、认识到盐油糖对健康的双重影响发挥积极引导作用。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">七、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于其他补充信息的修订</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">为提高消费者对营养标签的关注度，指导消费者健康选择，允许企业按照标准规定，正确、规范地在营养成分表中标示营养信息后，采用图形、文字等方式对营养标签进行补充说明。可以使用消费者熟悉的油和盐替代脂肪和钠，用“卡”等替代“千焦”等，也可以“使用‘中国居民膳食指南’的宝塔图形和核心推荐条目”宣传合理膳食和“三减”。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">八、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于附录A</span></span><span style="font-size: 24px; font-family: 仿宋, SimSun;">营养</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">标签</span></span><span style="font-size: 24px; font-family: 仿宋, SimSun;">用</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">营养素参考值（NRV）及其使用方法的修订</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">营养素参考值是根据《中国居民膳食营养素参考摄入量》制定，专用于营养标签比较食品能量和营养素含量水平的参考值；适用于36月龄以上（＞36月龄）人群食用的预包装食品营养标签。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">本次修订是依据新版《中国居民膳食营养素参考摄入量》内容，基于能量摄入8400千焦（相当于2000千卡）的前提下，可以满足36月龄以上人群的营养素需要量的原则对其进行修订，最终调整了维生素D、生物素、锌、碘等8个营养素的NRV值。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">九、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于附录B营养标签格式规范的修订</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">基于国际组织的指导原则和各国管理经验，营养标签的格式标准化有利于消费者识别和选择、企业的设计和制作以及监管部门的监督和核查。因此营养标签的格式标准化也是营养标签管理的重点之一。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">本次修订在原标准的6种常见格式基础上，增加了同时以每100克（或每100毫升）和每份为单位进行标示的营养标签格式和内有多种食品的营养标签格式；并且参考《&lt;预包装食品营养标签通则&gt;（GB 28050-2011）问答》，增加了“保证符合基本格式要求和确保不对消费者造成误导的基础上，在版面设计时可进行适当调整”等的补充说明。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">十、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于附录C营养声称和附录D营养成分作用声称的修订</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">为确保营养声称和营养成分作用声称的科学性、实用性及多场景性，修订过程中梳理了CAC和各国有关营养声称和营养成分</span></span><span style="font-size: 24px; font-family: 仿宋, SimSun;">作用</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">声称的相关规定，以及最新的营养成分与健康的科学证据，同时为方便消费者阅读和理解，增补了部分营养成分的营养声称和作用声称；同时结合国内市场营养声称和营养成分作用声称实际使用情况和管理需求，删除或修改了原标准中不适用的营养声称和营养成分作用声称表述。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">比如鉴于目前大众对n-3多不饱和脂肪酸的关注，增加含有或富含n-3多不饱和脂肪酸的声称和要求；考虑到实际使用情况，删除了“减少蛋白质”“减少膳食纤维”“减少矿物质”“减少维生素”等比较声称；增加过量摄入脂肪、糖、盐的警示用语“长期高脂肪摄入不利于维持正常体重和体脂水平”“长期过多摄入饱和脂肪可使血胆固醇增高”“长期高盐摄入</span></span><span style="font-size: 24px; font-family: 仿宋, SimSun;">可以</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">导致血压升高”“长期高糖摄入可增加龋齿和肥胖发生的风险”等，与强制性标示“儿童青少年应避免过量摄入盐油糖”提示语相呼应。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style="font-size: 24px; font-family: 仿宋, SimSun;">十一、</span><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">关于增加附录E预包装食品份量参考值的推荐的规定。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">份量参考值是本次标准修订新增的内容。标准中规定食品营养标签可以每份食品可食部中的具体数值标示；以每份进行标示时，应在同一版面标明每份食品的质量或体积。附录E中规定的份量参考值即当营养标签按“份”标示营养成分表时，推荐使用的每份食品参考质量或体积（以可食部计）。本次标准修订共确定了18个常见食品类别的份量参考值。</span></span></p><p style="text-indent: 43px; text-align: justify; line-height: 2em;"><span style=";font-family:&#39;Times New Roman&#39;;font-size:21px"><span style="font-size: 24px; font-family: 仿宋, SimSun;">增加“份量”相关内容有三个目的，一是为消费者实际阅读考虑。目前营养成分表通常是基于100g或100ml为单位标示，但一般情况下消费者直接了解“每份”的含量会更加清晰明了。二是从标准化考虑，目前市场上同类食品份量的范围很广，推荐的份量参考值可以使同类产品相互靠近，逐渐标准化和统一化，便于消费者比较。三是从公众健康考虑，如果食品的份量逐渐统一化后，“营养定量”和营养教育工作走入千家万户，会对肥胖、食物浪费等社会问题的解决起到助力作用。</span></span></p><p><br/></p>
+					</p>
+				</div>
+				<div class="bz_det_xg">
+					相关文本
+				</div>
+				<div class="bz_det_cot">
+					
+						<div class="list_cont_list">
+							<span class="list_tit">
+								<i style="background: #1e7aaa">标准文本</i>
+
+								
+								
+								
+									<b style="background: #2ca8b8;margin-left: 0;height: 26px; line-height: 26px;" class="jjss" class="jjss">即将实施</b>
+								
+								<!--<a href="javascript:void(0);" onclick="info('2','01848F78-13AB-4F40-9DF8-DE1158E7BC26');">食品安全国家标准 预包装食品营养标签通则</a>-->
+									<a href="javascript:void(0);" onclick="goto('01848F78-13AB-4F40-9DF8-DE1158E7BC26','2')">食品安全国家标准 预包装食品营养标签通则</a>
+							</span>
+							<span class="list_zt">
+								
+								<i>发布日期：2025-03-16 00:00:00.0</i>
+
+
+							</span>
+							<!-- 在后拼好的附件信息入在qa_title字段中了 -->
+							《食品安全国家标准 预包装食品营养标签通则》（GB 28050-2025）解读材料
+						</div>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+		<div class="footerContent layout">
+			<div class="footerInfo">
+				<span>Copyright© 国家食品安全风险评估中心版权所有京ICP备20024162号</span>
+				<span>联系地址:北京市朝阳区广渠路37号院2号楼电话:52165518传真:52165519</span>
+			</div>
+		</div>
+	</div>
+
+	</body>
+</html>
+
