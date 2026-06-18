@@ -2443,6 +2443,7 @@ async function writeOfficialReports(snapshot: PipelineSnapshot, pool: pg.Pool | 
   await writeSourceMaterialsMissingOfficialReport(snapshot);
   await writeOfficialSourceInventory(snapshot);
   await writeManualDownloadReport(snapshot);
+  await writeDecisionRequiredReport(snapshot);
   await writeConflictsReport(pool);
   await writeAllergenDataReport(pool);
   await writeAliasConflictReviewReport(pool);
@@ -2608,6 +2609,71 @@ async function writeManualDownloadReport(snapshot: PipelineSnapshot) {
 ${snapshot.manual_downloads.map((item) => `| ${item.title} | ${[item.standard_no, item.announcement_no].filter(Boolean).join(' / ')} | ${item.source_org} | ${item.official_page_url} | ${item.attachment_url || '待确认'} | ${item.suggested_file_name} | ${item.reason} | ${item.category} | ${item.priority} |`).join('\n')}
 `;
   await writeFile(join(paths.docsDir, 'manual-download-required.md'), content);
+}
+
+export function buildDecisionRequiredReport(snapshot: PipelineSnapshot) {
+  const decisionItems = [
+    ...snapshot.manual_downloads.map((item) => ({
+      title: item.title,
+      problem: `${item.title} 未定位到可保存的 S0 官方 PDF/HTML；${item.reason}`,
+      dataVolume: `1 个 ${item.category} 官方来源文件；建议文件名 ${item.suggested_file_name}。`,
+      optionA: `由用户或人工从 ${item.source_org} 官方入口下载/保存原始 PDF 或 HTML 后放入 docs/source-materials/${item.suggested_file_name}，再运行 npm run ingredient:update-all。`,
+      optionB: '保持缺失状态，不导入独立公告专属规则，只保留 GB 7718-2025 正文和 CFSA/SPPT 解读材料已抽取的 pending_review 数字标签规则。',
+      otherOptions: '如只能找到第三方转载页面，先保留在人工核验材料中，不进入 S0 official_sources，也不提升为 verified。',
+      recommendation: '选项 A',
+      reason: '该公告属于 S0 中国官方监管来源候选；只有保存官方原文和校验 SHA-256 后，才能进入正式来源台账。',
+      impactA: '可补齐独立公告来源证据，但新增记录仍应先进入 pending_review，等待人工核对条款边界。',
+      impactB: '不会引入无来源或转载数据，数字标签覆盖继续依赖已保存的 GB 7718-2025 官方材料。',
+      defaultHandling: '不导入、不标 S0 verified；相关规则保持缺失或 pending_review。',
+      question: `请确认是否能提供官方原文文件，或允许继续保持 ${item.suggested_file_name} 为 manual_required。`
+    })),
+    ...buildPolyolDecisionItems(snapshot)
+  ];
+
+  return `# 需要用户确认 / 人工处理事项
+
+生成时间：${snapshot.generated_at}
+
+本文件只记录会影响数据来源、数据等级或正式展示边界的事项。未确认前，受影响数据不得进入 verified 层，也不得在用户结果页展示为官方结论。
+
+${decisionItems.map((item, index) => `## ${index + 1}. ${item.title}
+
+- 问题描述：${item.problem}
+- 涉及的数据量：${item.dataVolume}
+- 选项 A：${item.optionA}
+- 选项 B：${item.optionB}
+- 其他可选项：${item.otherOptions}
+- Codex 推荐选项：${item.recommendation}
+- 推荐理由：${item.reason}
+- 选项 A 的影响：${item.impactA}
+- 选项 B 的影响：${item.impactB}
+- 不选择时的默认安全处理：${item.defaultHandling}
+- 需要用户回复的明确问题：${item.question}`).join('\n\n') || '当前没有需要用户确认或人工处理的事项。'}
+`;
+}
+
+function buildPolyolDecisionItems(snapshot: PipelineSnapshot) {
+  const hasPolyolRule = snapshot.staging_records.some((record) => record.record_type === 'nutrition_polyol_energy_rule');
+  if (hasPolyolRule) return [];
+  return [{
+    title: 'GB 28050-2025 糖醇能量规则官方原文未定位',
+    problem: '已保存的 GB 28050-2025 官方 PDF 和 CFSA/SPPT 官方问答 HTML 未自动检索到“糖醇”“赤藓糖醇”“糖醇及其能量换算系数”等可引用原文片段。',
+    dataVolume: '0 条 nutrition_polyol_energy_rule；nutrition_polyol_energy_rules 表当前应保持 0 条。',
+    optionA: '由用户或人工提供可核验的官方原文位置、页码或附件，Codex 再补解析与 pending_review 导入。',
+    optionB: '继续不导入糖醇能量专项规则，营养能量计算不使用未经官方原文确认的糖醇换算系数。',
+    otherOptions: '若只能找到国际或第三方资料，可作为 S1/S3 候选补充普通营养事实，但不得覆盖中国 GB 28050 监管判断。',
+    recommendation: '选项 B，直到 S0 原文可核验后再导入。',
+    reason: '糖醇能量换算会影响营养计算和用户理解，不能用搜索摘要、转载页面或推测规则填充正式表。',
+    impactA: '可补齐专项规则解析，但新增规则仍需 pending_review 和人工复核后才能用于正式展示。',
+    impactB: '避免错误营养换算；相关覆盖报告继续显示 nutrition_polyol_energy_rules=0。',
+    defaultHandling: '不导入、不参与能量计算、不展示为 GB 28050 官方规则。',
+    question: '请确认是否能提供 GB 28050-2025 糖醇能量规则的官方原文页码/附件；如不能，是否继续保持该规则缺失。'
+  }];
+}
+
+async function writeDecisionRequiredReport(snapshot: PipelineSnapshot) {
+  const paths = getPipelinePaths();
+  await writeFile(join(paths.docsDir, 'decision-required.md'), buildDecisionRequiredReport(snapshot));
 }
 
 async function writeCoverageReport(snapshot: PipelineSnapshot, pool: pg.Pool | null) {
