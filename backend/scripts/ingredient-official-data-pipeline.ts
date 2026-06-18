@@ -1352,14 +1352,33 @@ async function extractSourceText(source: SourceManifestItem) {
     await writeFile(outputPath, text);
     return text;
   }
-  const { stdout } = await execFileAsync('pdftotext', ['-layout', inputPath, '-'], {
-    maxBuffer: 1024 * 1024 * 80
-  });
+  let stdout = '';
+  try {
+    const result = await execFileAsync('pdftotext', ['-layout', inputPath, '-'], {
+      maxBuffer: 1024 * 1024 * 80
+    });
+    stdout = result.stdout;
+  } catch (error) {
+    const cachedText = await readCachedExtractedText(outputPath);
+    if (cachedText) return cachedText;
+    throw error;
+  }
+  const ocrText = stdout.trim() ? '' : await readInfantMicroorganismOcrText(source);
+  const cachedText = stdout.trim() || ocrText.trim() ? '' : await readCachedExtractedText(outputPath);
   const fallbackText = stdout.trim()
     ? stdout
-    : await readInfantMicroorganismOcrText(source);
+    : ocrText || cachedText;
   await writeFile(outputPath, fallbackText);
   return fallbackText;
+}
+
+async function readCachedExtractedText(outputPath: string) {
+  try {
+    const text = await readFile(outputPath, 'utf8');
+    return text.trim() ? text : '';
+  } catch {
+    return '';
+  }
 }
 
 async function readInfantMicroorganismOcrText(source: SourceManifestItem) {
@@ -3226,6 +3245,7 @@ function readPgTextArray(value: unknown) {
 
 function escapeMarkdownTable(value: string) {
   return normalizeSpaces(value)
+    .replace(/\\/g, '\\\\')
     .replace(/\|/g, '\\|')
     .replace(/\n/g, '<br>')
     .slice(0, 1200);
@@ -3392,16 +3412,68 @@ function findAppendixC1Evidence(text: string, terms: string[], options: { maxLin
 }
 
 function htmlToText(value: string) {
-  return decodeHtmlEntities(value)
-    .replace(/<script[\s\S]*?<\/script>/giu, '\n')
-    .replace(/<style[\s\S]*?<\/style>/giu, '\n')
-    .replace(/<br\s*\/?>/giu, '\n')
-    .replace(/<\/(?:p|div|h1|h2|h3|li|tr)>/giu, '\n')
-    .replace(/<[^>]+>/gu, '')
+  return decodeHtmlEntities(extractHtmlText(value))
     .split('\n')
     .map((line) => normalizeSpaces(line))
     .filter(Boolean)
     .join('\n');
+}
+
+const blockHtmlTags = new Set(['p', 'div', 'h1', 'h2', 'h3', 'li', 'tr']);
+
+function extractHtmlText(value: string) {
+  let output = '';
+  let index = 0;
+  while (index < value.length) {
+    if (value[index] !== '<') {
+      output += value[index];
+      index += 1;
+      continue;
+    }
+
+    const tagEnd = value.indexOf('>', index + 1);
+    if (tagEnd < 0) {
+      output += value[index];
+      index += 1;
+      continue;
+    }
+
+    const tagContent = value.slice(index + 1, tagEnd).trim();
+    const tagName = getHtmlTagName(tagContent);
+    const closing = tagContent.startsWith('/');
+    if (!closing && (tagName === 'script' || tagName === 'style')) {
+      index = findHtmlClosingTagEnd(value, tagEnd + 1, tagName);
+      output += '\n';
+      continue;
+    }
+    if (tagName === 'br' || (closing && blockHtmlTags.has(tagName))) {
+      output += '\n';
+    } else {
+      output += ' ';
+    }
+    index = tagEnd + 1;
+  }
+  return output;
+}
+
+function getHtmlTagName(tagContent: string) {
+  const trimmed = tagContent.startsWith('/') ? tagContent.slice(1).trimStart() : tagContent;
+  const match = /^[A-Za-z][A-Za-z0-9:-]*/u.exec(trimmed);
+  return match ? match[0].toLowerCase() : '';
+}
+
+function findHtmlClosingTagEnd(value: string, start: number, tagName: string) {
+  let index = start;
+  while (index < value.length) {
+    const nextTag = value.indexOf('<', index);
+    if (nextTag < 0) return value.length;
+    const tagEnd = value.indexOf('>', nextTag + 1);
+    if (tagEnd < 0) return value.length;
+    const tagContent = value.slice(nextTag + 1, tagEnd).trim();
+    if (tagContent.startsWith('/') && getHtmlTagName(tagContent) === tagName) return tagEnd + 1;
+    index = tagEnd + 1;
+  }
+  return value.length;
 }
 
 function decodeHtmlEntities(value: string) {
