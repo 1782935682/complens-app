@@ -202,6 +202,7 @@ source-materials staging 口径：
 - 本轮未导入 S1/S3/S4 来源；额外导入的 S2 普通配料种子为人工整理 OCR 高频基础词库，全部保持 `pending_review`，不得展示为 S0 或 verified。
 - 480 条普通食品配料包含 S2 种子和旧内部词库归并结果，不是官方普通食品原料全量目录。
 - GB 28050-2011 官方 PDF 已从 CFSA/SPPT 官方附件下载并进入 manifest/official_sources；此前超时生成的不完整片段已保留在 `docs/source-materials/_invalid/1401947724374.pdf.partial`，未进入有效扫描。
+- `source-materials` 管线将单个来源失败分层记录到 `data/official_sources/failed/extract-failures.json`：`failed_extract` 表示文本抽取、`pdftotext` 依赖或 PDF 文本层问题，`failed_parse` 表示文本已抽取但结构化解析失败；失败来源不会进入 verified 层，其他来源继续处理。
 - 独立的“国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告”官方页面未自动定位；本轮仅使用 GB 7718-2025 正文和 CFSA/SPPT 解读中的数字标签规则。
 - 缺失和人工补齐步骤见 [`docs/source-materials-missing-official.md`](./docs/source-materials-missing-official.md)。
 

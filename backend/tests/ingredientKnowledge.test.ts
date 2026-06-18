@@ -77,6 +77,26 @@ describe('official source-materials pipeline', () => {
     }
   });
 
+  it('records a single corrupt PDF extraction failure without aborting the source batch', async () => {
+    const corruptPdf = fileURLToPath(new URL('../../docs/source-materials/codex-test-corrupt.pdf', import.meta.url));
+    await writeFile(corruptPdf, 'not a valid pdf');
+    try {
+      const snapshot = await buildPipelineSnapshot({ extract: true });
+      const failedSource = snapshot.failed.find((item) => item.local_file_path.endsWith('codex-test-corrupt.pdf'));
+      const manifestSource = snapshot.sources.find((item) => item.local_file_path.endsWith('codex-test-corrupt.pdf'));
+
+      expect(failedSource).toMatchObject({
+        stage: 'extract',
+        local_file_path: 'docs/source-materials/codex-test-corrupt.pdf'
+      });
+      expect(failedSource?.reason).toContain('pdftotext failed');
+      expect(manifestSource?.parse_status).toBe('failed_extract');
+      expect(snapshot.staging_records.length).toBeGreaterThan(300);
+    } finally {
+      await unlink(corruptPdf).catch(() => undefined);
+    }
+  });
+
   it('extracts local official PDFs into typed pending-review staging records', async () => {
     const snapshot = await buildPipelineSnapshot({ extract: true });
     const byType = new Map<string, number>();
