@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
-import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import Toast from '@/components/Toast.vue';
 import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
@@ -47,16 +46,16 @@ function persist(next: AttentionSettings) {
           <text class="muted">单选一个主要目标。</text>
         </view>
         <view class="option-grid">
-          <AppButton
+          <view
             v-for="goal in primaryGoalOptions"
             :key="goal.key"
-            variant="secondary"
-            class="option"
+            class="option-card"
             :class="{ 'option--active': settings.primaryGoal === goal.key }"
-            @click="selectPrimaryGoal(goal.key)"
+            @tap="selectPrimaryGoal(goal.key)"
           >
             <text class="option__title">{{ goal.label }}</text>
-          </AppButton>
+            <text class="option__desc">{{ goal.description }}</text>
+          </view>
         </view>
       </view>
     </AppCard>
@@ -78,16 +77,15 @@ function persist(next: AttentionSettings) {
           <text class="muted">可多选，命中后会优先提醒。</text>
         </view>
         <view class="allergen-grid">
-          <AppButton
+          <view
             v-for="item in allergenOptions"
             :key="item.key"
-            variant="secondary"
-            class="allergen"
+            class="allergen-option"
             :class="{ 'option--active': settings.allergens.includes(item.key) }"
-            @click="toggleAllergen(item.key)"
+            @tap="toggleAllergen(item.key)"
           >
             <text>{{ item.label }}</text>
-          </AppButton>
+          </view>
         </view>
       </view>
     </AppCard>
@@ -123,34 +121,60 @@ function persist(next: AttentionSettings) {
 }
 
 .option-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-sm);
 }
 
-.option,
-.allergen {
-  width: auto;
-  min-height: 76rpx;
+.option-card,
+.allergen-option {
+  border: 1px solid rgba(18, 151, 128, 0.18);
+  background: var(--surface);
+  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
-  color: var(--text);
-  line-height: 1.3;
-  padding: 0 32rpx;
-  border-radius: 999px;
+  text-align: center;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.option-card {
+  min-height: 164rpx;
+  border-radius: 24rpx;
+  padding: var(--space-md);
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.option-card:active,
+.allergen-option:active {
+  transform: scale(0.985);
 }
 
 .option--active {
   border-color: var(--primary);
-  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
-  color: #ffffff;
-  box-shadow: 0 8px 18px rgba(8, 122, 104, 0.16);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  box-shadow: 0 8px 18px rgba(8, 122, 104, 0.12);
 }
 
 .option__title {
+  display: block;
+  color: inherit;
+  font-size: var(--font-size-base);
   font-weight: 900;
+  line-height: 1.25;
+}
+
+.option__desc {
+  display: block;
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+}
+
+.option--active .option__desc {
+  color: var(--primary-strong);
 }
 
 .setting-row {
@@ -169,17 +193,32 @@ function persist(next: AttentionSettings) {
 }
 
 .allergen-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-sm);
 }
 
-.allergen {
-  min-width: 124rpx;
+.allergen-option {
+  min-width: 0;
+  min-height: 76rpx;
+  border-radius: 20rpx;
+  padding: 0 8rpx;
   font-weight: 800;
+  line-height: 1.3;
+}
+
+.allergen-option text {
+  color: inherit;
+  font-size: var(--font-size-sm);
+  line-height: 1.25;
 }
 
 @media screen and (max-width: 340px) {
+  .option-grid,
+  .allergen-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .setting-row {
     align-items: flex-start;
     flex-direction: column;

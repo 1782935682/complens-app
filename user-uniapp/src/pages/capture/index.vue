@@ -6,7 +6,6 @@ import AppCard from '@/components/AppCard.vue';
 import ErrorState from '@/components/ErrorState.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
 import LoadingState from '@/components/LoadingState.vue';
-import PageHeader from '@/components/PageHeader.vue';
 import { allergenOptions } from '@/constants/attention';
 import { routes } from '@/constants/routes';
 import { chooseLabelImage } from '@/platform/camera';
@@ -127,8 +126,8 @@ async function choose(source: 'camera' | 'album') {
     productName.value = '';
     ocrResult.value = undefined;
     labelType.value = 'unknown_label';
-    stage.value = 'pick';
     saveScanDraft({ image: nextImage });
+    await startRecognize({ autoGenerate: true });
   } catch {
     error.value = source === 'camera' ? '相机暂不可用，请检查权限，或改用相册上传。' : '没有选择图片，请重新上传。';
   }
@@ -145,15 +144,16 @@ function clearImage() {
   resetScanDraft();
 }
 
-async function startRecognize() {
+async function startRecognize(options: { autoGenerate?: boolean } = {}) {
   if (!image.value) {
     error.value = '请先拍照或选择一张清晰的食品标签图片。';
     return;
   }
   stage.value = 'recognizing';
-  startLoadingMessages(['正在扫描食品标签文字...', '正在剔除无关噪音...']);
+  startLoadingMessages(['正在识别标签文字...', '正在整理配料和营养信息...']);
   error.value = '';
   editHint.value = '';
+  let shouldOpenEditor = true;
   try {
     const next = await recognizeImageByBackend(image.value);
     const normalized = normalizeOcrResult(next);
@@ -171,7 +171,13 @@ async function startRecognize() {
     });
     const hasIngredient = Boolean(ingredientText.value.trim());
     const hasNutrition = Boolean(nutritionText.value.trim());
-    if (!hasIngredient && !hasNutrition && !frontClaimsText.value.trim()) {
+    const canAutoGenerate = options.autoGenerate
+      && next.mode !== 'fallback'
+      && (hasIngredient || hasNutrition)
+      && extractionConfidence.value !== 'low';
+    if (canAutoGenerate) {
+      shouldOpenEditor = !(await generateResult({ fromAutoRecognition: true }));
+    } else if (!hasIngredient && !hasNutrition && !frontClaimsText.value.trim()) {
       error.value = '没有识别到清晰配料表、营养成分表或包装文字，请重新拍摄标签区域，或手动粘贴文字。';
     } else if (!hasIngredient && hasNutrition) {
       editHint.value = '当前只识别到营养成分表，也可以生成解读；如包装有配料表，建议补充后结果更完整。';
@@ -192,7 +198,7 @@ async function startRecognize() {
     error.value = '识别失败，可以重新拍摄食品标签区域，或手动粘贴标签文字。';
   } finally {
     stopLoadingMessages();
-    stage.value = 'confirm';
+    if (shouldOpenEditor) stage.value = 'confirm';
   }
 }
 
@@ -252,18 +258,20 @@ function buildEffectiveLabelText(): string {
   });
 }
 
-async function generateResult() {
+async function generateResult(options: { fromAutoRecognition?: boolean } = {}): Promise<boolean> {
   const confirmedText = buildEffectiveLabelText();
   if (!hasAnyLabelText.value) {
     error.value = '未识别到清晰的食品标签文字，请重新拍摄标签区域，或手动输入标签文字。';
-    return;
+    return false;
   }
   if (!canGenerate.value) {
     error.value = '当前食品标签识别置信度较低，请先手动修改或重新拍摄标签区域。';
-    return;
+    return false;
   }
   generating.value = true;
-  startLoadingMessages(['正在识别添加剂和营养信息...', buildTargetLoadingText()]);
+  startLoadingMessages(options.fromAutoRecognition
+    ? ['识别完成，正在生成结果...', buildTargetLoadingText()]
+    : ['正在识别添加剂和营养信息...', buildTargetLoadingText()]);
   error.value = '';
   try {
     const attention = getAttentionSettings();
@@ -285,8 +293,10 @@ async function generateResult() {
       ...buildScanDraftFromAnalysis(analysis)
     });
     uni.navigateTo({ url: `${routes.report}?id=${encodeURIComponent(analysis.report.id)}` });
+    return true;
   } catch {
     error.value = '暂时无法生成解读，请检查文字后重试。';
+    return false;
   } finally {
     stopLoadingMessages();
     generating.value = false;
@@ -433,15 +443,14 @@ function matchedAllergenLabels(text: string): string[] {
 <template>
   <view class="page" :class="stage === 'confirm' ? 'page--confirm' : 'page--capture stack'">
     <template v-if="stage !== 'confirm'">
-      <PageHeader
-        title="拍食品标签"
-        subtitle="拍配料表或营养成分表，确认文字后生成解读。"
-      />
+      <view class="capture-intro">
+        <text class="capture-intro__title">对准配料表或营养表</text>
+        <text class="capture-intro__desc">选择图片后自动识别，清楚时直接出结果。</text>
+      </view>
       <ImageUploader :image="image" @camera="choose('camera')" @album="choose('album')" @clear="clearImage" />
       <ErrorState v-if="error" title="图片选择失败" :description="error" action-label="重试上传" @action="choose('album')" />
-      <LoadingState v-if="stage === 'recognizing'">{{ loadingText || '正在扫描食品标签文字...' }}</LoadingState>
+      <LoadingState v-if="stage === 'recognizing'">{{ loadingText || '正在识别标签文字...' }}</LoadingState>
       <view class="capture-actions">
-        <AppButton v-if="image" class="capture-actions__button" :disabled="stage === 'recognizing'" :loading="stage === 'recognizing'" @click="startRecognize">识别标签文字</AppButton>
         <AppButton class="capture-actions__button" variant="secondary" @click="startManualTextEntry">手动输入</AppButton>
       </view>
     </template>
@@ -453,11 +462,11 @@ function matchedAllergenLabels(text: string): string[] {
         <text class="confirm-back" @tap="clearImage">‹</text>
       </view>
       <scroll-view scroll-y class="confirm-sheet">
-        <ErrorState v-if="error" title="请先确认有效文字" :description="error" action-label="重新拍食品标签" @action="clearImage" />
+        <ErrorState v-if="error" title="需要补充文字" :description="error" action-label="重新拍标签" @action="clearImage" />
         <view class="confirm-content">
           <view class="confirm-heading">
-            <text class="confirm-title">确认识别文本</text>
-            <text class="confirm-desc">请核对识别结果，修改错别字后再生成报告</text>
+            <text class="confirm-title">补充标签文字</text>
+            <text class="confirm-desc">识别不清时，粘贴配料表或营养成分表文字即可生成结果</text>
           </view>
           <view class="scan-summary">
             <view class="confidence-row">
@@ -489,7 +498,7 @@ function matchedAllergenLabels(text: string): string[] {
             <textarea v-model="frontClaimsText" class="textarea textarea--compact" auto-height placeholder="识别到的包装正面、产品名、规格或其他文字" @input="manualOverride = true" />
           </view>
           <LoadingState v-if="generating">{{ loadingText || '正在识别添加剂和营养信息...' }}</LoadingState>
-          <AppButton class="confirm-main-button" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成解读报告</AppButton>
+          <AppButton class="confirm-main-button" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成结果</AppButton>
           <view class="confirm-secondary-actions">
             <AppButton v-if="shouldShowManualModifyAction" variant="secondary" @click="showEditHint">手动修改</AppButton>
             <AppButton v-if="hasAnyConfirmedText" variant="text" @click="clearText">清空文字</AppButton>
@@ -518,6 +527,25 @@ function matchedAllergenLabels(text: string): string[] {
 
 .capture-actions__button:only-child {
   grid-column: 1 / -1;
+}
+
+.capture-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.capture-intro__title {
+  color: var(--text);
+  font-size: var(--font-size-xl);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.capture-intro__desc {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
 }
 
 .page--confirm {
