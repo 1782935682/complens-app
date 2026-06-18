@@ -1,6 +1,6 @@
 # 数据质量报告
 
-生成时间：2026-06-18T11:57:13.954Z
+生成时间：2026-06-18T12:16:42.137Z
 
 ## 来源可信度
 
@@ -33,6 +33,10 @@
 | unlinked actionable staging | 0 |
 | alias conflicts | 0 |
 | extract failures | 0 |
+| ingredient_master 必填字段缺口 | 0 |
+| official_sources 必填字段缺口 | 0 |
+| staging 来源外键缺口 | 0 |
+| source relation 外键缺口 | 0 |
 
 ## pending_review 说明
 

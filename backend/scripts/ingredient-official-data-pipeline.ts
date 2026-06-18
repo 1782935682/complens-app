@@ -27,6 +27,8 @@ const parserName = 'ingredient-official-source-pipeline';
 const parserVersion = 'ingredient-official-source-pipeline-v1';
 const supportedExtensions = new Set(['.pdf', '.xlsx', '.xls', '.csv', '.docx', '.doc', '.html', '.htm']);
 const officialAllowedDomains = ['nhc.gov.cn', 'zwfw.nhc.gov.cn', 'cfsa.net.cn', 'sppt.cfsa.net.cn', 'samr.gov.cn', 'std.samr.gov.cn', 'openstd.samr.gov.cn', 'gov.cn'];
+const sourceMaterialsRelativeDir = join('docs', 'source-materials');
+const downloadedSourceMaterialsRelativeDir = join(sourceMaterialsRelativeDir, 'downloaded');
 
 export type SourceManifestItem = {
   source_id: string;
@@ -395,8 +397,8 @@ export function getPipelinePaths() {
   const root = getRepoRoot();
   return {
     root,
-    sourceDir: join(root, 'docs', 'source-materials'),
-    downloadedDir: join(root, 'docs', 'source-materials', 'downloaded'),
+    sourceDir: join(root, sourceMaterialsRelativeDir),
+    downloadedDir: join(root, downloadedSourceMaterialsRelativeDir),
     docsDir: join(root, 'docs'),
     dataDir: join(root, 'data', 'official_sources'),
     rawDir: join(root, 'data', 'official_sources', 'raw'),
@@ -549,11 +551,13 @@ export async function importPipelineToLocalDatabase(snapshot?: PipelineSnapshot)
 async function importSourcesAndStaging(pool: pg.Pool, snapshot: PipelineSnapshot, options: { promoteRecords: boolean }) {
   await pool.query('begin');
   try {
+    await pool.query(`set local statement_timeout = '120s'`);
+    await pool.query(`set local lock_timeout = '10s'`);
     for (const source of snapshot.sources) {
       await upsertOfficialSource(pool, source);
     }
+    await upsertStagingRecords(pool, snapshot.staging_records);
     for (const record of snapshot.staging_records) {
-      await upsertStagingRecord(pool, record);
       if (options.promoteRecords && record.record_type === 'nutrition_reference_value') {
         await upsertNutritionReferenceValue(pool, record);
       }
@@ -587,6 +591,54 @@ async function importSourcesAndStaging(pool: pg.Pool, snapshot: PipelineSnapshot
   } catch (error) {
     await pool.query('rollback');
     throw error;
+  }
+}
+
+async function upsertStagingRecords(pool: pg.Pool, records: StagingRecord[]) {
+  for (const chunk of chunkArray(records, 100)) {
+    const values: unknown[] = [];
+    const placeholders = chunk.map((record, recordIndex) => {
+      const offset = recordIndex * 17;
+      values.push(
+        record.id,
+        record.source_id,
+        record.source_tier,
+        record.source_status,
+        record.record_type,
+        record.canonical_name,
+        record.normalized_name,
+        record.ingredient_type,
+        record.page_number,
+        record.table_name || null,
+        record.row_reference || null,
+        record.raw_source_text,
+        JSON.stringify(record.parsed_data),
+        record.parse_status,
+        record.review_status,
+        record.confidence_score,
+        record.content_hash
+      );
+      return `(${Array.from({ length: 17 }, (_, index) => `$${offset + index + 1}`).join(',')})`;
+    });
+    await pool.query(
+      `insert into ingredient_import_staging (
+        id, source_id, source_tier, source_status, record_type, canonical_name, normalized_name,
+        ingredient_type, page_number, table_name, row_reference, raw_source_text, parsed_data,
+        parse_status, review_status, confidence_score, content_hash
+      ) values ${placeholders.join(',')}
+      on conflict (source_id, record_type, normalized_name, row_reference) do update set
+        canonical_name = excluded.canonical_name,
+        page_number = excluded.page_number,
+        table_name = excluded.table_name,
+        raw_source_text = excluded.raw_source_text,
+        parsed_data = excluded.parsed_data,
+        parse_status = excluded.parse_status,
+        review_status = excluded.review_status,
+        confidence_score = excluded.confidence_score,
+        content_hash = excluded.content_hash,
+        updated_at = now()`,
+      values
+    );
   }
 }
 
@@ -655,46 +707,6 @@ async function upsertOfficialSource(pool: pg.Pool, source: SourceManifestItem) {
       source.supersedes_source_id || null,
       source.superseded_by_source_id || null,
       source.notes
-    ]
-  );
-}
-
-async function upsertStagingRecord(pool: pg.Pool, record: StagingRecord) {
-  await pool.query(
-    `insert into ingredient_import_staging (
-      id, source_id, source_tier, source_status, record_type, canonical_name, normalized_name,
-      ingredient_type, page_number, table_name, row_reference, raw_source_text, parsed_data,
-      parse_status, review_status, confidence_score, content_hash
-    ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,$14,$15,$16,$17)
-    on conflict (source_id, record_type, normalized_name, row_reference) do update set
-      canonical_name = excluded.canonical_name,
-      page_number = excluded.page_number,
-      table_name = excluded.table_name,
-      raw_source_text = excluded.raw_source_text,
-      parsed_data = excluded.parsed_data,
-      parse_status = excluded.parse_status,
-      review_status = excluded.review_status,
-      confidence_score = excluded.confidence_score,
-      content_hash = excluded.content_hash,
-      updated_at = now()`,
-    [
-      record.id,
-      record.source_id,
-      record.source_tier,
-      record.source_status,
-      record.record_type,
-      record.canonical_name,
-      record.normalized_name,
-      record.ingredient_type,
-      record.page_number,
-      record.table_name || null,
-      record.row_reference || null,
-      record.raw_source_text,
-      JSON.stringify(record.parsed_data),
-      record.parse_status,
-      record.review_status,
-      record.confidence_score,
-      record.content_hash
     ]
   );
 }
@@ -2387,6 +2399,7 @@ async function writePipelineArtifacts(snapshot: PipelineSnapshot) {
 }
 
 async function writeOfficialReports(snapshot: PipelineSnapshot, pool: pg.Pool | null) {
+  await ensureDirs();
   await writeSourceMaterialsDownloadReport(snapshot);
   await writeSourceMaterialsMissingOfficialReport(snapshot);
   await writeOfficialSourceInventory(snapshot);
@@ -2714,6 +2727,10 @@ async function writeDataQualityReport(snapshot: PipelineSnapshot, pool: pg.Pool 
 | unlinked actionable staging | ${stats?.unlinkedActionableStaging ?? 0} |
 | alias conflicts | ${stats?.aliasConflicts ?? 0} |
 | extract failures | ${snapshot.failed.length} |
+| ingredient_master 必填字段缺口 | ${stats?.ingredientRequiredFieldGaps ?? 0} |
+| official_sources 必填字段缺口 | ${stats?.sourceRequiredFieldGaps ?? 0} |
+| staging 来源外键缺口 | ${stats?.stagingSourceGaps ?? 0} |
+| source relation 外键缺口 | ${stats?.sourceRelationGaps ?? 0} |
 
 ## pending_review 说明
 
@@ -3091,6 +3108,41 @@ export async function getOfficialDataDbStats(pool: pg.Pool) {
       and s.record_type not like 'official_qa_%'
       and s.record_type not like 'official_notice_%'
   `);
+  const ingredientRequiredFieldGaps = await safeScalar(pool, `
+    select count(*)::int
+    from ingredient_master
+    where coalesce(id, '') = ''
+       or coalesce(canonical_name, '') = ''
+       or coalesce(normalized_name, '') = ''
+       or coalesce(ingredient_type, '') = ''
+       or coalesce(regulatory_status, '') = ''
+       or coalesce(source_status, '') = ''
+  `);
+  const sourceRequiredFieldGaps = await safeScalar(pool, `
+    select count(*)::int
+    from official_sources
+    where coalesce(id, '') = ''
+       or coalesce(source_tier, '') = ''
+       or coalesce(source_status, '') = ''
+       or coalesce(source_org, '') = ''
+       or coalesce(source_type, '') = ''
+       or coalesce(title, '') = ''
+       or coalesce(local_file_path, '') = ''
+       or coalesce(content_hash, '') = ''
+  `);
+  const stagingSourceGaps = await safeScalar(pool, `
+    select count(*)::int
+    from ingredient_import_staging s
+    left join official_sources os on os.id = s.source_id
+    where os.id is null
+  `);
+  const sourceRelationGaps = await safeScalar(pool, `
+    select count(*)::int
+    from ingredient_source_relations sr
+    left join ingredient_master m on m.id = sr.ingredient_id
+    left join official_sources os on os.id = sr.source_id
+    where m.id is null or os.id is null
+  `);
   return {
     legacyIngredients,
     ingredientMaster,
@@ -3121,7 +3173,11 @@ export async function getOfficialDataDbStats(pool: pg.Pool) {
     currentSourceRelations,
     aliasConflicts,
     unlinkedStaging,
-    unlinkedActionableStaging
+    unlinkedActionableStaging,
+    ingredientRequiredFieldGaps,
+    sourceRequiredFieldGaps,
+    stagingSourceGaps,
+    sourceRelationGaps
   };
 }
 
@@ -3130,6 +3186,10 @@ function validateDbStats(stats: Awaited<ReturnType<typeof getOfficialDataDbStats
   if (stats.officialSources === 0) errors.push('official_sources is empty');
   if (stats.ingredientMaster === 0) errors.push('ingredient_master is empty');
   if (stats.ingredientImportStaging === 0) errors.push('ingredient_import_staging is empty');
+  if (stats.ingredientRequiredFieldGaps > 0) errors.push(`ingredient_master required field gaps: ${stats.ingredientRequiredFieldGaps}`);
+  if (stats.sourceRequiredFieldGaps > 0) errors.push(`official_sources required field gaps: ${stats.sourceRequiredFieldGaps}`);
+  if (stats.stagingSourceGaps > 0) errors.push(`ingredient_import_staging rows without official_sources: ${stats.stagingSourceGaps}`);
+  if (stats.sourceRelationGaps > 0) errors.push(`ingredient_source_relations rows without valid ingredient/source: ${stats.sourceRelationGaps}`);
   return errors;
 }
 
@@ -3241,6 +3301,14 @@ function classifyUnlinkedStaging(row: Record<string, unknown>) {
 
 function readPgTextArray(value: unknown) {
   return Array.isArray(value) ? value.map((item) => String(item || '')).filter(Boolean) : [];
+}
+
+function chunkArray<T>(items: T[], size: number) {
+  const chunks: T[][] = [];
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size));
+  }
+  return chunks;
 }
 
 function escapeMarkdownTable(value: string) {

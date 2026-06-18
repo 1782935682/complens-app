@@ -19,6 +19,11 @@ const sourceUrl = 'local://compcheck/ordinary-ingredient-seed-s2-v1';
 const sourceVersion = 'ordinary-ingredient-seed-v1';
 const confidenceScore = '0.60';
 const repoRoot = process.cwd().endsWith('/backend') ? resolve(process.cwd(), '..') : resolve(process.cwd());
+const manualAllergenReviewNames = new Set([
+  '小麦', '黑麦', '大麦', '燕麦', '乳', '奶', '鸡蛋', '鸭蛋', '鹌鹑蛋', '蛋',
+  '大豆', '黄豆', '花生', '杏仁', '腰果', '榛子', '核桃', '开心果', '坚果',
+  '鱼', '虾', '蟹'
+].map(normalizeName));
 
 const aliasMap = new Map<string, string[]>([
   ['小麦粉', ['面粉']],
@@ -170,6 +175,8 @@ async function importSeed(pool: pg.Pool) {
   let aliasCount = 0;
   let sourceRelationCount = 0;
   try {
+    await pool.query(`set local statement_timeout = '120s'`);
+    await pool.query(`set local lock_timeout = '10s'`);
     await upsertSeedSource(pool, seedHash);
     for (const item of ordinarySeedItems) {
       const existing = await pool.query(
@@ -380,32 +387,24 @@ async function upsertAllergenRelations(pool: pg.Pool) {
 
   let upserted = 0;
   const needsManualCheck: Array<{ ingredient: string; reason: string }> = [];
+  const pendingRelations: Array<{
+    ingredientId: string;
+    categoryId: string;
+    evidenceSummary: string;
+    confidence: string;
+  }> = [];
   for (const ingredient of ingredients.rows as Array<{ id: string; canonical_name: string; normalized_name: string; aliases: string[] | null }>) {
     const normalizedAliases = uniqueStrings([ingredient.normalized_name, ...(ingredient.aliases || [])]);
     const matched = new Set<string>();
     for (const normalizedAlias of normalizedAliases) {
       const categoryMatches = aliasLookup.get(normalizedAlias) || [];
       for (const match of categoryMatches) {
-        await pool.query(
-          `insert into ingredient_allergen_relations (
-            ingredient_id, allergen_category_id, relation_type, source_id, evidence_summary,
-            confidence, review_status, valid_from, valid_to
-          ) values ($1,$2,'possible',$3,$4,$5,'pending_review',null,null)
-          on conflict (ingredient_id, allergen_category_id, relation_type) do update set
-            source_id = excluded.source_id,
-            evidence_summary = excluded.evidence_summary,
-            confidence = excluded.confidence,
-            review_status = 'pending_review',
-            valid_from = null`,
-          [
-            ingredient.id,
-            match.categoryId,
-            sourceId,
-            `S2 普通配料 exact normalized match: ingredient "${ingredient.canonical_name}" alias "${normalizedAlias}" = allergen alias "${match.aliasName}". 自动关联仅作候选，需人工复核。`,
-            relationConfidence(normalizedAlias, match.confidence)
-          ]
-        );
-        upserted += 1;
+        pendingRelations.push({
+          ingredientId: ingredient.id,
+          categoryId: match.categoryId,
+          evidenceSummary: `S2 普通配料 exact normalized match: ingredient "${ingredient.canonical_name}" alias "${normalizedAlias}" = allergen alias "${match.aliasName}". 自动关联仅作候选，需人工复核。`,
+          confidence: relationConfidence(normalizedAlias, match.confidence)
+        });
         matched.add(match.categoryId);
       }
     }
@@ -416,12 +415,43 @@ async function upsertAllergenRelations(pool: pg.Pool) {
       });
     }
   }
+  upserted = await upsertAllergenRelationBatch(pool, pendingRelations);
 
   await writeFile(
     join(repoRoot, 'docs', 'allergen-relation-needs-manual-check.json'),
     `${JSON.stringify(needsManualCheck, null, 2)}\n`
   );
   return { upserted, needsManualCheck };
+}
+
+async function upsertAllergenRelationBatch(
+  pool: pg.Pool,
+  relations: Array<{ ingredientId: string; categoryId: string; evidenceSummary: string; confidence: string }>
+) {
+  let upserted = 0;
+  for (const chunk of chunkArray(relations, 100)) {
+    const values: unknown[] = [];
+    const placeholders = chunk.map((relation, relationIndex) => {
+      const offset = relationIndex * 5;
+      values.push(relation.ingredientId, relation.categoryId, sourceId, relation.evidenceSummary, relation.confidence);
+      return `($${offset + 1},$${offset + 2},'possible',$${offset + 3},$${offset + 4},$${offset + 5},'pending_review',null,null)`;
+    });
+    await pool.query(
+      `insert into ingredient_allergen_relations (
+        ingredient_id, allergen_category_id, relation_type, source_id, evidence_summary,
+        confidence, review_status, valid_from, valid_to
+      ) values ${placeholders.join(',')}
+      on conflict (ingredient_id, allergen_category_id, relation_type) do update set
+        source_id = excluded.source_id,
+        evidence_summary = excluded.evidence_summary,
+        confidence = excluded.confidence,
+        review_status = 'pending_review',
+        valid_from = null`,
+      values
+    );
+    upserted += chunk.length;
+  }
+  return upserted;
 }
 
 async function markSeedAliasConflictsCandidateOnly(pool: pg.Pool) {
@@ -730,14 +760,22 @@ function uniqueStrings(values: string[]) {
 }
 
 function mayNeedAllergenReview(name: string) {
-  return /(小麦|黑麦|大麦|燕麦|乳|奶|蛋|大豆|黄豆|花生|杏仁|腰果|榛子|核桃|开心果|坚果|鱼|虾|蟹)/u.test(name);
+  return manualAllergenReviewNames.has(normalizeName(name));
 }
 
 function relationConfidence(normalizedAlias: string, sourceConfidence: string) {
   const base = Number.parseFloat(sourceConfidence);
   const adjusted = Number.isFinite(base) ? Math.min(base, 0.78) : 0.72;
-  if (normalizedAlias.length <= 1) return '0.62';
+  if (normalizedAlias.length <= 1) return Math.min(adjusted, 0.70).toFixed(2);
   return adjusted.toFixed(2);
+}
+
+function chunkArray<T>(items: T[], size: number) {
+  const chunks: T[][] = [];
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size));
+  }
+  return chunks;
 }
 
 async function scalar(pool: pg.Pool, sql: string, params: unknown[] = []) {

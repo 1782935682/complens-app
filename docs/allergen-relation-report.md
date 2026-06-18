@@ -1,6 +1,6 @@
 # 过敏原关联导入报告
 
-生成时间：2026-06-18T11:25:44.777Z
+生成时间：2026-06-18T12:15:41.576Z
 
 ## 汇总
 
@@ -10,7 +10,7 @@
 | ingredient_allergen_relations 导入后 | 31 |
 | 净新增 relation | 0 |
 | 本脚本 upsert relation | 31 |
-| 需人工判断但未强行关联 | 115 |
+| 需人工判断但未强行关联 | 2 |
 
 ## 按致敏物质类别
 
@@ -49,7 +49,7 @@
 | 大豆蛋白 | 大豆及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "大豆蛋白" alias "大豆蛋白" = allergen alias "大豆蛋白". 自动关联仅作候选，需人工复核。 |
 | 黄豆 | 大豆及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "黄豆" alias "黄豆" = allergen alias "黄豆". 自动关联仅作候选，需人工复核。 |
 | 虾 | 甲壳纲类动物及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "虾" alias "虾" = allergen alias "虾". 自动关联仅作候选，需人工复核。 |
-| 蟹 | 甲壳纲类动物及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "蟹" alias "蟹" = allergen alias "蟹". 自动关联仅作候选，需人工复核。 |
+| 蟹 | 甲壳纲类动物及其制品 | possible | 0.70 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "蟹" alias "蟹" = allergen alias "蟹". 自动关联仅作候选，需人工复核。 |
 | 龙虾 | 甲壳纲类动物及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "龙虾" alias "龙虾" = allergen alias "龙虾". 自动关联仅作候选，需人工复核。 |
 | 花生 | 花生及其制品 | possible | 0.76 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "花生" alias "花生" = allergen alias "花生". 自动关联仅作候选，需人工复核。 |
 | 花生粉 | 花生及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "花生粉" alias "花生粉" = allergen alias "花生粉". 自动关联仅作候选，需人工复核。 |
@@ -57,7 +57,7 @@
 | 蛋粉 | 蛋类及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "蛋粉" alias "蛋粉" = allergen alias "蛋粉". 自动关联仅作候选，需人工复核。 |
 | 蛋黄 | 蛋类及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "蛋黄" alias "蛋黄" = allergen alias "蛋黄". 自动关联仅作候选，需人工复核。 |
 | 鸡蛋 | 蛋类及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "鸡蛋" alias "鸡蛋" = allergen alias "鸡蛋". 自动关联仅作候选，需人工复核。 |
-| 鱼 | 鱼类及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "鱼" alias "鱼" = allergen alias "鱼". 自动关联仅作候选，需人工复核。 |
+| 鱼 | 鱼类及其制品 | possible | 0.70 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "鱼" alias "鱼" = allergen alias "鱼". 自动关联仅作候选，需人工复核。 |
 | 鱼明胶 | 鱼类及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "鱼明胶" alias "鱼明胶" = allergen alias "鱼明胶". 自动关联仅作候选，需人工复核。 |
 | 鱼粉 | 鱼类及其制品 | possible | 0.62 | pending_review | S2 | S2 普通配料 exact normalized match: ingredient "鱼粉" alias "鱼粉" = allergen alias "鱼粉". 自动关联仅作候选，需人工复核。 |
 

@@ -1,8 +1,8 @@
 # pending_review 数据治理计划
 
-生成时间：2026-06-18T11:25:44.868Z
+生成时间：2026-06-18T12:15:41.667Z
 
-当前 pending_review ingredient_master 数量：2727
+当前 pending_review ingredient_master 数量：2741
 
 ## 分组统计
 
@@ -10,7 +10,7 @@
 |---|---|---:|---:|---:|---:|
 | S0 | food_additive | 2012 | 2 | 2012 | 6156 |
 | S0 | food_medicine_substance | 13 | 2 | 13 | 31 |
-| S0 | food_microorganism | 107 | 2 | 107 | 205 |
+| S0 | food_microorganism | 121 | 3 | 121 | 247 |
 | S0 | novel_food_ingredient | 95 | 1 | 95 | 95 |
 | S0 | nutrition_fortifier | 21 | 1 | 21 | 21 |
 | S2 | ordinary_ingredient | 479 | 1 | 479 | 538 |
