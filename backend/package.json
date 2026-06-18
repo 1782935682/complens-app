@@ -16,6 +16,7 @@
     "ingredient:import-staging": "node --import tsx scripts/ingredient-official-data-pipeline.ts import-staging",
     "ingredient:promote": "node --import tsx scripts/ingredient-official-data-pipeline.ts promote",
     "ingredient:report": "node --import tsx scripts/ingredient-official-data-pipeline.ts report",
+    "ingredient:promote-reviewed": "node --import tsx scripts/promote-reviewed-ingredient-data.ts",
     "ingredient:update-all": "node --import tsx scripts/ingredient-official-data-pipeline.ts inventory && node --import tsx scripts/ingredient-official-data-pipeline.ts fetch && node --import tsx scripts/ingredient-official-data-pipeline.ts extract && node --import tsx scripts/import-ingredient-knowledge.ts && node --import tsx scripts/import-ordinary-ingredient-seed.ts && node --import tsx scripts/validate-ingredient-knowledge.ts && node --import tsx scripts/generate-ingredient-coverage.ts",
     "ingredient:sources": "node --import tsx scripts/fetch-ingredient-sources.ts",
     "ingredient:import": "node --import tsx scripts/import-ingredient-knowledge.ts",

@@ -170,7 +170,11 @@ GB 2760 官方 PDF
 | `nutrition_claim_rules` | 15 |
 | `official_sources` | 15 |
 | `ingredient_import_staging` | 462 |
-| 需阻断自动匹配的别名冲突 | 61 |
+| `verified_regulation` | 2311 |
+| `pending_review ingredient` | 715 |
+| `pending_review staging` | 346 |
+| 正式提升数量（current source relations） | 4535 |
+| 需阻断自动匹配的别名冲突 | 0 |
 | 当前正式匹配冲突 | 0 |
 | 解析失败 | 0 |
 | `import_errors` | 0 |
@@ -196,7 +200,8 @@ source-materials staging 口径：
 
 状态边界：
 
-- GB 2760 已有人工签核并 promote 的正式规则保持 `current`；新增 GB 14880、三新食品、食药物质、菌种、GB 7718/GB 28050 标签营养规则、解读材料和公告抽取结果全部保持 `pending_review`，不得展示为已验证监管结论。
+- GB 2760 已有人工签核并 promote 的正式规则保持 `current`；pending-review 报告通过后，本轮仅将已通过本地文件内容和 SHA-256 校验、证据字段完整的 S0 官方来源成分提升为正式层：`ingredient_master` 提升 2026 条（`food_additive` 2005、`nutrition_fortifier` 21），`ingredient_source_relations` 提升 2126 条，`ingredient_regulatory_rules` 提升 133 条，`nutrition_fortifier_rules` 提升 116 条，`nutrition_fortifier_rule` staging 标记 `approved` 116 条。
+- 三新食品、食药物质、菌种目录中官方页面 URL 仍待补齐的来源、GB 7718/GB 28050 标签营养规则、解读材料、公告抽取结果、营养声称阈值、数字标签规则和过敏原规则继续保持 `pending_review`，不得展示为已验证监管结论。
 - GB 28050-2025 的 NRV 和可结构化比较声称已进入 `nutrition_reference_values` / `nutrition_claim_rules`，但状态仍为 `pending_review`。
 - `可用于婴幼儿食品的菌种名单.pdf` 本地文件无文本层；本轮已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据，并抽取 14 条婴幼儿食品菌种候选进入 staging/pending_review。该批记录仍需人工核对扫描件，不得展示为 S0 verified 结论。
 - 本轮未导入 S1/S3/S4 来源；额外导入的 S2 普通配料种子为人工整理 OCR 高频基础词库，全部保持 `pending_review`，不得展示为 S0 或 verified。
@@ -216,6 +221,7 @@ npm run ingredient:extract
 npm --prefix backend run db:migrate
 npm run ingredient:import
 npm run ingredient:ordinary-seed
+npm run ingredient:promote-reviewed
 npm run ingredient:validate
 npm run ingredient:report
 npm run ingredient:coverage
