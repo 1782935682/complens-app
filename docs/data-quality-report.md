@@ -1,6 +1,6 @@
 # 数据质量报告
 
-生成时间：2026-06-18T15:17:32.205Z
+生成时间：2026-06-18T15:43:32.157Z
 
 ## 来源可信度
 
@@ -18,8 +18,8 @@
 |---|---:|
 | official_sources | 15 |
 | ingredient_import_staging | 462 |
-| pending_review staging | 346 |
-| pending_review ingredient | 715 |
+| pending_review staging | 198 |
+| pending_review ingredient | 563 |
 | allergen_categories | 8 |
 | allergen_aliases | 32 |
 | allergen_labeling_rules | 10 |
@@ -50,7 +50,7 @@
 
 ## 需要人工复核
 
-- 国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告: CFSA/SPPT 检索“预包装食品数字标签”“关于实施预包装食品数字标签有关事项的公告”未命中独立公告；NHC 页面访问返回反爬挑战，SAMR 搜索入口未返回可核验详情页。本轮不能用第三方转载页面替代 S0。
+- 国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告: NHC 官方公告页面已定位，但本地 curl 保存返回 WAF/412；需人工用浏览器保存官方 HTML。本轮不能用第三方转载页面替代 S0。
 - GB 28050-2025 糖醇能量规则未在已保存官方 PDF/HTML 中自动定位到原文片段，未导入。
 - 所有标签/营养解释性规则需要人工复核条款边界、适用范围和最终展示文案。
 

@@ -279,13 +279,14 @@ const knownSources: KnownSourceMetadata[] = [
     source_status: 'verified_official_standard',
     source_type: 'official_notice',
     title: '国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告',
+    announcement_no: '2025年第5号',
     source_org: '国家卫生健康委、市场监管总局',
-    official_page_url: 'https://www.nhc.gov.cn/',
-    original_source_url: 'https://www.nhc.gov.cn/',
+    official_page_url: 'https://www.nhc.gov.cn/sps/c100088/202509/07b01e0a2fff482789cbb8c400c649a2.shtml',
+    original_source_url: 'https://www.nhc.gov.cn/sps/c100088/202509/07b01e0a2fff482789cbb8c400c649a2.shtml',
     publication_date: '2025-09-08',
     source_version: '预包装食品数字标签公告',
     confidence_score: '0.95',
-    notes: 'Official NHC/SAMR notice HTML. File must be saved from official NHC or SAMR page, not from third-party reposts.'
+    notes: 'Official NHC/SAMR notice page located; local HTML must be saved from official page, not from third-party reposts.'
   },
   {
     match: 'GB-14880-2012',
@@ -310,14 +311,16 @@ const knownSources: KnownSourceMetadata[] = [
     source_status: 'verified_official_catalog',
     source_type: 'official_catalog',
     title: '“三新食品”目录及适用的食品安全标准',
-    source_org: '国家食品安全风险评估中心',
-    official_page_url: 'https://www.cfsa.net.cn/',
-    original_source_url: 'https://www.cfsa.net.cn/',
-    publication_date: '2023-12-31',
+    announcement_no: '2023年第4号',
+    source_org: '国家卫生健康委员会',
+    official_page_url: 'https://www.nhc.gov.cn/sps/c100088/202305/a7c8df3563e442e0a5c86c43b882be7b.shtml',
+    attachment_url: 'https://www.nhc.gov.cn/sps/c100088/202305/a7c8df3563e442e0a5c86c43b882be7b/files/1734002782910_52858.pdf',
+    original_source_url: 'https://www.nhc.gov.cn/sps/c100088/202305/a7c8df3563e442e0a5c86c43b882be7b.shtml',
+    publication_date: '2023-05-10',
     source_version: '2023汇总目录',
-    verification_status: 'local_file_content_verified_official_page_pending',
-    confidence_score: '0.86',
-    notes: '本地文件内容为三新食品目录附件；精确公告页面 URL 需后续人工补齐。'
+    verification_status: 'verified_by_local_content_and_checksum',
+    confidence_score: '0.96',
+    notes: 'NHC official announcement page and attachment URL verified; local PDF content hash retained for repeatable import.'
   },
   {
     match: '党参等 9 种食药物质目录',
@@ -327,11 +330,15 @@ const knownSources: KnownSourceMetadata[] = [
     source_type: 'official_catalog',
     title: '党参等 9 种新增按照传统既是食品又是中药材的物质目录',
     source_org: '国家卫生健康委员会 / 国家市场监督管理总局',
-    official_page_url: 'https://www.nhc.gov.cn/',
-    original_source_url: 'https://www.nhc.gov.cn/',
+    announcement_no: '2023年第9号',
+    official_page_url: 'https://www.nhc.gov.cn/sps/c100088/202311/5b062dd13fe646198b56c7d76a99aab4.shtml',
+    attachment_url: 'https://www.nhc.gov.cn/sps/c100088/202311/5b062dd13fe646198b56c7d76a99aab4/files/1734002827682_24428.pdf',
+    original_source_url: 'https://www.nhc.gov.cn/sps/c100088/202311/5b062dd13fe646198b56c7d76a99aab4.shtml',
+    publication_date: '2023-11-17',
     source_version: '食药物质新增目录',
-    verification_status: 'local_file_content_verified_official_page_pending',
-    confidence_score: '0.86'
+    verification_status: 'verified_by_local_content_and_checksum',
+    confidence_score: '0.96',
+    notes: 'NHC official announcement page and attachment URL verified; local PDF content hash retained for repeatable import.'
   },
   {
     match: '地黄等 4 种食药物质目录',
@@ -341,11 +348,15 @@ const knownSources: KnownSourceMetadata[] = [
     source_type: 'official_catalog',
     title: '地黄等 4 种新增按照传统既是食品又是中药材的物质目录',
     source_org: '国家卫生健康委员会 / 国家市场监督管理总局',
-    official_page_url: 'https://www.nhc.gov.cn/',
-    original_source_url: 'https://www.nhc.gov.cn/',
+    announcement_no: '2024年第4号',
+    official_page_url: 'https://www.nhc.gov.cn/sps/c100088/202408/53150d0918ec40899b5293147ec0dd01.shtml',
+    attachment_url: 'https://www.nhc.gov.cn/sps/c100088/202408/53150d0918ec40899b5293147ec0dd01/files/1743489816870_85520.pdf',
+    original_source_url: 'https://www.nhc.gov.cn/sps/c100088/202408/53150d0918ec40899b5293147ec0dd01.shtml',
+    publication_date: '2024-08-26',
     source_version: '食药物质新增目录',
-    verification_status: 'local_file_content_verified_official_page_pending',
-    confidence_score: '0.86'
+    verification_status: 'verified_by_local_content_and_checksum',
+    confidence_score: '0.96',
+    notes: 'NHC official announcement page and attachment URL verified; local PDF content hash retained for repeatable import.'
   },
   {
     match: '可用于食品的菌种名单',
@@ -355,11 +366,15 @@ const knownSources: KnownSourceMetadata[] = [
     source_type: 'official_catalog',
     title: '可用于食品的菌种名单',
     source_org: '国家卫生健康委员会',
-    official_page_url: 'https://www.nhc.gov.cn/',
-    original_source_url: 'https://www.nhc.gov.cn/',
+    announcement_no: '2022年第4号',
+    official_page_url: 'https://www.nhc.gov.cn/sps/c100088/202208/4040243c8bb04d389bc7f9d51963a8c2.shtml',
+    attachment_url: 'https://www.nhc.gov.cn/sps/c100088/202208/4040243c8bb04d389bc7f9d51963a8c2/files/1734002774074_98813.pdf',
+    original_source_url: 'https://www.nhc.gov.cn/sps/c100088/202208/4040243c8bb04d389bc7f9d51963a8c2.shtml',
+    publication_date: '2022-08-25',
     source_version: '食品菌种名单',
-    verification_status: 'local_file_content_verified_official_page_pending',
-    confidence_score: '0.86'
+    verification_status: 'verified_by_local_content_and_checksum',
+    confidence_score: '0.96',
+    notes: 'NHC official announcement page and attachment URL verified; local PDF content hash retained for repeatable import.'
   },
   {
     match: '可用于婴幼儿食品的菌种名单',
@@ -369,12 +384,15 @@ const knownSources: KnownSourceMetadata[] = [
     source_type: 'official_catalog',
     title: '可用于婴幼儿食品的菌种名单',
     source_org: '国家卫生健康委员会',
-    official_page_url: 'https://www.nhc.gov.cn/',
-    original_source_url: 'https://www.nhc.gov.cn/',
+    announcement_no: '2022年第4号',
+    official_page_url: 'https://www.nhc.gov.cn/sps/c100088/202208/4040243c8bb04d389bc7f9d51963a8c2.shtml',
+    attachment_url: 'https://www.nhc.gov.cn/sps/c100088/202208/4040243c8bb04d389bc7f9d51963a8c2/files/1734002773899_81607.pdf',
+    original_source_url: 'https://www.nhc.gov.cn/sps/c100088/202208/4040243c8bb04d389bc7f9d51963a8c2.shtml',
+    publication_date: '2022-08-25',
     source_version: '婴幼儿食品菌种名单',
-    verification_status: 'local_file_content_verified_official_page_pending',
+    verification_status: 'verified_by_local_content_and_checksum',
     confidence_score: '0.80',
-    notes: '本地 PDF 无文本层；本轮保存 RapidOCR 原始结果作为 OCR 辅助抽取证据，解析结果仅进入 pending_review。'
+    notes: 'NHC official announcement page and attachment URL verified; local PDF has no text layer, RapidOCR evidence remains OCR-assisted and pending_review only.'
   }
 ];
 
@@ -382,12 +400,12 @@ const manualDownloadTargets: ManualDownloadItem[] = [
   {
     title: '国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告',
     standard_no: '',
-    announcement_no: '',
+    announcement_no: '2025年第5号',
     source_org: '国家卫生健康委、市场监管总局',
-    official_page_url: 'https://www.nhc.gov.cn/',
+    official_page_url: 'https://www.nhc.gov.cn/sps/c100088/202509/07b01e0a2fff482789cbb8c400c649a2.shtml',
     attachment_url: '',
     suggested_file_name: 'nhc-samr-digital-label-2025-notice.html',
-    reason: 'CFSA/SPPT 检索“预包装食品数字标签”“关于实施预包装食品数字标签有关事项的公告”未命中独立公告；NHC 页面访问返回反爬挑战，SAMR 搜索入口未返回可核验详情页。本轮不能用第三方转载页面替代 S0。',
+    reason: 'NHC 官方公告页面已定位，但本地 curl 保存返回 WAF/412；需人工用浏览器保存官方 HTML。本轮不能用第三方转载页面替代 S0。',
     category: '数字标签规则',
     priority: 'P1'
   }
@@ -2753,20 +2771,20 @@ ${renderCountTable(stagingByType, 'record_type')}
 ## 当前使用的标准版本
 
 - GB 2760-2024：已使用本地 PDF SHA-256 与现有 GB2760 staging/reference 数据。
-- GB 14880-2012：已从本地 PDF 文本层抽取部分营养强化剂使用范围，全部保持 pending_review。
+- GB 14880-2012：已从本地 PDF 文本层抽取部分营养强化剂使用范围，已通过受控 promote 进入 current；后续增量仍需 pending_review 后人工复核。
 - GB 7718-2025：已从 CFSA/SPPT 官方 PDF 抽取配料表、食品添加剂、复合配料、致敏物质、食品声称、日期/保质期/贮存、进口食品、数字标签和豁免标示规则片段，全部保持 pending_review。
 - GB 7718-2011：已从 CFSA/SPPT 官方 PDF 抽取旧版配料表、食品添加剂、致敏物质、日期/贮存和豁免规则片段，全部保持 pending_review。
 - GB 28050-2025：已从 CFSA/SPPT 官方 PDF 抽取强制营养成分、能量换算、NRV、营养声称、比较声称和豁免强制标示规则片段；NRV 与可结构化比较声称进入专用营养表，全部保持 pending_review。
 - GB 7718-2025 / GB 28050-2025 解读材料：已保存 CFSA/SPPT 官方 HTML 并抽取解释性片段，全部保持 pending_review。
 - 2025年第2号公告：已保存 CFSA/SPPT 官方 HTML 并登记发布公告来源。
-- 三新食品 2023 汇总目录：已抽取目录项进入 staging/pending_review。
-- 食药物质新增目录：已抽取本地文件中 13 个目录项进入 staging/pending_review。
-- 可用于食品的菌种名单：已抽取文本层可识别菌种进入 staging/pending_review；可用于婴幼儿食品的菌种名单：本地 PDF 无文本层，已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据并抽取 14 条进入 staging/pending_review，仍需人工复核，不提升为 verified。
+- 三新食品 2023 汇总目录：已补齐 NHC 官方公告页和附件 URL，非 OCR 目录项已通过受控 promote 进入 current；后续增量公告仍需先进入 pending_review。
+- 食药物质新增目录：已补齐 NHC 官方公告页和附件 URL，13 个目录项已通过受控 promote 进入 current。
+- 可用于食品的菌种名单：已补齐 NHC 官方公告页和附件 URL，文本层可识别的通用食品菌种已通过受控 promote 进入 current；可用于婴幼儿食品的菌种名单本地 PDF 无文本层，已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据并抽取 14 条进入 pending_review，仍需人工复核，不提升为 verified。
 
 ## 缺失或需人工补齐
 
 - GB 28050-2011 官方 PDF 已从 CFSA/SPPT 官方附件下载并进入 official_sources。
-- 独立的“国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告”官方页面未自动定位；本轮仅使用 GB 7718-2025 正文和解读材料中的数字标签要求，公告专属规则继续 manual_required。
+- 独立的“国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告”官方页面已定位，但本地 curl 保存返回 WAF/412；本轮仅使用 GB 7718-2025 正文和解读材料中的数字标签要求，公告专属规则继续 manual_required。
 - GB 28050-2025 中“糖醇能量规则”未通过已保存官方 PDF/HTML 自动关键词定位到可引用原文片段，未导入该专项规则。
 
 ## 当前尚未覆盖的数据类别

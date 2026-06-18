@@ -170,10 +170,10 @@ GB 2760 官方 PDF
 | `nutrition_claim_rules` | 15 |
 | `official_sources` | 15 |
 | `ingredient_import_staging` | 462 |
-| `verified_regulation` | 2311 |
-| `pending_review ingredient` | 715 |
-| `pending_review staging` | 346 |
-| 正式提升数量（current source relations） | 4535 |
+| `verified_regulation` | 2452 |
+| `pending_review ingredient` | 563 |
+| `pending_review staging` | 198 |
+| 正式提升数量（current source relations） | 4567 |
 | 需阻断自动匹配的别名冲突 | 0 |
 | 当前正式匹配冲突 | 0 |
 | 解析失败 | 0 |
@@ -200,15 +200,15 @@ source-materials staging 口径：
 
 状态边界：
 
-- GB 2760 已有人工签核并 promote 的正式规则保持 `current`；pending-review 报告通过后，本轮仅将已通过本地文件内容和 SHA-256 校验、证据字段完整的 S0 官方来源成分提升为正式层：`ingredient_master` 提升 2026 条（`food_additive` 2005、`nutrition_fortifier` 21），`ingredient_source_relations` 提升 2126 条，`ingredient_regulatory_rules` 提升 133 条，`nutrition_fortifier_rules` 提升 116 条，`nutrition_fortifier_rule` staging 标记 `approved` 116 条。
-- 三新食品、食药物质、菌种目录中官方页面 URL 仍待补齐的来源、GB 7718/GB 28050 标签营养规则、解读材料、公告抽取结果、营养声称阈值、数字标签规则和过敏原规则继续保持 `pending_review`，不得展示为已验证监管结论。
+- GB 2760 已有人工签核并 promote 的正式规则保持 `current`；pending-review 报告通过后，本轮仅将已通过本地文件内容和 SHA-256 校验、证据字段完整的 S0 官方来源成分提升为正式层：`ingredient_master` 提升 2146 条（`food_additive` 2012、`novel_food_ingredient` 95、`food_medicine_substance` 13、`food_microorganism` 26），`ingredient_source_relations` 提升 2158 条，`ingredient_regulatory_rules` 提升 133 条，`novel_food_ingredient_rules` 提升 95 条，`food_medicine_rules` 提升 13 条，`microorganism_strains` 提升 26 条，`ingredient_import_staging` 标记 `approved` 264 条。
+- 三新食品、食药物质和通用食品菌种目录已补齐 NHC 官方公告页/附件 URL 并完成非 OCR 目录项受控提升；GB 7718/GB 28050 标签营养规则、解读材料、公告抽取结果、营养声称阈值、数字标签规则和过敏原规则继续保持 `pending_review`，不得展示为已验证监管结论。
 - GB 28050-2025 的 NRV 和可结构化比较声称已进入 `nutrition_reference_values` / `nutrition_claim_rules`，但状态仍为 `pending_review`。
 - `可用于婴幼儿食品的菌种名单.pdf` 本地文件无文本层；本轮已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据，并抽取 14 条婴幼儿食品菌种候选进入 staging/pending_review。该批记录仍需人工核对扫描件，不得展示为 S0 verified 结论。
-- 本轮未导入 S1/S3/S4 来源；额外导入的 S2 普通配料种子为人工整理 OCR 高频基础词库，全部保持 `pending_review`，不得展示为 S0 或 verified。
+- 本轮未导入 S1/S3/S4 来源；额外导入的 S2 普通配料种子为人工整理 OCR 高频基础词库，其中 468 条普通配料成分仍保持 `pending_review`，不得展示为 S0 或 verified。
 - 480 条普通食品配料包含 S2 种子和旧内部词库归并结果，不是官方普通食品原料全量目录。
 - GB 28050-2011 官方 PDF 已从 CFSA/SPPT 官方附件下载并进入 manifest/official_sources；此前超时生成的不完整片段已保留在 `docs/source-materials/_invalid/1401947724374.pdf.partial`，未进入有效扫描。
 - `source-materials` 管线将单个来源失败分层记录到 `data/official_sources/failed/extract-failures.json`：`failed_extract` 表示文本抽取、`pdftotext` 依赖或 PDF 文本层问题，`failed_parse` 表示文本已抽取但结构化解析失败；失败来源不会进入 verified 层，其他来源继续处理。
-- 独立的“国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告”官方页面未自动定位；本轮仅使用 GB 7718-2025 正文和 CFSA/SPPT 解读中的数字标签规则。
+- 独立的“国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告”官方页面已定位，但本地 curl 保存返回 WAF/412；本轮仅使用 GB 7718-2025 正文和 CFSA/SPPT 解读中的数字标签规则，公告专属规则继续 manual_required。
 - `docs/decision-required.md` 集中记录仍需用户/人工处理的数据来源决策：数字标签独立公告官方原文缺失、GB 28050-2025 糖醇能量规则原文未定位。未确认前不导入为 S0，不标 verified，也不用于用户结果页官方结论。
 - 缺失和人工补齐步骤见 [`docs/source-materials-missing-official.md`](./docs/source-materials-missing-official.md)。
 

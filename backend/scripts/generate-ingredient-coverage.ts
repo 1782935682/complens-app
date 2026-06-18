@@ -155,10 +155,10 @@ ${renderCountTable(sourceCounts, 'source_id')}
 ## 当前覆盖与限制
 
 - 普通食品原料：当前 ordinary_ingredient 为 ${byType.ordinary_ingredient ?? 0}。其中 S2 高频 OCR 种子为人工整理的 pending_review 候选，不是中国官方普通原料全量目录，也不能展示为 S0 或 verified。
-- 营养强化剂：当前 nutrition_fortifier 为 ${byType.nutrition_fortifier ?? 0}，GB 14880 source-materials 结构化规则保持 pending_review，需人工复核后才能提升。
-- 新食品原料：当前 novel_food_ingredient 为 ${byType.novel_food_ingredient ?? 0}，来自已保存官方目录抽取，保持 pending_review。
-- 食药物质：当前 food_medicine_substance 为 ${byType.food_medicine_substance ?? 0}，来自本地官方目录抽取，保持 pending_review。
-- 可用于食品的菌种：当前 food_microorganism 为 ${byType.food_microorganism ?? 0}。其中 GB 2760 表 C.3 的酶制剂来源/供体微生物和 NHC 菌种名单抽取仍需人工复核；婴幼儿菌种 PDF 无文本层，已用 RapidOCR 辅助抽取 14 条 pending_review 候选，原始 OCR JSON 已保存，不能展示为 verified。
+- 营养强化剂：当前 nutrition_fortifier 为 ${byType.nutrition_fortifier ?? 0}，GB 14880 source-materials 结构化规则已通过受控 promote 进入 current；后续增量仍需先 pending_review。
+- 新食品原料：当前 novel_food_ingredient 为 ${byType.novel_food_ingredient ?? 0}，来自已保存官方目录抽取，已通过受控 promote 进入 current。
+- 食药物质：当前 food_medicine_substance 为 ${byType.food_medicine_substance ?? 0}，来自本地官方目录抽取，已通过受控 promote 进入 current。
+- 可用于食品的菌种：当前 food_microorganism 为 ${byType.food_microorganism ?? 0}。NHC 通用食品菌种名单中非 OCR 文本层记录已通过受控 promote 进入 current；GB 2760 表 C.3 的酶制剂来源/供体微生物仍需专用复核；婴幼儿菌种 PDF 无文本层，已用 RapidOCR 辅助抽取 14 条 pending_review 候选，原始 OCR JSON 已保存，不能展示为 verified。
 - 过敏原、营养 NRV、营养声称和数字标签规则已进入专用表或 staging，但均保持 pending_review，不作为 verified 结论展示。
 - 官方公告新增、修改、废止记录：已预留 ingredient_relations 和 valid_from/valid_to/status，本轮没有自动推断废止链。
 - 完整 source-materials 覆盖、S2 种子和专用规则表数量以 [official-food-data-coverage.md](./official-food-data-coverage.md) 与 [data-quality-report.md](./data-quality-report.md) 为准。
