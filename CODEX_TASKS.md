@@ -130,6 +130,7 @@
   17. 食品成分官方材料管线加固：`buildPipelineSnapshot` 将抽取失败和解析失败分开记录为 `failed_extract` / `failed_parse`，`pdftotext` 缺失或损坏 PDF 失败时输出可执行原因；新增 PDF 抽取失败回归测试，确认单个来源失败不会中断其他官方材料 staging 抽取。
   18. 食品成分官方源缺口决策清单：`ingredient:report` 现在生成 `docs/decision-required.md`，集中列出数字标签独立公告官方原文缺失和 GB 28050-2025 糖醇能量规则原文未定位两个需要人工处理/用户确认的事项；新增回归测试，确保这些缺口不会从报告中消失或被误标为 verified。
   19. 食品成分 pending-review 受控正式化：用户完成本地 review 页 7/7 报告通过后，新增并执行 `ingredient:promote-reviewed`，只提升 S0、政府公开文档、`verified_by_local_content_and_checksum`、证据字段完整且非 OCR 辅助的数据；本地 DB 提升 `ingredient_master=2026`（`food_additive=2005`、`nutrition_fortifier=21`）、`ingredient_source_relations=2126`、`ingredient_regulatory_rules=133`、`nutrition_fortifier_rules=116`，剩余 `pending_review ingredient=715`、`pending_review staging=346`。
+  20. 食品成分官方目录来源补齐与专用表正式化：补齐三新食品、党参等 9 种食药物质、地黄等 4 种食药物质、可用于食品/婴幼儿食品菌种名单的 NHC 官方公告页和附件 URL；`ingredient:promote-reviewed` 扩展到官方目录专用表，仅提升 S0、政府公开文档、本地文件+SHA 校验、非 OCR、证据完整数据；本地 DB 本轮提升 `ingredient_master=2146`（`food_additive=2012`、`novel_food_ingredient=95`、`food_medicine_substance=13`、`food_microorganism=26`）、`ingredient_source_relations=2158`、`ingredient_regulatory_rules=133`、`novel_food_ingredient_rules=95`、`food_medicine_rules=13`、`microorganism_strains=26`，剩余 `pending_review ingredient=563`、`pending_review staging=198`。
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
