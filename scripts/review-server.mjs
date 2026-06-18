@@ -1,5 +1,5 @@
 import { createReadStream } from 'node:fs';
-import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { extname, isAbsolute, join, normalize, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -88,6 +88,10 @@ async function handleReviewResults(request, response) {
   await writeFile(markdownPath, renderReviewMarkdown(parsed.value), 'utf8');
   if (reviewComplete) {
     await writeFile(completionPath, renderReviewCompletionMarkdown(parsed.value), 'utf8');
+  } else {
+    await unlink(completionPath).catch((error) => {
+      if (error?.code !== 'ENOENT') throw error;
+    });
   }
 
   sendJson(response, 200, {
@@ -142,8 +146,15 @@ async function serveStatic(pathname, method, response) {
 function resolveStaticPath(pathname) {
   const requested = pathname === '/' ? '/docs/review-index.html' : pathname;
   const decoded = decodeURIComponent(requested);
-  const filePath = normalize(join(projectRoot, decoded));
-  const relativePath = relative(projectRoot, filePath);
+  if (!decoded.startsWith('/docs/')) {
+    return null;
+  }
+  const docsRelativePath = decoded.slice('/docs/'.length);
+  if (!docsRelativePath || docsRelativePath.includes('\0')) {
+    return null;
+  }
+  const filePath = normalize(join(docsRoot, docsRelativePath));
+  const relativePath = relative(docsRoot, filePath);
   if (relativePath.startsWith('..') || isAbsolute(relativePath)) {
     return null;
   }

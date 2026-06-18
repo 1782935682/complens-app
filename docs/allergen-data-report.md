@@ -1,6 +1,6 @@
 # 过敏原数据报告
 
-生成时间：2026-06-18T12:16:42.205Z
+生成时间：2026-06-18T12:51:20.208Z
 
 ## 汇总
 
@@ -80,37 +80,37 @@
 
 | ingredient_id | ingredient_name | allergen_category | relation_type | confidence | review_status | evidence_summary |
 |---|---|---|---|---|---|---|
-| ordinary-s2-ddcc43bdf06fb91c9fa6 | 乳清粉 | 乳及乳制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "乳清粉" -> ingredient "乳清粉". Requires manual review before verified use. |
-| ordinary-s2-d380598fc8216566c74e | 乳粉 | 乳及乳制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "乳粉" -> ingredient "乳粉". Requires manual review before verified use. |
-| ordinary-s2-374ab8da2ea03513d44b | 乳糖 | 乳及乳制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "乳糖" -> ingredient "乳糖". Requires manual review before verified use. |
-| ordinary-s2-6ee879df665181e8d5c0 | 牛奶 | 乳及乳制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "牛奶" -> ingredient "牛奶". Requires manual review before verified use. |
-| ordinary-s2-342efc40fd8207562808 | 酪蛋白 | 乳及乳制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "酪蛋白" -> ingredient "酪蛋白". Requires manual review before verified use. |
-| ordinary-s2-347a632a688b6a1edcbc | 大麦 | 含麸质谷物及其制品 | possible | 0.72 | pending_review | 自动 exact normalized match: allergen alias "大麦" -> ingredient "大麦". Requires manual review before verified use. |
-| ordinary-s2-3c76f9697b5f2f42147e | 小麦 | 含麸质谷物及其制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "小麦" -> ingredient "小麦". Requires manual review before verified use. |
-| ordinary-s2-23ec0b7624106534f8c9 | 斯佩耳特小麦 | 含麸质谷物及其制品 | possible | 0.72 | pending_review | 自动 exact normalized match: allergen alias "斯佩耳特小麦" -> ingredient "斯佩耳特小麦". Requires manual review before verified use. |
-| ordinary-s2-0903b62617efb67f047a | 燕麦 | 含麸质谷物及其制品 | possible | 0.72 | pending_review | 自动 exact normalized match: allergen alias "燕麦" -> ingredient "燕麦". Requires manual review before verified use. |
-| ordinary-s2-459f8dd620743ddcff3a | 黑麦 | 含麸质谷物及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "黑麦" -> ingredient "黑麦". Requires manual review before verified use. |
-| ordinary-s2-84275cee1af873e5ebc9 | 坚果 | 坚果及其果仁类制品 | possible | 0.72 | pending_review | 自动 exact normalized match: allergen alias "坚果" -> ingredient "坚果". Requires manual review before verified use. |
-| ordinary-s2-c9111124d7808afc57a2 | 开心果 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "开心果" -> ingredient "开心果". Requires manual review before verified use. |
-| ordinary-s2-852ea99285e3a56232d1 | 杏仁 | 坚果及其果仁类制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "杏仁" -> ingredient "杏仁". Requires manual review before verified use. |
-| ordinary-s2-e69f63093bf02e481933 | 核桃 | 坚果及其果仁类制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "核桃" -> ingredient "核桃". Requires manual review before verified use. |
-| ordinary-s2-6b7a767228721efebd0a | 榛子 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "榛子" -> ingredient "榛子". Requires manual review before verified use. |
-| ordinary-s2-e18716f0015f2332ad8f | 腰果 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "腰果" -> ingredient "腰果". Requires manual review before verified use. |
-| ordinary-s2-b6cfb6ef1da42c650c11 | 大豆 | 大豆及其制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "大豆" -> ingredient "大豆". Requires manual review before verified use. |
-| ordinary-s2-abd86dac380bbcc99f80 | 大豆蛋白 | 大豆及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "大豆蛋白" -> ingredient "大豆蛋白". Requires manual review before verified use. |
-| ordinary-s2-f9adfc72e5b55391079b | 黄豆 | 大豆及其制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "黄豆" -> ingredient "黄豆". Requires manual review before verified use. |
-| ordinary-s2-ef4a6dc13a1de9fb9977 | 虾 | 甲壳纲类动物及其制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "虾" -> ingredient "虾". Requires manual review before verified use. |
-| ordinary-s2-0c26fb4879b3736e8d7c | 蟹 | 甲壳纲类动物及其制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "蟹" -> ingredient "蟹". Requires manual review before verified use. |
-| ordinary-s2-3b0b8cef7012c10d3553 | 龙虾 | 甲壳纲类动物及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "龙虾" -> ingredient "龙虾". Requires manual review before verified use. |
-| ordinary-s2-7b34562e307dd02d710b | 花生 | 花生及其制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "花生" -> ingredient "花生". Requires manual review before verified use. |
-| ordinary-s2-2a1fe928f0f9f6982047 | 花生粉 | 花生及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "花生粉" -> ingredient "花生粉". Requires manual review before verified use. |
-| ordinary-s2-14dd27255960a56541d8 | 花生酱 | 花生及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "花生酱" -> ingredient "花生酱". Requires manual review before verified use. |
-| ordinary-s2-dbcc69865c1c952f4c2b | 蛋粉 | 蛋类及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "蛋粉" -> ingredient "蛋粉". Requires manual review before verified use. |
-| ordinary-s2-4d3523d11ac5092c5621 | 蛋黄 | 蛋类及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "蛋黄" -> ingredient "蛋黄". Requires manual review before verified use. |
-| ordinary-s2-83153a0451ef7b3a3dc7 | 鸡蛋 | 蛋类及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "鸡蛋" -> ingredient "鸡蛋". Requires manual review before verified use. |
-| ordinary-s2-0a7e15afee28ebc443b9 | 鱼 | 鱼类及其制品 | possible | 0.78 | pending_review | 自动 exact normalized match: allergen alias "鱼" -> ingredient "鱼". Requires manual review before verified use. |
-| ordinary-s2-3d4a616658d4fce211d0 | 鱼明胶 | 鱼类及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "鱼明胶" -> ingredient "鱼明胶". Requires manual review before verified use. |
-| ordinary-s2-13884fa65a735d188c2f | 鱼粉 | 鱼类及其制品 | possible | 0.62 | pending_review | 自动 exact normalized match: allergen alias "鱼粉" -> ingredient "鱼粉". Requires manual review before verified use. |
+| ordinary-s2-ddcc43bdf06fb91c9fa6 | 乳清粉 | 乳及乳制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "乳清粉" alias "乳清粉" = allergen alias "乳清粉". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-d380598fc8216566c74e | 乳粉 | 乳及乳制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "乳粉" alias "乳粉" = allergen alias "乳粉". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-374ab8da2ea03513d44b | 乳糖 | 乳及乳制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "乳糖" alias "乳糖" = allergen alias "乳糖". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-6ee879df665181e8d5c0 | 牛奶 | 乳及乳制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "牛奶" alias "牛奶" = allergen alias "牛奶". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-342efc40fd8207562808 | 酪蛋白 | 乳及乳制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "酪蛋白" alias "酪蛋白" = allergen alias "酪蛋白". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-347a632a688b6a1edcbc | 大麦 | 含麸质谷物及其制品 | possible | 0.76 | pending_review | S2 普通配料 exact normalized match: ingredient "大麦" alias "大麦" = allergen alias "大麦". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-3c76f9697b5f2f42147e | 小麦 | 含麸质谷物及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "小麦" alias "小麦" = allergen alias "小麦". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-23ec0b7624106534f8c9 | 斯佩耳特小麦 | 含麸质谷物及其制品 | possible | 0.76 | pending_review | S2 普通配料 exact normalized match: ingredient "斯佩耳特小麦" alias "斯佩耳特小麦" = allergen alias "斯佩耳特小麦". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-0903b62617efb67f047a | 燕麦 | 含麸质谷物及其制品 | possible | 0.76 | pending_review | S2 普通配料 exact normalized match: ingredient "燕麦" alias "燕麦" = allergen alias "燕麦". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-459f8dd620743ddcff3a | 黑麦 | 含麸质谷物及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "黑麦" alias "黑麦" = allergen alias "黑麦". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-84275cee1af873e5ebc9 | 坚果 | 坚果及其果仁类制品 | possible | 0.76 | pending_review | S2 普通配料 exact normalized match: ingredient "坚果" alias "坚果" = allergen alias "坚果". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-c9111124d7808afc57a2 | 开心果 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "开心果" alias "开心果" = allergen alias "开心果". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-852ea99285e3a56232d1 | 杏仁 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "杏仁" alias "杏仁" = allergen alias "杏仁". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-e69f63093bf02e481933 | 核桃 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "核桃" alias "核桃" = allergen alias "核桃". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-6b7a767228721efebd0a | 榛子 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "榛子" alias "榛子" = allergen alias "榛子". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-e18716f0015f2332ad8f | 腰果 | 坚果及其果仁类制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "腰果" alias "腰果" = allergen alias "腰果". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-b6cfb6ef1da42c650c11 | 大豆 | 大豆及其制品 | possible | 0.76 | pending_review | S2 普通配料 exact normalized match: ingredient "大豆" alias "大豆" = allergen alias "大豆". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-abd86dac380bbcc99f80 | 大豆蛋白 | 大豆及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "大豆蛋白" alias "大豆蛋白" = allergen alias "大豆蛋白". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-f9adfc72e5b55391079b | 黄豆 | 大豆及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "黄豆" alias "黄豆" = allergen alias "黄豆". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-ef4a6dc13a1de9fb9977 | 虾 | 甲壳纲类动物及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "虾" alias "虾" = allergen alias "虾". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-0c26fb4879b3736e8d7c | 蟹 | 甲壳纲类动物及其制品 | possible | 0.70 | pending_review | S2 普通配料 exact normalized match: ingredient "蟹" alias "蟹" = allergen alias "蟹". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-3b0b8cef7012c10d3553 | 龙虾 | 甲壳纲类动物及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "龙虾" alias "龙虾" = allergen alias "龙虾". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-7b34562e307dd02d710b | 花生 | 花生及其制品 | possible | 0.76 | pending_review | S2 普通配料 exact normalized match: ingredient "花生" alias "花生" = allergen alias "花生". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-2a1fe928f0f9f6982047 | 花生粉 | 花生及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "花生粉" alias "花生粉" = allergen alias "花生粉". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-14dd27255960a56541d8 | 花生酱 | 花生及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "花生酱" alias "花生酱" = allergen alias "花生酱". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-dbcc69865c1c952f4c2b | 蛋粉 | 蛋类及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "蛋粉" alias "蛋粉" = allergen alias "蛋粉". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-4d3523d11ac5092c5621 | 蛋黄 | 蛋类及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "蛋黄" alias "蛋黄" = allergen alias "蛋黄". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-83153a0451ef7b3a3dc7 | 鸡蛋 | 蛋类及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "鸡蛋" alias "鸡蛋" = allergen alias "鸡蛋". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-0a7e15afee28ebc443b9 | 鱼 | 鱼类及其制品 | possible | 0.70 | pending_review | S2 普通配料 exact normalized match: ingredient "鱼" alias "鱼" = allergen alias "鱼". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-3d4a616658d4fce211d0 | 鱼明胶 | 鱼类及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "鱼明胶" alias "鱼明胶" = allergen alias "鱼明胶". 自动关联仅作候选，需人工复核。 |
+| ordinary-s2-13884fa65a735d188c2f | 鱼粉 | 鱼类及其制品 | possible | 0.62 | pending_review | S2 普通配料 exact normalized match: ingredient "鱼粉" alias "鱼粉" = allergen alias "鱼粉". 自动关联仅作候选，需人工复核。 |
 
 ## 复核边界
 

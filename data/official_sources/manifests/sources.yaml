@@ -13,7 +13,7 @@
   sha256: 1518746449379575738703de14e0dae148372427d1322c3e70a20047a600e366
   publication_date: "2011-04-20"
   effective_date: "2012-04-20"
-  retrieved_at: "2026-06-18T11:54:09.618Z"
+  retrieved_at: "2026-06-18T12:48:48.856Z"
   source_version: "GB 7718-2011"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -37,7 +37,7 @@
   sha256: 54c5d42a02fc86e5bcc365d7a5b19bd0663f89388331f7e4d9e5e2b9ac92e59f
   publication_date: "2025-03-16"
   effective_date: "2027-03-16"
-  retrieved_at: "2026-06-18T11:54:09.618Z"
+  retrieved_at: "2026-06-18T12:48:48.856Z"
   source_version: "GB 7718-2025"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -61,7 +61,7 @@
   sha256: 75d4d27612995f493486c57939ae3c61a472cf64de1a97774ee8cfcc65eed8bc
   publication_date: "2025-03-16"
   effective_date: "2027-03-16"
-  retrieved_at: "2026-06-18T11:54:09.618Z"
+  retrieved_at: "2026-06-18T12:48:48.857Z"
   source_version: "GB 28050-2025"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -85,7 +85,7 @@
   sha256: 80ffe9ebb26e2427a378ebeedd4c42f065aae08a4c73bfcbaa6d7964e54720ae
   publication_date: "2023-12-31"
   effective_date: ""
-  retrieved_at: "2026-06-18T11:54:09.619Z"
+  retrieved_at: "2026-06-18T12:48:48.857Z"
   source_version: "2023汇总目录"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -109,7 +109,7 @@
   sha256: 540ebedd7e6509d3e86b640703191446b26a7ae2031d861386a7979c64682487
   publication_date: "2025-03-16"
   effective_date: "2027-03-16"
-  retrieved_at: "2026-06-18T11:54:09.619Z"
+  retrieved_at: "2026-06-18T12:48:48.857Z"
   source_version: "2025年第2号公告"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -133,7 +133,7 @@
   sha256: 11ab629d0ba3b01fe5371b564f553c2d9e0f9cba42da0343d92f7c9f9cc34046
   publication_date: "2025-03-16"
   effective_date: "2027-03-16"
-  retrieved_at: "2026-06-18T11:54:09.619Z"
+  retrieved_at: "2026-06-18T12:48:48.857Z"
   source_version: "GB 28050-2025 解读材料"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -157,7 +157,7 @@
   sha256: ac7bf24b40e744ab69889c8856f9225dea9db342e48f6835748ffebf95ea144f
   publication_date: "2025-03-16"
   effective_date: "2027-03-16"
-  retrieved_at: "2026-06-18T11:54:09.619Z"
+  retrieved_at: "2026-06-18T12:48:48.857Z"
   source_version: "GB 7718-2025 解读材料"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -181,7 +181,7 @@
   sha256: 2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de
   publication_date: "2024-02-08"
   effective_date: "2025-02-08"
-  retrieved_at: "2026-06-18T11:54:09.624Z"
+  retrieved_at: "2026-06-18T12:48:48.862Z"
   source_version: "GB 2760-2024"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -205,7 +205,7 @@
   sha256: 0a5ff30a493c82d9eea17fc8a8f98472ecaf8118a42f45895a645e3879a4b455
   publication_date: "2011-10-12"
   effective_date: "2013-01-01"
-  retrieved_at: "2026-06-18T11:54:09.619Z"
+  retrieved_at: "2026-06-18T12:48:48.858Z"
   source_version: "GB 28050-2011"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -229,7 +229,7 @@
   sha256: 0bc1e0d6e35e4b677579c5600330e85b5a826a38bb14bc4ff0bd06f472e1bc3c
   publication_date: "2012-03-15"
   effective_date: "2013-01-01"
-  retrieved_at: "2026-06-18T11:54:09.621Z"
+  retrieved_at: "2026-06-18T12:48:48.859Z"
   source_version: "GB 14880-2012"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -253,7 +253,7 @@
   sha256: 8e2bdefad424f27b960e9a1388eaa8428cc897fe608be36596b2dfb8bc7815d3
   publication_date: ""
   effective_date: ""
-  retrieved_at: "2026-06-18T11:54:09.620Z"
+  retrieved_at: "2026-06-18T12:48:48.860Z"
   source_version: "食药物质新增目录"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -277,7 +277,7 @@
   sha256: c718960261836357ed23ec485d21ba4ecce18542ea6d2aade66877952a4b065b
   publication_date: ""
   effective_date: ""
-  retrieved_at: "2026-06-18T11:54:09.622Z"
+  retrieved_at: "2026-06-18T12:48:48.860Z"
   source_version: "婴幼儿食品菌种名单"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -301,7 +301,7 @@
   sha256: d560d08f9d6fa192971bb0e04b16621d897737150266d253cfb56e146fa0f5f0
   publication_date: ""
   effective_date: ""
-  retrieved_at: "2026-06-18T11:54:09.621Z"
+  retrieved_at: "2026-06-18T12:48:48.858Z"
   source_version: "食品菌种名单"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline
@@ -325,7 +325,7 @@
   sha256: 06249a8708bc6ccca4cbd74b808d9900c04bccefd9f948dace856f5099abbd53
   publication_date: ""
   effective_date: ""
-  retrieved_at: "2026-06-18T11:54:09.621Z"
+  retrieved_at: "2026-06-18T12:48:48.859Z"
   source_version: "食药物质新增目录"
   license: "government_public_document"
   parser_name: ingredient-official-source-pipeline

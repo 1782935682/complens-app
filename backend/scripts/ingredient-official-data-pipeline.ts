@@ -1204,21 +1204,25 @@ async function upsertNutrientAndFortifierRule(pool: pg.Pool, ingredientId: strin
 }
 
 async function upsertMicroorganismStrain(pool: pg.Pool, ingredientId: string, record: StagingRecord) {
+  const strainCode = String(record.parsed_data.strainCode || record.parsed_data.strain || '');
   await pool.query(
     `insert into microorganism_strains (
       id, ingredient_id, strain_code, permitted_for_general_food, permitted_for_infant_food,
       age_restrictions, usage_restrictions, source_id, valid_from, valid_to, status
     ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,'pending_review')
-    on conflict (ingredient_id, strain_code, source_id) do update set
+    on conflict (id) do update set
+      strain_code = excluded.strain_code,
       permitted_for_general_food = excluded.permitted_for_general_food,
       permitted_for_infant_food = excluded.permitted_for_infant_food,
       age_restrictions = excluded.age_restrictions,
       usage_restrictions = excluded.usage_restrictions,
+      source_id = excluded.source_id,
+      valid_from = excluded.valid_from,
       status = excluded.status`,
     [
       `microorganism-strain-${hashText(record.id).slice(0, 18)}`,
       ingredientId,
-      String(record.parsed_data.strainCode || ''),
+      strainCode,
       Boolean(record.parsed_data.permittedForGeneralFood),
       Boolean(record.parsed_data.permittedForInfantFood),
       String(record.parsed_data.ageRestrictions || '') || null,
@@ -1587,6 +1591,7 @@ function parseInfantMicroorganismCatalog(source: SourceManifestItem, text: strin
       parsedData: {
         strain: row.strain,
         latinNames: [row.updatedLatinName],
+        strainCode: row.strain,
         previousNames: [`${row.previousName}${row.strain}`],
         previousLatinNames: [row.previousLatinName],
         permittedForGeneralFood: false,

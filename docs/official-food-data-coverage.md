@@ -1,6 +1,6 @@
 # 食品成分知识库覆盖报告
 
-生成时间：2026-06-18T12:16:42.137Z
+生成时间：2026-06-18T12:51:20.155Z
 
 统计口径：本地 PostgreSQL 实际查询结果。
 
@@ -18,7 +18,7 @@
 | food_microorganism 数量 | 121 |
 | ordinary_ingredient 数量 | 480 |
 | ingredient_aliases 数量 | 8735 |
-| ingredient_tags 数量 | 2865 |
+| ingredient_tags 数量 | 2876 |
 | ingredient_relations 数量 | 103 |
 | allergen_categories 数量 | 8 |
 | allergen_aliases 数量 | 32 |
@@ -42,7 +42,7 @@
 | manual_verified 数量 | 0 |
 | staging 数量 | 462 |
 | 正式提升数量（current source relations） | 2409 |
-| pending_review ingredient 数量 | 2730 |
+| pending_review ingredient 数量 | 2741 |
 | pending_review staging 数量 | 462 |
 | unverified 数量 | 10 |
 | 重复数量 | 0 |

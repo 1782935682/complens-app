@@ -1,6 +1,6 @@
 # 数据质量报告
 
-生成时间：2026-06-18T12:16:42.137Z
+生成时间：2026-06-18T12:51:20.155Z
 
 ## 来源可信度
 
@@ -19,7 +19,7 @@
 | official_sources | 15 |
 | ingredient_import_staging | 462 |
 | pending_review staging | 462 |
-| pending_review ingredient | 2730 |
+| pending_review ingredient | 2741 |
 | allergen_categories | 8 |
 | allergen_aliases | 32 |
 | allergen_labeling_rules | 10 |
