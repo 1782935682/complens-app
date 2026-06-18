@@ -329,6 +329,8 @@
 | `POST /api/feedback` | ⚠️ 前端本地 | `src/services/supportService.js` 本地存储 | 是 |
 | `POST /api/labels/scan` | ✅ 已实现 | `backend/src/routes/labels.ts` + `backend/src/services/labelScanService.ts` | 是 |
 | `POST /api/labels/classify` | ✅ 已实现 | 后端 `backend/src/routes/labels.ts` + `labelService.ts`，`user-uniapp` adapter 后端优先、本地降级 | 是 |
+| `POST /api/barcodes/lookup` | ❌ 计划 / 后续 | 商品条码 GTIN 查询商品及配料数据 | 是 |
+| `POST /api/digital-labels/parse` | ❌ 计划 / 后续 | 数字标签二维码页面解析配料和营养信息 | 是 |
 | `POST /api/nutrition/parse` | ✅ 已实现 | 后端 `backend/src/routes/nutrition.ts` + `nutritionService.ts`，`user-uniapp` adapter 后端优先、本地降级 | 是 |
 | `POST /api/claims/parse` | ❌ 计划 / 后续 | 包装正面卖点解析 | 是 |
 | `POST /api/reports/label` | ✅ 已实现 | `backend/src/routes/reports.ts` + `backend/src/services/reportService.ts`，`user-uniapp` `buildLabelReportWithAdapter` 后端优先、本地 fallback | 是 |
@@ -340,11 +342,30 @@
 
 以下 API 用于从“配料表识别”扩展到“食品标签拍照解读”。`POST /api/labels/scan`、`POST /api/labels/classify` 与 `POST /api/nutrition/parse` 已落地；`POST /api/reports/label` 已在后端接入。其余未实现接口不得在实现前当作已存在后端接口调用。`user-uniapp/` 已为 MVP 提供本地 parser / 本地降级 / 本地报告存储，界面必须明确这些不是权威数据来源。
 
+后续 P1/P2 支持商品条码和数字标签二维码时，客户端入口仍保持一个拍照入口。前端继续提交图片到统一扫描链路，由后端自动识别条码、数字标签二维码、配料表 / 营养表或未知标签；`barcodes` 和 `digital-labels` 是后端分流后的服务能力，不是前端新增主入口：
+
+```text
+拍食品标签 / 包装
+  → 后端自动识别：商品条码 / 数字标签二维码 / 配料表 OCR / 营养表 OCR / 未知
+  → 商品条码：GTIN 商品数据查询
+  → 数字标签二维码：数字标签页面解析
+  → 配料表 OCR：包装文字识别与文本确认
+  → 成分归一化
+  → 官方成分知识库匹配
+  → 成分分析
+```
+
+商品条码、数字标签二维码和配料表 OCR 只能作为后端识别后的取数分支；任何接口失败、未命中或信息不足时，只返回可操作的错误/空态和补充建议，不自动跳转其他分支，也不把三种方式设计成串行流程。
+
+注意：当前已实现 `labelType` 枚举仍是 `ingredient_list|nutrition_facts|front_claims|barcode_or_product|unknown_label`。数字标签二维码不属于当前已实现 `labelType`；实际落地前需另行扩展共享 API / 前端 / 后端 schema，或通过独立 `scanObjectType` 表达二维码分流。
+
 实现时路由归属：
 
 - `labels` 相关接口进入 `backend/src/routes/labels.ts` 与 `backend/src/services/labelService.ts`。
 - `nutrition` 相关接口进入 `backend/src/routes/nutrition.ts` 与 `backend/src/services/nutritionService.ts`。
 - `reports/label` 进入 `backend/src/routes/reports.ts` 与 `backend/src/services/reportService.ts`；登录后云同步可复用现有 `user` 服务，但报告生成逻辑不应散落在用户数据路由里。
+- `barcodes` 相关接口后续进入 `backend/src/routes/barcodes.ts` 与 `backend/src/services/productLookupService.ts`；由统一扫描链路识别条码后调用，只能通过后端查询 GTIN 商品数据源，前端不得直连第三方商品库。
+- `digital-labels` 相关接口后续进入 `backend/src/routes/digitalLabels.ts` 与 `backend/src/services/digitalLabelService.ts`；由统一扫描链路识别数字标签二维码后调用，只能由后端解析数字标签页面，前端不得绕过后端抓取或暴露解析密钥。
 - 包装正面卖点和对比属于后续消费者能力，不阻塞标签类型、营养解析和报告后端化。
 - 所有新接口必须补后端测试；涉及数据可信表达时同步 `DATA_TRUST_SPEC.md` 与 `DATA_SOURCES.md`。
 

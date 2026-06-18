@@ -27,6 +27,8 @@
 | `manual_review` | `manual_review` / 审核审计字段 | 人工复核 | 复核签核记录，配合审计字段使用 |
 | `common_ingredient` | `common_ingredient_lexicon` / `common_ingredient` | 普通配料词库 | 仅用于可读性 / 配料识别，非法规结论 |
 | `ocr_input` | OCR 请求/用户确认文本 | OCR 用户输入 | **不是权威数据源**，必须用户确认 |
+| `product_catalog` | 后续 GTIN 商品条码查询结果 | 商品/配料线索来源 | 需进入成分归一化和官方知识库匹配；不能直接作为官方法规结论 |
+| `digital_label` | 后续数字标签二维码页面解析结果 | 商品标签页面来源 | 需保留页面 URL / 抓取时间 / 解析置信度；不能替代官方成分知识库 |
 | `ai_generated` | AI 解释结果 | AI 生成 | **仅解释层**，不得作为成分 / 法规事实来源 |
 | `user_feedback` | 用户反馈记录 | 用户反馈 | 反馈输入，非权威结论 |
 
