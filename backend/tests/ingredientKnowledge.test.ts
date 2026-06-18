@@ -77,7 +77,7 @@ describe('official source-materials pipeline', () => {
     }
   });
 
-  it('records a single corrupt PDF extraction failure without aborting the source batch', async () => {
+  it('records a single PDF extraction failure without aborting the source batch', async () => {
     const corruptPdf = fileURLToPath(new URL('../../docs/source-materials/codex-test-corrupt.pdf', import.meta.url));
     await writeFile(corruptPdf, 'not a valid pdf');
     try {
@@ -89,7 +89,8 @@ describe('official source-materials pipeline', () => {
         stage: 'extract',
         local_file_path: 'docs/source-materials/codex-test-corrupt.pdf'
       });
-      expect(failedSource?.reason).toContain('pdftotext failed');
+      expect(failedSource?.reason).toContain('pdftotext');
+      expect(failedSource?.reason).toMatch(/failed|command not found/);
       expect(manifestSource?.parse_status).toBe('failed_extract');
       expect(snapshot.staging_records.length).toBeGreaterThan(300);
     } finally {

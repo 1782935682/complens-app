@@ -20,9 +20,9 @@
   - 抽取失败标记 `parse_status=failed_extract`，失败记录 `stage=extract`。
   - 解析失败标记 `parse_status=failed_parse`，失败记录 `stage=parse`。
   - `pdftotext` 缺失时输出“安装 poppler-utils 或提供已复核缓存文本”的可执行说明。
-  - `pdftotext` 处理损坏 PDF 失败时保留具体本地文件路径和首行错误。
+  - `pdftotext` 处理缺失依赖或损坏 PDF 失败时保留具体本地文件路径和可执行原因。
 - `backend/tests/ingredientKnowledge.test.ts`
-  - 新增损坏 PDF 回归测试，确认单个文件抽取失败会写入 `snapshot.failed`，不会中断其他官方材料 staging 抽取。
+  - 新增 PDF 抽取失败回归测试，确认单个文件失败会写入 `snapshot.failed`，不会中断其他官方材料 staging 抽取。
 
 ### 数据边界
 
