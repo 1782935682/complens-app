@@ -1,0 +1,62 @@
+附件
+
+       党参等 9 种新增按照传统既是食品又是中药材的物质目录
+名称     植物名                拉丁学名                  所属科名   部位   安全限量值(mg/kg) a,b
+              Codonopsis pilosula (Franch.)                 铅（Pb）≤1.0
+        党参
+              Nannf.                                        镉（Cd）≤0.5
+党参            Codonopsis pilosula Nannf. var.   桔梗科     根   砷（As）≤0.5
+       素花党参
+              modesta (Nannf.) L.T. Shen                    汞（Hg）≤0.1
+       川党参    Codonopsis tangshen Oliv.                     二氧化硫（SO2）≤400
+
+                                                            铅（Pb）≤1.0
+                                                            镉（Cd）≤0.5
+肉苁蓉
+       肉苁蓉    Cistanche deserticola Y. C. Ma    列当科    肉质茎 砷（As）≤0.5
+（荒漠）
+                                                            汞（Hg）≤0.1
+                                                            铅（Pb）≤1.0
+              Dendrobium officinale Kimura et               镉（Cd）≤0.5
+铁皮石斛   铁皮石斛                                       兰科    茎
+              Migo                                          砷（As）≤0.5
+                                                            汞（Hg）≤0.05
+                                                            铅（Pb）≤1.0
+                                                            镉（Cd）≤1.0
+西洋参    西洋参    Panax quinquefolium L.              五加科   根
+                                                            砷（As）≤1.0
+                                                            汞（Hg）≤0.3
+              Astragalus membranaceus (Fisch.)              铅（Pb）≤1.0
+       蒙古黄芪
+              Bge.var. mongholicus (Bge.) Hsiao             镉（Cd）≤0.5
+ 黄芪                                               豆科    根   砷（As）≤0.5
+              Astragalus membranaceus (Fisch.)
+       膜荚黄芪                                                 汞（Hg）≤0.1
+              Bge.
+            Ganoderma lucidum（Leyss. ex Fr.）                铅（Pb）≤1.0
+      赤芝
+            Karst.                                          镉（Cd）≤0.5
+灵芝                                             多孔菌科   子实体
+            Ganoderma sinense Zhao, Xu et                   砷（As）≤1.0
+      紫芝
+            Zhang                                           汞（Hg）≤0.1
+
+                                                            铅（Pb）≤1.0
+                                                            镉（Cd）≤0.1
+山茱萸   山茱萸   Cornus officinalis Sieb.et Zucc.   山茱萸科   果实
+                                                            砷（As）≤0.5
+                                                            汞（Hg）≤0.1
+                                                            铅（Pb）≤1.0
+                                                            镉（Cd）≤1.0
+天麻    天麻    Gastrodia elata Bl.                兰科     块茎    砷（As）≤0.5
+                                                            汞（Hg）≤0.05
+                                                            二氧化硫（SO2）≤400
+                                                         铅（Pb）≤2.0
+                                                         镉（Cd）≤0.5
+杜仲叶      杜仲      Eucommia ulmoides Oliv.   杜仲科      叶
+                                                         砷（As）≤1.0
+                                                         汞（Hg）≤0.1
+注：a. 铅、镉、砷、汞、二氧化硫分别按 GB5009.12、GB5009.15、GB5009.11、GB5009.17、GB5009.34
+  规定的方法测定，农药限量应符合农业农村部的相关规定；b. 限量值基于干品确定，鲜品根据干
+  品按水分进行折算。
+

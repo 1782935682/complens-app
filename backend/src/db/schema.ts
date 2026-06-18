@@ -115,6 +115,478 @@ export const ingredientSources = pgTable('ingredient_sources', {
   index('ingredient_sources_ingredient_id_idx').on(table.ingredientId)
 ]);
 
+export const officialSources = pgTable('official_sources', {
+  id: text('id').primaryKey(),
+  sourceTier: text('source_tier').notNull().default('S0'),
+  sourceStatus: text('source_status').notNull().default('verified_official_standard'),
+  sourceOrg: text('source_org').notNull(),
+  sourceType: text('source_type').notNull(),
+  standardNo: text('standard_no'),
+  announcementNo: text('announcement_no'),
+  title: text('title').notNull(),
+  sourceUrl: text('source_url').notNull(),
+  officialPageUrl: text('official_page_url'),
+  attachmentUrl: text('attachment_url'),
+  originalSourceUrl: text('original_source_url'),
+  localFilePath: text('local_file_path'),
+  publicationDate: text('publication_date').notNull(),
+  effectiveDate: text('effective_date'),
+  expiryDate: text('expiry_date'),
+  retrievedAt: text('retrieved_at').notNull(),
+  contentHash: text('content_hash').notNull(),
+  sourceVersion: text('source_version'),
+  license: text('license').notNull().default('government_public_document'),
+  parserVersion: text('parser_version').notNull(),
+  verificationStatus: text('verification_status').notNull().default('verified'),
+  confidenceScore: text('confidence_score').notNull().default('0.95'),
+  supersedesSourceId: text('supersedes_source_id'),
+  supersededBySourceId: text('superseded_by_source_id'),
+  notes: text('notes').notNull().default(''),
+  status: text('status').notNull().default('active'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  index('official_sources_source_tier_idx').on(table.sourceTier),
+  index('official_sources_source_status_idx').on(table.sourceStatus),
+  index('official_sources_source_type_idx').on(table.sourceType),
+  index('official_sources_standard_no_idx').on(table.standardNo),
+  index('official_sources_content_hash_idx').on(table.contentHash),
+  index('official_sources_local_file_path_idx').on(table.localFilePath),
+  check('official_sources_source_tier_check', sql`${table.sourceTier} in ('S0', 'S1', 'S2', 'S3', 'S4')`),
+  check('official_sources_status_check', sql`${table.status} in ('active', 'superseded', 'revoked', 'draft')`)
+]);
+
+export const ingredientMaster = pgTable('ingredient_master', {
+  id: text('id').primaryKey(),
+  canonicalName: text('canonical_name').notNull(),
+  normalizedName: text('normalized_name').notNull(),
+  ingredientType: text('ingredient_type').notNull(),
+  regulatoryStatus: text('regulatory_status').notNull(),
+  description: text('description').notNull().default(''),
+  cnsCode: text('cns_code'),
+  insCode: text('ins_code'),
+  casNumber: text('cas_number'),
+  sourceStatus: text('source_status').notNull().default('unverified'),
+  legacyIngredientId: text('legacy_ingredient_id').references(() => ingredients.id, { onDelete: 'set null' }),
+  legacyKind: text('legacy_kind'),
+  enabled: boolean('enabled').notNull().default(true),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('ingredient_master_normalized_type_unique_idx').on(table.normalizedName, table.ingredientType),
+  index('ingredient_master_canonical_name_idx').on(table.canonicalName),
+  index('ingredient_master_normalized_name_idx').on(table.normalizedName),
+  index('ingredient_master_ingredient_type_idx').on(table.ingredientType),
+  index('ingredient_master_regulatory_status_idx').on(table.regulatoryStatus),
+  index('ingredient_master_source_status_idx').on(table.sourceStatus),
+  index('ingredient_master_legacy_ingredient_id_idx').on(table.legacyIngredientId),
+  check('ingredient_master_ingredient_type_check', sql`${table.ingredientType} in ('ordinary_ingredient', 'food_additive', 'nutrition_fortifier', 'novel_food_ingredient', 'food_medicine_substance', 'food_microorganism', 'allergen_source', 'compound_ingredient', 'other')`),
+  check('ingredient_master_source_status_check', sql`${table.sourceStatus} in ('official', 'pending_review', 'internal_lexicon', 'safety_evaluation_only', 'unverified')`)
+]);
+
+export const ingredientTypeTags = pgTable('ingredient_type_tags', {
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  tag: text('tag').notNull(),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.ingredientId, table.tag] }),
+  index('ingredient_type_tags_tag_idx').on(table.tag),
+  index('ingredient_type_tags_source_id_idx').on(table.sourceId)
+]);
+
+export const ingredientAliases = pgTable('ingredient_aliases', {
+  id: text('id').primaryKey(),
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  aliasName: text('alias_name').notNull(),
+  normalizedAlias: text('normalized_alias').notNull(),
+  aliasType: text('alias_type').notNull(),
+  language: text('language').notNull().default('zh'),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  sourceStatus: text('source_status').notNull().default('official'),
+  isOfficial: boolean('is_official').notNull().default(false),
+  confidenceScore: text('confidence_score'),
+  aliasConfidence: text('alias_confidence').notNull().default('high'),
+  matchPolicy: text('match_policy').notNull().default('normal'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  ,
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('ingredient_aliases_ingredient_alias_type_unique_idx').on(table.ingredientId, table.normalizedAlias, table.aliasType),
+  index('ingredient_aliases_ingredient_id_idx').on(table.ingredientId),
+  index('ingredient_aliases_normalized_alias_idx').on(table.normalizedAlias),
+  index('ingredient_aliases_alias_confidence_idx').on(table.aliasConfidence),
+  index('ingredient_aliases_match_policy_idx').on(table.matchPolicy),
+  index('ingredient_aliases_source_id_idx').on(table.sourceId),
+  check('ingredient_aliases_source_status_check', sql`${table.sourceStatus} in ('official', 'format_variant', 'legacy_unverified')`),
+  check('ingredient_aliases_alias_confidence_check', sql`${table.aliasConfidence} in ('high', 'medium', 'low', 'ambiguous')`),
+  check('ingredient_aliases_match_policy_check', sql`${table.matchPolicy} in ('normal', 'candidate_only', 'blocked')`)
+]);
+
+export const ingredientSourceRelations = pgTable('ingredient_source_relations', {
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  sourceLocation: text('source_location').notNull().default(''),
+  pageNumber: integer('page_number'),
+  tableName: text('table_name'),
+  rowReference: text('row_reference'),
+  originalName: text('original_name').notNull(),
+  evidenceSummary: text('evidence_summary').notNull(),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull()
+}, (table) => [
+  primaryKey({ columns: [table.ingredientId, table.sourceId, table.sourceLocation, table.originalName] }),
+  index('ingredient_source_relations_source_id_idx').on(table.sourceId),
+  index('ingredient_source_relations_status_idx').on(table.status),
+  check('ingredient_source_relations_status_check', sql`${table.status} in ('current', 'pending_review', 'superseded', 'revoked')`)
+]);
+
+export const ingredientRegulatoryRules = pgTable('ingredient_regulatory_rules', {
+  id: text('id').primaryKey(),
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  foodCategoryCode: text('food_category_code').notNull(),
+  foodCategoryName: text('food_category_name').notNull(),
+  allowedStatus: text('allowed_status').notNull(),
+  maxUseLevel: text('max_use_level'),
+  unit: text('unit'),
+  residueLevel: text('residue_level'),
+  usePrinciple: text('use_principle'),
+  restrictions: text('restrictions'),
+  notes: text('notes'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull(),
+  legacyAdditiveUsageRuleId: text('legacy_additive_usage_rule_id'),
+  sourceStagingId: text('source_staging_id').references(() => gb2760OfficialRecords.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('ingredient_regulatory_rules_source_staging_unique_idx').on(table.sourceStagingId),
+  index('ingredient_regulatory_rules_ingredient_id_idx').on(table.ingredientId),
+  index('ingredient_regulatory_rules_source_id_idx').on(table.sourceId),
+  index('ingredient_regulatory_rules_food_category_code_idx').on(table.foodCategoryCode),
+  index('ingredient_regulatory_rules_status_idx').on(table.status),
+  check('ingredient_regulatory_rules_allowed_status_check', sql`${table.allowedStatus} in ('allowed', 'restricted', 'not_allowed', 'unknown')`),
+  check('ingredient_regulatory_rules_status_check', sql`${table.status} in ('current', 'pending_review', 'superseded', 'revoked')`)
+]);
+
+export const ingredientImportStaging = pgTable('ingredient_import_staging', {
+  id: text('id').primaryKey(),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  sourceTier: text('source_tier').notNull(),
+  sourceStatus: text('source_status').notNull(),
+  recordType: text('record_type').notNull(),
+  canonicalName: text('canonical_name').notNull(),
+  normalizedName: text('normalized_name').notNull(),
+  ingredientType: text('ingredient_type').notNull(),
+  pageNumber: integer('page_number'),
+  tableName: text('table_name'),
+  rowReference: text('row_reference'),
+  rawSourceText: text('raw_source_text').notNull().default(''),
+  parsedData: jsonb('parsed_data').$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+  parseStatus: text('parse_status').notNull().default('parsed'),
+  reviewStatus: text('review_status').notNull().default('pending_review'),
+  confidenceScore: text('confidence_score').notNull().default('0.80'),
+  contentHash: text('content_hash').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('ingredient_import_staging_source_record_unique_idx').on(table.sourceId, table.recordType, table.normalizedName, table.rowReference),
+  index('ingredient_import_staging_source_id_idx').on(table.sourceId),
+  index('ingredient_import_staging_record_type_idx').on(table.recordType),
+  index('ingredient_import_staging_review_status_idx').on(table.reviewStatus),
+  index('ingredient_import_staging_content_hash_idx').on(table.contentHash)
+]);
+
+export const nutritionFortifierRules = pgTable('nutrition_fortifier_rules', {
+  id: text('id').primaryKey(),
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  nutrientId: text('nutrient_id'),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  compoundName: text('compound_name'),
+  foodCategoryCode: text('food_category_code').notNull(),
+  foodCategoryName: text('food_category_name').notNull(),
+  minUseLevel: text('min_use_level'),
+  maxUseLevel: text('max_use_level'),
+  unit: text('unit'),
+  restrictions: text('restrictions'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('nutrition_fortifier_rules_source_unique_idx').on(table.sourceId, table.ingredientId, table.foodCategoryCode, table.foodCategoryName, table.maxUseLevel),
+  index('nutrition_fortifier_rules_ingredient_id_idx').on(table.ingredientId),
+  index('nutrition_fortifier_rules_source_id_idx').on(table.sourceId),
+  index('nutrition_fortifier_rules_status_idx').on(table.status)
+]);
+
+export const allergenCategories = pgTable('allergen_categories', {
+  id: text('id').primaryKey(),
+  code: text('code').notNull(),
+  canonicalName: text('canonical_name').notNull(),
+  description: text('description').notNull().default(''),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('allergen_categories_code_unique_idx').on(table.code),
+  index('allergen_categories_source_id_idx').on(table.sourceId),
+  index('allergen_categories_status_idx').on(table.status)
+]);
+
+export const allergenAliases = pgTable('allergen_aliases', {
+  id: text('id').primaryKey(),
+  allergenCategoryId: text('allergen_category_id').notNull().references(() => allergenCategories.id, { onDelete: 'cascade' }),
+  aliasName: text('alias_name').notNull(),
+  normalizedAlias: text('normalized_alias').notNull(),
+  aliasType: text('alias_type').notNull().default('example'),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  evidenceSummary: text('evidence_summary').notNull().default(''),
+  confidence: text('confidence').notNull().default('0.70'),
+  reviewStatus: text('review_status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('allergen_aliases_category_alias_unique_idx').on(table.allergenCategoryId, table.normalizedAlias),
+  index('allergen_aliases_category_id_idx').on(table.allergenCategoryId),
+  index('allergen_aliases_normalized_alias_idx').on(table.normalizedAlias),
+  index('allergen_aliases_source_id_idx').on(table.sourceId),
+  index('allergen_aliases_review_status_idx').on(table.reviewStatus)
+]);
+
+export const allergenLabelingRules = pgTable('allergen_labeling_rules', {
+  id: text('id').primaryKey(),
+  allergenCategoryId: text('allergen_category_id').references(() => allergenCategories.id, { onDelete: 'set null' }),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  ruleType: text('rule_type').notNull(),
+  title: text('title').notNull(),
+  sectionTitle: text('section_title').notNull().default(''),
+  pageNumber: integer('page_number'),
+  sourceFile: text('source_file').notNull().default(''),
+  sourceUrl: text('source_url').notNull().default(''),
+  rawText: text('raw_text').notNull().default(''),
+  evidenceSummary: text('evidence_summary').notNull().default(''),
+  confidence: text('confidence').notNull().default('0.78'),
+  reviewStatus: text('review_status').notNull().default('pending_review'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('allergen_labeling_rules_source_rule_unique_idx').on(table.sourceId, table.ruleType, table.title),
+  index('allergen_labeling_rules_category_id_idx').on(table.allergenCategoryId),
+  index('allergen_labeling_rules_source_id_idx').on(table.sourceId),
+  index('allergen_labeling_rules_review_status_idx').on(table.reviewStatus)
+]);
+
+export const ingredientAllergenRelations = pgTable('ingredient_allergen_relations', {
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  allergenCategoryId: text('allergen_category_id').notNull().references(() => allergenCategories.id, { onDelete: 'cascade' }),
+  relationType: text('relation_type').notNull(),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  evidenceSummary: text('evidence_summary').notNull().default(''),
+  confidence: text('confidence').notNull().default('0.80'),
+  reviewStatus: text('review_status').notNull().default('pending_review'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.ingredientId, table.allergenCategoryId, table.relationType] }),
+  index('ingredient_allergen_relations_source_id_idx').on(table.sourceId),
+  check('ingredient_allergen_relations_relation_type_check', sql`${table.relationType} in ('direct', 'inferred', 'possible')`)
+]);
+
+export const digitalLabelRules = pgTable('digital_label_rules', {
+  id: text('id').primaryKey(),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  ruleType: text('rule_type').notNull(),
+  title: text('title').notNull(),
+  sectionTitle: text('section_title').notNull().default(''),
+  pageNumber: integer('page_number'),
+  sourceFile: text('source_file').notNull().default(''),
+  sourceUrl: text('source_url').notNull().default(''),
+  rawText: text('raw_text').notNull().default(''),
+  evidenceSummary: text('evidence_summary').notNull().default(''),
+  confidence: text('confidence').notNull().default('0.76'),
+  reviewStatus: text('review_status').notNull().default('pending_review'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('digital_label_rules_source_rule_unique_idx').on(table.sourceId, table.ruleType),
+  index('digital_label_rules_source_id_idx').on(table.sourceId),
+  index('digital_label_rules_review_status_idx').on(table.reviewStatus)
+]);
+
+export const nutrients = pgTable('nutrients', {
+  id: text('id').primaryKey(),
+  canonicalName: text('canonical_name').notNull(),
+  normalizedName: text('normalized_name').notNull(),
+  standardUnit: text('standard_unit'),
+  nutrientType: text('nutrient_type').notNull().default('other'),
+  enabled: boolean('enabled').notNull().default(true),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('nutrients_normalized_name_unique_idx').on(table.normalizedName),
+  index('nutrients_nutrient_type_idx').on(table.nutrientType)
+]);
+
+export const nutritionAliases = pgTable('nutrition_aliases', {
+  id: text('id').primaryKey(),
+  nutrientId: text('nutrient_id').notNull().references(() => nutrients.id, { onDelete: 'cascade' }),
+  aliasName: text('alias_name').notNull(),
+  normalizedAlias: text('normalized_alias').notNull(),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  isOfficial: boolean('is_official').notNull().default(false),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('nutrition_aliases_nutrient_alias_unique_idx').on(table.nutrientId, table.normalizedAlias),
+  index('nutrition_aliases_normalized_alias_idx').on(table.normalizedAlias)
+]);
+
+export const nutritionReferenceValues = pgTable('nutrition_reference_values', {
+  id: text('id').primaryKey(),
+  nutrientId: text('nutrient_id').notNull().references(() => nutrients.id, { onDelete: 'cascade' }),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  value: text('value').notNull(),
+  unit: text('unit').notNull(),
+  populationScope: text('population_scope').notNull().default('general'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('nutrition_reference_values_unique_idx').on(table.nutrientId, table.sourceId, table.populationScope, table.validFrom),
+  index('nutrition_reference_values_status_idx').on(table.status)
+]);
+
+export const nutritionClaimRules = pgTable('nutrition_claim_rules', {
+  id: text('id').primaryKey(),
+  nutrientId: text('nutrient_id').notNull().references(() => nutrients.id, { onDelete: 'cascade' }),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  claimType: text('claim_type').notNull(),
+  comparisonOperator: text('comparison_operator').notNull(),
+  thresholdValue: text('threshold_value').notNull(),
+  thresholdUnit: text('threshold_unit').notNull(),
+  basisType: text('basis_type').notNull(),
+  additionalConditions: text('additional_conditions'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('nutrition_claim_rules_unique_idx').on(table.nutrientId, table.sourceId, table.claimType, table.basisType, table.thresholdValue),
+  index('nutrition_claim_rules_status_idx').on(table.status),
+  check('nutrition_claim_rules_basis_type_check', sql`${table.basisType} in ('per_100g', 'per_100ml', 'per_serving', 'energy_ratio', 'other')`)
+]);
+
+export const nutritionPolyolEnergyRules = pgTable('nutrition_polyol_energy_rules', {
+  id: text('id').primaryKey(),
+  sourceId: text('source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  polyolName: text('polyol_name').notNull(),
+  normalizedName: text('normalized_name').notNull(),
+  energyFactorKjPerG: text('energy_factor_kj_per_g').notNull(),
+  includeInEnergyCalculation: boolean('include_in_energy_calculation').notNull().default(false),
+  carbohydrateEnergyAdjustment: text('carbohydrate_energy_adjustment').notNull().default(''),
+  sectionTitle: text('section_title').notNull().default(''),
+  sourceFile: text('source_file').notNull().default(''),
+  sourceUrl: text('source_url').notNull().default(''),
+  rawText: text('raw_text').notNull().default(''),
+  evidenceSummary: text('evidence_summary').notNull().default(''),
+  confidence: text('confidence').notNull().default('0.80'),
+  reviewStatus: text('review_status').notNull().default('pending_review'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('nutrition_polyol_energy_rules_source_name_unique_idx').on(table.sourceId, table.normalizedName),
+  index('nutrition_polyol_energy_rules_source_id_idx').on(table.sourceId),
+  index('nutrition_polyol_energy_rules_review_status_idx').on(table.reviewStatus)
+]);
+
+export const microorganismStrains = pgTable('microorganism_strains', {
+  id: text('id').primaryKey(),
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  strainCode: text('strain_code').notNull().default(''),
+  permittedForGeneralFood: boolean('permitted_for_general_food').notNull().default(false),
+  permittedForInfantFood: boolean('permitted_for_infant_food').notNull().default(false),
+  ageRestrictions: text('age_restrictions'),
+  usageRestrictions: text('usage_restrictions'),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('microorganism_strains_unique_idx').on(table.ingredientId, table.strainCode, table.sourceId),
+  index('microorganism_strains_source_id_idx').on(table.sourceId),
+  index('microorganism_strains_status_idx').on(table.status)
+]);
+
+export const novelFoodIngredientRules = pgTable('novel_food_ingredient_rules', {
+  id: text('id').primaryKey(),
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  sourceSpecies: text('source_species'),
+  ediblePart: text('edible_part'),
+  productionProcess: text('production_process'),
+  recommendedDailyIntake: text('recommended_daily_intake'),
+  intakeUnit: text('intake_unit'),
+  unsuitablePopulations: text('unsuitable_populations'),
+  labelRequirements: text('label_requirements'),
+  qualityRequirements: text('quality_requirements'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('novel_food_ingredient_rules_unique_idx').on(table.ingredientId, table.sourceId),
+  index('novel_food_ingredient_rules_status_idx').on(table.status)
+]);
+
+export const foodMedicineRules = pgTable('food_medicine_rules', {
+  id: text('id').primaryKey(),
+  ingredientId: text('ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  sourceId: text('source_id').notNull().references(() => officialSources.id, { onDelete: 'restrict' }),
+  botanicalName: text('botanical_name'),
+  latinName: text('latin_name'),
+  familyName: text('family_name'),
+  ediblePart: text('edible_part'),
+  permittedUse: text('permitted_use'),
+  usageRestrictions: text('usage_restrictions'),
+  validFrom: text('valid_from'),
+  validTo: text('valid_to'),
+  status: text('status').notNull().default('pending_review'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  uniqueIndex('food_medicine_rules_unique_idx').on(table.ingredientId, table.sourceId),
+  index('food_medicine_rules_status_idx').on(table.status)
+]);
+
+export const ingredientRelations = pgTable('ingredient_relations', {
+  sourceIngredientId: text('source_ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  targetIngredientId: text('target_ingredient_id').notNull().references(() => ingredientMaster.id, { onDelete: 'cascade' }),
+  relationType: text('relation_type').notNull(),
+  officialSourceId: text('official_source_id').references(() => officialSources.id, { onDelete: 'set null' }),
+  notes: text('notes').notNull().default(''),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+}, (table) => [
+  primaryKey({ columns: [table.sourceIngredientId, table.targetIngredientId, table.relationType] }),
+  index('ingredient_relations_target_ingredient_id_idx').on(table.targetIngredientId),
+  index('ingredient_relations_relation_type_idx').on(table.relationType),
+  index('ingredient_relations_official_source_id_idx').on(table.officialSourceId)
+]);
+
 export const gb2760OfficialRecords = pgTable('gb2760_official_records', {
   id: text('id').primaryKey(),
   ingredientId: text('ingredient_id').references(() => ingredients.id, { onDelete: 'set null' }),
@@ -433,6 +905,50 @@ export const productArchives = pgTable('product_archives', {
 export type IngredientRow = typeof ingredients.$inferSelect;
 export type NewIngredientRow = typeof ingredients.$inferInsert;
 export type NewIngredientSourceRow = typeof ingredientSources.$inferInsert;
+export type OfficialSourceRow = typeof officialSources.$inferSelect;
+export type NewOfficialSourceRow = typeof officialSources.$inferInsert;
+export type IngredientMasterRow = typeof ingredientMaster.$inferSelect;
+export type NewIngredientMasterRow = typeof ingredientMaster.$inferInsert;
+export type IngredientTypeTagRow = typeof ingredientTypeTags.$inferSelect;
+export type NewIngredientTypeTagRow = typeof ingredientTypeTags.$inferInsert;
+export type IngredientAliasRow = typeof ingredientAliases.$inferSelect;
+export type NewIngredientAliasRow = typeof ingredientAliases.$inferInsert;
+export type IngredientSourceRelationRow = typeof ingredientSourceRelations.$inferSelect;
+export type NewIngredientSourceRelationRow = typeof ingredientSourceRelations.$inferInsert;
+export type IngredientRegulatoryRuleRow = typeof ingredientRegulatoryRules.$inferSelect;
+export type NewIngredientRegulatoryRuleRow = typeof ingredientRegulatoryRules.$inferInsert;
+export type IngredientImportStagingRow = typeof ingredientImportStaging.$inferSelect;
+export type NewIngredientImportStagingRow = typeof ingredientImportStaging.$inferInsert;
+export type NutritionFortifierRuleRow = typeof nutritionFortifierRules.$inferSelect;
+export type NewNutritionFortifierRuleRow = typeof nutritionFortifierRules.$inferInsert;
+export type AllergenCategoryRow = typeof allergenCategories.$inferSelect;
+export type NewAllergenCategoryRow = typeof allergenCategories.$inferInsert;
+export type AllergenAliasRow = typeof allergenAliases.$inferSelect;
+export type NewAllergenAliasRow = typeof allergenAliases.$inferInsert;
+export type AllergenLabelingRuleRow = typeof allergenLabelingRules.$inferSelect;
+export type NewAllergenLabelingRuleRow = typeof allergenLabelingRules.$inferInsert;
+export type IngredientAllergenRelationRow = typeof ingredientAllergenRelations.$inferSelect;
+export type NewIngredientAllergenRelationRow = typeof ingredientAllergenRelations.$inferInsert;
+export type DigitalLabelRuleRow = typeof digitalLabelRules.$inferSelect;
+export type NewDigitalLabelRuleRow = typeof digitalLabelRules.$inferInsert;
+export type NutrientRow = typeof nutrients.$inferSelect;
+export type NewNutrientRow = typeof nutrients.$inferInsert;
+export type NutritionAliasRow = typeof nutritionAliases.$inferSelect;
+export type NewNutritionAliasRow = typeof nutritionAliases.$inferInsert;
+export type NutritionReferenceValueRow = typeof nutritionReferenceValues.$inferSelect;
+export type NewNutritionReferenceValueRow = typeof nutritionReferenceValues.$inferInsert;
+export type NutritionClaimRuleRow = typeof nutritionClaimRules.$inferSelect;
+export type NewNutritionClaimRuleRow = typeof nutritionClaimRules.$inferInsert;
+export type NutritionPolyolEnergyRuleRow = typeof nutritionPolyolEnergyRules.$inferSelect;
+export type NewNutritionPolyolEnergyRuleRow = typeof nutritionPolyolEnergyRules.$inferInsert;
+export type MicroorganismStrainRow = typeof microorganismStrains.$inferSelect;
+export type NewMicroorganismStrainRow = typeof microorganismStrains.$inferInsert;
+export type NovelFoodIngredientRuleRow = typeof novelFoodIngredientRules.$inferSelect;
+export type NewNovelFoodIngredientRuleRow = typeof novelFoodIngredientRules.$inferInsert;
+export type FoodMedicineRuleRow = typeof foodMedicineRules.$inferSelect;
+export type NewFoodMedicineRuleRow = typeof foodMedicineRules.$inferInsert;
+export type IngredientRelationRow = typeof ingredientRelations.$inferSelect;
+export type NewIngredientRelationRow = typeof ingredientRelations.$inferInsert;
 export type Gb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferSelect;
 export type NewGb2760OfficialRecordRow = typeof gb2760OfficialRecords.$inferInsert;
 export type Gb2760OfficialPageRow = typeof gb2760OfficialPages.$inferSelect;

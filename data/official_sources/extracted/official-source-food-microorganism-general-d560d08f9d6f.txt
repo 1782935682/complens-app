@@ -1,0 +1,98 @@
+附件 1
+
+                                     可用于食品的菌种名单
+ 编号                 更新后的菌种名称                                               原用菌种名称
+              菌种                  拉丁名称                          菌种                      拉丁名称
+ 一     双歧杆菌属         Bifidobacterium                         双歧杆菌属         Bifidobacterium
+ 1     青春双歧杆菌        Bifidobacterium adolescentis            青春双歧杆菌        Bifidobacterium adolescentis
+                     Bifidobacterium   animalis     subsp.
+ 2     动物双歧杆菌动物亚种
+                     animalis                              动物双歧杆菌（乳双歧 Bifidobacterium animalis
+                     Bifidobacterium   animalis     subsp. 杆菌）        （Bifidobacterium lactis）
+ 3     动物双歧杆菌乳亚种
+                     lactis
+ 4     两歧双歧杆菌        Bifidobacterium bifidum                 两歧双歧杆菌        Bifidobacterium bifidum
+ 5     短双歧杆菌         Bifidobacterium breve                   短双歧杆菌         Bifidobacterium breve
+                     Bifidobacterium    longum      subsp.
+ 6     长双歧杆菌长亚种                                              长双歧杆菌         Bifidobacterium longum
+                     longum
+                     Bifidobacterium    longum      subsp.
+ 7     长双歧杆菌婴儿亚种                                             婴儿双歧杆菌        Bifidobacterium infantis
+                     infantis
+ 二     乳杆菌属          Lactobacillus                           乳杆菌属          Lactobacillus
+ 1     嗜酸乳杆菌         Lactobacillus acidophilus               嗜酸乳杆菌         Lactobacillus acidophilus
+ 2     卷曲乳杆菌         Lactobacillus crispatus                 卷曲乳杆菌         Lactobacillus crispatus
+                                                                    德氏乳杆菌保加利亚
+                           Lactobacillus   delbrueckii     subsp.             Lactobacillus        delbrueckii   subsp.
+3   德氏乳杆菌保加利亚亚种                                                     亚种（保加利亚乳杆
+                           bulgaricus                                         bulgaricus
+                                                                    菌）
+                           Lactobacillus   delbrueckii     subsp.                  Lactobacillus   delbrueckii   subsp.
+4   德氏乳杆菌乳亚种                                                        德氏乳杆菌乳亚种
+                           lactis                                                  lactis
+5   格氏乳杆菌                  Lactobacillus gasseri                    格氏乳杆菌          Lactobacillus gasseri
+6   瑞士乳杆菌                  Lactobacillus helveticus                 瑞士乳杆菌          Lactobacillus helveticus
+7   约氏乳杆菌                  Lactobacillus johnsonii                  约氏乳杆菌          Lactobacillus johnsonii
+    马乳酒样乳杆菌马乳酒样 Lactobacillus kefiranofaciens subsp. 马 乳 酒 样 乳 杆 菌 马 乳 Lactobacillus kefiranofaciens subsp.
+8
+    亚种          kefiranofaciens                      酒样亚种              kefiranofaciens
+三   乳酪杆菌属                  Lacticaseibacillus                       乳杆菌属           Lactobacillus
+1   干酪乳酪杆菌                 Lacticaseibacillus casei                 干酪乳杆菌          Lactobacillus casei
+2   副干酪乳酪杆菌                Lacticaseibacillus paracasei             副干酪乳杆菌         Lactobacillus paracasei
+3   鼠李糖乳酪杆菌                Lacticaseibacillus rhamnosus             鼠李糖乳杆菌         Lactobacillus rhamnosus
+四   粘液乳杆菌属                 Limosilactobacillus                      乳杆菌属           Lactobacillus
+1   发酵粘液乳杆菌                Limosilactobacillus fermentum            发酵乳杆菌          Lactobacillus fermentum
+2   罗伊氏粘液乳杆菌               Limosilactobacillus reuteri              罗伊氏乳杆菌         Lactobacillus reuteri
+五   乳植杆菌属                  Lactiplantibacillus                      乳杆菌属           Lactobacillus
+1   植物乳植杆菌                 Lactiplantibacillus plantarum            植物乳杆菌          Lactobacillus plantarum
+六   联合乳杆菌属                 Ligilactobacillus                        乳杆菌属           Lactobacillus
+1   唾液联合乳杆菌                Ligilactobacillus salivarius             唾液乳杆菌          Lactobacillus salivarius
+七   广布乳杆菌属                 Latilactobacillus                        乳杆菌属           Lactobacillus
+1    弯曲广布乳杆菌              Latilactobacillus curvatus             弯曲乳杆菌             Lactobacillus curvatus
+2    清酒广布乳杆菌              Latilactobacillus sakei                清酒乳杆菌             Lactobacillus sakei
+八    链球菌属                 Streptococcus                          链球菌属              Streptococcus
+                          Streptococcus    salivarius   subsp.
+1    唾液链球菌嗜热亚种                                                   嗜热链球菌             Streptococcus thermophilus
+                          thermophilus
+九    乳球菌属                 Lactococcus                            乳球菌属              Lactococcus
+1    乳酸乳球菌乳亚种             Lactococcus lactis subsp. lactis       乳酸乳球菌乳酸亚种         Lactococcus lactis subsp. lactis
+     乳酸乳球菌乳亚种（双乙 Lactococcus lactis subsp. lactis 乳 酸 乳 球 菌 双 乙 酰 亚 Lactococcus                       lactis       subsp.
+2
+     酰型）         biovar diacetylactis             种                 diacetylactis
+3    乳脂乳球菌                Lactococcus cremoris                   乳酸乳球菌乳脂亚种         Lactococcus lactis subsp. cremoris
+十    丙酸杆菌属                Propionibacterium                      丙酸杆菌属             Propionibacterium
+                          Propionibacterium      freudenreichii 费 氏 丙 酸 杆 菌 谢 氏 亚 Propionibacterium         freudenreichii
+1    费氏丙酸杆菌谢氏亚种
+                          subsp. shermanii                      种                 subsp. shermanii
+十一   丙酸菌属                 Acidipropionibacterium                 丙酸杆菌属             Propionibacterium
+                          Acidipropionibacterium
+1    产丙酸丙酸菌                                                      产丙酸丙酸杆菌           Propionibacterium acidipropionici
+                          acidipropionici
+十二   明串珠菌属                Leuconostoc                            明串珠菌属             Leuconostoc
+                          Leuconostoc mesenteroides subsp. 肠 膜 明 串 珠 菌 肠 膜 亚 Leuconostoc mesenteroides subsp.
+1    肠膜明串珠菌肠膜亚种
+                          mesenteroides                    种                 mesenteroides
+十三   片球菌属                 Pediococcus                            片球菌属              Pediococcus
+1    乳酸片球菌                Pediococcus acidilactici               乳酸片球菌             Pediococcus acidilactici
+ 2   戊糖片球菌      Pediococcus pentosaceus    戊糖片球菌      Pediococcus pentosaceus
+十四   魏茨曼氏菌属     Weizmannia                 芽孢杆菌属      Bacillus
+
+ 1   凝结魏茨曼氏菌    Weizmannia coagulans       凝结芽孢杆菌     Bacillus coagulans
+
+十五   动物球菌属      Mammaliicoccus             葡萄球菌属      Staphylococcus
+
+ 1   小牛动物球菌     Mammaliicoccus vitulinus   小牛葡萄球菌     Staphylococcus vitulinus
+
+十六   葡萄球菌属      Staphylococcus             葡萄球菌属      Staphylococcus
+
+ 1   木糖葡萄球菌     Staphylococcus xylosus     木糖葡萄球菌     Staphylococcus xylosus
+
+ 2   肉葡萄球菌      Staphylococcus carnosus    肉葡萄球菌      Staphylococcus carnosus
+
+十七   克鲁维酵母属     Kluyveromyces              克鲁维酵母属     Kluyveromyces
+
+ 1   马克斯克鲁维酵母   Kluyveromyces marxianus    马克斯克鲁维酵母   Kluyveromyces marxianus
+注：1.传统上用于食品生产加工的菌种允许继续使用。名单以外的、新菌种按照《新食品原料安全性审查管理办法》执行。
+  2.用于婴幼儿食品的菌种按《可用于婴幼儿食品的菌种名单》执行。
+  3. 2010 年后公告、增补入《可用于食品的菌种名单》的菌种，使用范围应符合原公告内容。
+

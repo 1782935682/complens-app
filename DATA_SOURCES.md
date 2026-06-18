@@ -2,18 +2,19 @@
 
 ## 数据原则
 
-当前目标不是一次性补齐所有食品配料，而是建立可用的基础权威数据底座，并通过持续扩充和人工校验逐步提高覆盖。
+当前目标是在可追溯和分层可信前提下，尽最大可能补齐食品成分知识库实际数据。中国官方标准、公告、目录和数据库仍是最高优先级；当中国官方数据不存在或客观不完整时，允许使用国际官方、企业一手资料、权威非官方数据和经过校验的社区/众包数据补充普通原料、标签写法、别名、营养基础信息等非监管事实。任何非官方数据都不得伪装为中国官方监管结论，也不得声称已经达到绝对全量覆盖。
 
 硬性规则：
 
 - 不允许 AI 编造食品成分数据、法规来源、ADI、限量、条款编号或安全结论。
 - 不允许把 JECFA 安全评价当成 GB 2760 中国法规使用范围（不允许把 JECFA 数据反推 GB 2760 使用范围）。
-- GB 2760-2024 是官方标准来源；权威来源只使用国家卫生健康委公告和食品安全国家标准数据检索平台；第三方网站只能作为辅助检索线索，不能作为 `sourceType: 'official_standard'` 或官方 `sourceName`。
-- 不强行补齐所有食品配料；无法可靠结构化的内容先保留 `rawSourceText` 和待确认状态。
+- GB 2760-2024 是食品添加剂使用规则的中国官方标准来源；中国监管状态、允许使用范围、最大使用量、食品分类、标签要求、公告新增/修改/废止关系等监管结论，只能使用国家机关、国家标准相关官方平台、国家食品安全风险评估中心等中国官方来源确认。
+- 非官方来源可以按来源等级补充普通食品原料、商品标签写法、别名、营养基础信息、品牌规格等非监管事实，但必须保存来源、许可、版本、证据和置信度；第三方网站只能作为 `verified_secondary`、`community_verified`、`community_unverified` 等非官方等级，不能作为 `sourceType: 'official_standard'`、官方 `sourceName` 或中国监管依据。
+- 不用无来源、低质量或无法确认许可的数据强行补齐正式库；无法可靠结构化或无法达到正式数据门槛的内容先保留 `rawSourceText`、来源证据和待确认状态。
 - `isVerified: true` / `verified_regulation` 只能用于已完成 GB 2760 官方法规依据、来源文本、版本和条款级核验的记录；JECFA 仅能作为安全评价来源。
 - **staging 与 verified 有本质区别**：staging（`gb2760_official_records` 等）是官方 PDF 抽取的原始承接层，只代表原文/页码/限量已进入数据库，**不是已核验法规结论**；正式库（`ingredients` 的 `verified_regulation` 行、`additive_usage_rules`）只接收满足"正式库准入规则"的高置信、可追溯数据。
 - **`pending_review` 不能当作权威结论**：从官方来源抽取但字段或结构待复核的数据，后端 DB 状态为 `pending_review`（生成源文件仍可能保留 `needs_review`，入库时统一），不得展示为已验证、不得作为官方规则。
-- 数据是**持续扩充**的：不追求一次性把全部食品配料人工 verified，而是 staging 全量承接 → 高置信 promote → 低置信 `pending_review` → 后续人工复核逐步提高覆盖。
+- 数据补齐优先级高于单纯表结构完整度：每轮数据任务都应尽量完成下载、解析、导入、校验和覆盖报告；但不得声称绝对全量覆盖，正式库仍按 staging 全量承接 → 高置信 promote → 低置信 `pending_review` → 后续人工复核逐步提高覆盖。
 
 ## 归一数据来源类型
 
@@ -112,7 +113,7 @@ GB 2760 官方 PDF
 - 公告来源：国家卫生健康委公告（2024 年第 1 号），食品安全国家标准数据检索平台记录标题为“关于发布《食品安全国家标准 食品添加剂使用标准》（GB 2760-2024）等47项食品安全国家标准和6项修改单的公告（2024年 第1号）”，发布日期 `2024-02-08`，平台记录 ID `3D0601E8-A77C-4EC5-B148-30E2E7020822`。
 - 标准文本：`GB 2760-2024 食品安全国家标准 食品添加剂使用标准`，食品安全国家标准数据检索平台记录 ID `6CA1489A-9570-4906-8CE8-CC86FBFB1941`，发布日期 `2024-02-08`，实施日期 `2025-02-08`。
 - 官方附件：平台附件 ID `43C9B75E-3D84-4577-80FC-0F7D77D36407`，平台文件名 `1747898473246.pdf`，下载接口为 `https://sppt.cfsa.net.cn:8086/cfsa_aiguo`（POST `task=d_p` + `file_guid`）。
-- 本地保存：官方 PDF 已保存到 `/home/downloads/git/docs/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`，文件大小 `2600140` bytes，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`；该文件不提交到应用仓库。
+- 本地保存：官方 PDF 已保存到 `docs/source-materials/GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`，文件大小 `2600140` bytes，SHA-256 `2a2c4a867cf5551177e5e65bf8140e9f85a0616d96aa3353161869e07a8505de`。
 - 平台提示：2026-06-12 抓取页面时，平台页面提示“系统维护中，暂时无法使用标准预览和下载功能。”下载接口可返回官方 PDF；不得改用第三方镜像作为官方来源。
 
 其余 68 条未验证添加剂已将 GB 2760-2024 官方标准文本记录作为后续核验来源，但这些字段仍属于 seed reference，不代表已经完成：
@@ -124,6 +125,100 @@ GB 2760 官方 PDF
 - 人工审核签核
 
 因此除上述 5 条外，当前不导入 `usageLimits`，也不把 `gbStatus`、`foodCategories` 或 seed 来源展示为已核验法规结论。
+
+## 食品成分知识库扩展层（2026-06-18）
+
+本轮已把 `docs/source-materials/` 作为唯一官方材料输入目录，建立 `data/official_sources/` manifest、extracted、staging、failed、reports 和 checksums 目录，并把本地开发 PostgreSQL 写入为 DB 口径报告。该层不替换现有 `ingredients` 表，不改变现有 `/api/ingredients` 返回结构，也不破坏 OCR 添加剂匹配。
+
+新增或扩展的数据表包括：`official_sources`、`ingredient_master`、`ingredient_aliases`、`ingredient_type_tags`、`ingredient_source_relations`、`ingredient_regulatory_rules`、`ingredient_relations`、`ingredient_import_staging`、`nutrition_fortifier_rules`、`allergen_categories`、`ingredient_allergen_relations`、`nutrients`、`nutrition_aliases`、`nutrition_reference_values`、`nutrition_claim_rules`、`microorganism_strains`、`novel_food_ingredient_rules` 和 `food_medicine_rules`。
+
+本轮实际扫描的本地官方材料：
+
+- `GB_2760-2024_食品安全国家标准　食品添加剂使用标准.pdf`
+- `GB-14880-2012营养强化剂.pdf`
+- `1401948086918.pdf`（GB 7718-2011，CFSA/SPPT 官方附件）
+- `GB_28050-2011_预包装食品营养标签通则.pdf`（GB 28050-2011，CFSA/SPPT 官方附件）
+- `1742974306979.pdf`（GB 7718-2025，CFSA/SPPT 官方附件）
+- `1742974382329.pdf`（GB 28050-2025，CFSA/SPPT 官方附件）
+- `cfsa-gb7718-2025-qa.html`
+- `cfsa-gb28050-2025-qa.html`
+- `cfsa-2025-no2-food-safety-standards-notice.html`
+- `2023年“三新食品”汇总目录.pdf`
+- `党参等 9 种食药物质目录.pdf`
+- `地黄等 4 种食药物质目录.pdf`
+- `可用于食品的菌种名单.pdf`
+- `可用于婴幼儿食品的菌种名单.pdf`
+
+当前 DB 口径（详见 [`docs/official-food-data-coverage.md`](./docs/official-food-data-coverage.md)）：
+
+| 指标 | 数量 |
+|---|---:|
+| `ingredient_master` | 3041 |
+| `food_additive` | 2311 |
+| `nutrition_fortifier` | 21 |
+| `novel_food_ingredient` | 95 |
+| `food_medicine_substance` | 13 |
+| `food_microorganism` | 121 |
+| `ordinary_ingredient` | 480 |
+| S2 普通配料种子 | 479 |
+| `ingredient_aliases` | 8735 |
+| `ingredient_source_relations` | 5631 |
+| `ingredient_regulatory_rules` | 2587 |
+| `additive_usage_rules` | 2391 |
+| `nutrition_fortifier_rules` | 116 |
+| `nutrition_reference_values` | 32 |
+| `nutrition_claim_rules` | 15 |
+| `official_sources` | 15 |
+| `ingredient_import_staging` | 462 |
+| 需阻断自动匹配的别名冲突 | 61 |
+| 当前正式匹配冲突 | 0 |
+| 解析失败 | 0 |
+| `import_errors` | 0 |
+
+source-materials staging 口径：
+
+| record_type | 数量 |
+|---|---:|
+| `novel_food_ingredient` | 95 |
+| `food_additive_new_variety` | 14 |
+| `nutrition_fortifier_rule` | 116 |
+| `food_medicine_substance` | 13 |
+| `food_microorganism` | 40 |
+| `label_rule_*` | 16 |
+| `nutrition_label_rule_*` | 7 |
+| `nutrition_reference_value` | 32 |
+| `nutrition_comparative_claim_rule` | 8 |
+| `nutrition_content_claim_rule` | 7 |
+| `allergen_*` | 90 |
+| `digital_label_rule` | 12 |
+| `official_qa_*` | 11 |
+| `official_notice_standard_release` | 1 |
+
+状态边界：
+
+- GB 2760 已有人工签核并 promote 的正式规则保持 `current`；新增 GB 14880、三新食品、食药物质、菌种、GB 7718/GB 28050 标签营养规则、解读材料和公告抽取结果全部保持 `pending_review`，不得展示为已验证监管结论。
+- GB 28050-2025 的 NRV 和可结构化比较声称已进入 `nutrition_reference_values` / `nutrition_claim_rules`，但状态仍为 `pending_review`。
+- `可用于婴幼儿食品的菌种名单.pdf` 本地文件无文本层；本轮已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据，并抽取 14 条婴幼儿食品菌种候选进入 staging/pending_review。该批记录仍需人工核对扫描件，不得展示为 S0 verified 结论。
+- 本轮未导入 S1/S3/S4 来源；额外导入的 S2 普通配料种子为人工整理 OCR 高频基础词库，全部保持 `pending_review`，不得展示为 S0 或 verified。
+- 480 条普通食品配料包含 S2 种子和旧内部词库归并结果，不是官方普通食品原料全量目录。
+- GB 28050-2011 官方 PDF 已从 CFSA/SPPT 官方附件下载并进入 manifest/official_sources；此前超时生成的不完整片段已保留在 `docs/source-materials/_invalid/1401947724374.pdf.partial`，未进入有效扫描。
+- 独立的“国家卫生健康委、市场监管总局关于实施预包装食品数字标签有关事项的公告”官方页面未自动定位；本轮仅使用 GB 7718-2025 正文和 CFSA/SPPT 解读中的数字标签规则。
+- 缺失和人工补齐步骤见 [`docs/source-materials-missing-official.md`](./docs/source-materials-missing-official.md)。
+
+统一更新命令：
+
+```bash
+npm run ingredient:inventory
+npm run ingredient:fetch
+npm run ingredient:extract
+npm --prefix backend run db:migrate
+npm run ingredient:import
+npm run ingredient:ordinary-seed
+npm run ingredient:validate
+npm run ingredient:report
+npm run ingredient:coverage
+npm run ingredient:update-all
+```
 
 ## JECFA 当前状态
 

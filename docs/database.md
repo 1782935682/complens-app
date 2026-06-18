@@ -76,12 +76,17 @@ npm run db:migrate
 | 0014 | [`0014_clean_lorna_dane.sql`](../backend/src/db/migrations/0014_clean_lorna_dane.sql) | 给 `ingredients` 增加 GB2760 promote 前的基础状态快照 |
 | 0015 | [`0015_fresh_vampiro.sql`](../backend/src/db/migrations/0015_fresh_vampiro.sql) | 给 `additive_usage_rules.source_staging_id` 增加 staging 外键 |
 | 0016 | [`0016_large_moonstone.sql`](../backend/src/db/migrations/0016_large_moonstone.sql) | 给 GB2760 staging 增加人工复核审计字段 |
+| 0017 | [`0017_calm_gentle_wave.sql`](../backend/src/db/migrations/0017_calm_gentle_wave.sql) | 创建标签扫描会话与图片索引表 |
+| 0018 | [`0018_narrow_zombie.sql`](../backend/src/db/migrations/0018_narrow_zombie.sql) | 创建食品成分知识库旁路表：`official_sources`、`ingredient_master`、`ingredient_aliases`、`ingredient_source_relations`、`ingredient_regulatory_rules`、`ingredient_relations`、`ingredient_type_tags` |
+| 0019 | [`0019_ingredient_source_coverage.sql`](../backend/src/db/migrations/0019_ingredient_source_coverage.sql) | 扩展来源字段并创建 `ingredient_import_staging`、营养强化剂、营养、过敏原、菌种、新食品原料和食药物质规则表 |
 
 ## 表分层
 
 | 层级 | 表 | 含义 |
 |---|---|---|
 | 成分正式库 | `ingredients`、`ingredient_sources`、`additive_usage_rules` | 用户查询、报告展示和正式法规使用规则 |
+| 成分知识库扩展层 | `official_sources`、`ingredient_master`、`ingredient_aliases`、`ingredient_type_tags`、`ingredient_source_relations`、`ingredient_regulatory_rules`、`ingredient_relations` | 多类型食品成分、官方来源、别名、规则和关系的可追溯旁路层；不替换现有 API 兼容表 |
+| 成分知识库 staging/专项规则 | `ingredient_import_staging`、`nutrition_fortifier_rules`、`allergen_categories`、`ingredient_allergen_relations`、`nutrients`、`nutrition_aliases`、`nutrition_reference_values`、`nutrition_claim_rules`、`microorganism_strains`、`novel_food_ingredient_rules`、`food_medicine_rules` | `docs/source-materials/` 官方材料解析后的 staging 和专项规则承接层；新增抽取默认 `pending_review` |
 | GB2760 staging | `gb2760_official_records`、`gb2760_official_pages`、`gb2760_official_reference_rows` | 官方 PDF 全文、表 A.1 行级抽取和参考表结构化承接层 |
 | 导入审计 | `source_documents`、`import_runs`、`import_errors` | 官方来源文档、seed/promote 批次和失败原因 |
 | 账号会话 | `users`、`sessions` | 登录、JWT 会话和登出失效 |
@@ -95,6 +100,12 @@ npm run db:migrate
 | `gb2760_official_records.review_status` | `pending_review`、`mapped_candidate`、`approved`、`promoted`、`verified` | staging 复核和准入状态 |
 | `import_runs.run_type` | `fulltext`、`a1_staging`、`reference_tables`、`promote` | 导入或准入批次类型 |
 | `import_runs.status` | `running`、`succeeded`、`failed` | 批次执行状态 |
+| `ingredient_master.ingredient_type` | `ordinary_ingredient`、`food_additive`、`nutrition_fortifier`、`novel_food_ingredient`、`food_medicine_substance`、`food_microorganism`、`allergen_source`、`compound_ingredient`、`other` | 成分知识库类型，允许通过 `ingredient_type_tags` 表补充多标签 |
+| `ingredient_master.source_status` | `official`、`pending_review`、`internal_lexicon`、`safety_evaluation_only`、`unverified` | 成分知识库来源状态；旧 seed 未核验记录不得写成 official |
+| `ingredient_regulatory_rules.status` | `current`、`pending_review`、`superseded`、`revoked` | 新知识库规则有效状态 |
+| `official_sources.source_tier` | `S0`、`S1`、`S2`、`S3`、`S4` | 来源优先级；本轮正式入库来源均为 S0 中国官方来源 |
+| `official_sources.source_status` | `verified_official_standard`、`verified_official_catalog` 等 | 来源可信状态；非官方来源不得写成官方状态 |
+| `ingredient_import_staging.review_status` | `pending_review` 等 | source-materials 抽取记录的复核状态；未复核不得展示为 verified |
 | `user_profile_ingredients.kind` | `watch`、`avoid` | 用户关注或避免的成分 |
 
 ## 表与字段
@@ -166,6 +177,64 @@ npm run db:migrate
 | `url` | 来源链接 |
 | `published_at` | 发布日期 |
 | `retrieved_at` | 检索日期 |
+
+### `official_sources`
+
+食品成分知识库的官方来源表。当前只登记能够确认属于国家机关、国家标准或官方标准平台的来源；JECFA 或内部词库不写入这里。
+
+| 字段 | 含义 |
+|---|---|
+| `id` | 官方来源稳定 ID |
+| `source_tier` | 来源等级，S0 为中国官方监管来源 |
+| `source_status` | 来源状态，例如 `verified_official_standard`、`verified_official_catalog` |
+| `source_org` | 发布或平台机构 |
+| `source_type` | 来源类型，例如 `official_standard` |
+| `standard_no` | 标准号 |
+| `announcement_no` | 公告号 |
+| `title` | 来源标题 |
+| `source_url` | 官方入口 URL |
+| `official_page_url` / `attachment_url` / `original_source_url` | 官方页面、附件和原始来源 URL |
+| `local_file_path` | 仓库内本地原始文件相对路径 |
+| `publication_date` / `effective_date` / `expiry_date` / `retrieved_at` | 发布、生效、失效和检索日期 |
+| `content_hash` | 官方附件或结构化来源内容哈希 |
+| `source_version` / `license` | 来源版本和许可说明 |
+| `parser_version` | 解析器版本 |
+| `verification_status` / `confidence_score` | 来源核验状态和置信度 |
+| `supersedes_source_id` / `superseded_by_source_id` | 来源版本替代关系 |
+| `status` | 来源状态 |
+
+### `ingredient_master`
+
+食品成分知识库主表。它是新知识库扩展层，不替换现有 `ingredients`；当前 OCR 添加剂匹配和 `/api/ingredients` 仍保持原返回结构。
+
+| 字段 | 含义 |
+|---|---|
+| `id` | 成分知识库稳定 ID |
+| `canonical_name` | 官方或规范名称 |
+| `normalized_name` | 匹配用归一化名称 |
+| `ingredient_type` | 成分类型 |
+| `regulatory_status` | 监管/可信状态 |
+| `description` | 说明，不生成医疗或购买结论 |
+| `cns_code` / `ins_code` / `cas_number` | 官方来源明确提供时保存的编码 |
+| `source_status` | 官方、待复核、内部词库、安全评价或未验证 |
+| `legacy_ingredient_id` / `legacy_kind` | 兼容旧 `ingredients` / seed 的映射 |
+| `enabled` | 是否启用 |
+
+### `ingredient_aliases`
+
+成分别名表。只有官方资料明确给出的别名、英文名、简称或编码才使用 `source_status=official` 并关联 `official_sources`；纯格式归一化和旧 seed 别名不标成官方别名。
+
+### `ingredient_source_relations`
+
+成分与官方来源的证据关系表，保留页码、表名、行号、原始名称、证据摘要、有效期和状态。正式监管数据必须能追溯到该表中的官方来源关系。
+
+### `ingredient_regulatory_rules`
+
+添加剂、加工助剂、食品用酶制剂等使用规则表。字段保存食品分类号/名称、允许状态、最大使用量、单位、残留量、使用原则、限制、备注和有效期；不得把允许使用或最大使用量解释成消费风险等级。
+
+### `ingredient_relations` / `ingredient_type_tags`
+
+`ingredient_relations` 表达酶制剂来源/供体、新旧名称、公告变更、复合配料潜在子成分等关系；`ingredient_type_tags` 用于一个成分可能属于多个类型时补充标签，避免把复杂分类强行压成单枚举。
 
 ### `gb2760_official_records`
 

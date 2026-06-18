@@ -1,0 +1,30 @@
+附件
+            地黄等 4 种新增按照传统既是食品又是中药材的物质目录
+                                                                    a,b
+ 名称   植物名               拉丁学名                 所属科名 部位    安全限量值(mg/kg)
+                                                        铅（Pb）≤1.0
+                                                        镉（Cd）≤0.5
+ 地黄   地黄    Rehmannia glutinosa Libosch.     玄参科   块根
+                                                        砷（As）≤1.0
+                                                        汞（Hg）≤0.2
+                                                        铅（Pb）≤1.0
+            Ophiopogon      japonicus（L.f）              镉（Cd）≤0.5
+ 麦冬   麦冬                                     百合科   块根
+            Ker-Gawl.                                   砷（As）≤0.5
+                                                        汞（Hg）≤0.1
+
+            Asparagus cochinchinensis                   铅（Pb）≤1.0
+ 天冬   天冬                                     百合科   块根
+            (Lour.) Merr.                               镉（Cd）≤0.5
+                                                      砷（As）≤1.0
+                                                      汞（Hg）≤0.1
+                                                      二氧化硫（SO2）≤400
+      化州柚    Citrus grandis‘Tomentosa’                铅（Pb）≤1.0
+                                                 外层   镉（Cd）≤0.1
+化橘红                                      芸香科
+        柚    Citrus grandis（L.）Osbeck            果皮   砷（As）≤0.5
+                                                      汞（Hg）≤0.1
+注：a.铅、镉、砷、汞、二氧化硫分别按 GB5009.12、GB5009.15、GB5009.11、GB5009.17、GB5009.34
+  规定的方法测定，农药限量应符合农业农村部的相关规定；b.限量值基于干品确定，鲜品
+  根据干品按水分进行折算。
+
