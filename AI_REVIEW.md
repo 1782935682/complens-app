@@ -1,47 +1,34 @@
-# AI Review — 2026-06-18
+# AI Review — 2026-06-19
 
-## GB 2760 C.3 酶制剂来源/供体边界
+## user-uniapp P0 体验修复
 
 ### 本轮范围
 
-本轮接在 PR #120 合并后的 `main` 上，继续处理食品成分知识库扩展层的数据边界。范围限定为修正 GB 2760 表 C.3 酶制剂来源/供体微生物的分类，避免它们被误计入 NHC 可用于食品菌种目录覆盖。
+本轮只处理用户反馈的 `user-uniapp` 消费端 P0 体验问题：首页主入口层级、拍照/上传后的识别生成流程、拍照框视觉、搜索结果信息结构、我的关注选择控件。
 
-未修改旧 `ingredients` / `additive_usage_rules` 用户端展示表，未改变现有 `/api/ingredients` 返回结构，未把 S2 普通配料、OCR 辅助菌种、数字标签规则、营养声称阈值或 C.3 来源/供体引用标记为正式可食用菌种结论。
+未新增商品库、条码、商品正面识别、商品对比、AI 权威结论或数据源结论；未修改后端数据、法规数据、正式成分库或 promote 规则。
 
-### 代码审查结论
+### 已完成
 
-- `ingredientKnowledgeService` 仍保留 C.3 酶条目本身和来源/供体关系证据，但来源/供体 master 改为 `ingredient_type=other`。
-- C.3 来源/供体新增 `enzyme_source` / `enzyme_donor` / `gb2760_enzyme_microorganism_reference` 标签，供后续专用复核使用。
-- `ingredient:promote-reviewed` 的跳过原因现在明确区分 C.3 来源/供体引用，避免继续用“食品菌种目录”口径解释这 81 条 pending 记录。
-- 覆盖报告和 source-materials 报告已明确：NHC 可用于食品菌种覆盖只统计对应官方菌种名单来源，不统计 GB 2760 C.3。
+- 首页：主拍照按钮放大为首屏主操作，文案压缩为“拍标签 / 自动生成结果”，搜索和关注降为弱入口，避免喧宾夺主。
+- 拍照页：拍照框重做为更稳定的标签扫描框；选择图片后自动调用 OCR 和本地解析，识别清楚时直接生成结果，低置信、OCR 失败或信息不足时才进入手动补充。
+- 上传组件：按钮改为“拍照识别 / 上传识别”，减少说明文字，并保持移动端固定比例和稳定布局。
+- 搜索页：搜索后隐藏热门搜索模块；结果卡片移除“常见用途 / 需要注意 / 常见食品”，改为来源状态、数据来源、依据摘要和标签常见写法。
+- 我的页：关注目标、过敏/忌口选项改为等宽选择卡，避免字数不同导致控件大小不一。
 
-### 当前 DB 口径
+### 边界与风险
 
-- `ingredient_master=3041`。
-- `food_microorganism=40`：26 条 NHC 通用食品菌种已 verified，14 条婴幼儿菌种 OCR 辅助记录仍 pending_review。
-- `other=81`：GB 2760 表 C.3 酶制剂来源/供体引用，全部 pending_review。
-- `verified_regulation=2452`。
-- `current source relations=4426`。
-- 剩余 `pending_review ingredient=563`：`ordinary_ingredient=468`、`food_microorganism=14`、`other=81`。
-
-### 数据边界
-
-- C.3 来源/供体引用只能说明“某酶制剂来源或供体关系”，不能说明该微生物属于 NHC 可用于食品菌种名单。
-- C.3 来源/供体引用不能进入 `microorganism_strains` 的 current 口径，也不能展示为 verified 可食用菌种目录结论。
-- `可用于婴幼儿食品的菌种名单.pdf` 仍因无文本层且依赖 RapidOCR 辅助抽取，必须保留 `pending_review`。
-- S2 普通配料仍不是官方普通食品原料目录；不得展示为 S0 或 verified。
-- 数字标签公告官方页面已定位但本地原文未保存，继续 manual_required。
-- GB 28050-2025 糖醇能量规则仍未定位到可引用 S0 原文，继续不导入、不参与能量计算。
+- OCR 是否真实生效仍依赖后端 API、`OCR_PROVIDER` 和本机/部署环境 OCR 服务；本轮修复的是前端选择图片后自动触发 OCR 与结果生成的流程。
+- OCR 低置信、无有效配料/营养字段或后端不可用时仍保留手动补充，不伪造识别结果。
+- 搜索结果只展示来源状态和依据摘要，不给购买、医疗、绝对化或权威化结论。
+- 本轮没有新增数据，不改变 `DATA_SOURCES.md` 中的数据可信口径。
 
 ### 验证
 
 已通过：
 
-- `npm --prefix backend test -- tests/ingredientKnowledge.test.ts`
-- `npm --prefix backend run typecheck`
-- `npm run ingredient:validate`
-- `npm run ingredient:coverage`
-- `npm run validate:data`
-- `npm run lint`
-- `npm run test`
+- `npm --prefix user-uniapp run lint`
+- `npm --prefix user-uniapp run typecheck`
+- `npm --prefix user-uniapp run build:mp-weixin`
+- `node /tmp/compcheck-ui-check.mjs`
 - `git diff --check`

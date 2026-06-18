@@ -59,7 +59,7 @@
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
 | M5 | 食品标签解读报告（配料 + 营养 + 关注项） | 🔄 uni-app MVP 已落地，标签类型后端 API 已接入 | ~60% |
 | M6 | 我的关注项、产品档案、收藏、历史、个性化 | 🔄 uni-app 本地 MVP 已落地 | ~64% |
-| M7 | 消费者体验与信息架构优化（UX） | 🔄 uni-app 主路径已迁移，P0 H5 可用性截图自测已覆盖，Demo、轻确认、反馈、历史 LRU 和配料表拍摄引导已补 | ~59% |
+| M7 | 消费者体验与信息架构优化（UX） | 🔄 uni-app 主路径已迁移，P0 H5 可用性截图自测已覆盖；首页主拍照入口、拍照自动识别生成、搜索结果信息结构和我的关注选择控件已按本轮反馈收口 | ~61% |
 | M8 | 移动端 / PWA 体验 | 🔄 uni-app H5/小程序构建通过，小程序工程对接与导入说明已补，H5 自动截图通过，真机待验 | ~70% |
 | M9 | AI 总结解释（本地 fallback 可用，真实待 Key） | 🔄 进行中 | ~15% |
 | M10 | 登录、云同步（本地完成，跨设备验收待补） | 🔄 进行中 | ~40% |
@@ -259,6 +259,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-19 | user-uniapp P0 体验修复：首页主拍照按钮放大并减少重复文案，搜索/关注降为弱入口；拍照页上传或拍照后自动 OCR，识别清楚时直接生成结果，低置信或失败才进入手动补充；拍照框视觉重做；搜索结果隐藏搜索后的热门模块并移除“常见用途/需要注意/常见食品”旧字段；我的页关注目标和过敏/忌口改为等宽选择控件 | Codex | `npm --prefix user-uniapp run lint` / `npm --prefix user-uniapp run typecheck` / `npm --prefix user-uniapp run build:mp-weixin` / `node /tmp/compcheck-ui-check.mjs` / `git diff --check` |
 | 2026-06-18 | 食品成分菌种边界修正：GB 2760 表 C.3 酶制剂来源/供体微生物改为 `other/pending_review`，只保留 `enzyme_source` / `enzyme_donor` 关系证据，不计入 NHC 可用于食品菌种覆盖；当前 `food_microorganism=40`、`other=81`、`current source relations=4426`，剩余 pending_review 仍为 563 | Codex | `npm --prefix backend test -- tests/ingredientKnowledge.test.ts` / `npm --prefix backend run typecheck` / `npm run ingredient:validate` / `npm run ingredient:coverage` / `npm run validate:data` / `npm run lint` / `npm run test` / `git diff --check` |
 | 2026-06-18 | 食品成分官方目录来源补齐与专用表正式化：补齐三新食品、党参等 9 种食药物质、地黄等 4 种食药物质、可用于食品/婴幼儿食品菌种名单的 NHC 官方公告页和附件 URL；`ingredient:promote-reviewed` 扩展到官方目录专用表，仅提升 S0、政府公开文档、本地文件+SHA 校验、非 OCR、证据完整数据；本地 DB 本轮提升 `ingredient_master=2146`，`novel_food_ingredient_rules=95`、`food_medicine_rules=13`、`microorganism_strains=26` 进入 current，剩余 `pending_review ingredient=563` | Codex | `npm run ingredient:inventory` / `npm run ingredient:extract` / `npm run ingredient:import` / `npm run ingredient:promote-reviewed` / `npm run ingredient:validate` / `npm run ingredient:coverage` / `git diff --check` / `npm run validate:data` / `npm --prefix backend run typecheck` / `npm run lint` / `npm run test` / `npm --prefix backend run test` / `npm run build` / `npm --prefix backend run build` |
 | 2026-06-18 | 食品成分官方源缺口决策清单：`ingredient:report` 新增生成 `docs/decision-required.md`，把数字标签独立公告官方原文缺失、GB 28050-2025 糖醇能量规则原文未定位集中列为需要用户/人工处理事项；新增回归测试，确认缺口不会被静默跳过或误当 verified 数据；不新增、不删除、不提升任何成分数据 | Codex | `npm run ingredient:report` / `npm --prefix backend test -- tests/ingredientKnowledge.test.ts` / `npm --prefix backend run typecheck` / `npm run lint` / `npm run ingredient:validate -- --no-db` / `npm run ingredient:validate` / `git diff --check` |

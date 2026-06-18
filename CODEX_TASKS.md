@@ -132,6 +132,7 @@
   19. 食品成分 pending-review 受控正式化：用户完成本地 review 页 7/7 报告通过后，新增并执行 `ingredient:promote-reviewed`，只提升 S0、政府公开文档、`verified_by_local_content_and_checksum`、证据字段完整且非 OCR 辅助的数据；本地 DB 提升 `ingredient_master=2026`（`food_additive=2005`、`nutrition_fortifier=21`）、`ingredient_source_relations=2126`、`ingredient_regulatory_rules=133`、`nutrition_fortifier_rules=116`，剩余 `pending_review ingredient=715`、`pending_review staging=346`。
   20. 食品成分官方目录来源补齐与专用表正式化：补齐三新食品、党参等 9 种食药物质、地黄等 4 种食药物质、可用于食品/婴幼儿食品菌种名单的 NHC 官方公告页和附件 URL；`ingredient:promote-reviewed` 扩展到官方目录专用表，仅提升 S0、政府公开文档、本地文件+SHA 校验、非 OCR、证据完整数据；本地 DB 本轮提升 `ingredient_master=2146`（`food_additive=2012`、`novel_food_ingredient=95`、`food_medicine_substance=13`、`food_microorganism=26`）、`ingredient_source_relations=2158`、`ingredient_regulatory_rules=133`、`novel_food_ingredient_rules=95`、`food_medicine_rules=13`、`microorganism_strains=26`，剩余 `pending_review ingredient=563`、`pending_review staging=198`。
   21. 食品成分菌种边界修正：GB 2760 表 C.3 酶制剂来源/供体微生物不再计入 NHC 可用于食品菌种覆盖，改为 `ingredient_type=other` 并保留 `enzyme_source` / `enzyme_donor` / `gb2760_enzyme_microorganism_reference` 标签和关系证据；本地 DB 当前 `food_microorganism=40`（其中 26 条 NHC 通用食品菌种已 verified、14 条婴幼儿菌种 OCR 辅助待复核）、`other=81`（C.3 来源/供体待复核）、`ingredient_type_tags=3033`、`current source relations=4426`、剩余 `pending_review ingredient=563`。
+  22. user-uniapp P0 体验修复：首页主拍照按钮放大并减少重复文案，搜索/关注降为弱入口；拍照页上传或拍照后自动 OCR，识别清楚时直接生成结果，低置信或失败才进入手动补充；拍照框视觉重做；搜索结果隐藏搜索后的热门模块并移除“常见用途/需要注意/常见食品”旧字段；我的页关注目标和过敏/忌口改为等宽选择控件。
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。

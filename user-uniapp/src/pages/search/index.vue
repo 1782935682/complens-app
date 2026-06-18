@@ -11,9 +11,9 @@ interface DisplayIngredient {
   key: string;
   name: string;
   type: string;
-  usage: string;
-  note: string;
-  foods: string;
+  status: string;
+  source: string;
+  evidence: string;
   aliases: string;
 }
 
@@ -61,9 +61,9 @@ function normalizeSearchItem(item: SearchItem, index: number, keyword: string): 
     key: `${index}-${name}`,
     name,
     type: pickText(item.category, functions.join('、'), '未分类'),
-    usage: pickText(item.description, functions.join('、'), '暂无明确用途说明。'),
-    note: pickText(item.reviewNote, buildStatusNote(item.dataStatus), '信息不足，建议结合包装原文确认。'),
-    foods: foods.length ? unique(foods).slice(0, 6).join('、') : '暂无明确常见食品信息。',
+    status: buildStatusNote(item.dataStatus),
+    source: pickText(item.sourceName, normalizeSourceType(item.sourceType), '暂无明确来源名称'),
+    evidence: buildEvidenceText(item, foods, functions),
     aliases: aliases.length ? unique([name, ...aliases]).join('、') : name
   };
 }
@@ -90,11 +90,29 @@ function pickUsageLimits(value: unknown): string[] {
 
 function buildStatusNote(value: unknown): string {
   const status = String(value || '');
-  if (status === 'verified_regulation') return '已有官方标准来源信息，仍建议结合包装原文查看。';
-  if (status === 'verified_jecfa') return '已有评价来源信息，但不等同于中国法规使用范围。';
-  if (status === 'pending_review' || status === 'mapped_candidate') return '来源数据仍需复核，不能作为权威结论。';
-  if (status === 'unverified') return '当前数据未验证，建议只作标签阅读参考。';
-  return '';
+  if (status === 'verified_regulation') return '中国官方标准已验证';
+  if (status === 'verified_jecfa') return '国际评价来源';
+  if (status === 'common_ingredient') return '普通配料词库';
+  if (status === 'pending_review' || status === 'mapped_candidate') return '待复核';
+  if (status === 'unverified') return '未验证';
+  return '来源状态未知';
+}
+
+function normalizeSourceType(value: unknown): string {
+  const sourceType = String(value || '').trim();
+  if (sourceType === 'official_standard') return '官方标准';
+  if (sourceType === 'safety_evaluation') return '评价来源';
+  if (sourceType === 'common_ingredient') return '普通配料词库';
+  if (sourceType === 'manual_review') return '人工复核记录';
+  return sourceType;
+}
+
+function buildEvidenceText(item: SearchItem, foods: string[], functions: string[]): string {
+  const raw = pickText(item.regulatoryBasis, item.rawSourceText, item.reviewNote);
+  if (raw) return raw.replace(/\s+/g, ' ').slice(0, 96);
+  if (foods.length) return `已记录 ${unique(foods).slice(0, 3).join('、')} 等适用范围，详情以来源原文为准。`;
+  if (functions.length) return `分类/功能：${unique(functions).slice(0, 4).join('、')}。`;
+  return '暂无可展示的结构化依据，建议结合包装原文确认。';
 }
 
 function unique(values: string[]): string[] {
@@ -126,7 +144,7 @@ function searchHotKeyword(keyword: string) {
       <text class="search-help">搜索配料、添加剂或营养成分。</text>
     </view>
 
-    <view class="hot-section">
+    <view v-if="!searched && !query.trim()" class="hot-section">
       <text class="hot-title">热门搜索</text>
       <view class="hot-list">
         <text v-for="item in hotKeywords" :key="item" class="hot-pill" @tap="searchHotKeyword(item)">{{ item }}</text>
@@ -156,16 +174,16 @@ function searchHotKeyword(keyword: string) {
           <text class="result-value">{{ item.type }}</text>
         </view>
         <view class="result-row">
-          <text class="result-label">常见用途</text>
-          <text class="result-value">{{ item.usage }}</text>
+          <text class="result-label">来源状态</text>
+          <text class="result-value">{{ item.status }}</text>
         </view>
         <view class="result-row">
-          <text class="result-label">需要注意</text>
-          <text class="result-value">{{ item.note }}</text>
+          <text class="result-label">数据来源</text>
+          <text class="result-value">{{ item.source }}</text>
         </view>
         <view class="result-row">
-          <text class="result-label">常见食品</text>
-          <text class="result-value">{{ item.foods }}</text>
+          <text class="result-label">依据摘要</text>
+          <text class="result-value">{{ item.evidence }}</text>
         </view>
         <view class="result-row">
           <text class="result-label">标签常见写法</text>
