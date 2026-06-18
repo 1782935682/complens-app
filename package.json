@@ -17,6 +17,7 @@
     "ingredient:import-staging": "npm --prefix backend run ingredient:import-staging --",
     "ingredient:promote": "npm --prefix backend run ingredient:promote --",
     "ingredient:report": "npm --prefix backend run ingredient:report --",
+    "ingredient:promote-reviewed": "npm --prefix backend run ingredient:promote-reviewed --",
     "ingredient:update-all": "npm --prefix backend run ingredient:update-all --",
     "ingredient:sources": "npm --prefix backend run ingredient:sources --",
     "ingredient:import": "npm --prefix backend run ingredient:import --",

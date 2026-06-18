@@ -1,6 +1,6 @@
 # 食品成分知识库覆盖报告
 
-生成时间：2026-06-18T13:36:44.728Z
+生成时间：2026-06-18T15:17:32.205Z
 
 统计口径：本地 PostgreSQL 实际查询结果。
 
@@ -33,7 +33,7 @@
 | nutrition_fortifier_rules 数量 | 116 |
 | import_errors 数量 | 0 |
 | official_sources 数量 | 15 |
-| verified_regulation 数量 | 285 |
+| verified_regulation 数量 | 2311 |
 | verified_official_standard 数量 | 9 |
 | verified_official_catalog 数量 | 5 |
 | verified_international_official 数量 | 0 |
@@ -41,9 +41,9 @@
 | observed_digital_label 数量 | 0 |
 | manual_verified 数量 | 0 |
 | staging 数量 | 462 |
-| 正式提升数量（current source relations） | 2409 |
-| pending_review ingredient 数量 | 2741 |
-| pending_review staging 数量 | 462 |
+| 正式提升数量（current source relations） | 4535 |
+| pending_review ingredient 数量 | 715 |
+| pending_review staging 数量 | 346 |
 | unverified 数量 | 10 |
 | 重复数量 | 0 |
 | 冲突数量 | 0 |
