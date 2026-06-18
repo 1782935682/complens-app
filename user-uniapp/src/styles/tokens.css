@@ -34,7 +34,7 @@ page {
   --space-md: 12px;
   --space-lg: 16px;
   --space-xl: 24px;
-  --radius-card: 16px;
+  --radius-card: 24rpx;
   --radius-btn: 18px;
   --radius-sm: 12px;
   --font-size-xs: 12px;
@@ -70,13 +70,15 @@ button {
 
 .page {
   min-height: 100vh;
-  min-height: 100dvh;
-  padding: calc(var(--space-lg) + env(safe-area-inset-top)) var(--space-lg) calc(var(--space-xl) + env(safe-area-inset-bottom));
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: calc(var(--space-lg) + env(safe-area-inset-top)) 32rpx calc(160rpx + env(safe-area-inset-bottom));
   background:
     radial-gradient(circle at 20px 12px, rgba(143, 228, 204, 0.2), transparent 120px),
     var(--bg);
   color: var(--text);
-  animation: page-entry 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: page-slide-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page--calm {
@@ -85,13 +87,11 @@ button {
     var(--bg);
 }
 
-@keyframes page-entry {
+@keyframes page-slide-in {
   from {
-    opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(10px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }

@@ -44,7 +44,7 @@ function handleTap() {
 }
 
 .app-button:active:not([disabled]) {
-  transform: scale(0.98);
+  transform: translateY(1px) scale(0.975);
 }
 
 .app-button::after {
@@ -59,6 +59,7 @@ function handleTap() {
 
 .app-button--primary:active:not([disabled]) {
   background: var(--primary-darker);
+  box-shadow: 0 5px 12px rgba(8, 122, 104, 0.2);
 }
 
 .app-button--secondary {
@@ -94,7 +95,10 @@ function handleTap() {
 }
 
 .app-button[disabled] {
-  opacity: 0.56;
+  background: #f2f5f3;
+  border-color: var(--line);
+  box-shadow: none;
+  color: #9aa5a0;
 }
 
 .app-button__spinner {

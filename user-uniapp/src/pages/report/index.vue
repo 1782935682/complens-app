@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { onLoad, onShareAppMessage } from '@dcloudio/uni-app';
+import { onLoad } from '@dcloudio/uni-app';
 import { computed, ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import EmptyState from '@/components/EmptyState.vue';
-import PageHeader from '@/components/PageHeader.vue';
+import { allergenOptions, childrenModeKeywords, primaryGoalOptions } from '@/constants/attention';
 import { routes, navigateToRoute } from '@/constants/routes';
-import { buildReportShareMessage, enableWeixinShareMenu, shareReport } from '@/platform/share';
-import { buildManualOcrResult } from '@/services/api/ocr';
 import { getAttentionSettings } from '@/stores/attentionStore';
-import { getReportById, getReports, resetScanDraft, saveScanDraft } from '@/stores/scanStore';
-import type { AdditiveRecognition, IngredientMatch, LabelReport, LabelType } from '@/types';
+import { getReportById, getReports, resetScanDraft } from '@/stores/scanStore';
+import type { AdditiveRecognition, IngredientMatch, LabelReport } from '@/types';
 import { summarizeAdditiveRecognitions } from '@/utils/additiveRules';
 import { buildAdditiveRecognitions, buildConsumerDecision, buildNutritionSnapshot } from '@/utils/decisionRules';
 
 const report = ref<LabelReport | undefined>();
-const selectedAdditive = ref<AdditiveRecognition | undefined>();
 const attentionSettings = ref(getAttentionSettings());
-const moreOpen = ref(false);
+const rawTextOpen = ref(false);
 
 const ingredients = computed(() => report.value?.ingredientSection.items ?? []);
-const networkItems = computed(() => ingredients.value.filter((item) => isNetworkItem(item)));
 const visibleNutritionFields = computed(() => report.value?.nutritionSection.fields.filter((item) => item.value.trim()) ?? []);
 const additiveRecognition = computed(() => {
   if (!report.value) return { total: 0, categoryCount: 0, items: [] as AdditiveRecognition[] };
@@ -42,845 +38,469 @@ const decision = computed(() => {
     nutritionSnapshot: nutritionSnapshot.value
   }, attentionSettings.value);
 });
-const visibleWatchPoints = computed(() => decision.value?.watchPoints.slice(0, 4) ?? []);
+const overallLabel = computed(() => {
+  const level = decision.value?.level;
+  if (level === 'daily_ok') return '适合日常食用';
+  if (level === 'alternative') return '不建议频繁食用';
+  return '需要注意';
+});
+const allergyWarnings = computed(() => decision.value?.allergyWarnings ?? []);
+const visibleWatchPoints = computed(() => decision.value?.watchPoints.slice(0, 5) ?? []);
 const additiveSummaryText = computed(() => {
   const summary = additiveRecognition.value;
   if (!summary.total) return '暂未识别到明显食品添加剂。';
-  return `识别到 ${summary.categoryCount} 类 ${summary.total} 种添加剂`;
+  return `识别到 ${summary.categoryCount} 类 ${summary.total} 种添加剂。`;
 });
-const allergyWarnings = computed(() => decision.value?.allergyWarnings ?? []);
-const analysisSource = computed(() => report.value?.analysisSource);
-const isDemoReport = computed(() => analysisSource.value?.sourceType === 'demo_sample');
-const isInsufficient = computed(() => decision.value?.level === 'insufficient');
+const reminderItems = computed(() => [
+  buildReminderItem('糖', 'sugar', /糖|甜味剂|糖浆|碳水/),
+  buildReminderItem('钠', 'sodium', /钠|盐|味精/),
+  buildReminderItem('脂肪', 'fat', /脂肪|油脂|能量|热量/),
+  {
+    label: '添加剂',
+    value: additiveSummaryText.value
+  },
+  {
+    label: '过敏原',
+    value: allergyWarnings.value.length
+      ? allergyWarnings.value.join('；')
+      : (report.value?.allergenHints?.length ? report.value.allergenHints.join('；') : '暂未命中已配置的过敏 / 忌口。')
+  }
+]);
+const personalHits = computed(() => buildPersonalHits());
+const rawLabelText = computed(() => report.value?.rawText || report.value?.analysisSource?.ocrText || '');
+const sourceImagePath = computed(() => report.value?.analysisSource?.imagePath || '');
 
 onLoad((query) => {
-  enableWeixinShareMenu();
   attentionSettings.value = getAttentionSettings();
   const id = String(query?.id || '');
   report.value = id ? getReportById(id) : getReports()[0];
 });
 
-onShareAppMessage(() => buildReportShareMessage(report.value));
-
-function isNetworkItem(item: IngredientMatch) {
-  return Boolean(item.webSearchUrl || item.sourceType === 'web_search' || item.dataStatus === 'unknown_from_ocr');
-}
-
-async function shareCurrentReport() {
-  if (!report.value) return;
-  const ok = await shareReport(report.value);
-  uni.showToast({ title: ok ? '已复制/分享摘要' : '分享失败', icon: 'none' });
-}
-
-function openAdditiveDetail(item: AdditiveRecognition) {
-  selectedAdditive.value = item;
-}
-
-function nutritionLevelClass(level: string) {
-  if (level === '较低') return 'low';
-  if (level === '中等' || level === '一般') return 'medium';
-  if (level === '较高') return 'high';
-  return 'missing';
-}
-
-function showFeedbackFallback() {
-  uni.showToast({ title: '请在小程序右上角反馈，或重新拍摄更清晰的食品标签。', icon: 'none' });
-}
-
-function openManualModify() {
-  if (!report.value) {
-    uni.navigateTo({ url: `${routes.capture}?mode=manual` });
-    return;
+function buildReminderItem(label: string, key: string, pattern: RegExp) {
+  const nutrition = nutritionSnapshot.value.find((item) => item.key === key);
+  if (nutrition?.valueText && nutrition.level !== '未识别') {
+    return { label, value: `${nutrition.valueText}，${nutrition.level}。${nutrition.note}` };
   }
-  const confirmedText = buildReportManualText(report.value);
-  const ocr = {
-    ...buildManualOcrResult(),
-    text: confirmedText,
-    blocks: confirmedText ? [{ text: confirmedText, confidence: 1 }] : []
+  const text = collectDecisionText();
+  return {
+    label,
+    value: pattern.test(text) ? '识别到相关提醒，建议结合包装原文查看。' : '暂未识别到明显相关提醒。'
   };
-  resetScanDraft();
-  saveScanDraft({
-    ocr,
-    confirmedText,
-    productName: report.value.productName,
-    labelType: resolveReportLabelType(report.value),
-    frontClaimsText: report.value.frontClaimsSection?.text || report.value.analysisSource?.frontClaimsText || ''
-  });
-  navigateToRoute(routes.capture);
+}
+
+function buildPersonalHits(): string[] {
+  const hits: string[] = [];
+  const text = collectReportText();
+  const goal = primaryGoalOptions.find((item) => item.key === attentionSettings.value.primaryGoal) || primaryGoalOptions[0];
+  if (goal.key === 'daily' || goal.keywords.some((keyword) => text.includes(keyword))) {
+    hits.push(`关注目标命中：${goal.label}`);
+  }
+  if (attentionSettings.value.isChildrenMode) {
+    const matched = childrenModeKeywords.filter((keyword) => text.includes(keyword)).slice(0, 4);
+    hits.push(matched.length ? `儿童模式提醒：${matched.join('、')}` : '儿童模式提醒：已按儿童模式优先排序。');
+  }
+  const allergenHits = allergenOptions
+    .filter((item) => attentionSettings.value.allergens.includes(item.key))
+    .filter((item) => item.keywords.some((keyword) => text.includes(keyword)))
+    .map((item) => item.label);
+  if (allergenHits.length) hits.push(`过敏 / 忌口提醒：${allergenHits.join('、')}`);
+  return hits;
+}
+
+function collectDecisionText(): string {
+  const value = decision.value;
+  return [
+    value?.summary,
+    ...(value?.tags || []),
+    ...(value?.watchPoints || []),
+    ...(value?.reasons || [])
+  ].filter(Boolean).join(' ');
+}
+
+function collectReportText(): string {
+  const value = report.value;
+  return [
+    collectDecisionText(),
+    value?.rawText,
+    value?.analysisSource?.ingredientText,
+    value?.analysisSource?.nutritionText,
+    value?.analysisSource?.allergenText,
+    ...ingredients.value.map((item) => `${item.normalizedText} ${item.ingredientName || ''}`)
+  ].filter(Boolean).join(' ');
+}
+
+function ingredientType(item: IngredientMatch): string {
+  if (item.isAdditive) return '添加剂';
+  if (item.dataStatus === 'unknown_from_ocr') return '待核对';
+  return '配料';
 }
 
 function retryScan() {
   resetScanDraft();
   navigateToRoute(routes.capture);
 }
-
-function buildReportManualText(value: LabelReport): string {
-  const source = value.analysisSource;
-  return [
-    source?.ingredientText,
-    source?.nutritionText,
-    source?.allergenText,
-    source?.frontClaimsText || value.frontClaimsSection?.text
-  ].filter(Boolean).join('\n') || value.rawText || source?.ocrText || '';
-}
-
-function resolveReportLabelType(value: LabelReport): LabelType {
-  if (value.analysisSource?.sourceType === 'captured_nutrition') return 'nutrition_facts';
-  if (value.analysisSource?.sourceType === 'captured_product') return 'front_claims';
-  return value.ingredientSection.items.length ? 'ingredient_list' : 'unknown_label';
-}
-
 </script>
 
 <template>
-  <view class="page page--calm page--with-action-bar stack">
+  <view class="page page--report">
     <EmptyState
       v-if="!report"
       title="没有找到结果"
-      description="可能已被删除，或本机没有对应记录。"
+      description="可能已被删除，或本机没有对应结果。"
       action-label="回到首页"
       @action="navigateToRoute(routes.home)"
     />
 
     <template v-else>
-      <PageHeader
-        title="消费建议"
-        :subtitle="report.productName || '未命名食品'"
-      />
-
-      <AppCard v-if="isDemoReport">
-        <view class="demo-notice">
-          <text class="demo-notice__title">这是示例解读，不代表真实商品。</text>
-          <text class="muted">Demo 只用于体验配料表和营养成分表的本地规则解读流程。</text>
-        </view>
-      </AppCard>
-
-      <AppCard v-if="allergyWarnings.length">
-        <view class="allergy-alert">
-          <text class="allergy-alert__title">过敏/忌口提醒</text>
-          <text v-for="item in allergyWarnings" :key="item" class="allergy-alert__text">{{ item }}</text>
-        </view>
-      </AppCard>
-
-      <AppCard>
-        <view v-if="decision" class="result-hero" :class="`result-hero--${decision.level}`">
-          <text class="result-hero__kicker">结论</text>
-          <text class="result-hero__label">{{ decision.label }}</text>
-          <text class="result-hero__text">{{ decision.summary }}</text>
-          <view class="legend-row">
-            <text v-for="tag in decision.tags.slice(0, 4)" :key="tag" class="legend-chip legend-chip--normal">{{ tag }}</text>
+      <view class="report-stack">
+        <view class="scan-meta">
+          <image v-if="sourceImagePath" class="scan-meta__image" :src="sourceImagePath" mode="aspectFill" />
+          <view v-else class="scan-meta__placeholder" />
+          <view class="scan-meta__copy">
+            <text class="scan-meta__title">本次识别标签</text>
+            <text class="scan-meta__desc">{{ report.analysisSource?.sourceLabel || '食品标签文字' }}</text>
           </view>
         </view>
-      </AppCard>
 
-      <AppCard v-if="isInsufficient">
-        <view class="insufficient-actions">
-          <text class="section-title">补充信息后再解读</text>
-          <text class="muted">信息不足，建议重新拍摄食品标签，或手动补充配料表 / 营养成分表。</text>
-          <AppButton @click="retryScan">重新拍摄</AppButton>
-          <AppButton variant="secondary" @click="openManualModify">手动修改</AppButton>
-          <AppButton variant="text" @click="navigateToRoute(routes.home)">返回首页</AppButton>
-        </view>
-      </AppCard>
+        <AppCard class="report-card report-card--overall" :class="`report-card--${decision?.level || 'caution'}`">
+          <view class="report-section">
+            <text class="section-title">整体判断</text>
+            <text class="overall-label">{{ overallLabel }}</text>
+            <text v-if="decision" class="section-text">{{ decision.summary }}</text>
+          </view>
+        </AppCard>
 
-      <AppCard v-if="decision">
-        <view class="stack">
-          <text class="section-title">一句话建议</text>
-          <text class="advice-text">{{ decision.summary }}</text>
-        </view>
-      </AppCard>
-
-      <AppCard>
-        <view class="stack">
-          <view class="section-head">
-            <view>
-              <text class="section-title">添加剂识别</text>
-              <text class="muted">{{ additiveSummaryText }}</text>
+        <AppCard class="report-card">
+          <view class="report-section">
+            <text class="section-title">重点提醒</text>
+            <view class="reminder-chip-list">
+              <text v-for="item in reminderItems" :key="item.label" class="reminder-chip">{{ item.label }}</text>
+            </view>
+            <view class="reminder-copy-list">
+              <text v-for="item in reminderItems" :key="`${item.label}-copy`" class="reminder-copy">{{ item.label }}：{{ item.value }}</text>
+            </view>
+            <view v-if="visibleWatchPoints.length" class="watch-list">
+              <text v-for="item in visibleWatchPoints" :key="item" class="watch-pill">{{ item }}</text>
             </view>
           </view>
-          <EmptyState
-            v-if="!additiveRecognition.items.length"
-            title="暂未识别到明显添加剂"
-            description="如果配料表较短，这通常说明添加剂信息不多；仍建议结合包装原文确认。"
-            action-label="重新拍摄"
-            @action="navigateToRoute(routes.capture)"
-          />
-          <view v-else class="additive-list">
-            <view
-              v-for="item in additiveRecognition.items"
-              :key="item.id"
-              class="additive-card"
-              :class="`additive-card--${item.displayLevel}`"
-              @tap="openAdditiveDetail(item)"
-            >
-              <view class="additive-card__head">
-                <text class="additive-card__name">{{ item.name }}</text>
-                <text class="additive-card__category">{{ item.category }}</text>
-              </view>
-              <text class="additive-card__line">作用：{{ item.effect }}</text>
-              <text class="additive-card__line">提醒：{{ item.reminder }}</text>
-            </view>
-          </view>
-        </view>
-      </AppCard>
+        </AppCard>
 
-      <AppCard v-if="decision">
-        <view class="stack">
-          <view class="section-head">
-            <view>
-              <text class="section-title">重点提醒</text>
-              <text class="muted">先看和当前目标最相关的几项。</text>
+        <AppCard class="report-card">
+          <view class="report-section">
+            <text class="section-title">命中个人关注</text>
+            <view v-if="personalHits.length" class="simple-list">
+              <text v-for="item in personalHits" :key="item" class="hit-pill">{{ item }}</text>
             </view>
+            <text v-else class="section-text">当前没有命中已配置的个人关注项。</text>
           </view>
-          <view class="watch-list">
-            <view v-for="(item, index) in visibleWatchPoints" :key="item" class="watch-item">
-              <text class="watch-item__index">{{ index + 1 }}</text>
-              <text class="watch-item__text">{{ item }}</text>
-            </view>
-          </view>
-        </view>
-      </AppCard>
+        </AppCard>
 
-      <AppCard>
-        <view class="stack">
-          <view class="section-head">
-            <view>
-              <text class="section-title">更多信息</text>
-              <text class="muted">营养快照、原文、数据说明和免责声明默认折叠。</text>
-            </view>
-            <text class="link" @tap="moreOpen = !moreOpen">{{ moreOpen ? '收起' : '展开' }}</text>
-          </view>
-          <view v-if="moreOpen" class="stack">
-            <view>
-              <text class="section-title">营养快照</text>
-              <view class="nutrition-snapshot">
-                <view v-for="item in nutritionSnapshot" :key="item.key" class="nutrition-item">
-                  <view class="nutrition-item__head">
-                    <text class="nutrition-item__label">{{ item.label }}</text>
-                    <text class="nutrition-item__value">{{ item.valueText }}，{{ item.level }}</text>
-                  </view>
-                  <view class="nutrition-item__track">
-                    <view class="nutrition-item__bar" :class="`nutrition-item__bar--${nutritionLevelClass(item.level)}`" :style="{ width: `${item.percent}%` }" />
-                  </view>
-                  <text class="nutrition-item__note">{{ item.note }}</text>
+        <AppCard class="report-card">
+          <view class="report-section">
+            <text class="section-title">配料解读</text>
+            <view v-if="ingredients.length" class="ingredient-list">
+              <view v-for="item in ingredients" :key="item.id" class="ingredient-row">
+                <view class="ingredient-row__head">
+                  <text class="ingredient-row__name">{{ item.ingredientName || item.normalizedText }}</text>
+                  <text class="ingredient-row__type">{{ ingredientType(item) }}</text>
                 </view>
+                <text class="section-text">{{ item.sourceNote || item.dataStatusLabel }}</text>
               </view>
             </view>
-
-            <view>
-              <text class="section-title">确认后的标签文字</text>
-              <view v-if="ingredients.length" class="ingredient-plain-list">
-                <text v-for="item in ingredients" :key="item.id" class="ingredient-pill" :class="{ 'ingredient-pill--additive': item.isAdditive, 'ingredient-pill--network': isNetworkItem(item) }">{{ item.normalizedText }}</text>
-              </view>
-              <view v-if="visibleNutritionFields.length" class="simple-list">
-                <view v-for="field in visibleNutritionFields" :key="field.key" class="simple-list-item">
-                  <text class="simple-list-item__title">{{ field.label }}：{{ field.value }}{{ field.unit }}</text>
-                </view>
-              </view>
-              <text v-if="report.rawText" class="raw-text">{{ report.rawText }}</text>
-            </view>
-
-            <view class="simple-list">
-              <view class="simple-list-item">
-                <text class="simple-list-item__title">本次分析依据</text>
-                <text class="simple-list-item__desc">{{ analysisSource?.description || '本次分析依据：用户确认后的食品标签文字。' }}</text>
-                <text v-if="analysisSource?.imageSummary" class="simple-list-item__desc">图片摘要：{{ analysisSource.imageSummary }}</text>
-              </view>
-              <view v-for="source in report.sources" :key="source.label" class="simple-list-item">
-                <text class="simple-list-item__title">{{ source.label }}</text>
-                <text class="simple-list-item__desc">{{ source.detail }}</text>
-              </view>
-              <view class="simple-list-item">
-                <text class="simple-list-item__title">免责声明</text>
-                <text class="simple-list-item__desc">本工具仅用于食品标签信息整理和关注提示，不替代医生、营养师或监管机构意见。</text>
-              </view>
-            </view>
-            <text v-if="networkItems.length" class="muted">有 {{ networkItems.length }} 个词需要结合包装原文核对。</text>
+            <text v-else class="section-text">暂未识别到清晰配料表。</text>
           </view>
-        </view>
-      </AppCard>
+        </AppCard>
 
-      <AppCard>
-        <view class="feedback-block">
-          <text class="section-title">结果反馈</text>
-          <text class="muted">如果识别或解读不符合包装原文，可以反馈给我们继续改进。</text>
-          <!-- #ifdef MP-WEIXIN -->
-          <button class="feedback-native" open-type="feedback">结果不准确？告诉我们</button>
-          <!-- #endif -->
-          <!-- #ifndef MP-WEIXIN -->
-          <AppButton variant="secondary" @click="showFeedbackFallback">结果不准确？告诉我们</AppButton>
-          <!-- #endif -->
-        </view>
-      </AppCard>
+        <AppCard class="report-card">
+          <view class="report-section">
+            <text class="section-title">营养成分解读</text>
+            <view v-if="visibleNutritionFields.length" class="nutrition-list">
+              <view v-for="field in visibleNutritionFields" :key="field.key" class="nutrition-row">
+                <text class="nutrition-row__label">{{ field.label }}</text>
+                <text class="nutrition-row__value">{{ field.value }}{{ field.unit }}</text>
+              </view>
+            </view>
+            <text v-else class="section-text">暂未识别到营养成分字段。</text>
+          </view>
+        </AppCard>
 
-      <view class="action-bar">
-        <AppButton @click="shareCurrentReport">复制结果</AppButton>
-        <AppButton variant="secondary" @click="navigateToRoute(routes.capture)">再扫一个</AppButton>
-        <AppButton variant="text" @click="navigateToRoute(routes.home)">先放一边</AppButton>
+        <AppCard class="report-card">
+          <view class="report-section">
+            <text class="section-title">建议</text>
+            <view v-if="decision?.suggestions.length" class="simple-list">
+              <text v-for="item in decision.suggestions" :key="item" class="section-text">• {{ item }}</text>
+            </view>
+            <text v-else class="section-text">建议结合包装原文和个人情况查看。</text>
+          </view>
+        </AppCard>
+
+        <AppCard class="report-card">
+          <view class="report-section">
+            <view class="section-head">
+              <text class="section-title">识别到的标签文字</text>
+              <text class="link" @tap="rawTextOpen = !rawTextOpen">{{ rawTextOpen ? '收起' : '展开' }}</text>
+            </view>
+            <text v-if="rawTextOpen && rawLabelText" class="raw-text">{{ rawLabelText }}</text>
+            <text v-else-if="rawTextOpen" class="section-text">暂无可展示的 OCR 原文。</text>
+          </view>
+        </AppCard>
       </view>
 
-      <view v-if="selectedAdditive" class="sheet-mask" @tap="selectedAdditive = undefined">
-        <view class="additive-sheet" @tap.stop>
-          <text class="additive-sheet__title">{{ selectedAdditive.name }}</text>
-          <text class="additive-sheet__tag">{{ selectedAdditive.category }}</text>
-          <text class="additive-sheet__line">作用：{{ selectedAdditive.effect }}</text>
-          <text class="additive-sheet__line">提醒：{{ selectedAdditive.reminder }}</text>
-          <text v-for="note in selectedAdditive.targetNotes" :key="note" class="additive-sheet__line">当前目标：{{ note }}</text>
-          <AppButton variant="secondary" @click="selectedAdditive = undefined">知道了</AppButton>
-        </view>
+      <view class="action-bar">
+        <AppButton @click="retryScan">重新拍照</AppButton>
+        <AppButton variant="secondary" @click="navigateToRoute(routes.home)">返回首页</AppButton>
       </view>
     </template>
   </view>
 </template>
 
 <style scoped>
-.page--with-action-bar {
-  padding-bottom: calc(112px + env(safe-area-inset-bottom));
+.page--report {
+  min-height: 100vh;
+  padding-top: calc(28rpx + env(safe-area-inset-top));
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  background: var(--bg);
 }
 
-.allergy-alert {
-  border: 1px solid rgba(217, 107, 95, 0.28);
-  border-radius: var(--radius-card);
-  background: rgba(217, 107, 95, 0.1);
-  padding: var(--space-md);
+.report-stack {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-md);
 }
 
-.demo-notice,
-.feedback-block,
-.insufficient-actions {
+.scan-meta {
+  display: grid;
+  grid-template-columns: 104rpx minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-md);
+  padding: 0 4rpx 8rpx;
+}
+
+.scan-meta__image,
+.scan-meta__placeholder {
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 14rpx;
+  background: var(--surface-subtle);
+  border: 1px solid var(--line);
+}
+
+.scan-meta__placeholder {
+  background:
+    linear-gradient(90deg, transparent 45%, rgba(18, 151, 128, 0.14) 45%, rgba(18, 151, 128, 0.14) 55%, transparent 55%),
+    linear-gradient(0deg, transparent 45%, rgba(18, 151, 128, 0.14) 45%, rgba(18, 151, 128, 0.14) 55%, transparent 55%),
+    var(--primary-soft);
+}
+
+.scan-meta__copy {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: 4px;
 }
 
-.demo-notice {
-  border: 1px solid rgba(216, 138, 36, 0.22);
-  border-radius: var(--radius-card);
-  background: var(--accent-soft);
-  padding: var(--space-md);
-}
-
-.demo-notice__title {
+.scan-meta__title {
   color: var(--text);
   font-size: var(--font-size-base);
   font-weight: 900;
-  line-height: 1.4;
-}
-
-.feedback-native {
-  border: 1px solid rgba(18, 151, 128, 0.22);
-  border-radius: var(--radius-card);
-  background: var(--surface);
-  color: var(--primary-strong);
-  font-size: var(--font-size-base);
-  font-weight: 900;
-  line-height: 1.2;
-  padding: 13px var(--space-lg);
-}
-
-.feedback-native::after {
-  border: 0;
-}
-
-.allergy-alert__title {
-  color: var(--text);
-  font-size: var(--font-size-base);
-  font-weight: 800;
-}
-
-.allergy-alert__text,
-.advice-text {
-  color: var(--text);
-  font-size: var(--font-size-base);
-  line-height: 1.65;
-}
-
-.result-hero {
-  border-radius: var(--radius-card);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-lg);
-}
-
-.result-hero--occasional {
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.28);
-}
-
-.result-hero--daily_ok {
-  background: rgba(18, 151, 128, 0.1);
-  border: 1px solid rgba(18, 151, 128, 0.22);
-}
-
-.result-hero--caution {
-  background: rgba(245, 158, 11, 0.16);
-  border: 1px solid rgba(245, 158, 11, 0.34);
-}
-
-.result-hero--alternative {
-  background: rgba(217, 107, 95, 0.1);
-  border: 1px solid rgba(217, 107, 95, 0.24);
-}
-
-.result-hero--insufficient {
-  background: rgba(107, 114, 128, 0.08);
-  border: 1px solid rgba(107, 114, 128, 0.18);
-}
-
-.result-hero__kicker {
-  color: var(--primary-strong);
-  font-size: var(--font-size-xs);
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.result-hero__label {
-  color: var(--text);
-  font-size: var(--font-size-2xl);
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.result-hero__text {
-  color: var(--text);
-  font-size: var(--font-size-base);
-  line-height: 1.6;
-}
-
-.result-hero__subhead {
-  color: var(--muted);
-  font-size: var(--font-size-sm);
-  font-weight: 800;
   line-height: 1.3;
 }
 
-.decision-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
-}
-
-.decision-block {
-  border: 1px solid rgba(18, 151, 128, 0.16);
-  border-radius: var(--radius-card);
-  background: var(--primary-soft);
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.decision-block--warm {
-  border-color: rgba(216, 138, 36, 0.22);
-  background: var(--accent-soft);
-}
-
-.decision-block__title {
-  color: var(--text);
-  font-size: var(--font-size-base);
-  font-weight: 800;
-  line-height: 1.35;
-}
-
-.decision-block__line {
+.scan-meta__desc {
   color: var(--muted);
   font-size: var(--font-size-sm);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
-.additive-list,
-.nutrition-snapshot,
-.ingredient-plain-list {
+.report-card {
+  border-radius: 24rpx;
+}
+
+.report-card--overall {
+  border-color: rgba(18, 151, 128, 0.14);
+  background: linear-gradient(135deg, rgba(238, 250, 245, 0.96), #ffffff);
+}
+
+.report-card--alternative,
+.report-card--caution,
+.report-card--occasional {
+  border-color: rgba(216, 138, 36, 0.24);
+  background: linear-gradient(135deg, #fff8ec, #ffffff);
+}
+
+.report-section,
+.simple-list,
+.ingredient-list,
+.nutrition-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-.additive-card {
-  border: 1px solid rgba(18, 151, 128, 0.14);
-  border-radius: var(--radius-card);
-  background: var(--surface);
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+.overall-label {
+  color: #f15a24;
+  font-size: var(--font-size-2xl);
+  font-weight: 900;
+  line-height: 1.2;
 }
 
-.additive-card--watch,
-.additive-card--focus {
-  border-color: rgba(216, 138, 36, 0.3);
-  background: var(--accent-soft);
-}
-
-.additive-card__head,
-.nutrition-item__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.additive-card__name,
-.nutrition-item__label {
-  color: var(--text);
-  font-size: var(--font-size-base);
-  font-weight: 800;
-  line-height: 1.35;
-}
-
-.additive-card__category {
-  border-radius: 999px;
-  background: var(--primary-soft);
+.report-card--daily_ok .overall-label {
   color: var(--primary-strong);
-  font-size: var(--font-size-xs);
-  font-weight: 800;
-  padding: 4px 10px;
-  white-space: nowrap;
 }
 
-.additive-card__line,
-.nutrition-item__note {
-  color: var(--muted);
+.section-text {
+  color: var(--text);
   font-size: var(--font-size-sm);
-  line-height: 1.55;
+  line-height: 1.65;
+}
+
+.reminder-chip-list,
+.reminder-copy-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.reminder-copy-list {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.reminder-chip {
+  border-radius: 999px;
+  background: #fff0e4;
+  color: #f15a24;
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.3;
+  padding: 6px 12px;
+}
+
+.reminder-chip:nth-child(2),
+.reminder-chip:nth-child(5) {
+  background: #eaf7ff;
+  color: #1677a3;
+}
+
+.reminder-chip:nth-child(3) {
+  background: #fff7d7;
+  color: #b77905;
+}
+
+.reminder-copy {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
 }
 
 .watch-list {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.watch-item {
-  border: 1px solid rgba(18, 151, 128, 0.12);
-  border-radius: var(--radius-sm);
-  background: var(--surface-subtle);
-  padding: 10px var(--space-md);
-  display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  gap: var(--space-sm);
-  align-items: start;
-}
-
-.watch-item__index {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  background: var(--primary-soft);
-  color: var(--primary-strong);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-xs);
-  font-weight: 900;
-  line-height: 1;
-}
-
-.watch-item__text {
-  color: var(--text);
-  font-size: var(--font-size-sm);
-  font-weight: 800;
-  line-height: 1.5;
-}
-
-.nutrition-item {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  background: var(--surface-subtle);
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.nutrition-item__value {
-  color: var(--text);
-  font-size: var(--font-size-sm);
-  font-weight: 800;
-}
-
-.nutrition-item__track {
-  height: 9px;
-  border-radius: 999px;
-  background: rgba(18, 151, 128, 0.1);
-  overflow: hidden;
-}
-
-.nutrition-item__bar {
-  height: 100%;
-  border-radius: 999px;
-}
-
-.nutrition-item__bar--low {
-  background: var(--primary);
-}
-
-.nutrition-item__bar--medium {
-  background: var(--status-warning);
-}
-
-.nutrition-item__bar--high {
-  background: var(--accent);
-}
-
-.nutrition-item__bar--missing {
-  background: var(--muted);
-}
-
-.ingredient-plain-list {
-  flex-direction: row;
   flex-wrap: wrap;
-}
-
-.ingredient-pill {
-  border-radius: 999px;
-  background: var(--surface-subtle);
-  color: var(--text);
-  font-size: var(--font-size-xs);
-  font-weight: 800;
-  padding: 5px 10px;
-}
-
-.ingredient-pill--additive {
-  background: rgba(245, 158, 11, 0.16);
-  color: #92400e;
-}
-
-.ingredient-pill--network {
-  background: rgba(14, 138, 150, 0.12);
-  color: var(--status-info);
-}
-
-.action-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 35;
-  border-top: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.96);
-  padding: var(--space-sm) var(--space-md) calc(var(--space-sm) + env(safe-area-inset-bottom));
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   gap: var(--space-xs);
 }
 
-.sheet-mask {
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  display: flex;
-  align-items: flex-end;
-  background: rgba(24, 33, 31, 0.38);
-}
-
-.additive-sheet {
-  width: 100%;
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
-  background: var(--surface);
-  padding: var(--space-lg) var(--space-md) calc(var(--space-lg) + env(safe-area-inset-bottom));
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.additive-sheet__title {
-  color: var(--text);
-  font-size: var(--font-size-xl);
+.watch-pill {
+  border-radius: 999px;
+  background: #fff2df;
+  color: #c06419;
+  font-size: var(--font-size-xs);
   font-weight: 800;
+  line-height: 1.3;
+  padding: 6px 10px;
 }
 
-.additive-sheet__tag {
+.hit-pill {
   align-self: flex-start;
   border-radius: 999px;
   background: var(--primary-soft);
   color: var(--primary-strong);
-  font-size: var(--font-size-xs);
-  font-weight: 800;
-  padding: 5px 10px;
-}
-
-.additive-sheet__line {
-  color: var(--muted);
   font-size: var(--font-size-sm);
-  line-height: 1.6;
-}
-
-.chart-list,
-.ingredient-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.chart-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.chart-row__head {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.chart-row__label,
-.chart-row__value {
-  color: var(--text);
-  font-size: var(--font-size-sm);
-  font-weight: 800;
-}
-
-.chart-row__track {
-  height: 10px;
-  border-radius: 999px;
-  background: var(--surface-subtle);
-  overflow: hidden;
-}
-
-.chart-row__bar {
-  height: 100%;
-  border-radius: 999px;
-}
-
-.chart-row__bar--normal {
-  background: var(--primary);
-}
-
-.chart-row__bar--watch {
-  background: var(--primary-strong);
-}
-
-.chart-row__bar--additive {
-  background: var(--status-warning);
-}
-
-.chart-row__bar--network {
-  background: var(--status-info);
-}
-
-.chart-row__bar--nutrition {
-  background: var(--primary-bright);
+  font-weight: 900;
+  line-height: 1.35;
+  padding: 6px 12px;
 }
 
 .ingredient-row {
   border: 1px solid var(--line);
-  border-radius: var(--radius-card);
+  border-radius: 24rpx;
+  background: var(--surface-subtle);
   padding: var(--space-md);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-.ingredient-row--normal {
-  background: rgba(34, 197, 94, 0.08);
-  border-color: rgba(34, 197, 94, 0.18);
-}
-
-.ingredient-row--additive {
-  background: rgba(245, 158, 11, 0.12);
-  border-color: rgba(245, 158, 11, 0.3);
-}
-
-.ingredient-row--network {
-  background: rgba(14, 138, 150, 0.08);
-  border-color: rgba(14, 138, 150, 0.2);
-}
-
-.ingredient-row__main {
+.ingredient-row__head,
+.nutrition-row,
+.section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
-.ingredient-row__name {
+.ingredient-row__name,
+.nutrition-row__label {
   color: var(--text);
   font-size: var(--font-size-base);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.35;
 }
 
-.ingredient-row__tag {
+.ingredient-row__type {
   border-radius: 999px;
   background: var(--surface);
-  color: var(--text);
+  color: var(--primary-strong);
   font-size: var(--font-size-xs);
   font-weight: 800;
   padding: 4px 10px;
   white-space: nowrap;
 }
 
-.ingredient-row__note {
-  color: var(--muted);
-  font-size: var(--font-size-sm);
-  line-height: 1.5;
+.nutrition-row {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0;
 }
 
-.ingredient-explain {
-  border: 1px solid rgba(18, 151, 128, 0.18);
-  border-radius: var(--radius-card);
-  background: var(--primary-soft);
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+.nutrition-row:last-child {
+  border-bottom: 0;
 }
 
-.ingredient-explain__title {
+.nutrition-row__value {
   color: var(--text);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   font-weight: 800;
   line-height: 1.35;
 }
 
-.ingredient-explain__text {
-  color: var(--muted);
-  font-size: var(--font-size-sm);
-  line-height: 1.6;
-}
-
-.legend-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
-.legend-chip {
-  border-radius: 999px;
-  font-size: var(--font-size-xs);
-  font-weight: 800;
-  padding: 5px 10px;
-}
-
-.legend-chip--normal {
-  background: rgba(34, 197, 94, 0.12);
-  color: var(--primary-strong);
-}
-
-.legend-chip--additive {
-  background: rgba(245, 158, 11, 0.16);
-  color: #92400e;
-}
-
-.legend-chip--network {
-  background: rgba(14, 138, 150, 0.12);
-  color: var(--status-info);
-}
-
 .raw-text {
   border: 1px solid var(--line);
-  border-radius: var(--radius-card);
+  border-radius: 24rpx;
   background: var(--surface-subtle);
   color: var(--text);
   font-size: var(--font-size-sm);
   line-height: 1.7;
   padding: var(--space-md);
   word-break: break-word;
+}
+
+.action-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 35;
+  width: 100%;
+  max-width: 480px;
+  transform: translateX(-50%);
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.96);
+  padding: var(--space-sm) 32rpx calc(var(--space-sm) + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.action-bar :deep(.app-button) {
+  width: 100%;
 }
 </style>

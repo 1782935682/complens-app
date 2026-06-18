@@ -12,21 +12,20 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
       <image v-if="image?.tempFilePath" class="image-uploader__preview" :src="image.tempFilePath" mode="aspectFill" />
       <view v-else class="image-uploader__empty">
         <view class="image-uploader__icon" />
-        <text class="image-uploader__title">拍清楚食品标签</text>
-        <text class="image-uploader__hint">优先拍配料表，也可拍营养成分表或包装正面文字。</text>
+        <text class="image-uploader__title">拍清楚标签</text>
+        <text class="image-uploader__hint">优先拍配料表，也可拍营养成分表。</text>
       </view>
       <view class="image-uploader__guide">
         <view class="image-uploader__guide-frame" />
         <view class="image-uploader__guide-copy">
-          <text class="image-uploader__guide-title">请将食品标签放在框内</text>
-          <text class="image-uploader__guide-hint">配料表最完整；营养成分表和正面声明会保留给用户确认。</text>
+          <text class="image-uploader__guide-title">标签放入框内</text>
         </view>
       </view>
     </view>
     <view class="image-uploader__actions">
-      <AppButton @click="emit('camera')">拍食品标签</AppButton>
-      <AppButton variant="secondary" @click="emit('album')">从相册选择</AppButton>
-      <AppButton v-if="image" variant="text" @click="emit('clear')">重新选择</AppButton>
+      <AppButton class="image-uploader__action" @click="emit('camera')">拍食品标签</AppButton>
+      <AppButton class="image-uploader__action" variant="secondary" @click="emit('album')">从相册选</AppButton>
+      <AppButton v-if="image" class="image-uploader__action image-uploader__action--wide" variant="text" @click="emit('clear')">重新选择</AppButton>
     </view>
   </view>
 </template>
@@ -40,13 +39,13 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
 
 .image-uploader__stage {
   position: relative;
-  min-height: 220px;
+  min-height: 360rpx;
 }
 
 .image-uploader__preview,
 .image-uploader__empty {
   width: 100%;
-  min-height: 220px;
+  min-height: 360rpx;
   border: 1px dashed rgba(18, 151, 128, 0.34);
   border-radius: var(--radius-card);
   background:
@@ -59,14 +58,17 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-xl);
+  padding: var(--space-lg);
   text-align: center;
   gap: var(--space-sm);
 }
 
 .image-uploader__guide {
   position: absolute;
-  inset: var(--space-md);
+  left: var(--space-md);
+  right: var(--space-md);
+  top: var(--space-md);
+  bottom: var(--space-md);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,17 +77,16 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
 }
 
 .image-uploader__guide-frame {
-  min-height: 118px;
+  min-height: 180rpx;
   border: 2px solid rgba(18, 151, 128, 0.82);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 999px rgba(19, 31, 36, 0.16);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .image-uploader__guide-copy {
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.88);
-  padding: var(--space-sm);
+  padding: 8px var(--space-sm);
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -97,12 +98,6 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
   font-size: var(--font-size-sm);
   font-weight: 900;
   line-height: 1.4;
-}
-
-.image-uploader__guide-hint {
-  color: var(--muted);
-  font-size: var(--font-size-xs);
-  line-height: 1.45;
 }
 
 .image-uploader__icon {
@@ -144,12 +139,20 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
 .image-uploader__hint {
   color: var(--muted);
   font-size: var(--font-size-sm);
-  line-height: 1.6;
+  line-height: 1.45;
 }
 
 .image-uploader__actions {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-sm);
+}
+
+.image-uploader__action {
+  width: 100%;
+}
+
+.image-uploader__action--wide {
+  grid-column: 1 / -1;
 }
 </style>

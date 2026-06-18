@@ -1,16 +1,19 @@
 export const routes = {
   home: '/pages/index/index',
   capture: '/pages/capture/index',
+  search: '/pages/search/index',
   report: '/pages/report/index',
-  compare: '/pages/compare/index',
-  history: '/pages/history/index',
-  attention: '/pages/attention/index',
-  settings: '/pages/settings/index'
+  attention: '/pages/attention/index'
 } as const;
 
+const tabRoutes = new Set<string>([
+  routes.home,
+  routes.attention
+]);
+
 export function navigateToRoute(path: string) {
-  if (path === routes.home) {
-    uni.reLaunch({ url: path });
+  if (tabRoutes.has(path)) {
+    uni.switchTab({ url: path });
     return;
   }
   uni.navigateTo({ url: path });

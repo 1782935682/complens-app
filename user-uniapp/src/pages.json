@@ -2,11 +2,30 @@
   "pages": [
     { "path": "pages/index/index", "style": { "navigationBarTitleText": "配料雷达" } },
     { "path": "pages/capture/index", "style": { "navigationBarTitleText": "拍食品标签" } },
+    { "path": "pages/search/index", "style": { "navigationBarTitleText": "成分搜索" } },
     { "path": "pages/report/index", "style": { "navigationBarTitleText": "消费建议" } },
-    { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的关注" } },
-    { "path": "pages/history/index", "style": { "navigationBarTitleText": "扫描记录" } },
-    { "path": "pages/settings/index", "style": { "navigationBarTitleText": "设置" } }
+    { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的" } }
   ],
+  "tabBar": {
+    "color": "#6a756f",
+    "selectedColor": "#087a68",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "static/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/attention/index",
+        "text": "我的",
+        "iconPath": "static/tab/mine.png",
+        "selectedIconPath": "static/tab/mine-active.png"
+      }
+    ]
+  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "配料雷达",

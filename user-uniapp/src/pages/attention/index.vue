@@ -3,10 +3,9 @@ import { onShow } from '@dcloudio/uni-app';
 import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
-import PageHeader from '@/components/PageHeader.vue';
 import Toast from '@/components/Toast.vue';
 import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
-import { clearAttentionSettings, getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
+import { getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
 import type { AttentionSettings } from '@/types';
 
 const settings = ref<AttentionSettings>(getAttentionSettings());
@@ -31,11 +30,6 @@ function toggleAllergen(key: string) {
   persist({ ...settings.value, allergens });
 }
 
-function clearAll() {
-  settings.value = clearAttentionSettings();
-  message.value = '已恢复默认关注设置。';
-}
-
 function persist(next: AttentionSettings) {
   settings.value = saveAttentionSettings(next);
   message.value = '已保存到本机。';
@@ -43,18 +37,14 @@ function persist(next: AttentionSettings) {
 </script>
 
 <template>
-  <view class="page page--calm stack">
-    <PageHeader
-      title="我的关注"
-      subtitle="只选一个主目标，再按需开启儿童模式和过敏/忌口。结果页会按这些设置调整提醒重点。"
-    />
+  <view class="page page--mine stack">
     <Toast :message="message" tone="success" />
 
     <AppCard>
-      <view class="stack">
+      <view class="mine-section">
         <view>
-          <text class="section-title">主目标</text>
-          <text class="muted">单选可以避免结论互相冲突。</text>
+          <text class="mine-title">关注目标</text>
+          <text class="muted">单选一个主要目标。</text>
         </view>
         <view class="option-grid">
           <AppButton
@@ -65,11 +55,7 @@ function persist(next: AttentionSettings) {
             :class="{ 'option--active': settings.primaryGoal === goal.key }"
             @click="selectPrimaryGoal(goal.key)"
           >
-            <text v-if="settings.primaryGoal === goal.key" class="option__check">✓</text>
-            <view class="option__copy">
-              <text class="option__title">{{ goal.label }}</text>
-              <text class="option__desc">{{ goal.description }}</text>
-            </view>
+            <text class="option__title">{{ goal.label }}</text>
           </AppButton>
         </view>
       </view>
@@ -78,18 +64,18 @@ function persist(next: AttentionSettings) {
     <AppCard>
       <view class="setting-row">
         <view class="setting-row__copy">
-          <text class="section-title">儿童模式</text>
-          <text class="muted">开启后会更重点提醒高糖、咖啡因、酒精、人工色素、甜味剂和高钠。</text>
+          <text class="mine-title">儿童模式</text>
+          <text class="muted">更重点提醒高糖、咖啡因、酒精、人工色素、甜味剂和高钠。</text>
         </view>
         <switch :checked="settings.isChildrenMode" color="#129780" @change="toggleChildrenMode" />
       </view>
     </AppCard>
 
     <AppCard>
-      <view class="stack">
+      <view class="mine-section">
         <view>
-          <text class="section-title">过敏 / 忌口</text>
-          <text class="muted">可以多选。命中后会在结果顶部优先提醒。</text>
+          <text class="mine-title">过敏 / 忌口</text>
+          <text class="muted">可多选，命中后会优先提醒。</text>
         </view>
         <view class="allergen-grid">
           <AppButton
@@ -100,66 +86,79 @@ function persist(next: AttentionSettings) {
             :class="{ 'option--active': settings.allergens.includes(item.key) }"
             @click="toggleAllergen(item.key)"
           >
-            <text v-if="settings.allergens.includes(item.key)" class="option__check">✓</text>
             <text>{{ item.label }}</text>
           </AppButton>
         </view>
       </view>
     </AppCard>
-
-    <AppButton variant="danger" @click="clearAll">恢复默认关注</AppButton>
   </view>
 </template>
 
 <style scoped>
+.page--mine {
+  min-height: 100vh;
+  padding-top: calc(28rpx + env(safe-area-inset-top));
+  padding-bottom: calc(176rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+.page--mine :deep(.app-card) {
+  border-color: rgba(23, 33, 29, 0.08);
+  box-shadow: 0 10px 24px rgba(26, 44, 37, 0.045);
+}
+
+.mine-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.mine-title {
+  display: block;
+  color: var(--text);
+  font-size: var(--font-size-lg);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: var(--space-xs);
+}
+
 .option-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-sm);
 }
 
 .option,
 .allergen {
-  width: 100%;
-  min-height: 48px;
+  width: auto;
+  min-height: 76rpx;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: var(--space-sm);
   color: var(--text);
   line-height: 1.3;
+  padding: 0 32rpx;
+  border-radius: 999px;
 }
 
 .option--active {
   border-color: var(--primary);
-  background: linear-gradient(180deg, var(--primary-soft), #ffffff);
-  color: var(--primary-strong);
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(8, 122, 104, 0.16);
 }
 
-.option__copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-}
-
-.option__title,
-.option__check {
+.option__title {
   font-weight: 900;
-}
-
-.option__desc {
-  color: var(--muted);
-  font-size: var(--font-size-xs);
-  line-height: 1.45;
-  text-align: left;
 }
 
 .setting-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-md);
+  gap: var(--space-lg);
+  min-height: 160rpx;
 }
 
 .setting-row__copy {
@@ -170,13 +169,20 @@ function persist(next: AttentionSettings) {
 }
 
 .allergen-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-sm);
 }
 
 .allergen {
-  justify-content: center;
+  min-width: 124rpx;
   font-weight: 800;
+}
+
+@media screen and (max-width: 340px) {
+  .setting-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 </style>

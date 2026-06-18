@@ -7,7 +7,6 @@ import ErrorState from '@/components/ErrorState.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
 import LoadingState from '@/components/LoadingState.vue';
 import PageHeader from '@/components/PageHeader.vue';
-import StepIndicator from '@/components/StepIndicator.vue';
 import { allergenOptions } from '@/constants/attention';
 import { routes } from '@/constants/routes';
 import { chooseLabelImage } from '@/platform/camera';
@@ -53,9 +52,7 @@ const generating = ref(false);
 const loadingText = ref('');
 const loadingTimer = ref<ReturnType<typeof setInterval> | undefined>();
 const attentionSettings = ref<AttentionSettings>(getAttentionSettings());
-const steps = ['输入', '确认', '解读'];
 
-const activeStep = computed(() => (stage.value === 'confirm' ? 1 : 0));
 const additivePreview = computed(() => recognizeAdditivesFromText(ingredientText.value, attentionSettings.value).slice(0, 5));
 const quickSignals = computed(() => buildQuickSignals({
   ingredientText: ingredientText.value,
@@ -94,6 +91,10 @@ onLoad((query) => {
 onShow(() => {
   attentionSettings.value = getAttentionSettings();
   const draft = getScanDraft();
+  if (draft.isFastScan === false && !draft.image && !draft.confirmedText && !draft.ocr) {
+    startManualTextEntry();
+    return;
+  }
   image.value = draft.image;
   if (draft.confirmedText) {
     const normalizedDraft = normalizeOcrResult({
@@ -283,7 +284,7 @@ async function generateResult() {
       ...buildCurrentTextDraft({ resetDerived: true }),
       ...buildScanDraftFromAnalysis(analysis)
     });
-    uni.redirectTo({ url: `${routes.report}?id=${encodeURIComponent(analysis.report.id)}` });
+    uni.navigateTo({ url: `${routes.report}?id=${encodeURIComponent(analysis.report.id)}` });
   } catch {
     error.value = '暂时无法生成解读，请检查文字后重试。';
   } finally {
@@ -430,48 +431,35 @@ function matchedAllergenLabels(text: string): string[] {
 </script>
 
 <template>
-  <view class="page page--calm stack">
-    <PageHeader
-      title="拍食品标签"
-      subtitle="优先拍配料表，也支持营养成分表和包装正面文字；识别后必须先确认再生成解读。"
-    />
-    <StepIndicator :steps="steps" :active-index="activeStep" />
-
+  <view class="page" :class="stage === 'confirm' ? 'page--confirm' : 'page--capture stack'">
     <template v-if="stage !== 'confirm'">
+      <PageHeader
+        title="拍食品标签"
+        subtitle="拍配料表或营养成分表，确认文字后生成解读。"
+      />
       <ImageUploader :image="image" @camera="choose('camera')" @album="choose('album')" @clear="clearImage" />
       <ErrorState v-if="error" title="图片选择失败" :description="error" action-label="重试上传" @action="choose('album')" />
-      <AppCard>
-        <view class="stack">
-          <text class="section-title">建议这样拍</text>
-          <view class="simple-grid">
-            <view class="simple-list-item">
-              <text class="simple-list-item__title">优先拍配料表</text>
-              <text class="simple-list-item__desc">配料表最适合识别添加剂、糖类关键词、油脂和过敏原。</text>
-            </view>
-            <view class="simple-list-item">
-              <text class="simple-list-item__title">也可补拍营养表或正面文字</text>
-              <text class="simple-list-item__desc">营养成分表和正面声明会进入确认区，产品名、规格、厂家和条码会弱化处理。</text>
-            </view>
-          </view>
-          <text class="muted">小字、反光或弯曲包装可能识别不准，后面可以轻量修正；不要跳过文本确认。</text>
-        </view>
-      </AppCard>
       <LoadingState v-if="stage === 'recognizing'">{{ loadingText || '正在扫描食品标签文字...' }}</LoadingState>
-      <AppButton :disabled="!image || stage === 'recognizing'" :loading="stage === 'recognizing'" @click="startRecognize">开始识别食品标签</AppButton>
-      <AppButton variant="secondary" @click="startManualTextEntry">手动输入 / 粘贴</AppButton>
+      <view class="capture-actions">
+        <AppButton v-if="image" class="capture-actions__button" :disabled="stage === 'recognizing'" :loading="stage === 'recognizing'" @click="startRecognize">识别标签文字</AppButton>
+        <AppButton class="capture-actions__button" variant="secondary" @click="startManualTextEntry">手动输入</AppButton>
+      </view>
     </template>
 
     <template v-else>
-      <ErrorState v-if="error" title="请先确认有效文字" :description="error" action-label="重新拍食品标签" @action="clearImage" />
-      <AppCard>
-        <view class="stack">
-          <view>
-            <text class="field-label">商品名（可选）</text>
-            <input v-model="productName" class="input" placeholder="例如：草莓味酸奶" />
+      <image v-if="image?.tempFilePath" class="confirm-bg" :src="image.tempFilePath" mode="aspectFill" />
+      <view class="confirm-dim" />
+      <view class="confirm-topbar">
+        <text class="confirm-back" @tap="clearImage">‹</text>
+      </view>
+      <scroll-view scroll-y class="confirm-sheet">
+        <ErrorState v-if="error" title="请先确认有效文字" :description="error" action-label="重新拍食品标签" @action="clearImage" />
+        <view class="confirm-content">
+          <view class="confirm-heading">
+            <text class="confirm-title">确认识别文本</text>
+            <text class="confirm-desc">请核对识别结果，修改错别字后再生成报告</text>
           </view>
           <view class="scan-summary">
-            <text class="scan-summary__title">请确认识别内容</text>
-            <text class="muted">系统优先保留配料表，也会单独整理营养成分、致敏原提示和包装正面文字；产品名、规格、厂家和条码会弱化处理。</text>
             <view class="confidence-row">
               <text class="soft-tag" :class="{ 'soft-tag--warning': isLowConfidence }">{{ confidenceText }}</text>
               <text v-if="ignoredText.length" class="muted">已过滤 {{ ignoredText.length }} 行广告语或包装信息。</text>
@@ -483,47 +471,170 @@ function matchedAllergenLabels(text: string): string[] {
             <view v-if="quickSignals.length" class="pill-list">
               <text v-for="signal in quickSignals" :key="signal" class="soft-tag">{{ signal }}</text>
             </view>
-            <view v-if="additivePreview.length" class="simple-list">
-              <view v-for="item in additivePreview" :key="item.id" class="simple-list-item">
-                <text class="simple-list-item__title">{{ item.name }} · {{ item.category }}</text>
-                <text class="simple-list-item__desc">{{ item.effect }}</text>
-              </view>
-            </view>
           </view>
-          <view>
-            <text class="field-label">已识别到的配料表</text>
+          <view class="confirm-field">
             <textarea v-model="ingredientText" class="textarea textarea--ingredient" auto-height placeholder="粘贴或输入配料表文字，例如：水、白砂糖、乳粉、食品添加剂..." @input="manualOverride = true" />
           </view>
-          <view>
-            <text class="field-label">已识别到的营养成分</text>
+          <view v-if="nutritionText" class="confirm-field">
+            <text class="field-label">营养成分</text>
             <textarea v-model="nutritionText" class="textarea textarea--compact" auto-height placeholder="可选，例如：能量、蛋白质、脂肪、碳水化合物、糖、钠" @input="manualOverride = true" />
           </view>
-          <view>
-            <text class="field-label">已识别到的致敏原提示</text>
+          <view v-if="allergenText" class="confirm-field">
+            <text class="field-label">致敏原提示</text>
             <textarea v-model="allergenText" class="textarea textarea--compact" auto-height placeholder="可选，例如：本品含有牛奶、大豆，可能含有花生" @input="manualOverride = true" />
             <text v-if="editHint" class="muted">{{ editHint }}</text>
           </view>
-          <view v-if="frontClaimsText">
-            <text class="field-label">包装正面 / 其他文字</text>
+          <view v-if="frontClaimsText" class="confirm-field">
+            <text class="field-label">其他文字</text>
             <textarea v-model="frontClaimsText" class="textarea textarea--compact" auto-height placeholder="识别到的包装正面、产品名、规格或其他文字" @input="manualOverride = true" />
           </view>
+          <LoadingState v-if="generating">{{ loadingText || '正在识别添加剂和营养信息...' }}</LoadingState>
+          <AppButton class="confirm-main-button" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成解读报告</AppButton>
+          <view class="confirm-secondary-actions">
+            <AppButton v-if="shouldShowManualModifyAction" variant="secondary" @click="showEditHint">手动修改</AppButton>
+            <AppButton v-if="hasAnyConfirmedText" variant="text" @click="clearText">清空文字</AppButton>
+          </view>
         </view>
-      </AppCard>
-      <LoadingState v-if="generating">{{ loadingText || '正在识别添加剂和营养信息...' }}</LoadingState>
-      <AppButton :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">确认无误，生成解读</AppButton>
-      <AppButton v-if="shouldShowManualModifyAction" variant="secondary" @click="showEditHint">有误，手动修改</AppButton>
-      <AppButton v-if="hasAnyConfirmedText" variant="text" @click="clearText">清空文字</AppButton>
-      <AppButton variant="text" @click="clearImage">重新拍食品标签</AppButton>
+      </scroll-view>
     </template>
   </view>
 </template>
 
 <style scoped>
+.page--capture {
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+.capture-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.capture-actions__button {
+  width: 100%;
+}
+
+.capture-actions__button:only-child {
+  grid-column: 1 / -1;
+}
+
+.page--confirm {
+  position: relative;
+  min-height: 100vh;
+  padding: 0;
+  overflow: hidden;
+  background: #111815;
+}
+
+.confirm-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.confirm-dim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(12, 18, 16, 0.42);
+}
+
+.confirm-topbar {
+  position: relative;
+  z-index: 2;
+  padding: calc(14px + env(safe-area-inset-top)) 16px 0;
+}
+
+.confirm-back {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  line-height: 28px;
+}
+
+.confirm-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 64vh;
+  border-radius: 28px 28px 0 0;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 -16px 42px rgba(0, 0, 0, 0.18);
+  padding: var(--space-xl) 32rpx calc(var(--space-lg) + env(safe-area-inset-bottom));
+  animation: sheet-up 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(26px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.confirm-content,
+.confirm-heading,
+.confirm-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.confirm-content {
+  gap: var(--space-md);
+}
+
+.confirm-heading {
+  align-items: center;
+  text-align: center;
+}
+
+.confirm-title {
+  color: var(--text);
+  font-size: var(--font-size-xl);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.confirm-desc {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
+}
+
+.confirm-main-button {
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+.confirm-secondary-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
 .scan-summary {
   border: 1px solid rgba(18, 151, 128, 0.16);
   border-radius: var(--radius-card);
-  background: var(--primary-soft);
-  padding: var(--space-md);
+  background: rgba(238, 250, 245, 0.82);
+  padding: var(--space-sm);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -570,5 +681,24 @@ function matchedAllergenLabels(text: string): string[] {
 
 .textarea--compact {
   min-height: 104px;
+}
+
+@media screen and (max-height: 700px) {
+  .confirm-sheet {
+    height: 70vh;
+    padding-top: var(--space-lg);
+  }
+
+  .confirm-heading {
+    gap: 4px;
+  }
+
+  .confirm-title {
+    font-size: var(--font-size-lg);
+  }
+
+  .textarea--ingredient {
+    min-height: 108px;
+  }
 }
 </style>
