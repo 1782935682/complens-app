@@ -204,6 +204,30 @@ describe('ingredient knowledge dataset builder', () => {
     expect(first.regulatoryRules.map((row) => row.id)).toEqual(second.regulatoryRules.map((row) => row.id));
   });
 
+  it('keeps GB 2760 C.3 enzyme source microorganisms out of edible microorganism coverage', () => {
+    const dataset = buildIngredientKnowledgeDataset({
+      foodIngredients: [],
+      gb2760Records: [],
+      gb2760ReferenceRows: [createReferenceRow({})],
+      gb2760Source: source
+    });
+
+    const enzymeSource = dataset.ingredients.find((row) => row.id.startsWith('ik-enzyme_source-'));
+    expect(enzymeSource).toMatchObject({
+      canonicalName: '黑曲霉',
+      ingredientType: 'other',
+      sourceStatus: 'pending_review'
+    });
+    expect(dataset.typeTags).toEqual(expect.arrayContaining([
+      expect.objectContaining({ ingredientId: enzymeSource?.id, tag: 'enzyme_source' }),
+      expect.objectContaining({ ingredientId: enzymeSource?.id, tag: 'gb2760_enzyme_microorganism_reference' })
+    ]));
+    expect(dataset.relations).toEqual(expect.arrayContaining([
+      expect.objectContaining({ targetIngredientId: enzymeSource?.id, relationType: 'enzyme_source' })
+    ]));
+    expect(dataset.ingredients.filter((row) => row.ingredientType === 'food_microorganism')).toHaveLength(0);
+  });
+
   it('uses formal rule source ids to mark current rules without changing API-facing seed data', () => {
     const dataset = buildIngredientKnowledgeDataset({
       foodIngredients: [createFoodIngredient({ dataStatus: 'unverified', sourceScope: 'seed_reference', isVerified: false })],

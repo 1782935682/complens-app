@@ -1,6 +1,6 @@
 # 食品成分知识库覆盖报告
 
-生成时间：2026-06-18T15:43:32.157Z
+生成时间：2026-06-18T16:16:36.373Z
 
 统计口径：本地 PostgreSQL 实际查询结果。
 
@@ -15,10 +15,10 @@
 | nutrition_fortifier 数量 | 21 |
 | novel_food_ingredient 数量 | 95 |
 | food_medicine_substance 数量 | 13 |
-| food_microorganism 数量 | 121 |
+| food_microorganism 数量 | 40 |
 | ordinary_ingredient 数量 | 480 |
 | ingredient_aliases 数量 | 8735 |
-| ingredient_tags 数量 | 2865 |
+| ingredient_tags 数量 | 3033 |
 | ingredient_relations 数量 | 103 |
 | allergen_categories 数量 | 8 |
 | allergen_aliases 数量 | 32 |
@@ -41,7 +41,7 @@
 | observed_digital_label 数量 | 0 |
 | manual_verified 数量 | 0 |
 | staging 数量 | 462 |
-| 正式提升数量（current source relations） | 4567 |
+| 正式提升数量（current source relations） | 4426 |
 | pending_review ingredient 数量 | 563 |
 | pending_review staging 数量 | 198 |
 | unverified 数量 | 10 |
@@ -58,10 +58,11 @@
 |---|---:|
 | food_additive | 2311 |
 | food_medicine_substance | 13 |
-| food_microorganism | 121 |
+| food_microorganism | 40 |
 | novel_food_ingredient | 95 |
 | nutrition_fortifier | 21 |
 | ordinary_ingredient | 480 |
+| other | 81 |
 
 ## 来源状态
 
@@ -138,6 +139,7 @@
 - 三新食品 2023 汇总目录：已补齐 NHC 官方公告页和附件 URL，非 OCR 目录项已通过受控 promote 进入 current；后续增量公告仍需先进入 pending_review。
 - 食药物质新增目录：已补齐 NHC 官方公告页和附件 URL，13 个目录项已通过受控 promote 进入 current。
 - 可用于食品的菌种名单：已补齐 NHC 官方公告页和附件 URL，文本层可识别的通用食品菌种已通过受控 promote 进入 current；可用于婴幼儿食品的菌种名单本地 PDF 无文本层，已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据并抽取 14 条进入 pending_review，仍需人工复核，不提升为 verified。
+- GB 2760 表 C.3 酶制剂来源/供体微生物：归入 `other` 并保留 `enzyme_source` / `enzyme_donor` 关系证据，不计入 NHC 可用于食品菌种覆盖。
 
 ## 缺失或需人工补齐
 

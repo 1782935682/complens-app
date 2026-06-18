@@ -158,11 +158,13 @@ GB 2760 官方 PDF
 | `nutrition_fortifier` | 21 |
 | `novel_food_ingredient` | 95 |
 | `food_medicine_substance` | 13 |
-| `food_microorganism` | 121 |
+| `food_microorganism` | 40 |
+| `other`（GB 2760 C.3 酶制剂来源/供体引用） | 81 |
 | `ordinary_ingredient` | 480 |
 | S2 普通配料种子 | 479 |
 | `ingredient_aliases` | 8735 |
 | `ingredient_source_relations` | 5631 |
+| `ingredient_type_tags` | 3033 |
 | `ingredient_regulatory_rules` | 2587 |
 | `additive_usage_rules` | 2391 |
 | `nutrition_fortifier_rules` | 116 |
@@ -173,7 +175,7 @@ GB 2760 官方 PDF
 | `verified_regulation` | 2452 |
 | `pending_review ingredient` | 563 |
 | `pending_review staging` | 198 |
-| 正式提升数量（current source relations） | 4567 |
+| 正式提升数量（current source relations） | 4426 |
 | 需阻断自动匹配的别名冲突 | 0 |
 | 当前正式匹配冲突 | 0 |
 | 解析失败 | 0 |
@@ -200,7 +202,7 @@ source-materials staging 口径：
 
 状态边界：
 
-- GB 2760 已有人工签核并 promote 的正式规则保持 `current`；pending-review 报告通过后，本轮仅将已通过本地文件内容和 SHA-256 校验、证据字段完整的 S0 官方来源成分提升为正式层：`ingredient_master` 提升 2146 条（`food_additive` 2012、`novel_food_ingredient` 95、`food_medicine_substance` 13、`food_microorganism` 26），`ingredient_source_relations` 提升 2158 条，`ingredient_regulatory_rules` 提升 133 条，`novel_food_ingredient_rules` 提升 95 条，`food_medicine_rules` 提升 13 条，`microorganism_strains` 提升 26 条，`ingredient_import_staging` 标记 `approved` 264 条。
+- GB 2760 已有人工签核并 promote 的正式规则保持 `current`；pending-review 报告通过后，已通过本地文件内容和 SHA-256 校验、证据字段完整的 S0 官方来源成分提升为正式层。当前 DB 中 `verified_regulation=2452`、`current source relations=4426`；NHC 通用食品菌种目录中 26 条非 OCR 记录保持 verified，14 条婴幼儿菌种 OCR 辅助记录继续 pending_review。GB 2760 表 C.3 酶制剂来源/供体微生物归入 `other`，只保留 `enzyme_source` / `enzyme_donor` 关系证据，不计入 NHC 可用于食品菌种覆盖。
 - 三新食品、食药物质和通用食品菌种目录已补齐 NHC 官方公告页/附件 URL 并完成非 OCR 目录项受控提升；GB 7718/GB 28050 标签营养规则、解读材料、公告抽取结果、营养声称阈值、数字标签规则和过敏原规则继续保持 `pending_review`，不得展示为已验证监管结论。
 - GB 28050-2025 的 NRV 和可结构化比较声称已进入 `nutrition_reference_values` / `nutrition_claim_rules`，但状态仍为 `pending_review`。
 - `可用于婴幼儿食品的菌种名单.pdf` 本地文件无文本层；本轮已保存 RapidOCR 原始 JSON 作为 OCR 辅助证据，并抽取 14 条婴幼儿食品菌种候选进入 staging/pending_review。该批记录仍需人工核对扫描件，不得展示为 S0 verified 结论。
