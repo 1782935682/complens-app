@@ -18,6 +18,8 @@
 
 当前 P0 只承诺食品配料表和营养成分表解读。添加剂识别是核心能力，配料解释是理解过程，营养分析是辅助判断，个性化消费建议是最终输出。商品正面识别、条码识别、商品库优先匹配、商品对比和专业法规查询只是后续能力，不是 MVP 主路径。当前阶段仍以食品标签为实现边界，不混入化妆品、护肤品、药品或日化规则判断。
 
+后续 P1/P2 仍保持现有一个拍照入口，不把首页或拍照页改成三个入口。用户拍食品标签 / 包装后，由后端自动识别是商品条码、数字标签二维码，还是配料表 / 营养成分表；不同识别结果各自完成取数，随后统一进入成分归一化、官方成分知识库匹配和成分分析。当前识别分支无法获得完整配料时，只提示用户可以重新拍摄包装其他区域或手动补充，不自动跳转，也不把条码、二维码、OCR 设计成串行流程。
+
 ---
 
 ## 2. 当前最高优先级
@@ -106,7 +108,8 @@
 
 - 生产 Aliyun OCR / 真实 AI 接入（Batch 3-E / 9-B，待 Key；本机 RapidOCR 已接入）。
 - 标签类型识别后端 `POST /api/labels/classify` 与扫描会话 `POST /api/labels/scan` 已补齐；营养成分表结构化、我的关注项主路径化、食品标签解读报告后端化已在 `user-uniapp/` 完成 MVP；`nutrition/parse`、`reports/label` 后端正式 API 与跨端真机验收仍待补齐。
-- 包装正面卖点核对、两款商品对比、扫码识别（MVP 后置）。
+- 单一拍照入口下的商品条码、数字标签二维码、配料表 OCR 自动识别分流（P1/P2 后置；当前只完成规划，不实现扫码能力、不改现有 UI）。
+- 外部 GTIN 商品数据源选择、数字标签页面解析规则、数据授权和域名/合规确认（人工+Codex）。
 - 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
 - 移动端组件统一、报告页产品化复核、首页/OCR 产品体验整体复核（阶段 7；统一可信表达映射层已完成）。
 - iPhone Safari、微信小程序开发者工具/真机、Android/iOS 真机验收（阶段 8/15）；微信小程序工程对接已补，仍需 AppID、request 合法域名和真机验收。
@@ -151,6 +154,7 @@ Codex 下一步任务：
 1. 微信小程序用真实 AppID、HTTPS 后端 API 域名和微信开发者工具完成导入/真机验收。
 2. 继续后端化消费者主路径 API：`nutrition`（营养解析）→ `reports`（食品标签解读报告）；扫描会话接口已初步落地，后续补充 `admin-web` 扫描记录与导出能力。
 3. ADMIN-E 会员订阅/支付继续人工阻塞；后台 `admin-web/` 工程和后台 API 代码仍待后续批次按计划落地。
+4. 后续 `CONSUMER-LABEL-G` 再落地单一拍照入口自动识别分流：后端自动判断商品条码、数字标签二维码、配料表 / 营养成分表；商品条码按 GTIN 查询商品及配料数据，数字标签二维码解析数字标签页面中的配料和营养信息，配料表 OCR 继续识别包装配料文字；各分支统一进入成分归一化、官方知识库匹配和成分分析。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核；生产 DATABASE_URL、Aliyun OCR Key、AI Key、商店账号和法务材料均不阻塞当前本地 MVP。
 
@@ -176,7 +180,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 - **短期目标（消费者主路径打磨）**：`user-uniapp/` 已完成标签类型识别、营养成分表结构化、我的关注项本地设置、食品标签解读报告和基础组件/token MVP；后续重点是真实后端 API、真机验收和报告文案走查。
 - **设计基线（已确认 2026-06-14）**：主色薄荷绿色阶（`--primary #059669`、主按钮 `#047857`、辅助高亮 `#10b981`、装饰 `#34d399`、浅底 `#ecfdf5`）+ 16px 圆角；规范已写入 `docs/product-blueprint/DESIGN_SYSTEM.md` / `VISUAL_STYLE_GUIDE.md`，并已落到 `user-uniapp/src/styles/tokens.css`；旧 `src/styles.css` 当前仍为青绿/8px，保留历史原型状态。
 - **中期目标（数据 + 标签能力 + 跨端）**：包装正面卖点核对、两款商品对比、GB2760 增量人工复核扩大正式库覆盖、生产数据库与生产 OCR（Aliyun）接入、微信小程序 / Android / iOS 适配落地、独立后台第一版。
-- **长期目标（增值与上架）**：扫码、真实 AI 总结、登录云同步跨设备验收、订阅支付、应用商店上架与合规材料（阶段 11，后置）。
+- **长期目标（增值与上架）**：单一拍照入口下自动识别商品条码、数字标签二维码和配料表 OCR、真实 AI 总结、登录云同步跨设备验收、订阅支付、应用商店上架与合规材料（阶段 11，后置）。
 - **人工阻塞项**：生产 DATABASE_URL、生产 Aliyun OCR Key、AI API Key、Apple/Google/国内商店账号、支付订阅账号、隐私政策法律确认、软著/备案/商标、GB2760 后续增量复核、后台/产品页面设计统一推进边界。
 后台分期：
 
@@ -254,6 +258,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-18 | 记录后续单一拍照入口自动识别分流规划：后端自动判断商品条码、数字标签二维码、配料表 / 营养成分表；各分支独立取数后统一进入成分归一化、官方成分知识库匹配和成分分析；信息不足时只提示重新拍摄或手动补充，不自动跳转、不设计串行流程、不改现有 UI | Codex | `git diff --check` |
 | 2026-06-17 | 小程序 P0 识别质量与隐私补强：`labelTextExtractor` 只接收标准 OCR 结构，补强配料/营养/致敏原锚点、繁体/英文/OCR 错字和噪音停止条件；`ingredientParser` 保护特殊添加剂名称；`nutritionParser` 新增 Salt/盐独立解析和 kJ/kcal 换算；`additiveRules` 补 CMC、单双甘油脂肪酸酯、5'-呈味核苷酸二钠等 alias；结果页低置信/仅营养表等信息不足状态不强行给结论；历史持久化移除图片路径/摘要并保留 20 条 LRU；设置页补 OCR 图片处理和本地存储隐私说明 | Codex | `cd user-uniapp && npm install` / `npm run lint` / `npm run typecheck` / `npm run build:mp-weixin` / `git diff --check` |
 | 2026-06-17 | 继续按 H5 截图优化小程序 P0 信息层级：消费建议页将“添加剂识别”前移到一句话建议后，重点提醒压缩为最多 4 条紧凑提示；结果页结论摘要改为按当前关注目标生成，默认日常不再泛泛提儿童/过敏；拍食品标签页移除手动输入空白时的重复大空态，缩短营养成分/致敏原辅助输入框，并按状态隐藏无效按钮 | Codex | `node /tmp/compcheck-ui-smoke.mjs` / `npm --prefix user-uniapp run lint` / `npm --prefix user-uniapp run typecheck` / `npm --prefix user-uniapp run build:mp-weixin` / `git diff --check` |
 | 2026-06-17 | 对小程序 P0 页面做可用性自测与 UI 收口：ARM 环境安装 Debian Chromium / chromedriver，`user-uniapp` 新增 Playwright 开发依赖并复用系统 Chromium；H5 截图覆盖首页、拍食品标签、手动输入、轻确认、消费建议、更多信息、我的关注和扫描记录；根据截图修正默认日常目标结论过重的问题，未设置的常见过敏原只作为普通查看提示，显式过敏/忌口命中仍最高优先级；确认主流程未出现商品正面、条码、商品库、商品对比或日化入口 | Codex | `apt-get update` / `apt-get install -y chromium chromium-driver` / `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm install -D @playwright/test` / `npm --prefix user-uniapp run dev:h5 -- --host 127.0.0.1 --port 5176` / `node /tmp/compcheck-ui-smoke.mjs` / `npm --prefix user-uniapp run lint` / `npm --prefix user-uniapp run typecheck` / `npm --prefix user-uniapp run build:mp-weixin` / `git diff --check` |

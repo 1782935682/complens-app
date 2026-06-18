@@ -22,6 +22,21 @@
 
 **添加剂识别是核心能力，配料解释是理解过程，营养分析是辅助判断，个性化消费建议是最终输出。P0 不做商品正面识别、条码识别、商品库优先匹配、商品对比或日化规则。成分搜索和商品对比都不是 MVP 主路径。**
 
+后续 P1/P2 保持现有一个拍照入口，UI 不需要改成三个入口；用户点击拍食品标签后，由后端自动识别图片里主要对象是商品条码、数字标签二维码，还是配料表 / 营养成分表：
+
+```
+拍食品标签 / 包装
+  → 后端自动识别：商品条码 / 数字标签二维码 / 配料表 OCR / 营养表 OCR / 未知
+  → 商品条码：根据 GTIN 查询商品及配料数据
+  → 数字标签二维码：解析数字标签页面中的配料和营养信息
+  → 配料表 OCR：直接识别包装上的配料表文字
+  → 成分归一化
+  → 官方成分知识库匹配
+  → 成分分析
+```
+
+约束：不要新增三段式首页入口，也不要把条码、二维码、OCR 设计成固定串行流程；后端识别到哪类对象就走对应取数分支。当当前识别分支无法获得完整配料时，只提示用户可以重新拍摄包装其他区域或手动补充，不自动跳转、不自动代用户发起其他识别分支。
+
 产品边界：
 
 - 当前阶段只聚焦食品、饮料、零食、酸奶、调味品等食品标签里的配料、食品添加剂、营养成分和包装卖点核对提示；不混入化妆品、护肤品、药品或日化规则。
@@ -1640,6 +1655,35 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 验证命令：`git diff --check`；按实现范围补充 `cd user-uniapp && npm run lint` + `cd user-uniapp && npm run typecheck`。
 
 状态：✅ 已完成（2026-06-16）。
+
+### Batch CONSUMER-LABEL-G：单一拍照入口自动识别分流（商品条码 / 数字标签二维码 / 配料表 OCR）[Codex / 后续]
+
+目标：保持用户端现有一个拍食品标签 / 包装的拍照入口，不新增三个外露入口；图片提交后由后端自动识别是商品条码、数字标签二维码，还是配料表 / 营养成分表，并按识别结果进入对应数据获取分支。
+
+涉及文件：计划 `user-uniapp/src/pages/index/index.vue`、`user-uniapp/src/pages/capture/index.vue`、`user-uniapp/src/services/api/barcodes.ts`、`user-uniapp/src/services/api/digitalLabels.ts`、`backend/src/routes/barcodes.ts`、`backend/src/routes/digitalLabels.ts`、`backend/src/services/productLookupService.ts`、`backend/src/services/digitalLabelService.ts`、`docs/product-blueprint/CONSUMER_DECISION_SPEC.md`、`docs/product-blueprint/CONSUMER_UX_SPEC.md`、`docs/product-blueprint/API_CONTRACT.md`、`DATA_SOURCES.md`。
+
+实现内容：
+1. 保持首页和拍照页现有主入口，不增加 `扫商品条码`、`扫数字标签二维码`、`拍配料表 OCR` 三个外露按钮。
+2. 后端自动识别上传图片主要对象：当前 `labelType` 继续使用 `barcode_or_product`、`ingredient_list`、`nutrition_facts`、`unknown_label` 等既有枚举；数字标签二维码作为后续 `scanObjectType` 或等价字段另行迁移，不直接塞进当前已实现 `labelType`。
+3. 商品条码分支：识别 GTIN 后经后端查询商品及配料数据；未命中或字段不完整时保留空态和补充提示，不编造商品或配料。
+4. 数字标签二维码分支：识别二维码后由后端解析数字标签页面中的配料和营养信息；页面不可访问、格式不支持或字段不完整时保留错误/空态。
+5. 配料表 OCR 分支：继续识别包装上的配料表文字，必须保留文本确认和 manual 降级，不跳过用户确认。
+6. 三个分支获得的数据统一进入 `成分归一化 → 官方成分知识库匹配 → 成分分析`，复用同一套可信状态、匹配确认和报告生成口径。
+7. 当前分支无法获得完整配料时，只提示“可以重新拍摄包装其他区域或手动补充信息”，不自动跳转、不自动代用户发起其他识别分支、不把三种识别方式串成强制流程。
+
+验收标准：
+1. 用户端仍是一个拍照入口，原有首页 / 拍照页 UI 不因条码和数字标签规划而变成三入口。
+2. 条码和数字标签来源仅作为商品/标签数据来源，仍需进入成分归一化和官方知识库匹配；不得展示为官方法规结论。
+3. 缺失、低置信、未命中的商品/数字标签数据必须明确展示信息不足或建议补充，不伪造配料。
+4. OCR 入口继续遵守 OCR 文本确认、manual 降级、图片隐私和不伪造 OCR 的既有红线。
+
+是否需要人工：可能需要 GTIN 商品数据源选择、数字标签标准/域名白名单、第三方数据授权和隐私/合规确认。
+
+阻塞条件：外部商品库授权、数字标签来源确认、生产域名/网络访问策略均属于 `blocked_by_user`；不阻塞前端入口占位、后端接口契约和降级状态规划。
+
+验证命令：规划阶段 `git diff --check`；实现时按范围追加 `cd backend && npm run typecheck`、相关后端测试、`cd user-uniapp && npm run lint`、`cd user-uniapp && npm run typecheck`、必要时 `npm run build:mp-weixin`。
+
+状态：⛔ blocked_by_user（后续 P1/P2；本轮只记录规划，不实现扫码能力、不改现有 UI。实际编码需先确认外部商品库授权、数字标签来源、生产域名/网络访问策略和隐私合规边界）。
 
 ---
 
