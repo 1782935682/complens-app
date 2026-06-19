@@ -1956,7 +1956,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 - `user-uniapp/src/platform/imageStore.ts`
 - `user-uniapp/src/platform/share.ts`
 - `user-uniapp/src/pages/report/index.vue`
-- `docs/wechat-mini-program.md`
+- `docs/platform/wechat-mini-program.md`
 - `docs/product-blueprint/CROSS_PLATFORM_SPEC.md`
 - `docs/product-blueprint/QA_ACCEPTANCE_SPEC.md`
 - `COMMANDS.md`

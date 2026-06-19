@@ -374,7 +374,7 @@ ADMIN-A 收口（2026-06-15）：
 - **目标**：将 Web 形态适配/封装为 Android、iOS 原生或 PWA 安装体验。
 - **涉及页面**：全部页面（以主路径为先）。
 - **涉及组件**：依赖 UX-D 共享组件——**需先完成 UX-D**。
-- **当前状态**：🔄 部分进行中——iPhone Safari 适配 CSS 已完成（Batch 8-B），真机验收待人工；原生/PWA 封装方案**待确认**（仓库已有 `docs/pwa-offline-capability.md`、`docs/ios-plist-additions.md` 可作输入）。
+- **当前状态**：🔄 部分进行中——iPhone Safari 适配 CSS 已完成（Batch 8-B），真机验收待人工；原生/PWA 封装方案**待确认**（仓库已有 `docs/platform/pwa-offline-capability.md`、`docs/platform/ios-plist-additions.md` 可作输入）。
 - **对应 Batch**：Batch 8-B（🔄 CSS 已适配，真机待人工验收）。
 - **验收标准**：
   1. iPhone Safari 真机验收通过（8-B 收尾）；
@@ -383,7 +383,7 @@ ADMIN-A 收口（2026-06-15）：
   4. 适配项不破坏既有移动端布局。
 - **是否需要人工**：**是**——真机验收与商店上架需人工。
 - **是否阻塞后续**：否。
-- **Codex 可执行任务**：依据 `docs/ios-plist-additions.md`、`docs/pwa-offline-capability.md` 完成 8-B 收尾的 CSS/配置项，真机验收交人工。
+- **Codex 可执行任务**：依据 `docs/platform/ios-plist-additions.md`、`docs/platform/pwa-offline-capability.md` 完成 8-B 收尾的 CSS/配置项，真机验收交人工。
 
 ---
 
