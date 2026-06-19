@@ -6,7 +6,7 @@
 > - 跨平台规范：[`CROSS_PLATFORM_SPEC.md`](./CROSS_PLATFORM_SPEC.md)
 > - 数据信任规范：[`DATA_TRUST_SPEC.md`](./DATA_TRUST_SPEC.md)
 > - 外部集成清单：[`INTEGRATIONS.md`](../../INTEGRATIONS.md)
-> - iOS 权限描述：[`docs/ios-plist-additions.md`](../ios-plist-additions.md)
+> - iOS 权限描述：[`docs/ios-plist-additions.md`](../platform/ios-plist-additions.md)
 > - 法律文案草案：`src/data/legalContent.js`（由 legalPage 展示）
 
 **编写说明**：本文件仅为规范文档，不改动业务代码。涉及法律最终结论的条目统一标注「待法务确认」；事实未确认的条目标注「待确认」，不做编造。
@@ -70,7 +70,7 @@
 | 通知 | 系统通知 | 提醒类功能 | **后置**，待相关功能上线后即用即申请 | 后置 |
 | 定位 | —— | **默认不需要** | 不申请 | 默认不需要 |
 
-- iOS 权限描述文案见 [`docs/ios-plist-additions.md`](../ios-plist-additions.md)：
+- iOS 权限描述文案见 [`docs/ios-plist-additions.md`](../platform/ios-plist-additions.md)：
   - `NSCameraUsageDescription = "用于扫描食品成分表"`
   - `NSPhotoLibraryUsageDescription = "用于从相册选择食品包装图片"`
 - Android 权限清单（`AndroidManifest.xml`）需与上述用途一致 = **待确认**（以实际工程为准）。
