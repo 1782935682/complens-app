@@ -32,13 +32,13 @@ export function buildLabelReport(input: {
   const attentionHits = buildAttentionHits(input);
   const nutritionIngredientChecks = buildNutritionIngredientChecks(input.ingredients, input.nutrition);
   const focusItems = buildFocusItems(reportMatches, input.nutrition, attentionHits, frontClaimsText);
-  const additiveItems = acceptedMatches.filter((match) => match.isAdditive);
+  const additiveItems = acceptedMatches.filter(isConfirmedDisplayAdditive);
   const unknownItems = reportMatches
     .filter((match) => match.dataStatus === 'unknown_from_ocr' || match.decision === 'rejected')
     .map((match) => match.normalizedText);
   const report: LabelReport = {
     id: createReportId(),
-    title: '消费建议',
+    title: '食品标签解读',
     productName: input.productName.trim() || '未命名食品',
     createdAt: new Date().toISOString(),
     summarySentence: buildSummarySentence(input, additiveItems.length, attentionHits, frontClaimsText),
@@ -77,7 +77,7 @@ function sanitizeReportMatch(match: IngredientMatch): IngredientMatch {
     dataStatusLabel: '暂未收录',
     confidence: 0,
     matchType: 'none',
-    sourceNote: '用户已标为暂未收录，请以包装原文为准。',
+    sourceNote: '用户已标为暂未收录，已保留为未确认线索。',
     ingredientName: match.normalizedText,
     isAdditive: false
   };
@@ -91,23 +91,26 @@ function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutritio
   const parts: string[] = [];
   if (input.ingredients.length) parts.push(`识别到 ${input.ingredients.length} 项配料`);
   if (!input.ingredients.length && !frontClaimsText) parts.push('未提供配料表');
-  if (frontClaimsText) parts.push('包装正面文字已整理');
-  if (additiveCount) parts.push(`其中 ${additiveCount} 项可能属于食品添加剂分组`);
-  if (input.nutrition.some((field) => field.value)) parts.push('营养成分表已整理');
+  if (frontClaimsText) parts.push('包装声明已整理');
+  if (additiveCount) parts.push(`看到 ${additiveCount} 种常见食品添加剂`);
+  if (input.nutrition.some((field) => field.value)) parts.push('营养数字已整理');
   if (hits.length) parts.push(`建议重点查看：${hits.map((hit) => hit.label).slice(0, 3).join('、')}`);
-  return `${parts.join('，')}。信息不足时，建议结合包装原文确认。`;
+  return parts.length ? `${parts.join('，')}。` : '未识别到可分析的配料表或营养成分表。';
 }
 
 function buildAttentionHits(input: {
-  rawText: string;
+  ingredients?: ParsedIngredient[];
+  sourceMeta?: ReportAnalysisSource;
   frontClaimsText?: string;
   matches: IngredientMatch[];
   nutrition: NutritionField[];
   attention: AttentionSettings;
 }): AttentionHit[] {
   const text = [
-    input.rawText,
+    input.sourceMeta?.ingredientText,
+    input.sourceMeta?.allergenText,
     normalizeReportText(input.frontClaimsText),
+    ...(input.ingredients || []).map((item) => item.normalizedText),
     ...input.matches.map((match) => match.normalizedText),
     ...input.nutrition
       .filter(hasNutritionEvidence)
@@ -162,7 +165,7 @@ function buildFocusItems(matches: IngredientMatch[], nutrition: NutritionField[]
   if (sodium) items.push(`钠：${sodium.value}${sodium.unit}${sodium.nrvPercent ? `，NRV ${sodium.nrvPercent}` : ''}`);
   if (sugar) items.push(`糖：${sugar.value}${sugar.unit}`);
   const pending = matches.filter((match) => ['mapped_candidate', 'pending_review', 'unknown_from_ocr', 'unverified'].includes(match.dataStatus));
-  if (pending.length) items.push(`有 ${pending.length} 项需要结合包装原文或数据来源继续确认`);
+  if (pending.length) items.push(`有 ${pending.length} 项暂未收录或待确认，已保留为配料线索`);
   return [...new Set(items)].slice(0, 8);
 }
 
@@ -201,25 +204,25 @@ function buildNutritionIngredientCheck(options: {
   if (!hasNutrition && !hasSignal) {
     return {
       key: options.key,
-      title: `${options.title}核验`,
+      title: `${options.title}线索`,
       nutritionValue: '未抓取到',
       nutritionUnit: '',
       ingredientSignals: [],
       state: 'insufficient_data',
-      summary: `未抓取到该项营养值与配料线索，信息不足。建议补拍营养成分表或配料表并结合包装原文核对。`
+      summary: `没有看到${options.title}相关数字或配料线索。`
     };
   }
   if (!hasNutrition || !hasSignal) {
     return {
       key: options.key,
-      title: `${options.title}核验`,
+      title: `${options.title}线索`,
       nutritionValue: hasNutrition ? valueText : '未抓取到',
       nutritionUnit: hasNutrition ? unit : '',
       ingredientSignals: options.ingredientSignals,
       state: 'insufficient_data',
       summary: hasNutrition
-        ? `${options.title}营养值有记录，但未识别到与其高价值对应的配料线索，建议继续核对原文。`
-        : `已命中${options.title}相关配料线索，但未抓取到该项营养值，请补充营养表信息。`
+        ? `包装上写了${options.title} ${valueText}${unit}，但配料表里没有明显对应词。`
+        : `配料表里看到${options.title}相关词：${options.ingredientSignals.join('、')}，但没有看到${options.title}数字。`
     };
   }
 
@@ -228,24 +231,29 @@ function buildNutritionIngredientCheck(options: {
   if (numericValue > threshold) {
     return {
       key: options.key,
-      title: `${options.title}核验`,
+      title: `${options.title}线索`,
       nutritionValue: valueText,
       nutritionUnit: unit,
       ingredientSignals: [...new Set(options.ingredientSignals)],
       state: 'possible_issue',
-      summary: `${options.title}营养值 ${valueText}${unit} 与配料线索 ${options.ingredientSignals.join('、')} 同时出现，建议结合包装原文核对是否存在标识偏差。`
+      summary: `包装上写了${options.title} ${valueText}${unit}，配料表也看到 ${options.ingredientSignals.join('、')}。`
     };
   }
 
   return {
     key: options.key,
-    title: `${options.title}核验`,
+    title: `${options.title}线索`,
     nutritionValue: valueText,
     nutritionUnit: unit,
     ingredientSignals: [...new Set(options.ingredientSignals)],
     state: 'no_obvious_issue',
-    summary: `${options.title}营养值 ${valueText}${unit} 与配料线索 ${options.ingredientSignals.join('、')} 暂未形成明显冲突。建议结合包装原文确认。`
+    summary: `包装上写了${options.title} ${valueText}${unit}，配料表也看到 ${options.ingredientSignals.join('、')}。`
   };
+}
+
+function isConfirmedDisplayAdditive(match: IngredientMatch): boolean {
+  return match.isAdditive
+    && !['pending_review', 'mapped_candidate', 'unverified', 'unknown_from_ocr'].includes(match.dataStatus);
 }
 
 function buildFrontClaimHighlights(text: string): string[] {
@@ -259,9 +267,9 @@ function buildFrontClaimHighlights(text: string): string[] {
     { label: '包装卖点声明', pattern: /无添加|不添加|粗粮|膳食纤维/ }
   ].filter((item) => item.pattern.test(text)).map((item) => item.label);
   if (matchedLabels.length) {
-    highlights.push(`包装正面出现 ${[...new Set(matchedLabels)].join('、')}，建议结合配料表和营养成分表确认。`);
+    highlights.push(`包装正面出现 ${[...new Set(matchedLabels)].join('、')}，已和配料表、营养成分表一起整理。`);
   } else {
-    highlights.push('包装正面文字已保留，建议结合配料表和营养成分表确认。');
+    highlights.push('包装正面文字已保留，已和配料表、营养成分表一起整理。');
   }
   return highlights;
 }
@@ -279,7 +287,7 @@ function buildNutritionHighlights(fields: NutritionField[], attention: Attention
     addFieldHighlight(highlights, byKey.get('sugar'), '儿童模式');
     addFieldHighlight(highlights, byKey.get('sodium'), '儿童模式');
   }
-  if (!highlights.length && fields.some((field) => field.value)) highlights.push('营养字段已整理，请以包装标示为准。');
+  if (!highlights.length && fields.some((field) => field.value)) highlights.push('营养数字已整理。');
   return highlights;
 }
 
@@ -315,7 +323,7 @@ function buildAllergenHints(matches: IngredientMatch[]): string[] {
   const text = matches.map((match) => match.normalizedText).join(' ');
   return allergenTerms
     .filter((item) => item.patterns.some((pattern) => text.includes(pattern)))
-    .map((item) => `可能需要查看 ${item.label} 相关标示，请以包装过敏原提示和配料表为准。`);
+    .map((item) => `识别到 ${item.label} 相关标示，已列为过敏原线索。`);
 }
 
 const allergenTerms = [
@@ -332,7 +340,7 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   const sources: ReportSource[] = [
     {
       label: 'OCR / 手动确认文本',
-      detail: '结果基于用户确认后的食品标签文本生成，OCR 原文不是权威来源。',
+      detail: '结果基于用户确认后的食品标签文本生成，OCR 识别文字不是权威来源。',
       sourceType: 'ocr_input'
     },
     {
@@ -344,7 +352,7 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   if (options.ocr?.mode === 'mock' || options.ocr?.provider === 'mock') {
     sources.push({
       label: 'mock only OCR',
-      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示，结果需结合包装原文确认。',
+      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示。',
       sourceType: 'mock_adapter'
     });
   }
@@ -379,7 +387,7 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   if (allMatches.some((match) => match.sourceNote.includes('后端不可用'))) {
     sources.push({
       label: '后端暂不可用（降级）',
-      detail: '匹配服务不可用时仅保留暂未收录状态，不伪造成分来源；请以包装原文为准。',
+      detail: '匹配服务不可用时仅保留暂未收录状态，不伪造成分来源。',
       sourceType: 'mock_adapter'
     });
   }

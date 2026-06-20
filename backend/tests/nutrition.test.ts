@@ -90,6 +90,21 @@ describe('POST /api/nutrition/parse', () => {
     });
   });
 
+  it('does not treat unit-only text as parsed nutrition', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/nutrition/parse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: '营养成分表 每100g NRV%' })
+    });
+
+    expect(response.status).toBe(422);
+    expect(await response.json()).toEqual({
+      error: 'parse_failed',
+      message: 'Unable to parse nutrition fields from text.'
+    });
+  });
+
   it('rejects invalid body', async () => {
     const app = createTestApp();
     const response = await app.request('/api/nutrition/parse', {

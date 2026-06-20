@@ -17,7 +17,7 @@ export function createNutritionRoute(nutritionService: NutritionService) {
     }
 
     const parseResult = nutritionService.parseNutritionText(parsed.value);
-    const hasParsedValues = parseResult.nutrition.some((field) => Boolean(field.value));
+    const hasParsedValues = parseResult.nutrition.some(hasParsedNutrientValue);
     if (!hasParsedValues) {
       return context.json({ error: 'parse_failed', message: 'Unable to parse nutrition fields from text.' }, 422);
     }
@@ -26,6 +26,11 @@ export function createNutritionRoute(nutritionService: NutritionService) {
   });
 
   return route;
+}
+
+function hasParsedNutrientValue(field: { key: string; value?: string }) {
+  if (!field.value) return false;
+  return field.key !== 'perUnit' && field.key !== 'servingSize' && field.key !== 'nrvPercent';
 }
 
 async function parseNutritionBody(context: { req: { json(): Promise<unknown> } }) {

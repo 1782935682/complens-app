@@ -20,10 +20,10 @@
 ## 0. 验收范围与约定
 
 - 适用范围：食品标签（配料表、营养成分表、包装正面卖点），不含化妆品、护肤品、药品（化妆品 `#/cosmetics/*` 为原型保留，非本期主路径）。
-- 主路径（不可偏离）：首页 → 拍食品标签 → 标签类型识别 → OCR → 文本确认 → 配料拆分 / 营养字段解析 → 我的关注项 → 食品标签解读报告 → 保存历史。承载页面见 `PAGE_STRUCTURE.md`。
+- 主路径（不可偏离）：首页 → 拍食品标签 → 标签类型识别 → OCR → 文本确认 → 配料拆分 / 营养字段解析 → 我的关注项 → 食品标签解读报告 → 保存历史 / 收藏。承载页面见 `PAGE_STRUCTURE.md`。
 - 技术栈验收边界：正式用户端为已创建的 `user-uniapp`（uni-app + Vue3）；当前 `src/` Vite 前端是历史原型和迁移来源；后台为计划 `admin-web`（Vue3 + TDesign Web）；后端复用现有 `backend/`。未创建目录和未验证平台能力不得当成已实现。
 - 三态约定：loading / empty / error 三态已在各页复核（Batch 8-C 完成），验收时三态均须可观测。
-- 移动端通用约束：尊重安全区（顶部刘海 / 底部 Home 条）；禁止整页横向滚动；可点击控件命中区域 ≥ 44px；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 扫描 / 搜索 / 历史 / 设置）。
+- 移动端通用约束：尊重安全区（顶部刘海 / 底部 Home 条）；禁止整页横向滚动；可点击控件命中区域 ≥ 44px；当前微信小程序 P0 底部主导航为「首页 / 我的」，历史、成分查询和设置作为「我的」页内辅助入口。
 - 可信枚举（仅以下 7 个，文案以 `dataStatusLabel()` 为准）：`verified_regulation`（官方标准已验证）/ `verified_jecfa`（安全评价已匹配，非中国法规范围）/ `pending_review`（待复核来源数据）/ `mapped_candidate`（疑似匹配，待确认）/ `common_ingredient`（普通配料）/ `unverified`（未验证）/ `unknown_from_ocr`（暂未收录）。
 - 文案红线：可以买、不能买、健康、不健康、安全、有害、致癌、治疗、诊断、一定过敏，以及旧红线绝对安全、绝对有害、一定致敏、一定不能吃、一定有效、有毒、治疗疾病、医学诊断。
 
@@ -52,6 +52,8 @@
 - [ ] error：相机权限被拒 / OCR 失败时，给出"重试"与"改为手动输入"两条出路，不崩溃。
 - [ ] 可信：OCR 输出以"待确认文本"措辞呈现，严禁在此页把识别结果当作权威结论。
 - [ ] OCR 结果必须进入文本确认页，不得跳过（见 §2）。
+- [ ] OCR 文本提取只把配料表、营养成分表、致敏原提示和明确包装声明作为目标字段；产品名、净含量、规格、厂家、地址、电话、条码、生产日期等非目标字段只可保留在识别文字，不得进入报告判断。
+- [ ] 营养成分候选必须具备字段名 + 数值 + 单位结构；单独的“营养成分表 / NRV / 每100g”标题不得当作可分析营养数据。
 - [ ] 移动端：按钮 ≥ 44px；进度态无整页横向滚动；尊重安全区。
 
 ### 1.3 标签类型识别 / 选择
@@ -88,7 +90,7 @@
 - [ ] 可解析或手动确认 `energy`、`protein`、`fat`、`saturatedFat`、`transFat`、`carbohydrate`、`sugar`、`sodium`、`dietaryFiber`、`servingSize`、`perUnit`、`nrvPercent`。
 - [ ] 控糖关注项优先展示糖、碳水和甜味来源。
 - [ ] 低钠关注项优先展示钠和含钠配料。
-- [ ] 信息不足时显示“信息不足，建议结合包装原文确认”。
+- [ ] 信息不足时显示“信息不足，请补充标签文字后查看结果”。
 - [ ] 不输出医疗或营养诊断。
 
 ### 1.7 我的关注项
@@ -98,35 +100,52 @@
 - [ ] 报告页按关注项排序。
 - [ ] 关注项文案不构成诊断。
 
-### 1.8 食品标签解读报告（reportDetailPage / `#/reports/:id`，兼容 `#/report/:id`）
+### 1.8 辅助成分查询（searchPage / `#/search`，微信小程序 `/pages/search/index`）
+
+- [ ] 成分查询只作为辅助入口，不替代拍食品标签 → OCR → 文本确认 → 报告主路径。
+- [ ] 搜索结果卡片默认展示名称、类型、可信提示、为什么看、标签写法、数据来自和结果用途；不得重新展示“常见用途 / 需要注意 / 常见食品”等泛化旧字段。
+- [ ] “为什么看”必须是普通用户可理解的原因，例如控糖、介意添加剂、关注含钠配料、识别过敏/忌口；不得输出购买或医疗结论。
+- [ ] `verified_regulation`、`verified_jecfa`、`common_ingredient`、`pending_review`、`unverified` 等状态必须转成可理解的可信提示；`verified_jecfa` 不得写成中国法规允许。
+- [ ] 来源字段优先展示真实 `sourceName` / `sourceUrl` / `regulatoryBasis` 线索；缺来源时明确提示展示未确认线索，不伪造来源。
+- [ ] 搜索无结果时给出继续拍标签或换关键词的出口；后端不可用时可降级本地 seed，但必须展示未验证/错误提示。
+- [ ] 移动端：结果卡片纵向滚动，长别名、数据来源和结果用途不横向溢出；搜索按钮和入口 ≥ 44px。
+
+### 1.9 食品标签解读报告（reportDetailPage / `#/reports/:id`，兼容 `#/report/:id`）
 
 - [ ] 报告名称为“食品标签解读”，不叫法规分析报告 / 风险分析报告 / 添加剂合规报告。
-- [ ] 报告含一句话结论、我的关注项、购买前建议关注、配料表解读、营养成分解读、包装卖点核对、食品添加剂分组、过敏/忌口提示、暂未识别/暂未收录、数据来源和查看依据。
+- [ ] 报告含一句话结论、我的关注项、重点提醒、配料表解读、营养成分解读、包装卖点提示、食品添加剂分组、过敏/忌口提示、暂未识别/暂未收录、数据来源和查看依据。
 - [ ] 普通人内容默认展示，专业依据默认折叠。
-- [ ] 报告可保存到历史 / 档案、分享。
+- [ ] 包装声明-only 或无清晰配料/营养数据时，只展示“信息不足 / 还需要补充 / 未确认线索”，不得硬凑糖、钠、脂肪、添加剂等完整报告结构。
+- [ ] `mapped_candidate` / `pending_review` / 低置信配料在报告中单独展示为“未确认线索”，不得与已确认配料并列为已验证内容。
+- [ ] 默认报告文案使用“大众可读”表达，避免“核验 / 阈值 / 判断依据 / 营养表原值”等专业结构抢占第一屏。
+- [ ] 营养数字优先用图表或短行展示，报告描述不得堆砌长段文字。
+- [ ] 报告结果不得出现“结合目标 / 结合个人目标 / 不单独下结论”等低价值兜底话术。
+- [ ] 报告可保存到历史、收藏和分享。
 - [ ] loading：报告加载中有占位。
 - [ ] empty：报告不存在 / 已删除时优雅降级并回列表。
 - [ ] error：加载失败可重试。
 - [ ] 可信：逐项沿用 `dataStatus` 枚举；整体结论为中性、可核查表述；非中国法规口径项（`verified_jecfa`）明确标注。
+- [ ] 后端 `reports/label` 与前端报告页文案口径一致，使用“线索 / 已整理 / 信息不足 / 未确认线索”等中性表达，不输出“核验 / 阈值 / 标识偏差”等默认专业判断。
 - [ ] 移动端：长报告纵向滚动；徽标 / 表格不横向溢出；操作按钮 ≥ 44px。
 - [ ] 全文无文案红线词（可由 `npm run lint` 对静态文案兜底）。
 
-### 1.9 保存历史 / 档案（historyPage / `#/history`、productArchivePage / `#/products`）
+### 1.10 保存历史 / 档案（historyPage / `#/history`、productArchivePage / `#/products`）
 
 - [ ] 报告保存后可在历史 / 产品档案中检索回看（历史支持 `?q=` 与 `?filter=`，过滤值经 `normalizeHistoryFilter`）。
+- [ ] 微信小程序 P0 历史页支持全部 / 收藏筛选，报告页和历史卡片均可切换收藏。
 - [ ] loading：列表加载占位。
 - [ ] empty：无历史 / 无档案时引导首拍。
 - [ ] error：读取失败可重试。
 - [ ] 可信：历史 / 档案卡片若显示可信徽标，与报告保持一致，均来自 `dataStatus` 枚举。
 - [ ] 移动端：列表纵向滚动；筛选控件 ≥ 44px；不横向滚动。
 
-### 1.10 主路径连续性（端到端）
+### 1.11 主路径连续性（端到端）
 
 - [ ] 从首页可一路走到保存历史，无死路。
 - [ ] OCR → 文本确认环节不可被跳过。
 - [ ] 任一中间步骤失败时，已确认文本 / 已采集数据不丢失，可回退重试。
 - [ ] 拍一张也能分析；拍两张可合并；拍三张报告更完整但不强制。
-- [ ] 包装卖点核对和两款商品对比若未实现，必须标为后续，不阻塞 MVP。
+- [ ] 包装卖点提示和两款商品对比若未实现，必须标为后续，不阻塞 MVP。
 
 ---
 
@@ -224,6 +243,9 @@
 - [ ] 网络错误：API / OCR / 匹配网络失败时走 error 态并可重试；前端食品搜索 / 详情在后端不可用时降级到本地 seed 并展示未验证状态与错误提示。
 - [ ] 数据源状态展示：七个 `dataStatus` 文案与展示约定正确（见 §2）。
 - [ ] 禁止文案被 lint 拦截：`npm run lint` 命中红线组合词（可以买 / 不能买 / 健康 / 不健康 / 安全 / 有害 / 致癌 / 治疗 / 诊断 / 一定过敏 / 绝对安全 / 绝对有害 / 一定致敏 / 一定不能吃 / 有毒）时报错退出。
+- [ ] 产品输出审查：涉及搜索结果、报告描述、OCR 目标字段或添加剂大白话时执行 `cd user-uniapp && npm run audit:product-output`，拦截过度安抚、偏专业、低价值兜底话术、字段缺失和完整 OCR 识别文字误入报告信号的问题。
+- [ ] OCR/报告回归：涉及 OCR 目标字段、报告构建、添加剂解释或过敏提醒时执行 `cd user-uniapp && npm run regression:ocr-report`，确认非目标字段不会进入目标字段或报告信号。
+- [ ] H5 视觉烟测：涉及核心页面、样式、路由或报告结构时，先 `cd user-uniapp && npm run build:h5`，再执行 `npm run visual:smoke`，确认首页、拍食品标签、搜索、我的、报告、历史、设置不白屏、不横向溢出且关键文案存在。
 - [ ] 本机数据导出 / 导入 / 清空：往返一致，异常输入有兜底。
 - [ ] 搜索历史开关：关闭后不记录搜索历史。
 
@@ -239,8 +261,11 @@
 | `npm run test` | Node 原生 `assert` 测试（`scripts/test.mjs`，非 Jest/Vitest） | 任何前端逻辑 / 数据改动 | 全部断言通过，退出码 0 |
 | `npm run build` | `vite build`，产物输出 `dist/` | 任何可能影响构建的改动 | 构建成功，退出码 0 |
 | `cd user-uniapp && npm run lint` | 正式用户端文案与工程约束扫描（`user-uniapp/scripts/lint.mjs`） | `user-uniapp/` 代码 / 文案改动 | 无红线文案，退出码 0 |
+| `cd user-uniapp && npm run audit:product-output` | 正式用户端产品输出审查（搜索结果、报告描述、OCR 目标字段、添加剂大白话） | 搜索 / 报告 / OCR 文本提取 / 添加剂说明改动 | 必要字段存在，无购买/医疗/强结论、过度安抚、低价值兜底或偏专业表达，退出码 0 |
+| `cd user-uniapp && npm run regression:ocr-report` | 正式用户端 OCR/报告样本回归（目标字段、报告信号、添加剂/过敏边界） | OCR 文本提取 / 报告构建 / 添加剂解释 / 过敏提醒改动 | 非目标包装字段不进入目标字段，营养表-only 不触发添加剂/过敏提醒，未确认项不进入正常添加剂解释，退出码 0 |
 | `cd user-uniapp && npm run typecheck` | Vue3 / TypeScript 类型检查（`vue-tsc --noEmit`） | `user-uniapp/` TS / Vue 改动 | 类型检查通过，退出码 0 |
 | `cd user-uniapp && npm run build:h5` | uni-app H5 构建 | `user-uniapp/` 路由 / 构建入口 / 页面改动 | 构建成功，退出码 0 |
+| `cd user-uniapp && npm run visual:smoke` | H5 构建产物视觉烟测（Playwright + 本机 Chrome/Edge） | 核心页面、样式、路由、报告结构改动 | 核心页面非空、关键文案存在、无横向溢出，截图生成，退出码 0 |
 | `cd user-uniapp && npm run build:mp-weixin` | uni-app 微信小程序构建 | `user-uniapp/` 平台适配 / 页面改动 | 构建成功，生成 `dist/build/mp-weixin`；开发者工具验收另做 |
 | `npm run validate:data` | 食品数据必填字段 / 枚举 / 重复 id / 重复中文名+英文名 / 来源字段 / 可信等级 / 已验证来源依据 / 医疗化文案校验 + 数据质量与 GB2760 覆盖报告（`scripts/validate-data.mjs`） | 食品数据 / 可信字段改动 | 校验通过并输出报告，退出码 0 |
 | `npm run validate:gb2760` | GB2760 正式库准入规则与禁止事项校验（封装 `backend`，读后端 DB） | 涉及 GB2760 数据 / 准入 / promote | 违规即报错退出；通过则退出码 0 |
@@ -250,7 +275,7 @@
 门禁约定（每个 Codex Batch 结束前必须通过）：
 
 - 基线（所有 Batch）：`npm run validate:data && npm run lint && npm run test && npm run build`。
-- 涉及 `user-uniapp/`：执行 `cd user-uniapp && npm run lint && npm run typecheck && npm run build:h5`；跨端适配改动追加 `npm run build:mp-weixin`。
+- 涉及 `user-uniapp/`：执行 `cd user-uniapp && npm run lint && npm run typecheck && npm run build:h5`；涉及搜索、报告、OCR 目标字段或添加剂大白话时追加 `npm run audit:product-output`；涉及 OCR 目标字段、报告构建、添加剂解释或过敏提醒时追加 `npm run regression:ocr-report`；涉及核心页面、样式、路由或报告结构时追加 `npm run visual:smoke`；跨端适配改动追加 `npm run build:mp-weixin`。
 - 涉及后端：追加后端三连 `cd backend && npm run typecheck && npm test && npm run build`。
 - 涉及 GB2760：追加 `npm run validate:gb2760`。
 - 纯文档改动：至少 `git diff --check`；通常无需 build/test，但应说明未运行原因。

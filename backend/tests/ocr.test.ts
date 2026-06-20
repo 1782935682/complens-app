@@ -185,7 +185,8 @@ describe('POST /api/ocr', () => {
   it('rejects malformed rapidocr responses instead of returning an empty real OCR result', async () => {
     const fetchMock = vi.fn(async () => new Response(JSON.stringify({
       provider: 'rapidocr-onnxruntime',
-      raw_text: '配料：水',
+      raw_text: '',
+      text: '',
       blocks: {}
     }), {
       status: 200,
@@ -210,6 +211,39 @@ describe('POST /api/ocr', () => {
     expect(response.status).toBe(502);
     expect(body).toMatchObject({
       error: 'ocr_provider_invalid_response',
+      provider: 'rapidocr'
+    });
+  });
+
+  it('accepts common RapidOCR text field aliases', async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+      provider: 'rapidocr-onnxruntime',
+      text: '品 名 小麻花\n配 料 小麦粉、植物油、大米粉、白砂糖、麦芽糖、海苔粉、香辛料、味精、食用盐、碳酸钙',
+      confidence: 0.82,
+      blocks: []
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+    const app = createTestApp({
+      ocrProvider: 'rapidocr',
+      ocrServiceUrl: 'http://127.0.0.1:8000'
+    });
+
+    const response = await app.request('/api/ocr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer valid-token'
+      },
+      body: JSON.stringify({ imageBase64: 'aGVsbG8=', mimeType: 'image/jpeg', category: 'food' })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({
+      text: '品 名 小麻花\n配 料 小麦粉、植物油、大米粉、白砂糖、麦芽糖、海苔粉、香辛料、味精、食用盐、碳酸钙',
       provider: 'rapidocr'
     });
   });

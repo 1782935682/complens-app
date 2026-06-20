@@ -1,4 +1,4 @@
-# 产品蓝图规范集（product-blueprint）
+﻿# 产品蓝图规范集（product-blueprint）
 
 > CompLens / 成分镜（CompCheck）的产品、消费者体验、统一架构、UI、前端、跨端、数据可信、后台、隐私合规、测试验收完整规范。
 > 本目录是规范集合，不重复粘贴根目录入口文档内容；根目录 [`../../README.md`](../../README.md)、[`../../AGENTS.md`](../../AGENTS.md)、[`../../CODEX_TASKS.md`](../../CODEX_TASKS.md) 只引用本目录，不重复正文。
@@ -29,6 +29,8 @@
 | # | 文档 | 作用 | 建议读者 |
 |---|---|---|---|
 | 0 | [`PRODUCT_DIRECTION_2026H2.md`](PRODUCT_DIRECTION_2026H2.md) | **方向修订（单一事实来源）**：定位收敛、目标人群、优先级、三版路线、正式取舍、免费/付费 | **全员最先读** |
+| 0.5 | [`MARKET_APP_ANALYSIS_2026.md`](MARKET_APP_ANALYSIS_2026.md) | 市面食品扫描 / 营养 App 功能拆解、优点总结和成分镜优化清单 | 产品 / 设计 / Codex |
+| 0.6 | [`AI_UI_REVIEW_PROMPT.md`](AI_UI_REVIEW_PROMPT.md) | 真实 AI 接通后逐页审查 UI/功能的提示词、页面清单和验收口径 | 产品 / 设计 / Codex |
 | 1 | [`PRODUCT_SPEC.md`](PRODUCT_SPEC.md) | 产品定位、MVP 范围、非目标 | 全员先读 |
 | 2 | [`CONSUMER_DECISION_SPEC.md`](CONSUMER_DECISION_SPEC.md) | 消费者场景、关注项、标签解读报告、数据模型规划 | 产品 / 前端 / Codex |
 | 3 | [`CONSUMER_UX_SPEC.md`](CONSUMER_UX_SPEC.md) | 消费者体验、话术、普通人报告与专业信息层级 | 产品 / 设计 / 前端 |
@@ -45,7 +47,7 @@
 | 14 | [`PRIVACY_AND_COMPLIANCE_SPEC.md`](PRIVACY_AND_COMPLIANCE_SPEC.md) | 隐私、权限、合规、上架准备 | 合规 / 产品 |
 | 15 | [`QA_ACCEPTANCE_SPEC.md`](QA_ACCEPTANCE_SPEC.md) | 测试与验收规范、验收命令矩阵 | QA / Codex |
 
-阅读顺序：先 1（产品）→ 2/3（消费者决策与体验）→ 4（架构）→ 5（数据红线）→ 6/7（设计视觉）→ 8/9（前端/页面）→ 10/11（跨端/接口）→ 12（路线）→ 13/14/15（后台/合规/验收）。
+阅读顺序：先 0（方向）→ 0.5（竞品与优化清单）→ 1（产品）→ 2/3（消费者决策与体验）→ 4（架构）→ 5（数据红线）→ 6/7（设计视觉）→ 8/9（前端/页面）→ 10/11（跨端/接口）→ 12（路线）→ 13/14/15（后台/合规/验收）。
 
 ---
 
@@ -74,6 +76,6 @@
 - 设计规范已确认采用**薄荷绿主色 + 16px 圆角**（色阶见 `DESIGN_SYSTEM.md` §2.1：`--primary #059669`、主按钮 `#047857`、辅助高亮 `#10b981`、装饰 `#34d399`、浅底 `#ecfdf5`）。**当前 `src/styles.css` 代码仍为深青绿 `#116a5b` + 8px**，切换为规范值是迁移/落地任务，文档为目标，代码后落地。
 - 数据可信状态枚举以 `src/utils/dataStatus.js` 为准（7 个：verified_regulation / verified_jecfa / pending_review / mapped_candidate / common_ingredient / unverified / unknown_from_ocr）。
 - API 契约区分「已实现 / 现有等价 / 计划待实现」，不把不存在的接口写成已存在。
-- 专业法规、数据库和证据默认服务“数据来源和查看依据”，普通消费者默认看到食品标签解读、我的关注项和购买前建议关注。
+- 专业法规、数据库和证据默认服务“数据来源和查看依据”，普通消费者默认看到食品标签解读、我的关注项和重点提醒。
 - 共享 UI 组件多数尚未抽取（计划 Batch UX-D）；产品页面整体设计按用户要求统一推进。
 - 凡标「待确认」的内容需用户或人工拍板后再落地。

@@ -57,7 +57,7 @@ export function parseNutritionText(input: NutritionParseInput): NutritionParseRe
     }
 
     if (!match.value && !match.unit && definition.key !== 'nrvPercent') {
-      warnings.push(`未识别到 "${definition.label}"，建议结合包装原文确认。`);
+      warnings.push(`未识别到 "${definition.label}"，该字段暂未进入结果。`);
     }
     return {
       key: definition.key,

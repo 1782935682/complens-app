@@ -48,8 +48,8 @@
 ### 1.5 第三方 OCR 与数据流向声明
 
 - **不得把图片传给任何未在隐私政策中声明的第三方服务。**
-- 当前（本机/开发）：使用**本机 RapidOCR**（`/home/downloads/tools/complens-ocr`，当前代码默认 `http://127.0.0.1:8000`），由 CompCheck 后端代理调用（`OCR_PROVIDER=rapidocr`、`OCR_SERVICE_URL`）；OCR 服务**不直接暴露公网**。
-- 统一架构目标：本机 OCR 服务仅监听内网/本机，目标地址 `http://127.0.0.1:18080/ocr`，由后端通过 `OCR_LOCAL_URL` 调用；当前变量和端口迁移未完成前，不得让前端或 App 直连该服务。
+- 当前（本机/开发）：使用**本机 RapidOCR**（`/home/downloads/tools/complens-ocr`），由 CompCheck 后端代理调用（`OCR_PROVIDER=rapidocr`、`OCR_LOCAL_URL=http://127.0.0.1:18080/ocr`）；旧变量 `OCR_SERVICE_URL` 仅作为兼容 fallback。OCR 服务**不直接暴露公网**。
+- 统一架构目标：本机 OCR 服务仅监听内网/本机，目标地址 `http://127.0.0.1:18080/ocr`，由后端通过 `OCR_LOCAL_URL` 调用；不得让前端或 App 直连该服务。
 - 生产计划：切换至 **Aliyun（阿里云）OCR**。一旦切换，必须：
   1. 在隐私政策中明确声明「图片将传输至阿里云 OCR 服务进行识别」；
   2. 与供应商签署数据处理协议（DPA）—— **待法务确认**；

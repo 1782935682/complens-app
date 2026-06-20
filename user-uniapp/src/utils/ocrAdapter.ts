@@ -32,7 +32,7 @@ export function normalizeOcrResult(input: OcrLikeInput | string | undefined, pre
   const rawText = normalizeText(input?.rawText || input?.text || '');
   const normalizedBlocks = normalizeBlocks(input?.blocks || [], rawText);
   const sortedBlocks = sortBlocksForReading(normalizedBlocks);
-  const blockText = sortedBlocks.map((block) => block.text).filter(Boolean).join('\n');
+  const blockText = groupBlocksIntoTextLines(sortedBlocks);
 
   return {
     source,
@@ -81,6 +81,40 @@ function sortBlocksForReading(blocks: OcrTextBlock[]): OcrTextBlock[] {
     if (Math.abs(topDiff) > 8) return topDiff;
     return (left.x ?? 0) - (right.x ?? 0);
   });
+}
+
+function groupBlocksIntoTextLines(blocks: OcrTextBlock[]): string {
+  if (!blocks.length) return '';
+  if (!blocks.some((block) => typeof block.y === 'number' || typeof block.x === 'number')) {
+    return blocks.map((block) => block.text).filter(Boolean).join('\n');
+  }
+
+  const rows: OcrTextBlock[][] = [];
+  for (const block of blocks) {
+    const y = block.y ?? 0;
+    const height = block.height ?? 16;
+    const tolerance = Math.max(10, height * 0.65);
+    const row = rows.find((items) => {
+      const averageY = items.reduce((sum, item) => sum + (item.y ?? 0), 0) / items.length;
+      return Math.abs(averageY - y) <= tolerance;
+    });
+    if (row) {
+      row.push(block);
+    } else {
+      rows.push([block]);
+    }
+  }
+
+  return rows
+    .map((row) => row
+      .sort((left, right) => (left.x ?? 0) - (right.x ?? 0))
+      .map((block) => block.text)
+      .filter(Boolean)
+      .join(' ')
+      .replace(/\s+([，、。；：])/g, '$1')
+      .trim())
+    .filter(Boolean)
+    .join('\n');
 }
 
 function inferSource(input: OcrLikeInput | undefined): NormalizedOcrResult['source'] {

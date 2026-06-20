@@ -4,7 +4,6 @@ import { ref } from 'vue';
 import AppCard from '@/components/AppCard.vue';
 import Toast from '@/components/Toast.vue';
 import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
-import { routes, navigateToRoute } from '@/constants/routes';
 import { getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
 import type { AttentionSettings } from '@/types';
 
@@ -35,9 +34,6 @@ function persist(next: AttentionSettings) {
   message.value = '已保存到本机。';
 }
 
-function openSearch() {
-  navigateToRoute(routes.search);
-}
 </script>
 
 <template>
@@ -92,16 +88,6 @@ function openSearch() {
             <text>{{ item.label }}</text>
           </view>
         </view>
-      </view>
-    </AppCard>
-
-    <AppCard>
-      <view class="nav-row" @tap="openSearch">
-        <view class="setting-row__copy">
-          <text class="mine-title">成分查询</text>
-          <text class="muted">按名称查成分的数据来源与依据。</text>
-        </view>
-        <text class="nav-row__arrow">›</text>
       </view>
     </AppCard>
   </view>
@@ -205,22 +191,6 @@ function openSearch() {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-}
-
-.nav-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-lg);
-  min-height: 96rpx;
-}
-
-.nav-row__arrow {
-  flex: 0 0 auto;
-  color: var(--primary-strong);
-  font-size: 44rpx;
-  font-weight: 900;
-  line-height: 1;
 }
 
 .allergen-grid {

@@ -1,4 +1,4 @@
-# CODEX_TASKS.md
+﻿# CODEX_TASKS.md
 
 > 本文件是 CompLens / 成分镜（项目代号 CompCheck）的 **Codex 主任务清单**。Codex 每次开发时按"当前最早未完成且未被人工阻塞的任务"执行，完成后把状态改为 `✅ 已完成 YYYY-MM-DD` 并同步 `PROJECT_PLAN.md` / `AI_REVIEW.md`。
 >
@@ -9,18 +9,18 @@
 ## 项目主路径
 
 ```
-首页扫描主控台（拍食品标签 / 手动输入 / 当前关注目标 / 最近扫描）
-  → 拍照 / 上传食品标签图片（配料表 / 营养成分表）
+首页单一拍食品标签入口（手动输入 / 当前关注目标 / 最近扫描为辅助）
+  → 拍照 / 上传食品标签图片（配料表 / 营养成分表 / 包装文字）
   → [客户端] 图片预处理（EXIF 修正 + 压缩 + IndexedDB 或平台文件缓存）
-  → 同页 OCR 识别 / OCR 文本清洗 / 有效标签提取 / 手动输入 / 轻量确认
-  → 用户确认或修正 OCR 文本
+  → OCR 识别 / OCR 文本清洗 / 有效标签提取 / 手动输入
+  → 用户确认或修正 OCR 文本（必经，不因识别清楚而跳过）
   → 本地拆分配料 + 添加剂识别 + 营养字段解析
-  → 结合“单选主目标 + 儿童模式 + 过敏原”和本地消费建议规则排序展示
-  → 生成消费建议页（结论 / 一句话建议 / 重点提醒 / 添加剂识别 / 更多信息）
+  → 结合“控糖 / 儿童 / 过敏”等我的关注项和本地解读规则排序展示
+  → 生成食品标签解读报告（结果摘要 / 重点提醒 / 添加剂大白话 / 识别文字）
   → 保存扫描记录
 ```
 
-**添加剂识别是核心能力，配料解释是理解过程，营养分析是辅助判断，个性化消费建议是最终输出。P0 不做商品正面识别、条码识别、商品库优先匹配、商品对比或日化规则。成分搜索和商品对比都不是 MVP 主路径。**
+**添加剂识别是核心能力，配料解释是理解过程，营养分析是辅助判断，食品标签解读报告是最终输出。P0 不做商品正面识别、条码识别、商品库优先匹配、商品对比或日化规则。成分搜索和商品对比都不是 MVP 主路径。**
 
 后续 P1/P2 保持现有一个拍照入口，UI 不需要改成三个入口；用户点击拍食品标签后，由后端自动识别图片里主要对象是商品条码、数字标签二维码，还是配料表 / 营养成分表：
 
@@ -39,11 +39,11 @@
 
 产品边界：
 
-- 当前阶段只聚焦食品、饮料、零食、酸奶、调味品等食品标签里的配料、食品添加剂、营养成分和包装卖点核对提示；不混入化妆品、护肤品、药品或日化规则。
+- 当前阶段只聚焦食品、饮料、零食、酸奶、调味品等食品标签里的配料、食品添加剂、营养成分和包装卖点提示；不混入化妆品、护肤品、药品或日化规则。
 - 中国监管结论必须来自可追溯中国官方来源；普通原料、商品标签写法、别名、营养基础信息等非监管事实可按来源等级使用可靠非官方来源补充，但不得伪装为官方监管数据；AI 不能作为原始数据来源。
 - 所有提示谨慎表达，只做标签信息参考，不构成医疗或营养诊断。
 - 禁止文案：`可以买 / 不能买 / 健康 / 不健康 / 安全 / 有害 / 致癌 / 治疗 / 诊断 / 一定过敏 / 绝对安全 / 绝对有害 / 一定致敏 / 一定不能吃 / 有毒`
-- 推荐文案：`建议关注 / 更适合重点查看 / 部分人群可能需要留意 / 信息不足，建议结合包装原文确认 / 仅供标签信息参考，不构成医疗或营养诊断`
+- 推荐文案：`建议关注 / 更适合重点查看 / 部分人群可能需要留意 / 信息不足，请补充标签文字后查看结果 / 仅供标签信息参考，不构成医疗或营养诊断`
 
 ---
 
@@ -132,7 +132,25 @@
   19. 食品成分 pending-review 受控正式化：用户完成本地 review 页 7/7 报告通过后，新增并执行 `ingredient:promote-reviewed`，只提升 S0、政府公开文档、`verified_by_local_content_and_checksum`、证据字段完整且非 OCR 辅助的数据；本地 DB 提升 `ingredient_master=2026`（`food_additive=2005`、`nutrition_fortifier=21`）、`ingredient_source_relations=2126`、`ingredient_regulatory_rules=133`、`nutrition_fortifier_rules=116`，剩余 `pending_review ingredient=715`、`pending_review staging=346`。
   20. 食品成分官方目录来源补齐与专用表正式化：补齐三新食品、党参等 9 种食药物质、地黄等 4 种食药物质、可用于食品/婴幼儿食品菌种名单的 NHC 官方公告页和附件 URL；`ingredient:promote-reviewed` 扩展到官方目录专用表，仅提升 S0、政府公开文档、本地文件+SHA 校验、非 OCR、证据完整数据；本地 DB 本轮提升 `ingredient_master=2146`（`food_additive=2012`、`novel_food_ingredient=95`、`food_medicine_substance=13`、`food_microorganism=26`）、`ingredient_source_relations=2158`、`ingredient_regulatory_rules=133`、`novel_food_ingredient_rules=95`、`food_medicine_rules=13`、`microorganism_strains=26`，剩余 `pending_review ingredient=563`、`pending_review staging=198`。
   21. 食品成分菌种边界修正：GB 2760 表 C.3 酶制剂来源/供体微生物不再计入 NHC 可用于食品菌种覆盖，改为 `ingredient_type=other` 并保留 `enzyme_source` / `enzyme_donor` / `gb2760_enzyme_microorganism_reference` 标签和关系证据；本地 DB 当前 `food_microorganism=40`（其中 26 条 NHC 通用食品菌种已 verified、14 条婴幼儿菌种 OCR 辅助待复核）、`other=81`（C.3 来源/供体待复核）、`ingredient_type_tags=3033`、`current source relations=4426`、剩余 `pending_review ingredient=563`。
-  22. user-uniapp P0 体验修复：首页主拍照按钮放大并减少重复文案，搜索/关注降为弱入口；拍照页上传或拍照后自动 OCR，识别清楚时直接生成结果，低置信或失败才进入手动补充；拍照框视觉重做；搜索结果隐藏搜索后的热门模块并移除“常见用途/需要注意/常见食品”旧字段；我的页关注目标和过敏/忌口改为等宽选择控件。
+  22. user-uniapp P0 体验修复：首页主拍照按钮放大并减少重复文案，搜索/关注降为弱入口；拍照框视觉重做；搜索结果隐藏搜索后的热门模块并移除“常见用途/需要注意/常见食品”旧字段；我的页关注目标和过敏/忌口改为等宽选择控件；此前“识别清楚直接生成结果”的短路径尝试已被最新产品方向撤回，OCR 后文本确认仍为必经步骤。
+  23. user-uniapp 小程序产品化收口：拍照/OCR 后统一进入文本确认；新增扫描记录页并接入我的关注页和报告页；报告页改为“食品标签解读”，第一屏展示糖、钠、脂肪、能量、添加剂和过敏原重点提醒，补添加剂大白话、收藏、分享入口和识别文字折叠区；新增设置与说明页，覆盖图片/OCR、本机记录、使用边界和本机数据清空。
+  24. user-uniapp OCR 与报告大众化收口：营养字段提取要求字段名 + 数值 + 单位结构，包装正面只保留明确目标声明，产品名/规格/厂家/地址/条码等非目标字段不进入报告；包装声明-only 结果只显示“信息不足 / 还需要补充 / 未确认线索”；报告页改为大众化重点提醒，`mapped_candidate` / `pending_review` 单独进入“未确认线索”；清理“适合 / 少选 / 换成 / 决定频率 / 核验 / 阈值”等表达，并完成独立 AI 静态评审和 H5 样例验证。
+  25. user-uniapp 搜索结果与后端报告口径收口：搜索卡片改为普通用户可读字段（为什么看、标签写法、数据来自、结果用途、可信提示），不再按专业数据库字段堆叠；报告页营养说明按糖、钠、脂肪、能量分别解释；后端 `nutrition/parse` 只在存在真实营养字段数值时判定解析成功，`reports/label` 清理“核验 / 阈值 / 标识偏差”等专业话术并补回归测试。
+  26. user-uniapp 产品输出审查门禁：新增 `audit:product-output`，扫描搜索结果、报告描述、OCR 目标字段和添加剂大白话，确保“为什么看 / 标签写法 / 数据来自 / 结果用途 / 未确认线索”等必要字段存在，并拦截购买/医疗/强结论、过度安抚和偏专业表达；同步根目录转发命令 `user:audit:product-output`。
+  27. user-uniapp H5 视觉烟测门禁：新增 `visual:smoke`，基于已构建的 `dist/build/h5` 启动临时静态服务，用 Playwright + 本机 Chrome/Edge 打开首页、拍食品标签、搜索、我的、报告、历史、设置，校验关键文案、非空渲染、无横向溢出，并输出截图到系统临时目录；同步根目录转发命令 `user:visual:smoke`。
+  28. user-uniapp OCR 与报告信号二次收敛：报告决策、关注项、添加剂识别和过敏提醒不再直接扫描完整 OCR 识别文字，只使用目标字段和确认后的匹配；营养表-only 不展示添加剂大白话；`pending_review` / `mapped_candidate` / `unverified` 不进入正常添加剂解释；过敏原“含有”声明必须同时命中过敏原关键词；产品输出审查增加函数级结构检查。
+  29. user-uniapp OCR/报告样本回归：新增 `regression:ocr-report`，用 Vite 加载 `labelTextExtractor` 与 `reportBuilder` 跑 6 个样本，覆盖非目标包装字段、营养表-only、真实致敏原、未确认添加剂等边界；同步根目录转发命令 `user:regression:ocr-report`。
+  30. user-uniapp 报告输出二次精简：报告页新增“营养数字”条形展示，糖/钠/脂肪/能量说明改为“包装标示 + 结果说明”；前端/后端报告摘要、OCR 等待态和添加剂规则清理“结合目标 / 不单独下结论”等低价值表达；产品输出审查新增对应禁用词。
+  31. user-uniapp 报告分享摘要 MVP：报告页新增分享摘要预览，卡片只展示产品名、结果摘要、最多 3 个重点和营养/添加剂/未确认数量；分享动作改为复制/转发同一份短摘要，不生成购买、医疗或权威结论；产品输出审查固定分享摘要和 `buildReportShareText`。
+  32. user-uniapp 品牌与结果话术修正：统一小程序品牌为“成分镜”；报告、分享摘要、搜索结果和后端报告移除旧品牌、二次比对和旧首屏标题口径；报告首屏使用“结果摘要”，低置信内容使用“未确认线索”，原始 OCR 展示区使用“识别文字”，搜索字段使用“结果用途”；产品输出审查新增旧口径禁用词。
+  33. 市面优秀食品扫描 / 营养 App 调研与优化清单：新增 `docs/product-blueprint/MARKET_APP_ANALYSIS_2026.md`，分析 Yuka、Open Food Facts、CodeCheck、Fooducate、MyFitnessPal、Cronometer 等产品的功能与优点，沉淀成分镜 P0/P1/P2 优化项；结论保持拍食品标签 OCR 主路径，吸收个性化关注、历史复用、营养图表、纠错反馈、条码 / 数字标签自动分支和比一比，不照搬总评分、购买导向和热量日记主路径。
+  34. user-uniapp 拍照质量提示闭环：拍照上传区新增拍摄小检查，提示让配料表/营养表占满画面、避开反光阴影和文字切边；OCR 确认页按本次识别情况展示“本次识别提示”，覆盖低置信、过滤包装信息较多、只识别到营养表、只识别到包装声明和缺少配料表等场景，给出下一步动作。
+  35. user-uniapp OCR 结构化确认页：OCR 确认页改为配料表、营养数字、致敏原提示、包装声明四个确认卡片；每块显示已整理/可补充状态，支持单独清空并重新输入，降低用户在长文本里自行拆分信息的成本。
+  36. user-uniapp 历史页复用强化：历史页筛选从“全部/收藏”扩展为全部、收藏、关注项、最近；关注项筛选按报告重点命中、过敏提示、较高营养项和重点添加剂判断；历史记录支持直接复制分享摘要，帮助用户从历史结果复用报告。
+  37. user-uniapp 报告纠错反馈队列：报告页新增结果反馈卡片，支持标记识别错了、漏了内容、解释不清楚和其他问题并补充短备注；历史页新增快捷反馈；本机存储最多 50 条轻量反馈，不保存图片或整段识别文字，设置页显示反馈数量并随本机数据清空。
+  38. user-uniapp 反馈复查与导出：设置页新增反馈复查卡片，展示本机反馈类型分布和最近 3 条问题样本；支持复制最多 50 条轻量反馈清单，方便后续集中复查 OCR 误识别、漏内容和报告表达问题。
+  39. user-uniapp 产品主路径重排：首页去掉页面内品牌标题，主按钮改为“拍配料表”并直接拉起相机；成分搜索降为首页小入口；OCR 成功后自动生成结果，失败或手动场景才进入输入页；报告页去掉独立分享摘要和大块反馈卡，改为“这包重点 / 配料表里容易漏看的点 / 添加剂作用 / 营养数字”；反馈收为小入口；历史页简化筛选和卡片操作；我的页只保留关注偏好，不再并列历史、搜索和设置说明入口。
+  40. OCR 真实包装兼容修复：后端 RapidOCR Provider 兼容 `rawText` / `raw_text` / `text` 三种常见文本字段，避免本地 OCR 服务已识别但后端判为无效响应；`regression:ocr-report` 新增“小麻花整包照片”文本形态样本，覆盖“品 名 / 配 料”分栏、整包噪音、配料表和营养成分表同时存在的提取边界。
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
@@ -391,7 +409,7 @@ PR 切分约束（按你的要求固定）：
 
 ### Batch 1-E：成分详情页 GB2760 官方证据展示 [Codex]
 
-目标：在 `user-uniapp` 成分详情页展示对应的 GB2760 官方证据（参考表行 + staging 行），让用户直接看到来源原文、页码和可信状态边界。
+目标：在 `user-uniapp` 成分详情页展示对应的 GB2760 官方证据（参考表行 + staging 行），让用户直接看到来源摘录、页码和可信状态边界。
 
 涉及文件：
 - `backend/src/routes/ingredients.ts`（详情接口新增 `?includeEvidence=1` 返回 staging/reference 行）
@@ -568,7 +586,7 @@ PR 切分约束（按你的要求固定）：
 4. ✅ `aliyun` / `paddleocr` 属于生产/外部供应商；缺少 `OCR_API_KEY` 时返回 `503 ocr_not_configured`，已配置但适配未实现时返回 `501 ocr_provider_pending`。
 5. ✅ 前端 OCR response 校验只接受上述 provider 名称，API Key 只在后端环境变量中读取。
 6. ✅ 前端继续在失败或未配置时降级 manual/fallback，不伪造真实 OCR。
-7. OCR 原文、置信度、provider、图片引用需要保存（图片在 IndexedDB，元数据在 localStorage，后续可选 `ocr_results` 表见 Batch 4 计划）。
+7. OCR 识别文字、置信度、provider、图片引用需要保存（图片在 IndexedDB，元数据在 localStorage，后续可选 `ocr_results` 表见 Batch 4 计划）。
 
 验收标准：
 1. 无 Key 时 `POST /api/ocr` 返回 503，前端进入 manual。
@@ -589,7 +607,7 @@ PR 切分约束（按你的要求固定）：
 
 状态：✅ 已完成 2026-06-12（`/ocr-confirm` 页、可编辑 textarea、产品名、实时配料数预览、loading/empty/error/manual 状态机、pending 状态持久化）。
 涉及文件：`src/pages/ocrConfirmPage.js`、`src/pages/scanPage.js`、`src/router/router.js`、`src/store/userStore.js`、`scripts/test.mjs`。
-验收标准：✅ OCR 原文可编辑/清空；可重新上传；可手动粘贴；失败降级 manual 不卡死；确认后进入分析。
+验收标准：✅ OCR 识别文字可编辑/清空；可重新上传；可手动粘贴；失败降级 manual 不卡死；确认后进入分析。
 是否需要人工：否。
 阻塞条件：无。
 验证命令：`npm run lint && npm run test && npm run build`。
@@ -1482,7 +1500,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 验收标准：
 1. 控糖关注项可看到糖、碳水和甜味来源。
 2. 低钠关注项可看到钠和含钠配料。
-3. 信息不足时提示“建议结合包装原文确认”，不输出营养诊断。
+3. 信息不足时提示“请补充标签文字后查看结果”，不输出营养诊断。
 
 是否需要人工：否。
 
@@ -1524,7 +1542,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 实现内容：
 1. 报告页名称改为“食品标签解读”。
-2. 报告结构调整为一句话结论、我的关注项、购买前建议关注、配料表解读、营养成分解读、包装卖点核对、食品添加剂分组、过敏/忌口提示、暂未识别/暂未收录、数据来源和查看依据。
+2. 报告结构调整为一句话结论、我的关注项、重点提醒、配料表解读、营养成分解读、包装卖点提示、食品添加剂分组、过敏/忌口提示、暂未识别/暂未收录、数据来源和查看依据。
 3. 普通消费者内容默认展示，专业来源和法规依据默认折叠。
 
 验收标准：
@@ -1540,7 +1558,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 状态：✅ 已完成（2026-06-15）：`POST /api/reports/label` 已从本地 `reportBuilder` 改为后端可选路由，`user-uniapp` 匹配确认页先走后端适配器，后端异常回退本地构建；后续建议补充包装卖点解析与对比报告接口。
 
-### Batch CONSUMER-LABEL-E：包装卖点核对 [Codex / 后续]
+### Batch CONSUMER-LABEL-E：包装卖点提示 [Codex / 后续]
 
 目标：识别 0糖、低脂、高蛋白、无添加等卖点，并结合配料/营养表提示。
 
@@ -1548,7 +1566,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 实现内容：
 1. 解析 0 蔗糖、0 糖、低脂、高蛋白、无添加、儿童、粗粮、代餐、低卡、非油炸。
-2. 结合配料表和营养成分表给核对提醒。
+2. 结合配料表和营养成分表给提示。
 3. 只做提醒，不做打假结论。
 
 验收标准：
@@ -1603,7 +1621,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 验收标准：
 1. 开关可独立开启/关闭，切换后报告摘要与列表联动更新。
 2. 提示文案不使用“有害/不健康/安全/不安全”等禁忌词。
-3. 仅做“提示级”建议：`建议关注` / `需结合包装原文确认` / `信息不足请补充照片`.
+3. 仅做“提示级”建议：`建议关注` / `结果标为信息不足或未确认线索` / `信息不足请补充照片`.
 
 是否需要人工：否。
 
@@ -1621,7 +1639,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 实现内容：
 1. 解析营养成分表中的糖/钠字段与配料表中的高糖/高钠相关词（麦芽糖浆、果葡糖浆、浓缩果汁、谷氨酸钠/盐替代）进行可疑关联。
-2. 在报告内新增“标签核对区”：展示“营养标称 vs 配料线索”双向提示，不输出绝对判定。
+2. 在报告内新增“标签线索区”：展示“营养标称 vs 配料线索”双向提示，不输出绝对判定。
 3. 对无法识别营养表场景，降级为 `empty` 态并提示用户补拍营养表或阅读原包装。
 
 验收标准：
@@ -1653,7 +1671,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 1. 对比页支持左右分栏/同屏对比。
 2. 当关键信息缺失时给出可操作提示，不阻塞页面。
 3. 禁止输出“A 更健康 / B 不健康 / 可以/不能买”等结论性文案。
-4. 对比结果必须保留“信息不足，建议结合包装原文确认”兜底。
+4. 对比结果必须保留“信息不足，请补充标签文字后查看结果”兜底。
 
 是否需要人工：否。
 
@@ -2343,7 +2361,7 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 实现内容：
 1. 配置是否启用 OCR、默认 OCR Provider、是否启用 AI 解读、免费 OCR 次数、免费报告保存数量。
-2. 配置是否启用产品对比、包装卖点核对、订阅入口、维护模式、最低 App 版本。
+2. 配置是否启用产品对比、包装卖点提示、订阅入口、维护模式、最低 App 版本。
 3. 支持平台范围：`web`、`wechat_mp`、`ios`、`android`、`all`。
 
 验收标准：
@@ -2359,6 +2377,76 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 
 状态：✅ 已完成（2026-06-15）：已在 `ADMIN_CONSOLE_SPEC.md` 补 ADMIN-H 系统配置与功能开关页面/API 矩阵；在 `API_CONTRACT.md` 明确 feature flags、platform config、app versions、share config、notification config、SDK config 等计划接口和密钥/平台/审计边界；在 `PAGE_STRUCTURE.md` 登记目标路由和第一版数据入口。未创建配置表、`admin-web/` 工程或后端接口。
 
+---
+
+## 近期追加执行记录
+
+### Batch 9-D：AI Provider 网关与消费决策结果页 [Codex]
+
+目标：新增可扩展 AI Provider 网关层，支持规则优先的食品标签消费决策，并让小程序结果页直接展示普通用户需要的购买/食用建议。
+
+涉及文件：`backend/src/ai/`、`backend/src/services/aiFoodExplanationService.ts`、`backend/src/services/foodAnalyzeService.ts`、`backend/src/routes/food.ts`、`backend/src/app.ts`、`backend/src/config.ts`、`backend/tests/foodAnalyze.test.ts`、`user-uniapp/src/services/api/labels.ts`、`user-uniapp/src/pages/report/index.vue`、`user-uniapp/src/types/index.ts`、`docs/AI_PROVIDER_DESIGN.md`。
+
+实现内容：
+1. 新增 `AiProvider` 抽象、Provider Registry、MockProvider、DeepSeekProvider、OpenAI-compatible Provider，并预留 Claude/Gemini。
+2. 新增 AI 配置项：`AI_ENABLED`、`AI_DEFAULT_PROVIDER`、`AI_FALLBACK_PROVIDER`、`AI_TIMEOUT_MS`、`AI_MAX_RETRY`、DeepSeek/OpenAI-compatible/Claude/Gemini 环境变量；无 Key 不阻塞启动。
+3. 新增 `FoodAnalyzeService`，从 OCR 文本抽取商品名、类型、生产日期、配料、营养表，本地规则先输出 `decision` / `decisionText` / `riskLevel` / `nutritionJudgement`。
+4. 新增 `POST /api/food/analyze`，前端不直连任何第三方模型。
+5. 小程序报告页新增“一句话结论 / 关键原因 / 适合谁 / 不适合谁 / 建议吃法 / 识别详情”，并接入 `foodAnalysis` 降级数据结构。
+6. 新增小麻花真实包装文本回归，要求输出 `谨慎购买｜偶尔吃可以`、热量/脂肪/碳水/钠提醒、小麦过敏/麸质敏感提醒和半包以内吃法建议。
+
+验收标准：
+1. AI 不覆盖本地规则最终决策。
+2. 无真实 Key 时自动 rule-only/mock 降级。
+3. 小程序结果页不只展示 OCR 文本或配料表，必须给消费决策。
+4. 不提交真实 API Key，不自动部署生产。
+
+验证命令：`npm.cmd --prefix backend run typecheck`、`npm.cmd --prefix backend test -- tests/foodAnalyze.test.ts tests/reports.test.ts tests/ocr.test.ts`、`npm.cmd --prefix user-uniapp run typecheck`、`npm.cmd --prefix user-uniapp run lint`、`npm.cmd --prefix user-uniapp run audit:product-output`、`npm.cmd --prefix user-uniapp run regression:ocr-report`、`npm.cmd --prefix user-uniapp run build:mp-weixin`、`npm.cmd --prefix user-uniapp run build:h5`、`npm.cmd --prefix user-uniapp run visual:smoke`、`git diff --check`。
+
+状态：✅ 已完成（2026-06-20）：规则优先 + AI 解释网关已落地，真实 AI Key 和生产 Provider 监控仍待人工配置。
+
+### Batch UX-F：设置说明移除与识别详情补齐 [Codex]
+
+目标：继续按用户反馈收口页面结构，移除“设置与说明”功能残留，并补齐结果页识别详情中的营养表。
+
+涉及文件：`user-uniapp/src/pages.json`、`user-uniapp/src/constants/routes.ts`、`user-uniapp/src/pages/report/index.vue`、`user-uniapp/src/pages/history/index.vue`、`user-uniapp/src/pages/capture/index.vue`、`user-uniapp/scripts/audit-product-output.mjs`、`user-uniapp/scripts/visual-smoke.mjs`。
+
+实现内容：
+1. 从小程序 `pages.json` 移除 `pages/settings/index`，不再注册“设置与说明”页面。
+2. 移除 `routes.settings` 和视觉烟测中的 settings 页面验收。
+3. 历史页、拍照页按钮文案从“拍标签 / 重新拍标签”改为“拍食品标签 / 重新拍食品标签”。
+4. 结果页去掉“大白话”残留文案，添加剂区只说“添加剂作用”。
+5. 结果页“识别详情”新增营养表行，和商品、类型、生产日期、配料表同屏展示。
+6. 产品输出审查新增 `pages/settings/index`、`设置与说明`、`大白话` 禁用检查。
+
+验证命令：`npm.cmd --prefix user-uniapp run typecheck`、`npm.cmd --prefix user-uniapp run lint`、`npm.cmd --prefix user-uniapp run audit:product-output`、`npm.cmd --prefix user-uniapp run regression:ocr-report`、`npm.cmd --prefix user-uniapp run build:mp-weixin`、`npm.cmd --prefix user-uniapp run build:h5`、`npm.cmd --prefix user-uniapp run visual:smoke`。
+
+状态：✅ 已完成（2026-06-20）：设置说明页不再进入小程序页面清单，报告识别详情已覆盖配料表、营养表和生产日期。
+
+### Batch OCR-F：OCR 本地配置统一与识别页轻提示 [Codex]
+
+目标：继续按用户反馈优化“识别不到东西”的可用性，统一本机 RapidOCR 配置名，并让识别确认页只在需要时给出轻量质量提示。
+
+涉及文件：`backend/src/config.ts`、`backend/src/services/ocrProviders/index.ts`、`backend/tests/config.test.ts`、`user-uniapp/src/pages/capture/index.vue`、`COMMANDS.md`、`docs/deployment.md`、`docs/platform/wechat-mini-program.md`、`docs/product-blueprint/API_CONTRACT.md`、`docs/product-blueprint/ARCHITECTURE_SPEC.md`、`docs/product-blueprint/CROSS_PLATFORM_SPEC.md`、`docs/product-blueprint/FRONTEND_SPEC.md`、`docs/product-blueprint/PRIVACY_AND_COMPLIANCE_SPEC.md`。
+
+实现内容：
+1. 后端配置优先读取 `OCR_LOCAL_URL`，兼容旧 `OCR_SERVICE_URL`，推荐本机目标 `http://127.0.0.1:18080/ocr`。
+2. RapidOCR 缺配置错误提示改为同时说明 `OCR_LOCAL_URL` / `OCR_SERVICE_URL`。
+3. 新增配置回归测试，覆盖新变量优先和旧变量 fallback。
+4. 确认页接入已存在的 `qualityIssues`，只在低置信、噪音多、营养表-only、包装声明-only 等场景展示轻量提示。
+5. 同步微信小程序、部署和产品蓝图 OCR 配置文档。
+
+验证命令：`npm.cmd --prefix backend test -- tests/config.test.ts tests/ocr.test.ts`、`npm.cmd --prefix backend run typecheck`、`npm.cmd --prefix user-uniapp run typecheck`、`npm.cmd --prefix user-uniapp run lint`、`npm.cmd --prefix user-uniapp run audit:product-output`、`npm.cmd --prefix user-uniapp run regression:ocr-report`、`npm.cmd --prefix user-uniapp run build:mp-weixin`、`npm.cmd --prefix user-uniapp run build:h5`、`npm.cmd --prefix user-uniapp run visual:smoke`、`git diff --check`。
+
+状态：✅ 已完成（2026-06-20）：配置和页面补强已落地；当前机器 `http://127.0.0.1:18080/health` 仍无法连接，真实图片 OCR 识别率需要本机 RapidOCR 服务启动后继续验收。
+
+### Batch UX-G：真实 AI 接通后逐页 UI 评审准备 [Codex]
+
+目标：在真实 AI Provider Key 接通后，把每个页面的功能、当前实现、禁用表达和验收问题交给 AI 做逐页审查，再按审查结果继续优化 UI 和报告表达。
+涉及文件：`docs/product-blueprint/AI_UI_REVIEW_PROMPT.md`、`docs/product-blueprint/README.md`。
+实现内容：新增逐页 AI UI 评审提示词，覆盖首页、拍照/识别、结果页、历史、我的、成分搜索；明确结果页优先、拍照页第二、首页第三，历史/我的/搜索最后；要求 AI 输出普通人能看懂、有价值、可执行的页面优化建议，并禁止恢复“对照包装原文”、重复分享摘要、大块反馈卡和设置说明页。
+验收命令：`git diff --check`。
+状态：✅ 已完成（2026-06-20）：评审提示词和产品蓝图索引已落地；真实 AI Key 未配置前不执行真实模型评审。
 ---
 
 ## 完整依赖关系

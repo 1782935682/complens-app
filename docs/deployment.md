@@ -9,7 +9,7 @@
 | PostgreSQL | `localhost:15432` | Docker 容器内端口 `5432` 映射到宿主机 `15432` |
 | Backend API | `http://0.0.0.0:3000` | Hono Node API，连接 Postgres 和 OCR |
 | Frontend | `http://0.0.0.0:5173` | Vite dev server，代理 `/api` 到后端 |
-| Local RapidOCR | `http://127.0.0.1:8000` | 本机 OCR 服务，生产后替换为 Aliyun OCR |
+| Local RapidOCR | `http://127.0.0.1:18080` | 本机 OCR 服务，生产后替换为 Aliyun OCR |
 
 ## 前置依赖
 
@@ -61,7 +61,7 @@ CORS_ORIGIN=http://<server-ip>:5173
 JWT_SECRET=<replace-with-at-least-32-random-characters>
 GB2760_INTERNAL_REVIEWERS=<internal-reviewer-email-or-user-id>
 OCR_PROVIDER=rapidocr
-OCR_SERVICE_URL=http://127.0.0.1:8000
+OCR_LOCAL_URL=http://127.0.0.1:18080/ocr
 OCR_API_KEY=
 AI_PROVIDER=anthropic
 AI_API_KEY=
@@ -193,14 +193,14 @@ async def ocr(file: UploadFile = File(...)):
 
 ```bash
 cd /home/downloads/tools/complens-ocr
-.venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8000
+.venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 18080
 ```
 
 验证：
 
 ```bash
-curl http://127.0.0.1:8000/health
-curl -X POST "http://127.0.0.1:8000/ocr" -F "file=@/path/to/ingredient-label.jpg"
+curl http://127.0.0.1:18080/health
+curl -X POST "http://127.0.0.1:18080/ocr" -F "file=@/path/to/ingredient-label.jpg"
 ```
 
 预期健康检查：
@@ -265,7 +265,7 @@ HOST=0.0.0.0 PORT=5174 API_ORIGIN=http://127.0.0.1:3000 npm run dev
 ```bash
 curl http://127.0.0.1:3000/health
 curl http://127.0.0.1:5173
-curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:18080/health
 ```
 
 在外部机器检查：
@@ -279,7 +279,7 @@ curl http://<server-ip>:5173
 
 - 确认后端和前端使用 `HOST=0.0.0.0` 启动。
 - 确认云服务器安全组或防火墙开放 `3000` 和 `5173`。
-- OCR 默认只监听 `127.0.0.1:8000`，只给后端本机调用，不建议直接暴露公网。
+- OCR 默认只监听 `127.0.0.1:18080`，只给后端本机调用，不建议直接暴露公网。
 - 确认后端 `CORS_ORIGIN` 与前端访问地址一致。
 
 ## 常用运行顺序
@@ -295,7 +295,7 @@ docker compose up -d postgres
 ```bash
 # Terminal 2: OCR
 cd /home/downloads/tools/complens-ocr
-.venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8000
+.venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 18080
 ```
 
 ```bash
@@ -337,7 +337,7 @@ npm run validate:gb2760
 ```env
 OCR_PROVIDER=aliyun
 OCR_API_KEY=<aliyun-ocr-key>
-OCR_SERVICE_URL=
+OCR_LOCAL_URL=
 ```
 
 生产数据库迁移应仍使用：

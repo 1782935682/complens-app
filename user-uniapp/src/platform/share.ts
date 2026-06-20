@@ -5,8 +5,15 @@ export interface WeixinShareMessage {
   path: string;
 }
 
-export async function shareReport(report: LabelReport): Promise<boolean> {
-  const text = `${report.title}\n${report.summarySentence}\n仅供标签信息参考，请结合包装原文和个人情况判断。`;
+export interface ReportShareCard {
+  title: string;
+  headline: string;
+  points: string[];
+  meta: string;
+}
+
+export async function shareReport(report: LabelReport, card?: ReportShareCard): Promise<boolean> {
+  const text = buildReportShareText(report, card);
   const shareApi = (uni as typeof uni & { share?: (options: Record<string, unknown>) => void }).share;
   try {
     if (typeof shareApi === 'function') {
@@ -14,7 +21,7 @@ export async function shareReport(report: LabelReport): Promise<boolean> {
         provider: 'weixin',
         scene: 'WXSceneSession',
         type: 0,
-        title: report.title,
+        title: card?.title || report.title,
         summary: text
       });
       return true;
@@ -28,6 +35,21 @@ export async function shareReport(report: LabelReport): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export function buildReportShareText(report: LabelReport, card?: ReportShareCard): string {
+  const title = card?.title || report.productName || report.title || '食品标签解读';
+  const headline = card?.headline || report.summarySentence || '食品标签解读已生成';
+  const points = (card?.points || report.focusItems || []).slice(0, 3);
+  const lines = [
+    '成分镜',
+    title,
+    headline,
+    ...points.map((point) => `- ${point}`),
+    card?.meta || '',
+    '仅供标签信息参考。'
+  ].filter(Boolean);
+  return lines.join('\n');
 }
 
 export function buildReportShareMessage(report?: LabelReport): WeixinShareMessage {

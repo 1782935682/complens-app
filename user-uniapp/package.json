@@ -9,6 +9,9 @@
     "build:h5": "uni build -p h5",
     "dev:mp-weixin": "node scripts/mp-weixin.mjs --dev",
     "build:mp-weixin": "node scripts/mp-weixin.mjs",
+    "audit:product-output": "node scripts/audit-product-output.mjs",
+    "regression:ocr-report": "node scripts/ocr-report-regression.mjs",
+    "visual:smoke": "node scripts/visual-smoke.mjs",
     "lint": "node scripts/lint.mjs",
     "typecheck": "vue-tsc --noEmit"
   },

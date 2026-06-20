@@ -80,7 +80,7 @@ function buildMockOcrResult(input: OcrProviderInput): OcrProviderResult {
 async function recognizeWithRapidOcr(input: OcrProviderInput, runtime: OcrProviderRuntime): Promise<OcrProviderResult> {
   const serviceUrl = normalizeServiceUrl(runtime.serviceUrl);
   if (!serviceUrl) {
-    throw new OcrProviderError('ocr_not_configured', 'OCR_SERVICE_URL is required for rapidocr', 503);
+    throw new OcrProviderError('ocr_not_configured', 'OCR_LOCAL_URL or OCR_SERVICE_URL is required for rapidocr', 503);
   }
 
   const image = Buffer.from(input.imageBase64, 'base64');
@@ -122,10 +122,12 @@ function normalizeRapidOcrPayload(payload: unknown): OcrProviderResult {
 
   const value = payload as {
     rawText?: unknown;
+    raw_text?: unknown;
+    text?: unknown;
     confidence?: unknown;
     blocks?: unknown;
   };
-  const rawText = typeof value.rawText === 'string' ? value.rawText : null;
+  const rawText = firstString(value.rawText, value.raw_text, value.text);
   const rawBlocks = Array.isArray(value.blocks) ? value.blocks : null;
   if (rawText === null && rawBlocks === null) {
     throw new OcrProviderError('ocr_provider_invalid_response', 'RapidOCR service response is missing rawText or blocks', 502);
@@ -149,11 +151,16 @@ function normalizeRapidOcrPayload(payload: unknown): OcrProviderResult {
   };
 }
 
+function firstString(...values: unknown[]): string | null {
+  const value = values.find((item) => typeof item === 'string' && item.trim());
+  return typeof value === 'string' ? value : null;
+}
+
 function normalizeRapidOcrBlock(value: unknown) {
   const block = value && typeof value === 'object'
-    ? value as { text?: unknown; confidence?: unknown; box?: unknown }
+    ? value as { text?: unknown; confidence?: unknown; box?: unknown; bounds?: unknown }
     : {};
-  const bounds = normalizeRapidOcrBounds(block.box);
+  const bounds = normalizeRapidOcrBounds(block.box) || normalizeRapidOcrBounds(block.bounds);
   return {
     text: typeof block.text === 'string' ? block.text.trim() : '',
     confidence: normalizeConfidence(block.confidence),

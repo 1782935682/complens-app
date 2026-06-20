@@ -5,6 +5,7 @@ import { requestLogger } from './middleware/requestLogger.js';
 import { createAuthRoute } from './routes/auth.js';
 import { createGb2760Route } from './routes/gb2760.js';
 import { healthRoute } from './routes/health.js';
+import { createFoodRoute } from './routes/food.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
 import { createLabelsRoute } from './routes/labels.js';
 import { createNutritionRoute } from './routes/nutrition.js';
@@ -19,6 +20,9 @@ import { createNutritionService, type NutritionService } from './services/nutrit
 import { createReportService, type ReportService } from './services/reportService.js';
 import { createLazyUserService, type UserService } from './services/userService.js';
 import { createLazyLabelScanService, type LabelScanService } from './services/labelScanService.js';
+import { createAiProviderRegistry } from './ai/providerFactory.js';
+import { createAiFoodExplanationService } from './services/aiFoodExplanationService.js';
+import { createFoodAnalyzeService, type FoodAnalyzeService } from './services/foodAnalyzeService.js';
 
 export type AppServices = {
   authService?: AuthService;
@@ -29,10 +33,67 @@ export type AppServices = {
   nutritionService?: NutritionService;
   userService?: UserService;
   reportService?: ReportService;
+  foodAnalyzeService?: FoodAnalyzeService;
 };
 
 export function createApp(config: AppConfig, services: AppServices = {}) {
   const app = new Hono();
+  const aiConfig = config.ai ?? {
+    enabled: false,
+    defaultProvider: 'mock' as const,
+    fallbackProvider: 'mock' as const,
+    timeoutMs: 20000,
+    maxRetry: 1,
+    deepseek: {
+      apiKey: '',
+      baseUrl: 'https://api.deepseek.com',
+      model: 'deepseek-chat'
+    },
+    openaiCompatible: {
+      apiKey: '',
+      baseUrl: '',
+      model: '',
+      requestPath: '/v1/chat/completions'
+    },
+    claude: {
+      apiKey: '',
+      model: ''
+    },
+    gemini: {
+      apiKey: '',
+      model: ''
+    }
+  };
+  const aiGatewayConfig = {
+    enabled: aiConfig.enabled,
+    defaultProvider: aiConfig.defaultProvider,
+    fallbackProvider: aiConfig.fallbackProvider,
+    timeoutMs: aiConfig.timeoutMs,
+    maxRetry: aiConfig.maxRetry,
+    providers: {
+      mock: {
+        provider: 'mock' as const,
+        model: 'mock-food-explainer-v1',
+        timeoutMs: aiConfig.timeoutMs
+      },
+      deepseek: {
+        provider: 'deepseek' as const,
+        apiKey: aiConfig.deepseek.apiKey,
+        baseUrl: aiConfig.deepseek.baseUrl,
+        model: aiConfig.deepseek.model,
+        requestPath: '/v1/chat/completions',
+        timeoutMs: aiConfig.timeoutMs
+      },
+      'openai-compatible': {
+        provider: 'openai-compatible' as const,
+        apiKey: aiConfig.openaiCompatible.apiKey,
+        baseUrl: aiConfig.openaiCompatible.baseUrl,
+        model: aiConfig.openaiCompatible.model,
+        requestPath: aiConfig.openaiCompatible.requestPath,
+        timeoutMs: aiConfig.timeoutMs
+      }
+    }
+  };
 
   app.use('*', cors({
     origin: config.corsOrigin,
@@ -52,6 +113,10 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.route('/api', createReportsRoute(services.reportService ?? createReportService({
     ingredientService: services.ingredientService ?? createLazyIngredientService(config.databaseUrl)
   })));
+  app.route('/api', createFoodRoute(services.foodAnalyzeService ?? createFoodAnalyzeService(createAiFoodExplanationService({
+    config: aiGatewayConfig,
+    registry: createAiProviderRegistry(aiGatewayConfig)
+  }))));
   app.route('/api', createOcrRoute(authService, config));
   app.route('/api', createUserRoute(authService, services.userService ?? createLazyUserService(config.databaseUrl)));
   app.route('/api', createGb2760Route(authService, services.gb2760Service ?? createLazyGb2760Service(config.databaseUrl), {

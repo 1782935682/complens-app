@@ -74,9 +74,7 @@ button {
   max-width: 480px;
   margin: 0 auto;
   padding: calc(var(--space-lg) + env(safe-area-inset-top)) 32rpx calc(160rpx + env(safe-area-inset-bottom));
-  background:
-    radial-gradient(circle at 20px 12px, rgba(143, 228, 204, 0.2), transparent 120px),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
   animation: page-slide-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }

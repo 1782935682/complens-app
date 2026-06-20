@@ -143,6 +143,53 @@ describe('POST /api/reports/label', () => {
       additiveCount: 0
     });
     expect(body.summarySentence).toContain('识别到 2 项配料');
+    expect(body.summarySentence).toContain('营养数字已整理');
+    expect(body.summarySentence).not.toContain('营养成分表已整理');
+    expect(body.nutritionIngredientChecks.map((item: { title: string }) => item.title)).toEqual(['糖线索', '钠线索']);
+  });
+
+  it('uses plain report wording for nutrition clues', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/reports/label', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productName: '酸奶',
+        rawText: '配料：生牛乳、白砂糖。营养成分表 糖 12g',
+        ingredients: [{
+          id: 'sugar',
+          rawText: '白砂糖',
+          normalizedText: '白砂糖',
+          isSubIngredient: false,
+          isUnknown: false
+        }],
+        matches: [],
+        nutrition: [{
+          key: 'sugar',
+          label: '糖',
+          value: '12',
+          unit: 'g',
+          confidence: 0.95
+        }],
+        attention: {
+          goals: ['sugar_control'],
+          detailTerms: [],
+          customTerms: []
+        }
+      })
+    });
+    const body = await response.json();
+    const serialized = JSON.stringify(body);
+
+    expect(response.status).toBe(200);
+    expect(body.summarySentence).toContain('营养数字已整理');
+    expect(body.nutritionIngredientChecks[0]).toEqual(expect.objectContaining({
+      title: '糖线索',
+      summary: expect.stringContaining('包装上写了糖 12g')
+    }));
+    expect(serialized).not.toContain('核验');
+    expect(serialized).not.toContain('阈值');
+    expect(serialized).not.toContain('标识偏差');
   });
 
   it('uses ingredientService batch-search when matches are not provided', async () => {

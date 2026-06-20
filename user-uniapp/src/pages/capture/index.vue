@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { onLoad, onShow, onUnload } from '@dcloudio/uni-app';
 import { computed, ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
@@ -51,6 +51,8 @@ const generating = ref(false);
 const loadingText = ref('');
 const loadingTimer = ref<ReturnType<typeof setInterval> | undefined>();
 const attentionSettings = ref<AttentionSettings>(getAttentionSettings());
+const autoCameraStarted = ref(false);
+const autoGenerateAfterOcr = ref(false);
 
 const additivePreview = computed(() => recognizeAdditivesFromText(ingredientText.value, attentionSettings.value).slice(0, 5));
 const quickSignals = computed(() => buildQuickSignals({
@@ -68,6 +70,20 @@ const shouldShowLowConfidence = computed(() => isLowConfidence.value && extracti
 const canGenerate = computed(() => hasAnyLabelText.value && (!isLowConfidence.value || manualOverride.value || extractionSourceType.value === 'manual' || isNutritionOnly.value || isFrontOnly.value));
 const hasAnyConfirmedText = computed(() => Boolean(ingredientText.value.trim() || nutritionText.value.trim() || allergenText.value.trim() || frontClaimsText.value.trim()));
 const shouldShowManualModifyAction = computed(() => extractionSourceType.value !== 'manual' && !manualOverride.value);
+const qualityIssues = computed(() => buildQualityIssues());
+const ingredientCountText = computed(() => {
+  const count = parseIngredientList(ingredientText.value).length;
+  return count ? `已整理 ${count} 项` : '建议补充';
+});
+const nutritionCountText = computed(() => {
+  const count = countUsefulLines(nutritionText.value);
+  return count ? `已整理 ${count} 行` : '可选补充';
+});
+const allergenCountText = computed(() => allergenText.value.trim() ? '已识别' : '可选补充');
+const frontClaimsCountText = computed(() => {
+  const count = countUsefulLines(frontClaimsText.value);
+  return count ? `已整理 ${count} 条` : '可选补充';
+});
 const confidenceText = computed(() => {
   if (extractionSourceType.value === 'manual') return '手动输入';
   if (extractionConfidence.value === 'high') return '识别较清楚';
@@ -84,6 +100,16 @@ function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
 onLoad((query) => {
   if (getQueryValue(query, 'mode') === 'manual') {
     startManualTextEntry();
+    return;
+  }
+  if (getQueryValue(query, 'auto') === 'camera') {
+    autoGenerateAfterOcr.value = true;
+    if (!autoCameraStarted.value) {
+      autoCameraStarted.value = true;
+      setTimeout(() => {
+        void choose('camera');
+      }, 80);
+    }
   }
 });
 
@@ -103,7 +129,7 @@ onShow(() => {
       mode: draft.ocr?.mode,
       provider: draft.ocr?.provider
     }, draft.ocr?.mode === 'manual' ? 'manual' : undefined);
-    applyExtraction(extractLabelText(normalizedDraft), draft.ocr?.mode === 'manual', normalizedDraft.rawText);
+    applyExtraction(extractLabelText(normalizedDraft), draft.ocr?.mode === 'manual');
   }
   productName.value = draft.productName || productName.value;
   labelType.value = draft.labelType || 'unknown_label';
@@ -127,7 +153,7 @@ async function choose(source: 'camera' | 'album') {
     ocrResult.value = undefined;
     labelType.value = 'unknown_label';
     saveScanDraft({ image: nextImage });
-    await startRecognize({ autoGenerate: true });
+    await startRecognize();
   } catch {
     error.value = source === 'camera' ? '相机暂不可用，请检查权限，或改用相册上传。' : '没有选择图片，请重新上传。';
   }
@@ -144,23 +170,22 @@ function clearImage() {
   resetScanDraft();
 }
 
-async function startRecognize(options: { autoGenerate?: boolean } = {}) {
+async function startRecognize() {
   if (!image.value) {
-    error.value = '请先拍照或选择一张清晰的食品标签图片。';
+    error.value = '请拍照或选择一张清晰的食品标签图片。';
     return;
   }
   stage.value = 'recognizing';
   startLoadingMessages(['正在识别标签文字...', '正在整理配料和营养信息...']);
   error.value = '';
   editHint.value = '';
-  let shouldOpenEditor = true;
   try {
     const next = await recognizeImageByBackend(image.value);
     const normalized = normalizeOcrResult(next);
     ocrResult.value = next;
     rawOcrText.value = normalized.rawText || next.text || '';
     loadingText.value = '正在剔除无关噪音...';
-    applyExtraction(extractLabelText(normalized), false, normalized.rawText || next.text || '');
+    applyExtraction(extractLabelText(normalized), false);
     const effectiveText = buildEffectiveLabelText();
     labelType.value = resolveDetectedType(effectiveText);
     saveScanDraft({
@@ -171,22 +196,23 @@ async function startRecognize(options: { autoGenerate?: boolean } = {}) {
     });
     const hasIngredient = Boolean(ingredientText.value.trim());
     const hasNutrition = Boolean(nutritionText.value.trim());
-    const canAutoGenerate = options.autoGenerate
-      && next.mode !== 'fallback'
-      && (hasIngredient || hasNutrition)
-      && extractionConfidence.value !== 'low';
-    if (canAutoGenerate) {
-      shouldOpenEditor = !(await generateResult({ fromAutoRecognition: true }));
-    } else if (!hasIngredient && !hasNutrition && !frontClaimsText.value.trim()) {
-      error.value = '没有识别到清晰配料表、营养成分表或包装文字，请重新拍摄标签区域，或手动粘贴文字。';
+    if (autoGenerateAfterOcr.value && hasAnyLabelText.value) {
+      manualOverride.value = true;
+      await generateResult({ fromAutoRecognition: true });
+      return;
+    }
+    if (!hasIngredient && !hasNutrition && !frontClaimsText.value.trim()) {
+      error.value = '没有识别到清晰的包装文字，请重新拍清配料、营养数字或过敏原区域，或手动粘贴文字。';
     } else if (!hasIngredient && hasNutrition) {
       editHint.value = '当前只识别到营养成分表，也可以生成解读；如包装有配料表，建议补充后结果更完整。';
     } else if (!hasIngredient && frontClaimsText.value.trim()) {
-      editHint.value = '当前主要识别到包装正面或其他文字，可以先生成信息不足提示；建议继续补拍配料表或营养成分表。';
+      editHint.value = '当前主要识别到包装声明，可以先生成简要提示；补拍配料或营养数字后结果会更完整。';
     } else if (extractionConfidence.value === 'low') {
-      error.value = '没有识别到清晰配料表或营养成分表，请重新拍摄标签区域，或手动粘贴标签文字。';
+      error.value = '没有识别到清晰的配料或营养数字，请重新拍清包装文字区域，或手动粘贴标签文字。';
     } else if (next.mode === 'fallback') {
       error.value = next.errorMessage || '识别失败，可以重新拍摄食品标签区域，或手动粘贴标签文字。';
+    } else {
+      editHint.value = '请先确认识别文字，再生成食品标签解读。';
     }
   } catch {
     const manual = buildManualOcrResult();
@@ -198,7 +224,7 @@ async function startRecognize(options: { autoGenerate?: boolean } = {}) {
     error.value = '识别失败，可以重新拍摄食品标签区域，或手动粘贴标签文字。';
   } finally {
     stopLoadingMessages();
-    if (shouldOpenEditor) stage.value = 'confirm';
+    stage.value = 'confirm';
   }
 }
 
@@ -209,7 +235,7 @@ function startManualTextEntry() {
   ocrResult.value = buildManualOcrResult();
   labelType.value = 'unknown_label';
   error.value = '';
-  editHint.value = '可以直接粘贴配料表、营养成分表或包装正面文字；致敏原提示可选补充。';
+  editHint.value = '';
   stage.value = 'confirm';
   resetScanDraft();
   saveScanDraft({ ocr: ocrResult.value, confirmedText: '', labelType: labelType.value });
@@ -226,11 +252,20 @@ function clearText() {
   editHint.value = '可以重新粘贴或输入食品标签文字。';
 }
 
-function applyExtraction(result: LabelTextExtraction, allowManualOverride = false, sourceText = '') {
+function clearTextSection(section: 'ingredient' | 'nutrition' | 'allergen' | 'frontClaims') {
+  if (section === 'ingredient') ingredientText.value = '';
+  if (section === 'nutrition') nutritionText.value = '';
+  if (section === 'allergen') allergenText.value = '';
+  if (section === 'frontClaims') frontClaimsText.value = '';
+  manualOverride.value = true;
+  editHint.value = '已清空对应内容，可以重新粘贴或输入。';
+}
+
+function applyExtraction(result: LabelTextExtraction, allowManualOverride = false) {
   ingredientText.value = result.ingredientText;
   nutritionText.value = result.nutritionText;
   allergenText.value = result.allergenText;
-  frontClaimsText.value = resolveFrontClaimsText(sourceText, result);
+  frontClaimsText.value = result.frontClaimsText;
   ignoredText.value = result.ignoredText;
   extractionConfidence.value = result.confidence;
   extractionSourceType.value = result.sourceType;
@@ -265,7 +300,7 @@ async function generateResult(options: { fromAutoRecognition?: boolean } = {}): 
     return false;
   }
   if (!canGenerate.value) {
-    error.value = '当前食品标签识别置信度较低，请先手动修改或重新拍摄标签区域。';
+    error.value = '当前食品标签识别置信度较低，请手动修改或重新拍摄标签区域。';
     return false;
   }
   generating.value = true;
@@ -366,19 +401,13 @@ function resolveInputSourceType(): 'ocr' | 'manual' | 'demo' {
   return extractionSourceType.value === 'manual' ? 'manual' : 'ocr';
 }
 
-function resolveFrontClaimsText(sourceText: string, result: LabelTextExtraction): string {
-  const rawText = sourceText.trim();
-  if (!rawText || result.ingredientText.trim() || result.nutritionText.trim()) return '';
-  return rawText.replace(/^包装文字\s*[:：]\s*/i, '').trim();
-}
-
 function buildTargetLoadingText(): string {
   const attention = getAttentionSettings();
-  if (attention.primaryGoal === 'sugar') return '正在结合您的控糖目标分析...';
-  if (attention.primaryGoal === 'lowSodium') return '正在结合您的低钠目标分析...';
-  if (attention.primaryGoal === 'fatLoss') return '正在结合您的减脂目标分析...';
-  if (attention.isChildrenMode) return '正在结合儿童模式分析...';
-  return '正在结合您的关注目标分析...';
+  if (attention.primaryGoal === 'sugar') return '正在查看控糖相关项目...';
+  if (attention.primaryGoal === 'lowSodium') return '正在查看低钠相关项目...';
+  if (attention.primaryGoal === 'fatLoss') return '正在查看减脂相关项目...';
+  if (attention.isChildrenMode) return '正在查看儿童模式关注项...';
+  return '正在按关注项排序...';
 }
 
 function startLoadingMessages(messages: string[]) {
@@ -432,6 +461,38 @@ function buildQuickSignals(value: {
   ].filter(Boolean);
 }
 
+function buildQualityIssues(): string[] {
+  const issues: string[] = [];
+  if (!hasAnyConfirmedText.value) {
+    issues.push('没有整理出可用的标签文字，可以重新拍摄或手动输入。');
+    return issues;
+  }
+  if (shouldShowLowConfidence.value) {
+    issues.push('文字区域不够清晰，建议让配料表或营养表占满画面。');
+  }
+  if (ignoredText.value.length >= 3) {
+    issues.push('识别到较多包装信息，结果会优先使用配料、营养数字和过敏原文字。');
+  }
+  if (isNutritionOnly.value) {
+    issues.push('当前只有营养数字，补充配料表后可以看到添加剂解释。');
+  }
+  if (isFrontOnly.value) {
+    issues.push('当前主要是包装声明，需要配料表或营养表才能给出更多结果。');
+  }
+  if (!ingredientText.value.trim() && allergenText.value.trim()) {
+    issues.push('已识别到致敏原提示，补充配料表后结果会更完整。');
+  }
+  return Array.from(new Set(issues)).slice(0, 3);
+}
+
+function countUsefulLines(value: string): number {
+  return value
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .length;
+}
+
 function matchedAllergenLabels(text: string): string[] {
   return allergenOptions
     .filter((option) => option.keywords.some((keyword) => text.includes(keyword)))
@@ -441,11 +502,11 @@ function matchedAllergenLabels(text: string): string[] {
 </script>
 
 <template>
-  <view class="page" :class="stage === 'confirm' ? 'page--confirm' : 'page--capture stack'">
+  <view class="page" :class="[stage === 'confirm' ? 'page--confirm' : 'page--capture stack', stage === 'confirm' && !image?.tempFilePath ? 'page--manual-confirm' : '']">
     <template v-if="stage !== 'confirm'">
       <view class="capture-intro">
-        <text class="capture-intro__title">对准配料表或营养表</text>
-        <text class="capture-intro__desc">选择图片后自动识别，清楚时直接出结果。</text>
+        <text class="capture-intro__title">拍清包装文字</text>
+        <text class="capture-intro__desc">整包、配料、营养数字都可以拍；识别到可用文字后自动生成结果。</text>
       </view>
       <ImageUploader :image="image" @camera="choose('camera')" @album="choose('album')" @clear="clearImage" />
       <ErrorState v-if="error" title="图片选择失败" :description="error" action-label="重试上传" @action="choose('album')" />
@@ -457,16 +518,16 @@ function matchedAllergenLabels(text: string): string[] {
 
     <template v-else>
       <image v-if="image?.tempFilePath" class="confirm-bg" :src="image.tempFilePath" mode="aspectFill" />
-      <view class="confirm-dim" />
-      <view class="confirm-topbar">
+      <view v-if="image?.tempFilePath" class="confirm-dim" />
+      <view v-if="image?.tempFilePath" class="confirm-topbar">
         <text class="confirm-back" @tap="clearImage">‹</text>
       </view>
       <scroll-view scroll-y class="confirm-sheet">
-        <ErrorState v-if="error" title="需要补充文字" :description="error" action-label="重新拍标签" @action="clearImage" />
+        <ErrorState v-if="error" title="需要补充文字" :description="error" action-label="重新拍食品标签" @action="clearImage" />
         <view class="confirm-content">
           <view class="confirm-heading">
-            <text class="confirm-title">补充标签文字</text>
-            <text class="confirm-desc">识别不清时，粘贴配料表或营养成分表文字即可生成结果</text>
+            <text class="confirm-title">手动输入标签文字</text>
+            <text class="confirm-desc">识别失败或想补充内容时，粘贴配料表和营养数字即可生成结果。</text>
           </view>
           <view class="scan-summary">
             <view class="confidence-row">
@@ -480,22 +541,67 @@ function matchedAllergenLabels(text: string): string[] {
             <view v-if="quickSignals.length" class="pill-list">
               <text v-for="signal in quickSignals" :key="signal" class="soft-tag">{{ signal }}</text>
             </view>
+            <view v-if="qualityIssues.length" class="quality-panel">
+              <view class="quality-panel__list">
+                <view v-for="issue in qualityIssues" :key="issue" class="quality-panel__item">
+                  <text class="quality-panel__dot" />
+                  <text class="quality-panel__text">{{ issue }}</text>
+                </view>
+              </view>
+            </view>
           </view>
-          <view class="confirm-field">
+          <view class="confirm-section">
+            <view class="confirm-section__head">
+              <view class="confirm-section__title-group">
+                <text class="field-label">配料表</text>
+                <text class="confirm-section__desc">用于识别添加剂、主要配料和关注项</text>
+              </view>
+              <view class="confirm-section__meta">
+                <text class="confirm-section__status" :class="{ 'confirm-section__status--empty': !ingredientText.trim() }">{{ ingredientCountText }}</text>
+                <text v-if="ingredientText.trim()" class="confirm-section__clear" @tap="clearTextSection('ingredient')">清空</text>
+              </view>
+            </view>
             <textarea v-model="ingredientText" class="textarea textarea--ingredient" auto-height placeholder="粘贴或输入配料表文字，例如：水、白砂糖、乳粉、食品添加剂..." @input="manualOverride = true" />
           </view>
-          <view v-if="nutritionText" class="confirm-field">
-            <text class="field-label">营养成分</text>
+          <view class="confirm-section">
+            <view class="confirm-section__head">
+              <view class="confirm-section__title-group">
+                <text class="field-label">营养数字</text>
+                <text class="confirm-section__desc">用于查看糖、钠、脂肪、能量等标示</text>
+              </view>
+              <view class="confirm-section__meta">
+                <text class="confirm-section__status" :class="{ 'confirm-section__status--empty': !nutritionText.trim() }">{{ nutritionCountText }}</text>
+                <text v-if="nutritionText.trim()" class="confirm-section__clear" @tap="clearTextSection('nutrition')">清空</text>
+              </view>
+            </view>
             <textarea v-model="nutritionText" class="textarea textarea--compact" auto-height placeholder="可选，例如：能量、蛋白质、脂肪、碳水化合物、糖、钠" @input="manualOverride = true" />
           </view>
-          <view v-if="allergenText" class="confirm-field">
-            <text class="field-label">致敏原提示</text>
+          <view class="confirm-section">
+            <view class="confirm-section__head">
+              <view class="confirm-section__title-group">
+                <text class="field-label">致敏原提示</text>
+                <text class="confirm-section__desc">用于提示牛奶、大豆、花生等已标示信息</text>
+              </view>
+              <view class="confirm-section__meta">
+                <text class="confirm-section__status" :class="{ 'confirm-section__status--empty': !allergenText.trim() }">{{ allergenCountText }}</text>
+                <text v-if="allergenText.trim()" class="confirm-section__clear" @tap="clearTextSection('allergen')">清空</text>
+              </view>
+            </view>
             <textarea v-model="allergenText" class="textarea textarea--compact" auto-height placeholder="可选，例如：本品含有牛奶、大豆，可能含有花生" @input="manualOverride = true" />
             <text v-if="editHint" class="muted">{{ editHint }}</text>
           </view>
-          <view v-if="frontClaimsText" class="confirm-field">
-            <text class="field-label">其他文字</text>
-            <textarea v-model="frontClaimsText" class="textarea textarea--compact" auto-height placeholder="识别到的包装正面、产品名、规格或其他文字" @input="manualOverride = true" />
+          <view class="confirm-section">
+            <view class="confirm-section__head">
+              <view class="confirm-section__title-group">
+                <text class="field-label">包装声明</text>
+                <text class="confirm-section__desc">用于查看 0 糖、低脂、高蛋白等包装说法</text>
+              </view>
+              <view class="confirm-section__meta">
+                <text class="confirm-section__status" :class="{ 'confirm-section__status--empty': !frontClaimsText.trim() }">{{ frontClaimsCountText }}</text>
+                <text v-if="frontClaimsText.trim()" class="confirm-section__clear" @tap="clearTextSection('frontClaims')">清空</text>
+              </view>
+            </view>
+            <textarea v-model="frontClaimsText" class="textarea textarea--compact" auto-height placeholder="例如：0糖、低脂、高蛋白、减盐等包装声明" @input="manualOverride = true" />
           </view>
           <LoadingState v-if="generating">{{ loadingText || '正在识别添加剂和营养信息...' }}</LoadingState>
           <AppButton class="confirm-main-button" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成结果</AppButton>
@@ -608,6 +714,26 @@ function matchedAllergenLabels(text: string): string[] {
   animation: sheet-up 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+
+.page--manual-confirm {
+  padding: calc(28rpx + env(safe-area-inset-top)) 32rpx calc(56rpx + env(safe-area-inset-bottom));
+  overflow: visible;
+  background: var(--bg);
+}
+
+.page--manual-confirm .confirm-sheet {
+  position: static;
+  height: auto;
+  min-height: calc(100vh - 84rpx - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  border-radius: 24rpx;
+  box-shadow: var(--shadow-card);
+  padding: var(--space-lg);
+  animation: none;
+}
+
+.page--manual-confirm .scan-summary {
+  background: var(--surface);
+}
 @keyframes sheet-up {
   from {
     transform: translateY(26px);
@@ -619,7 +745,10 @@ function matchedAllergenLabels(text: string): string[] {
 
 .confirm-content,
 .confirm-heading,
-.confirm-field {
+.confirm-field,
+.confirm-section,
+.confirm-section__title-group,
+.confirm-section__meta {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -681,6 +810,63 @@ function matchedAllergenLabels(text: string): string[] {
   gap: var(--space-xs);
 }
 
+.confirm-section {
+  border: 1px solid var(--line);
+  border-radius: 20rpx;
+  background: var(--surface);
+  padding: var(--space-md);
+  box-shadow: 0 6rpx 18rpx rgba(26, 44, 37, 0.04);
+}
+
+.confirm-section__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.confirm-section__title-group {
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: 2px;
+}
+
+.confirm-section__desc {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+}
+
+.confirm-section__meta {
+  align-items: flex-end;
+  flex: 0 0 auto;
+  gap: 2px;
+}
+
+.confirm-section__status {
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.2;
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+
+.confirm-section__status--empty {
+  background: var(--surface-subtle);
+  color: var(--muted);
+}
+
+.confirm-section__clear {
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.4;
+  padding: 4px 2px;
+}
+
 .soft-tag--warning {
   background: rgba(236, 176, 70, 0.16);
   color: #8a5d12;
@@ -701,6 +887,50 @@ function matchedAllergenLabels(text: string): string[] {
   font-size: var(--font-size-sm);
   font-weight: 900;
   line-height: 1.4;
+}
+
+.quality-panel {
+  border: 1px solid rgba(18, 151, 128, 0.14);
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.68);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.quality-panel__title {
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.quality-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.quality-panel__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.quality-panel__dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 999px;
+  background: var(--primary-strong);
+  flex: 0 0 auto;
+  margin-top: 13rpx;
+}
+
+.quality-panel__text {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.55;
 }
 
 .textarea--ingredient {

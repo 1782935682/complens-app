@@ -1,6 +1,6 @@
 import { labelTypeLabels } from '@/constants/labelTypes';
 import { buildLabelReport as buildLabelReportLocally } from '@/utils/reportBuilder';
-import type { AttentionSettings, IngredientMatch, LabelClassification, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient, ReportAnalysisSource } from '@/types';
+import type { AttentionSettings, FoodAnalyzeResult, IngredientMatch, LabelClassification, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient, ReportAnalysisSource } from '@/types';
 import { classifyLabelText } from '@/utils/labelClassifier';
 import { getEditableNutritionFields, parseNutritionText } from '@/utils/nutritionParser';
 import { enrichReportDecision } from '@/utils/decisionRules';
@@ -79,7 +79,7 @@ function normalizeClassificationResponse(response: LabelClassifyResponse, text: 
       ...fallback,
       labelType: 'unknown_label',
       requiresUserSelection: true,
-      reasons: ['识别到的文字不像完整配料表，将按包装原文整理并提示核对。']
+      reasons: ['识别到的文字不像完整配料表，将按已识别文字生成信息不足提示。']
     };
   }
   return {
@@ -148,6 +148,7 @@ type ReportInput = {
 };
 
 export async function buildLabelReportWithAdapter(input: ReportInput): Promise<LabelReport> {
+  const foodAnalysis = await analyzeFoodWithAdapter(input);
   try {
     const report = await requestJson<LabelReport>('/reports/label', {
       method: 'POST',
@@ -168,10 +169,12 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
     });
     return enrichReportDecision({
       ...report,
-      analysisSource: report.analysisSource || input.sourceMeta
+      analysisSource: report.analysisSource || input.sourceMeta,
+      foodAnalysis
     }, input.attention);
   } catch {
-    return enrichReportDecision(buildLabelReportLocally({
+    return enrichReportDecision({
+      ...buildLabelReportLocally({
       productName: input.productName,
       rawText: input.rawText,
       ingredients: input.ingredients,
@@ -182,6 +185,41 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
       frontClaimsText: input.frontClaimsText,
       ocr: input.ocr,
       sourceMeta: input.sourceMeta
-    }), input.attention);
+      }),
+      foodAnalysis
+    }, input.attention);
+  }
+}
+
+async function analyzeFoodWithAdapter(input: ReportInput): Promise<FoodAnalyzeResult | undefined> {
+  const ocrText = [
+    input.rawText,
+    input.sourceMeta?.ingredientText,
+    input.sourceMeta?.nutritionText,
+    input.sourceMeta?.allergenText,
+    input.frontClaimsText
+  ].filter(Boolean).join('\n');
+  if (!ocrText.trim()) return undefined;
+  try {
+    return await requestJson<FoodAnalyzeResult>('/food/analyze', {
+      method: 'POST',
+      authMode: 'none',
+      data: {
+        ocrText,
+        userProfile: {
+          goals: [input.attention.primaryGoal],
+          allergens: input.attention.allergens,
+          forChild: input.attention.isChildrenMode,
+          highBloodPressure: input.attention.primaryGoal === 'lowSodium'
+        },
+        options: {
+          enableAi: true,
+          provider: 'auto'
+        }
+      },
+      timeoutMs: 12000
+    });
+  } catch {
+    return undefined;
   }
 }

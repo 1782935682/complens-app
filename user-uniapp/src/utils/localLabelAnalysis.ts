@@ -129,11 +129,11 @@ function buildLocalIngredientMatches(ingredients: ParsedIngredient[], rawText: s
       dataStatusLabel: isAdditive ? dataStatusLabel('common_ingredient') : dataStatusLabel('unknown_from_ocr'),
       confidence: isAdditive ? 0.78 : 0,
       matchType: isAdditive ? 'local_attention' : 'none',
-      sourceName: isAdditive ? '本地添加剂规则' : '包装原文',
+      sourceName: isAdditive ? '本地添加剂规则' : '识别文字',
       sourceType: isAdditive ? 'local_rule' : 'ocr_input',
       sourceNote: isAdditive
         ? '由本地添加剂关键词规则识别，仅作标签阅读提示。'
-        : '来自用户确认后的包装文字，请结合原文核对。',
+        : '来自用户确认后的标签文字，已按未确认线索处理。',
       ingredientName: additiveHit?.name || ingredient.normalizedText,
       isAdditive,
       decision: 'confirmed'

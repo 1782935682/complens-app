@@ -44,7 +44,7 @@ MVP 至少覆盖：
 
 MVP 后置能力：
 
-- 包装正面卖点核对
+- 包装正面卖点提示
 - 两款商品对比
 - 扫码
 - 云同步
@@ -242,7 +242,7 @@ http://127.0.0.1:18080/ocr
 - OCR 结果必须进入文本确认页。
 - 生产环境可切换 Aliyun OCR，但同样只由后端调用。
 
-> 当前代码使用 `OCR_SERVICE_URL` 作为后端配置名。后续如果统一为 `OCR_LOCAL_URL`，必须同步 `.env.example`、`COMMANDS.md`、`INTEGRATIONS.md` 和部署文档，不得让两个变量长期并存且含义不清。
+> 当前代码优先读取 `OCR_LOCAL_URL`，旧的 `OCR_SERVICE_URL` 仅作为兼容 fallback。新配置和文档应统一使用 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr`。
 
 ## 8. 后台总体定位
 

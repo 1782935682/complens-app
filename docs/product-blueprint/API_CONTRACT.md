@@ -20,7 +20,7 @@
 >
 > **约定**：任何接口的新增、改名、参数或响应字段变更，必须同步更新本文件。
 
-技术栈现状：后端 Node 20 + TypeScript + Hono + Drizzle/PostgreSQL。路由模块：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760`。除 `GET /health` 挂载于根路径 `/` 外，其余均挂载于 `/api` 前缀（见 `backend/src/app.ts`）。
+技术栈现状：后端 Node 20 + TypeScript + Hono + Drizzle/PostgreSQL。路由模块：`auth` / `health` / `ingredients` / `ocr` / `user` / `gb2760` / `labels` / `nutrition` / `reports`。除 `GET /health` 挂载于根路径 `/` 外，其余均挂载于 `/api` 前缀（见 `backend/src/app.ts`）。
 
 后端分层边界（STACK-C，2026-06-15 已核对）：
 
@@ -206,7 +206,7 @@
     category?: string       // 可选，默认 "food"
   }
   ```
-- provider 取值：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`（由后端配置 `OCR_PROVIDER` 决定，见 `backend/src/services/ocrProviders/index.ts`）。当前代码中 `rapidocr` 使用 `OCR_SERVICE_URL`；统一架构目标为后端通过 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr` 调用本机 Python FastAPI OCR 服务，变量迁移需另行实现；`aliyun`/`paddleocr` 需要 `OCR_API_KEY`。
+- provider 取值：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`（由后端配置 `OCR_PROVIDER` 决定，见 `backend/src/services/ocrProviders/index.ts`）。`rapidocr` 优先使用 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr` 调用本机 Python FastAPI OCR 服务，未配置时兼容旧变量 `OCR_SERVICE_URL`；`aliyun`/`paddleocr` 需要 `OCR_API_KEY`。
 - 成功响应：
   ```
   {
@@ -388,7 +388,7 @@
 - 响应字段：`labelType`（`ingredient_list|nutrition_facts|front_claims|barcode_or_product|unknown_label`）、`confidence`、`requiresUserSelection`。
 - 错误码：`400 invalid_parameter`。
 - 数据状态字段：分类结果是辅助判断，不是权威结论。
-- 前端展示规则：低置信或 unknown 时不要让消费者选择专业标签类型；继续进入文本确认和报告生成，按包装原文展示并提示核对。
+- 前端展示规则：低置信或 unknown 时不要让消费者选择专业标签类型；继续进入文本确认和报告生成，按标签文字展示并提示核对。
 - 是否需要登录：不需要。
 - 是否允许匿名：允许。
 
@@ -399,18 +399,19 @@
 - 响应字段：`nutrition`（`energy`、`protein`、`fat`、`saturatedFat`、`transFat`、`carbohydrate`、`sugar`、`sodium`、`dietaryFiber`、`servingSize`、`perUnit`、`nrvPercent`）、`warnings[]`。
 - 错误码：`400 invalid_parameter`、`422 parse_failed`。
 - 数据状态字段：营养字段来自 OCR/用户确认文本，须保留来源和置信度。
-- 前端展示规则：信息不足时显示“建议结合包装原文确认”，不得做营养诊断。
+- 解析成功边界：只有解析到真实营养字段数值才返回成功；仅包含“营养成分表 / 每100g / NRV%”等标题、单位或表头时返回 `422 parse_failed`，不得当作有效营养数据。
+- 前端展示规则：信息不足时显示“请补充标签文字后查看结果”，不得做营养诊断；糖、钠、脂肪、能量等字段说明需使用普通人可理解的分项描述，不统一套用专业说明。
 - 是否需要登录：不需要。
 - 是否允许匿名：允许。
 
 #### `POST /api/claims/parse`
 - 用途：解析包装正面卖点，如 0 蔗糖、低脂、高蛋白、无添加等。
-- 调用端：包装正面卖点核对页、报告页。
+- 调用端：包装正面卖点提示页、报告页。
 - 请求参数：`text`、`labelType: "front_claims"`。
 - 响应字段：`claims[]`（`claimText`、`claimType`、`relatedCheck`、`confidence`）。
 - 错误码：`400 invalid_parameter`、`422 parse_failed`。
 - 数据状态字段：卖点来自包装 OCR/用户确认文本，不是打假结论。
-- 前端展示规则：只做核对提醒，不输出“虚假 / 真实 / 打假”结论。
+- 前端展示规则：只做提示，不输出“虚假 / 真实 / 打假”结论。
 - 是否需要登录：不需要。
 - 是否允许匿名：允许。
 
@@ -430,7 +431,7 @@
 - 响应字段：`id`、`title`、`productName`、`summarySentence`、`attentionHits`、`focusItems`、`ingredientSection`、`nutritionSection`、`nutritionIngredientChecks`、`frontClaimsSection?`、`additiveGroups`、`allergenHints`、`sources`、`rawText`。
 - 错误码：`400 invalid_parameter`、`422 insufficient_label_data`。
 - 数据状态字段：报告保留每个结论的来源、`dataStatus`、OCR 来源和用户确认状态。
-- 前端展示规则：报告名称为“食品标签解读”；普通人可读内容优先，专业依据可折叠展示，禁止生成医疗/安全结论。
+- 前端展示规则：报告名称为“食品标签解读”；普通人可读内容优先，专业依据可折叠展示，禁止生成医疗/安全结论；后端输出默认使用“线索 / 已整理 / 信息不足 / 未确认线索”等中性表达，不使用“核验 / 阈值 / 标识偏差”等默认专业判断。
 - 是否需要登录：本地保存不需要；云同步需登录。
 - 是否允许匿名：允许。
 
@@ -706,7 +707,7 @@ ADMIN-B 禁止事项：
 - 用途：后台查看和处理用户反馈 / 纠错 / 支持请求队列。
 - 字段：`feedbackId`、`userId?`、`topic`、`subject`、`message`、`contact?`、`status`、`sourceReportId?`、`sourceScanId?`、`assignee?`、`handledBy?`、`handledAt?`、`internalNote?`。
 - 状态边界：旧 `supportService` 只是客户端本地保存和 markdown 复制流；没有后端反馈表前，后台只能显示计划入口。普通用户提交反馈走公开 `POST /api/feedback`，不得要求 admin 权限。
-- 隐私：联系方式、报告原文、过敏/忌口和 OCR 原文均按敏感字段处理，处理状态变更必须审计。
+- 隐私：联系方式、报告识别文字、过敏/忌口和 OCR 识别文字均按敏感字段处理，处理状态变更必须审计。
 
 #### `GET /api/admin/memberships`  ❌ 计划
 - 用途：会员列表与状态查询。
@@ -759,7 +760,7 @@ ADMIN-B 禁止事项：
 
 #### `GET /api/admin/feature-flags` / `PATCH /api/admin/feature-flags/:key`  ❌ 计划
 - 用途：功能开关和系统配置。
-- 配置项：是否启用 OCR、默认 OCR Provider、是否启用 AI 解读、免费 OCR 次数、免费报告保存数量、是否启用产品对比、是否启用包装卖点核对、是否展示订阅入口、维护模式、最低 App 版本。
+- 配置项：是否启用 OCR、默认 OCR Provider、是否启用 AI 解读、免费 OCR 次数、免费报告保存数量、是否启用产品对比、是否启用包装卖点提示、是否展示订阅入口、维护模式、最低 App 版本。
 - 平台范围：`web`、`wechat_mp`、`ios`、`android`、`all`。
 - 审计：配置变更必须记录操作者和操作前后值。
 - 边界：开关只能控制入口或能力启停，不能绕过后端鉴权、OCR 文本确认、数据可信状态、隐私授权或人工阻塞项。

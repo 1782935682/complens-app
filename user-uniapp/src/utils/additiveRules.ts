@@ -28,7 +28,7 @@ export const additiveCategoryOrder: AdditiveCategory[] = [
   '其他添加剂'
 ];
 
-const commonReminder = '常见食品添加剂，普通人偶尔食用通常不用过度担心。';
+const commonReminder = '常见食品添加剂，重点看种类、数量和你是否介意添加剂。';
 
 export const foodAdditiveRules: AdditiveRule[] = [
   {
@@ -40,7 +40,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     keywords: ['山梨酸钾', '山梨酸', 'Potassium Sorbate', 'potassium sorbate'],
     displayLevel: 'normal',
     targetReminders: {
-      fewer_additives: '如果追求配料简单，可以少选防腐剂较多的同类商品。'
+      fewer_additives: '如果追求配料简单，防腐剂种类和配料表长短会一起进入提醒。'
     }
   },
   {
@@ -57,7 +57,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['脱氢乙酸钠', '脱氢乙酸'],
     category: '防腐剂',
     effect: '用于帮助食品保持稳定。',
-    reminder: '介意防腐剂时可以留意，建议结合配料表整体来看。',
+    reminder: '介意防腐剂时可以留意配料表整体长度和同类添加剂数量。',
     keywords: ['脱氢乙酸钠', '脱氢乙酸'],
     displayLevel: 'watch'
   },
@@ -66,7 +66,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['阿斯巴甜', 'Aspartame', 'aspartame'],
     category: '甜味剂',
     effect: '提供甜味，常用于低糖或无糖风味食品。',
-    reminder: '介意甜味剂的人可以留意；儿童高频食用时建议少选甜味剂较多的商品。',
+    reminder: '介意甜味剂的人可以留意；儿童模式下甜味剂种类会单独进入提醒。',
     keywords: ['阿斯巴甜', 'Aspartame', 'aspartame'],
     displayLevel: 'watch',
     targetReminders: {
@@ -79,12 +79,12 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['安赛蜜', '乙酰磺胺酸钾', 'Acesulfame-K', 'acesulfame-k', 'Acesulfame K', 'acesulfame potassium'],
     category: '甜味剂',
     effect: '提供甜味，常和其他甜味剂一起使用。',
-    reminder: '介意甜味剂时可以对比配料更简单的版本。',
+    reminder: '介意甜味剂时，配料表复杂度会一起进入提醒。',
     keywords: ['安赛蜜', '乙酰磺胺酸钾', 'Acesulfame-K', 'acesulfame-k', 'Acesulfame K', 'acesulfame potassium'],
     displayLevel: 'watch',
     targetReminders: {
-      sugar_control: '控糖时需要同时看甜味剂和整体碳水，不代表可以不限量食用。',
-      for_children: '儿童不建议长期依赖甜味剂饮品或零食。'
+      sugar_control: '控糖时需要同时看甜味剂和整体碳水，不代表不需要看份量。',
+      for_children: '儿童高频食用时，甜味剂种类和一份吃多少会排到前面提醒。'
     }
   },
   {
@@ -92,12 +92,12 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['三氯蔗糖', '蔗糖素', 'Sucralose', 'sucralose'],
     category: '甜味剂',
     effect: '提供甜味，常用于低糖饮料和零食。',
-    reminder: '普通人偶尔食用通常不用过度担心，儿童高频食用时可以留意。',
+    reminder: '如果儿童经常吃同类零食或饮料，甜味剂种类和一份吃多少会一起进入提醒。',
     keywords: ['三氯蔗糖', '蔗糖素', 'Sucralose', 'sucralose'],
     displayLevel: 'watch',
     targetReminders: {
-      sugar_control: '控糖人群需要注意，不代表可以无限量食用。',
-      for_children: '儿童不建议长期依赖甜味剂饮品。'
+      sugar_control: '控糖人群需要注意，仍建议看一份吃多少。',
+      for_children: '儿童高频食用时，甜味剂种类和一份吃多少会排到前面提醒。'
     }
   },
   {
@@ -105,7 +105,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['赤藓糖醇'],
     category: '甜味剂',
     effect: '提供甜味，也常见于低糖食品。',
-    reminder: '介意代糖或肠胃敏感的人可以结合个人感受选择。',
+    reminder: '介意代糖或肠胃敏感时，留意自己的食用反应。',
     keywords: ['赤藓糖醇'],
     displayLevel: 'watch'
   },
@@ -126,7 +126,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['日落黄', '日落黄FCF'],
     category: '色素',
     effect: '用于给食品上色。',
-    reminder: '如果追求配料简单，可以少选色素较多的商品。',
+    reminder: '如果追求配料简单，色素类配料会单独进入提醒。',
     keywords: ['日落黄', '日落黄FCF'],
     displayLevel: 'watch'
   },
@@ -144,7 +144,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['焦糖色', '焦糖色素', 'Caramel Color', 'caramel color', 'Caramel Colour', 'caramel colour'],
     category: '色素',
     effect: '用于调整食品颜色，常见于饮料和调味品。',
-    reminder: '普通人偶尔食用通常不用过度担心。',
+    reminder: '常见于饮料和调味品，介意色素时可以留意。',
     keywords: ['焦糖色', '焦糖色素', 'Caramel Color', 'caramel color', 'Caramel Colour', 'caramel colour'],
     displayLevel: 'normal'
   },
@@ -153,7 +153,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['黄原胶', 'Xanthan Gum', 'xanthan gum'],
     category: '质地改良剂',
     effect: '帮助增加稠度或保持口感稳定。',
-    reminder: '常见于酸奶、饮料、调味品，普通人通常不用过度担心。',
+    reminder: '常见于酸奶、饮料、调味品，介意增稠剂时可以留意。',
     keywords: ['黄原胶', 'Xanthan Gum', 'xanthan gum'],
     displayLevel: 'normal'
   },
@@ -162,7 +162,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['羧甲基纤维素钠', '羧甲基纤维素', 'CMC', 'cmc', 'Sodium Carboxymethyl Cellulose', 'sodium carboxymethyl cellulose'],
     category: '质地改良剂',
     effect: '帮助增稠、稳定组织状态或改善口感。',
-    reminder: '常见质地改良剂，普通人偶尔食用通常不用过度担心。',
+    reminder: '常见质地改良剂，重点看配料表里同类增稠剂是否较多。',
     keywords: ['羧甲基纤维素钠', '羧甲基纤维素', 'CMC', 'Sodium Carboxymethyl Cellulose'],
     displayLevel: 'normal'
   },
@@ -180,7 +180,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['果胶'],
     category: '质地改良剂',
     effect: '帮助增稠或形成凝胶口感。',
-    reminder: '常见于果酱、酸奶和饮品，通常不用过度担心。',
+    reminder: '常见于果酱、酸奶和饮品，介意增稠剂时可以留意。',
     keywords: ['果胶'],
     displayLevel: 'normal'
   },
@@ -240,7 +240,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['柠檬酸'],
     category: '其他添加剂',
     effect: '调节酸味和口感。',
-    reminder: '常见于饮料、酸奶和糖果，普通人通常不用过度担心。',
+    reminder: '常见于饮料、酸奶和糖果，介意酸味调节剂时可以留意。',
     keywords: ['柠檬酸'],
     displayLevel: 'normal'
   },
@@ -261,7 +261,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['乳酸'],
     category: '其他添加剂',
     effect: '调节酸味和风味。',
-    reminder: '常见于酸味食品，普通人通常不用过度担心。',
+    reminder: '常见于酸味食品，通常用于调节风味。',
     keywords: ['乳酸'],
     displayLevel: 'normal'
   },
@@ -270,7 +270,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['抗坏血酸', '维生素C'],
     category: '其他添加剂',
     effect: '帮助减少氧化，保持风味或颜色。',
-    reminder: '常见抗氧化剂，普通人通常不用过度担心。',
+    reminder: '常见抗氧化剂，通常用于帮助保持风味或颜色。',
     keywords: ['抗坏血酸', '维生素C'],
     displayLevel: 'normal'
   },
@@ -297,7 +297,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['食用香精', '香精', '食用香料', '香料'],
     category: '香精香料',
     effect: '用于调味或增强风味。',
-    reminder: '如果追求配料简单，可以少选香精香料较多的商品。',
+    reminder: '如果追求配料简单，香精香料类配料会单独进入提醒。',
     keywords: ['食用香精', '香精', '食用香料', '香料'],
     displayLevel: 'normal'
   },
@@ -336,7 +336,7 @@ export const foodAdditiveRules: AdditiveRule[] = [
     aliases: ['碳酸氢铵'],
     category: '其他添加剂',
     effect: '帮助饼干、糕点等形成蓬松口感。',
-    reminder: '常见于烘焙食品，普通人通常不用过度担心。',
+    reminder: '常见于烘焙食品，介意膨松剂时可以留意。',
     keywords: ['碳酸氢铵'],
     displayLevel: 'normal'
   },
@@ -466,7 +466,7 @@ function fallbackEffect(category: AdditiveCategory): string {
 function fallbackReminder(category: AdditiveCategory): string {
   if (category === '色素') return '儿童高频食用时可以留意。';
   if (category === '甜味剂') return '介意甜味剂的人可以留意。';
-  if (category === '香精香料') return '如果追求配料简单，可以少选香精香料较多的商品。';
+  if (category === '香精香料') return '如果追求配料简单，香精香料类配料会单独进入提醒。';
   return commonReminder;
 }
 

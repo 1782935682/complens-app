@@ -1,26 +1,31 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { routes, navigateToRoute } from '@/constants/routes';
-import { resetScanDraft, setFastScanMode } from '@/stores/scanStore';
+import { resetScanDraft } from '@/stores/scanStore';
 
 function openCapture() {
   resetScanDraft();
-  setFastScanMode(true);
-  navigateToRoute(routes.capture);
+  uni.navigateTo({ url: `${routes.capture}?auto=camera` });
+}
+
+function openSearch() {
+  navigateToRoute(routes.search);
 }
 </script>
 
 <template>
   <view class="page page--home">
-    <text class="brand">成分镜</text>
-
     <view class="scan-wrap">
       <view class="scan-button" hover-class="scan-button--active" @tap="openCapture">
         <view class="camera-icon">
           <view class="camera-icon__lens" />
         </view>
-        <text class="scan-button__text">拍标签</text>
+        <text class="scan-button__text">拍包装</text>
       </view>
-      <text class="scan-tagline">拍一下，看懂配料表</text>
+      <view class="home-copy">
+        <text class="scan-tagline">拍一下包装，直接看这包值不值得常吃</text>
+        <text class="home-subtitle">配料、营养数字、添加剂和过敏/忌口，一次整理。</text>
+      </view>
+      <text class="search-link" @tap="openSearch">查单个成分</text>
     </view>
   </view>
 </template>
@@ -31,17 +36,8 @@ function openCapture() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: calc(40rpx + env(safe-area-inset-top)) 32rpx calc(56rpx + env(safe-area-inset-bottom));
-  background:
-    radial-gradient(120% 56% at 50% 38%, rgba(143, 228, 204, 0.26), transparent 62%),
-    linear-gradient(180deg, #ffffff 0%, #f9fbf8 54%, #f2faf6 100%);
-}
-
-.brand {
-  color: var(--primary-darker);
-  font-size: var(--font-size-base);
-  font-weight: 900;
-  letter-spacing: 3rpx;
+  padding: calc(24rpx + env(safe-area-inset-top)) 32rpx calc(56rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, #ffffff 0%, #f9fbf8 54%, #f2faf6 100%);
 }
 
 /* 让按钮真正居中：占满中间空间并居中对齐 */
@@ -50,8 +46,9 @@ function openCapture() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 36rpx;
+  justify-content: flex-start;
+  gap: 28rpx;
+  padding-top: 8vh;
 }
 
 .scan-button {
@@ -115,11 +112,18 @@ function openCapture() {
 
 .scan-button__text {
   color: #ffffff;
-  font-size: 48rpx;
+  font-size: 44rpx;
   font-weight: 900;
   line-height: 1.1;
-  letter-spacing: 2rpx;
   z-index: 1;
+}
+
+.home-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+  text-align: center;
 }
 
 .scan-tagline {
@@ -127,6 +131,22 @@ function openCapture() {
   font-size: var(--font-size-lg);
   font-weight: 800;
   line-height: 1.4;
+}
+
+.home-subtitle,
+.search-link {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.search-link {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--primary-strong);
+  font-weight: 900;
+  padding: 14rpx 24rpx;
 }
 
 @media screen and (max-height: 640px) {
