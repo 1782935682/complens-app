@@ -94,13 +94,18 @@ await assertFileIncludes('src/pages/report/index.vue', [
   '建议吃法',
   '识别详情',
   '营养表',
-  '配料表里容易漏看的点',
   'shareCard',
   'shouldShowAdditiveSection',
   '未拿到配料表，暂不查看添加剂',
-  '当前配料表未匹配到本地常见添加剂规则',
+  '当前配料表未匹配到需要解释的添加剂或配料项',
   '营养数字',
-  '添加剂作用',
+  '添加剂解释',
+  'ingredientExplanationItems',
+  'detailFrontClaims',
+  'detailAllergenText',
+  'detailSummaryText',
+  'priorityFindings',
+  '营养重点图',
   'nutritionBars',
   'buildNutritionFindingDetail',
   'nutritionFocusText'
@@ -114,6 +119,9 @@ await assertFileIncludes('src/utils/labelTextExtractor.ts', [
   'productInfoNoisePattern',
   'hasNutritionValueStructure',
   'hasAllergenContext',
+  'extractProductNameText',
+  'extractFoodTypeText',
+  'extractProductionDateText',
   'ignoredText'
 ]);
 await assertFileIncludes('src/utils/decisionRules.ts', [

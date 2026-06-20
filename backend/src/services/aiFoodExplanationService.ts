@@ -115,14 +115,15 @@ export function createAiFoodExplanationService(options: {
         };
       }
 
+      const sanitized = sanitizeAiExplanation(parsed, fallback);
       const result: AiExplanationResult = {
         ...fallback,
-        ...parsed,
-        mainReasons: parsed.mainReasons.length ? parsed.mainReasons : fallback.mainReasons,
-        suitableFor: parsed.suitableFor.length ? parsed.suitableFor : fallback.suitableFor,
-        notSuitableFor: parsed.notSuitableFor.length ? parsed.notSuitableFor : fallback.notSuitableFor,
-        ingredientHighlights: parsed.ingredientHighlights.length ? parsed.ingredientHighlights : fallback.ingredientHighlights,
-        nutritionExplanation: Object.keys(parsed.nutritionExplanation).length ? parsed.nutritionExplanation : fallback.nutritionExplanation,
+        ...sanitized,
+        mainReasons: sanitized.mainReasons.length ? sanitized.mainReasons : fallback.mainReasons,
+        suitableFor: sanitized.suitableFor.length ? sanitized.suitableFor : fallback.suitableFor,
+        notSuitableFor: sanitized.notSuitableFor.length ? sanitized.notSuitableFor : fallback.notSuitableFor,
+        ingredientHighlights: sanitized.ingredientHighlights.length ? sanitized.ingredientHighlights : fallback.ingredientHighlights,
+        nutritionExplanation: Object.keys(sanitized.nutritionExplanation).length ? sanitized.nutritionExplanation : fallback.nutritionExplanation,
         provider: response.provider,
         model: response.model,
         promptVersion: foodAnalysisPromptVersion,
@@ -186,6 +187,59 @@ function parseAiExplanation(value: string): Omit<AiExplanationResult, 'provider'
     errorCode: undefined
   };
 }
+
+function sanitizeAiExplanation(
+  parsed: Omit<AiExplanationResult, 'provider' | 'model' | 'promptVersion' | 'aiEnhanced'>,
+  fallback: AiExplanationResult
+): Omit<AiExplanationResult, 'provider' | 'model' | 'promptVersion' | 'aiEnhanced'> {
+  const summary = safeText(parsed.summary) || fallback.summary;
+  const plainExplanation = safeText(parsed.plainExplanation) || fallback.plainExplanation;
+  return {
+    summary,
+    plainExplanation,
+    mainReasons: safeArray(parsed.mainReasons),
+    suitableFor: safeArray(parsed.suitableFor),
+    notSuitableFor: safeArray(parsed.notSuitableFor),
+    ingredientHighlights: parsed.ingredientHighlights
+      .map((item) => ({
+        ...item,
+        explanation: safeText(item.explanation)
+      }))
+      .filter((item) => item.name && item.explanation)
+      .slice(0, 8),
+    nutritionExplanation: Object.fromEntries(
+      Object.entries(parsed.nutritionExplanation)
+        .map(([key, value]) => [key, safeText(value)] as const)
+        .filter(([, value]) => value)
+    ),
+    eatingAdvice: safeText(parsed.eatingAdvice) || fallback.eatingAdvice,
+    retakeSuggestion: safeText(parsed.retakeSuggestion),
+    errorCode: undefined
+  };
+}
+
+function safeArray(values: string[]): string[] {
+  return values.map(safeText).filter(Boolean).slice(0, 6);
+}
+
+function safeText(value: string): string {
+  const text = stringField(value)
+    .replace(/可以偶尔吃/g, '偶尔吃')
+    .replace(/可以吃/g, '偶尔吃')
+    .replace(/偶尔解馋可以/g, '偶尔解馋')
+    .replace(/不建议购买/g, '不适合这次目标')
+    .replace(/建议结合(?:个人)?目标/g, '')
+    .replace(/不单独下结论/g, '')
+    .replace(/请?对照包装原文/g, '')
+    .replace(/以包装原文为准/g, '')
+    .replace(/结合包装原文/g, '')
+    .trim();
+  if (!text) return '';
+  if (unsafeAiPattern.test(text)) return '';
+  return text.slice(0, 180);
+}
+
+const unsafeAiPattern = /法规|条款|GB\s*\d+|国标|官方标准|医疗|诊断|治疗|致癌|有害|安全|健康|绝对|一定/iu;
 
 function parseJsonObject(value: string): Record<string, unknown> | null {
   try {

@@ -26,7 +26,7 @@ export function buildLabelReport(input: {
   ocr?: OcrResult;
   sourceMeta?: ReportAnalysisSource;
 }): LabelReport {
-  const frontClaimsText = isPackagingSupplementType(input.labelType) ? normalizeReportText(input.frontClaimsText) : '';
+  const frontClaimsText = normalizeReportText(input.frontClaimsText);
   const reportMatches = input.matches.map(sanitizeReportMatch);
   const acceptedMatches = reportMatches.filter((match) => match.decision === 'confirmed');
   const attentionHits = buildAttentionHits(input);
@@ -83,19 +83,22 @@ function sanitizeReportMatch(match: IngredientMatch): IngredientMatch {
   };
 }
 
-function isPackagingSupplementType(labelType: LabelType | undefined): boolean {
-  return labelType === 'front_claims' || labelType === 'barcode_or_product';
-}
-
 function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutrition: NutritionField[] }, additiveCount: number, hits: AttentionHit[], frontClaimsText: string): string {
   const parts: string[] = [];
+  const visibleHits = hits.filter((hit) => hit.key !== 'daily');
+  const nutritionCount = countEffectiveNutritionValues(input.nutrition);
   if (input.ingredients.length) parts.push(`识别到 ${input.ingredients.length} 项配料`);
   if (!input.ingredients.length && !frontClaimsText) parts.push('未提供配料表');
   if (frontClaimsText) parts.push('包装声明已整理');
   if (additiveCount) parts.push(`看到 ${additiveCount} 种常见食品添加剂`);
-  if (input.nutrition.some((field) => field.value)) parts.push('营养数字已整理');
-  if (hits.length) parts.push(`建议重点查看：${hits.map((hit) => hit.label).slice(0, 3).join('、')}`);
+  if (nutritionCount >= 2) parts.push(`营养数字已整理 ${nutritionCount} 项`);
+  if (nutritionCount === 1) parts.push('只识别到 1 项营养数字，需补拍确认');
+  if (visibleHits.length) parts.push(`建议重点查看：${visibleHits.map((hit) => hit.label).slice(0, 3).join('、')}`);
   return parts.length ? `${parts.join('，')}。` : '未识别到可分析的配料表或营养成分表。';
+}
+
+function countEffectiveNutritionValues(fields: NutritionField[]): number {
+  return fields.filter((field) => !['perUnit', 'servingSize', 'nrvPercent'].includes(field.key) && Boolean(String(field.value || '').trim())).length;
 }
 
 function buildAttentionHits(input: {

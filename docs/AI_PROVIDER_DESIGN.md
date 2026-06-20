@@ -39,7 +39,7 @@ AI_MAX_RETRY=1
 
 DEEPSEEK_API_KEY=
 DEEPSEEK_BASE_URL=https://api.deepseek.com
-DEEPSEEK_MODEL=deepseek-chat
+DEEPSEEK_MODEL=deepseek-v4-flash
 
 OPENAI_COMPATIBLE_API_KEY=
 OPENAI_COMPATIBLE_BASE_URL=
@@ -63,8 +63,10 @@ AI_DEFAULT_PROVIDER=deepseek
 AI_FALLBACK_PROVIDER=mock
 DEEPSEEK_API_KEY=服务端环境变量
 DEEPSEEK_BASE_URL=https://api.deepseek.com
-DEEPSEEK_MODEL=deepseek-chat
+DEEPSEEK_MODEL=deepseek-v4-flash
 ```
+
+DeepSeek 独立 Provider 默认请求路径为 `/chat/completions`；`OPENAI_COMPATIBLE_REQUEST_PATH` 只影响通用兼容 Provider。
 
 ## OpenAI-Compatible 配置
 

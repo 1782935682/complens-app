@@ -9,18 +9,18 @@
 ## 项目主路径
 
 ```
-首页单一拍食品标签入口（手动输入 / 当前关注目标 / 最近扫描为辅助）
-  → 拍照 / 上传食品标签图片（配料表 / 营养成分表 / 包装文字）
+首页单一拍包装入口（成分搜索 / 当前关注目标 / 最近扫描为辅助）
+  → 拍照 / 上传食品包装图片（包装正面 / 配料表 / 营养成分表 / 生产日期）
   → [客户端] 图片预处理（EXIF 修正 + 压缩 + IndexedDB 或平台文件缓存）
   → OCR 识别 / OCR 文本清洗 / 有效标签提取 / 手动输入
-  → 用户确认或修正 OCR 文本（必经，不因识别清楚而跳过）
+  → OCR 成功且信息足够时自动生成结果；失败或信息不足时手动分区补充
   → 本地拆分配料 + 添加剂识别 + 营养字段解析
   → 结合“控糖 / 儿童 / 过敏”等我的关注项和本地解读规则排序展示
-  → 生成食品标签解读报告（结果摘要 / 重点提醒 / 添加剂大白话 / 识别文字）
+  → 生成食品标签解读报告（一句话结论 / 关键原因 / 营养重点图 / 添加剂解释 / 识别详情）
   → 保存扫描记录
 ```
 
-**添加剂识别是核心能力，配料解释是理解过程，营养分析是辅助判断，食品标签解读报告是最终输出。P0 不做商品正面识别、条码识别、商品库优先匹配、商品对比或日化规则。成分搜索和商品对比都不是 MVP 主路径。**
+**添加剂识别是核心能力，配料解释是理解过程，营养分析服务于购买/食用判断，食品标签解读报告是最终输出。P0 不做条码识别、商品库优先匹配、商品对比或日化规则；包装正面只提取商品名、食品类型和明确包装声明。成分搜索和商品对比都不是 MVP 主路径。**
 
 后续 P1/P2 保持现有一个拍照入口，UI 不需要改成三个入口；用户点击拍食品标签后，由后端自动识别图片里主要对象是商品条码、数字标签二维码，还是配料表 / 营养成分表：
 
@@ -149,8 +149,9 @@
   36. user-uniapp 历史页复用强化：历史页筛选从“全部/收藏”扩展为全部、收藏、关注项、最近；关注项筛选按报告重点命中、过敏提示、较高营养项和重点添加剂判断；历史记录支持直接复制分享摘要，帮助用户从历史结果复用报告。
   37. user-uniapp 报告纠错反馈队列：报告页新增结果反馈卡片，支持标记识别错了、漏了内容、解释不清楚和其他问题并补充短备注；历史页新增快捷反馈；本机存储最多 50 条轻量反馈，不保存图片或整段识别文字，设置页显示反馈数量并随本机数据清空。
   38. user-uniapp 反馈复查与导出：设置页新增反馈复查卡片，展示本机反馈类型分布和最近 3 条问题样本；支持复制最多 50 条轻量反馈清单，方便后续集中复查 OCR 误识别、漏内容和报告表达问题。
-  39. user-uniapp 产品主路径重排：首页去掉页面内品牌标题，主按钮改为“拍配料表”并直接拉起相机；成分搜索降为首页小入口；OCR 成功后自动生成结果，失败或手动场景才进入输入页；报告页去掉独立分享摘要和大块反馈卡，改为“这包重点 / 配料表里容易漏看的点 / 添加剂作用 / 营养数字”；反馈收为小入口；历史页简化筛选和卡片操作；我的页只保留关注偏好，不再并列历史、搜索和设置说明入口。
+  39. user-uniapp 产品主路径重排：首页去掉页面内品牌标题，主按钮改为“拍包装”并直接拉起相机；成分搜索降为首页小入口；OCR 成功后自动生成结果，失败或手动场景才进入输入页；报告页去掉独立分享摘要和大块反馈卡，改为“一句话结论 / 关键原因 / 营养重点图 / 适合谁与不适合谁 / 添加剂解释 / 建议吃法 / 折叠识别详情”；反馈收为小入口；历史页简化筛选和卡片操作；我的页只保留关注偏好，不再并列历史、搜索和设置说明入口。
   40. OCR 真实包装兼容修复：后端 RapidOCR Provider 兼容 `rawText` / `raw_text` / `text` 三种常见文本字段，避免本地 OCR 服务已识别但后端判为无效响应；`regression:ocr-report` 新增“小麻花整包照片”文本形态样本，覆盖“品 名 / 配 料”分栏、整包噪音、配料表和营养成分表同时存在的提取边界。
+  41. user-uniapp 上线前 UI/产品深度评审收口：报告首屏改为“一句话结论 + 你的关注短标签 + 为什么 / 谁少吃 / 怎么吃”决策卡，营养重点图加入低/中/高参考，信息不足报告前置补拍和手动粘贴动作，首页成分搜索进一步弱化为小文字入口，历史筛选改为“有提醒”；新增 `review:chatgpt` / `review:deepseek` 评审脚本，当前 ChatGPT 会话子评审和 DeepSeek 综合评审均为 `pass` 且 `shipBlockers=[]`。
 
 → 当前文档修复方向：
   1. 完成“统一跨端技术栈重构”规划：正式用户端 `user-uniapp`、后台 `admin-web`、复用现有 `backend/`。
@@ -583,7 +584,7 @@ PR 切分约束（按你的要求固定）：
 1. ✅ 后端按 `OCR_PROVIDER` 选择 provider：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`。
 2. ✅ `mock` 无需真实 Key，返回固定 OCR 结构并明确标注 `provider: "mock"`，不冒充真实供应商。
 3. ✅ `rapidocr` 通过本机 `/home/downloads/tools/complens-ocr` FastAPI 服务接入，使用 `OCR_SERVICE_URL`，不需要 `OCR_API_KEY`。
-4. ✅ `aliyun` / `paddleocr` 属于生产/外部供应商；缺少 `OCR_API_KEY` 时返回 `503 ocr_not_configured`，已配置但适配未实现时返回 `501 ocr_provider_pending`。
+4. ✅ `aliyun` / `paddleocr` 属于生产/外部供应商；`aliyun` 已实现阿里云通用文字识别签名调用和结果映射，缺少 Key/Secret 时返回 `503 ocr_not_configured`；`paddleocr` 仍是占位 provider，已配置但适配未实现时返回 `501 ocr_provider_pending`。
 5. ✅ 前端 OCR response 校验只接受上述 provider 名称，API Key 只在后端环境变量中读取。
 6. ✅ 前端继续在失败或未配置时降级 manual/fallback，不伪造真实 OCR。
 7. OCR 识别文字、置信度、provider、图片引用需要保存（图片在 IndexedDB，元数据在 localStorage，后续可选 `ocr_results` 表见 Batch 4 计划）。
@@ -594,10 +595,10 @@ PR 切分约束（按你的要求固定）：
 3. `OcrResult` 字段齐全。
 4. 前端不出现任何 OCR 厂商密钥。
 
-状态：✅ 已完成 2026-06-14（本机 `rapidocr` 已接入；生产 `aliyun` 切换待 Key）。
-是否需要人工：否（本机接入）。生产 Aliyun 切换见 Batch 3-E。
-阻塞条件：无（本机 RapidOCR 不阻塞；生产 Aliyun OCR Key 仍属生产切换阻塞）。
-验证命令：前端 OCR 协议定向断言 + `cd backend && npm run test -- ocr.test.ts` + `cd backend && npm run typecheck`。
+状态：✅ 已完成 2026-06-20（本机 `rapidocr` 已接入；`aliyun` provider 已实现；生产真云端 smoke 待 Key）。
+是否需要人工：否（provider 代码已接入）。生产 Aliyun 真云端验收见 Batch 3-E。
+阻塞条件：无（本机 RapidOCR / Aliyun adapter / manual / mock 闭环不阻塞；生产 Aliyun OCR Key 仍属生产验收阻塞）。
+验证命令：前端 OCR 协议定向断言 + `cd backend && npm run test -- tests/config.test.ts tests/ocr.test.ts` + `cd backend && npm run typecheck`。
 
 ---
 
@@ -631,22 +632,22 @@ PR 切分约束（按你的要求固定）：
 
 目标：接入真实 OCR 供应商（推荐阿里云通用文字识别或自建 PaddleOCR/RapidOCR），后端代理，图片二次压缩，真实识别。
 
-状态：🔄 进行中（本机 RapidOCR 已接入；生产 Aliyun OCR 待 Key）。
+状态：🔄 进行中（本机 RapidOCR 已接入；Aliyun OCR provider 已实现；生产真云端 smoke 待 Key）。
 涉及文件：`backend/src/services/ocrProviders/*.ts`、`backend/src/routes/ocr.ts`、`backend/.env.example`。
 实现内容：
 1. ✅ 本机自建 RapidOCR 服务地址：`/home/downloads/tools/complens-ocr`，`OCR_PROVIDER=rapidocr`，`OCR_SERVICE_URL=http://127.0.0.1:8000`。
 2. ✅ 后端 `rapidocr` provider 通过 multipart `file` 调用本机 FastAPI `/ocr`，并映射为前端 OCR 契约。
-3. ⏸ 生产 provider 切换到 Aliyun OCR，待生产 Key 后实现/验收。
+3. ✅ 生产 provider 可切换到 Aliyun OCR：后端 adapter 已实现，待生产 Key 后做真云端 smoke/验收。
 4. 图片后端二次压缩到 1MB 内再发送（生产供应商适配时补）。
 5. 真实包装图片测试（≥3 张，识别可用率达标）。
 
 人工操作：
 - [x] 本机 OCR 服务目录确认：`/home/downloads/tools/complens-ocr`。
-- [ ] 生产 Aliyun OCR 申请 Key → `OCR_PROVIDER=aliyun` / `OCR_API_KEY`。
+- [ ] 生产 Aliyun OCR 申请 Key → `OCR_PROVIDER=aliyun` / `ALIYUN_ACCESS_KEY_ID` / `ALIYUN_ACCESS_KEY_SECRET`。
 - [ ] 标注：`[人工完成 ✅ YYYY-MM-DD]`
 
 是否需要人工：是。
-阻塞条件：生产 Aliyun OCR API Key（`blocked_by_user`）。本机 rapidocr/manual/mock 闭环不受阻。
+阻塞条件：生产 Aliyun OCR API Key（`blocked_by_user`）。Aliyun adapter、本机 rapidocr/manual/mock 闭环不受阻。
 验证命令：（接入后）`cd backend && npm test`，真机/真实图片验证。
 
 ---
@@ -2392,8 +2393,9 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 2. 新增 AI 配置项：`AI_ENABLED`、`AI_DEFAULT_PROVIDER`、`AI_FALLBACK_PROVIDER`、`AI_TIMEOUT_MS`、`AI_MAX_RETRY`、DeepSeek/OpenAI-compatible/Claude/Gemini 环境变量；无 Key 不阻塞启动。
 3. 新增 `FoodAnalyzeService`，从 OCR 文本抽取商品名、类型、生产日期、配料、营养表，本地规则先输出 `decision` / `decisionText` / `riskLevel` / `nutritionJudgement`。
 4. 新增 `POST /api/food/analyze`，前端不直连任何第三方模型。
-5. 小程序报告页新增“一句话结论 / 关键原因 / 适合谁 / 不适合谁 / 建议吃法 / 识别详情”，并接入 `foodAnalysis` 降级数据结构。
-6. 新增小麻花真实包装文本回归，要求输出 `谨慎购买｜偶尔吃可以`、热量/脂肪/碳水/钠提醒、小麦过敏/麸质敏感提醒和半包以内吃法建议。
+5. 小程序报告页新增“一句话结论 / 关键原因 / 适合谁 / 不适合谁 / 添加剂解释 / 建议吃法 / 识别详情”，并接入 `foodAnalysis` 降级数据结构。
+6. 新增小麻花真实包装文本回归，要求输出 `不建议常吃｜偶尔解馋可以`、热量/脂肪/碳水/钠提醒、小麦过敏/麸质敏感提醒和半包以内吃法建议。
+7. 报告首屏继续减量，关键原因改为前 3 条优先级判断，完整营养数字用“营养重点图”展示，识别详情默认折叠，避免用户在完整 OCR/营养表里自行判断。
 
 验收标准：
 1. AI 不覆盖本地规则最终决策。
@@ -2401,9 +2403,9 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 3. 小程序结果页不只展示 OCR 文本或配料表，必须给消费决策。
 4. 不提交真实 API Key，不自动部署生产。
 
-验证命令：`npm.cmd --prefix backend run typecheck`、`npm.cmd --prefix backend test -- tests/foodAnalyze.test.ts tests/reports.test.ts tests/ocr.test.ts`、`npm.cmd --prefix user-uniapp run typecheck`、`npm.cmd --prefix user-uniapp run lint`、`npm.cmd --prefix user-uniapp run audit:product-output`、`npm.cmd --prefix user-uniapp run regression:ocr-report`、`npm.cmd --prefix user-uniapp run build:mp-weixin`、`npm.cmd --prefix user-uniapp run build:h5`、`npm.cmd --prefix user-uniapp run visual:smoke`、`git diff --check`。
+验证命令：`npm --prefix backend run typecheck`、`npm --prefix backend test -- tests/aiFoodExplanation.test.ts tests/foodAnalyze.test.ts tests/ocr.test.ts`、`npm --prefix user-uniapp run typecheck`、`npm --prefix user-uniapp run lint`、`npm --prefix user-uniapp run audit:product-output`、`npm --prefix user-uniapp run regression:ocr-report`、`npm --prefix user-uniapp run build:mp-weixin`、`npm --prefix user-uniapp run build:h5`、`npm --prefix user-uniapp run visual:smoke`、`git diff --check`。
 
-状态：✅ 已完成（2026-06-20）：规则优先 + AI 解释网关已落地，真实 AI Key 和生产 Provider 监控仍待人工配置。
+状态：✅ 已完成（2026-06-20）：规则优先 + AI 解释网关已落地，DeepSeek 真实 smoke 已通过；生产 Provider 监控、成本阈值和正式额度策略仍待上线前配置。
 
 ### Batch UX-F：设置说明移除与识别详情补齐 [Codex]
 
@@ -2415,13 +2417,13 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 1. 从小程序 `pages.json` 移除 `pages/settings/index`，不再注册“设置与说明”页面。
 2. 移除 `routes.settings` 和视觉烟测中的 settings 页面验收。
 3. 历史页、拍照页按钮文案从“拍标签 / 重新拍标签”改为“拍食品标签 / 重新拍食品标签”。
-4. 结果页去掉“大白话”残留文案，添加剂区只说“添加剂作用”。
-5. 结果页“识别详情”新增营养表行，和商品、类型、生产日期、配料表同屏展示。
+4. 结果页去掉“大白话”残留文案，添加剂区统一为“添加剂解释”，避免吓人或过度洗白。
+5. 结果页“识别详情”新增营养表行，和商品、类型、生产日期、配料表、包装声明、未确认线索一起靠后展示；详情默认折叠，不抢首屏重点。
 6. 产品输出审查新增 `pages/settings/index`、`设置与说明`、`大白话` 禁用检查。
 
 验证命令：`npm.cmd --prefix user-uniapp run typecheck`、`npm.cmd --prefix user-uniapp run lint`、`npm.cmd --prefix user-uniapp run audit:product-output`、`npm.cmd --prefix user-uniapp run regression:ocr-report`、`npm.cmd --prefix user-uniapp run build:mp-weixin`、`npm.cmd --prefix user-uniapp run build:h5`、`npm.cmd --prefix user-uniapp run visual:smoke`。
 
-状态：✅ 已完成（2026-06-20）：设置说明页不再进入小程序页面清单，报告识别详情已覆盖配料表、营养表和生产日期。
+状态：✅ 已完成（2026-06-20）：设置说明页不再进入小程序页面清单，报告识别详情已覆盖配料表、营养表、生产日期、包装声明和未确认线索，首屏重点已收敛为结论、关键原因和营养重点图。
 
 ### Batch OCR-F：OCR 本地配置统一与识别页轻提示 [Codex]
 
@@ -2443,10 +2445,10 @@ App Store Connect / Google Play Console 提交审核、灰度发布、回滚。
 ### Batch UX-G：真实 AI 接通后逐页 UI 评审准备 [Codex]
 
 目标：在真实 AI Provider Key 接通后，把每个页面的功能、当前实现、禁用表达和验收问题交给 AI 做逐页审查，再按审查结果继续优化 UI 和报告表达。
-涉及文件：`docs/product-blueprint/AI_UI_REVIEW_PROMPT.md`、`docs/product-blueprint/README.md`。
-实现内容：新增逐页 AI UI 评审提示词，覆盖首页、拍照/识别、结果页、历史、我的、成分搜索；明确结果页优先、拍照页第二、首页第三，历史/我的/搜索最后；要求 AI 输出普通人能看懂、有价值、可执行的页面优化建议，并禁止恢复“对照包装原文”、重复分享摘要、大块反馈卡和设置说明页。
-验收命令：`git diff --check`。
-状态：✅ 已完成（2026-06-20）：评审提示词和产品蓝图索引已落地；真实 AI Key 未配置前不执行真实模型评审。
+涉及文件：`docs/product-blueprint/AI_UI_REVIEW_PROMPT.md`、`docs/product-blueprint/README.md`、`AI_REVIEW.md`、`user-uniapp/scripts/visual-smoke.mjs`、`user-uniapp/src/pages/index/index.vue`、`user-uniapp/src/pages/capture/index.vue`、`user-uniapp/src/pages/report/index.vue`。
+实现内容：新增逐页 AI UI 评审提示词，覆盖首页、拍照/识别、结果页、历史、我的、成分搜索；明确结果页优先、拍照页第二、首页第三，历史/我的/搜索最后；要求 AI 输出普通人能看懂、有价值、可执行的页面优化建议，并禁止恢复“对照包装原文”、重复分享摘要、大块反馈卡和设置说明页。真实 DeepSeek 接通后已将当前页面功能、截图观察和用户目标提交多轮评审，按反馈继续优化报告个人关注、营养重点图、手动页重拍入口、历史页比例和成分搜索来源措辞；最终复评结论为 `pass` 且 `topIssues=[]`。用户要求改用 ChatGPT 评审后，新增 `user-uniapp/scripts/chatgpt-ui-review.mjs` 和 `npm --prefix user-uniapp run review:chatgpt`，读取 visual smoke 截图并调用 OpenAI Responses API；当前机器缺少 `OPENAI_API_KEY`，脚本输出 `missing_openai_api_key`，未伪造 ChatGPT 评审结果。
+验收命令：`npm --prefix user-uniapp run visual:smoke`、真实 DeepSeek UI review smoke、`node --check user-uniapp/scripts/chatgpt-ui-review.mjs`、`npm --prefix user-uniapp run review:chatgpt`（无 Key 时预期 `missing_openai_api_key`）、`git diff --check`。
+状态：✅ 已完成（2026-06-20）：评审提示词、截图烟测、DeepSeek 真实 AI 闭环和 ChatGPT 评审入口均已落地；真实 ChatGPT API 复评待用户在运行环境配置 `OPENAI_API_KEY`。
 ---
 
 ## 完整依赖关系

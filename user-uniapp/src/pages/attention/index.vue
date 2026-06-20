@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onShow } from '@dcloudio/uni-app';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import AppCard from '@/components/AppCard.vue';
 import Toast from '@/components/Toast.vue';
 import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
@@ -9,6 +9,17 @@ import type { AttentionSettings } from '@/types';
 
 const settings = ref<AttentionSettings>(getAttentionSettings());
 const message = ref('');
+const primaryGoalImpact = computed(() => {
+  if (settings.value.primaryGoal === 'sugar') return '报告会优先提示糖、甜味剂和碳水数字。';
+  if (settings.value.primaryGoal === 'fatLoss') return '报告会优先提示热量、脂肪和份量。';
+  if (settings.value.primaryGoal === 'lowSodium') return '报告会优先提示钠、盐和重口味叠加。';
+  return '报告会按热量、糖、钠、脂肪和添加剂综合排序。';
+});
+const childrenModeImpact = computed(() => (
+  settings.value.isChildrenMode
+    ? '报告会额外提示高糖、咖啡因、酒精、色素、甜味剂和高钠。'
+    : '开启后会把儿童高频食用提醒放到更前面。'
+));
 
 onShow(() => {
   settings.value = getAttentionSettings();
@@ -58,6 +69,7 @@ function persist(next: AttentionSettings) {
             <text class="option__desc">{{ goal.description }}</text>
           </view>
         </view>
+        <text class="impact-note">{{ primaryGoalImpact }}</text>
       </view>
     </AppCard>
 
@@ -65,7 +77,7 @@ function persist(next: AttentionSettings) {
       <view class="setting-row">
         <view class="setting-row__copy">
           <text class="mine-title">儿童模式</text>
-          <text class="muted">更重点提醒高糖、咖啡因、酒精、人工色素、甜味剂和高钠。</text>
+          <text class="muted">{{ childrenModeImpact }}</text>
         </view>
         <switch :checked="settings.isChildrenMode" color="#129780" @change="toggleChildrenMode" />
       </view>
@@ -172,6 +184,17 @@ function persist(next: AttentionSettings) {
   color: var(--muted);
   font-size: var(--font-size-xs);
   line-height: 1.4;
+}
+
+.impact-note {
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.45;
+  padding: 10rpx 12rpx;
 }
 
 .option--active .option__desc {

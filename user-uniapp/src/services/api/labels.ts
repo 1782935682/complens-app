@@ -194,10 +194,13 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
 async function analyzeFoodWithAdapter(input: ReportInput): Promise<FoodAnalyzeResult | undefined> {
   const ocrText = [
     input.rawText,
+    input.sourceMeta?.productNameText,
+    input.sourceMeta?.foodTypeText,
     input.sourceMeta?.ingredientText,
     input.sourceMeta?.nutritionText,
     input.sourceMeta?.allergenText,
-    input.frontClaimsText
+    input.frontClaimsText,
+    input.sourceMeta?.productionDateText
   ].filter(Boolean).join('\n');
   if (!ocrText.trim()) return undefined;
   try {

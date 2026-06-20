@@ -13,10 +13,11 @@ type DecisionSignal = {
 const sugarTerms = ['白砂糖', '蔗糖', '葡萄糖', '果糖', '葡萄糖浆', '麦芽糖', '麦芽糖浆', '麦芽糊精', '果葡糖浆', '玉米糖浆', '糖浆', '蜂蜜', '浓缩果汁', '碳水化合物'];
 const sweetenerTerms = ['阿斯巴甜', '安赛蜜', '三氯蔗糖', '甜蜜素', '糖精钠', '赤藓糖醇', '木糖醇', '甜味剂'];
 const sodiumTerms = ['食盐', '食用盐', '氯化钠', '谷氨酸钠', '味精', '碳酸氢钠', '亚硝酸钠', '呈味核苷酸', '酱油粉', '复合调味料'];
-const fatTerms = ['脂肪', '饱和脂肪', '反式脂肪', '植物油', '棕榈油', '起酥油', '人造奶油', '氢化植物油', '精炼植物油', '植脂末', '代可可脂'];
+const fatTerms = ['脂肪', '饱和脂肪', '反式脂肪', '植物油', '棕榈油', '起酥油', '人造奶油', '氢化植物油', '氢化菜籽油', '氢化油', '精炼植物油', '植脂末', '代可可脂'];
+const hydrogenatedOilTerms = ['氢化植物油', '氢化菜籽油', '氢化油', '起酥油', '人造奶油', '植脂末', '代可可脂'];
 const preservativeTerms = ['山梨酸钾', '苯甲酸钠', '脱氢乙酸钠', '防腐剂'];
 const colorTerms = ['色素', '柠檬黄', '日落黄', '胭脂红', '诱惑红', '亮蓝', '焦糖色'];
-const caffeineTerms = ['咖啡因', '咖啡粉', '茶粉', '茶多酚', '瓜拉纳'];
+const caffeineTerms = ['咖啡因', '咖啡粉', '瓜拉纳'];
 const alcoholTerms = ['酒精', '食用酒精', '白酒', '朗姆酒', '利口酒'];
 
 const allergenGroups = [
@@ -36,9 +37,14 @@ export function enrichReportDecision(report: LabelReport, attention?: AttentionS
     additiveRecognition,
     nutritionSnapshot
   };
+  const decision = buildConsumerDecision(enrichedReport, attention);
+  const hasEffectiveNutrition = countNutritionValues(report.nutritionSection.fields) > 0;
   return {
     ...enrichedReport,
-    decision: buildConsumerDecision(enrichedReport, attention)
+    nutritionSnapshot: decision.level === 'insufficient' || !hasEffectiveNutrition
+      ? []
+      : nutritionSnapshot.filter((item) => item.level !== '未识别'),
+    decision
   };
 }
 
@@ -77,7 +83,7 @@ export function buildConsumerDecision(report: LabelReport, attention?: Attention
     label,
     summary: buildSummary(level, signals, allergyWarnings, attention),
     tags: tags.length ? tags : ['普通提示'],
-    watchPoints: watchPoints.length ? watchPoints : ['没有识别到需要优先提醒的内容，结果已按当前标签信息整理。'],
+    watchPoints: watchPoints.length ? watchPoints : ['提醒较少；已识别的营养数字没有明显高值项，按正常一份吃即可。'],
     allergyWarnings,
     suitableFor: buildSuitableFor(level, signals, nutrition),
     lessSuitableFor: lessSuitableFor.length ? lessSuitableFor : ['对某些配料敏感的人仍需看包装提示'],
@@ -93,16 +99,25 @@ function getInsufficientReason(report: LabelReport, ingredients: IngredientMatch
   const sourceIngredientText = String(source?.ingredientText || '').trim();
   const hasIngredientEvidence = Boolean(ingredients.length || sourceIngredientText);
   const hasNutritionEvidence = hasNutritionValues(nutrition);
+  const nutritionValueCount = countNutritionValues(nutrition);
   const rawText = normalizeText(report.rawText || source?.ocrText || '');
   if (!rawText && !hasIngredientEvidence && !hasNutritionEvidence) return '没有识别到可用于查看的包装文字。';
   if (sourceConfidence === 'low' && !hasIngredientEvidence && !hasNutritionEvidence) return '识别结果可能不完整，当前文字不足以形成清晰建议。';
+  if (sourceConfidence === 'low' && !hasIngredientEvidence && nutritionValueCount < 2) return '只识别到很少的营养数字，当前文字不足以形成清晰建议。';
   if (!hasIngredientEvidence && !hasNutritionEvidence) return '没有识别到清晰的配料表或营养成分表。';
   if (isMostlyAdCopy(rawText) && !hasIngredientEvidence && !hasNutritionEvidence) return '当前文字更像广告语或包装卖点，缺少有效配料表。';
   return '';
 }
 
 function buildInsufficientDecision(reason: string): ConsumerDecision {
-  const summary = '信息不足，建议重新拍清包装文字，或手动补充配料、营养数字和过敏原提示。';
+  const needsNutrition = /营养|数字/.test(reason);
+  const needsIngredient = /配料/.test(reason) || !needsNutrition;
+  const missingParts = [
+    needsIngredient ? '配料表' : '',
+    needsNutrition ? '营养成分表数字' : '',
+    '过敏原提示'
+  ].filter(Boolean).join('、');
+  const summary = `信息不足，请补拍${missingParts}，或手动补充对应文字。`;
   return {
     level: 'insufficient',
     label: '信息不足',
@@ -113,7 +128,11 @@ function buildInsufficientDecision(reason: string): ConsumerDecision {
     suitableFor: ['补充包装文字后再查看'],
     lessSuitableFor: ['需要明确控糖、低钠、过敏等目标的人'],
     reasons: [reason],
-    suggestions: ['重新拍清包装上的关键文字。', '手动补充配料、营养数字和过敏原提示。', '回到首页后重新开始。'],
+    suggestions: [
+      needsIngredient ? '配料表尽量占满画面。' : '',
+      needsNutrition ? '营养成分表数字需要拍清。' : '',
+      '过敏提示可以单独补拍或手动补充。'
+    ].filter(Boolean),
     score: 0
   };
 }
@@ -162,11 +181,13 @@ export function buildAdditiveRecognitions(report: LabelReport, attention?: Atten
 
 export function buildNutritionSnapshot(fields: NutritionField[], attention?: AttentionSettings): NutritionSnapshotItem[] {
   const wanted: Array<{ key: NutritionKey; label: string }> = [
-    { key: 'sugar', label: '糖' },
-    { key: 'sodium', label: '钠' },
+    { key: 'energy', label: '热量' },
     { key: 'fat', label: '脂肪' },
-    { key: 'protein', label: '蛋白质' },
-    { key: 'energy', label: '热量' }
+    { key: 'transFat', label: '反式脂肪' },
+    { key: 'carbohydrate', label: '碳水' },
+    { key: 'sodium', label: '钠' },
+    { key: 'sugar', label: '糖' },
+    { key: 'protein', label: '蛋白质' }
   ];
   return wanted.map((item) => buildNutritionSnapshotItem(item.key, item.label, fields, attention));
 }
@@ -219,6 +240,13 @@ function buildIngredientSignals(text: string, ingredients: IngredientMatch[], at
     reason: '配料中出现油脂相关成分，已和能量、脂肪字段一起整理。',
     lessSuitableFor: ['减脂期'],
     suggestions: ['脂肪、能量数字和份量已纳入结果。']
+  });
+  addTermSignal(signals, text, hydrogenatedOilTerms, {
+    tag: '氢化油脂',
+    score: hasGoal(attention, 'fat_control') ? 3 : 2,
+    reason: '配料中出现氢化油脂相关词，建议和反式脂肪、脂肪、热量一起看份量。',
+    lessSuitableFor: ['减脂期', '反式脂肪关注人群'],
+    suggestions: ['氢化油脂已放入重点提醒，不单独吓人，和营养表数字一起判断份量。']
   });
   addTermSignal(signals, text, preservativeTerms, {
     tag: '防腐剂',
@@ -314,6 +342,7 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
   const sodium = getNutritionValue(fields, 'sodium');
   const salt = getNutritionValue(fields, 'salt');
   const fat = getNutritionValue(fields, 'fat');
+  const transFat = getNutritionValue(fields, 'transFat');
   const energy = getNutritionValue(fields, 'energy');
   const carbohydrate = getNutritionValue(fields, 'carbohydrate');
   if (sugar !== null && sugar >= 15) {
@@ -336,7 +365,7 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
   if (sodium !== null && sodium >= 600) {
     signals.push({
       tag: '钠偏高',
-      score: hasGoal(attention, 'low_sodium') || hasGoal(attention, 'for_children') ? 5 : 3,
+      score: hasGoal(attention, 'low_sodium') || hasGoal(attention, 'for_children') ? 5 : 4,
       reason: `钠含量识别为 ${formatNumber(sodium)}mg，低钠关注时，份量会影响实际摄入。`,
       lessSuitableFor: ['低钠关注人群'],
       suggestions: ['每 100g 钠和实际一份的量已纳入结果。']
@@ -362,10 +391,19 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
   if (fat !== null && fat >= 20) {
     signals.push({
       tag: '脂肪偏高',
-      score: hasGoal(attention, 'fat_control') ? 4 : 2,
+      score: hasGoal(attention, 'fat_control') ? 4 : 3,
       reason: `脂肪含量识别为 ${formatNumber(fat)}g，减脂期，份量会影响实际摄入。`,
       lessSuitableFor: ['减脂期'],
       suggestions: ['脂肪数字和实际一份的量已纳入结果。']
+    });
+  }
+  if (transFat !== null && transFat > 0) {
+    signals.push({
+      tag: '反式脂肪需留意',
+      score: transFat >= 0.3 ? 2 : 1,
+      reason: `反式脂肪识别为 ${formatNumber(transFat)}g，建议和脂肪、热量一起看份量。`,
+      lessSuitableFor: ['减脂期', '心血管饮食关注人群'],
+      suggestions: ['反式脂肪数字已纳入结果，建议选择更小份量。']
     });
   }
   if (energy !== null && energy >= 1700) {
@@ -381,9 +419,18 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
     signals.push({
       tag: '碳水较高',
       score: 2,
-      reason: `碳水化合物识别为 ${formatNumber(carbohydrate)}g，控糖或减脂时可以留意。`,
+      reason: `碳水化合物识别为 ${formatNumber(carbohydrate)}g，控糖或减脂时要看一份吃多少。`,
       lessSuitableFor: ['控糖人群', '减脂期'],
       suggestions: ['碳水、糖和蛋白质数字已一起整理。']
+    });
+  }
+  if (carbohydrate !== null && carbohydrate >= 50 && !signals.some((item) => item.tag === '碳水较高')) {
+    signals.push({
+      tag: '碳水较高',
+      score: 1,
+      reason: `碳水化合物识别为 ${formatNumber(carbohydrate)}g，零食场景下需要看份量。`,
+      lessSuitableFor: ['控糖人群', '减脂期'],
+      suggestions: ['碳水数字已纳入结果。']
     });
   }
   return signals;
@@ -391,7 +438,7 @@ function buildNutritionSignals(fields: NutritionField[], attention?: AttentionSe
 
 function buildAttentionSignals(report: LabelReport, attention?: AttentionSettings): DecisionSignal[] {
   if (!attention && !report.attentionHits.length) return [];
-  return report.attentionHits.map((hit) => ({
+  return report.attentionHits.filter((hit) => hit.key !== 'daily').map((hit) => ({
     tag: hit.label,
     score: hit.key === 'allergen' ? 4 : hit.key === 'children' ? 2 : 1,
     reason: `${hit.label}相关词已出现：${hit.terms.slice(0, 4).join('、')}。`,
@@ -414,7 +461,8 @@ function signalPriority(signal: DecisionSignal, attention?: AttentionSettings): 
   if (attention?.isChildrenMode && /儿童|色素|咖啡因|甜味剂|糖偏高|钠偏高|高糖|高钠/.test(text)) return 40;
   if (attention?.primaryGoal === 'lowSodium' && /钠|盐|味精|酱油粉/.test(text)) return 35;
   if (attention?.primaryGoal === 'sugar' && /糖|糖浆|甜味剂|碳水|代糖/.test(text)) return 30;
-  if (attention?.primaryGoal === 'fatLoss' && /能量|热量|脂肪|糖|碳水/.test(text)) return 30;
+  if (attention?.primaryGoal === 'fatLoss' && /能量|热量|脂肪|反式|氢化|糖|碳水/.test(text)) return 30;
+  if (/反式|氢化|起酥油|植脂末|代可可脂/.test(text)) return 28;
   if (/添加剂|防腐剂|色素|香精/.test(text)) return 20;
   return 10;
 }
@@ -450,20 +498,45 @@ function labelForLevel(level: ConsumerDecision['level']): string {
 function buildSummary(level: ConsumerDecision['level'], signals: DecisionSignal[], allergyWarnings: string[], attention?: AttentionSettings): string {
   if (allergyWarnings.length) return allergyWarnings[0];
   const hasFocus = Boolean(attention && (attention.primaryGoal !== 'daily' || attention.isChildrenMode || attention.allergens.length));
-  if (level === 'alternative') return hasFocus
-    ? '有几处需要重点关注：配料表、营养数字和同类商品标签。'
-    : '有几处需要重点关注：配料表、营养数字和一份吃多少。';
-  if (level === 'caution') return '这款有几项需要留意：配料顺序、营养数字和一份吃多少。';
-  if (level === 'occasional') return '提醒项不多，结果已按配料和营养整理。';
-  if (!signals.length) return '本次没有识别到明显需要优先提醒的内容，结果已按识别文字整理。';
+  const tags = compactSignalTags(signals).slice(0, 4);
+  const focusText = tags.length ? `${tags.join('、')}是这次重点。` : hasFocus ? '重点看你设置的关注项。' : '重点看营养数字和一份吃多少。';
+  if (level === 'alternative') return `偶尔吃，不建议常吃；${focusText}`;
+  if (level === 'caution') return `偶尔吃，不建议常吃；${focusText}`;
+  if (level === 'occasional') {
+    const occasionalTags = tags.slice(0, 3);
+    return occasionalTags.length
+      ? `偶尔吃；${occasionalTags.join('、')}是这次重点，按小份量更稳妥。`
+      : '偶尔吃，按小份量更稳妥。';
+  }
+  if (!signals.length) return '提醒较少；已识别的营养数字没有明显高值项，按正常一份吃即可。';
   return '整体提醒较少，配料表和营养表已整理。';
 }
 
+function compactSignalTags(signals: DecisionSignal[]): string[] {
+  const tags = signals
+    .map((item) => {
+      const text = `${item.tag}${item.reason}`;
+      if (/过敏|忌口|致敏/.test(text)) return '过敏原';
+      if (/氢化|反式/.test(text)) return '氢化油脂';
+      if (/糖|甜味剂|碳水/.test(text)) return '糖/碳水';
+      if (/钠|盐|味精|呈味|肌苷酸/.test(text)) return '钠/咸味';
+      if (/脂肪|油脂|热量|能量/.test(text)) return '油脂/热量';
+      if (/添加剂|防腐剂|色素|香精/.test(text)) return '添加剂';
+      if (/咖啡因/.test(text)) return '咖啡因';
+      if (/酒精/.test(text)) return '酒精';
+      if (/未确认/.test(text)) return '';
+      return item.tag;
+    })
+    .filter(Boolean);
+  return unique(tags);
+}
+
 function buildSuitableFor(level: ConsumerDecision['level'], signals: DecisionSignal[], nutrition: NutritionField[]): string[] {
-  const items = ['普通标签解读'];
-  if (level === 'daily_ok') items.unshift('日常标签解读');
-  if (!signals.some((signal) => signal.tag.includes('糖')) && hasNutritionValue(nutrition, 'sugar')) items.push('控糖时已保留包装数字');
-  if (!signals.some((signal) => signal.tag.includes('钠')) && hasNutritionValue(nutrition, 'sodium')) items.push('低钠关注时已保留钠数字');
+  const items = level === 'daily_ok'
+    ? ['普通成年人按正常份量']
+    : ['普通成年人偶尔解馋'];
+  if (!signals.some((signal) => signal.tag.includes('糖')) && hasNutritionValue(nutrition, 'sugar')) items.push('控糖关注者可查看糖数字');
+  if (!signals.some((signal) => signal.tag.includes('钠')) && hasNutritionValue(nutrition, 'sodium')) items.push('低钠关注者可查看钠数字');
   return unique(items).slice(0, 4);
 }
 
@@ -565,6 +638,16 @@ function resolveNutritionLevel(key: NutritionKey, value: number, attention?: Att
     if (value >= 3) return '中等';
     return '较低';
   }
+  if (key === 'transFat') {
+    if (value >= 0.3) return '较高';
+    if (value > 0) return '中等';
+    return '较低';
+  }
+  if (key === 'carbohydrate') {
+    if (value >= 50) return '较高';
+    if (value >= 15) return '中等';
+    return '较低';
+  }
   if (key === 'protein') {
     if (value >= 8) return '较高';
     if (value >= 4) return '一般';
@@ -594,6 +677,16 @@ function nutritionNote(key: NutritionKey, value: number, level: NutritionSnapsho
     if (level === '中等') return '脂肪中等，份量会影响实际摄入。';
     return '脂肪较低。';
   }
+  if (key === 'transFat') {
+    if (level === '较高') return '反式脂肪不为 0，建议和脂肪、热量一起看份量。';
+    if (level === '中等') return '反式脂肪有数值，已保留为关注项。';
+    return '反式脂肪较低或标示为 0。';
+  }
+  if (key === 'carbohydrate') {
+    if (level === '较高') return '碳水较高，控糖或减脂时要看一份吃多少。';
+    if (level === '中等') return '碳水中等，已和糖数字一起整理。';
+    return '碳水较低。';
+  }
   if (key === 'protein') {
     if (level === '较高') return '蛋白质较高，已保留为营养亮点。';
     if (level === '一般' || level === '中等') return '蛋白质一般。';
@@ -608,7 +701,7 @@ function nutritionNote(key: NutritionKey, value: number, level: NutritionSnapsho
 }
 
 function nutritionPercent(key: NutritionKey, value: number): number {
-  const max = key === 'sodium' ? 800 : key === 'energy' ? 2200 : key === 'protein' ? 15 : key === 'fat' ? 30 : 20;
+  const max = key === 'sodium' ? 800 : key === 'energy' ? 2200 : key === 'protein' ? 15 : key === 'fat' ? 30 : key === 'transFat' ? 1 : key === 'carbohydrate' ? 80 : 20;
   return Math.max(6, Math.min(100, Math.round((value / max) * 100)));
 }
 
@@ -633,6 +726,10 @@ function getNutritionValue(fields: NutritionField[], key: string): number | null
 
 function hasNutritionValues(fields: NutritionField[]): boolean {
   return fields.some((field) => Boolean(String(field.value || '').trim()));
+}
+
+function countNutritionValues(fields: NutritionField[]): number {
+  return fields.filter((field) => !['perUnit', 'servingSize', 'nrvPercent'].includes(field.key) && Boolean(String(field.value || '').trim())).length;
 }
 
 function isMostlyAdCopy(text: string): boolean {

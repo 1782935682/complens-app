@@ -12,6 +12,10 @@
     "audit:product-output": "node scripts/audit-product-output.mjs",
     "regression:ocr-report": "node scripts/ocr-report-regression.mjs",
     "visual:smoke": "node scripts/visual-smoke.mjs",
+    "sample:real-packaging": "node scripts/real-packaging-sample-smoke.mjs",
+    "review:chatgpt": "node scripts/chatgpt-ui-review.mjs",
+    "review:deepseek": "node scripts/deepseek-comprehensive-review.mjs",
+    "review:deepseek:samples": "node scripts/deepseek-real-sample-review.mjs",
     "lint": "node scripts/lint.mjs",
     "typecheck": "vue-tsc --noEmit"
   },

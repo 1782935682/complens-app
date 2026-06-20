@@ -1,6 +1,6 @@
 # Deployment Runbook
 
-本文档用于在另一台机器上从零部署 CompCheck 当前可运行服务。当前可完整跑通的形态是开发/内测部署：PostgreSQL、后端 API、前端 Vite 服务、本机 RapidOCR。正式生产还需要替换生产数据库、Aliyun OCR、域名、HTTPS 和反向代理。
+本文档用于在另一台机器上从零部署 CompCheck 当前可运行服务。当前可完整跑通的形态是开发/内测部署：PostgreSQL、后端 API、前端 Vite 服务、本机 RapidOCR。正式生产还需要替换生产数据库、配置 Aliyun OCR 后端凭证、域名、HTTPS 和反向代理。
 
 ## 服务清单
 
@@ -326,7 +326,7 @@ npm run validate:gb2760
 | 项 | 当前内测值 | 生产要求 |
 |---|---|---|
 | 数据库 | Docker 本机 Postgres | 独立生产 PostgreSQL，提供生产 `DATABASE_URL`，配置备份和权限 |
-| OCR | 本机 RapidOCR | `OCR_PROVIDER=aliyun`，配置 Aliyun OCR Key，不依赖本机 `/home/downloads/tools/complens-ocr` |
+| OCR | 本机 RapidOCR | `OCR_PROVIDER=aliyun`，配置 Aliyun AccessKeyId/Secret，不依赖本机 `/home/downloads/tools/complens-ocr` |
 | 前端访问 | Vite dev server | 静态资源托管或 Nginx/Caddy，同源反代 `/api` |
 | 后端运行 | `npm run dev` 或 `node dist/index.js` | systemd/PM2/container 编排，配置日志和重启策略 |
 | HTTPS | 未配置 | 域名和 TLS 证书 |
@@ -336,7 +336,10 @@ npm run validate:gb2760
 
 ```env
 OCR_PROVIDER=aliyun
-OCR_API_KEY=<aliyun-ocr-key>
+ALIYUN_ACCESS_KEY_ID=<aliyun-access-key-id>
+ALIYUN_ACCESS_KEY_SECRET=<aliyun-access-key-secret>
+ALIYUN_OCR_ENDPOINT=https://ocr-api.cn-hangzhou.aliyuncs.com
+ALIYUN_OCR_ACTION=RecognizeAdvanced
 OCR_LOCAL_URL=
 ```
 

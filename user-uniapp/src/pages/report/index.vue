@@ -5,6 +5,7 @@ import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import EmptyState from '@/components/EmptyState.vue';
 import Toast from '@/components/Toast.vue';
+import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
 import { routes, navigateToRoute } from '@/constants/routes';
 import { buildReportShareMessage, enableWeixinShareMenu, shareReport } from '@/platform/share';
 import { getAttentionSettings } from '@/stores/attentionStore';
@@ -33,6 +34,8 @@ type ReportFinding = {
 const report = ref<LabelReport | undefined>();
 const attentionSettings = ref(getAttentionSettings());
 const rawTextOpen = ref(false);
+const detailOpen = ref(false);
+const reasonsOpen = ref(false);
 const message = ref('');
 const feedbackReason = ref<ReportFeedbackReason>('ocr_wrong');
 const feedbackNote = ref('');
@@ -69,8 +72,11 @@ const decision = computed(() => {
 const foodAnalysis = computed(() => report.value?.foodAnalysis);
 const overallLabel = computed(() => {
   if (foodAnalysis.value?.decisionText) return foodAnalysis.value.decisionText;
-  const finding = headlineFinding.value;
   if (decision.value?.level === 'insufficient') return '信息不足';
+  if (decision.value?.level === 'alternative' || decision.value?.level === 'caution') return '偶尔吃，不建议常吃';
+  if (decision.value?.level === 'occasional') return '偶尔吃';
+  if (decision.value?.level === 'daily_ok') return '提醒较少';
+  const finding = headlineFinding.value;
   if (!finding) return '信息不足';
   if (finding.tone === 'attention') return `${finding.label}需要关注`;
   if (finding.tone === 'watch') return '有几项提醒';
@@ -82,6 +88,7 @@ const hasIngredientEvidence = computed(() => Boolean(
 const hasNutritionNumbers = computed(() => nutritionSnapshot.value.some((item) => item.level !== '未识别'));
 const nutritionBars = computed(() => nutritionSnapshot.value
   .filter((item) => item.level !== '未识别')
+  .sort((left, right) => nutritionRank(right) - nutritionRank(left) || right.percent - left.percent)
   .slice(0, 5));
 const isInsufficientReport = computed(() => (
   decision.value?.level === 'insufficient'
@@ -90,6 +97,7 @@ const isInsufficientReport = computed(() => (
 const shouldShowConsumerSections = computed(() => !isInsufficientReport.value);
 const shouldShowAdditiveSection = computed(() => shouldShowConsumerSections.value && hasIngredientEvidence.value);
 const overallDetail = computed(() => {
+  if (foodAnalysis.value?.plainExplanation) return foodAnalysis.value.plainExplanation;
   if (foodAnalysis.value?.summary) return foodAnalysis.value.summary;
   if (isInsufficientReport.value) {
     return decision.value?.summary || '请补拍清晰的包装文字，或手动粘贴配料、营养数字和过敏原提示。';
@@ -99,23 +107,38 @@ const overallDetail = computed(() => {
 const allergyWarnings = computed(() => decision.value?.allergyWarnings ?? []);
 const resultReasons = computed(() => (foodAnalysis.value?.mainReasons?.length
   ? foodAnalysis.value.mainReasons
-  : decision.value?.reasons ?? []).slice(0, 6));
+  : decision.value?.reasons ?? []).slice(0, 5));
 const suitableFor = computed(() => (foodAnalysis.value?.suitableFor?.length
   ? foodAnalysis.value.suitableFor
-  : decision.value?.suitableFor ?? []).slice(0, 6));
-const notSuitableFor = computed(() => (foodAnalysis.value?.notSuitableFor?.length
-  ? foodAnalysis.value.notSuitableFor
-  : decision.value?.lessSuitableFor ?? []).slice(0, 6));
+  : decision.value?.suitableFor ?? []).slice(0, 4));
+const notSuitableFor = computed(() => personalNotSuitableFor.value
+  .concat(foodAnalysis.value?.notSuitableFor?.length
+    ? foodAnalysis.value.notSuitableFor
+    : decision.value?.lessSuitableFor ?? [])
+  .filter(uniqueValue)
+  .slice(0, 5));
 const eatingAdvice = computed(() => foodAnalysis.value?.eatingAdvice || decision.value?.suggestions?.[0] || '');
 const plainExplanation = computed(() => foodAnalysis.value?.plainExplanation || decision.value?.summary || '');
+const supportingExplanation = computed(() => {
+  const text = plainExplanation.value.trim();
+  if (!text || normalizeCompareText(text) === normalizeCompareText(overallDetail.value)) return '';
+  return text;
+});
 const productFacts = computed(() => [
   foodAnalysis.value?.productName && foodAnalysis.value.productName !== '未识别商品' ? `商品：${foodAnalysis.value.productName}` : '',
-  foodAnalysis.value?.category ? `类型：${foodAnalysis.value.category}` : '',
-  foodAnalysis.value?.productionDate ? `生产日期：${foodAnalysis.value.productionDate}` : ''
+  foodAnalysis.value?.category || report.value?.analysisSource?.foodTypeText ? `类型：${foodAnalysis.value?.category || report.value?.analysisSource?.foodTypeText}` : '',
+  foodAnalysis.value?.productionDate || report.value?.analysisSource?.productionDateText ? `生产日期：${foodAnalysis.value?.productionDate || report.value?.analysisSource?.productionDateText}` : ''
 ].filter(Boolean));
+const detailFrontClaims = computed(() => report.value?.frontClaimsSection?.text || report.value?.analysisSource?.frontClaimsText || (foodAnalysis.value?.frontClaims || []).join('、'));
+const detailAllergenText = computed(() => report.value?.analysisSource?.allergenText || '');
+const detailUncertainClues = computed(() => [
+  ...(foodAnalysis.value?.uncertainClues || []),
+  ...(report.value?.analysisSource?.unconfirmedText || []),
+  ...(report.value?.unknownItems || [])
+].filter(Boolean).filter(uniqueValue).slice(0, 8));
 const detailNutritionRows = computed(() => {
   const nutrition = foodAnalysis.value?.nutrition || {};
-  const fromFoodAnalysis = (['energy', 'protein', 'fat', 'carbohydrate', 'sodium', 'transFat'] as const)
+  const fromFoodAnalysis = (['energy', 'protein', 'fat', 'carbohydrate', 'sugar', 'sodium', 'transFat'] as const)
     .map((key) => {
       const item = nutrition[key];
       if (!item?.text) return null;
@@ -140,16 +163,90 @@ const detailNutritionRows = computed(() => {
 });
 const additiveSummaryText = computed(() => {
   if (!hasIngredientEvidence.value) return '未拿到配料表，暂不查看添加剂。';
-  const total = visibleAdditives.value.length;
-  if (!total) return '当前配料表未匹配到本地常见添加剂规则，添加剂项为空。';
-  return `配料表里看到 ${total} 种常见食品添加剂，下面解释它们通常做什么。`;
+  const total = ingredientExplanationItems.value.length;
+  if (!total) return '当前配料表未匹配到需要解释的添加剂或配料项。';
+  return `把配料里容易看不懂或影响份量的 ${total} 项说明白。`;
+});
+const additiveCategoryChips = computed(() => {
+  const chips = new Map<string, number>();
+  additiveRecognition.value.items.forEach((item) => {
+    chips.set(item.category, (chips.get(item.category) || 0) + 1);
+  });
+  watchIngredientExplanationItems.value.forEach((item) => {
+    chips.set(item.category, (chips.get(item.category) || 0) + 1);
+  });
+  return [...chips.entries()]
+    .map(([label, count]) => `${label} ${count}`)
+    .slice(0, 5);
+});
+const watchIngredientExplanationItems = computed(() => {
+  const text = normalizeCompareText([
+    report.value?.analysisSource?.ingredientText,
+    ...ingredients.value.map((item) => `${item.normalizedText}${item.ingredientName || ''}`)
+  ].join(' '));
+  const items: Array<{ id: string; name: string; category: string; effect: string; reminder: string }> = [];
+  if (/氢化植物油|氢化菜籽油|氢化油|起酥油|人造奶油|植脂末|代可可脂/u.test(text)) {
+    items.push({
+      id: 'watch-hydrogenated-oil',
+      name: '氢化油脂',
+      category: '需要留意',
+      effect: '常用于改善酥脆、稳定或口感。看到它不等于不能吃，但要和反式脂肪、脂肪、热量一起看份量。',
+      reminder: '减脂或关注反式脂肪时，建议少量、低频。'
+    });
+  }
+  if (/味精|谷氨酸钠|呈味核苷酸|肌苷酸二钠/u.test(text)) {
+    items.push({
+      id: 'watch-flavor-enhancer',
+      name: '增鲜成分',
+      category: '影响咸鲜',
+      effect: '主要让咸鲜味更明显，不用单独恐慌；低钠/少盐关注时，要和营养表里的钠一起看。',
+      reminder: ''
+    });
+  }
+  if (/白砂糖|麦芽糖|果葡糖浆|葡萄糖浆|食用葡萄糖|蜂蜜/u.test(text)) {
+    items.push({
+      id: 'watch-added-sugar',
+      name: '糖类配料',
+      category: '影响甜味',
+      effect: '会带来甜味和碳水，控糖、减脂或给儿童高频食用时，重点看一份吃多少。',
+      reminder: ''
+    });
+  }
+  return items.slice(0, 3);
+});
+const ingredientExplanationItems = computed(() => {
+  const aiItems = (foodAnalysis.value?.ingredientHighlights || []).map((item) => ({
+    id: `ai-${item.name}`,
+    name: item.name,
+    category: item.level === 'green' ? '常见配料' : '需要留意',
+    effect: item.explanation,
+    reminder: ''
+  }));
+  const additiveItems = visibleAdditives.value.map((item) => ({
+    id: item.id,
+    name: item.name,
+    category: item.category,
+    effect: item.effect,
+    reminder: item.reminder
+  }));
+  const seen = new Set<string>();
+  return [...aiItems, ...watchIngredientExplanationItems.value, ...additiveItems]
+    .filter((item) => {
+      const key = normalizeCompareText(item.name);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 5);
 });
 const keyFindings = computed<ReportFinding[]>(() => {
   const findings = [
-    buildNutritionFinding('sugar', '糖'),
+    buildNutritionFinding('energy', '热量'),
     buildNutritionFinding('sodium', '钠'),
     buildNutritionFinding('fat', '脂肪'),
-    buildNutritionFinding('energy', '热量')
+    buildNutritionFinding('transFat', '反式脂肪'),
+    buildNutritionFinding('carbohydrate', '碳水'),
+    buildNutritionFinding('sugar', '糖')
   ];
   if (hasIngredientEvidence.value) findings.push(buildAdditiveFinding());
   findings.push(buildAllergenFinding());
@@ -167,7 +264,77 @@ const plainFindings = computed(() => keyFindings.value
 const topFindings = computed(() => plainFindings.value
   .filter((item) => item.tone === 'attention' || item.tone === 'watch')
   .slice(0, 3));
-const insightCards = computed(() => buildInsightCards());
+const personalAlerts = computed(() => {
+  const alerts: string[] = [];
+  const goal = primaryGoalOptions.find((item) => item.key === attentionSettings.value.primaryGoal);
+  if (goal && goal.key !== 'daily') {
+    const finding = focusedGoalFinding(goal.key);
+    alerts.push(finding
+      ? `${goal.label}：${finding.label}${finding.status}，${compactFindingDetail(finding)}`
+      : `${goal.label}：这次没有识别到直接对应的高值数字。`);
+  }
+  if (attentionSettings.value.isChildrenMode) alerts.push('儿童模式：不建议给儿童高频当零食。');
+  if (allergyWarnings.value.length) {
+    alerts.push(allergyWarnings.value[0]);
+  } else if (attentionSettings.value.allergens.length) {
+    const labels = selectedAllergenLabels().slice(0, 3).join('、');
+    if (labels) alerts.push(`过敏/忌口：本次未命中你设置的 ${labels}。`);
+  }
+  return alerts.slice(0, 3);
+});
+const personalAlertChips = computed(() => {
+  const chips: string[] = [];
+  const goal = primaryGoalOptions.find((item) => item.key === attentionSettings.value.primaryGoal);
+  if (goal && goal.key !== 'daily') {
+    const finding = focusedGoalFinding(goal.key);
+    chips.push(finding ? `${goal.label} ${finding.status}` : `${goal.label} 未命中高值`);
+  }
+  if (attentionSettings.value.isChildrenMode) chips.push('儿童少吃');
+  if (allergyWarnings.value.length) {
+    chips.push('过敏命中');
+  } else if (attentionSettings.value.allergens.length) {
+    chips.push('过敏未命中');
+  }
+  return chips.slice(0, 4);
+});
+const personalNotSuitableFor = computed(() => {
+  const items: string[] = [];
+  if (allergyWarnings.value.length) items.push('命中过敏/忌口关注的人');
+  if (attentionSettings.value.isChildrenMode) items.push('儿童高频食用');
+  if (attentionSettings.value.primaryGoal === 'sugar') items.push('控糖人群');
+  if (attentionSettings.value.primaryGoal === 'fatLoss') items.push('减脂期');
+  if (attentionSettings.value.primaryGoal === 'lowSodium') items.push('控盐/低钠人群');
+  return items;
+});
+const audiencePreview = computed(() => {
+  const ok = suitableFor.value[0] || '普通成年人偶尔吃';
+  const watch = notSuitableFor.value.slice(0, 2).join('、');
+  return watch ? `${ok}；不太适合：${watch}` : ok;
+});
+const decisionFastItems = computed(() => {
+  if (isInsufficientReport.value) return [];
+  const why = priorityFindings.value
+    .slice(0, 3)
+    .map((item) => `${item.label}${item.status}`)
+    .join('、');
+  const who = notSuitableFor.value.slice(0, 3).join('、');
+  const how = compactAdviceText(eatingAdvice.value);
+  return [
+    why ? { label: '为什么', text: why } : undefined,
+    who ? { label: '谁少吃', text: who } : undefined,
+    how ? { label: '怎么吃', text: how } : undefined
+  ].filter(Boolean) as Array<{ label: string; text: string }>;
+});
+const priorityFindings = computed(() => {
+  const ranked = plainFindings.value
+    .filter((item) => item.tone === 'attention' || item.tone === 'watch')
+    .sort((left, right) => findingPriority(right) - findingPriority(left))
+    .slice(0, 3);
+  return ranked.length ? ranked : plainFindings.value.filter((item) => item.tone === 'ok').slice(0, 3);
+});
+const extraReasons = computed(() => resultReasons.value
+  .filter((reason) => !priorityFindings.value.some((item) => reason.includes(item.label) || item.label.includes(reason)))
+  .slice(0, 5));
 const visibleAdditives = computed(() => {
   const pendingTexts = pendingIngredientChips.value.map(normalizeCompareText);
   return additiveRecognition.value.items
@@ -182,7 +349,7 @@ const ingredientChips = computed(() => ingredients.value
   .map((item) => item.ingredientName || item.normalizedText)
   .filter(Boolean)
   .filter(uniqueValue)
-  .slice(0, 18));
+  .slice(0, 12));
 const pendingIngredientChips = computed(() => ingredients.value
   .filter(isPendingIngredient)
   .map((item) => item.ingredientName || item.normalizedText)
@@ -190,7 +357,22 @@ const pendingIngredientChips = computed(() => ingredients.value
   .filter(uniqueValue)
   .slice(0, 8));
 const rawLabelText = computed(() => report.value?.rawText || report.value?.analysisSource?.ocrText || '');
-const sourceImagePath = computed(() => report.value?.analysisSource?.imagePath || '');
+const detailSummaryText = computed(() => [
+  ingredients.value.length ? `配料 ${ingredients.value.length} 项` : '',
+  detailNutritionRows.value.length ? `营养 ${detailNutritionRows.value.length} 项` : '',
+  pendingIngredientChips.value.length || detailUncertainClues.value.length ? `未确认 ${pendingIngredientChips.value.length + detailUncertainClues.value.length} 项` : '',
+  detailFrontClaims.value ? '包装声明已整理' : ''
+].filter(Boolean).join(' · ') || '已整理识别来源');
+const hasRecognitionDetails = computed(() => Boolean(
+  ingredientChips.value.length
+  || pendingIngredientChips.value.length
+  || detailNutritionRows.value.length
+  || detailFrontClaims.value
+  || detailAllergenText.value
+  || detailUncertainClues.value.length
+  || productFacts.value.length
+  || rawLabelText.value
+));
 const shareCard = computed<ReportShareCard | undefined>(() => {
   if (!report.value || isInsufficientReport.value) return undefined;
   const shareItems = plainFindings.value
@@ -207,8 +389,15 @@ const shareCard = computed<ReportShareCard | undefined>(() => {
     title: report.value.productName || '食品标签解读',
     headline: overallLabel.value,
     points,
-    meta: meta || '已整理配料和营养线索'
+  meta: meta || '已整理配料和营养线索'
   };
+});
+const insufficientCapturedRows = computed(() => {
+  if (!isInsufficientReport.value) return [];
+  const rows = detailNutritionRows.value.slice(0, 2).map((item) => `${item.label} ${item.value}`);
+  if (detailFrontClaims.value) rows.push('包装声明已保留');
+  if (productFacts.value.length) rows.push(...productFacts.value.slice(0, 2));
+  return rows.slice(0, 4);
 });
 
 onLoad((query) => {
@@ -219,6 +408,26 @@ onLoad((query) => {
 });
 
 onShareAppMessage(() => buildReportShareMessage(report.value));
+
+function focusedGoalFinding(goal: string): ReportFinding | undefined {
+  if (goal === 'sugar') {
+    return keyFindings.value.find((item) => item.key === 'sugar' && item.tone !== 'missing')
+      || keyFindings.value.find((item) => item.key === 'carbohydrate' && item.tone !== 'missing');
+  }
+  if (goal === 'fatLoss') {
+    return keyFindings.value.find((item) => item.key === 'energy' && item.tone !== 'missing')
+      || keyFindings.value.find((item) => item.key === 'fat' && item.tone !== 'missing')
+      || keyFindings.value.find((item) => item.key === 'carbohydrate' && item.tone !== 'missing');
+  }
+  if (goal === 'lowSodium') return keyFindings.value.find((item) => item.key === 'sodium' && item.tone !== 'missing');
+  return undefined;
+}
+
+function selectedAllergenLabels(): string[] {
+  return allergenOptions
+    .filter((item) => attentionSettings.value.allergens.includes(item.key))
+    .map((item) => item.label);
+}
 
 function buildNutritionFinding(key: NutritionKey, label: string): ReportFinding {
   const item = nutritionSnapshot.value.find((entry) => entry.key === key);
@@ -247,10 +456,51 @@ function buildNutritionFindingDetail(item: NutritionSnapshotItem): string {
   return `包装标示：${item.valueText}。${focus.low}`;
 }
 
+function compactFindingDetail(item: ReportFinding): string {
+  const nutrition = nutritionSnapshot.value.find((entry) => entry.key === item.key);
+  if (nutrition) {
+    const advice: Partial<Record<NutritionKey, string>> = {
+      energy: '少量当零食吃',
+      fat: '控制一份吃多少',
+      transFat: '少量低频更稳妥',
+      carbohydrate: '主要供能，控制份量',
+      sodium: '少和重口味食物叠加',
+      sugar: '甜味来源要留意'
+    };
+    return `${nutrition.valueText}，${advice[nutrition.key] || '控制份量'}`;
+  }
+  if (item.key === 'additive') return '看作用和用量，不直接吓人。';
+  if (item.key === 'allergen') return '有相关提示的人优先留意这里。';
+  return item.detail;
+}
+
 function nutritionTone(item: NutritionSnapshotItem): FindingTone {
   if (item.level === '较高') return 'attention';
   if (item.level === '中等' || item.level === '一般') return 'watch';
   return 'ok';
+}
+
+function findingPriority(item: ReportFinding): number {
+  const keyScore: Record<string, number> = {
+    allergen: 80,
+    sodium: 70,
+    transFat: 68,
+    additive: 62,
+    additives: 62,
+    energy: 58,
+    fat: 55,
+    sugar: 52,
+    carbohydrate: 48
+  };
+  const toneScore = item.tone === 'attention' ? 30 : item.tone === 'watch' ? 15 : item.tone === 'ok' ? 5 : 0;
+  return (keyScore[item.key] || 10) + toneScore;
+}
+
+function nutritionRank(item: NutritionSnapshotItem): number {
+  if (item.level === '较高') return 30;
+  if (item.level === '中等' || item.level === '一般') return 20;
+  if (item.level === '较低') return 10;
+  return 0;
 }
 
 function nutritionFocusText(key: NutritionKey): { high: string; medium: string; low: string } {
@@ -263,21 +513,28 @@ function nutritionFocusText(key: NutritionKey): { high: string; medium: string; 
   }
   if (key === 'sodium') {
     return {
-      high: '已归为重点关注项，份量会影响实际摄入。',
+      high: '咸味和重口味食物叠加时更需要控制份量。',
       medium: '咸味食物叠加时会更明显。',
       low: '当前不是重点提醒。'
     };
   }
   if (key === 'fat') {
     return {
-      high: '已归为重点关注项，份量会影响实际摄入。',
+      high: '油脂会把热量拉高，零食类尤其要看一份吃多少。',
+      medium: '已和热量一起整理。',
+      low: '当前不是重点提醒。'
+    };
+  }
+  if (key === 'carbohydrate') {
+    return {
+      high: '这类零食主要靠面粉、米粉或糖类供能，适合看一份吃多少。',
       medium: '已和热量一起整理。',
       low: '当前不是重点提醒。'
     };
   }
   if (key === 'energy') {
     return {
-      high: '已归为重点关注项，份量会影响实际摄入。',
+      high: '热量不低，适合当零食少量吃，不适合顶一餐。',
       medium: '份量会影响实际摄入。',
       low: '当前不是重点提醒。'
     };
@@ -290,9 +547,26 @@ function nutritionFocusText(key: NutritionKey): { high: string; medium: string; 
 }
 
 function nutritionToneLabel(item: NutritionSnapshotItem): string {
-  if (item.level === '较高') return '重点';
+  if (item.level === '较高') {
+    if (item.key === 'energy') return '少量吃';
+    if (item.key === 'fat') return '控油量';
+    if (item.key === 'carbohydrate') return '控份量';
+    if (item.key === 'sodium') return '少盐搭配';
+    if (item.key === 'sugar') return '控甜食';
+    return '重点';
+  }
   if (item.level === '中等' || item.level === '一般') return '留意';
   return '较低';
+}
+
+function nutritionBarActionText(item: NutritionSnapshotItem): string {
+  const action = nutritionToneLabel(item);
+  if (item.key === 'energy') return `零食重点｜${action}`;
+  if (item.key === 'fat') return `油脂偏多｜${action}`;
+  if (item.key === 'carbohydrate') return `主要供能｜${action}`;
+  if (item.key === 'sodium') return `重口味叠加｜${action}`;
+  if (item.key === 'sugar') return `甜味来源｜${action}`;
+  return action;
 }
 
 function nutritionDetailLabel(key: string): string {
@@ -300,6 +574,7 @@ function nutritionDetailLabel(key: string): string {
   if (key === 'protein') return '蛋白质';
   if (key === 'fat') return '脂肪';
   if (key === 'carbohydrate') return '碳水';
+  if (key === 'sugar') return '糖';
   if (key === 'sodium') return '钠';
   if (key === 'transFat') return '反式脂肪';
   return key;
@@ -325,7 +600,7 @@ function buildAdditiveFinding(): ReportFinding {
       key: 'additives',
       label: '添加剂',
       status: '未匹配到',
-      detail: '当前配料表未匹配到本地常见添加剂规则，添加剂项为空。',
+      detail: '当前配料表未匹配到需要解释的添加剂或配料项。',
       tone: 'ok'
     };
   }
@@ -369,75 +644,6 @@ function buildAllergenFinding(): ReportFinding {
   };
 }
 
-function buildInsightCards(): Array<{ key: string; title: string; value: string; detail: string; tone: FindingTone }> {
-  const cards: Array<{ key: string; title: string; value: string; detail: string; tone: FindingTone }> = [];
-  const sugar = nutritionSnapshot.value.find((item) => item.key === 'sugar');
-  const sodium = nutritionSnapshot.value.find((item) => item.key === 'sodium');
-  const fat = nutritionSnapshot.value.find((item) => item.key === 'fat');
-  if (sugar && sugar.level !== '未识别') {
-    cards.push({
-      key: 'sugar',
-      title: '糖',
-      value: sugar.level,
-      detail: `包装标示 ${sugar.valueText}`,
-      tone: nutritionTone(sugar)
-    });
-  } else if (/白砂糖|蔗糖|糖浆|果葡糖浆|葡萄糖浆|麦芽糖浆|麦芽糊精/i.test(rawLabelText.value)) {
-    cards.push({
-      key: 'sugar-ingredient',
-      title: '糖类配料',
-      value: '看到线索',
-      detail: '配料表出现糖或糖浆类名称。',
-      tone: 'watch'
-    });
-  }
-  if (sodium && sodium.level !== '未识别') {
-    cards.push({
-      key: 'sodium',
-      title: '钠',
-      value: sodium.level,
-      detail: `包装标示 ${sodium.valueText}`,
-      tone: nutritionTone(sodium)
-    });
-  } else if (/食用盐|食盐|味精|谷氨酸钠|酱油粉|复合调味料/i.test(rawLabelText.value)) {
-    cards.push({
-      key: 'salt-ingredient',
-      title: '盐/钠线索',
-      value: '看到线索',
-      detail: '配料表出现盐、味精或调味料名称。',
-      tone: 'watch'
-    });
-  }
-  if (fat && fat.level !== '未识别') {
-    cards.push({
-      key: 'fat',
-      title: '脂肪',
-      value: fat.level,
-      detail: `包装标示 ${fat.valueText}`,
-      tone: nutritionTone(fat)
-    });
-  }
-  if (visibleAdditives.value.length) {
-    cards.push({
-      key: 'additives',
-      title: '添加剂',
-      value: `${visibleAdditives.value.length} 种`,
-      detail: visibleAdditives.value.slice(0, 3).map((item) => item.name).join('、'),
-      tone: visibleAdditives.value.length >= 5 ? 'watch' : 'ok'
-    });
-  }
-  if (allergyWarnings.value.length || report.value?.allergenHints.length) {
-    cards.push({
-      key: 'allergen',
-      title: '过敏/忌口',
-      value: allergyWarnings.value.length ? '命中关注' : '看到提示',
-      detail: allergyWarnings.value[0] || report.value?.allergenHints[0] || '',
-      tone: allergyWarnings.value.length ? 'attention' : 'watch'
-    });
-  }
-  return cards.slice(0, 6);
-}
-
 function isPendingIngredient(item: IngredientMatch): boolean {
   return item.decision === 'pending' || item.dataStatus === 'mapped_candidate' || item.dataStatus === 'pending_review';
 }
@@ -450,9 +656,40 @@ function normalizeCompareText(value: string): string {
   return String(value || '').replace(/\s+/g, '').toLowerCase();
 }
 
+function compactAdviceText(value: string): string {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  return text
+    .split(/[；;。]/u)
+    .map((item) => item.trim())
+    .filter(Boolean)[0]
+    ?.slice(0, 34) || '';
+}
+
+function ingredientImpactLabel(item: { name: string; category: string; effect: string }): string {
+  const text = `${item.name}${item.category}${item.effect}`;
+  if (/氢化|起酥油|植脂末|代可可脂|反式脂肪/u.test(text)) return '关注反式脂肪';
+  if (/植物油|油脂|脂肪|热量/u.test(text)) return '影响热量';
+  if (/白砂糖|麦芽糖|糖|甜味/u.test(text)) return '影响甜味';
+  if (/味精|食用盐|谷氨酸钠|呈味核苷酸|肌苷酸二钠|咸|鲜/u.test(text)) return '影响咸鲜';
+  if (/过敏|小麦|麸质|牛奶|大豆|花生/u.test(text)) return '过敏相关';
+  if (/碳酸钙|常见配料|营养强化/u.test(text)) return '常见配料';
+  return item.category === '需要留意' ? '配料作用' : item.category;
+}
+
 function retryScan() {
   resetScanDraft();
   navigateToRoute(routes.capture);
+}
+
+function retakePackagePhoto() {
+  resetScanDraft();
+  uni.navigateTo({ url: `${routes.capture}?auto=camera` });
+}
+
+function openManualInput() {
+  resetScanDraft();
+  uni.navigateTo({ url: `${routes.capture}?mode=manual` });
 }
 
 function openHistory() {
@@ -500,32 +737,60 @@ function submitFeedback() {
 
     <template v-else>
       <view class="report-stack">
-        <view class="scan-meta">
-          <image v-if="sourceImagePath" class="scan-meta__image" :src="sourceImagePath" mode="aspectFill" />
-          <view v-else class="scan-meta__placeholder" />
-          <view class="scan-meta__copy">
-            <text class="scan-meta__title">本次识别标签</text>
-            <text class="scan-meta__desc">{{ report.analysisSource?.sourceLabel || '食品标签文字' }}</text>
-          </view>
-        </view>
-
         <AppCard class="report-card report-card--overall" :class="`report-card--${decision?.level || 'caution'}`">
           <view class="report-section">
             <text class="section-title">一句话结论</text>
             <text class="overall-label">{{ overallLabel }}</text>
+            <view v-if="personalAlertChips.length" class="personal-alerts personal-alerts--compact">
+              <text class="personal-alerts__title">你的关注</text>
+              <view class="personal-alert-chips">
+                <text v-for="item in personalAlertChips" :key="item" class="personal-alert-chip">{{ item }}</text>
+              </view>
+            </view>
             <text class="section-text">{{ overallDetail }}</text>
-            <text v-if="plainExplanation" class="section-text">{{ plainExplanation }}</text>
-            <view v-if="topFindings.length" class="summary-pills">
+            <text v-if="supportingExplanation" class="section-text">{{ supportingExplanation }}</text>
+            <view v-if="topFindings.length && !decisionFastItems.length" class="summary-pills">
               <text v-for="item in topFindings" :key="item.key" class="summary-pill">{{ item.label }}：{{ item.status }}</text>
+            </view>
+            <view v-if="decisionFastItems.length" class="decision-fast-list">
+              <view v-for="item in decisionFastItems" :key="item.label" class="decision-fast-item">
+                <text class="decision-fast-item__label">{{ item.label }}</text>
+                <text class="decision-fast-item__text">{{ item.text }}</text>
+              </view>
+            </view>
+            <view v-if="isInsufficientReport" class="insufficient-actions">
+              <text class="insufficient-actions__hint">当前缺少足够包装文字，请补拍配料表或营养成分表。</text>
+              <view class="insufficient-actions__buttons">
+                <AppButton @click="retakePackagePhoto">补拍配料/营养表</AppButton>
+                <AppButton variant="secondary" @click="openManualInput">手动粘贴文字</AppButton>
+              </view>
             </view>
           </view>
         </AppCard>
 
-        <AppCard v-if="shouldShowConsumerSections && resultReasons.length" class="report-card">
+        <AppCard v-if="shouldShowConsumerSections && (resultReasons.length || priorityFindings.length)" class="report-card">
           <view class="report-section">
             <text class="section-title">关键原因</text>
-            <view class="reason-list">
+            <view v-if="priorityFindings.length" class="focus-list">
+              <view v-for="(item, index) in priorityFindings" :key="item.key" class="focus-item" :class="`finding-card--${item.tone}`">
+                <text class="focus-item__rank">{{ index + 1 }}</text>
+                <view class="focus-item__body">
+                  <view class="focus-item__head">
+                    <text class="focus-item__label">{{ item.label }}</text>
+                    <text class="focus-item__status">{{ item.status }}</text>
+                  </view>
+                  <text class="focus-item__detail">{{ compactFindingDetail(item) }}</text>
+                </view>
+              </view>
+            </view>
+            <view v-if="resultReasons.length && !priorityFindings.length" class="reason-list reason-list--compact">
               <text v-for="item in resultReasons" :key="item" class="reason-chip">{{ item }}</text>
+            </view>
+            <view v-if="extraReasons.length" class="reason-more">
+              <text class="link" @tap="reasonsOpen = !reasonsOpen">{{ reasonsOpen ? '收起全部原因' : '查看全部原因' }}</text>
+              <view v-if="reasonsOpen" class="reason-list reason-list--compact">
+                <text v-for="item in extraReasons" :key="item" class="reason-chip">{{ item }}</text>
+              </view>
             </view>
           </view>
         </AppCard>
@@ -533,43 +798,14 @@ function submitFeedback() {
         <AppCard v-if="isInsufficientReport" class="report-card">
           <view class="report-section">
             <text class="section-title">还需要补充</text>
-            <text class="section-text">这次没有拿到清晰的包装文字。请补拍配料、营养数字或过敏原区域，或手动粘贴包装上的关键文字。</text>
-          </view>
-        </AppCard>
-
-        <AppCard v-if="shouldShowConsumerSections && insightCards.length" class="report-card">
-          <view class="report-section">
-            <text class="section-title">配料表里容易漏看的点</text>
-            <view class="insight-grid">
-              <view v-for="item in insightCards" :key="item.key" class="insight-card" :class="`finding-card--${item.tone}`">
-                <view class="finding-card__head">
-                  <text class="finding-card__label">{{ item.title }}</text>
-                  <text class="finding-card__status">{{ item.value }}</text>
-                </view>
-                <text class="finding-card__detail">{{ item.detail }}</text>
-              </view>
+            <view v-if="insufficientCapturedRows.length" class="captured-mini-list">
+              <text class="captured-mini-list__title">已识别到</text>
+              <text v-for="item in insufficientCapturedRows" :key="item" class="captured-mini-list__item">{{ item }}</text>
             </view>
-          </view>
-        </AppCard>
-
-        <AppCard v-if="shouldShowConsumerSections && nutritionBars.length" class="report-card">
-          <view class="report-section">
-            <text class="section-title">营养数字</text>
-            <view class="nutrition-bars">
-              <view v-for="item in nutritionBars" :key="item.key" class="nutrition-bar-row">
-                <view class="nutrition-bar-row__head">
-                  <text class="nutrition-bar-row__label">{{ item.label }}</text>
-                  <text class="nutrition-bar-row__value">{{ item.valueText }}</text>
-                </view>
-                <view class="nutrition-meter">
-                  <view
-                    class="nutrition-meter__fill"
-                    :class="`nutrition-meter__fill--${nutritionTone(item)}`"
-                    :style="nutritionBarStyle(item)"
-                  />
-                </view>
-                <text class="nutrition-bar-row__note">{{ nutritionToneLabel(item) }}</text>
-              </view>
+            <view class="retake-tip-grid">
+              <text class="retake-tip">配料表占满画面</text>
+              <text class="retake-tip">营养表数字拍清</text>
+              <text class="retake-tip">过敏提示单独补拍</text>
             </view>
           </view>
         </AppCard>
@@ -579,12 +815,48 @@ function submitFeedback() {
             <text class="section-title">适合谁 / 不适合谁</text>
             <view class="audience-grid">
               <view class="audience-box audience-box--ok">
-                <text class="audience-box__title">可以偶尔吃</text>
+                <text class="audience-box__title">适合偶尔吃</text>
                 <text v-for="item in suitableFor" :key="item" class="audience-box__item">{{ item }}</text>
               </view>
               <view class="audience-box audience-box--watch">
-                <text class="audience-box__title">不太适合</text>
+                <text class="audience-box__title">建议关注</text>
+                <text class="audience-box__note">不是禁食结论</text>
                 <text v-for="item in notSuitableFor" :key="item" class="audience-box__item">{{ item }}</text>
+              </view>
+            </view>
+          </view>
+        </AppCard>
+
+        <AppCard v-if="shouldShowConsumerSections && nutritionBars.length" class="report-card">
+          <view class="report-section">
+            <view class="nutrition-chart-head">
+              <text class="section-title">营养重点图</text>
+              <text class="nutrition-chart-head__hint">每100g/ml · 高值优先</text>
+            </view>
+            <view class="nutrition-bars nutrition-bars--standalone">
+              <view class="nutrition-bar-grid">
+                <view v-for="item in nutritionBars" :key="item.key" class="nutrition-bar-row">
+                  <view class="nutrition-bar-row__head">
+                    <text class="nutrition-bar-row__label">{{ item.label }}</text>
+                    <view class="nutrition-bar-row__meta">
+                      <text class="nutrition-bar-row__level" :class="`nutrition-bar-row__level--${nutritionTone(item)}`">{{ item.level }}</text>
+                      <text class="nutrition-bar-row__value">{{ item.valueText }}</text>
+                    </view>
+                  </view>
+                  <view class="nutrition-meter">
+                    <view
+                      class="nutrition-meter__fill"
+                      :class="`nutrition-meter__fill--${nutritionTone(item)}`"
+                      :style="nutritionBarStyle(item)"
+                    />
+                  </view>
+                  <text class="nutrition-bar-row__note">{{ nutritionBarActionText(item) }}</text>
+                </view>
+              </view>
+              <view class="nutrition-legend">
+                <text>低</text>
+                <text>中</text>
+                <text>高</text>
               </view>
             </view>
           </view>
@@ -592,13 +864,16 @@ function submitFeedback() {
 
         <AppCard v-if="shouldShowAdditiveSection" class="report-card">
           <view class="report-section">
-            <text class="section-title">添加剂作用</text>
+            <text class="section-title">添加剂解释</text>
             <text class="section-text">{{ additiveSummaryText }}</text>
-            <view v-if="visibleAdditives.length" class="additive-list">
-              <view v-for="item in visibleAdditives" :key="item.id" class="additive-row">
+            <view v-if="additiveCategoryChips.length" class="additive-category-chips">
+              <text v-for="item in additiveCategoryChips" :key="item" class="additive-category-chip">{{ item }}</text>
+            </view>
+            <view v-if="ingredientExplanationItems.length" class="additive-list">
+              <view v-for="item in ingredientExplanationItems" :key="item.id" class="additive-row">
                 <view class="additive-row__head">
                   <text class="additive-row__name">{{ item.name }}</text>
-                  <text class="additive-row__type">{{ item.category }}</text>
+                  <text class="additive-row__type">{{ ingredientImpactLabel(item) }}</text>
                 </view>
                 <text class="section-text">{{ item.effect }}</text>
                 <text v-if="item.reminder" class="additive-row__reminder">{{ item.reminder }}</text>
@@ -614,34 +889,52 @@ function submitFeedback() {
           </view>
         </AppCard>
 
-        <AppCard v-if="shouldShowConsumerSections || ingredientChips.length || pendingIngredientChips.length" class="report-card">
+        <AppCard v-if="shouldShowConsumerSections || hasRecognitionDetails" class="report-card">
           <view class="report-section">
             <view class="section-head">
               <text class="section-title">识别详情</text>
-              <text class="ingredient-count">{{ ingredients.length }} 项</text>
+              <text class="link" @tap="detailOpen = !detailOpen">{{ detailOpen ? '收起' : '展开' }}</text>
             </view>
+            <text class="detail-summary">{{ detailSummaryText }}</text>
             <view v-if="productFacts.length" class="detail-facts">
               <text v-for="item in productFacts" :key="item" class="detail-fact">{{ item }}</text>
             </view>
-            <text class="section-subtitle">配料表</text>
-            <view v-if="ingredientChips.length" class="ingredient-chip-list">
-              <text v-for="item in ingredientChips" :key="item" class="ingredient-chip">{{ item }}</text>
-            </view>
-            <text v-if="detailNutritionRows.length" class="section-subtitle">营养表</text>
-            <view v-if="detailNutritionRows.length" class="detail-nutrition-list">
-              <view v-for="item in detailNutritionRows" :key="item.key" class="detail-nutrition-row">
-                <text class="detail-nutrition-row__label">{{ item.label }}</text>
-                <text class="detail-nutrition-row__value">{{ item.value }}</text>
-                <text class="detail-nutrition-row__level">{{ item.level }}</text>
+            <template v-if="detailOpen">
+              <text class="section-subtitle">配料表</text>
+              <view v-if="ingredientChips.length" class="ingredient-chip-list">
+                <text v-for="item in ingredientChips" :key="item" class="ingredient-chip">{{ item }}</text>
               </view>
-            </view>
-            <view v-if="pendingIngredientChips.length" class="pending-ingredients">
-              <text class="pending-ingredients__title">未确认线索</text>
-              <view class="ingredient-chip-list">
-                <text v-for="item in pendingIngredientChips" :key="item" class="ingredient-chip ingredient-chip--pending">{{ item }}</text>
+              <text v-if="detailNutritionRows.length" class="section-subtitle">营养表</text>
+              <view v-if="detailNutritionRows.length" class="detail-nutrition-list">
+                <view v-for="item in detailNutritionRows" :key="item.key" class="detail-nutrition-row">
+                  <text class="detail-nutrition-row__label">{{ item.label }}</text>
+                  <text class="detail-nutrition-row__value">{{ item.value }}</text>
+                  <text class="detail-nutrition-row__level">{{ item.level }}</text>
+                </view>
               </view>
-            </view>
-            <text v-if="!ingredientChips.length && !pendingIngredientChips.length" class="section-text">没有识别到清晰配料表。</text>
+              <template v-if="detailAllergenText">
+                <text class="section-subtitle">致敏原提示</text>
+                <text class="section-text">{{ detailAllergenText }}</text>
+              </template>
+              <template v-if="detailFrontClaims">
+                <text class="section-subtitle">包装声明</text>
+                <text class="section-text">{{ detailFrontClaims }}</text>
+              </template>
+              <view v-if="pendingIngredientChips.length || detailUncertainClues.length" class="pending-ingredients">
+                <text class="pending-ingredients__title">未确认线索</text>
+                <view class="ingredient-chip-list">
+                  <text v-for="item in pendingIngredientChips" :key="item" class="ingredient-chip ingredient-chip--pending">{{ item }}</text>
+                  <text v-for="item in detailUncertainClues" :key="`clue-${item}`" class="ingredient-chip ingredient-chip--pending">{{ item }}</text>
+                </view>
+              </view>
+              <view class="section-head">
+                <text class="section-subtitle">识别文字</text>
+                <text class="link" @tap="rawTextOpen = !rawTextOpen">{{ rawTextOpen ? '收起' : '展开' }}</text>
+              </view>
+              <text v-if="rawTextOpen && rawLabelText" class="raw-text">{{ rawLabelText }}</text>
+              <text v-else-if="rawTextOpen" class="section-text">暂无可展示的识别文字。</text>
+              <text v-if="!ingredientChips.length && !pendingIngredientChips.length" class="section-text">没有识别到清晰配料表。</text>
+            </template>
           </view>
         </AppCard>
 
@@ -672,19 +965,6 @@ function submitFeedback() {
           </view>
         </AppCard>
 
-        <AppCard class="report-card">
-          <view class="report-section">
-            <view class="section-head">
-              <text class="section-title">识别文字</text>
-              <view class="inline-actions">
-                <text class="link" @tap="feedbackOpen = !feedbackOpen">{{ feedbackOpen ? '收起反馈' : '反馈' }}</text>
-                <text class="link" @tap="rawTextOpen = !rawTextOpen">{{ rawTextOpen ? '收起' : '展开' }}</text>
-              </view>
-            </view>
-            <text v-if="rawTextOpen && rawLabelText" class="raw-text">{{ rawLabelText }}</text>
-            <text v-else-if="rawTextOpen" class="section-text">暂无可展示的识别文字。</text>
-          </view>
-        </AppCard>
       </view>
 
       <view class="action-bar">
@@ -693,6 +973,7 @@ function submitFeedback() {
         <view class="action-links">
           <text class="link" @tap="shareCurrentReport">分享</text>
           <text class="link" @tap="openHistory">历史记录</text>
+          <text class="link link--subtle" @tap="feedbackOpen = !feedbackOpen">{{ feedbackOpen ? '收起反馈' : '反馈' }}</text>
         </view>
       </view>
     </template>
@@ -811,6 +1092,105 @@ function submitFeedback() {
   font-weight: 900;
   line-height: 1.25;
   padding: 6px 10px;
+}
+
+.decision-fast-list {
+  border: 1px solid rgba(216, 138, 36, 0.16);
+  border-radius: 18rpx;
+  background: rgba(255, 248, 236, 0.72);
+  display: grid;
+  gap: 8rpx;
+  padding: 12rpx 14rpx;
+}
+
+.decision-fast-item {
+  display: grid;
+  grid-template-columns: 104rpx minmax(0, 1fr);
+  gap: var(--space-xs);
+}
+
+.decision-fast-item__label {
+  color: var(--accent);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.decision-fast-item__text {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.insufficient-actions {
+  border: 1px solid rgba(18, 151, 128, 0.16);
+  border-radius: 18rpx;
+  background: var(--primary-soft);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+}
+
+.insufficient-actions__hint {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.insufficient-actions__buttons {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xs);
+}
+
+.insufficient-actions__buttons :deep(.app-button) {
+  width: 100%;
+}
+
+.personal-alerts {
+  border: 1px solid rgba(18, 151, 128, 0.16);
+  border-radius: 16rpx;
+  background: rgba(238, 250, 245, 0.86);
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  padding: 12rpx 14rpx;
+}
+
+.personal-alerts--compact {
+  gap: 8rpx;
+}
+
+.personal-alerts__title {
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.personal-alerts__item {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+}
+
+.personal-alert-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.personal-alert-chip {
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.25;
+  padding: 6rpx 12rpx;
 }
 
 .feedback-options {
@@ -949,6 +1329,10 @@ function submitFeedback() {
   gap: var(--space-xs);
 }
 
+.reason-list--compact {
+  gap: 8rpx;
+}
+
 .reason-chip,
 .detail-fact {
   border-radius: 999px;
@@ -1038,6 +1422,13 @@ function submitFeedback() {
   line-height: 1.35;
 }
 
+.audience-box__note {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
 .audience-box__item {
   color: var(--text);
   font-size: var(--font-size-xs);
@@ -1065,6 +1456,79 @@ function submitFeedback() {
   gap: var(--space-xs);
   min-height: 150rpx;
   padding: var(--space-sm);
+}
+
+.focus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.focus-item {
+  border: 1px solid var(--line);
+  border-radius: 16rpx;
+  background: var(--surface-subtle);
+  display: grid;
+  grid-template-columns: 40rpx minmax(0, 1fr);
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: 12rpx 14rpx;
+}
+
+.focus-item__rank {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--primary-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.focus-item__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+
+.focus-item__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.focus-item__label,
+.focus-item__status {
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.focus-item__status {
+  color: var(--accent);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.focus-item__detail {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+}
+
+.finding-card--attention .focus-item__status {
+  color: var(--status-danger);
+}
+
+.finding-card--ok .focus-item__status {
+  color: var(--primary-strong);
 }
 
 .finding-card {
@@ -1148,16 +1612,67 @@ function submitFeedback() {
   gap: var(--space-xs);
 }
 
+.additive-category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.additive-category-chip {
+  border-radius: 999px;
+  background: var(--surface-warm);
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.3;
+  padding: 6rpx 12rpx;
+}
+
 .nutrition-bars {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-sm);
+  border: 1px solid var(--line);
+  border-radius: 18rpx;
+  background: var(--surface);
+  padding: var(--space-sm);
+}
+
+.nutrition-bars--standalone {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.nutrition-chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.nutrition-chart-head__hint {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: right;
+}
+
+.nutrition-bar-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
 }
 
 .nutrition-bar-row {
+  border-radius: 14rpx;
+  background: var(--surface-subtle);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 8rpx;
+  min-width: 0;
+  padding: 10rpx 12rpx;
 }
 
 .nutrition-bar-row__head {
@@ -1168,22 +1683,50 @@ function submitFeedback() {
 }
 
 .nutrition-bar-row__label,
-.nutrition-bar-row__value {
+.nutrition-bar-row__value,
+.nutrition-bar-row__level {
   color: var(--text);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   font-weight: 900;
   line-height: 1.3;
 }
 
+.nutrition-bar-row__meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6rpx;
+  min-width: 0;
+}
+
+.nutrition-bar-row__level {
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  padding: 3rpx 8rpx;
+  white-space: nowrap;
+}
+
+.nutrition-bar-row__level--attention {
+  background: rgba(217, 107, 95, 0.12);
+  color: var(--status-danger);
+}
+
+.nutrition-bar-row__level--watch {
+  background: rgba(216, 138, 36, 0.14);
+  color: var(--accent);
+}
+
 .nutrition-bar-row__value {
   text-align: right;
+  white-space: nowrap;
 }
 
 .nutrition-meter {
-  height: 14rpx;
+  height: 12rpx;
   overflow: hidden;
   border-radius: 999px;
-  background: var(--surface-subtle);
+  background: linear-gradient(90deg, rgba(18, 151, 128, 0.14) 0 34%, rgba(216, 138, 36, 0.16) 34% 66%, rgba(217, 107, 95, 0.14) 66% 100%);
 }
 
 .nutrition-meter__fill {
@@ -1195,10 +1738,12 @@ function submitFeedback() {
 
 .nutrition-meter__fill--attention {
   background: var(--status-danger);
+  box-shadow: 0 0 0 1px rgba(217, 107, 95, 0.12);
 }
 
 .nutrition-meter__fill--watch {
   background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(216, 138, 36, 0.12);
 }
 
 .nutrition-meter__fill--ok,
@@ -1211,6 +1756,102 @@ function submitFeedback() {
   font-size: var(--font-size-xs);
   font-weight: 800;
   line-height: 1.3;
+}
+
+.nutrition-legend {
+  color: var(--muted);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.3;
+  padding: 0 4rpx;
+}
+
+.nutrition-legend text:nth-child(2) {
+  text-align: center;
+}
+
+.nutrition-legend text:nth-child(3) {
+  text-align: right;
+}
+
+.audience-preview {
+  border: 1px solid rgba(18, 151, 128, 0.14);
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  padding: 12rpx 14rpx;
+}
+
+.audience-preview__label {
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.audience-preview__text {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+}
+
+.reason-more {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.retake-tip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.captured-mini-list {
+  border: 1px solid rgba(18, 151, 128, 0.16);
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8rpx;
+  padding: 10rpx 12rpx;
+}
+
+.captured-mini-list__title {
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.captured-mini-list__item {
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.3;
+  padding: 6rpx 10rpx;
+}
+
+.retake-tip {
+  border-radius: 16rpx;
+  background: var(--surface-subtle);
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.35;
+  min-height: 68rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx;
+  text-align: center;
 }
 
 .nutrition-row,
@@ -1266,6 +1907,13 @@ function submitFeedback() {
   font-size: var(--font-size-xs);
   font-weight: 800;
   line-height: 1.2;
+}
+
+.detail-summary {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  line-height: 1.45;
 }
 
 .ingredient-chip-list {
@@ -1328,8 +1976,12 @@ function submitFeedback() {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xl);
+  gap: var(--space-lg);
   min-height: 48rpx;
+}
+
+.link--subtle {
+  color: var(--muted);
 }
 .action-bar :deep(.app-button) {
   width: 100%;
@@ -1338,6 +1990,14 @@ function submitFeedback() {
 @media screen and (max-width: 380px) {
   .action-bar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .decision-fast-item {
+    grid-template-columns: 88rpx minmax(0, 1fr);
+  }
+
+  .retake-tip-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

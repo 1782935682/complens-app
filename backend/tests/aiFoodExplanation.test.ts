@@ -83,8 +83,8 @@ describe('AiFoodExplanationService', () => {
           provider: 'deepseek',
           apiKey: '',
           baseUrl: 'https://api.deepseek.com',
-          model: 'deepseek-chat',
-          requestPath: '/v1/chat/completions',
+          model: 'deepseek-v4-flash',
+          requestPath: '/chat/completions',
           timeoutMs: 20000
         }
       }

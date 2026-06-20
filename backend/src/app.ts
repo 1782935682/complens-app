@@ -47,7 +47,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
     deepseek: {
       apiKey: '',
       baseUrl: 'https://api.deepseek.com',
-      model: 'deepseek-chat'
+      model: 'deepseek-v4-flash'
     },
     openaiCompatible: {
       apiKey: '',
@@ -81,7 +81,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
         apiKey: aiConfig.deepseek.apiKey,
         baseUrl: aiConfig.deepseek.baseUrl,
         model: aiConfig.deepseek.model,
-        requestPath: '/v1/chat/completions',
+        requestPath: '/chat/completions',
         timeoutMs: aiConfig.timeoutMs
       },
       'openai-compatible': {

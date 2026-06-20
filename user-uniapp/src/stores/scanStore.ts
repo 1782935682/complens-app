@@ -13,6 +13,8 @@ export function getDefaultDraft(): ScanDraft {
     labelType: 'unknown_label',
     confirmedText: '',
     productName: '',
+    foodTypeText: '',
+    productionDateText: '',
     ingredients: [],
     nutrition: [],
     matches: [],

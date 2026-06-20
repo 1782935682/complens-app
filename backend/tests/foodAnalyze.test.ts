@@ -18,7 +18,7 @@ function createTestApp() {
       deepseek: {
         apiKey: '',
         baseUrl: 'https://api.deepseek.com',
-        model: 'deepseek-chat'
+        model: 'deepseek-v4-flash'
       },
       openaiCompatible: {
         apiKey: '',
@@ -66,11 +66,11 @@ describe('POST /api/food/analyze', () => {
     expect(body.productName).toContain('小麻花');
     expect(body.category).toContain('膨化食品');
     expect(body.decision).toBe('caution');
-    expect(body.decisionText).toBe('谨慎购买｜偶尔吃可以');
-    expect(body.summary).toContain('可以偶尔吃');
+    expect(body.decisionText).toBe('不建议常吃｜偶尔解馋');
+    expect(body.summary).toContain('偶尔吃');
     expect(body.mainReasons).toEqual(expect.arrayContaining(['热量偏高', '脂肪偏高', '碳水较高', '钠偏高', '含添加糖来源']));
     expect(body.notSuitableFor).toEqual(expect.arrayContaining(['减脂人群', '控糖人群', '高血压/控盐人群', '小麦过敏或麸质敏感人群']));
-    expect(body.ingredientHighlights.map((item: { name: string }) => item.name)).toEqual(expect.arrayContaining(['白砂糖/麦芽糖', '植物油', '味精', '碳酸钙']));
+    expect(body.ingredientHighlights.map((item: { name: string }) => item.name)).toEqual(expect.arrayContaining(['白砂糖', '麦芽糖', '植物油', '味精', '碳酸钙']));
     expect(body.nutrition.energy.level).toBe('偏高');
     expect(body.nutrition.fat.level).toBe('偏高');
     expect(body.nutrition.carbohydrate.level).toBe('高');
@@ -101,7 +101,7 @@ describe('POST /api/food/analyze', () => {
         deepseek: {
           apiKey: '',
           baseUrl: 'https://api.deepseek.com',
-          model: 'deepseek-chat'
+          model: 'deepseek-v4-flash'
         },
         openaiCompatible: {
           apiKey: '',
@@ -133,5 +133,70 @@ describe('POST /api/food/analyze', () => {
 
     expect(response.status).toBe(200);
     expect(body.source.provider).toBe('mock');
+  });
+
+  it('keeps target packaging fields outside ingredient conclusions', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/food/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ocrText: [
+          '产品名称：高蛋白酸奶',
+          '食品类型：发酵乳',
+          '包装声明：0糖 高蛋白 减盐',
+          '生产日期：2026-06-18',
+          '疑似看不清：口味名称',
+          '营养成分表 每100g 能量320kJ 蛋白质8.5g 脂肪1.2g 碳水化合物6g 钠60mg'
+        ].join('\n'),
+        options: {
+          enableAi: false
+        }
+      })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.productName).toBe('高蛋白酸奶');
+    expect(body.category).toBe('发酵乳');
+    expect(body.productionDate).toBe('2026-06-18');
+    expect(body.frontClaims).toEqual(expect.arrayContaining(['0糖', '高蛋白', '减盐']));
+    expect(body.uncertainClues).toEqual(expect.arrayContaining(['疑似看不清:口味名称']));
+    expect(body.ingredients).toEqual([]);
+  });
+
+  it('does not turn sparse OCR nutrition fragments into fake macro values', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/food/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ocrText: [
+          '每100毫升 营养素参考值装',
+          '项目',
+          '能量',
+          '221kJ',
+          '蛋白质',
+          '脂肪',
+          '碳水化合物',
+          '10mg',
+          '钠'
+        ].join('\n'),
+        options: {
+          enableAi: false
+        }
+      })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.nutrition.energy.text).toBe('221kJ');
+    expect(body.nutrition.protein).toBeUndefined();
+    expect(body.nutrition.fat).toBeUndefined();
+    expect(body.nutrition.carbohydrate).toBeUndefined();
+    expect(body.nutrition.sodium).toBeUndefined();
+    expect(body.decision).toBe('unknown');
+    expect(body.summary).toContain('识别信息还不够');
+    expect(body.source.provider).toBe('rule-only');
   });
 });

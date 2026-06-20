@@ -206,7 +206,7 @@
     category?: string       // 可选，默认 "food"
   }
   ```
-- provider 取值：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`（由后端配置 `OCR_PROVIDER` 决定，见 `backend/src/services/ocrProviders/index.ts`）。`rapidocr` 优先使用 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr` 调用本机 Python FastAPI OCR 服务，未配置时兼容旧变量 `OCR_SERVICE_URL`；`aliyun`/`paddleocr` 需要 `OCR_API_KEY`。
+- provider 取值：`manual` / `mock` / `aliyun` / `paddleocr` / `rapidocr`（由后端配置 `OCR_PROVIDER` 决定，见 `backend/src/services/ocrProviders/index.ts`）。`rapidocr` 优先使用 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr` 调用本机 Python FastAPI OCR 服务，未配置时兼容旧变量 `OCR_SERVICE_URL`；`aliyun` 已接入阿里云通用文字识别，后端需要 `ALIYUN_ACCESS_KEY_ID`/`ALIYUN_ACCESS_KEY_SECRET`（兼容 `OCR_API_KEY`/`OCR_API_SECRET`），可选 `ALIYUN_OCR_ENDPOINT` / `ALIYUN_OCR_ACTION`；`paddleocr` 仍是占位 provider。
 - 成功响应：
   ```
   {
@@ -219,7 +219,7 @@
 - 错误码（实测）：
   - `400 { error: "invalid_parameter", field, message }`：body 非法 / imageBase64 缺失或超限 / mimeType 非图片类型。
   - `503 { error: "ocr_not_configured", provider }`：provider=manual，或需要的 Key/ServiceUrl 缺失。
-  - `501 { error: "ocr_provider_pending", provider }`：provider 已选但适配器尚未返回结果（未适配）。
+  - `501 { error: "ocr_provider_pending", provider }`：provider 已选但适配器尚未返回结果（当前主要用于 `paddleocr` 未适配）。
   - `502 { error: "ocr_provider_invalid_response" | "ocr_provider_failed", provider, message }`：上游响应结构漂移 / 上游失败。
   - `503 { error: "ocr_provider_unreachable", provider, message }`：上游不可达。
   - `504 { error: "ocr_provider_timeout", provider, message }`：上游超时。
@@ -428,11 +428,27 @@
   - `labelType?`
   - `frontClaimsText?`
   - `ocr?`（`mode/provider`）
-- 响应字段：`id`、`title`、`productName`、`summarySentence`、`attentionHits`、`focusItems`、`ingredientSection`、`nutritionSection`、`nutritionIngredientChecks`、`frontClaimsSection?`、`additiveGroups`、`allergenHints`、`sources`、`rawText`。
+  - `sourceMeta?`（`productNameText?`、`foodTypeText?`、`ingredientText?`、`nutritionText?`、`allergenText?`、`frontClaimsText?`、`productionDateText?`）
+- 响应字段：`id`、`title`、`productName`、`summarySentence`、`attentionHits`、`focusItems`、`ingredientSection`、`nutritionSection`、`nutritionIngredientChecks`、`frontClaimsSection?`、`additiveGroups`、`allergenHints`、`analysisSource?`、`foodAnalysis?`、`sources`、`rawText`。
 - 错误码：`400 invalid_parameter`、`422 insufficient_label_data`。
 - 数据状态字段：报告保留每个结论的来源、`dataStatus`、OCR 来源和用户确认状态。
 - 前端展示规则：报告名称为“食品标签解读”；普通人可读内容优先，专业依据可折叠展示，禁止生成医疗/安全结论；后端输出默认使用“线索 / 已整理 / 信息不足 / 未确认线索”等中性表达，不使用“核验 / 阈值 / 标识偏差”等默认专业判断。
 - 是否需要登录：本地保存不需要；云同步需登录。
+- 是否允许匿名：允许。
+
+#### `POST /api/food/analyze` ✅ 已实现
+- 用途：基于 OCR/用户确认后的食品包装文字输出消费决策增强结果，供报告页展示“一句话结论、关键原因、适合/不适合、添加剂解释、建议吃法和识别详情”。
+- 调用端：`user-uniapp` 报告生成流程；前端不得直连 DeepSeek / OpenAI-compatible / OCR 服务。
+- 请求参数：
+  - `ocrText`（必填，食品包装 OCR 或用户确认文本）
+  - `userProfile?`（`goals[]`、`allergens[]`、`forChild?`、`pregnant?`、`highBloodPressure?`）
+  - `options?`（`enableAi?`、`provider?`，支持 `auto` / `deepseek` / `mock` / `openai-compatible` 等后端注册 Provider）
+- 响应字段：`productName`、`category`、`productionDate`、`ingredients[]`、`nutrition`（`energy`、`protein`、`fat`、`carbohydrate`、`sugar`、`sodium`、`transFat` 等已识别项）、`frontClaims[]`、`uncertainClues[]`、`decision`、`decisionText`、`riskLevel`、`summary`、`plainExplanation`、`mainReasons[]`、`suitableFor[]`、`notSuitableFor[]`、`ingredientHighlights[]`、`nutritionJudgement`、`eatingAdvice`、`confidence`、`source`、`retakeSuggestion`。
+- 错误码：`400 invalid_parameter`、`422 insufficient_label_data`。
+- AI 边界：本地规则先输出最终决策和营养判断；AI 只能做通俗解释和总结，不覆盖规则等级，不编造成分、法规、医疗、权威数据或 OCR 内容。AI Provider 失败、缺 Key、超时或非 JSON 时必须 fallback 到规则结果，不让报告崩溃。
+- 密钥边界：DeepSeek / OpenAI-compatible Key 只允许后端环境变量持有，不进入前端、小程序、文档或仓库。
+- 前端展示规则：报告页必须优先展示购买/食用决策和关键原因；营养数字优先图形化；识别详情和原始文字默认靠后或折叠；不确定字段进入未确认线索。
+- 是否需要登录：不需要。
 - 是否允许匿名：允许。
 
 #### `POST /api/reports/compare`

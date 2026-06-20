@@ -32,7 +32,7 @@ function buildMockFoodExplanation(userPrompt: string) {
   const productName = input.productName || '这款食品';
   const reasons = Array.isArray(rule.mainReasons) ? rule.mainReasons : [];
   return {
-    summary: rule.summary || `${productName}可以偶尔吃，不建议经常当零食吃。`,
+    summary: rule.summary || `${productName}偶尔吃，不建议经常当零食吃。`,
     plainExplanation: reasons.length
       ? `主要原因是${reasons.slice(0, 3).join('、')}。结果来自本地规则，AI 只负责换成更容易懂的说法。`
       : '结果来自本地规则，AI 只负责换成更容易懂的说法。',

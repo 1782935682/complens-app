@@ -189,6 +189,8 @@ export interface FoodAnalyzeResult {
   productionDate: string;
   ingredients: string[];
   nutrition: Record<string, { value: number; unit: string; level: string; text: string }>;
+  frontClaims?: string[];
+  uncertainClues?: string[];
   decision: 'buy' | 'caution' | 'limit' | 'avoid' | 'unknown';
   decisionText: string;
   riskLevel: 'green' | 'yellow' | 'red' | 'unknown';
@@ -223,6 +225,8 @@ export interface ScanDraft {
   ocr?: OcrResult;
   confirmedText: string;
   productName: string;
+  foodTypeText?: string;
+  productionDateText?: string;
   ingredients: ParsedIngredient[];
   nutrition: NutritionField[];
   matches: IngredientMatch[];
@@ -254,10 +258,14 @@ export interface ReportAnalysisSource {
   imagePath?: string;
   imageSummary?: string;
   ocrText?: string;
+  productNameText?: string;
+  foodTypeText?: string;
   ingredientText?: string;
   nutritionText?: string;
   allergenText?: string;
   frontClaimsText?: string;
+  productionDateText?: string;
+  unconfirmedText?: string[];
   confidence?: 'high' | 'medium' | 'low';
   inputSourceType?: 'ocr' | 'manual' | 'demo';
   targetSnapshot: {

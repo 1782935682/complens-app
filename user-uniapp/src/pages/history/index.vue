@@ -103,6 +103,30 @@ function reportMeta(report: LabelReport): string {
   return parts.join(' · ');
 }
 
+function reportDecisionLabel(report: LabelReport): string {
+  if (report.foodAnalysis?.riskLevel === 'unknown' || report.decision?.level === 'insufficient') return '信息不足';
+  return report.foodAnalysis?.decisionText || report.decision?.label || '已整理';
+}
+
+function reportDecisionReasons(report: LabelReport): string {
+  const reasons = report.foodAnalysis?.mainReasons?.length
+    ? report.foodAnalysis.mainReasons
+    : report.decision?.reasons ?? [];
+  return reasons
+    .map((item) => String(item || '').replace(/[。；;]/gu, '').trim())
+    .filter(Boolean)
+    .slice(0, 2)
+    .join('、') || report.summarySentence;
+}
+
+function reportDecisionTone(report: LabelReport): string {
+  const level = report.foodAnalysis?.riskLevel || report.decision?.level || '';
+  if (level === 'green' || level === 'daily_ok') return 'ok';
+  if (level === 'red' || level === 'alternative') return 'strong';
+  if (level === 'unknown' || level === 'insufficient') return 'plain';
+  return 'watch';
+}
+
 function emptyTitle(): string {
   if (filter.value === 'favorite') return '还没有收藏';
   if (filter.value === 'attention') return '还没有关注项命中';
@@ -120,8 +144,8 @@ function emptyDescription(): string {
   <view class="page page--history stack">
     <view class="history-head">
       <view>
-        <text class="page-title">历史记录</text>
         <text class="page-subtitle">{{ reports.length }} 条本机结果</text>
+        <text class="history-head__hint">最近拍过的包装会保存在这里。</text>
       </view>
       <AppButton variant="secondary" @click="startScan">再拍</AppButton>
     </view>
@@ -148,7 +172,7 @@ function emptyDescription(): string {
         :class="{ 'history-filter__item--active': filter === 'attention' }"
         @tap="filter = 'attention'"
       >
-        <text>关注项</text>
+        <text>有提醒</text>
         <text class="history-filter__count">{{ countAttentionReports() }}</text>
       </view>
     </view>
@@ -175,10 +199,11 @@ function emptyDescription(): string {
             <view class="history-card__title-row">
               <text class="history-card__title">{{ item.productName || '未命名食品' }}</text>
               <text v-if="item.isFavorite" class="favorite-mark">已收藏</text>
+              <text class="decision-mark" :class="`decision-mark--${reportDecisionTone(item)}`">{{ reportDecisionLabel(item) }}</text>
             </view>
             <text class="history-card__time">{{ formatDate(item.createdAt) }}</text>
           </view>
-          <text class="history-card__summary">{{ item.summarySentence }}</text>
+          <text class="history-card__summary">{{ reportDecisionReasons(item) }}</text>
           <view class="history-card__meta">
             <text class="soft-tag soft-tag--plain">{{ reportMeta(item) }}</text>
             <view class="history-card__icons" @tap.stop>
@@ -208,6 +233,14 @@ function emptyDescription(): string {
 
 .history-head :deep(.app-button) {
   flex: 0 0 auto;
+}
+
+.history-head__hint {
+  color: var(--muted);
+  display: block;
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+  margin-top: 4rpx;
 }
 
 .history-list {
@@ -300,6 +333,32 @@ function emptyDescription(): string {
   font-weight: 900;
   line-height: 1.3;
   padding: 4rpx 12rpx;
+}
+
+.decision-mark {
+  max-width: 100%;
+  border-radius: 999px;
+  background: var(--surface-subtle);
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.35;
+  padding: 4rpx 12rpx;
+}
+
+.decision-mark--ok {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.decision-mark--watch {
+  background: var(--surface-warm);
+  color: var(--accent);
+}
+
+.decision-mark--strong {
+  background: rgba(255, 244, 239, 0.92);
+  color: var(--status-danger);
 }
 
 .history-card__time {

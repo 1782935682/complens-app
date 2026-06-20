@@ -21,11 +21,14 @@ function openSearch() {
         </view>
         <text class="scan-button__text">拍包装</text>
       </view>
-      <view class="home-copy">
-        <text class="scan-tagline">拍一下包装，直接看这包值不值得常吃</text>
-        <text class="home-subtitle">配料、营养数字、添加剂和过敏/忌口，一次整理。</text>
+      <text class="scan-tagline">拍一下包装，直接看这包值不值得常吃</text>
+      <view class="scan-scope">
+        <text>包装正面</text>
+        <text>配料表</text>
+        <text>营养表</text>
       </view>
       <text class="search-link" @tap="openSearch">查单个成分</text>
+      <text class="home-note">基于包装文字给出日常食用提醒，并保存到历史。</text>
     </view>
   </view>
 </template>
@@ -37,23 +40,23 @@ function openSearch() {
   flex-direction: column;
   align-items: center;
   padding: calc(24rpx + env(safe-area-inset-top)) 32rpx calc(56rpx + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, #ffffff 0%, #f9fbf8 54%, #f2faf6 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbf9 60%, #f2faf6 100%);
 }
 
-/* 让按钮真正居中：占满中间空间并居中对齐 */
 .scan-wrap {
   flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 28rpx;
-  padding-top: 8vh;
+  justify-content: center;
+  gap: 30rpx;
+  padding-bottom: 9vh;
 }
 
 .scan-button {
-  width: 360rpx;
-  height: 360rpx;
+  width: 348rpx;
+  height: 348rpx;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary-bright), var(--primary-strong));
   box-shadow: 0 28rpx 56rpx rgba(3, 127, 88, 0.32);
@@ -118,35 +121,47 @@ function openSearch() {
   z-index: 1;
 }
 
-.home-copy {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10rpx;
+.scan-tagline {
+  max-width: 540rpx;
+  color: var(--text);
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  line-height: 1.45;
   text-align: center;
 }
 
-.scan-tagline {
-  color: var(--text);
-  font-size: var(--font-size-lg);
-  font-weight: 800;
-  line-height: 1.4;
+.scan-scope {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-xs);
 }
 
-.home-subtitle,
+.scan-scope text {
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.25;
+  padding: 8rpx 14rpx;
+}
+
 .search-link {
   color: var(--muted);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
   line-height: 1.5;
+  margin-top: 8rpx;
+  padding: 4rpx 8rpx;
 }
 
-.search-link {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--primary-strong);
-  font-weight: 900;
-  padding: 14rpx 24rpx;
+.home-note {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  margin-top: 10rpx;
 }
 
 @media screen and (max-height: 640px) {

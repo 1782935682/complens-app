@@ -105,6 +105,74 @@ describe('POST /api/nutrition/parse', () => {
     });
   });
 
+  it('does not assign sparse OCR numbers to the wrong nutrient rows', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/nutrition/parse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: [
+          '每100毫升 营养素参考值%',
+          '项目',
+          '能量',
+          '221kJ',
+          '蛋白质',
+          '脂肪',
+          '碳水化合物',
+          '10mg',
+          '钠'
+        ].join('\n')
+      })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.nutrition).toEqual(expect.arrayContaining([
+      expect.objectContaining({ key: 'energy', value: '221', unit: 'kJ' }),
+      expect.objectContaining({ key: 'protein', value: '' }),
+      expect.objectContaining({ key: 'fat', value: '' }),
+      expect.objectContaining({ key: 'carbohydrate', value: '' }),
+      expect.objectContaining({ key: 'sodium', value: '' })
+    ]));
+  });
+
+  it('rejects implausible OCR table noise before using nutrition values', async () => {
+    const app = createTestApp();
+    const response = await app.request('/api/nutrition/parse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: [
+          '营养成分表',
+          '每100克',
+          '营养素参考值%',
+          '250千焦',
+          '3%',
+          '能量',
+          '5022350',
+          '蛋白质',
+          '3.0克',
+          '脂肪',
+          '1.4克',
+          '碳水化合物',
+          '9.3克',
+          '95毫克',
+          '1',
+          '90毫克',
+          '蔗糖含量:未检出(依据GB5009.8第一法)'
+        ].join('\n')
+      })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.nutrition).toEqual(expect.arrayContaining([
+      expect.objectContaining({ key: 'energy', value: '250', unit: 'kJ' }),
+      expect.objectContaining({ key: 'protein', value: '3.0', unit: 'g' }),
+      expect.objectContaining({ key: 'sugar', value: '' })
+    ]));
+  });
+
   it('rejects invalid body', async () => {
     const app = createTestApp();
     const response = await app.request('/api/nutrition/parse', {

@@ -157,4 +157,12 @@ npm.cmd --prefix user-uniapp run visual:smoke
 git diff --check
 ```
 
+需要 ChatGPT/OpenAI 复审时，先确保截图已由 `visual:smoke` 生成，再运行：
+
+```bash
+npm.cmd --prefix user-uniapp run review:chatgpt
+```
+
+该命令只从运行环境读取 `OPENAI_API_KEY`，输出写入 `/tmp/complens-chatgpt-ui-review.json`。未配置 Key 时必须明确失败为 `missing_openai_api_key`，不得把本地推断伪装成 ChatGPT 评审。
+
 真实 OCR 或真实 AI 相关改动还要补后端对应测试和服务联调记录。

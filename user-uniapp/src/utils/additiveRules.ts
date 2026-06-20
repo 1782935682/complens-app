@@ -215,12 +215,24 @@ export const foodAdditiveRules: AdditiveRule[] = [
     displayLevel: 'normal'
   },
   {
+    name: '味精',
+    aliases: ['味精', '谷氨酸钠', 'L-谷氨酸钠', 'Monosodium Glutamate', 'MSG'],
+    category: '其他添加剂',
+    effect: '用于增强咸鲜味，本身不是“越少越好”的单一判断，仍要和钠含量、食用份量一起看。',
+    reminder: '少盐/低钠目标下，建议同时看营养成分表里的钠。',
+    keywords: ['味精', '谷氨酸钠', 'L-谷氨酸钠', 'MSG', 'Monosodium Glutamate'],
+    displayLevel: 'normal',
+    targetReminders: {
+      low_sodium: '低钠关注时，味精和谷氨酸钠应与钠数字一起看。'
+    }
+  },
+  {
     name: "5'-呈味核苷酸二钠",
-    aliases: ["5'-呈味核苷酸二钠", '5’-呈味核苷酸二钠', '呈味核苷酸二钠', "Disodium 5'-ribonucleotide", 'disodium 5-ribonucleotide', "Disodium 5'-Ribonucleotides"],
+    aliases: ["5'-呈味核苷酸二钠", '5’-呈味核苷酸二钠', '呈味核苷酸二钠', "5'-肌苷酸二钠", '5-肌苷酸二钠', '肌苷酸二钠', "Disodium 5'-ribonucleotide", 'disodium 5-ribonucleotide', "Disodium 5'-Ribonucleotides"],
     category: '其他添加剂',
     effect: '用于增强鲜味，常与味精等鲜味物质搭配。',
     reminder: '低钠关注人群可以结合营养成分表里的钠一起看。',
-    keywords: ["5'-呈味核苷酸二钠", '呈味核苷酸二钠', "Disodium 5'-ribonucleotide"],
+    keywords: ["5'-呈味核苷酸二钠", '呈味核苷酸二钠', "5'-肌苷酸二钠", '5-肌苷酸二钠', '肌苷酸二钠', "Disodium 5'-ribonucleotide"],
     displayLevel: 'normal',
     targetReminders: {
       low_sodium: '少盐/低钠目标下，建议同时看营养成分表的钠。'

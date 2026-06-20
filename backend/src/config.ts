@@ -32,6 +32,9 @@ export type AppConfig = {
   gb2760InternalReviewers?: string[];
   jwtSecret: string;
   ocrApiKey: string;
+  ocrApiSecret?: string;
+  aliyunOcrAction?: string;
+  aliyunOcrEndpoint?: string;
   ocrProvider: string;
   ocrServiceUrl?: string;
   port: number;
@@ -54,7 +57,7 @@ export function getConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
       deepseek: {
         apiKey: env.DEEPSEEK_API_KEY || '',
         baseUrl: env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
-        model: env.DEEPSEEK_MODEL || 'deepseek-chat'
+        model: env.DEEPSEEK_MODEL || 'deepseek-v4-flash'
       },
       openaiCompatible: {
         apiKey: env.OPENAI_COMPATIBLE_API_KEY || '',
@@ -76,7 +79,10 @@ export function getConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     gb2760InternalReviewers: parseList(env.GB2760_INTERNAL_REVIEWERS),
     host: env.HOST || '127.0.0.1',
     jwtSecret: env.JWT_SECRET || 'dev-only-change-me-compcheck-jwt-secret',
-    ocrApiKey: env.OCR_API_KEY || '',
+    ocrApiKey: env.ALIYUN_ACCESS_KEY_ID || env.OCR_API_KEY || '',
+    ocrApiSecret: env.ALIYUN_ACCESS_KEY_SECRET || env.OCR_API_SECRET || '',
+    aliyunOcrAction: env.ALIYUN_OCR_ACTION || 'RecognizeAdvanced',
+    aliyunOcrEndpoint: env.ALIYUN_OCR_ENDPOINT || 'https://ocr-api.cn-hangzhou.aliyuncs.com',
     ocrProvider: env.OCR_PROVIDER || '',
     ocrServiceUrl: env.OCR_LOCAL_URL || env.OCR_SERVICE_URL || '',
     port: Number.isFinite(port) && port > 0 ? port : 3000

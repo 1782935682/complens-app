@@ -97,7 +97,7 @@ function pickUsageLimits(value: unknown): string[] {
 
 function buildTrustNote(value: unknown): string {
   const status = String(value || '');
-  if (status === 'verified_regulation') return '官方标准记录';
+  if (status === 'verified_regulation') return '名称参考';
   if (status === 'verified_jecfa') return '国际资料线索';
   if (status === 'common_ingredient') return '常见配料词库';
   if (status === 'pending_review' || status === 'mapped_candidate') return '未确认线索';
@@ -115,7 +115,7 @@ function trustTone(value: unknown): DisplayIngredient['trustTone'] {
 
 function normalizeSourceType(value: unknown): string {
   const sourceType = String(value || '').trim();
-  if (sourceType === 'official_standard') return '官方标准';
+  if (sourceType === 'official_standard') return '标准资料';
   if (sourceType === 'safety_evaluation') return '评价来源';
   if (sourceType === 'common_ingredient') return '普通配料词库';
   if (sourceType === 'manual_review') return '人工复核记录';
@@ -171,22 +171,32 @@ function buildWhyCareText(item: SearchItem, plainType: string, foods: string[], 
 }
 
 function buildSourceText(item: SearchItem): string {
-  const sourceName = pickText(item.sourceName);
-  const sourceType = normalizeSourceType(item.sourceType);
   const status = String(item.dataStatus || '');
+  const sourceName = displaySourceName(pickText(item.sourceName));
+  if (status === 'verified_regulation') {
+    const compactName = sourceName.replace(/（标准资料）/g, '').trim();
+    return compactName ? `${compactName} · 公开资料` : '公开资料';
+  }
+  const sourceType = normalizeSourceType(item.sourceType);
   if (sourceName && sourceType) return `${sourceName}（${sourceType}）`;
   if (sourceName) return sourceName;
   if (sourceType) return sourceType;
-  if (status === 'verified_regulation') return '后端官方标准记录';
+  if (status === 'verified_regulation') return '后端资料线索';
   if (status === 'verified_jecfa') return '国际评价资料';
   if (status === 'common_ingredient') return '本地常见配料词库';
   if (status === 'unknown_from_ocr') return '用户确认的包装文字';
   return '暂无明确来源名称';
 }
 
+function displaySourceName(value: string): string {
+  return value
+    .replace(/官方标准/g, '标准资料')
+    .replace(/官方/g, '资料');
+}
+
 function buildUseAdvice(item: SearchItem, foods: string[], functions: string[], dataStatus: string): string {
   if (dataStatus === 'verified_regulation') {
-    return '可帮助确认名称和常见叫法；报告会按配料表、营养成分表和可用来源整理。';
+    return '只作名称和常见叫法线索；报告会按配料表、营养数字和可用来源整理。';
   }
   if (dataStatus === 'verified_jecfa') {
     return '只作国际资料线索；不能直接当作中国官方标准结论。';
@@ -262,6 +272,7 @@ function searchHotKeyword(keyword: string) {
           </view>
           <text class="trust-chip" :class="`trust-chip--${item.trustTone}`">{{ item.trust }}</text>
         </view>
+        <text class="result-scope-note">单个成分只能作名称参考，不能替代整包包装报告。</text>
         <view class="result-row">
           <text class="result-label">为什么看</text>
           <text class="result-value">{{ item.whyCare }}</text>
@@ -422,6 +433,18 @@ function searchHotKeyword(keyword: string) {
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-md);
+}
+
+.result-scope-note {
+  border-radius: 16rpx;
+  background: var(--surface-subtle);
+  color: var(--muted);
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.45;
+  margin-bottom: var(--space-sm);
+  padding: 10rpx 12rpx;
 }
 
 .result-head__main {

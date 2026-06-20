@@ -1,5 +1,6 @@
 import type { AiProviderName } from '../ai/types.js';
 import type { AiFoodExplanationService, RuleExplanationInput } from './aiFoodExplanationService.js';
+import { parseNutritionText, type NutritionKey } from './nutritionService.js';
 
 export type FoodAnalyzeRequest = {
   ocrText: string;
@@ -22,6 +23,8 @@ export type FoodAnalyzeResult = {
   productionDate: string;
   ingredients: string[];
   nutrition: Record<string, { value: number; unit: string; level: string; text: string }>;
+  frontClaims: string[];
+  uncertainClues: string[];
   decision: 'buy' | 'caution' | 'limit' | 'avoid' | 'unknown';
   decisionText: string;
   riskLevel: 'green' | 'yellow' | 'red' | 'unknown';
@@ -57,8 +60,11 @@ export function createFoodAnalyzeService(aiFoodExplanationService: AiFoodExplana
         structuredInput: {
           productName: structured.productName,
           category: structured.category,
+          productionDate: structured.productionDate,
           ingredients: structured.ingredients,
           nutrition: structured.nutrition,
+          frontClaims: structured.frontClaims,
+          uncertainClues: structured.uncertainClues,
           userProfile: request.userProfile
         },
         enableAi: request.options?.enableAi,
@@ -70,6 +76,8 @@ export function createFoodAnalyzeService(aiFoodExplanationService: AiFoodExplana
         productionDate: structured.productionDate,
         ingredients: structured.ingredients,
         nutrition: structured.nutrition,
+        frontClaims: structured.frontClaims,
+        uncertainClues: structured.uncertainClues,
         decision: ruleResult.decision,
         decisionText: ruleResult.decisionText,
         riskLevel: ruleResult.riskLevel,
@@ -100,6 +108,8 @@ type StructuredFoodText = {
   productionDate: string;
   ingredients: string[];
   nutrition: FoodAnalyzeResult['nutrition'];
+  frontClaims: string[];
+  uncertainClues: string[];
 };
 
 type RuleResult = RuleExplanationInput & {
@@ -128,7 +138,9 @@ function extractStructuredFoodText(ocrText: string): StructuredFoodText {
     category: extractCategory(text),
     productionDate: extractProductionDate(text),
     ingredients: parseIngredients(ingredientText),
-    nutrition: parseNutrition(text)
+    nutrition: parseNutrition(text),
+    frontClaims: extractFrontClaims(text),
+    uncertainClues: extractUncertainClues(text)
   };
 }
 
@@ -137,6 +149,24 @@ function analyzeByRules(input: StructuredFoodText, profile?: FoodAnalyzeRequest[
   const ingredientHighlights: RuleExplanationInput['ingredientHighlights'] = [];
   const nutritionExplanation: Record<string, string> = {};
   let score = 0;
+  const effectiveNutritionCount = Object.keys(input.nutrition).length;
+
+  if (!input.ingredients.length && effectiveNutritionCount < 2) {
+    return {
+      decision: 'unknown',
+      decisionText: '信息不足',
+      riskLevel: 'unknown',
+      summary: '识别信息还不够，先补拍配料表或营养成分表。',
+      plainExplanation: '这次只识别到很少的标签信息，不能可靠判断热量、糖、钠、脂肪和添加剂。',
+      mainReasons: ['识别信息不足'],
+      suitableFor: [],
+      notSuitableFor: ['需要控制糖、盐、脂肪的人不建议按当前结果决策'],
+      ingredientHighlights: [],
+      nutritionExplanation: {},
+      eatingAdvice: '先补拍配料表和营养成分表；如果包装反光或字太小，可以改用手动补充。',
+      confidence: 'low'
+    };
+  }
 
   const energy = input.nutrition.energy?.value;
   const fat = input.nutrition.fat?.value;
@@ -144,9 +174,12 @@ function analyzeByRules(input: StructuredFoodText, profile?: FoodAnalyzeRequest[
   const sodium = input.nutrition.sodium?.value;
   const transFat = input.nutrition.transFat?.value;
   const ingredientText = input.ingredients.join('、');
-  const hasSugar = sugarTerms.some((term) => ingredientText.includes(term));
-  const hasOil = oilTerms.some((term) => ingredientText.includes(term));
-  const hasSodium = sodiumTerms.some((term) => ingredientText.includes(term));
+  const sugarHits = sugarTerms.filter((term) => ingredientText.includes(term));
+  const oilHits = oilTerms.filter((term) => ingredientText.includes(term));
+  const sodiumHits = sodiumTerms.filter((term) => ingredientText.includes(term));
+  const hasSugar = sugarHits.length > 0;
+  const hasOil = oilHits.length > 0;
+  const hasSodium = sodiumHits.length > 0;
   const additiveHits = additiveTerms.filter((item) => ingredientText.includes(item.name));
 
   if (energy !== undefined && energy >= 1700) {
@@ -175,17 +208,26 @@ function analyzeByRules(input: StructuredFoodText, profile?: FoodAnalyzeRequest[
   if (hasSugar) {
     score += 1;
     reasons.push('含添加糖来源');
-    ingredientHighlights.push({ name: '白砂糖/麦芽糖', level: 'yellow', explanation: '属于添加糖来源，控糖或减脂时要留意。' });
+    sugarHits.slice(0, 4).forEach((name) => {
+      ingredientHighlights.push({ name, level: 'yellow', explanation: '属于添加糖来源，主要影响甜味和碳水；控糖、减脂或儿童高频食用时要看份量。' });
+    });
   }
   if (hasOil) {
     score += 1;
     reasons.push('配料里有油脂来源');
-    ingredientHighlights.push({ name: '植物油', level: 'yellow', explanation: '常见零食用油；如果未标明具体油种，无法进一步判断油脂细节。' });
+    oilHits.slice(0, 3).forEach((name) => {
+      ingredientHighlights.push({ name, level: 'yellow', explanation: '提供酥脆口感，也会拉高脂肪和热量；油炸或膨化零食里很常见。' });
+    });
   }
   if (hasSodium) {
-    ingredientHighlights.push({ name: '食用盐/味精', level: 'yellow', explanation: '提供咸鲜味，也会和钠摄入相关。' });
+    sodiumHits.slice(0, 4).forEach((name) => {
+      ingredientHighlights.push({ name, level: 'yellow', explanation: name.includes('味精') || name.includes('谷氨酸钠') ? '常见增鲜成分，主要让咸鲜味更明显，也会和钠摄入相关。' : '提供咸味或调味作用，钠含量偏高时需要一起看份量。' });
+    });
   }
   ingredientHighlights.push(...additiveHits);
+  if (input.frontClaims.some((claim) => /0糖|零糖|无糖|低糖|无蔗糖|不添加蔗糖/.test(claim)) && hasSugar) {
+    reasons.push('包装糖声明需和配料一起看');
+  }
 
   const allergenNotSuitable = buildAllergenNotSuitable(input.ingredients, profile);
   const notSuitableFor = unique([
@@ -201,10 +243,10 @@ function analyzeByRules(input: StructuredFoodText, profile?: FoodAnalyzeRequest[
   const decision = resolveDecision(score, notSuitableFor.length);
   const decisionText = decisionTextFor(decision);
   const summary = decision === 'caution' || decision === 'limit'
-    ? '可以偶尔吃，但不建议经常吃。'
+    ? '偶尔吃，不建议经常吃。'
     : decision === 'avoid'
       ? '不建议作为常规零食。'
-      : '可以吃，提醒项不多。';
+      : '提醒项不多，按正常份量吃。';
   const plainExplanation = buildPlainExplanation(input, reasons);
   return {
     decision,
@@ -233,9 +275,9 @@ function resolveDecision(score: number, hasNotSuitable: number): FoodAnalyzeResu
 
 function decisionTextFor(decision: FoodAnalyzeResult['decision']): string {
   if (decision === 'limit') return '少买少吃｜偶尔解馋';
-  if (decision === 'caution') return '谨慎购买｜偶尔吃可以';
-  if (decision === 'avoid') return '不建议购买｜不适合这次目标';
-  if (decision === 'buy') return '可以买｜注意份量';
+  if (decision === 'caution') return '不建议常吃｜偶尔解馋';
+  if (decision === 'avoid') return '不适合这次目标｜换个选择';
+  if (decision === 'buy') return '提醒较少｜注意份量';
   return '信息不足';
 }
 
@@ -253,32 +295,27 @@ function buildPlainExplanation(input: StructuredFoodText, reasons: string[]): st
 }
 
 function parseNutrition(text: string): StructuredFoodText['nutrition'] {
-  const fields: Array<[keyof StructuredFoodText['nutrition'], RegExp, string]> = [
-    ['energy', /能量[^\d]*(\d+(?:\.\d+)?)\s*(kJ|千焦|kcal|千卡|大卡)?/i, 'kJ'],
-    ['protein', /蛋白质[^\d]*(\d+(?:\.\d+)?)\s*(g|克)?/i, 'g'],
-    ['fat', /脂肪[^\d]*(\d+(?:\.\d+)?)\s*(g|克)?/i, 'g'],
-    ['carbohydrate', /碳水化合物[^\d]*(\d+(?:\.\d+)?)\s*(g|克)?/i, 'g'],
-    ['sodium', /钠[^\d]*(\d+(?:\.\d+)?)\s*(mg|毫克|g|克)?/i, 'mg'],
-    ['transFat', /反式脂肪(?:酸)?[^\d]*(\d+(?:\.\d+)?)\s*(g|克)?/i, 'g']
-  ];
+  const parsed = parseNutritionText({ text });
   const result: StructuredFoodText['nutrition'] = {};
-  for (const [key, pattern, defaultUnit] of fields) {
-    const match = text.match(pattern);
-    if (!match) continue;
-    let value = Number.parseFloat(match[1]);
-    let unit = normalizeUnit(match[2] || defaultUnit);
-    if (key === 'energy' && unit === 'kcal') {
+  const supportedKeys = new Set<NutritionKey>(['energy', 'protein', 'fat', 'carbohydrate', 'sugar', 'sodium', 'transFat']);
+
+  for (const field of parsed.nutrition) {
+    if (!supportedKeys.has(field.key) || !field.value) continue;
+    let value = Number.parseFloat(field.value);
+    let unit = normalizeUnit(field.unit);
+    if (!Number.isFinite(value) || !unit) continue;
+    if (field.key === 'energy' && unit === 'kcal') {
       value = Number((value * 4.184).toFixed(1));
       unit = 'kJ';
     }
-    if (key === 'sodium' && unit === 'g') {
+    if (field.key === 'sodium' && unit === 'g') {
       value = Number((value * 1000).toFixed(1));
       unit = 'mg';
     }
-    result[key] = {
+    result[field.key] = {
       value,
       unit,
-      level: nutritionLevel(key, value),
+      level: nutritionLevel(field.key, value),
       text: `${value}${unit}`
     };
   }
@@ -289,6 +326,7 @@ function nutritionLevel(key: string, value: number): string {
   if (key === 'energy') return value >= 1700 ? '偏高' : value >= 500 ? '中等' : '较低';
   if (key === 'fat') return value >= 15 ? '偏高' : value >= 3 ? '中等' : '较低';
   if (key === 'carbohydrate') return value >= 50 ? '高' : value >= 15 ? '中等' : '较低';
+  if (key === 'sugar') return value >= 15 ? '偏高' : value >= 5 ? '中等' : '较低';
   if (key === 'sodium') return value >= 300 ? '偏高' : value >= 120 ? '中等' : '较低';
   if (key === 'protein') return value >= 8 ? '较好' : value >= 4 ? '一般' : '偏低';
   if (key === 'transFat') return value === 0 ? '较好' : '留意';
@@ -312,17 +350,30 @@ function extractProductName(text: string): string {
 }
 
 function extractCategory(text: string): string {
-  const match = text.match(/(?:产品类型|食品类别|类别)\s*[:：]?\s*([^\n\r，。,；;]{2,30})/);
+  const match = text.match(/(?:产品类型|食品类别|食品类型|类别)\s*[:：]?\s*([^\n\r，。,；;]{2,30})/);
   if (match) return cleanupLabelValue(match[1]);
-  if (/麻花|薯片|膨化/.test(text)) return '膨化食品 / 零食';
+  if (/油炸|麻花|薯片|膨化/.test(text)) return /油炸/.test(text) ? '油炸 / 膨化类零食' : '膨化食品 / 零食';
   if (/饼干|糕点/.test(text)) return '糕点 / 零食';
   if (/饮料|果汁|茶饮/.test(text)) return '饮料';
   return '';
 }
 
 function extractProductionDate(text: string): string {
-  const match = text.match(/(?:生产日期|制造日期|产日期)\s*[:：]?\s*([0-9]{4}[-./年][0-9]{1,2}[-./月][0-9]{1,2}日?)/);
+  const match = text.match(/(?:生产日期|制造日期|产日期)\s*[:：]?\s*((?:[0-9]{4}|[0-9]{2})[-./年][0-9]{1,2}[-./月][0-9]{1,2}日?)/);
   return match ? cleanupLabelValue(match[1]) : '';
+}
+
+function extractFrontClaims(text: string): string[] {
+  const matches = text.match(/0糖|零糖|无糖|低糖|少糖|0蔗糖|零蔗糖|无蔗糖|不添加蔗糖|0脂|零脂|低脂|脱脂|少油|非油炸|高蛋白|低钠|减盐|少盐|无添加|不添加|膳食纤维|粗粮|全麦/g);
+  return [...new Set(matches || [])].slice(0, 8);
+}
+
+function extractUncertainClues(text: string): string[] {
+  return text
+    .split(/\n+/)
+    .map(cleanupLabelValue)
+    .filter((line) => /可能|疑似|看不清|模糊|未识别/.test(line))
+    .slice(0, 8);
 }
 
 function extractSection(text: string, start: RegExp, stop: RegExp): string {
