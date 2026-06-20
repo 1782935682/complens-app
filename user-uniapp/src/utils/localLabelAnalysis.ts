@@ -20,11 +20,14 @@ export type LocalAnalysisInputSource = 'ocr' | 'manual' | 'demo';
 
 export type LocalLabelAnalysisInput = {
   productName?: string;
+  foodTypeText?: string;
+  productionDateText?: string;
   ingredientText: string;
   nutritionText?: string;
   allergenText?: string;
   frontClaimsText?: string;
   confidence?: 'high' | 'medium' | 'low';
+  unconfirmedText?: string[];
   attention: AttentionSettings;
   sourceType: LocalAnalysisInputSource;
   ocr?: OcrResult;
@@ -41,16 +44,22 @@ export type LocalLabelAnalysisResult = {
 };
 
 export function buildEffectiveLabelTextFromParts(input: {
+  productNameText?: string;
+  foodTypeText?: string;
   ingredientText?: string;
   nutritionText?: string;
   allergenText?: string;
   frontClaimsText?: string;
+  productionDateText?: string;
 }): string {
   return [
+    input.productNameText?.trim() ? `商品名：${input.productNameText.trim()}` : '',
+    input.foodTypeText?.trim() ? `食品类型：${input.foodTypeText.trim()}` : '',
     input.ingredientText?.trim() ? `配料表：${input.ingredientText.trim()}` : '',
     input.nutritionText?.trim() ? `营养成分表：${input.nutritionText.trim()}` : '',
     input.allergenText?.trim() ? `致敏原提示：${input.allergenText.trim()}` : '',
-    input.frontClaimsText?.trim() ? `包装文字：${input.frontClaimsText.trim()}` : ''
+    input.frontClaimsText?.trim() ? `包装声明：${input.frontClaimsText.trim()}` : '',
+    input.productionDateText?.trim() ? `生产日期：${input.productionDateText.trim()}` : ''
   ].filter(Boolean).join('\n');
 }
 
@@ -59,7 +68,17 @@ export function buildLocalLabelAnalysis(input: LocalLabelAnalysisInput): LocalLa
   const nutritionText = (input.nutritionText || '').trim();
   const allergenText = (input.allergenText || '').trim();
   const frontClaimsText = (input.frontClaimsText || '').trim();
-  const confirmedText = buildEffectiveLabelTextFromParts({ ingredientText, nutritionText, allergenText, frontClaimsText });
+  const foodTypeText = (input.foodTypeText || '').trim();
+  const productionDateText = (input.productionDateText || '').trim();
+  const confirmedText = buildEffectiveLabelTextFromParts({
+    productNameText: input.productName,
+    foodTypeText,
+    ingredientText,
+    nutritionText,
+    allergenText,
+    frontClaimsText,
+    productionDateText
+  });
   const labelType = resolveDetectedType(confirmedText, ingredientText, nutritionText, frontClaimsText);
   const ingredients = parseIngredientList(ingredientText);
   const parsedNutrition = shouldParseNutrition(nutritionText, labelType)
@@ -70,10 +89,14 @@ export function buildLocalLabelAnalysis(input: LocalLabelAnalysisInput): LocalLa
   const sourceMeta = buildSourceMeta({
     detectedType: labelType,
     confirmedText,
+    productNameText: input.productName || '',
     ingredientText,
     nutritionText,
     allergenText,
     frontClaimsText,
+    foodTypeText,
+    productionDateText,
+    unconfirmedText: input.unconfirmedText || [],
     confidence: input.confidence,
     hasNutrition: Boolean(parsedNutrition.some((field) => field.value)),
     sourceType: input.sourceType,
@@ -106,6 +129,8 @@ export function buildScanDraftFromAnalysis(result: LocalLabelAnalysisResult): Pa
   return {
     confirmedText: result.confirmedText,
     productName: result.report.productName,
+    foodTypeText: result.report.analysisSource?.foodTypeText || '',
+    productionDateText: result.report.analysisSource?.productionDateText || '',
     labelType: result.labelType,
     ingredients: result.ingredients,
     nutrition: result.nutrition,
@@ -115,25 +140,83 @@ export function buildScanDraftFromAnalysis(result: LocalLabelAnalysisResult): Pa
   };
 }
 
+const localCommonIngredientTerms = [
+  '水',
+  '白砂糖',
+  '食用盐',
+  '食盐',
+  '植物油',
+  '精炼植物油',
+  '棕榈油',
+  '氢化菜籽油',
+  '食用油脂制品',
+  '黄豆',
+  '大豆',
+  '生牛乳',
+  '青柠果味酱',
+  '聚葡萄糖',
+  '木糖醇',
+  '浓缩牛奶蛋白',
+  '明胶',
+  '羟丙基二淀粉磷酸酯',
+  '双乙酰酒石酸单双甘油酯',
+  '果胶',
+  '黄原胶',
+  '三氯蔗糖',
+  '嗜热链球菌',
+  '德氏乳杆菌保加利亚亚种',
+  '小麦',
+  '小麦粉',
+  '红茶',
+  '红茶粉',
+  '浓缩柠檬汁',
+  '草菇',
+  '姜黄粉',
+  '咖喱粉',
+  '香辛料',
+  '番茄粉',
+  '蜂蜜',
+  '乳粉',
+  '奶粉',
+  '脱脂乳粉',
+  '椰子粉',
+  '麦芽糊精',
+  '葡萄糖',
+  '食用葡萄糖',
+  '焦糖色',
+  '味精',
+  '谷氨酸钠',
+  "5'-肌苷酸二钠",
+  '5-肌苷酸二钠',
+  "5'-呈味核苷酸二钠",
+  '柠檬酸',
+  '磷脂',
+  '单硬脂酸甘油酯',
+  '浓缩苹果浆'
+];
+
 function buildLocalIngredientMatches(ingredients: ParsedIngredient[], rawText: string, attention: AttentionSettings): IngredientMatch[] {
   const rawAdditives = recognizeAdditivesFromText(rawText, attention);
   return ingredients.map((ingredient, index) => {
     const additiveHit = recognizeAdditivesFromText(ingredient.normalizedText || ingredient.rawText, attention)[0]
       || rawAdditives.find((item) => item.matchedTerms.some((term) => ingredient.normalizedText.includes(term)));
     const isAdditive = Boolean(additiveHit);
+    const isCommonIngredient = !isAdditive && isLocalCommonIngredient(ingredient.normalizedText);
     return {
       id: `local-${index}-${ingredient.id}`,
       term: ingredient.normalizedText,
       normalizedText: ingredient.normalizedText,
-      dataStatus: isAdditive ? 'common_ingredient' : 'unknown_from_ocr',
-      dataStatusLabel: isAdditive ? dataStatusLabel('common_ingredient') : dataStatusLabel('unknown_from_ocr'),
-      confidence: isAdditive ? 0.78 : 0,
-      matchType: isAdditive ? 'local_attention' : 'none',
-      sourceName: isAdditive ? '本地添加剂规则' : '包装原文',
-      sourceType: isAdditive ? 'local_rule' : 'ocr_input',
+      dataStatus: isAdditive || isCommonIngredient ? 'common_ingredient' : 'unknown_from_ocr',
+      dataStatusLabel: isAdditive || isCommonIngredient ? dataStatusLabel('common_ingredient') : dataStatusLabel('unknown_from_ocr'),
+      confidence: isAdditive ? 0.78 : isCommonIngredient ? 0.7 : 0,
+      matchType: isAdditive || isCommonIngredient ? 'local_attention' : 'none',
+      sourceName: isAdditive ? '本地添加剂规则' : isCommonIngredient ? '本地常见配料规则' : '识别文字',
+      sourceType: isAdditive || isCommonIngredient ? 'local_rule' : 'ocr_input',
       sourceNote: isAdditive
         ? '由本地添加剂关键词规则识别，仅作标签阅读提示。'
-        : '来自用户确认后的包装文字，请结合原文核对。',
+        : isCommonIngredient
+          ? '由本地常见食品配料词表识别，仅作标签阅读提示。'
+        : '来自用户确认后的标签文字，已按未确认线索处理。',
       ingredientName: additiveHit?.name || ingredient.normalizedText,
       isAdditive,
       decision: 'confirmed'
@@ -141,13 +224,23 @@ function buildLocalIngredientMatches(ingredients: ParsedIngredient[], rawText: s
   });
 }
 
+function isLocalCommonIngredient(value: string): boolean {
+  const text = String(value || '').replace(/[。.\s]/g, '').trim();
+  if (!text || text === '食用') return false;
+  return localCommonIngredientTerms.some((term) => text === term || text.includes(term));
+}
+
 function buildSourceMeta(options: {
   detectedType: LabelType;
   confirmedText: string;
+  productNameText: string;
   ingredientText: string;
   nutritionText: string;
   allergenText: string;
   frontClaimsText: string;
+  foodTypeText: string;
+  productionDateText: string;
+  unconfirmedText: string[];
   confidence?: 'high' | 'medium' | 'low';
   hasNutrition: boolean;
   sourceType: LocalAnalysisInputSource;
@@ -165,10 +258,14 @@ function buildSourceMeta(options: {
       ? `${options.image.name || '食品标签图片'}，${Math.round((options.image.size || 0) / 1024)}KB`
       : undefined,
     ocrText: options.confirmedText,
+    productNameText: options.productNameText,
     ingredientText: options.ingredientText,
     nutritionText: options.nutritionText,
     allergenText: options.allergenText,
     frontClaimsText: options.frontClaimsText,
+    foodTypeText: options.foodTypeText,
+    productionDateText: options.productionDateText,
+    unconfirmedText: uniqueStrings(options.unconfirmedText).slice(0, 8),
     confidence: options.confidence,
     inputSourceType: options.sourceType,
     targetSnapshot: {
@@ -223,4 +320,8 @@ function shouldParseNutrition(value: string, detectedType: LabelType): boolean {
   if (detectedType === 'nutrition_facts') return true;
   const compact = value.replace(/\s+/g, '');
   return /营养成分表|营养素参考值|NRV|每100(?:g|克|ml|毫升).*(?:能量|蛋白质|脂肪|碳水化合物|钠)|nutrition(?:facts|information)|per100(?:g|ml)|energy|calories|protein|fat|carbohydrate|sugars?|sodium/i.test(compact);
+}
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values.map((value) => String(value || '').trim()).filter(Boolean))];
 }

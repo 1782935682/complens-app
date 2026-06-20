@@ -5,9 +5,13 @@ export type LabelTextConfidence = 'high' | 'medium' | 'low';
 export type LabelTextSourceType = 'ocr' | 'manual' | 'demo';
 
 export interface LabelTextExtraction {
+  productNameText: string;
+  foodTypeText: string;
   ingredientText: string;
   nutritionText: string;
   allergenText: string;
+  frontClaimsText: string;
+  productionDateText: string;
   ignoredText: string[];
   confidence: LabelTextConfidence;
   sourceType: LabelTextSourceType;
@@ -17,18 +21,27 @@ export function extractLabelText(input: NormalizedOcrResult, sourceTypeOverride?
   const sourceType = sourceTypeOverride || sourceTypeFromOcrSource(input.source);
   const rawText = buildRawText(input);
   const lines = splitLines(rawText);
+  const productNameText = extractProductNameText(lines);
+  const foodTypeText = extractFoodTypeText(lines);
   const ingredient = extractIngredientText(rawText, lines);
   const nutritionText = extractNutritionText(rawText, lines);
   const allergenText = extractAllergenText(rawText, lines);
+  const frontClaimsText = extractFrontClaimText(lines, ingredient.text, nutritionText, allergenText);
+  const productionDateText = extractProductionDateText(lines);
+  const keptSections = [ingredient.text, nutritionText, allergenText, frontClaimsText, productionDateText, productNameText, foodTypeText];
   const ignoredText = uniqueLines([
-    ...ingredient.ignored,
-    ...collectIgnoredLines(lines, ingredient.text, nutritionText, allergenText)
+    ...ingredient.ignored.filter((line) => !isLinePartOfKeptSections(line, keptSections)),
+    ...collectIgnoredLines(lines, ingredient.text, nutritionText, allergenText, frontClaimsText, productionDateText, productNameText, foodTypeText)
   ]);
 
   return {
+    productNameText,
+    foodTypeText,
     ingredientText: ingredient.text,
     nutritionText,
     allergenText,
+    frontClaimsText,
+    productionDateText,
     ignoredText,
     confidence: scoreConfidence({
       ingredientText: ingredient.text,
@@ -40,11 +53,30 @@ export function extractLabelText(input: NormalizedOcrResult, sourceTypeOverride?
   };
 }
 
+function extractProductNameText(lines: string[]): string {
+  const line = lines.find((item) => /^(?:品\s*名|产品名称|商品名称|食品名称)\s*[:：\s]?/.test(item));
+  if (!line) return '';
+  return cleanupTargetValue(line, /^(?:品\s*名|产品名称|商品名称|食品名称)\s*[:：\s]?/);
+}
+
+function extractFoodTypeText(lines: string[]): string {
+  const line = lines.find((item) => /^(?:产品类型|食品类别|食品类型|类别)\s*[:：\s]?/.test(item));
+  if (!line) return '';
+  return cleanupTargetValue(line, /^(?:产品类型|食品类别|食品类型|类别)\s*[:：\s]?/);
+}
+
+function extractProductionDateText(lines: string[]): string {
+  const line = lines.find((item) => /生产日期|制造日期|产日期/.test(item));
+  if (!line) return '';
+  const match = line.match(/(?:生产日期|制造日期|产日期)\s*[:：]?\s*((?:20)?\d{2}[-./年]\d{1,2}[-./月]\d{1,2}日?|见包装|见喷码|见封口|见瓶身|见盒身)/);
+  return match ? normalizeText(match[1]) : cleanupTargetValue(line, /(?:生产日期|制造日期|产日期)\s*[:：]?/);
+}
+
 function buildRawText(input: NormalizedOcrResult): string {
   const blockText = Array.isArray(input.blocks)
     ? input.blocks.map((block) => normalizeText(block.text)).filter(Boolean).join('\n')
     : '';
-  return normalizeText(blockText || input.rawText || '');
+  return normalizeText(input.rawText || blockText || '');
 }
 
 function sourceTypeFromOcrSource(source: NormalizedOcrResult['source']): LabelTextSourceType {
@@ -84,7 +116,7 @@ function extractNutritionText(rawText: string, lines: string[]): string {
       .filter(isNutritionLineCandidate)
       .join('\n')
       .trim();
-    return cleaned || section.trim();
+    return cleaned || (hasNutritionValueStructure(section) ? section.trim() : '');
   }
   return lines.filter(isNutritionLineCandidate).join('\n').trim();
 }
@@ -94,30 +126,53 @@ function extractAllergenText(rawText: string, lines: string[]): string {
   if (anchor >= 0) {
     const section = sliceUntilStop(rawText, anchor, allergenStopPattern);
     const cleaned = splitLines(section)
-      .filter((line) => allergenLinePattern.test(line) || allergenKeywordPattern.test(line))
+      .filter(hasAllergenContext)
       .join('\n')
       .trim();
-    return cleaned || section.trim();
+    return cleaned || (hasAllergenContext(section) ? section.trim() : '');
   }
   return lines
-    .filter((line) => allergenLinePattern.test(line) && allergenKeywordPattern.test(line))
+    .filter(hasAllergenContext)
+    .join('\n')
+    .trim();
+}
+
+function hasAllergenContext(line: string): boolean {
+  if (!allergenKeywordPattern.test(line)) return false;
+  return allergenLinePattern.test(line);
+}
+
+function extractFrontClaimText(lines: string[], ingredientText: string, nutritionText: string, allergenText: string): string {
+  const keptText = normalizeCompact([ingredientText, nutritionText, allergenText].join('\n'));
+  return lines
+    .filter((line) => {
+      const compact = normalizeCompact(line);
+      if (!compact || keptText.includes(compact)) return false;
+      if (!frontClaimTargetPattern.test(compact)) return false;
+      if (productionNoisePattern.test(compact) || companyNoisePattern.test(compact) || standardNoisePattern.test(compact)) return false;
+      return !productInfoNoisePattern.test(compact) || frontClaimTargetPattern.test(compact);
+    })
+    .map(cleanFrontClaimLine)
+    .filter(Boolean)
+    .slice(0, 3)
     .join('\n')
     .trim();
 }
 
 function cleanIngredientCandidate(candidate: string): { text: string; ignored: string[] } {
   const ignored: string[] = [];
-  const cleaned = splitIngredientLines(candidate)
+  const cleaned = splitIngredientLines(repairIngredientOcrBreaks(candidate))
     .map(stripIngredientPrefix)
     .filter(Boolean)
     .filter((line) => {
       if (isIngredientNoiseLine(line)) {
-        ignored.push(line);
+        if (!shouldSuppressIngredientIgnoredLine(line)) ignored.push(line);
         return false;
       }
       return true;
     })
     .join('\n')
+    .replace(/(^|\n)[,，、;；]+/g, '$1')
     .replace(/[，,、;；\s]+$/g, '')
     .trim();
   return { text: cleaned, ignored };
@@ -129,7 +184,7 @@ function pickBestIngredientLines(lines: string[]): { text: string; ignored: stri
     .map((line, index) => ({ line, index, score: scoreIngredientLine(line) }))
     .filter((item) => {
       if (isIngredientNoiseLine(item.line)) {
-        ignored.push(item.line);
+        if (!shouldSuppressIngredientIgnoredLine(item.line)) ignored.push(item.line);
         return false;
       }
       if (!isIngredientFallbackCandidate(item.line, item.score)) {
@@ -188,8 +243,8 @@ function scoreIngredientLine(line: string): number {
   return score;
 }
 
-function collectIgnoredLines(lines: string[], ingredientText: string, nutritionText: string, allergenText: string): string[] {
-  const keptText = normalizeCompact([ingredientText, nutritionText, allergenText].join('\n'));
+function collectIgnoredLines(lines: string[], ingredientText: string, nutritionText: string, allergenText: string, frontClaimsText: string, productionDateText: string, productNameText: string, foodTypeText: string): string[] {
+  const keptText = normalizeCompact([ingredientText, nutritionText, allergenText, frontClaimsText, productionDateText, productNameText, foodTypeText].join('\n'));
   return lines.filter((line) => {
     const compact = normalizeCompact(line);
     if (!compact) return false;
@@ -198,10 +253,17 @@ function collectIgnoredLines(lines: string[], ingredientText: string, nutritionT
   });
 }
 
+function isLinePartOfKeptSections(line: string, sections: string[]): boolean {
+  const compact = normalizeCompact(line);
+  if (!compact) return true;
+  return sections.some((section) => normalizeCompact(section).includes(compact));
+}
+
 function isIngredientNoiseLine(line: string): boolean {
   const text = normalizeCompact(line);
   if (!text) return true;
   if (nutritionSectionAnchorPattern.test(text) || allergenAnchorPattern.test(text)) return true;
+  if (ingredientAmountClaimPattern.test(text)) return true;
   if (invalidLinePattern.test(text)) return true;
   if (productionNoisePattern.test(text)) return true;
   if (companyNoisePattern.test(text)) return true;
@@ -212,6 +274,13 @@ function isIngredientNoiseLine(line: string): boolean {
   if (text.length <= 4 && !hasIngredientLikeSignal(text)) return true;
   if (/^[a-z]+$/i.test(text) && !/ingredients?/i.test(text)) return true;
   return false;
+}
+
+function shouldSuppressIngredientIgnoredLine(line: string): boolean {
+  const text = normalizeCompact(line);
+  return nutritionSectionAnchorPattern.test(text)
+    || isNutritionLineCandidate(line)
+    || allergenAnchorPattern.test(text);
 }
 
 function hasIngredientLikeSignal(text: string): boolean {
@@ -254,9 +323,18 @@ function isNutritionLineCandidate(line: string): boolean {
   const text = normalizeText(line);
   const compact = normalizeCompact(text);
   if (!compact) return false;
-  if (nutritionSectionAnchorPattern.test(text)) return true;
+  if (!nutritionSectionAnchorPattern.test(text) && frontClaimTargetPattern.test(compact)) return false;
+  if (nutritionSectionAnchorPattern.test(text)) return hasNutritionValueStructure(text);
   if (!nutritionUnitPattern.test(text)) return false;
   return nutritionNutrientPattern.test(text) || countNutritionNutrientHits(compact) >= 2;
+}
+
+function hasNutritionValueStructure(value: string): boolean {
+  const text = normalizeText(value);
+  const compact = normalizeCompact(text);
+  if (!/\d/.test(compact)) return false;
+  if (nutritionNutrientPattern.test(text) && nutritionUnitPattern.test(text)) return true;
+  return countNutritionNutrientHits(compact) >= 2 && nutritionUnitPattern.test(text);
 }
 
 function findStrongIngredientAnchor(text: string): { start: number; end: number } | undefined {
@@ -311,7 +389,20 @@ function consumeAnchorTail(text: string, index: number): number {
 }
 
 function stripIngredientPrefix(line: string): string {
-  return line.replace(/^\s*(?:配\s*料\s*(?:表|衰)?|食品\s*配\s*料|原\s*料|ingredients?|成\s*[分份]\s*表?)\s*[:：-]?\s*/i, '').trim();
+  return line.replace(/^\s*(?:配\s*料\s*(?:表|衰)?|护\s*料\s*(?:表)?|食品\s*配\s*料|原\s*料|ingredients?|成\s*[分份]\s*表?|表)\s*[:：-]?\s*/i, '').trim();
+}
+
+function repairIngredientOcrBreaks(text: string): string {
+  return String(text || '')
+    .replace(/姜\s*\n\s*黄粉/g, '姜黄粉')
+    .replace(/脱脂乳\s*\n\s*粉/g, '脱脂乳粉')
+    .replace(/谷氨酸\s*\n\s*钠/g, '谷氨酸钠')
+    .replace(/木糖\s*\n\s*醇/g, '木糖醇')
+    .replace(/果\s*\n\s*胶/g, '果胶')
+    .replace(/明胶\s*\n\s*[(（]\s*来源于牛骨\s*[)）]/g, '明胶(来源于牛骨)')
+    .replace(/5\s*[-－']?\s*肌苷酸二\s*\n\s*钠/g, "5'-肌苷酸二钠")
+    .replace(/5\s*[一-]\s*呈味核苷酸二\s*\n\s*钠/g, "5'-呈味核苷酸二钠")
+    .replace(/食用\s*\n\s*焦糖色/g, '焦糖色');
 }
 
 function splitIngredientLines(text: string): string[] {
@@ -340,6 +431,22 @@ function normalizeText(value: unknown): string {
 
 function normalizeCompact(value: string): string {
   return normalizeText(value).replace(/\s+/g, '');
+}
+
+function cleanFrontClaimLine(line: string): string {
+  return normalizeText(line)
+    .replace(/^(?:包装文字|正面文字|卖点|宣称|标签声明)\s*[:：-]?\s*/i, '')
+    .replace(/^O(?=糖|蔗糖)/i, '0')
+    .replace(/[，,、;；\s]+$/g, '')
+    .trim();
+}
+
+function cleanupTargetValue(line: string, prefix: RegExp): string {
+  return normalizeText(line)
+    .replace(prefix, '')
+    .replace(/[，,、;；\s]+$/g, '')
+    .trim()
+    .slice(0, 40);
 }
 
 function containsAdditiveTerm(text: string): boolean {
@@ -373,7 +480,7 @@ function uniqueLines(values: string[]): string[] {
 }
 
 const strongIngredientAnchorPattern = /配\s*料\s*(?:表|衰)\s*[:：]?|配\s*料\s*[:：]|食品\s*配\s*料\s*[:：]?|原\s*料\s*[:：]|ingredients?\s*[:：]?/i;
-const looseIngredientAnchorGlobalPattern = /配\s*料|原\s*料/g;
+const looseIngredientAnchorGlobalPattern = /配\s*料|护\s*料|原\s*料/g;
 const weakIngredientAnchorPattern = /成\s*[分份]\s*表?/;
 const weakIngredientAnchorGlobalPattern = /成\s*[分份]\s*表?/g;
 
@@ -394,8 +501,10 @@ const companyNoisePattern = /地址|邮编|电话|有限公司|生产商|制造�
 const standardNoisePattern = /执行标准|产品标准号|食品生产许可证|生产许可证编号|\bSC\s*\d{6,}\b/;
 const productInfoNoisePattern = /产品名称|產品名稱|商品名称|商品名稱|品名|品牌|商标|口味|净含量|净重|规格|规格型号|条码|条形码|二维码|生产日期|保质期|贮存|储存|产地|厂家|生产商|制造商|委托方|经销商|地址|邮编|电话|服务热线|执行标准|产品标准号|食品生产许可证|生产许可证编号|\bSC\s*\d{6,}\b|食用方法|注意事项|配料请见|营养成分请见/i;
 const contentSpecNoisePattern = /净含量|净重|规格|(?:^|[^\u4e00-\u9fa5])\d+(?:\.\d+)?\s*(?:g|克|ml|mL|毫升|升|kg|千克)(?:$|[^\u4e00-\u9fa5])/i;
+const ingredientAmountClaimPattern = /(?:添加量|含量)[≥>=]?\s*\d+(?:\.\d+)?\s*(?:g|克|mg|毫克|ml|mL|毫升|%|g\/L|mg\/L)/i;
 const adNoisePattern = /0蔗糖|零蔗糖|低脂|高蛋白|非油炸|无添加|天然|健\s*康|新鲜|美味|儿童优选|轻负担|饱腹/;
+const frontClaimTargetPattern = /0糖|O糖|零糖|无糖|低糖|少糖|0蔗糖|O蔗糖|零蔗糖|无蔗糖|不添加蔗糖|0脂|O脂|零脂|低脂|脱脂|少油|减\s*\d+(?:\.\d+)?\s*%?\s*脂肪|非油炸|高蛋白|低钠|减盐|少盐|无添加|不添加|膳食纤维|粗粮|全麦|high\s*protein|low\s*fat|no\s*fat|zero\s*sugar|sugar\s*free/i;
 const invalidLinePattern = /^(?:\d+|[A-Z0-9\-./]+|[^\u4e00-\u9fa5A-Za-z0-9]+)$/i;
-const commonIngredientTerms = ['水', '白砂糖', '食用盐', '食盐', '植物油', '果葡糖浆', '食用香精', '葡萄糖浆', '麦芽糖浆', '大豆', '乳粉', '小麦', '小麦粉', '淀粉', '鸡蛋', '牛奶', '奶粉'];
+const commonIngredientTerms = ['水', '白砂糖', '食用盐', '食盐', '植物油', '精炼植物油', '氢化菜籽油', '果葡糖浆', '食用香精', '葡萄糖浆', '麦芽糖浆', '大豆', '黄豆', '乳粉', '脱脂乳粉', '生牛乳', '浓缩牛奶蛋白', '明胶', '小麦', '小麦粉', '淀粉', '鸡蛋', '牛奶', '奶粉', '草菇', '姜黄粉', '咖喱粉', '味精', '谷氨酸钠', '焦糖色', '木糖醇', '聚葡萄糖', '果胶', '黄原胶', '三氯蔗糖'];
 const nutritionNutrientTerms = ['energy', 'calories', 'protein', 'fat', 'carbohydrate', 'sugar', 'sugars', 'sodium', 'salt', '能量', '热量', '熱量', '蛋白质', '蛋白質', '脂肪', '碳水化合物', '碳水', '糖', '钠', '鈉', '盐', '鹽'];
-const commonIngredientPattern = /水|白砂糖|食用盐|食盐|植物油|果葡糖浆|食用香精|葡萄糖浆|麦芽糖浆|大豆|乳粉|小麦|小麦粉|淀粉|鸡蛋|牛奶|奶粉/;
+const commonIngredientPattern = /水|白砂糖|食用盐|食盐|植物油|精炼植物油|氢化菜籽油|果葡糖浆|食用香精|葡萄糖浆|麦芽糖浆|大豆|黄豆|乳粉|脱脂乳粉|生牛乳|浓缩牛奶蛋白|明胶|小麦|小麦粉|淀粉|鸡蛋|牛奶|奶粉|草菇|姜黄粉|咖喱粉|味精|谷氨酸钠|焦糖色|木糖醇|聚葡萄糖|果胶|黄原胶|三氯蔗糖/;

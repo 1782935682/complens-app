@@ -19,7 +19,21 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
           <view class="image-uploader__icon" />
         </view>
         <text class="image-uploader__title">对准标签文字</text>
-        <text class="image-uploader__hint">选择后自动识别并生成结果。</text>
+        <text class="image-uploader__hint">选择后自动识别，确认文字后生成解读。</text>
+        <view class="image-uploader__checklist">
+          <view class="image-uploader__check">
+            <text class="image-uploader__check-dot" />
+            <text class="image-uploader__check-text">让配料表或营养表占满画面</text>
+          </view>
+          <view class="image-uploader__check">
+            <text class="image-uploader__check-dot" />
+            <text class="image-uploader__check-text">避开反光、阴影和折痕</text>
+          </view>
+          <view class="image-uploader__check">
+            <text class="image-uploader__check-dot" />
+            <text class="image-uploader__check-text">表格和每行文字不要切边</text>
+          </view>
+        </view>
       </view>
     </view>
     <view class="image-uploader__actions">
@@ -152,6 +166,39 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
   color: var(--muted);
   font-size: var(--font-size-sm);
   line-height: 1.45;
+}
+
+.image-uploader__checklist {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border: 1px solid rgba(18, 151, 128, 0.14);
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.72);
+  padding: var(--space-sm);
+  text-align: left;
+}
+
+.image-uploader__check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.image-uploader__check-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 999px;
+  background: var(--primary);
+  flex: 0 0 auto;
+  margin-top: 13rpx;
+}
+
+.image-uploader__check-text {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.55;
 }
 
 .image-uploader__actions {

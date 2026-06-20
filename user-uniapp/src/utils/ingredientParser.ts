@@ -3,7 +3,7 @@ import type { ParsedIngredient } from '@/types';
 
 const splitDelimiterPattern = /[,，、;；\n\r]+/;
 const protectedDelimiter = '\uE000';
-const prefixPattern = /^\s*(?:配\s*料\s*(?:表|衰)?|食品\s*配\s*料|原\s*料|食品添加剂|ingredients?)\s*[:：-]\s*/i;
+const prefixPattern = /^\s*(?:配\s*料\s*(?:表|衰)?|护\s*料\s*(?:表)?|食品\s*配\s*料|原\s*料|食品添加剂|ingredients?)\s*[:：-]\s*/i;
 
 export function parseIngredientList(text: string): ParsedIngredient[] {
   const prepared = normalizeInput(text)
@@ -31,12 +31,25 @@ export function parseIngredientList(text: string): ParsedIngredient[] {
 }
 
 function normalizeInput(text: string): string {
-  return extractIngredientSection(String(text || ''))
+  return repairOcrIngredientBreaks(extractIngredientSection(String(text || '')))
     .normalize('NFKC')
     .replace(/\r?\n/g, '，')
     .replace(prefixPattern, '')
     .replace(/[,，、]{2,}/g, '，')
     .trim();
+}
+
+function repairOcrIngredientBreaks(text: string): string {
+  return String(text || '')
+    .replace(/姜\s*\n\s*黄粉/g, '姜黄粉')
+    .replace(/脱脂乳\s*\n\s*粉/g, '脱脂乳粉')
+    .replace(/谷氨酸\s*\n\s*钠/g, '谷氨酸钠')
+    .replace(/木糖\s*\n\s*醇/g, '木糖醇')
+    .replace(/果\s*\n\s*胶/g, '果胶')
+    .replace(/明胶\s*\n\s*[(（]\s*来源于牛骨\s*[)）]/g, '明胶(来源于牛骨)')
+    .replace(/5\s*[-－']?\s*肌苷酸二\s*\n\s*钠/g, "5'-肌苷酸二钠")
+    .replace(/5\s*[一-]\s*呈味核苷酸二\s*\n\s*钠/g, "5'-呈味核苷酸二钠")
+    .replace(/食用\s*\n\s*焦糖色/g, '焦糖色');
 }
 
 function extractIngredientSection(text: string): string {
@@ -98,6 +111,7 @@ function cleanItem(value: string): string {
 function isNoiseIngredientItem(value: string): boolean {
   const text = String(value || '').trim();
   if (!text) return true;
+  if (/^(?:食用|钠|粉|黄粉)$/.test(text)) return true;
   if (/^(?:\d+|[A-Z0-9\-./]+)$/i.test(text)) return true;
   if (/(?:净含量|生产日期|保质期|生产商|制造商|委托方|经销商|地址|电话|邮编|食品生产许可证|许可证编号|执行标准|条码|条形码|二维码|贮存|储存|产地|规格|食用方法|温馨提示|开封后|见包装|本品|本产品)/.test(text)) return true;
   if (/(?:有限公司|公司|工厂|工业园|开发区|省|市|区|县|路|街|号)\s*$/.test(text) && text.length > 6) return true;

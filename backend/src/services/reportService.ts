@@ -502,7 +502,7 @@ function buildSources(matches: IngredientMatch[], ocr?: OcrResultInput, original
   const base: ReportSource[] = [
     {
       label: 'OCR / 手动确认文本',
-      detail: '报告基于用户确认后的食品标签文本生成，OCR 原文不是权威来源。'
+      detail: '报告基于用户确认后的食品标签文本生成，OCR 识别文字不是权威来源。'
     },
     {
       label: '我的关注项',
@@ -513,7 +513,7 @@ function buildSources(matches: IngredientMatch[], ocr?: OcrResultInput, original
   if (ocr?.mode === 'mock' || ocr?.provider === 'mock') {
     base.push({
       label: 'mock only OCR',
-      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示，报告需结合包装原文确认。'
+      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示。'
     });
   }
 
@@ -570,12 +570,12 @@ function buildSummarySentence(
 
   if (input.ingredients.length) parts.push(`识别到 ${input.ingredients.length} 项配料`);
   if (!input.ingredients.length && !input.frontClaimsText) parts.push('未提供配料表');
-  if (input.frontClaimsText) parts.push('包装正面文字已整理');
-  if (input.additiveCount) parts.push(`其中 ${input.additiveCount} 项可能属于食品添加剂分组`);
-  if (input.nutrition.some((field) => field.value)) parts.push('营养成分表已整理');
+  if (input.frontClaimsText) parts.push('包装声明已整理');
+  if (input.additiveCount) parts.push(`看到 ${input.additiveCount} 种常见食品添加剂`);
+  if (input.nutrition.some((field) => field.value)) parts.push('营养数字已整理');
   if (input.hits.length) parts.push(`建议重点查看：${input.hits.slice(0, 3).map((hit) => hit.label).join('、')}`);
 
-  return `${parts.join('，')}。信息不足时，建议结合包装原文确认。`;
+  return parts.length ? `${parts.join('，')}。` : '未识别到可分析的配料表或营养成分表。';
 }
 
 function buildAttentionHits(input: {
@@ -642,7 +642,7 @@ function buildFocusItems(matches: IngredientMatch[], nutrition: NutritionField[]
 
   const pending = matches.filter((match) => ['mapped_candidate', 'pending_review', 'unknown_from_ocr', 'unverified'].includes(match.dataStatus));
   if (pending.length) {
-    items.push(`有 ${pending.length} 项需要结合包装原文或数据来源继续确认`);
+    items.push(`有 ${pending.length} 项未确认来源，已保留为线索`);
   }
 
   return [...new Set(items)].slice(0, 8);
@@ -657,13 +657,13 @@ function buildNutritionIngredientChecks(ingredients: ParsedIngredientInput[], nu
   return [
     buildNutritionIngredientCheck({
       key: 'sugar',
-      title: '糖核验',
+      title: '糖线索',
       nutritionField: sugarField,
       ingredientSignals: sugarMatchedSignals
     }),
     buildNutritionIngredientCheck({
       key: 'sodium',
-      title: '钠核验',
+      title: '钠线索',
       nutritionField: sodiumField,
       ingredientSignals: sodiumMatchedSignals
     })
@@ -680,6 +680,7 @@ function buildNutritionIngredientCheck(options: {
   const hasNutrition = Boolean(valueText);
   const hasSignal = options.ingredientSignals.length > 0;
   const unit = options.nutritionField?.unit || '';
+  const label = options.key === 'sugar' ? '糖' : '钠';
   if (!hasNutrition && !hasSignal) {
     return {
       key: options.key,
@@ -688,7 +689,7 @@ function buildNutritionIngredientCheck(options: {
       nutritionUnit: '',
       ingredientSignals: [],
       state: 'insufficient_data',
-      summary: `未抓取到该项营养值与配料线索，信息不足。建议补拍营养成分表或配料表并结合包装原文核对。`
+      summary: `没有看到${label}相关数字或配料线索。`
     };
   }
   if (!hasNutrition || !hasSignal) {
@@ -700,8 +701,8 @@ function buildNutritionIngredientCheck(options: {
       ingredientSignals: options.ingredientSignals,
       state: 'insufficient_data',
       summary: hasNutrition
-        ? `${options.title}营养值有记录，但未识别到与其高价值对应的配料线索，建议继续核对原文。`
-        : `已命中${options.title}相关配料线索，但未抓取到该项营养值，请补充营养表信息。`
+        ? `包装上写了${label} ${valueText}${unit}，配料表里没有明显对应词。`
+        : `配料表里看到${label}相关词：${options.ingredientSignals.join('、')}，但没有看到${label}数字。`
     };
   }
 
@@ -715,7 +716,7 @@ function buildNutritionIngredientCheck(options: {
       nutritionUnit: unit,
       ingredientSignals: [...new Set(options.ingredientSignals)],
       state: 'possible_issue',
-      summary: `${options.title}营养值 ${valueText}${unit} 与配料线索 ${options.ingredientSignals.join('、')} 同时出现，建议结合包装原文核对是否存在标识偏差。`
+      summary: `包装上写了${label} ${valueText}${unit}，配料表也看到 ${options.ingredientSignals.join('、')}，份量会影响实际摄入。`
     };
   }
 
@@ -726,7 +727,7 @@ function buildNutritionIngredientCheck(options: {
     nutritionUnit: unit,
     ingredientSignals: [...new Set(options.ingredientSignals)],
     state: 'no_obvious_issue',
-    summary: `${options.title}营养值 ${valueText}${unit} 与配料线索 ${options.ingredientSignals.join('、')} 暂未形成明显冲突。建议结合包装原文确认。`
+    summary: `包装上写了${label} ${valueText}${unit}，配料表也看到 ${options.ingredientSignals.join('、')}。`
   };
 }
 
@@ -742,9 +743,9 @@ function buildFrontClaimHighlights(text: string): string[] {
   ].filter((item) => item.pattern.test(text)).map((item) => item.label);
 
   if (matchedLabels.length) {
-    highlights.push(`包装正面出现 ${[...new Set(matchedLabels)].join('、')}，建议结合配料表和营养成分表确认。`);
+    highlights.push(`包装正面出现 ${[...new Set(matchedLabels)].join('、')}，已和配料表、营养成分表一起整理。`);
   } else {
-    highlights.push('包装正面文字已保留，建议结合配料表和营养成分表确认。');
+    highlights.push('包装正面文字已保留，已和配料表、营养成分表一起整理。');
   }
   return highlights;
 }
@@ -762,7 +763,7 @@ function buildNutritionHighlights(fields: NutritionField[], attention: { goals: 
   }
   if (hasGoal('high_protein')) addFieldHighlight(highlights, byKey.get('protein'), '高蛋白');
   if (!highlights.length && fields.some((field) => field.value)) {
-    highlights.push('营养字段已整理，请以包装标示为准。');
+    highlights.push('营养数字已整理。');
   }
 
   return highlights;
@@ -783,7 +784,7 @@ function buildAllergenHints(matches: IngredientMatch[]): string[] {
   const normalizedText = normalizeForTermMatch(text);
   return allergenTerms
     .filter((item) => item.patterns.some((pattern) => hasTermInText(normalizedText, pattern)))
-    .map((item) => `可能需要查看 ${item.label} 相关标示，请以包装过敏原提示和配料表为准。`);
+    .map((item) => `识别到 ${item.label} 相关标示，已列为过敏原线索。`);
 }
 
 function groupAdditives(items: IngredientMatch[]): Array<{ label: string; items: IngredientMatch[] }> {

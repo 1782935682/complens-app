@@ -183,6 +183,39 @@ export interface ConsumerDecision {
   score: number;
 }
 
+export interface FoodAnalyzeResult {
+  productName: string;
+  category: string;
+  productionDate: string;
+  ingredients: string[];
+  nutrition: Record<string, { value: number; unit: string; level: string; text: string }>;
+  frontClaims?: string[];
+  uncertainClues?: string[];
+  decision: 'buy' | 'caution' | 'limit' | 'avoid' | 'unknown';
+  decisionText: string;
+  riskLevel: 'green' | 'yellow' | 'red' | 'unknown';
+  summary: string;
+  plainExplanation: string;
+  mainReasons: string[];
+  suitableFor: string[];
+  notSuitableFor: string[];
+  ingredientHighlights: Array<{
+    name: string;
+    level: 'green' | 'yellow' | 'red' | 'unknown';
+    explanation: string;
+  }>;
+  nutritionJudgement: Record<string, string>;
+  eatingAdvice: string;
+  confidence: 'high' | 'medium' | 'low';
+  source: {
+    ruleBased: boolean;
+    aiEnhanced: boolean;
+    provider: string;
+    model: string;
+  };
+  retakeSuggestion: string;
+}
+
 export interface ScanDraft {
   image?: LocalImageAsset;
   labelType: LabelType;
@@ -192,6 +225,8 @@ export interface ScanDraft {
   ocr?: OcrResult;
   confirmedText: string;
   productName: string;
+  foodTypeText?: string;
+  productionDateText?: string;
   ingredients: ParsedIngredient[];
   nutrition: NutritionField[];
   matches: IngredientMatch[];
@@ -223,10 +258,14 @@ export interface ReportAnalysisSource {
   imagePath?: string;
   imageSummary?: string;
   ocrText?: string;
+  productNameText?: string;
+  foodTypeText?: string;
   ingredientText?: string;
   nutritionText?: string;
   allergenText?: string;
   frontClaimsText?: string;
+  productionDateText?: string;
+  unconfirmedText?: string[];
   confidence?: 'high' | 'medium' | 'low';
   inputSourceType?: 'ocr' | 'manual' | 'demo';
   targetSnapshot: {
@@ -241,6 +280,8 @@ export interface LabelReport {
   title: string;
   productName: string;
   createdAt: string;
+  isFavorite?: boolean;
+  favoritedAt?: string;
   summarySentence: string;
   decision?: ConsumerDecision;
   attentionHits: AttentionHit[];
@@ -265,6 +306,22 @@ export interface LabelReport {
   allergenHints: string[];
   unknownItems: string[];
   analysisSource?: ReportAnalysisSource;
+  foodAnalysis?: FoodAnalyzeResult;
   sources: ReportSource[];
   rawText: string;
+}
+
+export type ReportFeedbackReason = 'ocr_wrong' | 'missing_text' | 'unclear_explanation' | 'other';
+
+export interface ReportFeedback {
+  id: string;
+  reportId: string;
+  reportTitle: string;
+  productName: string;
+  reason: ReportFeedbackReason;
+  reasonLabel: string;
+  note: string;
+  source: 'report' | 'history';
+  status: 'queued';
+  createdAt: string;
 }

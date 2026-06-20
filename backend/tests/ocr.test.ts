@@ -66,6 +66,87 @@ describe('POST /api/ocr', () => {
     expect(await response.json()).toEqual({ error: 'ocr_not_configured', provider: 'aliyun' });
   });
 
+  it('returns 503 when aliyun access secret is not configured', async () => {
+    const app = createTestApp({ ocrApiKey: 'test-access-key', ocrProvider: 'aliyun' });
+    const response = await app.request('/api/ocr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer valid-token'
+      },
+      body: JSON.stringify({ imageBase64: 'abc', mimeType: 'image/jpeg' })
+    });
+
+    expect(response.status).toBe(503);
+    expect(await response.json()).toEqual({ error: 'ocr_not_configured', provider: 'aliyun' });
+  });
+
+  it('calls aliyun OCR with a signed request and maps text blocks', async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+      Data: JSON.stringify({
+        content: '配料：水、柠檬酸\n营养成分表 能量 120kJ',
+        prism_wordsInfo: [
+          {
+            word: '配料：水、柠檬酸',
+            prob: 98,
+            pos: [{ x: 1, y: 2 }, { x: 100, y: 2 }, { x: 100, y: 22 }, { x: 1, y: 22 }]
+          },
+          {
+            word: '营养成分表 能量 120kJ',
+            prob: 92,
+            pos: [{ x: 1, y: 34 }, { x: 160, y: 34 }, { x: 160, y: 54 }, { x: 1, y: 54 }]
+          }
+        ]
+      })
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+    const app = createTestApp({
+      ocrApiKey: 'test-access-key',
+      ocrApiSecret: 'test-access-secret',
+      ocrProvider: 'aliyun'
+    });
+
+    const response = await app.request('/api/ocr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer valid-token'
+      },
+      body: JSON.stringify({ imageBase64: 'aGVsbG8=', mimeType: 'image/jpeg', category: 'food' })
+    });
+    const body = await response.json();
+    const [requestInput, requestInit] = fetchMock.mock.calls[0] as unknown as [string | URL, RequestInit];
+    const requestUrl = String(requestInput);
+    const headers = requestInit.headers as Record<string, string>;
+
+    expect(response.status).toBe(200);
+    expect(requestUrl).toContain('https://ocr-api.cn-hangzhou.aliyuncs.com/');
+    expect(requestUrl).toContain('OutputTable=true');
+    expect(requestUrl).toContain('NeedRotate=true');
+    expect(headers['x-acs-action']).toBe('RecognizeAdvanced');
+    expect(headers['x-acs-version']).toBe('2021-07-07');
+    expect(headers.Authorization).toContain('ACS3-HMAC-SHA256 Credential=test-access-key');
+    expect(headers.Authorization).not.toContain('test-access-secret');
+    expect(body).toMatchObject({
+      text: '配料：水、柠檬酸\n营养成分表 能量 120kJ',
+      provider: 'aliyun',
+      blocks: [
+        {
+          text: '配料：水、柠檬酸',
+          confidence: 0.98,
+          bounds: { points: [{ x: 1, y: 2 }, { x: 100, y: 2 }, { x: 100, y: 22 }, { x: 1, y: 22 }] }
+        },
+        {
+          text: '营养成分表 能量 120kJ',
+          confidence: 0.92
+        }
+      ]
+    });
+  });
+
   it('returns explicit mock OCR output without a real provider key', async () => {
     const app = createTestApp({ ocrProvider: 'mock' });
     const response = await app.request('/api/ocr', {
@@ -185,7 +266,8 @@ describe('POST /api/ocr', () => {
   it('rejects malformed rapidocr responses instead of returning an empty real OCR result', async () => {
     const fetchMock = vi.fn(async () => new Response(JSON.stringify({
       provider: 'rapidocr-onnxruntime',
-      raw_text: '配料：水',
+      raw_text: '',
+      text: '',
       blocks: {}
     }), {
       status: 200,
@@ -210,6 +292,39 @@ describe('POST /api/ocr', () => {
     expect(response.status).toBe(502);
     expect(body).toMatchObject({
       error: 'ocr_provider_invalid_response',
+      provider: 'rapidocr'
+    });
+  });
+
+  it('accepts common RapidOCR text field aliases', async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+      provider: 'rapidocr-onnxruntime',
+      text: '品 名 小麻花\n配 料 小麦粉、植物油、大米粉、白砂糖、麦芽糖、海苔粉、香辛料、味精、食用盐、碳酸钙',
+      confidence: 0.82,
+      blocks: []
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+    const app = createTestApp({
+      ocrProvider: 'rapidocr',
+      ocrServiceUrl: 'http://127.0.0.1:8000'
+    });
+
+    const response = await app.request('/api/ocr', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer valid-token'
+      },
+      body: JSON.stringify({ imageBase64: 'aGVsbG8=', mimeType: 'image/jpeg', category: 'food' })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({
+      text: '品 名 小麻花\n配 料 小麦粉、植物油、大米粉、白砂糖、麦芽糖、海苔粉、香辛料、味精、食用盐、碳酸钙',
       provider: 'rapidocr'
     });
   });

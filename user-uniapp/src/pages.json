@@ -1,9 +1,10 @@
-{
+﻿{
   "pages": [
-    { "path": "pages/index/index", "style": { "navigationBarTitleText": "配料雷达" } },
+    { "path": "pages/index/index", "style": { "navigationStyle": "custom", "navigationBarTitleText": "" } },
     { "path": "pages/capture/index", "style": { "navigationBarTitleText": "拍食品标签" } },
     { "path": "pages/search/index", "style": { "navigationBarTitleText": "成分搜索" } },
-    { "path": "pages/report/index", "style": { "navigationBarTitleText": "消费建议" } },
+    { "path": "pages/report/index", "style": { "navigationBarTitleText": "食品标签解读" } },
+    { "path": "pages/history/index", "style": { "navigationBarTitleText": "历史记录" } },
     { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的" } }
   ],
   "tabBar": {
@@ -28,7 +29,7 @@
   },
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "配料雷达",
+    "navigationBarTitleText": "成分镜",
     "navigationBarBackgroundColor": "#eefaf5",
     "backgroundColor": "#f7f6f1"
   }

@@ -44,7 +44,7 @@ MVP 至少覆盖：
 
 MVP 后置能力：
 
-- 包装正面卖点核对
+- 包装正面卖点提示
 - 两款商品对比
 - 扫码
 - 云同步
@@ -60,7 +60,7 @@ MVP 后置能力：
 | 后台管理端 | `admin-web`：Vue3 + TDesign Web | 尚未独立建设；仅有嵌入用户端的 GB2760 复核页 | 单独建设后台项目，不与用户端强行共用页面代码 |
 | 后端 API | Node.js + Hono | 已有 `backend/`，技术栈为 Node.js + TypeScript + Hono | 优先复用现有 `backend`，不要重复创建 Express/Nest/Fastify 服务；Fastify 仅可作为未来评估，不作为当前迁移目标 |
 | 数据库 | PostgreSQL + Drizzle | 已有 PostgreSQL + Drizzle | 继续复用 |
-| OCR 服务 | Python FastAPI + RapidOCR | 已对接本机 RapidOCR 服务 | 继续作为本地 OCR provider，生产后再切 Aliyun OCR |
+| OCR 服务 | Python FastAPI + RapidOCR / Aliyun OCR | 已对接本机 RapidOCR 服务，Aliyun 后端 provider 已实现 | 本地优先 RapidOCR；生产可配置后端 Aliyun 凭证后切换 |
 
 ## 4. 目录规划
 
@@ -242,7 +242,7 @@ http://127.0.0.1:18080/ocr
 - OCR 结果必须进入文本确认页。
 - 生产环境可切换 Aliyun OCR，但同样只由后端调用。
 
-> 当前代码使用 `OCR_SERVICE_URL` 作为后端配置名。后续如果统一为 `OCR_LOCAL_URL`，必须同步 `.env.example`、`COMMANDS.md`、`INTEGRATIONS.md` 和部署文档，不得让两个变量长期并存且含义不清。
+> 当前代码优先读取 `OCR_LOCAL_URL`，旧的 `OCR_SERVICE_URL` 仅作为兼容 fallback。新配置和文档应统一使用 `OCR_LOCAL_URL=http://127.0.0.1:18080/ocr`。
 
 ## 8. 后台总体定位
 

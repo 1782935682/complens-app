@@ -32,6 +32,13 @@
     "user:build:mp-weixin": "npm --prefix user-uniapp run build:mp-weixin",
     "user:lint": "npm --prefix user-uniapp run lint",
     "user:typecheck": "npm --prefix user-uniapp run typecheck",
+    "user:audit:product-output": "npm --prefix user-uniapp run audit:product-output",
+    "user:regression:ocr-report": "npm --prefix user-uniapp run regression:ocr-report",
+    "user:visual:smoke": "npm --prefix user-uniapp run visual:smoke",
+    "user:sample:real-packaging": "npm --prefix user-uniapp run sample:real-packaging",
+    "user:review:chatgpt": "npm --prefix user-uniapp run review:chatgpt",
+    "user:review:deepseek": "npm --prefix user-uniapp run review:deepseek",
+    "user:review:deepseek:samples": "npm --prefix user-uniapp run review:deepseek:samples",
     "cap:sync": "npm run build && npx cap sync",
     "cap:open:ios": "npx cap open ios",
     "cap:open:android": "npx cap open android"

@@ -12,17 +12,17 @@ export type MockProductRecord = {
 const mockProducts: MockProductRecord[] = [
   {
     id: 'mock-yogurt-strawberry',
-    productName: '配料雷达样例草莓酸奶',
+    productName: '成分镜样例草莓酸奶',
     brand: '本地示例',
     barcode: '6900000000011',
-    aliases: ['样例草莓酸奶', '配料雷达样例酸奶', 'mock草莓酸奶'],
+    aliases: ['样例草莓酸奶', '成分镜样例酸奶', 'mock草莓酸奶'],
     frontKeywords: ['草莓酸奶', '酸奶', '风味发酵乳'],
     ingredientText: '生牛乳，白砂糖，草莓果酱，乳清蛋白粉，果胶，黄原胶，食用香精，保加利亚乳杆菌，嗜热链球菌。',
     nutritionText: '营养成分表 每100g 能量 360kJ 蛋白质 3.2g 脂肪 2.8g 碳水化合物 12.5g 糖 9.8g 钠 65mg'
   },
   {
     id: 'mock-soda-cracker',
-    productName: '配料雷达样例苏打饼干',
+    productName: '成分镜样例苏打饼干',
     brand: '本地示例',
     barcode: '6900000000028',
     aliases: ['样例苏打饼干', 'mock苏打饼干'],
@@ -32,7 +32,7 @@ const mockProducts: MockProductRecord[] = [
   },
   {
     id: 'mock-low-sugar-tea',
-    productName: '配料雷达样例低糖茶饮',
+    productName: '成分镜样例低糖茶饮',
     brand: '本地示例',
     barcode: '6900000000035',
     aliases: ['样例低糖茶饮', 'mock低糖茶饮'],

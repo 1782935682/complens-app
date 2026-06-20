@@ -97,10 +97,10 @@ function getConfidenceGate(labelType: LabelType): number {
 }
 
 function buildReasons(labelType: LabelType, requiresUserSelection: boolean): string[] {
-  if (requiresUserSelection) return ['文字特征不够明确，将按包装原文整理并提示核对。'];
+  if (requiresUserSelection) return ['文字特征不够明确，将按已识别文字生成信息不足提示。'];
   if (labelType === 'ingredient_list') return ['识别到明确的配料标题或成分列表。'];
   if (labelType === 'nutrition_facts') return ['识别到营养成分字段。'];
   if (labelType === 'front_claims') return ['识别到包装正面卖点文字。'];
   if (labelType === 'barcode_or_product') return ['识别到产品名、净含量、日期或条码等信息。'];
-  return ['文字特征不够明确，将按包装原文整理并提示核对。'];
+  return ['文字特征不够明确，将按已识别文字生成信息不足提示。'];
 }

@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import type { AppConfig } from '../config.js';
 import type { AuthService } from '../services/authService.js';
-import { OcrProviderError, normalizeOcrProvider, recognizeWithOcrProvider, requiresOcrApiKey, requiresOcrServiceUrl } from '../services/ocrProviders/index.js';
+import { OcrProviderError, normalizeOcrProvider, recognizeWithOcrProvider, requiresOcrApiKey, requiresOcrApiSecret, requiresOcrServiceUrl } from '../services/ocrProviders/index.js';
 
 type OcrJsonBody = {
   imageBase64?: unknown;
@@ -12,7 +12,7 @@ type OcrJsonBody = {
 const MAX_OCR_IMAGE_BYTES = 10 * 1024 * 1024;
 const MAX_OCR_IMAGE_BASE64_LENGTH = Math.ceil(MAX_OCR_IMAGE_BYTES / 3) * 4;
 
-export function createOcrRoute(_authService: AuthService, config: Pick<AppConfig, 'ocrApiKey' | 'ocrProvider' | 'ocrServiceUrl'>) {
+export function createOcrRoute(_authService: AuthService, config: Pick<AppConfig, 'aliyunOcrAction' | 'aliyunOcrEndpoint' | 'ocrApiKey' | 'ocrApiSecret' | 'ocrProvider' | 'ocrServiceUrl'>) {
   const route = new Hono();
 
   route.post('/ocr', async (context) => {
@@ -31,12 +31,19 @@ export function createOcrRoute(_authService: AuthService, config: Pick<AppConfig
       return context.json({ error: 'ocr_not_configured', provider }, 503);
     }
 
+    if (requiresOcrApiSecret(provider) && !config.ocrApiSecret) {
+      return context.json({ error: 'ocr_not_configured', provider }, 503);
+    }
+
     if (requiresOcrServiceUrl(provider) && !config.ocrServiceUrl) {
       return context.json({ error: 'ocr_not_configured', provider }, 503);
     }
 
     const result = await recognizeWithOcrProvider(provider, validation.value, {
       apiKey: config.ocrApiKey,
+      apiSecret: config.ocrApiSecret,
+      aliyunAction: config.aliyunOcrAction,
+      aliyunEndpoint: config.aliyunOcrEndpoint,
       serviceUrl: config.ocrServiceUrl
     }).catch((error) => {
       if (error instanceof OcrProviderError) return error;

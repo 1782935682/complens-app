@@ -10,10 +10,12 @@ type SearchItem = Record<string, unknown>;
 interface DisplayIngredient {
   key: string;
   name: string;
-  type: string;
-  status: string;
+  plainType: string;
+  whyCare: string;
+  trust: string;
+  trustTone: 'trusted' | 'review' | 'plain';
   source: string;
-  evidence: string;
+  useAdvice: string;
   aliases: string;
 }
 
@@ -56,14 +58,19 @@ function normalizeSearchItem(item: SearchItem, index: number, keyword: string): 
     ...pickTextList(item.foodCategories),
     ...pickUsageLimits(item.usageLimits)
   ];
+  const dataStatus = String(item.dataStatus || '');
+  const plainType = buildPlainType(item, functions);
+  const trust = buildTrustNote(dataStatus);
 
   return {
     key: `${index}-${name}`,
     name,
-    type: pickText(item.category, functions.join('、'), '未分类'),
-    status: buildStatusNote(item.dataStatus),
-    source: pickText(item.sourceName, normalizeSourceType(item.sourceType), '暂无明确来源名称'),
-    evidence: buildEvidenceText(item, foods, functions),
+    plainType,
+    whyCare: buildWhyCareText(item, plainType, foods, functions, dataStatus),
+    trust,
+    trustTone: trustTone(dataStatus),
+    source: buildSourceText(item),
+    useAdvice: buildUseAdvice(item, foods, functions, dataStatus),
     aliases: aliases.length ? unique([name, ...aliases]).join('、') : name
   };
 }
@@ -88,31 +95,124 @@ function pickUsageLimits(value: unknown): string[] {
     .filter(Boolean);
 }
 
-function buildStatusNote(value: unknown): string {
+function buildTrustNote(value: unknown): string {
   const status = String(value || '');
-  if (status === 'verified_regulation') return '中国官方标准已验证';
-  if (status === 'verified_jecfa') return '国际评价来源';
-  if (status === 'common_ingredient') return '普通配料词库';
-  if (status === 'pending_review' || status === 'mapped_candidate') return '待复核';
-  if (status === 'unverified') return '未验证';
-  return '来源状态未知';
+  if (status === 'verified_regulation') return '名称参考';
+  if (status === 'verified_jecfa') return '国际资料线索';
+  if (status === 'common_ingredient') return '常见配料词库';
+  if (status === 'pending_review' || status === 'mapped_candidate') return '未确认线索';
+  if (status === 'unverified') return '来源不足';
+  if (status === 'unknown_from_ocr') return '包装文字线索';
+  return '来源不明确';
+}
+
+function trustTone(value: unknown): DisplayIngredient['trustTone'] {
+  const status = String(value || '');
+  if (status === 'verified_regulation') return 'trusted';
+  if (status === 'pending_review' || status === 'mapped_candidate' || status === 'unverified' || status === 'unknown_from_ocr') return 'review';
+  return 'plain';
 }
 
 function normalizeSourceType(value: unknown): string {
   const sourceType = String(value || '').trim();
-  if (sourceType === 'official_standard') return '官方标准';
+  if (sourceType === 'official_standard') return '标准资料';
   if (sourceType === 'safety_evaluation') return '评价来源';
   if (sourceType === 'common_ingredient') return '普通配料词库';
   if (sourceType === 'manual_review') return '人工复核记录';
   return sourceType;
 }
 
-function buildEvidenceText(item: SearchItem, foods: string[], functions: string[]): string {
-  const raw = pickText(item.regulatoryBasis, item.rawSourceText, item.reviewNote);
-  if (raw) return raw.replace(/\s+/g, ' ').slice(0, 96);
-  if (foods.length) return `已记录 ${unique(foods).slice(0, 3).join('、')} 等适用范围，详情以来源原文为准。`;
-  if (functions.length) return `分类/功能：${unique(functions).slice(0, 4).join('、')}。`;
-  return '暂无可展示的结构化依据，建议结合包装原文确认。';
+function normalizeCategory(value: unknown): string {
+  const category = pickText(value);
+  if (!category) return '';
+  if (/food_additive|添加剂/i.test(category)) return '食品添加剂';
+  if (/ordinary|common|普通|配料/i.test(category)) return '普通食品配料';
+  if (/nutrition|营养/i.test(category)) return '营养相关成分';
+  return category;
+}
+
+function buildPlainType(item: SearchItem, functions: string[]): string {
+  const category = normalizeCategory(item.category);
+  if (category) return category;
+  if (functions.length) return functions.slice(0, 2).join('、');
+  const status = String(item.dataStatus || '');
+  if (status === 'common_ingredient') return '普通食品配料';
+  if (status === 'verified_jecfa') return '国际评价资料中的成分';
+  return '食品标签成分';
+}
+
+function buildWhyCareText(item: SearchItem, plainType: string, foods: string[], functions: string[], dataStatus: string): string {
+  const text = `${plainType} ${functions.join(' ')}`.toLowerCase();
+  if (/甜味|阿斯巴甜|三氯蔗糖|安赛蜜|糖醇|赤藓糖醇/.test(text)) {
+    return '常见于无糖、低糖或甜味食品。控糖、给孩子看标签时，配料位置和营养成分表里的糖或碳水数字都会进入提醒。';
+  }
+  if (/防腐|山梨酸|苯甲酸|脱氢/.test(text)) {
+    return '常见作用是帮助延长保质期。介意添加剂时，可以把它和配料表长短、保质期一起看。';
+  }
+  if (/色素|柠檬黄|日落黄|胭脂红|焦糖色/.test(text)) {
+    return '常见作用是调整颜色。给孩子看零食标签时，色素类配料会单独列入提醒。';
+  }
+  if (/香精|香料/.test(text)) {
+    return '常见作用是增加风味。追求配料简单时，可以把香精香料类配料单独看一眼。';
+  }
+  if (/钠|盐/.test(text)) {
+    return '和咸味、钠摄入相关。低钠关注时，要同时看营养成分表里的钠数字。';
+  }
+  if (foods.length) {
+    return `资料里出现过 ${unique(foods).slice(0, 2).join('、')} 等标签场景；成分镜会按识别到的标签文字整理结果。`;
+  }
+  if (dataStatus === 'verified_jecfa') {
+    return '可作为国际资料线索查看，但不能直接当作中国允许使用范围或标签结论。';
+  }
+  if (dataStatus === 'pending_review' || dataStatus === 'mapped_candidate' || dataStatus === 'unverified') {
+    return '这条信息还不够稳，会在报告里作为未确认线索单独展示。';
+  }
+  return '可用来理解包装配料表里的名称和常见写法。';
+}
+
+function buildSourceText(item: SearchItem): string {
+  const status = String(item.dataStatus || '');
+  const sourceName = displaySourceName(pickText(item.sourceName));
+  if (status === 'verified_regulation') {
+    const compactName = sourceName.replace(/（标准资料）/g, '').trim();
+    return compactName ? `${compactName} · 公开资料` : '公开资料';
+  }
+  const sourceType = normalizeSourceType(item.sourceType);
+  if (sourceName && sourceType) return `${sourceName}（${sourceType}）`;
+  if (sourceName) return sourceName;
+  if (sourceType) return sourceType;
+  if (status === 'verified_regulation') return '后端资料线索';
+  if (status === 'verified_jecfa') return '国际评价资料';
+  if (status === 'common_ingredient') return '本地常见配料词库';
+  if (status === 'unknown_from_ocr') return '用户确认的包装文字';
+  return '暂无明确来源名称';
+}
+
+function displaySourceName(value: string): string {
+  return value
+    .replace(/官方标准/g, '标准资料')
+    .replace(/官方/g, '资料');
+}
+
+function buildUseAdvice(item: SearchItem, foods: string[], functions: string[], dataStatus: string): string {
+  if (dataStatus === 'verified_regulation') {
+    return '只作名称和常见叫法线索；报告会按配料表、营养数字和可用来源整理。';
+  }
+  if (dataStatus === 'verified_jecfa') {
+    return '只作国际资料线索；不能直接当作中国官方标准结论。';
+  }
+  if (dataStatus === 'common_ingredient') {
+    return '主要用于看懂包装叫法，不代表它一定是食品添加剂。';
+  }
+  if (dataStatus === 'pending_review' || dataStatus === 'mapped_candidate' || dataStatus === 'unverified') {
+    return '会作为未确认线索单独展示，不会混入已确认结果。';
+  }
+  if (dataStatus === 'unknown_from_ocr') {
+    return '来自包装文字识别，会在报告里按未确认线索展示。';
+  }
+  if (foods.length) return `资料里记录过 ${unique(foods).slice(0, 2).join('、')} 等场景，报告会按识别到的名称整理。`;
+  if (functions.length) return `资料归类为 ${unique(functions).slice(0, 3).join('、')}；搜索结果只帮助理解名称。`;
+  return '信息不足时会标为信息不足，不硬生成结论。';
 }
 
 function unique(values: string[]): string[] {
@@ -165,29 +265,29 @@ function searchHotKeyword(keyword: string) {
       </AppCard>
 
       <AppCard v-for="item in results" :key="item.key" class="result-card">
-        <view class="result-row result-row--name">
-          <text class="result-label">成分名称</text>
-          <text class="result-value result-value--name">{{ item.name }}</text>
+        <view class="result-head">
+          <view class="result-head__main">
+            <text class="result-value result-value--name">{{ item.name }}</text>
+            <text class="result-type">{{ item.plainType }}</text>
+          </view>
+          <text class="trust-chip" :class="`trust-chip--${item.trustTone}`">{{ item.trust }}</text>
+        </view>
+        <text class="result-scope-note">单个成分只能作名称参考，不能替代整包包装报告。</text>
+        <view class="result-row">
+          <text class="result-label">为什么看</text>
+          <text class="result-value">{{ item.whyCare }}</text>
         </view>
         <view class="result-row">
-          <text class="result-label">类型</text>
-          <text class="result-value">{{ item.type }}</text>
+          <text class="result-label">标签写法</text>
+          <text class="result-value">{{ item.aliases }}</text>
         </view>
         <view class="result-row">
-          <text class="result-label">来源状态</text>
-          <text class="result-value">{{ item.status }}</text>
-        </view>
-        <view class="result-row">
-          <text class="result-label">数据来源</text>
+          <text class="result-label">数据来自</text>
           <text class="result-value">{{ item.source }}</text>
         </view>
         <view class="result-row">
-          <text class="result-label">依据摘要</text>
-          <text class="result-value">{{ item.evidence }}</text>
-        </view>
-        <view class="result-row">
-          <text class="result-label">标签常见写法</text>
-          <text class="result-value">{{ item.aliases }}</text>
+          <text class="result-label">结果用途</text>
+          <text class="result-value">{{ item.useAdvice }}</text>
         </view>
       </AppCard>
     </view>
@@ -324,11 +424,34 @@ function searchHotKeyword(keyword: string) {
   border-bottom: 0;
 }
 
-.result-row--name {
+.result-head {
   margin: calc(-1 * var(--space-lg)) calc(-1 * var(--space-lg)) var(--space-sm);
   padding: var(--space-md) var(--space-lg);
   border-radius: 24rpx 24rpx 0 0;
   background: linear-gradient(90deg, var(--primary-soft), #ffffff);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.result-scope-note {
+  border-radius: 16rpx;
+  background: var(--surface-subtle);
+  color: var(--muted);
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.45;
+  margin-bottom: var(--space-sm);
+  padding: 10rpx 12rpx;
+}
+
+.result-head__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .result-label {
@@ -350,6 +473,36 @@ function searchHotKeyword(keyword: string) {
   line-height: 1.35;
 }
 
+.result-type {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.trust-chip {
+  flex-shrink: 0;
+  max-width: 220rpx;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.3;
+  padding: 6px 10px;
+  text-align: center;
+}
+
+.trust-chip--trusted {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.trust-chip--review {
+  background: var(--surface-warm);
+  color: var(--accent);
+}
+
 @media screen and (max-width: 340px) {
   .search-form {
     grid-template-columns: 1fr;
@@ -362,6 +515,14 @@ function searchHotKeyword(keyword: string) {
   .result-row {
     grid-template-columns: 1fr;
     gap: 2px;
+  }
+
+  .result-head {
+    flex-direction: column;
+  }
+
+  .trust-chip {
+    max-width: 100%;
   }
 }
 </style>

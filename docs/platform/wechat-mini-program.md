@@ -205,14 +205,14 @@ PORT=3010
 CORS_ORIGIN=https://api.yxl123.xyz
 JWT_SECRET=<本机随机 32 字节以上密钥>
 OCR_PROVIDER=rapidocr
-OCR_SERVICE_URL=http://127.0.0.1:8000
+OCR_LOCAL_URL=http://127.0.0.1:18080/ocr
 ```
 
 说明：
 
 - 后端监听 `127.0.0.1:3010`，只给 Caddy 反代，不直接暴露端口。
 - `JWT_SECRET` 必须是本机私密值，不提交。
-- `OCR_SERVICE_URL` 当前仍是代码实际读取的变量；后续统一迁移到 `OCR_LOCAL_URL` 时再改。
+- 后端优先读取 `OCR_LOCAL_URL`，旧的 `OCR_SERVICE_URL` 仅作为兼容 fallback。
 
 ### 3.4 数据库启动、迁移和 seed
 
