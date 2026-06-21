@@ -21,15 +21,15 @@ export async function lookupProductInfo(input: ProductRecognitionInfo, options: 
     qrContent: input.qrContent,
     productName: input.productName
   });
-  if (cached && (cached.productName || cached.ingredientsText || cached.nutritionText)) {
+  if (cached && (cached.productName || (!cached.usedAiSearch && (cached.ingredientsText || cached.nutritionText)))) {
     return {
       productName: cached.productName,
       brand: cached.brand,
-      ingredientsText: cached.ingredientsText,
-      nutritionText: cached.nutritionText,
+      ingredientsText: cached.usedAiSearch ? '' : cached.ingredientsText,
+      nutritionText: cached.usedAiSearch ? '' : cached.nutritionText,
       sources: ['历史缓存'],
-      usedAiSearch: cached.usedAiSearch,
-      aiNotice: cached.aiNotice,
+      usedAiSearch: false,
+      aiNotice: '',
       aiSearchSummary: cached.reportSummary,
       fromHistory: true
     };

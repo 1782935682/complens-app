@@ -28,15 +28,15 @@
 
 - 新增前端识别服务分层：`imageRecognitionService`、`barcodeService`、`ocrService`、`productLookupService`、`aiSearchService`、`reportService`，页面不直接承载条码、二维码、OCR、AI 搜索和报告编排逻辑。
 - 新增后端 `POST /api/products/lookup` 和 `productLookupService`，仅在缺少包装实拍配料、营养信息时，按商品码、二维码、数字编码、商品名或包装正面线索调用 DeepSeek 查公开标签信息。
-- DeepSeek 搜索结果不伪装成包装 OCR：商品名/品牌可作为线索；AI 返回的公开配料表或营养表可用于生成参考报告，但必须标注为“AI 联网公开标签线索”，不得显示成包装实拍 OCR、成分事实、法规或医疗结论。只有本机历史缓存里的已确认标签文本才可复用为历史确认信息。
+- DeepSeek 搜索结果不伪装成包装 OCR：商品名/品牌可作为线索；AI 返回的公开配料表或营养表只有在后端拿到 URL、域名或 Open Food Facts 等可核对公开来源摘要时才可用于参考报告，必须标注为“AI 公开标签线索”，不得显示成包装实拍 OCR、成分事实、法规或医疗结论。AI 搜索写入的历史记录不复用配料 / 营养；只有非 AI 的包装 OCR / 手动输入历史确认文本可复用。
 - 报告顶部新增统一识别信息卡，展示识别类型、原始内容摘要、标准化编码、内容类型、商品名、品牌、数据来源和识别时间。
-- 使用 DeepSeek 联网搜索时，报告明显展示固定提示：“部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。”
-- 信息不足报告不硬凑结论，首屏展示已识别到的商品、品牌、商品码和类型，再给“补拍配料/营养表”和“手动粘贴文字”两个动作。
-- 报告首屏结论改成具体重点，例如“钠需关注、热量需关注、脂肪需关注｜建议关注份量”，下面继续用“为什么 / 谁少吃 / 怎么吃”完成决策闭环。
+- 使用 DeepSeek 联网搜索时，报告识别卡展示“AI 公开标签线索”标签，并明显展示固定提示：“部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。”
+- 信息不足报告不硬凑结论，首屏展示已识别到的商品、品牌、商品码、类型或“未识别到可用内容”，再给“补拍配料/营养表”和“手动粘贴文字”两个动作。
+- 报告首屏结论改成关注人群口径，例如“控糖人群建议关注糖、碳水｜建议关注份量”或“建议关注钠、热量、脂肪｜建议关注份量”，下面继续用“为什么 / 谁少吃 / 怎么吃”完成决策闭环。
 - 首页保持单入口，不新增扫码、条码、二维码、手动编码按钮；删掉多余说明文案，只保留居中“拍包装”、可拍区域短标签和小号“查单个成分”入口。
 - 识别历史新增并保存 `imageId`、`detectedType`、`rawContent`、`ocrText`、`normalizedCode`、`qrContent`、`productName`、`brand`、`ingredientsText`、`nutritionText`、`source`、`reportSummary`、`usedAiSearch`、`aiNotice`、`createdAt`；按商品码、二维码和非泛化商品名合并，避免“未命名食品”等泛化名误合并。
 - 二维码 URL 补全不再由后端主动抓取任意网页内容，避免 SSRF / DNS rebinding / 大响应体风险；二维码原文只作为 DeepSeek 查询线索和报告识别信息展示。
-- 识别结束流程改为受控自动生成：清晰可生成的 OCR 结果直接生成报告；只有商品名、品牌、商品码或二维码时先经 AI 搜索公开标签线索，低置信场景只有在搜到配料/营养线索后才自动生成带来源标注的参考报告，搜不到则进入补充 / 信息不足；手动输入或生成失败时仍进入确认 / 补充页。`ocr-report-regression` 已固定自动生成策略场景、AI 搜索合并边界和 capture 接线断言。
+- 识别结束流程改为直接生成报告：清晰可生成的 OCR 结果直接生成报告；只有商品名、品牌、商品码或二维码时先经 AI 搜索公开标签线索，搜到可核对来源的配料/营养则生成带来源标注的参考报告；搜不到、低置信、OCR 失败或未知图片时生成信息不足报告，不再落到确认页。手动输入或用户从报告主动补充时进入 `manualInput` 文本补充页。`ocr-report-regression` 已固定自动生成策略场景、AI 搜索合并边界、AI 历史缓存不复用配料 / 营养、后端成功旧 OCR source 替换、空识别信息不足报告和 capture 接线断言。
 
 ## 评审闭环
 
@@ -49,18 +49,18 @@ ChatGPT 会话子 agent 深度复审：
 
 DeepSeek 综合复审：
 
-- 已采纳修改：AI 搜索免责声明强化为“公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论”；低置信 identity-only 不自动跳报告；AI 搜索失败会在报告顶部提示补拍或手动补充；报告 headline 改成“需关注 / 建议关注份量”口径。
-- 当前最新综合复审：`verdict=needs_changes`。仍列出的 ship blockers 主要是首页按钮尺寸、手动入口约束、添加剂精选词表和设计系统等存量/后续产品范围；本轮身份线索 AI 搜索报告路径的最终 Codex 子 agent 门禁已通过。
+- 已采纳修改：AI 搜索免责声明强化为“公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论”；低置信 / identity-only / 识别失败统一生成信息不足报告而不是确认页；AI 搜索失败会在报告顶部提示补拍或手动补充；报告 headline 改成“建议关注 / 建议关注份量”口径；后端 AI 商品补全只有 URL / 域名 / Open Food Facts 等可核对来源摘要才放行配料 / 营养；AI 历史缓存不复用配料 / 营养。
+- 当前最新综合复审：`verdict=needs_changes`。仍列出的 ship blockers 主要把 `manualInput` 手动输入状态误判为识别后补充页，并提出首页间距、结论个性化、设计 token、添加剂词表等 broader 产品 / UI 项；本轮代码级 Codex 子 agent 门禁以最终结果为准。
 - 输出：`/tmp/complens-deepseek-comprehensive-review.json`。
 
 Codex 子 agent 最终 PR 门禁：
 
-- provider: `codex-subagent-final-pr-gate`
+- provider: `codex-subagent-final-narrow-review`
 - pass: `true`
-- score: `94`
+- score: `9.4/10`
 - riskLevel: `low`
 - readyForPr: `true`
-- 结论：`ai_search_product_label` / `product_identity` 路径会过滤后端默认 OCR 来源；回归脚本固定了该过滤防线；`PRODUCT_DIRECTION_2026H2.md` 和 `CODEX_TASKS.md` 当前验收口径已统一为清晰可生成自动报告，低置信 / 失败 / 手动 / 信息不足进入确认或补充。
+- 结论：后端 AI 商品补全不再放行中文泛泛来源摘要，仅按 URL / 域名 / Open Food Facts 等可核对来源摘要放行配料 / 营养；AI 历史缓存不复用配料 / 营养，后续非 AI 已确认文本可覆盖并恢复复用；`buildLabelReportWithAdapter` 后端成功路径会过滤旧 “OCR / 手动确认文本” 和“用户确认后的食品标签文本”，自动 OCR 报告来源替换为“包装 OCR 识别文本”；回归脚本固定上述防线。
 
 视觉截图证据：
 
@@ -98,7 +98,7 @@ Codex 子 agent 最终 PR 门禁：
 已通过：
 
 - `npm --prefix backend run typecheck`
-- `npm --prefix backend test -- tests/productLookup.test.ts tests/foodAnalyze.test.ts tests/nutrition.test.ts tests/ocr.test.ts tests/aiFoodExplanation.test.ts`
+- `npm --prefix backend test -- tests/productLookup.test.ts`（10 个用例）
 - `npm --prefix user-uniapp run typecheck`
 - `npm --prefix user-uniapp run lint`
 - `npm run user:audit:product-output`
@@ -117,7 +117,7 @@ Codex 子 agent 最终 PR 门禁：
 - `npm run product-code:image-review-report`
 - `npm --prefix user-uniapp run typecheck`
 - `npm --prefix user-uniapp run lint`
-- `npm --prefix user-uniapp run regression:ocr-report`（27 个场景）
+- `npm --prefix user-uniapp run regression:ocr-report`（34 个场景）
 - `npm --prefix user-uniapp run build:h5`
 - `git diff --check`
 

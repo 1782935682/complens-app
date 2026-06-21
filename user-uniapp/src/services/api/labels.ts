@@ -193,8 +193,11 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
 }
 
 function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: ReportAnalysisSource): ReportSource[] {
-  const shouldReplaceDefaultOcrSource = sourceMeta?.sourceType === 'ai_search_product_label'
-    || sourceMeta?.sourceType === 'product_identity';
+  const shouldReplaceDefaultOcrSource = Boolean(
+    sourceMeta
+    && sourceMeta.sourceType !== 'manual_input'
+    && sourceMeta.sourceType !== 'demo_sample'
+  );
   const next = shouldReplaceDefaultOcrSource
     ? sources.filter((item) => !isDefaultOcrConfirmedSource(item))
     : [...sources];
@@ -206,10 +209,22 @@ function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: Repo
     });
   }
   if (sourceMeta?.sourceType === 'product_identity') {
+    const hasIdentitySource = hasProductIdentitySource(sourceMeta);
     next.push({
-      label: '商品身份线索',
-      detail: '本次只识别到商品名、品牌、商品码或二维码等身份线索，未获得可用配料表或营养成分表。',
-      sourceType: sourceMeta.qrContent ? 'qr_recognition' : 'barcode_recognition'
+      label: hasIdentitySource ? '商品身份线索' : '识别信息不足',
+      detail: hasIdentitySource
+        ? '本次只识别到商品名、品牌、商品码或二维码等身份线索，未获得可用配料表或营养成分表。'
+        : '本次未识别到可用标签文字或商品身份线索，已按信息不足处理。',
+      sourceType: hasIdentitySource
+        ? sourceMeta.qrContent ? 'qr_recognition' : 'barcode_recognition'
+        : 'recognition_insufficient'
+    });
+  }
+  if (sourceMeta && ['captured_ingredient', 'captured_nutrition', 'captured_product'].includes(sourceMeta.sourceType)) {
+    next.push({
+      label: '包装 OCR 识别文本',
+      detail: '结果基于本次拍照识别出的食品标签文字生成，OCR 识别文字不是权威来源，请以包装原文为准。',
+      sourceType: 'ocr_input'
     });
   }
   if (sourceMeta?.recognition?.normalizedCode) {
@@ -263,6 +278,19 @@ function isDefaultOcrConfirmedSource(item: ReportSource): boolean {
     || label.includes('OCR')
     || label.includes('手动确认文本')
     || detail.includes('用户确认后的食品标签文本');
+}
+
+function hasProductIdentitySource(sourceMeta: ReportAnalysisSource): boolean {
+  return Boolean(
+    sourceMeta.productNameText?.trim()
+    || sourceMeta.brand?.trim()
+    || sourceMeta.normalizedCode?.trim()
+    || sourceMeta.qrContent?.trim()
+    || sourceMeta.recognition?.productName?.trim()
+    || sourceMeta.recognition?.brand?.trim()
+    || sourceMeta.recognition?.normalizedCode?.trim()
+    || sourceMeta.recognition?.qrContent?.trim()
+  );
 }
 
 async function analyzeFoodWithAdapter(input: ReportInput): Promise<FoodAnalyzeResult | undefined> {

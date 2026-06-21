@@ -269,10 +269,18 @@ function buildSourceMeta(options: {
   attention: AttentionSettings;
 }): ReportAnalysisSource {
   const reportSourceType = resolveReportSourceType(options);
+  const hasIdentitySource = Boolean(
+    options.productNameText.trim()
+    || options.brand?.trim()
+    || options.recognition?.productName?.trim()
+    || options.recognition?.brand?.trim()
+    || options.recognition?.normalizedCode?.trim()
+    || options.recognition?.qrContent?.trim()
+  );
   return {
     sourceType: reportSourceType,
-    sourceLabel: sourceLabelForType(reportSourceType),
-    description: sourceDescriptionForType(reportSourceType),
+    sourceLabel: sourceLabelForType(reportSourceType, hasIdentitySource),
+    description: sourceDescriptionForType(reportSourceType, hasIdentitySource),
     fromUserCapture: options.sourceType === 'ocr' && reportSourceType !== 'ai_search_product_label',
     fromManualInput: options.sourceType === 'manual',
     imageSummary: options.sourceType === 'ocr' && options.image
@@ -323,24 +331,26 @@ function resolveReportSourceType(options: {
   return options.detectedType === 'nutrition_facts' && options.hasNutrition ? 'captured_nutrition' : 'captured_ingredient';
 }
 
-function sourceLabelForType(type: ReportAnalysisSource['sourceType']): string {
+function sourceLabelForType(type: ReportAnalysisSource['sourceType'], hasIdentitySource = true): string {
   if (type === 'demo_sample') return '示例标签文本';
   if (type === 'manual_input') return '手动输入内容';
-  if (type === 'product_identity') return '商品身份线索';
+  if (type === 'product_identity') return hasIdentitySource ? '商品身份线索' : '识别信息不足';
   if (type === 'ai_search_product_label') return 'AI 联网公开标签线索';
   if (type === 'captured_nutrition') return '用户拍摄的营养成分表';
   if (type === 'captured_product') return '用户拍摄的包装正面文字';
   return '用户拍摄的配料表';
 }
 
-function sourceDescriptionForType(type: ReportAnalysisSource['sourceType']): string {
+function sourceDescriptionForType(type: ReportAnalysisSource['sourceType'], hasIdentitySource = true): string {
   if (type === 'demo_sample') return '本次分析依据：内置示例食品标签文本。这是示例解读，不代表真实商品。';
   if (type === 'manual_input') return '本次分析依据：手动输入或粘贴的食品标签文字。';
-  if (type === 'product_identity') return '本次分析依据：本次识别到的商品名、品牌、商品码或二维码线索。当前未获得可用配料表或营养成分表。';
+  if (type === 'product_identity') return hasIdentitySource
+    ? '本次分析依据：本次识别到的商品名、品牌、商品码或二维码线索。当前未获得可用配料表或营养成分表。'
+    : '本次分析依据：本次拍照识别未获得可用食品标签文字或商品身份线索，已按信息不足处理。';
   if (type === 'ai_search_product_label') return '本次分析依据：AI 联网搜索到的公开商品标签线索。该线索不是包装实拍 OCR，不作为成分事实、法规或医疗结论。';
-  if (type === 'captured_nutrition') return '本次分析依据：你拍摄并确认的营养成分表。';
-  if (type === 'captured_product') return '本次分析依据：你拍摄并确认的包装正面或其他食品标签文字。';
-  return '本次分析依据：你拍摄并确认的配料表。';
+  if (type === 'captured_nutrition') return '本次分析依据：你拍摄的营养成分表 OCR 识别文字；请以包装原文为准。';
+  if (type === 'captured_product') return '本次分析依据：你拍摄的包装正面或其他食品标签 OCR 识别文字；请以包装原文为准。';
+  return '本次分析依据：你拍摄的配料表 OCR 识别文字；请以包装原文为准。';
 }
 
 function resolveDetectedType(value: string, ingredientText: string, nutritionText: string, frontClaimsText: string): LabelType {

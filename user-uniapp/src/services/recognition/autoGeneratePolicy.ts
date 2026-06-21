@@ -6,6 +6,7 @@ interface AutoGenerateRecognitionInput {
   canGenerate: boolean;
   hasAnyLabelText: boolean;
   hasRecognizedIdentity: boolean;
+  hasRecognitionResult: boolean;
   hasAiSearchLabelText: boolean;
   isNutritionOnly: boolean;
   isFrontOnly: boolean;
@@ -17,10 +18,6 @@ interface AutoGenerateRecognitionInput {
 export function shouldAutoGenerateRecognitionResult(input: AutoGenerateRecognitionInput): boolean {
   if (!input.enabled || !input.canGenerate) return false;
   if (input.sourceType === 'manual') return false;
-  if (!input.hasAnyLabelText && !input.hasRecognizedIdentity) return false;
-  if (input.ocrMode === 'fallback' && !input.hasAiSearchLabelText) return false;
-  if (input.confidence === 'low') {
-    return input.hasAiSearchLabelText;
-  }
+  if (!input.hasAnyLabelText && !input.hasRecognizedIdentity && !input.hasRecognitionResult) return false;
   return true;
 }

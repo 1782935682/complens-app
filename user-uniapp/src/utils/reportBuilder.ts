@@ -88,7 +88,11 @@ function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutritio
   const visibleHits = hits.filter((hit) => hit.key !== 'daily');
   const nutritionCount = countEffectiveNutritionValues(input.nutrition);
   if (input.ingredients.length) parts.push(`识别到 ${input.ingredients.length} 项配料`);
-  if (!input.ingredients.length && !frontClaimsText) parts.push('未提供配料表');
+  if (!input.ingredients.length && !frontClaimsText && nutritionCount === 0) {
+    parts.push('未识别到可分析的配料表或营养成分表');
+  } else if (!input.ingredients.length && !frontClaimsText) {
+    parts.push('未提供配料表');
+  }
   if (frontClaimsText) parts.push('包装声明已整理');
   if (additiveCount) parts.push(`看到 ${additiveCount} 种常见食品添加剂`);
   if (nutritionCount >= 2) parts.push(`营养数字已整理 ${nutritionCount} 项`);
@@ -348,15 +352,32 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
       sourceType: 'ai_search'
     });
   } else if (options.sourceMeta?.sourceType === 'product_identity') {
+    const hasIdentitySource = hasProductIdentitySource(options.sourceMeta);
     sources.push({
-      label: '商品身份线索',
-      detail: '本次只识别到商品名、品牌、商品码或二维码等身份线索，未获得可用配料表或营养成分表。',
-      sourceType: options.sourceMeta.qrContent ? 'qr_recognition' : 'barcode_recognition'
+      label: hasIdentitySource ? '商品身份线索' : '识别信息不足',
+      detail: hasIdentitySource
+        ? '本次只识别到商品名、品牌、商品码或二维码等身份线索，未获得可用配料表或营养成分表。'
+        : '本次未识别到可用标签文字或商品身份线索，已按信息不足处理。',
+      sourceType: hasIdentitySource
+        ? options.sourceMeta.qrContent ? 'qr_recognition' : 'barcode_recognition'
+        : 'recognition_insufficient'
+    });
+  } else if (options.sourceMeta?.sourceType === 'manual_input') {
+    sources.push({
+      label: '手动输入内容',
+      detail: '结果基于用户手动输入或粘贴的食品标签文字生成，未替代包装原文。',
+      sourceType: 'manual_input'
+    });
+  } else if (options.sourceMeta?.sourceType === 'demo_sample') {
+    sources.push({
+      label: '示例标签文本',
+      detail: '结果基于内置示例文本生成，不代表真实商品。',
+      sourceType: 'mock_adapter'
     });
   } else {
     sources.push({
-      label: 'OCR / 手动确认文本',
-      detail: '结果基于用户确认后的食品标签文本生成，OCR 识别文字不是权威来源。',
+      label: '包装 OCR 识别文本',
+      detail: '结果基于本次拍照识别出的食品标签文字生成，OCR 识别文字不是权威来源，请以包装原文为准。',
       sourceType: 'ocr_input'
     });
   }
@@ -453,6 +474,19 @@ function isOfficialStandardMatch(match: IngredientMatch): boolean {
 
 function isPendingBackendMatch(match: IngredientMatch): boolean {
   return match.decision !== 'rejected' && ['pending_review', 'mapped_candidate', 'unverified'].includes(match.dataStatus);
+}
+
+function hasProductIdentitySource(sourceMeta: ReportAnalysisSource): boolean {
+  return Boolean(
+    sourceMeta.productNameText?.trim()
+    || sourceMeta.brand?.trim()
+    || sourceMeta.normalizedCode?.trim()
+    || sourceMeta.qrContent?.trim()
+    || sourceMeta.recognition?.productName?.trim()
+    || sourceMeta.recognition?.brand?.trim()
+    || sourceMeta.recognition?.normalizedCode?.trim()
+    || sourceMeta.recognition?.qrContent?.trim()
+  );
 }
 
 function createReportId(): string {

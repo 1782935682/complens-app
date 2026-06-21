@@ -298,6 +298,7 @@ export interface ReportSource {
     | 'mock_adapter'
     | 'barcode_recognition'
     | 'qr_recognition'
+    | 'recognition_insufficient'
     | 'product_cache'
     | 'ai_search';
 }

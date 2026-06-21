@@ -26,6 +26,7 @@ const server = await createServer({
 try {
   const { extractLabelText } = await server.ssrLoadModule('/src/utils/labelTextExtractor.ts');
   const { buildLabelReport } = await server.ssrLoadModule('/src/utils/reportBuilder.ts');
+  const { buildLabelReportWithAdapter } = await server.ssrLoadModule('/src/services/api/labels.ts');
   const { buildLocalLabelAnalysis } = await server.ssrLoadModule('/src/utils/localLabelAnalysis.ts');
   const { normalizeOcrResult } = await server.ssrLoadModule('/src/utils/ocrAdapter.ts');
   const { parseNutritionText } = await server.ssrLoadModule('/src/utils/nutritionParser.ts');
@@ -34,18 +35,22 @@ try {
   const { extractNutrition } = await server.ssrLoadModule('/src/services/ocr/nutritionExtractor.ts');
   const barcodeService = await server.ssrLoadModule('/src/services/recognition/barcodeService.ts');
   const imageRecognitionService = await server.ssrLoadModule('/src/services/recognition/imageRecognitionService.ts');
+  const productLookupService = await server.ssrLoadModule('/src/services/recognition/productLookupService.ts');
+  const scanStore = await server.ssrLoadModule('/src/stores/scanStore.ts');
   const autoGeneratePolicy = await server.ssrLoadModule('/src/services/recognition/autoGeneratePolicy.ts');
 
   assertExtractionBoundaries(extractLabelText, normalizeOcrResult);
   assertMultiRegionOcrBoundaries({ normalizeOcrResult, classifyOcrSections, extractIngredients, extractNutrition });
   assertNutritionParsingBoundaries(parseNutritionText);
   assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis);
+  await assertAdapterReportBoundaries(buildLabelReport, buildLabelReportWithAdapter);
   assertRecognitionBoundaries(barcodeService);
   assertLookupMergeBoundaries(imageRecognitionService);
+  await assertProductLookupHistoryBoundaries(productLookupService, scanStore);
   assertAutoGeneratePolicy(autoGeneratePolicy);
   assertCaptureAutoGenerateWiring();
 
-  console.log('OCR/report regression passed: 27 scenarios checked.');
+  console.log('OCR/report regression passed: 34 scenarios checked.');
 } finally {
   await server.close();
 }
@@ -54,12 +59,91 @@ function assertCaptureAutoGenerateWiring() {
   const captureSource = readFileSync(resolve(root, 'src/pages/capture/index.vue'), 'utf8');
   const labelsSource = readFileSync(resolve(root, 'src/services/api/labels.ts'), 'utf8');
   assertIncludes(captureSource, 'const autoGenerateAfterOcr = ref(true);', 'capture should attempt auto report generation by default');
-  assertIncludes(captureSource, 'shouldOpenConfirm = !(await generateResult({ fromAutoRecognition: true }))', 'successful auto generation should suppress confirmation page');
-  assertIncludes(captureSource, "if (shouldOpenConfirm) stage.value = 'confirm';", 'confirmation page should only open when auto generation is not completed');
+  assertIncludes(captureSource, 'hasRecognitionResult.value', 'capture should allow any recognition result to become an information-insufficient report');
+  assertIncludes(captureSource, "if (shouldReturnToPick) stage.value = 'pick';", 'capture should not enter confirmation page after image recognition ends');
+  assertIncludes(captureSource, 'buildInsufficientRecognitionInfo', 'recognition failure should synthesize an insufficient report source');
+  assertIncludes(captureSource, "stage.value = 'manualInput';", 'manual entry should use explicit manual input state instead of confirmation state');
+  assertIncludes(captureSource, 'buildReportInputParts', 'capture should normalize auto-report fields before report generation');
+  assertIncludes(captureSource, "extractionConfidence.value === 'low'", 'low-confidence auto-recognition should be detected before report generation');
+  assertIncludes(captureSource, '低置信配料线索', 'low-confidence OCR ingredient text should be retained only as an unconfirmed clue');
+  assertIncludes(captureSource, "manualOverride.value && extractionSourceType.value === 'manual'", 'manual override should not promote auto OCR confidence');
+  assert(!captureSource.includes("stage.value = 'confirm'"), 'capture should not use confirmation stage after recognition changes');
   assertIncludes(labelsSource, 'sources.filter((item) => !isDefaultOcrConfirmedSource(item))', 'adapter should remove backend default OCR source for AI/identity reports');
+  assertIncludes(labelsSource, "['captured_ingredient', 'captured_nutrition', 'captured_product'].includes(sourceMeta.sourceType)", 'adapter should replace backend default OCR source for captured OCR reports');
   assertIncludes(labelsSource, "detail.includes('用户确认后的食品标签文本')", 'adapter should filter backend OCR source even when sourceType is missing');
   assertIncludes(labelsSource, "sourceMeta?.sourceType === 'ai_search_product_label'", 'adapter should branch AI label source');
   assertIncludes(labelsSource, "sourceMeta?.sourceType === 'product_identity'", 'adapter should branch product identity source');
+}
+
+async function assertAdapterReportBoundaries(buildLabelReport, buildLabelReportWithAdapter) {
+  const source = sourceMeta({
+    sourceType: 'captured_ingredient',
+    sourceLabel: '用户拍摄的配料表',
+    description: '本次分析依据：你拍摄的配料表 OCR 识别文字；请以包装原文为准。',
+    fromUserCapture: true,
+    fromManualInput: false,
+    ingredientText: '燕麦片、白砂糖',
+    inputSourceType: 'ocr'
+  });
+  const backendReport = buildLabelReport({
+    productName: '后端返回样本',
+    rawText: '配料表：燕麦片、白砂糖',
+    ingredients: [
+      { id: 'ingredient-1', rawText: '燕麦片', normalizedText: '燕麦片', isSubIngredient: false, isUnknown: false },
+      { id: 'ingredient-2', rawText: '白砂糖', normalizedText: '白砂糖', isSubIngredient: false, isUnknown: false }
+    ],
+    matches: [],
+    nutrition: [],
+    attention: attention(),
+    labelType: 'ingredient_list',
+    sourceMeta: source
+  });
+  backendReport.sources = [
+    {
+      label: 'OCR / 手动确认文本',
+      detail: '结果基于用户确认后的食品标签文本生成，OCR 识别文字不是权威来源。',
+      sourceType: 'ocr_input'
+    }
+  ];
+  const previousUni = globalThis.uni;
+  globalThis.uni = {
+    getStorageSync: () => '',
+    setStorageSync: () => undefined,
+    removeStorageSync: () => undefined,
+    request(options) {
+      if (String(options.url || '').endsWith('/food/analyze')) {
+        options.fail?.({ errMsg: 'mock food analysis unavailable' });
+        return;
+      }
+      if (String(options.url || '').endsWith('/reports/label')) {
+        options.success?.({ statusCode: 200, data: backendReport });
+        return;
+      }
+      options.fail?.({ errMsg: 'unexpected request' });
+    }
+  };
+  try {
+    const report = await buildLabelReportWithAdapter({
+      productName: '后端返回样本',
+      rawText: '配料表：燕麦片、白砂糖',
+      ingredients: backendReport.ingredientSection.items.map((item, index) => ({
+        id: `ingredient-${index}`,
+        rawText: item.term,
+        normalizedText: item.normalizedText,
+        isSubIngredient: false,
+        isUnknown: false
+      })),
+      matches: [],
+      nutrition: [],
+      attention: attention(),
+      labelType: 'ingredient_list',
+      sourceMeta: source
+    });
+    assert(report.sources.some((item) => item.label === '包装 OCR 识别文本'), 'adapter should add captured OCR source after backend success');
+    assert(!report.sources.some((item) => item.detail.includes('用户确认后的食品标签文本')), 'adapter should remove backend user-confirmed OCR wording after backend success');
+  } finally {
+    globalThis.uni = previousUni;
+  }
 }
 
 function assertAutoGeneratePolicy(autoGeneratePolicy) {
@@ -68,6 +152,7 @@ function assertAutoGeneratePolicy(autoGeneratePolicy) {
     canGenerate: true,
     hasAnyLabelText: true,
     hasRecognizedIdentity: false,
+    hasRecognitionResult: true,
     hasAiSearchLabelText: false,
     isNutritionOnly: false,
     isFrontOnly: false,
@@ -76,16 +161,31 @@ function assertAutoGeneratePolicy(autoGeneratePolicy) {
     ocrMode: 'success'
   };
   assert(autoGeneratePolicy.shouldAutoGenerateRecognitionResult(base), 'clear OCR label text should auto-generate report');
-  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, enabled: false }), 'disabled auto mode should stay on confirmation');
-  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, confidence: 'low', isNutritionOnly: false, isFrontOnly: false }), 'low-confidence mixed OCR should stay on confirmation');
-  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, sourceType: 'manual' }), 'manual input should stay on confirmation');
-  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({
+  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, enabled: false }), 'disabled auto mode should not auto-generate');
+  assert(autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, confidence: 'low', isNutritionOnly: false, isFrontOnly: false }), 'low-confidence image recognition should generate an information-insufficient report instead of confirmation');
+  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, sourceType: 'manual' }), 'manual input should stay on manual input page');
+  assert(autoGeneratePolicy.shouldAutoGenerateRecognitionResult({
     ...base,
     hasAnyLabelText: false,
     hasRecognizedIdentity: true,
+    hasRecognitionResult: true,
     confidence: 'low',
     ocrMode: 'fallback'
-  }), 'low-confidence identity-only result should stay on confirmation');
+  }), 'low-confidence identity-only result should generate an information-insufficient report');
+  assert(autoGeneratePolicy.shouldAutoGenerateRecognitionResult({
+    ...base,
+    hasAnyLabelText: false,
+    hasRecognizedIdentity: false,
+    hasRecognitionResult: true,
+    confidence: 'low',
+    ocrMode: 'fallback'
+  }), 'empty image recognition result should still generate an information-insufficient report');
+  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({
+    ...base,
+    hasAnyLabelText: false,
+    hasRecognizedIdentity: false,
+    hasRecognitionResult: false
+  }), 'auto policy should require at least one image recognition result or label clue');
   assert(autoGeneratePolicy.shouldAutoGenerateRecognitionResult({
     ...base,
     hasAiSearchLabelText: true,
@@ -117,6 +217,81 @@ function assertLookupMergeBoundaries(imageRecognitionService) {
   }));
   assertIncludes(cachedMerged.ingredientText, '生牛乳', 'history cache may reuse previously confirmed ingredient text');
   assertIncludes(cachedMerged.nutritionText, '300kJ', 'history cache may reuse previously confirmed nutrition text');
+}
+
+async function assertProductLookupHistoryBoundaries(productLookupService, scanStore) {
+  const aiCached = await withRecognitionHistory([
+    recognitionHistoryItem({
+      id: 'ai-cache',
+      productName: 'AI 历史商品',
+      ingredientsText: '配料表：AI 缓存配料',
+      nutritionText: '营养成分表 能量 999kJ',
+      source: ['DeepSeek 联网搜索'],
+      usedAiSearch: true
+    })
+  ], () => productLookupService.lookupProductInfo(recognitionInfo({
+    productName: 'AI 历史商品',
+    normalizedCode: '',
+    sources: []
+  }), { hasLabelText: false }));
+  assertEqual(aiCached.productName, 'AI 历史商品', 'AI history cache may reuse product identity');
+  assertEqual(aiCached.ingredientsText, '', 'AI history cache must not reuse ingredient text');
+  assertEqual(aiCached.nutritionText, '', 'AI history cache must not reuse nutrition text');
+  assertEqual(aiCached.usedAiSearch, false, 'AI history cache should not mark reused identity as fresh AI label evidence');
+
+  const confirmedCached = await withRecognitionHistory([
+    recognitionHistoryItem({
+      id: 'confirmed-cache',
+      productName: '已确认历史商品',
+      ingredientsText: '配料表：生牛乳、乳酸菌',
+      nutritionText: '营养成分表 能量 300kJ',
+      source: ['包装实拍 OCR'],
+      usedAiSearch: false
+    })
+  ], () => productLookupService.lookupProductInfo(recognitionInfo({
+    productName: '已确认历史商品',
+    normalizedCode: '',
+    sources: []
+  }), { hasLabelText: false }));
+  assertIncludes(confirmedCached.ingredientsText, '生牛乳', 'non-AI history cache may reuse confirmed ingredient text');
+  assertIncludes(confirmedCached.nutritionText, '300kJ', 'non-AI history cache may reuse confirmed nutrition text');
+
+  const mergedAfterConfirmed = await withRecognitionHistory([], async () => {
+    scanStore.saveRecognitionHistory(recognitionHistoryItem({
+      id: 'product-code-6900000000001',
+      imageId: 'ai-image',
+      normalizedCode: '6900000000001',
+      productName: '先 AI 后确认商品',
+      ingredientsText: '',
+      nutritionText: '',
+      source: ['DeepSeek 联网搜索'],
+      usedAiSearch: true
+    }));
+    scanStore.saveRecognitionHistory(recognitionHistoryItem({
+      id: 'product-code-6900000000001',
+      imageId: 'ocr-image',
+      normalizedCode: '6900000000001',
+      productName: '先 AI 后确认商品',
+      ingredientsText: '配料表：生牛乳、乳酸菌',
+      nutritionText: '营养成分表 能量 300kJ',
+      source: ['包装实拍 OCR'],
+      usedAiSearch: false,
+      createdAt: '2026-06-21T00:01:00.000Z',
+      updatedAt: '2026-06-21T00:01:00.000Z'
+    }));
+    const history = scanStore.getRecognitionHistory();
+    return {
+      history,
+      lookup: await productLookupService.lookupProductInfo(recognitionInfo({
+        normalizedCode: '6900000000001',
+        productName: '先 AI 后确认商品',
+        sources: []
+      }), { hasLabelText: false })
+    };
+  });
+  assertEqual(mergedAfterConfirmed.history[0].usedAiSearch, false, 'non-AI confirmed history should clear previous AI cache flag when merged');
+  assertIncludes(mergedAfterConfirmed.lookup.ingredientsText, '生牛乳', 'confirmed OCR text after an AI cache should become reusable');
+  assertIncludes(mergedAfterConfirmed.lookup.nutritionText, '300kJ', 'confirmed nutrition after an AI cache should become reusable');
 }
 
 function assertRecognitionBoundaries(barcodeService) {
@@ -343,6 +518,24 @@ function assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis) {
   assertEqual(pendingAdditiveReport.additiveRecognition?.items?.length || 0, 0, 'pending additive should not enter additive explanation list');
   assert(pendingAdditiveReport.focusItems.some((item) => item.includes('待确认') || item.includes('暂未收录')), 'pending ingredient should remain a review clue');
 
+  const capturedOcrAnalysis = buildLocalLabelAnalysis({
+    productName: '拍照识别样本',
+    ingredientText: '燕麦片、白砂糖',
+    nutritionText: '',
+    attention: attention(),
+    sourceType: 'ocr',
+    confidence: 'high',
+    recognition: recognitionInfo({
+      detectedType: 'ingredient_list',
+      ocrText: '配料表：燕麦片、白砂糖',
+      rawContent: '配料表：燕麦片、白砂糖',
+      normalizedCode: '',
+      sources: ['包装实拍 OCR']
+    })
+  });
+  assert(capturedOcrAnalysis.report.sources.some((item) => item.label === '包装 OCR 识别文本'), 'captured OCR report should use OCR recognition text source label');
+  assert(!capturedOcrAnalysis.report.sources.some((item) => item.detail.includes('用户确认后的食品标签文本')), 'captured OCR auto report should not claim user-confirmed text');
+
   const aiAnalysis = buildLocalLabelAnalysis({
     productName: 'AI 商品线索',
     ingredientText: '燕麦片、白砂糖、食用盐',
@@ -375,6 +568,27 @@ function assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis) {
   assertEqual(identityAnalysis.report.analysisSource?.sourceType, 'product_identity', 'identity-only report should use product_identity source type');
   assert(!identityAnalysis.report.sources.some((item) => item.label === 'OCR / 手动确认文本'), 'identity-only report should not claim ingredient OCR source');
   assert(identityAnalysis.report.sources.some((item) => item.detail.includes('deepseek_failed')), 'identity-only report should keep AI search failure detail');
+
+  const emptyRecognitionAnalysis = buildLocalLabelAnalysis({
+    productName: '',
+    ingredientText: '',
+    nutritionText: '',
+    attention: attention(),
+    sourceType: 'ocr',
+    recognition: recognitionInfo({
+      detectedType: 'unknown',
+      rawContent: '',
+      normalizedCode: '',
+      productName: '',
+      sources: []
+    })
+  });
+  assertEqual(emptyRecognitionAnalysis.report.analysisSource?.sourceType, 'product_identity', 'empty recognition report should use information-insufficient source type');
+  assertEqual(emptyRecognitionAnalysis.report.analysisSource?.sourceLabel, '识别信息不足', 'empty recognition source label should not claim product identity');
+  assertIncludes(emptyRecognitionAnalysis.report.summarySentence, '未识别到可分析', 'empty recognition report should explain insufficient information');
+  assert(emptyRecognitionAnalysis.report.sources.some((item) => item.detail.includes('未识别到可用标签文字')), 'empty recognition source should explain no usable label or identity clue');
+  assert(emptyRecognitionAnalysis.report.sources.some((item) => item.sourceType === 'recognition_insufficient'), 'empty recognition source should not be marked as barcode or QR evidence');
+  assert(!emptyRecognitionAnalysis.report.sources.some((item) => item.label === '商品身份线索'), 'empty recognition source should not claim product identity evidence');
 }
 
 function extractText(extractLabelText, rawText) {
@@ -462,6 +676,56 @@ function recognitionInfo(overrides = {}) {
     aiSearchErrorCode: '',
     ...overrides
   };
+}
+
+function recognitionHistoryItem(overrides = {}) {
+  return {
+    id: 'history-item',
+    imageId: 'history-image',
+    detectedType: 'barcode',
+    rawContent: '',
+    ocrText: '',
+    normalizedCode: '',
+    qrContent: '',
+    productName: '',
+    brand: '',
+    ingredientsText: '',
+    nutritionText: '',
+    source: [],
+    reportSummary: '',
+    usedAiSearch: false,
+    aiNotice: '',
+    aiSearchErrorCode: '',
+    createdAt: '2026-06-21T00:00:00.000Z',
+    updatedAt: '2026-06-21T00:00:00.000Z',
+    ...overrides
+  };
+}
+
+async function withRecognitionHistory(items, callback) {
+  const previousUni = globalThis.uni;
+  const storage = {
+    'complens:user-recognition-history': JSON.stringify(items)
+  };
+  globalThis.uni = {
+    getStorageSync(key) {
+      return storage[key] || '';
+    },
+    setStorageSync(key, value) {
+      storage[key] = String(value || '');
+    },
+    removeStorageSync(key) {
+      delete storage[key];
+    },
+    request(options) {
+      options.fail?.({ errMsg: 'network disabled in history regression' });
+    }
+  };
+  try {
+    return await callback();
+  } finally {
+    globalThis.uni = previousUni;
+  }
 }
 
 function emptyExtraction(overrides = {}) {

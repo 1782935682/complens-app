@@ -100,7 +100,7 @@ const overallLabel = computed(() => {
   if (decision.value?.level === 'daily_ok') return '提醒较少';
   const finding = headlineFinding.value;
   if (!finding) return '信息不足';
-  if (finding.tone === 'attention') return `${finding.label}需要关注`;
+  if (finding.tone === 'attention') return `建议关注${finding.label}`;
   if (finding.tone === 'watch') return '有几项提醒';
   return '配料和营养已整理';
 });
@@ -505,12 +505,24 @@ function compactFindingDetail(item: ReportFinding): string {
 }
 
 function buildDecisionHeadline(items: ReportFinding[]): string {
-  const summary = items
+  const labels = items
     .filter((item) => item.tone === 'attention' || item.tone === 'watch')
     .slice(0, 3)
-    .map((item) => `${item.label}${item.status}`)
-    .join('、');
+    .map((item) => item.label)
+    .filter(uniqueValue);
+  const summary = labels.length
+    ? `${audiencePrefixText()}建议关注${labels.join('、')}`
+    : '';
   return summary ? `${summary}｜建议关注份量` : '';
+}
+
+function audiencePrefixText(): string {
+  if (attentionSettings.value.isChildrenMode) return '儿童零食场景';
+  if (attentionSettings.value.primaryGoal === 'sugar') return '控糖人群';
+  if (attentionSettings.value.primaryGoal === 'lowSodium') return '低钠目标';
+  if (attentionSettings.value.primaryGoal === 'fatLoss') return '减脂目标';
+  if (attentionSettings.value.allergens.length) return '过敏/忌口人群';
+  return '';
 }
 
 function nutritionTone(item: NutritionSnapshotItem): FindingTone {
@@ -586,14 +598,14 @@ function nutritionFocusText(key: NutritionKey): { high: string; medium: string; 
 }
 
 function nutritionLevelLabel(item: NutritionSnapshotItem): string {
-  if (item.level === '较高') return '需关注';
+  if (item.level === '较高') return '建议关注';
   if (item.level === '中等' || item.level === '一般') return '留意';
   if (item.level === '较低') return '较低';
   return item.level;
 }
 
 function displayNutritionLevel(value: string): string {
-  if (value === '较高' || value === '偏高' || value === '高') return '需关注';
+  if (value === '较高' || value === '偏高' || value === '高') return '建议关注';
   if (value === '中等' || value === '一般') return '留意';
   return value;
 }
@@ -828,6 +840,7 @@ function formatRecognitionTime(value: string): string {
               <view class="recognition-card__head">
                 <text class="recognition-card__title">{{ recognitionTypeText }}</text>
                 <text v-if="recognitionContentChipText" class="recognition-card__chip">{{ recognitionContentChipText }}</text>
+                <text v-if="recognitionInfo.usedAiSearch" class="recognition-card__chip recognition-card__chip--ai">AI 公开标签线索</text>
               </view>
               <text class="recognition-card__raw">{{ recognitionRawPreview }}</text>
               <view class="recognition-card__meta">
@@ -874,7 +887,7 @@ function formatRecognitionTime(value: string): string {
                   <text v-for="item in insufficientKnownFacts" :key="item" class="insufficient-known__chip">{{ item }}</text>
                 </view>
               </view>
-              <text class="insufficient-actions__hint">当前缺少足够包装文字，请补拍配料表或营养成分表。</text>
+              <text class="insufficient-actions__hint">信息不足，请补拍配料表或营养成分表，也可以手动粘贴包装文字。</text>
               <view class="insufficient-actions__buttons">
                 <AppButton @click="retakePackagePhoto">补拍配料/营养表</AppButton>
                 <AppButton variant="secondary" @click="openManualInput">手动粘贴文字</AppButton>
@@ -1193,6 +1206,11 @@ function formatRecognitionTime(value: string): string {
   font-weight: 800;
   line-height: 1.2;
   padding: 6rpx 10rpx;
+}
+
+.recognition-card__chip--ai {
+  background: rgba(216, 138, 36, 0.12);
+  color: var(--warning);
 }
 
 .recognition-card__raw,

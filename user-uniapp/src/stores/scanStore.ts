@@ -232,6 +232,7 @@ function shouldMergeRecognitionHistory(left: RecognitionHistoryItem, right: Reco
 }
 
 function mergeRecognitionHistory(previous: RecognitionHistoryItem, next: RecognitionHistoryItem, updatedAt: string): RecognitionHistoryItem {
+  const mergedHasNonAiLabelText = !next.usedAiSearch && Boolean(next.ingredientsText || next.nutritionText);
   return normalizeRecognitionHistoryItem({
     ...previous,
     ...next,
@@ -248,7 +249,7 @@ function mergeRecognitionHistory(previous: RecognitionHistoryItem, next: Recogni
     nutritionText: next.nutritionText || previous.nutritionText,
     source: Array.from(new Set([...(previous.source || []), ...(next.source || [])])),
     reportSummary: next.reportSummary || previous.reportSummary,
-    usedAiSearch: Boolean(previous.usedAiSearch || next.usedAiSearch),
+    usedAiSearch: mergedHasNonAiLabelText ? false : Boolean(previous.usedAiSearch || next.usedAiSearch),
     aiNotice: next.aiNotice || previous.aiNotice,
     aiSearchErrorCode: next.aiSearchErrorCode || previous.aiSearchErrorCode,
     createdAt: previous.createdAt || next.createdAt,

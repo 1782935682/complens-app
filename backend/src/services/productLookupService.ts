@@ -52,6 +52,7 @@ export function createProductLookupService(options: {
           '不要编造商品名、品牌、规格、配料表、营养成分表、法规、医疗或安全结论。',
           '不确定字段必须返回空字符串。',
           '如果只知道商品名，只能搜索公开商品页、数字标签或企业公开标签信息；找不到明确标签时不要按同类商品猜配料表或营养成分表。',
+          'ingredientsText 和 nutritionText 只有在 sourceSummary 明确说明公开标签页、企业公开页面、数字标签、商品页或其他可核对来源时才可返回；没有来源摘要时必须返回空字符串。',
           '输出 JSON，不要输出 Markdown。'
         ].join('\n'),
         userPrompt: JSON.stringify({
@@ -67,7 +68,7 @@ export function createProductLookupService(options: {
             specification: 'string',
             ingredientsText: 'string',
             nutritionText: 'string',
-            sourceSummary: 'string',
+            sourceSummary: '公开来源摘要；返回配料或营养时必填',
             confidence: 'high|medium|low'
           }
         }),
@@ -107,14 +108,16 @@ function normalizeLookupInput(input: ProductLookupInput): Required<ProductLookup
 function parseLookupJson(value: string): Omit<ProductLookupResult, 'usedAiSearch' | 'provider' | 'model' | 'aiNotice'> {
   try {
     const parsed = JSON.parse(value) as Record<string, unknown>;
+    const sourceSummary = sanitizeText(parsed.sourceSummary, 160);
+    const hasLabelEvidence = hasPublicLabelEvidence(sourceSummary);
     return {
       productName: sanitizeText(parsed.productName, 80),
       brand: sanitizeText(parsed.brand, 40),
       specification: sanitizeText(parsed.specification, 60),
-      ingredientsText: sanitizeLongText(parsed.ingredientsText, 1800),
-      nutritionText: sanitizeLongText(parsed.nutritionText, 1200),
-      sourceSummary: sanitizeText(parsed.sourceSummary, 160),
-      confidence: normalizeConfidence(parsed.confidence)
+      ingredientsText: hasLabelEvidence ? sanitizeLongText(parsed.ingredientsText, 1800) : '',
+      nutritionText: hasLabelEvidence ? sanitizeLongText(parsed.nutritionText, 1200) : '',
+      sourceSummary,
+      confidence: hasLabelEvidence ? normalizeConfidence(parsed.confidence) : 'low'
     };
   } catch {
     return {
@@ -127,6 +130,13 @@ function parseLookupJson(value: string): Omit<ProductLookupResult, 'usedAiSearch
       confidence: 'low'
     };
   }
+}
+
+function hasPublicLabelEvidence(sourceSummary: string): boolean {
+  const text = sourceSummary.replace(/\s+/g, '');
+  return /https?:\/\//i.test(sourceSummary)
+    || /(?:^|[\s/])(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/|$)/i.test(sourceSummary)
+    || /OpenFoodFacts|Open\s*Food\s*Facts/i.test(sourceSummary);
 }
 
 function sanitizeText(value: unknown, maxLength: number): string {
