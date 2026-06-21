@@ -50,7 +50,7 @@ try {
   await verifyPage(context, 'attention', '/#/pages/attention/index', ['关注目标', '儿童模式', '过敏 / 忌口']);
   await verifyReport(context);
   await verifyInsufficientReport(context);
-  await verifyPage(context, 'history', '/#/pages/history/index', ['历史记录', '2 条本机结果', '海苔小麻花', '不建议常吃', '信息不足', '收藏']);
+  await verifyPage(context, 'history', '/#/pages/history/index', ['历史记录', '2 条本机结果', '海苔小麻花', '偶尔吃更合适', '信息不足', '收藏']);
 
   if (pageErrors.length) {
     throw new Error(`Page runtime errors:\n${pageErrors.join('\n')}`);
@@ -105,7 +105,7 @@ async function verifyReport(context) {
   const page = await context.newPage();
   await page.goto(`${baseUrl}/#/pages/report/index?id=visual-smoke-report`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(500);
-  await assertPageReady(page, 'report', ['一句话结论', '关键原因', '营养重点图', '适合谁 / 不适合谁', '添加剂解释', '建议吃法', '识别详情']);
+  await assertPageReady(page, 'report', ['配料表', '编码 6901234567892', '包装实拍 OCR / 条码识别', '一句话结论', '关键原因', '营养重点图', '适合谁 / 不适合谁', '添加剂解释', '建议吃法', '识别详情']);
   await screenshot(page, 'report');
   await page.getByText('营养重点图', { exact: true }).scrollIntoViewIfNeeded();
   await screenshot(page, 'report-nutrition');
@@ -121,7 +121,7 @@ async function verifyInsufficientReport(context) {
   const page = await context.newPage();
   await page.goto(`${baseUrl}/#/pages/report/index?id=visual-insufficient-report`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(500);
-  await assertPageReady(page, 'report-insufficient', ['信息不足', '还需要补充', '识别详情', '包装声明']);
+  await assertPageReady(page, 'report-insufficient', ['条形码', 'DeepSeek 联网搜索', 'AI 搜索补全', '信息不足', '还需要补充', '识别详情', '包装声明']);
   await screenshot(page, 'report-insufficient');
   await page.close();
 }
@@ -289,7 +289,7 @@ function buildSampleReport() {
           name: '味精',
           category: '其他添加剂',
           effect: '常见增鲜成分，会让咸鲜味更明显。',
-          reminder: '钠偏高时和份量一起看。',
+          reminder: '钠需关注时和份量一起看。',
           displayLevel: 'normal',
           matchedTerms: ['味精'],
           targetNotes: []
@@ -318,17 +318,17 @@ function buildSampleReport() {
       productionDate: '2026-06-18',
       ingredients: ['小麦粉', '植物油', '大米粉', '白砂糖', '麦芽糖', '海苔粉', '香辛料', '味精', '食用盐', '碳酸钙'],
       nutrition: {
-        energy: { value: 1950, unit: 'kJ', level: '偏高', text: '1950kJ' },
-        fat: { value: 16.5, unit: 'g', level: '偏高', text: '16.5g' },
-        carbohydrate: { value: 69, unit: 'g', level: '高', text: '69.0g' },
-        sodium: { value: 568, unit: 'mg', level: '偏高', text: '568mg' }
+        energy: { value: 1950, unit: 'kJ', level: '需关注', text: '1950kJ' },
+        fat: { value: 16.5, unit: 'g', level: '需关注', text: '16.5g' },
+        carbohydrate: { value: 69, unit: 'g', level: '需关注', text: '69.0g' },
+        sodium: { value: 568, unit: 'mg', level: '需关注', text: '568mg' }
       },
       decision: 'caution',
-      decisionText: '不建议常吃｜偶尔解馋',
+      decisionText: '偶尔吃更合适｜建议关注份量',
       riskLevel: 'yellow',
-      summary: '偶尔吃，不建议经常吃。',
+      summary: '偶尔吃更合适，按小份量处理。',
       plainExplanation: '这是油炸 / 膨化类零食，主要提醒是热量、脂肪、碳水和钠。',
-      mainReasons: ['热量偏高', '脂肪偏高', '碳水较高', '钠偏高', '含添加糖来源'],
+      mainReasons: ['热量需关注', '脂肪需关注', '碳水需关注', '钠需关注', '含添加糖来源'],
       suitableFor: ['普通成年人偶尔解馋'],
       notSuitableFor: ['减脂人群', '控糖人群', '高血压/控盐人群', '儿童高频食用', '小麦过敏或麸质敏感人群'],
       ingredientHighlights: [
@@ -370,6 +370,25 @@ function buildSampleReport() {
       ingredientText: '小麦粉、植物油、大米粉、白砂糖、麦芽糖、海苔粉、香辛料、味精、食用盐、碳酸钙',
       nutritionText: '能量1950kJ 脂肪16.5g 碳水化合物69.0g 钠568mg',
       productionDateText: '2026-06-18',
+      recognition: {
+        imageId: 'visual-snack-image',
+        detectedType: 'ingredient_list',
+        rawContent: '配料表：小麦粉、植物油、大米粉、白砂糖、麦芽糖',
+        ocrText: '配料表：小麦粉、植物油、大米粉、白砂糖、麦芽糖',
+        normalizedCode: '6901234567892',
+        qrContent: '',
+        contentType: 'ingredient_list',
+        productName: '海苔小麻花',
+        brand: '样例品牌',
+        sources: ['包装实拍 OCR', '条码识别'],
+        recognizedAt: '2026-06-21T09:15:00.000+08:00',
+        usedAiSearch: false,
+        aiNotice: ''
+      },
+      normalizedCode: '6901234567892',
+      brand: '样例品牌',
+      recognitionSources: ['包装实拍 OCR', '条码识别'],
+      usedAiSearch: false,
       confidence: 'high',
       inputSourceType: 'manual',
       targetSnapshot: {
@@ -436,6 +455,28 @@ function buildInsufficientReport() {
       fromManualInput: false,
       productNameText: '0糖乳酸菌饮料',
       frontClaimsText: '0糖、高蛋白',
+      recognition: {
+        imageId: 'visual-ai-lookup-image',
+        detectedType: 'barcode',
+        rawContent: '6901234567892',
+        ocrText: '',
+        normalizedCode: '6901234567892',
+        qrContent: '',
+        contentType: 'product_code',
+        productName: '0糖乳酸菌饮料',
+        brand: '样例品牌',
+        sources: ['条码识别', 'DeepSeek 联网搜索'],
+        recognizedAt: '2026-06-21T09:18:00.000+08:00',
+        usedAiSearch: true,
+        aiNotice: '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+        aiSearchSummary: 'AI 只补到商品名，未找到配料表或营养成分表。'
+      },
+      normalizedCode: '6901234567892',
+      brand: '样例品牌',
+      recognitionSources: ['条码识别', 'DeepSeek 联网搜索'],
+      usedAiSearch: true,
+      aiNotice: '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      aiSearchSummary: 'AI 只补到商品名，未找到配料表或营养成分表。',
       confidence: 'low',
       inputSourceType: 'ocr',
       targetSnapshot: {

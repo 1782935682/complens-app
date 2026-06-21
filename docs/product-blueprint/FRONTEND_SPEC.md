@@ -34,7 +34,7 @@
 - 直连 OCR / AI / 数据库 / 本地 OCR 服务。
 - 暴露 OCR Key / AI Key。
 - 假设所有平台都有 `window` / `document` / `navigator`。
-- 跳过 OCR 文本确认页直接分析。
+- 在低置信、失败、手动输入或信息不足时跳过文本确认 / 补充页直接分析。
 
 ### 0.2 当前历史原型现状
 
@@ -339,13 +339,14 @@ idle
                           ├─重选─> selectingImage
                           └─确认─> uploadingImage
                                       └─上传完成─> recognizing
-                                                     ├─成功─> confirmingText   （必经，不可跳过）
+                                                     ├─清晰可生成─> generatingReport ─> reportReady
+                                                     ├─低置信 / 信息不足─> confirmingText
                                                      └─失败─> ocrFailed
 ocrFailed
   ├─重试识别─> recognizing
   ├─手动输入─> confirmingText
   └─返回─> previewingImage / selectingImage
-confirmingText  （文本确认页，含标签类型确认）
+confirmingText  （低置信 / 失败 / 手动补充文本确认页，含标签类型确认）
   ├─ingredient_list─> parsingIngredients ─> matchingIngredients ─> reportReady
   ├─nutrition_facts─> parsingNutrition ─> reportReady
   ├─front_claims─> parsingClaims ─> reportReady（后续）
@@ -367,7 +368,8 @@ failed
 | `uploadingImage` | 上传进度 / loading，可取消 |
 | `recognizing` | 识别中 loading，长任务展示进度 |
 | `ocrFailed` | 明确失败原因 + 重试 + 手动输入 + 返回 |
-| `confirmingText` | **文本确认页（必经）**：展示可编辑识别文本，用户确认 / 修正后才进入分析 |
+| `generatingReport` | 清晰识别后自动生成报告，展示短 loading，不要求用户先处理 OCR 文本 |
+| `confirmingText` | **文本确认 / 补充页**：低置信、失败、手动输入或信息不足时展示可编辑识别文本，用户确认 / 修正后进入分析 |
 | `parsingIngredients` | 解析中 loading |
 | `parsingNutrition` | 营养成分字段解析中 loading |
 | `parsingClaims` | 包装正面卖点解析中 loading（后续） |
@@ -377,7 +379,7 @@ failed
 
 强制约束：
 - **OCR 失败不中断流程**：失败后仍可走 `manual`（手动输入）继续生成报告。
-- **OCR 结果必须进入文本确认页**：禁止跳过 `confirmingText` 直接进入分析 / 报告。
+- **清晰识别自动生成报告**：可生成且非低置信的 OCR / 商品身份识别结果直接进入报告；低置信、失败、手动输入或信息不足必须进入 `confirmingText` / 补充页。
 - OCR 降级链：`real(rapidocr/aliyun) → manual → fallback`；无 Key 不崩溃、保留 manual、不伪造结果、mock 结果必须明确标注。
 - MVP 不要求必须拍三张：拍一张也能分析，拍两张可以合并，拍三张报告更完整。
 
@@ -521,7 +523,7 @@ failed
 ## 16. 前端禁止事项（强制）
 
 1. 不暴露 OCR / AI 等任何后端密钥到前端。
-2. 不跳过文本确认页（`confirmingText`）直接分析。
+2. 不在低置信、失败、手动输入或信息不足场景跳过文本确认 / 补充页直接分析。
 3. 不硬编码接口地址（用构建期注入的公开配置）。
 4. 不把 OCR 结果当最终结论展示。
 5. 不把 AI 总结当数据来源 / 法规依据展示。

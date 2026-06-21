@@ -66,7 +66,7 @@ describe('POST /api/food/analyze', () => {
     expect(body.productName).toContain('小麻花');
     expect(body.category).toContain('膨化食品');
     expect(body.decision).toBe('caution');
-    expect(body.decisionText).toBe('不建议常吃｜偶尔解馋');
+    expect(body.decisionText).toBe('偶尔吃更合适｜注意份量');
     expect(body.summary).toContain('偶尔吃');
     expect(body.mainReasons).toEqual(expect.arrayContaining(['热量偏高', '脂肪偏高', '碳水较高', '钠偏高', '含添加糖来源']));
     expect(body.notSuitableFor).toEqual(expect.arrayContaining(['减脂人群', '控糖人群', '高血压/控盐人群', '小麦过敏或麸质敏感人群']));

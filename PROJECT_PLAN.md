@@ -8,8 +8,8 @@
 
 ```
 首页单一拍包装入口
-→ 拍食品包装 / 配料表 / 营养成分表 / 生产日期，或手动输入
-→ OCR 识别 / 文本清洗 / 有效标签提取
+→ 拍食品包装 / 条码 / 二维码 / 配料表 / 营养成分表 / 生产日期，或手动输入
+→ 图片内容自动分类 / OCR 识别 / 文本清洗 / 有效标签提取
 → OCR 成功自动生成结果，失败或信息不足时手动补充
 → 配料拆分 / 添加剂识别 / 营养字段解析
 → 本地解读规则 + 我的关注项（控糖 / 儿童 / 过敏）
@@ -17,9 +17,9 @@
 → 保存扫描记录
 ```
 
-当前 P0 只承诺食品标签拍照/OCR、食品配料表和营养成分表解读。添加剂识别是核心能力，配料解释是理解过程，营养分析服务于购买/食用判断，食品标签解读报告是最终输出。商品正面识别、条码识别、商品库优先匹配、商品对比和专业法规查询只是后续能力，不是 MVP 主路径。当前阶段仍以食品标签为实现边界，不混入化妆品、护肤品、药品或日化规则判断；首页主按钮直接拉起相机，OCR 成功后自动生成结果，失败或手动场景才进入输入页；后端 RapidOCR 已兼容常见 `text/raw_text/rawText` 返回字段；`POST /api/food/analyze` 由本地规则先给购买/食用决策，再通过 DeepSeek 优先的 AI Provider 网关做大众化解释，失败时 fallback 到规则结果；报告页改为“一句话结论 / 关键原因 / 适合谁 / 不适合谁 / 添加剂解释 / 建议吃法 / 识别详情”，关键原因用优先级列表和营养重点图展示，识别详情默认折叠并包含商品、类型、生产日期、配料表、营养表和未确认线索；设置与说明页已从小程序页面清单移除。
+当前 P0 主路径仍是一个“拍包装”入口，不新增扫码/条码/二维码独立入口。用户拍到配料表或营养成分表时优先按包装实拍 OCR 生成报告；用户只拍到商品条码、二维码或印刷商品编码时，系统先记录商品身份信息并查本机历史，必要时通过后端 DeepSeek 商品补全接口获取公开标签线索，失败则提示继续补拍配料表或营养表。添加剂识别是核心能力，配料解释是理解过程，营养分析服务于购买/食用判断，食品标签解读报告是最终输出。当前阶段仍以食品标签为实现边界，不混入化妆品、护肤品、药品或日化规则判断；首页主按钮直接拉起相机，OCR/识别成功后自动生成结果，失败或信息不足才进入输入页；后端 RapidOCR 已兼容常见 `text/raw_text/rawText` 返回字段；`POST /api/food/analyze` 由本地规则先给购买/食用决策，再通过 DeepSeek 优先的 AI Provider 网关做大众化解释，失败时 fallback 到规则结果；报告页改为“一句话结论 / 关键原因 / 适合谁 / 不适合谁 / 添加剂解释 / 建议吃法 / 识别详情”，并在报告首部展示统一识别信息卡，识别详情默认折叠并包含商品码、二维码、品牌、商品、类型、生产日期、配料表、营养表和未确认线索；设置与说明页已从小程序页面清单移除。
 
-后续 P1/P2 仍保持现有一个拍照入口，不把首页或拍照页改成三个入口。用户拍食品标签 / 包装后，由后端自动识别是商品条码、数字标签二维码，还是配料表 / 营养成分表；不同识别结果各自完成取数，随后统一进入成分归一化、官方成分知识库匹配和成分分析。当前识别分支无法获得完整配料时，只提示用户可以重新拍摄包装其他区域或手动补充，不自动跳转，也不把条码、二维码、OCR 设计成串行流程。
+后续 P1/P2 继续增强真机条码/二维码图片解码 provider、外部商品库授权和数字标签规范化解析，但不改变“一个拍包装入口、系统内部自动判断”的产品形态。当前商品码解析级和合成 PNG 图片级工程门禁已通过；真实包装照片和微信真机扫码仍需单独验收。当前识别分支无法获得完整配料时，只提示用户可以重新拍摄包装其他区域或手动补充，不自动跳转，也不把条码、二维码、OCR 设计成串行流程。
 
 ---
 
@@ -71,12 +71,12 @@
 |---|---|---|---|
 | M1 | 数据源准确性 + GB2760 可追溯导入 | 🔄 进行中 | ~95% |
 | M2 | 数据库真实对接（本地完成，生产待补） | 🔄 进行中 | ~80% |
-| M3 | OCR 拍照识别主流程（manual/mock/本机 RapidOCR 闭环，Aliyun provider 已实现；首页拍照直达相机，OCR 成功后自动生成结果；失败和手动场景保留输入页） | 🔄 进行中 | ~92% |
+| M3 | OCR 拍照识别主流程（manual/mock/本机 RapidOCR 闭环，Aliyun provider 已实现；首页拍照直达相机，OCR 成功后自动生成结果；失败和手动场景保留输入页；食品包装非条码/二维码 OCR 500 样本门禁已达 `stable_500`，`494/500`、`98.8%`、Codex 子 agent 和 DeepSeek Review 均通过） | 🔄 进行中 | ~96% |
 | M4 | 配料解析 + 数据库匹配 | 🔄 进行中 | ~72% |
 | M5 | 食品标签解读报告（配料 + 营养 + 关注项） | 🔄 uni-app MVP 已落地，报告第一屏改为“一句话结论 + 你的关注短标签 + 为什么 / 谁少吃 / 怎么吃”购买/食用决策卡，关键原因优先级列表 + 低/中/高营养重点图已接入，识别详情默认折叠，信息不足不硬凑完整结构并前置补拍/手动粘贴动作，后端 `reports/label` 与 `food/analyze` 文案口径已对齐 | ~88% |
 | M6 | 我的关注项、产品档案、收藏、历史、个性化 | 🔄 uni-app 本地 MVP 已落地，扫描记录页、收藏筛选、关注项筛选、最近记录和报告页小反馈入口已接入；设置与说明页不再注册到小程序 | ~78% |
 | M7 | 消费者体验与信息架构优化（UX） | 🔄 uni-app 主路径已迁移，P0 H5 可用性截图自测已覆盖；首页主拍照入口、搜索弱入口、报告信息层级、历史页、我的页、大众化文案、纠错反馈、ChatGPT 会话子评审和 DeepSeek 综合评审已按最新方向收口，最终 `shipBlockers=[]` | ~90% |
-| M8 | 移动端 / PWA 体验 | 🔄 uni-app H5/小程序构建通过，小程序工程对接与导入说明已补，首页、拍照、搜索、我的、报告、历史已注册并通过视觉烟测；真机待验 | ~76% |
+| M8 | 移动端 / PWA 体验 | 🔄 uni-app H5/小程序构建通过，小程序工程对接与导入说明已补，首页、拍照、搜索、我的、报告、历史已注册并通过视觉烟测；条码 / 二维码 / 商品数字码解析级各 500 用例已通过，条码 / 二维码合成 PNG 图片级工程门禁已通过，真实包装照片和微信真机扫码仍需真机/平台能力验收 | ~80% |
 | M9 | AI 总结解释（本地 fallback 可用，DeepSeek smoke 已通过） | 🔄 AiProvider 抽象、Mock/DeepSeek/OpenAI-compatible、FoodAnalyzeService、规则优先和进程内缓存已落地；`deepseek-v4-flash` 真实 smoke 与 UI 评审通过，生产监控和成本统计待配置 | ~60% |
 | M10 | 登录、云同步（本地完成，跨设备验收待补） | 🔄 进行中 | ~40% |
 | M11 | 订阅、支付、上架 | ⏸ 后置 | 0% |
@@ -118,7 +118,7 @@
 - 正式用户端迁移 MVP：已新增 `user-uniapp/`（uni-app + Vue3），迁移首页、拍照/上传、OCR 降级、标签类型选择、文本确认、配料拆分、营养解析、匹配确认、食品标签解读报告、历史、我的关注项、搜索、数据说明、隐私说明；集中建立设计 token、基础组件、API client、平台适配层和本地草稿/报告存储；微信小程序已补 AppID 环境注入、相机权限说明、平台文件缓存、OCR 图片压缩、报告转发和导入验收文档。
 - 小程序 P0 稳定性补强：首页新增 Demo 体验入口但不引入商品库；新增 `ocrAdapter`、`labelTextExtractor`、`nutritionParser` 结构化摘要、`localLabelAnalysis`、`rulesLoader` 和本地调试样例；`capture` 增加阶段式 loading，`report` 增加 Demo 标识和反馈入口，历史记录限制最近 20 条且不保存图片数据。
 - 小程序 P0 配料表 OCR 精准收敛：拍照页和上传框统一引导“只拍配料表区域”；`labelTextExtractor` 无锚点兜底必须满足配料清单形态，产品名、净含量、规格、厂家地址、条码、生产日期等包装信息只作为噪音过滤；营养提取要求营养锚点或“字段 + 单位”，避免配料里的糖类词误触发营养表；RapidOCR `bounds.points` 会转换为矩形坐标供标准化排序。
-- 小程序 P0 产品化收口：拍照/OCR 后统一进入文本确认，不跳过文字确认；新增扫描记录页并从我的关注页和报告页接入；报告页改为“食品标签解读”，首屏展示糖、钠、脂肪、能量、添加剂和过敏原重点提醒，补添加剂大白话、收藏、分享入口和识别文字折叠区；新增设置与说明页，覆盖图片/OCR、本机记录、使用边界和本机数据清空。
+- 小程序 P0 产品化收口：拍照/OCR 后清晰可生成结果自动进入报告，低置信、失败、手动输入或信息不足时进入文本确认 / 补充；新增扫描记录页并从我的关注页和报告页接入；报告页改为“食品标签解读”，首屏展示糖、钠、脂肪、能量、添加剂和过敏原重点提醒，补添加剂大白话、收藏、分享入口和识别文字折叠区；新增设置与说明页，覆盖图片/OCR、本机记录、使用边界和本机数据清空。
 - 小程序 P0 OCR 与报告大众化收口：`labelTextExtractor` 进一步收紧目标字段，只保留配料表、带字段和值结构的营养成分、致敏原和少量明确包装声明；产品名、净含量、规格、厂家、地址、条码等不进入报告。包装声明-only 结果只展示“信息不足 / 还需要补充 / 未确认线索”，不再硬凑添加剂、营养或配料完整结构；报告页将 `mapped_candidate` / `pending_review` 单独放入“未确认线索”；移除“适合 / 少选 / 换成 / 决定频率 / 核验 / 阈值”等偏专业或购买倾向表达；已让独立 AI 子评审静态检查报告口径，并用 H5 样例验证包装声明和配料+营养两类报告。
 - 小程序 P0 搜索结果与后端报告口径收口：`user-uniapp` 成分搜索卡片改为名称、类型、可信提示、为什么看、标签写法、数据来自和结果用途；后端 `/api/nutrition/parse` 要求真实营养字段数值才算解析成功，`/api/reports/label` 改用“糖线索 / 钠线索 / 营养数字已整理”等大众化表达，避免接口输出与前端报告文案漂移。
 - 小程序 P0 产品输出审查门禁：新增 `user-uniapp/scripts/audit-product-output.mjs` 和根目录 `user:audit:product-output` 转发命令，固定搜索结果、报告描述、OCR 目标字段和添加剂大白话的字段完整性与文案边界；本轮同步清理添加剂提醒里的“普通人偶尔食用通常不用过度担心”等安抚式判断。
@@ -143,7 +143,7 @@
 
 - 生产 Aliyun OCR / 真实 AI 接入（Aliyun adapter 已实现，真实生产 smoke 待后端凭证；本机 RapidOCR 已接入）。
 - 标签类型识别后端 `POST /api/labels/classify` 与扫描会话 `POST /api/labels/scan` 已补齐；营养成分表结构化、我的关注项主路径化、食品标签解读报告后端化已在 `user-uniapp/` 完成 MVP；`nutrition/parse`、`reports/label` 后端正式 API 已落地并完成本轮大众化口径对齐，仍待真实后端部署、真实 OCR 样本回归和跨端真机验收。
-- 单一拍照入口下的商品条码、数字标签二维码、配料表 OCR 自动识别分流（P1/P2 后置；当前只完成规划，不实现扫码能力、不改现有 UI）。
+- 单一拍照入口下的商品条码、二维码、数字编码、配料表、营养表自动识别分流已完成第一版；仍待微信真机条码/二维码图片解码 Provider、正式 GTIN/数字标签数据源和域名/合规确认。
 - 外部 GTIN 商品数据源选择、数字标签页面解析规则、数据授权和域名/合规确认（人工+Codex）。
 - 内部数据控制台 / GB2760 复核工作台后续 UI（用户要求等产品页面设计统一推进）。
 - 移动端组件统一、首页/OCR 产品体验继续真机复核（阶段 7；统一可信表达映射层与报告页产品化收口已完成）。
@@ -189,7 +189,7 @@ Codex 下一步任务：
 1. 微信小程序用真实 AppID、HTTPS 后端 API 域名和微信开发者工具完成导入/真机验收。
 2. 用真实后端环境和真实 OCR 样本回归 `nutrition` 与 `reports` API 输出，继续观察搜索结果和报告文案是否符合普通用户理解；扫描会话接口后续补充 `admin-web` 扫描记录与导出能力。
 3. ADMIN-E 会员订阅/支付继续人工阻塞；后台 `admin-web/` 工程和后台 API 代码仍待后续批次按计划落地。
-4. 后续 `CONSUMER-LABEL-G` 再落地单一拍照入口自动识别分流：后端自动判断商品条码、数字标签二维码、配料表 / 营养成分表；商品条码按 GTIN 查询商品及配料数据，数字标签二维码解析数字标签页面中的配料和营养信息，配料表 OCR 继续识别包装配料文字；各分支统一进入成分归一化、官方知识库匹配和成分分析。
+4. `CONSUMER-LABEL-G` 单一拍照入口自动识别分流已完成第一版：条码 / 二维码 / 数字编码 / 配料表 / 营养成分表 / 未知图片统一进入识别信息卡和商品分析报告；后续继续补微信真机条码/二维码图片解码 Provider、正式 GTIN 数据源和数字标签页面结构化解析。
 
 人工并行：后续 GB2760 新增/变更 staging 行复核签核；生产 DATABASE_URL、Aliyun OCR Key、AI Key、商店账号和法务材料均不阻塞当前本地 MVP。
 
@@ -262,7 +262,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 **Day 7：回到消费者主路径实现**
 - 目标：架构边界确认后执行 `CONSUMER-LABEL-A` 标签类型识别，再做营养表解析和关注项。
-- 验收标准：不跳过文本确认；不在旧前端继续堆不适合迁移的复杂功能。
+- 验收标准：低置信、失败、手动输入或信息不足不跳过文本确认 / 补充；不在旧前端继续堆不适合迁移的复杂功能。
 - 是否需要人工：需要确认是否立即创建 `user-uniapp`。
 
 ---
@@ -293,6 +293,8 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 
 | 日期 | 修改内容 | 修改人/Agent | 验证结果 |
 |---|---|---|---|
+| 2026-06-21 | 单一拍包装入口自动识别商品第一版：新增 `services/recognition` 分层，拍照后按条码/二维码、OCR、数字编码、配料表、营养表、未知图片自动分类；报告页新增统一识别信息卡；商品码/二维码先查本机历史，缺配料和营养时可经后端 `POST /api/products/lookup` 调用 DeepSeek 公开信息补全；AI 搜索结果单独标注，不伪装成包装 OCR；识别历史按商品码/二维码合并，方便先拍条码后补拍配料表复用 | Codex | `npm --prefix backend run typecheck` / `npm --prefix backend test -- tests/productLookup.test.ts tests/foodAnalyze.test.ts tests/nutrition.test.ts tests/ocr.test.ts` / `npm --prefix user-uniapp run typecheck` / `npm --prefix user-uniapp run lint` / `npm run user:regression:ocr-report` |
+| 2026-06-21 | OCR 成熟度与商品码门禁：食品包装非条码/二维码 OCR 500 样本达到 `stable_500`，`494/500` 通过、通过率 `98.8%`、`acceptancePass=true`，Codex 子 agent `92`、DeepSeek 报告级 `92`；条码 / 二维码 / 商品数字码解析级各 500 用例全部通过，`1500/1500`、准确率 `100%`；条码 / 二维码合成 PNG 图片级 `983/1000` 通过，条码图片 `500/500`、二维码图片 `483/500`、整体 `98.3%`，并链接商品数字码解析 `500/500`；Codex 子 agent 和 DeepSeek 图片级 Review 分别 `92` / `98`；边界：真实包装照片和微信真机扫码仍未证明，需真机/平台能力补充 | Codex | `OCR_LOCAL_URL=http://127.0.0.1:8000 OCR_EVAL_TARGET=500 OCR_EVAL_DISABLE_NETWORK_SAMPLES=1 OCR_EVAL_INCLUDE_CHATGPT_SUBAGENT=1 npm run ocr:evaluate` / `npm run ocr:sample-quality` / `npm run ocr:review-report` / `npm run product-code:evaluate` / `npm run product-code:review-report` / `npm run product-code:image-evaluate` / `npm run product-code:image-review-report` / `npm --prefix user-uniapp run typecheck` / `git diff --check` |
 | 2026-06-20 | ChatGPT UI 评审入口与报告微优化：新增 `user-uniapp/scripts/chatgpt-ui-review.mjs` 和 `review:chatgpt` 命令，读取 visual smoke 截图并调用 OpenAI Responses API 输出结构化页面评审；当前机器无 `OPENAI_API_KEY`，脚本已明确返回 `missing_openai_api_key`，不伪造评审结果；基于当前 ChatGPT 会话内截图评审，将报告页营养重点图的重复“重点”标签改为“少量吃 / 控油量 / 控份量 / 少盐搭配”等行动提示 | Codex | `npm --prefix user-uniapp run lint` / `npm --prefix user-uniapp run typecheck` / `npm --prefix user-uniapp run audit:product-output` / `npm --prefix user-uniapp run regression:ocr-report` / `node --check user-uniapp/scripts/chatgpt-ui-review.mjs` / `npm --prefix user-uniapp run build:h5` / `npm --prefix user-uniapp run visual:smoke`；`npm --prefix user-uniapp run review:chatgpt` 预期失败：`missing_openai_api_key` |
 | 2026-06-20 | 成分镜决策优先报告与真实 AI/OCR 闭环收口：DeepSeek 默认模型更新为 `deepseek-v4-flash`，后端 AI 输出增加安全清洗和规则 fallback；Aliyun OCR provider 已实现 ACS3 签名调用与结果映射，Key/Secret 仅后端环境变量；OCR 结构化补齐商品名、食品类型、营养表、生产日期、包装声明和未确认线索；首页保持拍包装主入口，手动页按五类字段补充，报告页改为单一结论、关键原因优先级、营养重点图、折叠识别详情和小反馈入口；完成 DeepSeek smoke 与多轮 UI 评审，最终结论 `pass` 且 `topIssues=[]` | Codex | `npm --prefix backend run typecheck` / `npm --prefix backend test -- tests/aiFoodExplanation.test.ts tests/foodAnalyze.test.ts tests/ocr.test.ts` / `npm --prefix user-uniapp run lint` / `npm --prefix user-uniapp run typecheck` / `npm --prefix user-uniapp run audit:product-output` / `npm --prefix user-uniapp run regression:ocr-report` / `npm --prefix user-uniapp run build:h5` / `npm --prefix user-uniapp run visual:smoke` / `npm --prefix user-uniapp run build:mp-weixin` / `git diff --check` |
 | 2026-06-20 | 新增真实 AI 接通后的逐页 UI 评审提示词：登记首页、拍照识别、结果页、历史、我的、成分搜索的功能说明、审查问题、禁用表达和验收顺序；产品蓝图索引同步新增 `AI_UI_REVIEW_PROMPT.md` | Codex | `git diff --check` |
@@ -309,7 +311,7 @@ OCR：Python FastAPI + RapidOCR，本地服务只允许后端调用
 | 2026-06-19 | user-uniapp 产品输出审查门禁：新增 `audit:product-output` / `user:audit:product-output`，检查搜索结果、报告描述、OCR 目标字段和添加剂大白话的必要字段与文案边界；同步清理添加剂提醒中的过度安抚表达 | Codex | `npm.cmd run user:audit:product-output` / `npm.cmd --prefix user-uniapp run audit:product-output` / `npm.cmd --prefix user-uniapp run lint` / `npm.cmd --prefix user-uniapp run typecheck` / `npm.cmd --prefix user-uniapp run build:h5` / `npm.cmd --prefix user-uniapp run build:mp-weixin` / `rg` 静态文案扫描 / `git diff --check` |
 | 2026-06-19 | user-uniapp 搜索结果与后端报告口径收口：搜索卡片改为“为什么看 / 标签写法 / 数据来自 / 结果用途”等普通用户字段；报告页营养说明按糖、钠、脂肪、能量分别解释；后端 `nutrition/parse` 不再把单位标题当作有效营养数据，`reports/label` 清理“核验 / 阈值 / 标识偏差”等专业话术并补回归测试 | Codex | `npm.cmd --prefix user-uniapp run typecheck` / `npm.cmd --prefix user-uniapp run lint` / `npm.cmd --prefix user-uniapp run build:h5` / `npm.cmd --prefix user-uniapp run build:mp-weixin` / `npm.cmd --prefix backend run typecheck` / `npm.cmd --prefix backend test -- tests/nutrition.test.ts tests/reports.test.ts` / `rg` 静态文案扫描 / `git diff --check` |
 | 2026-06-19 | user-uniapp OCR 与报告大众化收口：营养字段提取要求字段名 + 数值 + 单位结构，包装正面只保留明确目标声明，非目标字段不进入报告；包装声明-only 结果只展示“信息不足 / 还需要补充 / 未确认线索”；待确认配料单独进入“未确认线索”；清理偏购买建议和专业结构表达；完成独立 AI 静态评审与 H5 样例验证 | Codex | `npm.cmd --prefix user-uniapp run lint` / `npm.cmd --prefix user-uniapp run typecheck` / `npm.cmd --prefix user-uniapp run build:h5` / `npm.cmd --prefix user-uniapp run build:mp-weixin` / Playwright H5 样例检查 / `rg` 静态文案扫描 |
-| 2026-06-19 | user-uniapp 小程序产品化收口：拍照/OCR 后统一进入文本确认；新增扫描记录页并接入我的关注页和报告页；报告页改为“食品标签解读”，首屏展示糖、钠、脂肪、能量、添加剂和过敏原重点提醒，补添加剂大白话、收藏、分享入口和识别文字折叠区；新增设置与说明页，覆盖图片/OCR、本机记录、使用边界和本机数据清空 | Codex | `npm.cmd --prefix user-uniapp run lint` / `npm.cmd --prefix user-uniapp run typecheck` / `npm.cmd --prefix user-uniapp run build:mp-weixin` / Playwright H5 截图检查首页、我的、历史、报告、设置 / `git diff --check` |
+| 2026-06-19 | user-uniapp 小程序产品化收口：拍照/OCR 后清晰可生成结果自动进入报告，低置信、失败、手动输入或信息不足时进入文本确认 / 补充；新增扫描记录页并接入我的关注页和报告页；报告页改为“食品标签解读”，首屏展示糖、钠、脂肪、能量、添加剂和过敏原重点提醒，补添加剂大白话、收藏、分享入口和识别文字折叠区；新增设置与说明页，覆盖图片/OCR、本机记录、使用边界和本机数据清空 | Codex | `npm.cmd --prefix user-uniapp run lint` / `npm.cmd --prefix user-uniapp run typecheck` / `npm.cmd --prefix user-uniapp run build:mp-weixin` / Playwright H5 截图检查首页、我的、历史、报告、设置 / `git diff --check` |
 | 2026-06-18 | 食品成分菌种边界修正：GB 2760 表 C.3 酶制剂来源/供体微生物改为 `other/pending_review`，只保留 `enzyme_source` / `enzyme_donor` 关系证据，不计入 NHC 可用于食品菌种覆盖；当前 `food_microorganism=40`、`other=81`、`current source relations=4426`，剩余 pending_review 仍为 563 | Codex | `npm --prefix backend test -- tests/ingredientKnowledge.test.ts` / `npm --prefix backend run typecheck` / `npm run ingredient:validate` / `npm run ingredient:coverage` / `npm run validate:data` / `npm run lint` / `npm run test` / `git diff --check` |
 | 2026-06-18 | 食品成分官方目录来源补齐与专用表正式化：补齐三新食品、党参等 9 种食药物质、地黄等 4 种食药物质、可用于食品/婴幼儿食品菌种名单的 NHC 官方公告页和附件 URL；`ingredient:promote-reviewed` 扩展到官方目录专用表，仅提升 S0、政府公开文档、本地文件+SHA 校验、非 OCR、证据完整数据；本地 DB 本轮提升 `ingredient_master=2146`，`novel_food_ingredient_rules=95`、`food_medicine_rules=13`、`microorganism_strains=26` 进入 current，剩余 `pending_review ingredient=563` | Codex | `npm run ingredient:inventory` / `npm run ingredient:extract` / `npm run ingredient:import` / `npm run ingredient:promote-reviewed` / `npm run ingredient:validate` / `npm run ingredient:coverage` / `git diff --check` / `npm run validate:data` / `npm --prefix backend run typecheck` / `npm run lint` / `npm run test` / `npm --prefix backend run test` / `npm run build` / `npm --prefix backend run build` |
 | 2026-06-18 | 食品成分官方源缺口决策清单：`ingredient:report` 新增生成 `docs/decision-required.md`，把数字标签独立公告官方原文缺失、GB 28050-2025 糖醇能量规则原文未定位集中列为需要用户/人工处理事项；新增回归测试，确认缺口不会被静默跳过或误当 verified 数据；不新增、不删除、不提升任何成分数据 | Codex | `npm run ingredient:report` / `npm --prefix backend test -- tests/ingredientKnowledge.test.ts` / `npm --prefix backend run typecheck` / `npm run lint` / `npm run ingredient:validate -- --no-db` / `npm run ingredient:validate` / `git diff --check` |

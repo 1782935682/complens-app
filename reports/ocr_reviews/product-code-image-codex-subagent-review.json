@@ -1,0 +1,34 @@
+{
+  "provider": "codex-subagent-product-code-image-report",
+  "pass": true,
+  "score": 92,
+  "riskLevel": "medium",
+  "issues": [
+    {
+      "severity": "medium",
+      "file": "reports/ocr_reviews/product-code-review-summary.md",
+      "message": "汇总报告生成时间早于图片级评测报告，仍停留在“图片级扫码识别未证明”的旧结论；如果它被作为最终汇总，会漏掉后续 synthetic PNG image gate 已通过的信息。"
+    },
+    {
+      "severity": "medium",
+      "file": "reports/ocr/product-code-image-evaluation-report.json",
+      "message": "realDeviceImageGatePass=false，真实包装照片和微信真机扫码验收仍未完成；本阶段只能判定可重复合成 PNG 图片级工程门禁通过，不能判定真实设备图片门禁或上线扫码验收完成。"
+    }
+  ],
+  "suggestions": [
+    "更新 product-code-review-summary.md，使其同时表达：synthetic image gate 已通过，real device image gate 未通过。",
+    "继续补充微信真机扫码、真实包装照片、反光、模糊、倾斜、局部遮挡、低光等真实场景样本。",
+    "保持来源边界：二维码 URL 和 GTIN 只作为商品身份线索，不作为包装实拍 OCR、官方法规、配料或营养证据。"
+  ],
+  "aiOptimizationDecision": {
+    "readyForSyntheticImageGate": true,
+    "readyForRealDeviceImageGate": false,
+    "readyForProductCodeStage": true,
+    "priorityFixes": [
+      "同步更新汇总报告，避免旧结论覆盖 synthetic image gate 通过结论。",
+      "执行真实包装照片和微信真机扫码验收，完成 realDeviceImageGatePass。",
+      "在最终发布材料中明确二维码 URL / GTIN 仅用于商品身份识别线索。"
+    ]
+  },
+  "launchReadiness": "工程门禁可判定通过：barcode_image=500 PNG、qrcode_image=500 PNG，整体准确率98.3%，barcode_image准确率100%，qrcode_image准确率96.6%，均达到95%；linked printed_code 500解析门禁也已通过。但真实设备扫码未完成，realDeviceImageGatePass=false，因此不能作为真实包装照片或微信真机扫码上线验收通过。"
+}

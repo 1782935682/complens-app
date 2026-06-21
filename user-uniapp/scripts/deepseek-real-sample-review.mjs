@@ -147,7 +147,7 @@ async function buildScreenshotInventory() {
   return `${inventory}
 
 截图观察（来自 visual smoke 人工核对）：
-- report.png：首屏直接显示“一句话结论”，示例为“不建议常吃｜偶尔解馋”，下面用“为什么/谁少吃/怎么吃”三行短句给决策依据。
+- report.png：首屏直接显示“一句话结论”，示例为“偶尔吃更合适｜注意份量”，下面用“为什么/谁少吃/怎么吃”三行短句给决策依据。
 - report-nutrition.png：营养重点图已经使用进度条、红色高值、较高标签，并展示热量、碳水、钠、脂肪等高值项。
 - report-insufficient.png：信息不足页首屏显示“信息不足｜补拍配料或营养表”，并给“补拍配料/营养表”和“手动粘贴文字”两个动作。`;
 }

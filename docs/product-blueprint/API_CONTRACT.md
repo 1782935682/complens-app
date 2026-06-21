@@ -227,7 +227,49 @@
 
 ---
 
-### 5. 用户数据（user）
+### 5. 商品补全（products）
+
+#### `POST /api/products/lookup`  ✅ 已实现
+- 用途：当用户只拍到商品条码、二维码或 8/12/13 位商品编码，且本机历史没有配料表/营养成分表时，由后端可选调用 DeepSeek 补全公开商品标签线索。
+- 调用端：用户端单一拍包装识别流程；前端不得直连 DeepSeek。
+- 鉴权：MVP 允许匿名调用；生产可加配额，但失败必须回到“补拍配料表/营养成分表”。
+- 请求体：
+  ```
+  {
+    normalizedCode?: string, // EAN-13 / EAN-8 / UPC-A 等标准化数字
+    qrContent?: string,      // 二维码原始内容，可能是 URL / 文本 / 商品码
+    rawContent?: string      // 条码或 OCR 原始摘要
+  }
+  ```
+- 成功响应：
+  ```
+  {
+    usedAiSearch: boolean,
+    provider: "deepseek" | "none",
+    model: string,
+    productName: string,
+    brand: string,
+    specification: string,
+    ingredientsText: string,
+    nutritionText: string,
+    sourceSummary: string,
+    aiNotice: string,
+    confidence: "high" | "medium" | "low",
+    errorCode?: string
+  }
+  ```
+- 错误/降级：
+  - `400 missing_query`：没有提供编码、二维码或原始内容。
+  - `503 ai_disabled`：后端未启用 AI。
+  - `503 deepseek_unavailable` / `missing_api_key` / `deepseek_failed`：DeepSeek 不可用或缺 Key。
+- 展示规则：
+  - DeepSeek 输出只能作为“AI 联网搜索推测 / 公开标签线索”，不得伪装成包装 OCR。
+  - 如果按商品名、品牌、商品码或二维码搜到公开配料表 / 营养成分表，可生成参考报告，但必须标注 AI 来源；如果只补到商品名，未补到配料表或营养成分表，报告必须继续显示信息不足。
+  - 报告必须展示提示：“部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。”
+
+---
+
+### 6. 用户数据（user）
 
 > 来源：`backend/src/routes/user.ts`，整个 `/user/*` 段挂载鉴权中间件，**全部需登录**。所有写操作均按 `userId` 隔离。
 
@@ -266,7 +308,7 @@
 
 ---
 
-### 6. GB2760 数据治理（gb2760）
+### 7. GB2760 数据治理（gb2760）
 
 > 来源：`backend/src/routes/gb2760.ts`，整个 `/gb2760/*` 段**需登录**。**写操作（PUT）额外要求内部审核员**：通过 `GB2760_INTERNAL_REVIEWERS` allowlist（匹配 email 或 userId，支持 `*` 全放行）校验，普通登录用户写操作 → `403 { error: "forbidden", message }`。
 

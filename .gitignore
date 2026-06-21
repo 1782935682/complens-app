@@ -42,3 +42,9 @@ docs/review-index.html
 docs/source-materials-download-report.md
 docs/source-materials-missing-official.md
 docs/manual-download-required.md
+
+# Local OCR sample caches. Keep URLs, labels and reports; do not package web image binaries.
+datasets/ocr_samples/raw/
+datasets/ocr_samples/ocr_text/
+datasets/ocr_samples/results/
+datasets/product_code_image_samples/

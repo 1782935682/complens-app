@@ -1,0 +1,871 @@
+{
+  "generatedAt": "2026-06-21T02:39:34.822Z",
+  "policy": "Public web samples keep sourceUrl/imageUrl provenance. Derived variants are local evaluation transforms and are not independent web sources.",
+  "sourceCount": 11,
+  "generatedCount": 44,
+  "skipped": [],
+  "samples": [
+    {
+      "sampleId": "public-ncstate-allergen-lists",
+      "sourceUrl": "https://foodsafetyrepository.ces.ncsu.edu/food-labeling-and-allergens/",
+      "imageUrl": "https://eit-wagpress-prod.s3.amazonaws.com/media/images/2024-06-Screenshot-2024-06-05-160515.max-1200x700.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-ncstate-allergen-lists.png",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Enriched flour, sugar, partially hydrogenated cottonseed oil, whey, eggs, vanilla, natural and artificial flavoring, salt, leavening, lecithin, mono- and diglycerides",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Contains: Wheat, Milk, Egg, and Soy"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-ncstate-allergen-lists-tilted",
+      "sourceUrl": "https://foodsafetyrepository.ces.ncsu.edu/food-labeling-and-allergens/",
+      "imageUrl": "https://eit-wagpress-prod.s3.amazonaws.com/media/images/2024-06-Screenshot-2024-06-05-160515.max-1200x700.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-ncstate-allergen-lists-tilted.jpg",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Enriched flour, sugar, partially hydrogenated cottonseed oil, whey, eggs, vanilla, natural and artificial flavoring, salt, leavening, lecithin, mono- and diglycerides",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Contains: Wheat, Milk, Egg, and Soy"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-ncstate-allergen-lists",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-ncstate-allergen-lists-soft-blur",
+      "sourceUrl": "https://foodsafetyrepository.ces.ncsu.edu/food-labeling-and-allergens/",
+      "imageUrl": "https://eit-wagpress-prod.s3.amazonaws.com/media/images/2024-06-Screenshot-2024-06-05-160515.max-1200x700.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-ncstate-allergen-lists-soft-blur.jpg",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Enriched flour, sugar, partially hydrogenated cottonseed oil, whey, eggs, vanilla, natural and artificial flavoring, salt, leavening, lecithin, mono- and diglycerides",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Contains: Wheat, Milk, Egg, and Soy"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-ncstate-allergen-lists",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-ncstate-allergen-lists-bright",
+      "sourceUrl": "https://foodsafetyrepository.ces.ncsu.edu/food-labeling-and-allergens/",
+      "imageUrl": "https://eit-wagpress-prod.s3.amazonaws.com/media/images/2024-06-Screenshot-2024-06-05-160515.max-1200x700.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-ncstate-allergen-lists-bright.jpg",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Enriched flour, sugar, partially hydrogenated cottonseed oil, whey, eggs, vanilla, natural and artificial flavoring, salt, leavening, lecithin, mono- and diglycerides",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Contains: Wheat, Milk, Egg, and Soy"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-ncstate-allergen-lists",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-sugar-ingredient-list",
+      "sourceUrl": "https://www.makingsenseofsugar.com/lat-en/balanced-diet/food-labelling",
+      "imageUrl": "https://www.makingsenseofsugar.com/perch/resources/label2-4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-sugar-ingredient-list.jpg",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Wheat Flour, Rice Flour, Sugar, Eggs, Vegetable Oil, Margarine, Soy Lecithin, Mono and Diglycerides, Artificial Flavors, Sodium Benzoate, Potassium Sorbate, TBHQ, Citric Acid, Cornstarch, Baking Powder, Ammonium Bicarbonate, Iodized Salt, Vanilla Essence, Yeast",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Allergens: Wheat gluten, Eggs and Soy Lecithin"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-sugar-ingredient-list-tilted",
+      "sourceUrl": "https://www.makingsenseofsugar.com/lat-en/balanced-diet/food-labelling",
+      "imageUrl": "https://www.makingsenseofsugar.com/perch/resources/label2-4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-sugar-ingredient-list-tilted.jpg",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Wheat Flour, Rice Flour, Sugar, Eggs, Vegetable Oil, Margarine, Soy Lecithin, Mono and Diglycerides, Artificial Flavors, Sodium Benzoate, Potassium Sorbate, TBHQ, Citric Acid, Cornstarch, Baking Powder, Ammonium Bicarbonate, Iodized Salt, Vanilla Essence, Yeast",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Allergens: Wheat gluten, Eggs and Soy Lecithin"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-sugar-ingredient-list",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-sugar-ingredient-list-soft-blur",
+      "sourceUrl": "https://www.makingsenseofsugar.com/lat-en/balanced-diet/food-labelling",
+      "imageUrl": "https://www.makingsenseofsugar.com/perch/resources/label2-4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-sugar-ingredient-list-soft-blur.jpg",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Wheat Flour, Rice Flour, Sugar, Eggs, Vegetable Oil, Margarine, Soy Lecithin, Mono and Diglycerides, Artificial Flavors, Sodium Benzoate, Potassium Sorbate, TBHQ, Citric Acid, Cornstarch, Baking Powder, Ammonium Bicarbonate, Iodized Salt, Vanilla Essence, Yeast",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Allergens: Wheat gluten, Eggs and Soy Lecithin"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-sugar-ingredient-list",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-sugar-ingredient-list-bright",
+      "sourceUrl": "https://www.makingsenseofsugar.com/lat-en/balanced-diet/food-labelling",
+      "imageUrl": "https://www.makingsenseofsugar.com/perch/resources/label2-4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-sugar-ingredient-list-bright.jpg",
+      "category": "public_label_example:ingredients_allergen",
+      "expected": {
+        "ingredientsText": "Wheat Flour, Rice Flour, Sugar, Eggs, Vegetable Oil, Margarine, Soy Lecithin, Mono and Diglycerides, Artificial Flavors, Sodium Benzoate, Potassium Sorbate, TBHQ, Citric Acid, Cornstarch, Baking Powder, Ammonium Bicarbonate, Iodized Salt, Vanilla Essence, Yeast",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Allergens: Wheat gluten, Eggs and Soy Lecithin"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-sugar-ingredient-list",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-customany-preservatives",
+      "sourceUrl": "https://customany.com/ingredient-labels-guide/",
+      "imageUrl": "https://customany.com/wp-content/uploads/2023/12/List-chemical-preservatives-by-their-common-name.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-customany-preservatives.jpg",
+      "category": "public_label_example:ingredients_blurry_crop",
+      "expected": {
+        "ingredientsText": "Sugar, natural flavors, acid, sodium benzoate, preservative, yellow 6",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-customany-preservatives-tilted",
+      "sourceUrl": "https://customany.com/ingredient-labels-guide/",
+      "imageUrl": "https://customany.com/wp-content/uploads/2023/12/List-chemical-preservatives-by-their-common-name.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-customany-preservatives-tilted.jpg",
+      "category": "public_label_example:ingredients_blurry_crop",
+      "expected": {
+        "ingredientsText": "Sugar, natural flavors, acid, sodium benzoate, preservative, yellow 6",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-customany-preservatives",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-customany-preservatives-soft-blur",
+      "sourceUrl": "https://customany.com/ingredient-labels-guide/",
+      "imageUrl": "https://customany.com/wp-content/uploads/2023/12/List-chemical-preservatives-by-their-common-name.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-customany-preservatives-soft-blur.jpg",
+      "category": "public_label_example:ingredients_blurry_crop",
+      "expected": {
+        "ingredientsText": "Sugar, natural flavors, acid, sodium benzoate, preservative, yellow 6",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-customany-preservatives",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-customany-preservatives-bright",
+      "sourceUrl": "https://customany.com/ingredient-labels-guide/",
+      "imageUrl": "https://customany.com/wp-content/uploads/2023/12/List-chemical-preservatives-by-their-common-name.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-customany-preservatives-bright.jpg",
+      "category": "public_label_example:ingredients_blurry_crop",
+      "expected": {
+        "ingredientsText": "Sugar, natural flavors, acid, sodium benzoate, preservative, yellow 6",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-customany-preservatives",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-1",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image1.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-1.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-1-tilted",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image1.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-1-tilted.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-1",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-1-soft-blur",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image1.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-1-soft-blur.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-1",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-1-bright",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image1.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-1-bright.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-1",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-2",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image2.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-2.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-2-tilted",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image2.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-2-tilted.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-2",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-2-soft-blur",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image2.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-2-soft-blur.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-2",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-2-bright",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image2.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-2-bright.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-2",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-3",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image3.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-3.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-3-tilted",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image3.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-3-tilted.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-3",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-3-soft-blur",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image3.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-3-soft-blur.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-3",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-3-bright",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image3.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-3-bright.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-3",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-4",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-4.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-4-tilted",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-4-tilted.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-4",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-4-soft-blur",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-4-soft-blur.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-4",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-fda-nutrition-label-4-bright",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/nutrition-facts-label-images-download",
+      "imageUrl": "https://www.fda.gov/files/nutrition-facts-label-download-image4.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-nutrition-label-4-bright.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 230\nTotal Fat 8g\nSaturated Fat 1g\nCholesterol 0mg\nSodium 160mg\nTotal Carbohydrate 37g\nDietary Fiber 4g\nTotal Sugars 12g\nProtein 3g\nVitamin D 2mcg\nCalcium 260mg\nIron 8mg\nPotassium 240mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-nutrition-label-4",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-fda-dual-column-nutrition",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-facts-label/calories-nutrition-facts-label",
+      "imageUrl": "https://www.fda.gov/files/calories_on_the_new_nutrition_facts_label_-_dual_column_sample.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-dual-column-nutrition.png",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 220\nTotal Fat 5g\nSaturated Fat 2g\nCholesterol 15mg\nSodium 240mg\nTotal Carb 35g\nDietary Fiber 6g\nTotal Sugars 7g\nProtein 9g\nVitamin D 5mcg\nCalcium 200mg\nIron 1mg\nPotassium 470mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-fda-dual-column-nutrition-tilted",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-facts-label/calories-nutrition-facts-label",
+      "imageUrl": "https://www.fda.gov/files/calories_on_the_new_nutrition_facts_label_-_dual_column_sample.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-dual-column-nutrition-tilted.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 220\nTotal Fat 5g\nSaturated Fat 2g\nCholesterol 15mg\nSodium 240mg\nTotal Carb 35g\nDietary Fiber 6g\nTotal Sugars 7g\nProtein 9g\nVitamin D 5mcg\nCalcium 200mg\nIron 1mg\nPotassium 470mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-dual-column-nutrition",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-fda-dual-column-nutrition-soft-blur",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-facts-label/calories-nutrition-facts-label",
+      "imageUrl": "https://www.fda.gov/files/calories_on_the_new_nutrition_facts_label_-_dual_column_sample.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-dual-column-nutrition-soft-blur.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 220\nTotal Fat 5g\nSaturated Fat 2g\nCholesterol 15mg\nSodium 240mg\nTotal Carb 35g\nDietary Fiber 6g\nTotal Sugars 7g\nProtein 9g\nVitamin D 5mcg\nCalcium 200mg\nIron 1mg\nPotassium 470mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-dual-column-nutrition",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-fda-dual-column-nutrition-bright",
+      "sourceUrl": "https://www.fda.gov/food/nutrition-facts-label/calories-nutrition-facts-label",
+      "imageUrl": "https://www.fda.gov/files/calories_on_the_new_nutrition_facts_label_-_dual_column_sample.png",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-fda-dual-column-nutrition-bright.jpg",
+      "category": "public_fda:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "Nutrition Facts\nCalories 220\nTotal Fat 5g\nSaturated Fat 2g\nCholesterol 15mg\nSodium 240mg\nTotal Carb 35g\nDietary Fiber 6g\nTotal Sugars 7g\nProtein 9g\nVitamin D 5mcg\nCalcium 200mg\nIron 1mg\nPotassium 470mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-fda-dual-column-nutrition",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-iqilu-cn-nutrition",
+      "sourceUrl": "https://food.iqilu.com/jujiao/2020/0519/4547120.shtml",
+      "imageUrl": "https://img5.iqilu.com/c/u/2020/0519/1589873044627.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-iqilu-cn-nutrition.jpg",
+      "category": "public_chinese:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "营养成分表\n能量 1538kJ\n蛋白质 1.1g\n脂肪 0.6g\n碳水化合物 88.1g\n钠 55mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-iqilu-cn-nutrition-tilted",
+      "sourceUrl": "https://food.iqilu.com/jujiao/2020/0519/4547120.shtml",
+      "imageUrl": "https://img5.iqilu.com/c/u/2020/0519/1589873044627.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-iqilu-cn-nutrition-tilted.jpg",
+      "category": "public_chinese:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "营养成分表\n能量 1538kJ\n蛋白质 1.1g\n脂肪 0.6g\n碳水化合物 88.1g\n钠 55mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-iqilu-cn-nutrition",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-iqilu-cn-nutrition-soft-blur",
+      "sourceUrl": "https://food.iqilu.com/jujiao/2020/0519/4547120.shtml",
+      "imageUrl": "https://img5.iqilu.com/c/u/2020/0519/1589873044627.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-iqilu-cn-nutrition-soft-blur.jpg",
+      "category": "public_chinese:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "营养成分表\n能量 1538kJ\n蛋白质 1.1g\n脂肪 0.6g\n碳水化合物 88.1g\n钠 55mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-iqilu-cn-nutrition",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-iqilu-cn-nutrition-bright",
+      "sourceUrl": "https://food.iqilu.com/jujiao/2020/0519/4547120.shtml",
+      "imageUrl": "https://img5.iqilu.com/c/u/2020/0519/1589873044627.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-iqilu-cn-nutrition-bright.jpg",
+      "category": "public_chinese:nutrition",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "营养成分表\n能量 1538kJ\n蛋白质 1.1g\n脂肪 0.6g\n碳水化合物 88.1g\n钠 55mg",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": []
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-iqilu-cn-nutrition",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-clemson-6-parts-label",
+      "sourceUrl": "https://www.clemson.edu/public/lph/scmpid/requirements/package-labeling.html",
+      "imageUrl": "https://www.clemson.edu/public/lph/scmpid/images/6partstolabel.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-clemson-6-parts-label.jpg",
+      "category": "public_label_example:ingredients",
+      "expected": {
+        "ingredientsText": "BEEF AND PORK, WATER, SALT, CORN SYRUP, DEXTROSE, FLAVORING, SODIUM ERYTHORBATE",
+        "nutritionText": "",
+        "productName": "FRANKFURTERS",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "KEEP REFRIGERATED",
+          "JOHN DOE PACKING CO.",
+          "NET WEIGHT 16 OZ."
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-clemson-6-parts-label-tilted",
+      "sourceUrl": "https://www.clemson.edu/public/lph/scmpid/requirements/package-labeling.html",
+      "imageUrl": "https://www.clemson.edu/public/lph/scmpid/images/6partstolabel.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-clemson-6-parts-label-tilted.jpg",
+      "category": "public_label_example:ingredients",
+      "expected": {
+        "ingredientsText": "BEEF AND PORK, WATER, SALT, CORN SYRUP, DEXTROSE, FLAVORING, SODIUM ERYTHORBATE",
+        "nutritionText": "",
+        "productName": "FRANKFURTERS",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "KEEP REFRIGERATED",
+          "JOHN DOE PACKING CO.",
+          "NET WEIGHT 16 OZ."
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-clemson-6-parts-label",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-clemson-6-parts-label-soft-blur",
+      "sourceUrl": "https://www.clemson.edu/public/lph/scmpid/requirements/package-labeling.html",
+      "imageUrl": "https://www.clemson.edu/public/lph/scmpid/images/6partstolabel.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-clemson-6-parts-label-soft-blur.jpg",
+      "category": "public_label_example:ingredients",
+      "expected": {
+        "ingredientsText": "BEEF AND PORK, WATER, SALT, CORN SYRUP, DEXTROSE, FLAVORING, SODIUM ERYTHORBATE",
+        "nutritionText": "",
+        "productName": "FRANKFURTERS",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "KEEP REFRIGERATED",
+          "JOHN DOE PACKING CO.",
+          "NET WEIGHT 16 OZ."
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-clemson-6-parts-label",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-clemson-6-parts-label-bright",
+      "sourceUrl": "https://www.clemson.edu/public/lph/scmpid/requirements/package-labeling.html",
+      "imageUrl": "https://www.clemson.edu/public/lph/scmpid/images/6partstolabel.jpg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-clemson-6-parts-label-bright.jpg",
+      "category": "public_label_example:ingredients",
+      "expected": {
+        "ingredientsText": "BEEF AND PORK, WATER, SALT, CORN SYRUP, DEXTROSE, FLAVORING, SODIUM ERYTHORBATE",
+        "nutritionText": "",
+        "productName": "FRANKFURTERS",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "KEEP REFRIGERATED",
+          "JOHN DOE PACKING CO.",
+          "NET WEIGHT 16 OZ."
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-clemson-6-parts-label",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    },
+    {
+      "sampleId": "public-cookwareninja-expiration-shelf-life",
+      "sourceUrl": "https://cookwareninja.com/expiration-date-vs-shelf-life/",
+      "imageUrl": "https://cookwareninja.com/wp-content/uploads/Expiration-Date-vs.-Shelf-Life.jpeg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-cookwareninja-expiration-shelf-life.jpeg",
+      "category": "public_label_example:production_date_only",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Expiration Date",
+          "Shelf Life",
+          "Best Before"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary"
+    },
+    {
+      "sampleId": "public-cookwareninja-expiration-shelf-life-tilted",
+      "sourceUrl": "https://cookwareninja.com/expiration-date-vs-shelf-life/",
+      "imageUrl": "https://cookwareninja.com/wp-content/uploads/Expiration-Date-vs.-Shelf-Life.jpeg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-cookwareninja-expiration-shelf-life-tilted.jpg",
+      "category": "public_label_example:production_date_only",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Expiration Date",
+          "Shelf Life",
+          "Best Before"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-cookwareninja-expiration-shelf-life",
+      "variantTransform": "local robustness transform: rotate 2 degrees on white background"
+    },
+    {
+      "sampleId": "public-cookwareninja-expiration-shelf-life-soft-blur",
+      "sourceUrl": "https://cookwareninja.com/expiration-date-vs-shelf-life/",
+      "imageUrl": "https://cookwareninja.com/wp-content/uploads/Expiration-Date-vs.-Shelf-Life.jpeg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-cookwareninja-expiration-shelf-life-soft-blur.jpg",
+      "category": "public_label_example:production_date_only",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Expiration Date",
+          "Shelf Life",
+          "Best Before"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-cookwareninja-expiration-shelf-life",
+      "variantTransform": "local robustness transform: mild blur"
+    },
+    {
+      "sampleId": "public-cookwareninja-expiration-shelf-life-bright",
+      "sourceUrl": "https://cookwareninja.com/expiration-date-vs-shelf-life/",
+      "imageUrl": "https://cookwareninja.com/wp-content/uploads/Expiration-Date-vs.-Shelf-Life.jpeg",
+      "imagePath": "/home/downloads/git/compcheck/datasets/ocr_samples/raw/public-cookwareninja-expiration-shelf-life-bright.jpg",
+      "category": "public_label_example:production_date_only",
+      "expected": {
+        "ingredientsText": "",
+        "nutritionText": "",
+        "productName": "",
+        "brand": "",
+        "codeInfo": "",
+        "otherText": [
+          "Expiration Date",
+          "Shelf Life",
+          "Best Before"
+        ]
+      },
+      "sourceTier": "S2_public_web_label",
+      "sourcePolicy": "local evaluation only; keep URL and structured result, do not package image binary",
+      "variantOf": "public-cookwareninja-expiration-shelf-life",
+      "variantTransform": "local robustness transform: mild brightness and contrast increase"
+    }
+  ]
+}

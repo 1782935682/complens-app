@@ -47,19 +47,22 @@ const prompt = `
 - 成分镜不是 OCR 工具，也不是成分百科。
 - 主路径是：拍食品包装 -> OCR -> 结构化识别 -> 报告 -> 历史。
 - 用户目标是拍包装后直接得到购买/食用决策，减少自己判断、查资料、对比。
+- 硬性流程约束：点击首页“拍包装”后直接调用相机并自动识别；拍照识别结束必须直接进入报告页。清晰 OCR / AI 公开标签线索生成参考解读；OCR 失败、低置信或识别信息不足生成信息不足报告；只有用户主动手动输入或在报告内点击补充时才进入文本补充页。不要建议在正常识别后新增确认页。
 - AI 只做通俗解释和总结，不编造成分、法规、医疗或权威结论。
 - 成分搜索只是小辅助入口。
+- 报告文案要给“关注/份量/适合人群”决策，但不能写“可以买/不能买/健康/不健康/安全/有害”等绝对或医疗化判断。
 
 当前截图场景：
 ${screenshotInventory}
 
 人工截图观察：
-- 首页：第一屏只有居中的拍包装圆形按钮，下面是包装正面/配料表/营养表短标签，查单个成分是小入口。
-- 补充页空白态：强调“补一项生成”，优先补配料表文字/营养表数字，可选补充默认折叠。
+- 首页：第一屏只有居中的拍包装圆形按钮，按钮约占屏宽 40% 左右，下面是包装正面/配料表/营养表短标签，查单个成分是小入口。
+- 补充页空白态：强调“确认信息后生成参考报告”，优先补配料表文字/营养表数字，可选补充默认折叠。
 - 补充页已填态：填入配料后主按钮变为可用，并显示识别到的糖类、脂肪、过敏等短标签。
-- 报告首屏：先给一句话结论，再用短标签展示用户关注项，并用“为什么/谁少吃/怎么吃”三行完成决策闭环。
+- 报告首屏：识别信息卡在顶部；随后给一句话结论，示例口径为“控糖人群建议关注糖、碳水｜建议关注份量”或“建议关注钠、热量、脂肪｜建议关注份量”，再用短标签展示用户关注项，并用“为什么/谁少吃/怎么吃”三行完成决策闭环。
+- 识别信息卡：报告顶部展示识别类型、内容类型、商品码/二维码、商品名/品牌、数据来源和识别时间；DeepSeek 补全时显示“AI 公开标签线索”标签，并单独显示 AI 搜索风险提示。
 - 营养图：热量、脂肪、碳水、钠用条形图和低/中/高参考展示，不只堆文字。
-- 信息不足报告：不硬给消费结论，首屏给补拍配料/营养表和手动粘贴文字两个动作。
+- 信息不足报告：不硬给消费结论，首屏在补拍按钮上方展示已识别到的商品、品牌、商品码、类型或“未识别到可用内容”，再给补拍配料/营养表和手动粘贴文字两个动作。
 - 历史页：卡片优先展示商品名、结论标签、关键原因，识别数量降级为次要信息。
 - 我的页：关注目标、儿童模式、过敏/忌口都有设置影响提示。
 - 成分搜索：结果卡顶部说明单个成分只作名称参考，不能替代整包包装报告。
@@ -69,9 +72,10 @@ ${screenshotInventory}
 2. UI 是否移动端优先，按钮是否怪异、重叠、比例失衡。
 3. 产品是否减少普通用户判断成本，是否直接给购买/食用决策。
 4. 报告是否文字过多，图表/标签是否真正降低阅读负担。
-5. 信息不足、OCR 失败、手动补充、历史回看、成分搜索辅助这些场景是否合理。
-6. 文档和脚本是否支撑当前方向，是否存在 key 泄漏、伪造 AI/OCR、过度权威化风险。
-7. 设计是否一致，是否有明显上线阻断。
+5. 条码、二维码、数字编码、配料表、营养表、未知图片是否统一进入同一报告页，是否没有暴露多个首页入口。
+6. 信息不足、OCR 失败、DeepSeek 搜索失败、手动补充、历史回看、成分搜索辅助这些场景是否合理。
+7. 文档和脚本是否支撑当前方向，是否存在 key 泄漏、伪造 AI/OCR、过度权威化风险。
+8. 设计是否一致，是否有明显上线阻断。
 
 文档摘要：
 ${docContext}
@@ -91,7 +95,7 @@ ${sourceContext}
     }
   ],
   "scenarioReviews": [
-    {"scenario": "首页|补充页|正常报告|信息不足报告|历史|我的|搜索|AI/OCR|文档", "score": 1-10, "notes": "具体评价"}
+    {"scenario": "首页|自动识别|补充页|正常报告|信息不足报告|历史|我的|搜索|AI/OCR|文档", "score": 1-10, "notes": "具体评价"}
   ],
   "shipBlockers": ["上线阻断问题，没有则空数组"],
   "summary": "总体上线判断"
@@ -171,11 +175,19 @@ async function readDocContext() {
 async function readSourceContext() {
   const entries = await Promise.all([
     readSnippet('src/pages/index/index.vue', 1400),
-    readSnippet('src/pages/capture/index.vue', 2200),
-    readSnippet('src/pages/report/index.vue', 2600),
+    readSnippet('src/pages/capture/index.vue', 7200),
+    readSnippet('src/pages/report/index.vue', 5200),
+    readSnippet('src/services/api/labels.ts', 3600),
+    readSnippet('src/services/recognition/autoGeneratePolicy.ts', 1600),
+    readSnippet('src/services/recognition/imageRecognitionService.ts', 2200),
+    readSnippet('src/services/recognition/productLookupService.ts', 1600),
+    readSnippet('src/utils/reportBuilder.ts', 3600),
+    readSnippet('src/utils/localLabelAnalysis.ts', 3600),
     readSnippet('src/pages/history/index.vue', 1800),
+    readSnippet('scripts/ocr-report-regression.mjs', 5200),
     readSnippet('scripts/visual-smoke.mjs', 2200),
-    readSnippet('scripts/chatgpt-ui-review.mjs', 1600)
+    readSnippet('scripts/chatgpt-ui-review.mjs', 1600),
+    readSnippet('../backend/src/services/productLookupService.ts', 3600)
   ]);
   return entries.join('\n\n');
 }

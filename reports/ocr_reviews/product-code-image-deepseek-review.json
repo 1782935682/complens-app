@@ -1,0 +1,23 @@
+{
+  "provider": "deepseek-product-code-image-report",
+  "pass": true,
+  "score": 98,
+  "riskLevel": "low",
+  "issues": [
+    "qrcode_image 准确率 96.6% 虽超过 95% 门槛，但仍有 17 个失败案例，需排查解码器兼容性问题",
+    "报告明确标注合成 PNG 不等同于微信真机扫码或真实包装照片验收，但未提及真实设备扫码门禁的后续计划"
+  ],
+  "suggestions": [
+    "修复 qrcode 解码器对特定版本/纠错级别的兼容性，减少失败案例",
+    "补充真实设备扫码门禁的测试计划和时间表"
+  ],
+  "aiOptimizationDecision": {
+    "readyForSyntheticImageGate": true,
+    "readyForRealDeviceImageGate": false,
+    "readyForProductCodeStage": true,
+    "priorityFixes": [
+      "修复 qrcode 解码器错误：getVersionForNumber、locator degree 等"
+    ]
+  },
+  "launchReadiness": "synthetic_image_gate_passed"
+}

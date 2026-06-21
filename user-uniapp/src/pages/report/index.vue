@@ -16,6 +16,8 @@ import type {
   LabelReport,
   NutritionKey,
   NutritionSnapshotItem,
+  ProductDetectedType,
+  ProductRecognitionContentType,
   ReportFeedbackReason
 } from '@/types';
 import type { ReportShareCard } from '@/platform/share';
@@ -70,15 +72,35 @@ const decision = computed(() => {
   }, attentionSettings.value);
 });
 const foodAnalysis = computed(() => report.value?.foodAnalysis);
+const recognitionInfo = computed(() => report.value?.analysisSource?.recognition);
+const recognitionTypeText = computed(() => recognitionInfo.value ? detectedTypeLabel(recognitionInfo.value.detectedType) : '未知');
+const recognitionContentText = computed(() => recognitionInfo.value ? contentTypeLabel(recognitionInfo.value.contentType) : '未知');
+const recognitionIconClass = computed(() => `recognition-icon--${recognitionInfo.value?.detectedType || 'unknown'}`);
+const recognitionContentChipText = computed(() => recognitionContentText.value === recognitionTypeText.value ? '' : recognitionContentText.value);
+const recognitionRawPreview = computed(() => {
+  const raw = recognitionInfo.value?.rawContent || recognitionInfo.value?.ocrText || report.value?.rawText || '';
+  return raw ? raw.replace(/\s+/g, ' ').slice(0, 72) : '未识别到可用内容';
+});
+const recognitionSourceText = computed(() => recognitionInfo.value?.sources.join(' / ') || report.value?.analysisSource?.sourceLabel || '本次识别');
+const aiNotice = computed(() => report.value?.analysisSource?.usedAiSearch ? (report.value.analysisSource.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。') : '');
+const aiSearchFailureText = computed(() => report.value?.analysisSource?.aiSearchErrorCode ? 'AI 搜索未获取到完整标签信息，请补拍配料表 / 营养表或手动补充。' : '');
+const aiInsufficientText = computed(() => {
+  if (!report.value?.analysisSource?.usedAiSearch) return '';
+  const hasAiLabel = Boolean(report.value.analysisSource.ingredientText?.trim() || report.value.analysisSource.nutritionText?.trim());
+  return hasAiLabel ? 'AI 搜索到的配料或营养仅作为公开标签线索参与参考解读。' : 'AI 搜索未找到可用配料或营养证据，本次报告仍按信息不足处理。';
+});
 const overallLabel = computed(() => {
+  if (isInsufficientReport.value) return '信息不足｜补拍配料或营养表';
+  const findingHeadline = buildDecisionHeadline(priorityFindings.value);
+  if (findingHeadline) return findingHeadline;
   if (foodAnalysis.value?.decisionText) return foodAnalysis.value.decisionText;
   if (decision.value?.level === 'insufficient') return '信息不足';
-  if (decision.value?.level === 'alternative' || decision.value?.level === 'caution') return '偶尔吃，不建议常吃';
+  if (decision.value?.level === 'alternative' || decision.value?.level === 'caution') return '偶尔吃更合适';
   if (decision.value?.level === 'occasional') return '偶尔吃';
   if (decision.value?.level === 'daily_ok') return '提醒较少';
   const finding = headlineFinding.value;
   if (!finding) return '信息不足';
-  if (finding.tone === 'attention') return `${finding.label}需要关注`;
+  if (finding.tone === 'attention') return `建议关注${finding.label}`;
   if (finding.tone === 'watch') return '有几项提醒';
   return '配料和营养已整理';
 });
@@ -102,7 +124,7 @@ const overallDetail = computed(() => {
   if (isInsufficientReport.value) {
     return decision.value?.summary || '请补拍清晰的包装文字，或手动粘贴配料、营养数字和过敏原提示。';
   }
-  return headlineFinding.value?.detail || '已整理高值项、添加剂和未确认线索。';
+  return headlineFinding.value?.detail || '已整理重点项、添加剂和未确认线索。';
 });
 const allergyWarnings = computed(() => decision.value?.allergyWarnings ?? []);
 const resultReasons = computed(() => (foodAnalysis.value?.mainReasons?.length
@@ -126,10 +148,18 @@ const supportingExplanation = computed(() => {
 });
 const productFacts = computed(() => [
   foodAnalysis.value?.productName && foodAnalysis.value.productName !== '未识别商品' ? `商品：${foodAnalysis.value.productName}` : '',
+  report.value?.analysisSource?.brand ? `品牌：${report.value.analysisSource.brand}` : '',
+  report.value?.analysisSource?.normalizedCode ? `商品码：${report.value.analysisSource.normalizedCode}` : '',
+  report.value?.analysisSource?.qrContent ? `二维码：${report.value.analysisSource.qrContent.slice(0, 42)}` : '',
   foodAnalysis.value?.category || report.value?.analysisSource?.foodTypeText ? `类型：${foodAnalysis.value?.category || report.value?.analysisSource?.foodTypeText}` : '',
   foodAnalysis.value?.productionDate || report.value?.analysisSource?.productionDateText ? `生产日期：${foodAnalysis.value?.productionDate || report.value?.analysisSource?.productionDateText}` : ''
 ].filter(Boolean));
 const detailFrontClaims = computed(() => report.value?.frontClaimsSection?.text || report.value?.analysisSource?.frontClaimsText || (foodAnalysis.value?.frontClaims || []).join('、'));
+const insufficientKnownFacts = computed(() => [
+  ...productFacts.value,
+  detailFrontClaims.value ? `包装声明：${detailFrontClaims.value}` : '',
+  recognitionInfo.value?.detectedType ? `识别类型：${recognitionTypeText.value}` : ''
+].filter(Boolean).filter(uniqueValue).slice(0, 4));
 const detailAllergenText = computed(() => report.value?.analysisSource?.allergenText || '');
 const detailUncertainClues = computed(() => [
   ...(foodAnalysis.value?.uncertainClues || []),
@@ -146,7 +176,7 @@ const detailNutritionRows = computed(() => {
         key,
         label: nutritionDetailLabel(key),
         value: item.text,
-        level: item.level
+        level: displayNutritionLevel(item.level)
       };
     })
     .filter(Boolean) as Array<{ key: string; label: string; value: string; level: string }>;
@@ -271,9 +301,9 @@ const personalAlerts = computed(() => {
     const finding = focusedGoalFinding(goal.key);
     alerts.push(finding
       ? `${goal.label}：${finding.label}${finding.status}，${compactFindingDetail(finding)}`
-      : `${goal.label}：这次没有识别到直接对应的高值数字。`);
+      : `${goal.label}：这次没有识别到直接对应的重点数字。`);
   }
-  if (attentionSettings.value.isChildrenMode) alerts.push('儿童模式：不建议给儿童高频当零食。');
+  if (attentionSettings.value.isChildrenMode) alerts.push('儿童模式：儿童高频当零食时要看份量。');
   if (allergyWarnings.value.length) {
     alerts.push(allergyWarnings.value[0]);
   } else if (attentionSettings.value.allergens.length) {
@@ -287,7 +317,7 @@ const personalAlertChips = computed(() => {
   const goal = primaryGoalOptions.find((item) => item.key === attentionSettings.value.primaryGoal);
   if (goal && goal.key !== 'daily') {
     const finding = focusedGoalFinding(goal.key);
-    chips.push(finding ? `${goal.label} ${finding.status}` : `${goal.label} 未命中高值`);
+    chips.push(finding ? `${goal.label} ${finding.status}` : `${goal.label} 未命中重点项`);
   }
   if (attentionSettings.value.isChildrenMode) chips.push('儿童少吃');
   if (allergyWarnings.value.length) {
@@ -443,7 +473,7 @@ function buildNutritionFinding(key: NutritionKey, label: string): ReportFinding 
   return {
     key,
     label,
-    status: item.level,
+    status: nutritionLevelLabel(item),
     detail: buildNutritionFindingDetail(item),
     tone: nutritionTone(item)
   };
@@ -472,6 +502,27 @@ function compactFindingDetail(item: ReportFinding): string {
   if (item.key === 'additive') return '看作用和用量，不直接吓人。';
   if (item.key === 'allergen') return '有相关提示的人优先留意这里。';
   return item.detail;
+}
+
+function buildDecisionHeadline(items: ReportFinding[]): string {
+  const labels = items
+    .filter((item) => item.tone === 'attention' || item.tone === 'watch')
+    .slice(0, 3)
+    .map((item) => item.label)
+    .filter(uniqueValue);
+  const summary = labels.length
+    ? `${audiencePrefixText()}建议关注${labels.join('、')}`
+    : '';
+  return summary ? `${summary}｜建议关注份量` : '';
+}
+
+function audiencePrefixText(): string {
+  if (attentionSettings.value.isChildrenMode) return '儿童零食场景';
+  if (attentionSettings.value.primaryGoal === 'sugar') return '控糖人群';
+  if (attentionSettings.value.primaryGoal === 'lowSodium') return '低钠目标';
+  if (attentionSettings.value.primaryGoal === 'fatLoss') return '减脂目标';
+  if (attentionSettings.value.allergens.length) return '过敏/忌口人群';
+  return '';
 }
 
 function nutritionTone(item: NutritionSnapshotItem): FindingTone {
@@ -544,6 +595,19 @@ function nutritionFocusText(key: NutritionKey): { high: string; medium: string; 
     medium: '已整理为营养数字。',
     low: '当前不是重点提醒。'
   };
+}
+
+function nutritionLevelLabel(item: NutritionSnapshotItem): string {
+  if (item.level === '较高') return '建议关注';
+  if (item.level === '中等' || item.level === '一般') return '留意';
+  if (item.level === '较低') return '较低';
+  return item.level;
+}
+
+function displayNutritionLevel(value: string): string {
+  if (value === '较高' || value === '偏高' || value === '高') return '建议关注';
+  if (value === '中等' || value === '一般') return '留意';
+  return value;
 }
 
 function nutritionToneLabel(item: NutritionSnapshotItem): string {
@@ -721,6 +785,34 @@ function submitFeedback() {
   feedbackOpen.value = false;
   message.value = '已记录，会用于后续改进识别和报告。';
 }
+
+function detectedTypeLabel(type: ProductDetectedType): string {
+  if (type === 'barcode') return '条形码';
+  if (type === 'qrcode') return '二维码';
+  if (type === 'numeric_code') return '数字编码';
+  if (type === 'ingredient_list') return '配料表';
+  if (type === 'nutrition_facts') return '营养成分表';
+  return '未知图片';
+}
+
+function contentTypeLabel(type: ProductRecognitionContentType): string {
+  if (type === 'product_code') return '商品码';
+  if (type === 'url') return 'URL';
+  if (type === 'text') return '文本';
+  if (type === 'ingredient_list') return '配料表';
+  if (type === 'nutrition_facts') return '营养成分表';
+  return '未知';
+}
+
+function formatRecognitionTime(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '识别时间未知';
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  const hour = `${date.getHours()}`.padStart(2, '0');
+  const minute = `${date.getMinutes()}`.padStart(2, '0');
+  return `${month}-${day} ${hour}:${minute}`;
+}
 </script>
 
 <template>
@@ -737,6 +829,36 @@ function submitFeedback() {
 
     <template v-else>
       <view class="report-stack">
+        <AppCard v-if="recognitionInfo" class="report-card report-card--recognition">
+          <view class="recognition-card">
+            <view class="recognition-card__visual" :class="recognitionIconClass">
+              <text v-if="recognitionInfo.detectedType === 'barcode'" class="recognition-bars" />
+              <text v-else-if="recognitionInfo.detectedType === 'qrcode'" class="recognition-qr" />
+              <text v-else class="recognition-card__letter">{{ recognitionTypeText.slice(0, 1) }}</text>
+            </view>
+            <view class="recognition-card__body">
+              <view class="recognition-card__head">
+                <text class="recognition-card__title">{{ recognitionTypeText }}</text>
+                <text v-if="recognitionContentChipText" class="recognition-card__chip">{{ recognitionContentChipText }}</text>
+                <text v-if="recognitionInfo.usedAiSearch" class="recognition-card__chip recognition-card__chip--ai">AI 公开标签线索</text>
+              </view>
+              <text class="recognition-card__raw">{{ recognitionRawPreview }}</text>
+              <view class="recognition-card__meta">
+                <text v-if="recognitionInfo.normalizedCode" class="recognition-card__meta-item">编码 {{ recognitionInfo.normalizedCode }}</text>
+                <text v-if="recognitionInfo.productName" class="recognition-card__meta-item">{{ recognitionInfo.productName }}</text>
+                <text v-if="recognitionInfo.brand" class="recognition-card__meta-item">{{ recognitionInfo.brand }}</text>
+              </view>
+              <text class="recognition-card__source">{{ recognitionSourceText }} · {{ formatRecognitionTime(recognitionInfo.recognizedAt) }}</text>
+            </view>
+          </view>
+          <view v-if="aiNotice || aiSearchFailureText" class="ai-source-notice">
+            <text class="ai-source-notice__title">AI 搜索补全</text>
+            <text v-if="aiNotice" class="ai-source-notice__text">{{ aiNotice }}</text>
+            <text v-if="aiSearchFailureText" class="ai-source-notice__text">{{ aiSearchFailureText }}</text>
+            <text v-if="aiInsufficientText" class="ai-source-notice__text">{{ aiInsufficientText }}</text>
+          </view>
+        </AppCard>
+
         <AppCard class="report-card report-card--overall" :class="`report-card--${decision?.level || 'caution'}`">
           <view class="report-section">
             <text class="section-title">一句话结论</text>
@@ -759,7 +881,13 @@ function submitFeedback() {
               </view>
             </view>
             <view v-if="isInsufficientReport" class="insufficient-actions">
-              <text class="insufficient-actions__hint">当前缺少足够包装文字，请补拍配料表或营养成分表。</text>
+              <view v-if="insufficientKnownFacts.length" class="insufficient-known">
+                <text class="insufficient-known__label">已识别到</text>
+                <view class="insufficient-known__chips">
+                  <text v-for="item in insufficientKnownFacts" :key="item" class="insufficient-known__chip">{{ item }}</text>
+                </view>
+              </view>
+              <text class="insufficient-actions__hint">信息不足，请补拍配料表或营养成分表，也可以手动粘贴包装文字。</text>
               <view class="insufficient-actions__buttons">
                 <AppButton @click="retakePackagePhoto">补拍配料/营养表</AppButton>
                 <AppButton variant="secondary" @click="openManualInput">手动粘贴文字</AppButton>
@@ -831,7 +959,7 @@ function submitFeedback() {
           <view class="report-section">
             <view class="nutrition-chart-head">
               <text class="section-title">营养重点图</text>
-              <text class="nutrition-chart-head__hint">每100g/ml · 高值优先</text>
+              <text class="nutrition-chart-head__hint">每100g/ml · 重点优先</text>
             </view>
             <view class="nutrition-bars nutrition-bars--standalone">
               <view class="nutrition-bar-grid">
@@ -839,7 +967,7 @@ function submitFeedback() {
                   <view class="nutrition-bar-row__head">
                     <text class="nutrition-bar-row__label">{{ item.label }}</text>
                     <view class="nutrition-bar-row__meta">
-                      <text class="nutrition-bar-row__level" :class="`nutrition-bar-row__level--${nutritionTone(item)}`">{{ item.level }}</text>
+                      <text class="nutrition-bar-row__level" :class="`nutrition-bar-row__level--${nutritionTone(item)}`">{{ nutritionLevelLabel(item) }}</text>
                       <text class="nutrition-bar-row__value">{{ item.valueText }}</text>
                     </view>
                   </view>
@@ -994,6 +1122,129 @@ function submitFeedback() {
   gap: var(--space-md);
 }
 
+.report-card--recognition {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.recognition-card {
+  display: grid;
+  grid-template-columns: 96rpx minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: stretch;
+}
+
+.recognition-card__visual {
+  width: 96rpx;
+  min-height: 96rpx;
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.recognition-icon--unknown {
+  background: var(--surface-subtle);
+  color: var(--muted);
+}
+
+.recognition-card__letter {
+  font-size: 36rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.recognition-bars {
+  width: 56rpx;
+  height: 48rpx;
+  background:
+    linear-gradient(90deg, currentColor 0 8%, transparent 8% 14%, currentColor 14% 22%, transparent 22% 32%, currentColor 32% 38%, transparent 38% 48%, currentColor 48% 58%, transparent 58% 70%, currentColor 70% 76%, transparent 76% 84%, currentColor 84% 100%);
+}
+
+.recognition-qr {
+  width: 56rpx;
+  height: 56rpx;
+  background:
+    linear-gradient(currentColor 0 0) 0 0 / 20rpx 20rpx no-repeat,
+    linear-gradient(currentColor 0 0) 36rpx 0 / 20rpx 20rpx no-repeat,
+    linear-gradient(currentColor 0 0) 0 36rpx / 20rpx 20rpx no-repeat,
+    linear-gradient(currentColor 0 0) 30rpx 30rpx / 8rpx 8rpx no-repeat,
+    linear-gradient(currentColor 0 0) 44rpx 32rpx / 10rpx 10rpx no-repeat,
+    linear-gradient(currentColor 0 0) 26rpx 46rpx / 10rpx 10rpx no-repeat;
+}
+
+.recognition-card__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.recognition-card__head,
+.recognition-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.recognition-card__title {
+  color: var(--text);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.recognition-card__chip,
+.recognition-card__meta-item {
+  border-radius: 999px;
+  background: var(--surface-subtle);
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.2;
+  padding: 6rpx 10rpx;
+}
+
+.recognition-card__chip--ai {
+  background: rgba(216, 138, 36, 0.12);
+  color: var(--warning);
+}
+
+.recognition-card__raw,
+.recognition-card__source {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.ai-source-notice {
+  margin-top: var(--space-sm);
+  border: 1px solid rgba(216, 138, 36, 0.24);
+  border-radius: 16rpx;
+  background: var(--surface-warm);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.ai-source-notice__title {
+  color: var(--accent);
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.ai-source-notice__text {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+}
+
 .scan-meta {
   display: grid;
   grid-template-columns: 104rpx minmax(0, 1fr);
@@ -1131,6 +1382,34 @@ function submitFeedback() {
   flex-direction: column;
   gap: var(--space-sm);
   padding: var(--space-sm);
+}
+
+.insufficient-known {
+  display: grid;
+  gap: 8rpx;
+}
+
+.insufficient-known__label {
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.insufficient-known__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.insufficient-known__chip {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.3;
+  padding: 7rpx 12rpx;
 }
 
 .insufficient-actions__hint {

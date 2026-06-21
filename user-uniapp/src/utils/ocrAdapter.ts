@@ -18,9 +18,14 @@ export type NormalizedOcrResult = {
 type OcrLikeInput = Partial<OcrResult> & {
   text?: string;
   rawText?: string;
-  blocks?: Array<Partial<OcrBlock> & { text?: string }>;
+  blocks?: OcrLikeBlock[];
   provider?: OcrResult['provider'] | string;
   mode?: OcrResult['mode'] | string;
+};
+
+type OcrLikeBlock = Partial<OcrBlock> & {
+  text?: string;
+  box?: Array<[number, number]> | Array<Array<number>>;
 };
 
 export function normalizeOcrResult(input: OcrLikeInput | string | undefined, preferredSource?: NormalizedOcrResult['source']): NormalizedOcrResult {
@@ -58,20 +63,43 @@ function normalizeFromText(text: string, source: NormalizedOcrResult['source']):
   };
 }
 
-function normalizeBlocks(blocks: Array<Partial<OcrBlock> & { text?: string }>, rawText: string): OcrTextBlock[] {
+function normalizeBlocks(blocks: OcrLikeBlock[], rawText: string): OcrTextBlock[] {
   const result = blocks
-    .map((block) => ({
-      text: normalizeText(block.text || ''),
-      x: toOptionalNumber(block.x),
-      y: toOptionalNumber(block.y),
-      width: toOptionalNumber(block.width),
-      height: toOptionalNumber(block.height),
-      confidence: toOptionalNumber(block.confidence)
-    }))
+    .map((block) => {
+      const boxBounds = getBoxBounds(block.box);
+      return {
+        text: normalizeText(block.text || ''),
+        x: toOptionalNumber(block.x) ?? boxBounds?.x,
+        y: toOptionalNumber(block.y) ?? boxBounds?.y,
+        width: toOptionalNumber(block.width) ?? boxBounds?.width,
+        height: toOptionalNumber(block.height) ?? boxBounds?.height,
+        confidence: toOptionalNumber(block.confidence)
+      };
+    })
     .filter((block) => block.text);
 
   if (result.length) return result;
   return normalizeFromText(rawText, 'unknown').blocks;
+}
+
+function getBoxBounds(box: OcrLikeBlock['box']): Pick<OcrTextBlock, 'x' | 'y' | 'width' | 'height'> | undefined {
+  if (!Array.isArray(box)) return undefined;
+  const points = box
+    .map((point) => Array.isArray(point) ? { x: Number(point[0]), y: Number(point[1]) } : undefined)
+    .filter((point): point is { x: number; y: number } => Boolean(point && Number.isFinite(point.x) && Number.isFinite(point.y)));
+  if (!points.length) return undefined;
+  const xs = points.map((point) => point.x);
+  const ys = points.map((point) => point.y);
+  const minX = Math.min(...xs);
+  const minY = Math.min(...ys);
+  const maxX = Math.max(...xs);
+  const maxY = Math.max(...ys);
+  return {
+    x: minX,
+    y: minY,
+    width: Math.max(0, maxX - minX),
+    height: Math.max(0, maxY - minY)
+  };
 }
 
 function sortBlocksForReading(blocks: OcrTextBlock[]): OcrTextBlock[] {

@@ -1,0 +1,20 @@
+{
+  "provider": "deepseek-product-code-report",
+  "pass": true,
+  "score": 100,
+  "riskLevel": "low",
+  "issues": [],
+  "suggestions": [
+    "补足真实模糊、倾斜、反光、二维码、条码局部样本",
+    "对失败Top错误继续收紧关键词、边界和置信度规则",
+    "在配置API Key后跑完整ChatGPT/DeepSeek Review"
+  ],
+  "aiOptimizationDecision": {
+    "readyForProductCodeGate": true,
+    "readyForImageLevelScanGate": false,
+    "priorityFixes": [
+      "混合版面互串问题需作为下一阶段并行P1修复"
+    ]
+  },
+  "launchReadiness": "可进入下一阶段执行product-code:evaluate，但需补充真实图片级扫码验证"
+}

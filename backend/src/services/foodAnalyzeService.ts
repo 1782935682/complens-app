@@ -243,9 +243,9 @@ function analyzeByRules(input: StructuredFoodText, profile?: FoodAnalyzeRequest[
   const decision = resolveDecision(score, notSuitableFor.length);
   const decisionText = decisionTextFor(decision);
   const summary = decision === 'caution' || decision === 'limit'
-    ? '偶尔吃，不建议经常吃。'
+    ? '偶尔吃更合适，按小份量处理。'
     : decision === 'avoid'
-      ? '不建议作为常规零食。'
+      ? '这次目标下更适合换个选择。'
       : '提醒项不多，按正常份量吃。';
   const plainExplanation = buildPlainExplanation(input, reasons);
   return {
@@ -274,8 +274,8 @@ function resolveDecision(score: number, hasNotSuitable: number): FoodAnalyzeResu
 }
 
 function decisionTextFor(decision: FoodAnalyzeResult['decision']): string {
-  if (decision === 'limit') return '少买少吃｜偶尔解馋';
-  if (decision === 'caution') return '不建议常吃｜偶尔解馋';
+  if (decision === 'limit') return '少量尝鲜｜偶尔解馋';
+  if (decision === 'caution') return '偶尔吃更合适｜注意份量';
   if (decision === 'avoid') return '不适合这次目标｜换个选择';
   if (decision === 'buy') return '提醒较少｜注意份量';
   return '信息不足';

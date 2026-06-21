@@ -9,6 +9,7 @@ import { createFoodRoute } from './routes/food.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
 import { createLabelsRoute } from './routes/labels.js';
 import { createNutritionRoute } from './routes/nutrition.js';
+import { createProductsRoute } from './routes/products.js';
 import { createReportsRoute } from './routes/reports.js';
 import { createOcrRoute } from './routes/ocr.js';
 import { createUserRoute } from './routes/user.js';
@@ -23,6 +24,7 @@ import { createLazyLabelScanService, type LabelScanService } from './services/la
 import { createAiProviderRegistry } from './ai/providerFactory.js';
 import { createAiFoodExplanationService } from './services/aiFoodExplanationService.js';
 import { createFoodAnalyzeService, type FoodAnalyzeService } from './services/foodAnalyzeService.js';
+import { createProductLookupService, type ProductLookupService } from './services/productLookupService.js';
 
 export type AppServices = {
   authService?: AuthService;
@@ -34,6 +36,7 @@ export type AppServices = {
   userService?: UserService;
   reportService?: ReportService;
   foodAnalyzeService?: FoodAnalyzeService;
+  productLookupService?: ProductLookupService;
 };
 
 export function createApp(config: AppConfig, services: AppServices = {}) {
@@ -94,6 +97,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
       }
     }
   };
+  const aiProviderRegistry = createAiProviderRegistry(aiGatewayConfig);
 
   app.use('*', cors({
     origin: config.corsOrigin,
@@ -115,8 +119,12 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   })));
   app.route('/api', createFoodRoute(services.foodAnalyzeService ?? createFoodAnalyzeService(createAiFoodExplanationService({
     config: aiGatewayConfig,
-    registry: createAiProviderRegistry(aiGatewayConfig)
+    registry: aiProviderRegistry
   }))));
+  app.route('/api', createProductsRoute(services.productLookupService ?? createProductLookupService({
+    config: aiGatewayConfig,
+    registry: aiProviderRegistry
+  })));
   app.route('/api', createOcrRoute(authService, config));
   app.route('/api', createUserRoute(authService, services.userService ?? createLazyUserService(config.databaseUrl)));
   app.route('/api', createGb2760Route(authService, services.gb2760Service ?? createLazyGb2760Service(config.databaseUrl), {

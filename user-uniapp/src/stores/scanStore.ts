@@ -1,11 +1,13 @@
 import { clearStoredImageMemory, deleteStoredImage, saveFileImageData, saveInlineImageData } from '@/platform/imageStore';
 import { readJson, writeJson } from '@/platform/storage';
-import type { LabelReport, LocalImageAsset, ReportFeedback, ReportFeedbackReason, ScanDraft } from '@/types';
+import type { LabelReport, LocalImageAsset, RecognitionHistoryItem, ReportFeedback, ReportFeedbackReason, ScanDraft } from '@/types';
 
 const DRAFT_KEY = 'complens:user-scan-draft';
 const REPORTS_KEY = 'complens:user-label-reports';
+const RECOGNITION_HISTORY_KEY = 'complens:user-recognition-history';
 const REPORT_FEEDBACK_KEY = 'complens:user-report-feedback';
 const MAX_REPORTS = 20;
+const MAX_RECOGNITION_HISTORY = 60;
 const MAX_REPORT_FEEDBACK = 50;
 
 export function getDefaultDraft(): ScanDraft {
@@ -73,6 +75,44 @@ export function deleteReport(id: string): LabelReport[] {
 export function clearReports(): LabelReport[] {
   writeReportsWithRetry([]);
   return [];
+}
+
+export function getRecognitionHistory(): RecognitionHistoryItem[] {
+  return readJson<RecognitionHistoryItem[]>(RECOGNITION_HISTORY_KEY, [])
+    .map(normalizeRecognitionHistoryItem)
+    .sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
+}
+
+export function findRecognitionHistory(input: { normalizedCode?: string; qrContent?: string; productName?: string }): RecognitionHistoryItem | undefined {
+  const normalizedCode = String(input.normalizedCode || '').trim();
+  const qrContent = String(input.qrContent || '').trim();
+  const productName = normalizeProductSearchName(input.productName);
+  return getRecognitionHistory().find((item) => {
+    if (normalizedCode && item.normalizedCode === normalizedCode) return true;
+    if (qrContent && item.qrContent === qrContent) return true;
+    return Boolean(productName && normalizeProductSearchName(item.productName) === productName);
+  });
+}
+
+export function saveRecognitionHistory(input: Omit<RecognitionHistoryItem, 'id' | 'updatedAt'> & { id?: string; updatedAt?: string }): RecognitionHistoryItem[] {
+  const now = new Date().toISOString();
+  const normalized = normalizeRecognitionHistoryItem({
+    ...input,
+    id: input.id || buildRecognitionHistoryId(input),
+    createdAt: input.createdAt || now,
+    updatedAt: input.updatedAt || now
+  });
+  const previous = getRecognitionHistory();
+  const mergeIndex = previous.findIndex((item) => shouldMergeRecognitionHistory(item, normalized));
+  const merged = mergeIndex >= 0
+    ? mergeRecognitionHistory(previous[mergeIndex], normalized, now)
+    : normalized;
+  const next = [
+    merged,
+    ...previous.filter((_, index) => index !== mergeIndex && _.id !== merged.id)
+  ].slice(0, MAX_RECOGNITION_HISTORY);
+  writeJson(RECOGNITION_HISTORY_KEY, next);
+  return next;
 }
 
 export function toggleReportFavorite(id: string, favorite?: boolean): LabelReport | undefined {
@@ -174,6 +214,99 @@ function writeReportsWithRetry(reports: LabelReport[]): void {
       // Storage may be full or unavailable on device; keep the current session alive.
     }
   }
+}
+
+function buildRecognitionHistoryId(input: Pick<RecognitionHistoryItem, 'normalizedCode' | 'qrContent' | 'imageId'>): string {
+  if (input.normalizedCode) return `product-code-${input.normalizedCode}`;
+  if (input.qrContent) return `product-qr-${hashText(input.qrContent)}`;
+  return `product-image-${input.imageId || Date.now().toString(36)}`;
+}
+
+function shouldMergeRecognitionHistory(left: RecognitionHistoryItem, right: RecognitionHistoryItem): boolean {
+  if (left.normalizedCode && right.normalizedCode && left.normalizedCode === right.normalizedCode) return true;
+  if (left.qrContent && right.qrContent && left.qrContent === right.qrContent) return true;
+  const leftName = normalizeProductSearchName(left.productName);
+  const rightName = normalizeProductSearchName(right.productName);
+  if (leftName && rightName && leftName === rightName) return true;
+  return false;
+}
+
+function mergeRecognitionHistory(previous: RecognitionHistoryItem, next: RecognitionHistoryItem, updatedAt: string): RecognitionHistoryItem {
+  const mergedHasNonAiLabelText = !next.usedAiSearch && Boolean(next.ingredientsText || next.nutritionText);
+  return normalizeRecognitionHistoryItem({
+    ...previous,
+    ...next,
+    id: previous.id,
+    imageId: next.imageId || previous.imageId,
+    detectedType: next.detectedType || previous.detectedType,
+    rawContent: next.rawContent || previous.rawContent,
+    ocrText: next.ocrText || previous.ocrText,
+    normalizedCode: next.normalizedCode || previous.normalizedCode,
+    qrContent: next.qrContent || previous.qrContent,
+    productName: next.productName || previous.productName,
+    brand: next.brand || previous.brand,
+    ingredientsText: next.ingredientsText || previous.ingredientsText,
+    nutritionText: next.nutritionText || previous.nutritionText,
+    source: Array.from(new Set([...(previous.source || []), ...(next.source || [])])),
+    reportSummary: next.reportSummary || previous.reportSummary,
+    usedAiSearch: mergedHasNonAiLabelText ? false : Boolean(previous.usedAiSearch || next.usedAiSearch),
+    aiNotice: next.aiNotice || previous.aiNotice,
+    aiSearchErrorCode: next.aiSearchErrorCode || previous.aiSearchErrorCode,
+    createdAt: previous.createdAt || next.createdAt,
+    updatedAt
+  });
+}
+
+function normalizeRecognitionHistoryItem(item: RecognitionHistoryItem): RecognitionHistoryItem {
+  const now = new Date().toISOString();
+  return {
+    id: String(item.id || '').trim() || buildRecognitionHistoryId(item),
+    imageId: String(item.imageId || '').trim(),
+    detectedType: item.detectedType || 'unknown',
+    rawContent: String(item.rawContent || '').trim(),
+    ocrText: String(item.ocrText || '').trim(),
+    normalizedCode: String(item.normalizedCode || '').trim(),
+    qrContent: String(item.qrContent || '').trim(),
+    productName: String(item.productName || '').trim(),
+    brand: String(item.brand || '').trim(),
+    ingredientsText: String(item.ingredientsText || '').trim(),
+    nutritionText: String(item.nutritionText || '').trim(),
+    source: Array.isArray(item.source) ? Array.from(new Set(item.source)).slice(0, 5) : [],
+    reportSummary: String(item.reportSummary || '').trim(),
+    usedAiSearch: Boolean(item.usedAiSearch),
+    aiNotice: String(item.aiNotice || '').trim(),
+    aiSearchErrorCode: String(item.aiSearchErrorCode || '').trim(),
+    createdAt: String(item.createdAt || '').trim() || now,
+    updatedAt: String(item.updatedAt || '').trim() || item.createdAt || now
+  };
+}
+
+function normalizeSearchText(value = ''): string {
+  return String(value || '').replace(/\s+/g, '').toLowerCase();
+}
+
+function normalizeProductSearchName(value = ''): string {
+  const normalized = normalizeSearchText(value);
+  if (!normalized || genericProductNames.has(normalized)) return '';
+  if (/^(未命名|未识别|未知|包装正面|食品标签|商品|这款食品)/.test(normalized)) return '';
+  return normalized;
+}
+
+const genericProductNames = new Set([
+  '未命名食品',
+  '未识别商品',
+  '未知食品',
+  '食品标签解读',
+  '包装正面',
+  '这款食品'
+]);
+
+function hashText(value: string): string {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = ((hash << 5) - hash + value.charCodeAt(index)) | 0;
+  }
+  return Math.abs(hash).toString(36);
 }
 
 function toPersistedReport(report: LabelReport): LabelReport {

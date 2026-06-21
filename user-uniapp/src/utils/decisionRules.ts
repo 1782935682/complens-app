@@ -83,7 +83,7 @@ export function buildConsumerDecision(report: LabelReport, attention?: Attention
     label,
     summary: buildSummary(level, signals, allergyWarnings, attention),
     tags: tags.length ? tags : ['普通提示'],
-    watchPoints: watchPoints.length ? watchPoints : ['提醒较少；已识别的营养数字没有明显高值项，按正常一份吃即可。'],
+    watchPoints: watchPoints.length ? watchPoints : ['提醒较少；当前可见标签文字未发现需要优先提醒的内容，请结合包装实物确认。'],
     allergyWarnings,
     suitableFor: buildSuitableFor(level, signals, nutrition),
     lessSuitableFor: lessSuitableFor.length ? lessSuitableFor : ['对某些配料敏感的人仍需看包装提示'],
@@ -500,16 +500,16 @@ function buildSummary(level: ConsumerDecision['level'], signals: DecisionSignal[
   const hasFocus = Boolean(attention && (attention.primaryGoal !== 'daily' || attention.isChildrenMode || attention.allergens.length));
   const tags = compactSignalTags(signals).slice(0, 4);
   const focusText = tags.length ? `${tags.join('、')}是这次重点。` : hasFocus ? '重点看你设置的关注项。' : '重点看营养数字和一份吃多少。';
-  if (level === 'alternative') return `偶尔吃，不建议常吃；${focusText}`;
-  if (level === 'caution') return `偶尔吃，不建议常吃；${focusText}`;
+  if (level === 'alternative') return `偶尔吃更合适；${focusText}`;
+  if (level === 'caution') return `偶尔吃更合适；${focusText}`;
   if (level === 'occasional') {
     const occasionalTags = tags.slice(0, 3);
     return occasionalTags.length
       ? `偶尔吃；${occasionalTags.join('、')}是这次重点，按小份量更稳妥。`
       : '偶尔吃，按小份量更稳妥。';
   }
-  if (!signals.length) return '提醒较少；已识别的营养数字没有明显高值项，按正常一份吃即可。';
-  return '整体提醒较少，配料表和营养表已整理。';
+  if (!signals.length) return '提醒较少；当前可见标签文字未发现需要优先提醒的内容，请结合包装实物确认。';
+  return '整体提醒较少，已按当前识别到的标签区域整理。';
 }
 
 function compactSignalTags(signals: DecisionSignal[]): string[] {
