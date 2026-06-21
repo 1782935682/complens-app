@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
 import { createServer } from 'vite';
 
 const root = process.cwd();
@@ -12,6 +13,9 @@ const server = await createServer({
     disabled: true,
     entries: []
   },
+  define: {
+    __COMPLENS_USER_API_BASE_URL__: JSON.stringify('')
+  },
   resolve: {
     alias: {
       '@': resolve(root, 'src')
@@ -22,16 +26,111 @@ const server = await createServer({
 try {
   const { extractLabelText } = await server.ssrLoadModule('/src/utils/labelTextExtractor.ts');
   const { buildLabelReport } = await server.ssrLoadModule('/src/utils/reportBuilder.ts');
+  const { buildLocalLabelAnalysis } = await server.ssrLoadModule('/src/utils/localLabelAnalysis.ts');
   const { normalizeOcrResult } = await server.ssrLoadModule('/src/utils/ocrAdapter.ts');
   const { parseNutritionText } = await server.ssrLoadModule('/src/utils/nutritionParser.ts');
+  const { classifyOcrSections } = await server.ssrLoadModule('/src/services/ocr/ocrSectionClassifier.ts');
+  const { extractIngredients } = await server.ssrLoadModule('/src/services/ocr/ingredientsExtractor.ts');
+  const { extractNutrition } = await server.ssrLoadModule('/src/services/ocr/nutritionExtractor.ts');
+  const barcodeService = await server.ssrLoadModule('/src/services/recognition/barcodeService.ts');
+  const imageRecognitionService = await server.ssrLoadModule('/src/services/recognition/imageRecognitionService.ts');
+  const autoGeneratePolicy = await server.ssrLoadModule('/src/services/recognition/autoGeneratePolicy.ts');
 
   assertExtractionBoundaries(extractLabelText, normalizeOcrResult);
+  assertMultiRegionOcrBoundaries({ normalizeOcrResult, classifyOcrSections, extractIngredients, extractNutrition });
   assertNutritionParsingBoundaries(parseNutritionText);
-  assertReportBoundaries(buildLabelReport);
+  assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis);
+  assertRecognitionBoundaries(barcodeService);
+  assertLookupMergeBoundaries(imageRecognitionService);
+  assertAutoGeneratePolicy(autoGeneratePolicy);
+  assertCaptureAutoGenerateWiring();
 
-  console.log('OCR/report regression passed: 8 scenarios checked.');
+  console.log('OCR/report regression passed: 27 scenarios checked.');
 } finally {
   await server.close();
+}
+
+function assertCaptureAutoGenerateWiring() {
+  const captureSource = readFileSync(resolve(root, 'src/pages/capture/index.vue'), 'utf8');
+  const labelsSource = readFileSync(resolve(root, 'src/services/api/labels.ts'), 'utf8');
+  assertIncludes(captureSource, 'const autoGenerateAfterOcr = ref(true);', 'capture should attempt auto report generation by default');
+  assertIncludes(captureSource, 'shouldOpenConfirm = !(await generateResult({ fromAutoRecognition: true }))', 'successful auto generation should suppress confirmation page');
+  assertIncludes(captureSource, "if (shouldOpenConfirm) stage.value = 'confirm';", 'confirmation page should only open when auto generation is not completed');
+  assertIncludes(labelsSource, 'sources.filter((item) => !isDefaultOcrConfirmedSource(item))', 'adapter should remove backend default OCR source for AI/identity reports');
+  assertIncludes(labelsSource, "detail.includes('用户确认后的食品标签文本')", 'adapter should filter backend OCR source even when sourceType is missing');
+  assertIncludes(labelsSource, "sourceMeta?.sourceType === 'ai_search_product_label'", 'adapter should branch AI label source');
+  assertIncludes(labelsSource, "sourceMeta?.sourceType === 'product_identity'", 'adapter should branch product identity source');
+}
+
+function assertAutoGeneratePolicy(autoGeneratePolicy) {
+  const base = {
+    enabled: true,
+    canGenerate: true,
+    hasAnyLabelText: true,
+    hasRecognizedIdentity: false,
+    hasAiSearchLabelText: false,
+    isNutritionOnly: false,
+    isFrontOnly: false,
+    confidence: 'high',
+    sourceType: 'ocr',
+    ocrMode: 'success'
+  };
+  assert(autoGeneratePolicy.shouldAutoGenerateRecognitionResult(base), 'clear OCR label text should auto-generate report');
+  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, enabled: false }), 'disabled auto mode should stay on confirmation');
+  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, confidence: 'low', isNutritionOnly: false, isFrontOnly: false }), 'low-confidence mixed OCR should stay on confirmation');
+  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({ ...base, sourceType: 'manual' }), 'manual input should stay on confirmation');
+  assert(!autoGeneratePolicy.shouldAutoGenerateRecognitionResult({
+    ...base,
+    hasAnyLabelText: false,
+    hasRecognizedIdentity: true,
+    confidence: 'low',
+    ocrMode: 'fallback'
+  }), 'low-confidence identity-only result should stay on confirmation');
+  assert(autoGeneratePolicy.shouldAutoGenerateRecognitionResult({
+    ...base,
+    hasAiSearchLabelText: true,
+    confidence: 'low',
+    ocrMode: 'fallback'
+  }), 'AI public label clues may auto-generate a reference report');
+}
+
+function assertLookupMergeBoundaries(imageRecognitionService) {
+  const extraction = emptyExtraction();
+  const aiLookup = lookupResult({
+    usedAiSearch: true,
+    fromHistory: false,
+    productName: 'AI 只作名称线索',
+    ingredientsText: '配料表：水、白砂糖',
+    nutritionText: '营养成分表 能量 200kJ'
+  });
+  const aiMerged = imageRecognitionService.mergeLookupIntoExtraction(extraction, aiLookup);
+  assertEqual(aiMerged.productNameText, 'AI 只作名称线索', 'AI lookup may fill product-name clue');
+  assertIncludes(aiMerged.ingredientText, '白砂糖', 'AI lookup ingredients may feed a reference report');
+  assertIncludes(aiMerged.nutritionText, '200kJ', 'AI lookup nutrition may feed a reference report');
+  assert(aiMerged.ignoredText.some((item) => item.includes('不是包装实拍 OCR')), 'AI lookup label text should be marked as non-OCR evidence');
+
+  const cachedMerged = imageRecognitionService.mergeLookupIntoExtraction(extraction, lookupResult({
+    fromHistory: true,
+    productName: '历史确认商品',
+    ingredientsText: '配料表：生牛乳、乳酸菌',
+    nutritionText: '营养成分表 能量 300kJ'
+  }));
+  assertIncludes(cachedMerged.ingredientText, '生牛乳', 'history cache may reuse previously confirmed ingredient text');
+  assertIncludes(cachedMerged.nutritionText, '300kJ', 'history cache may reuse previously confirmed nutrition text');
+}
+
+function assertRecognitionBoundaries(barcodeService) {
+  const barcode = barcodeService.normalizeBarcodeDetection('6901234567892', 'ean_13');
+  assertEqual(barcode.kind, 'barcode', 'EAN image detection should become barcode');
+  assertEqual(barcode.normalizedCode, '6901234567892', 'EAN image detection should keep normalized product code');
+  assertEqual(barcode.contentType, 'product_code', 'EAN image detection should be product code content');
+
+  const qr = barcodeService.normalizeBarcodeDetection('https://example.com/product?id=6901234567892', 'qr_code');
+  assertEqual(qr.kind, 'qrcode', 'QR image detection should become qrcode');
+  assertEqual(qr.contentType, 'url', 'QR URL should stay URL content until the dedicated product-code stage resolves it');
+
+  assertEqual(barcodeService.classifyQrContent('https://brand.example/product/abc'), 'url', 'QR URL without GTIN should stay URL content');
+  assertEqual(barcodeService.extractPrintedProductCode('条码：6901234567892'), '6901234567892', 'printed numeric package code should be extracted from OCR text');
 }
 
 function assertExtractionBoundaries(extractLabelText, normalizeOcrResult) {
@@ -91,6 +190,34 @@ function assertExtractionBoundaries(extractLabelText, normalizeOcrResult) {
   assertIncludes(blockPackage.ingredientText, '小麦粉', 'block OCR should merge same-row ingredient blocks');
   assertIncludes(blockPackage.nutritionText, '能量 1950千焦', 'block OCR should merge nutrient name and value into one line');
   assertIncludes(blockPackage.nutritionText, '钠 568毫克', 'block OCR should keep sodium row after block grouping');
+}
+
+function assertMultiRegionOcrBoundaries({ normalizeOcrResult, classifyOcrSections, extractIngredients, extractNutrition }) {
+  const normalized = normalizeOcrResult({
+    source: 'external',
+    rawText: '',
+    blocks: [
+      block('营养成分表', 12, 12), block('配料表：小麦粉、植物油、白砂糖、食用盐、酵母', 520, 12),
+      block('项目', 12, 48), block('每100克', 110, 48), block('NRV%', 220, 48), block('过敏原提示：含有小麦', 520, 48),
+      block('能量', 12, 84), block('1950千焦', 110, 84), block('23%', 220, 84), block('生产日期：见喷码', 520, 84),
+      block('蛋白质', 12, 120), block('9.8克', 110, 120), block('16%', 220, 120), block('保质期：9个月', 520, 120),
+      block('脂肪', 12, 156), block('16.5克', 110, 156), block('28%', 220, 156), block('贮存条件：阴凉干燥处保存', 520, 156),
+      block('碳水化合物', 12, 192), block('69.0克', 110, 192), block('23%', 220, 192), block('执行标准：GB/T 20980', 520, 192),
+      block('钠', 12, 228), block('568毫克', 110, 228), block('28%', 220, 228), block('食用方法：开袋即食', 520, 228)
+    ]
+  });
+  const classification = classifyOcrSections(normalized);
+  const ingredients = extractIngredients(classification);
+  const nutrition = extractNutrition(classification);
+
+  assertIncludes(ingredients.ingredientsText, '小麦粉', 'multi-region OCR should keep right-column ingredients');
+  assertIncludes(ingredients.ingredientsText, '酵母', 'multi-region OCR should keep ingredient tail before other sections');
+  assert(!ingredients.ingredientsText.includes('生产日期'), 'multi-region OCR should not put production date into ingredients');
+  assert(!ingredients.ingredientsText.includes('营养成分表'), 'multi-region OCR should not put nutrition header into ingredients');
+  assertIncludes(nutrition.nutritionText, '能量', 'multi-region OCR should keep left-column nutrition table');
+  assertIncludes(nutrition.nutritionText, '568毫克', 'multi-region OCR should keep nutrition row values');
+  assert(classification.otherText.some((item) => item.includes('生产日期')), 'multi-region OCR should classify production info as otherText');
+  assert(classification.otherText.some((item) => item.includes('执行标准')), 'multi-region OCR should classify standard info as otherText');
 }
 
 function assertNutritionParsingBoundaries(parseNutritionText) {
@@ -161,7 +288,7 @@ function assertNutritionParsingBoundaries(parseNutritionText) {
   assertField(noisyYogurt, 'sugar', '', 'noisy table should not treat GB5009.8 as sugar grams');
 }
 
-function assertReportBoundaries(buildLabelReport) {
+function assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis) {
   const nutritionOnlyReport = buildLabelReport({
     productName: '山梨酸钾牛奶高糖饮料',
     rawText: [
@@ -215,6 +342,39 @@ function assertReportBoundaries(buildLabelReport) {
   assertEqual(pendingAdditiveReport.ingredientSection.additiveCount, 0, 'pending additive should not count as confirmed additive');
   assertEqual(pendingAdditiveReport.additiveRecognition?.items?.length || 0, 0, 'pending additive should not enter additive explanation list');
   assert(pendingAdditiveReport.focusItems.some((item) => item.includes('待确认') || item.includes('暂未收录')), 'pending ingredient should remain a review clue');
+
+  const aiAnalysis = buildLocalLabelAnalysis({
+    productName: 'AI 商品线索',
+    ingredientText: '燕麦片、白砂糖、食用盐',
+    nutritionText: '每100g 能量 1600kJ 钠 220mg',
+    attention: attention(),
+    sourceType: 'ocr',
+    recognition: recognitionInfo({
+      usedAiSearch: true,
+      productName: 'AI 商品线索',
+      sources: ['DeepSeek 联网搜索']
+    })
+  });
+  assertEqual(aiAnalysis.report.analysisSource?.sourceType, 'ai_search_product_label', 'AI label clues should keep ai_search_product_label source type');
+  assert(!aiAnalysis.report.sources.some((item) => item.label === 'OCR / 手动确认文本'), 'AI label clue report should not claim OCR/manual confirmed text source');
+  assert(aiAnalysis.report.sources.some((item) => item.sourceType === 'ai_search'), 'AI label clue report should expose AI source');
+
+  const identityAnalysis = buildLocalLabelAnalysis({
+    productName: '只识别到商品名',
+    ingredientText: '',
+    nutritionText: '',
+    attention: attention(),
+    sourceType: 'ocr',
+    recognition: recognitionInfo({
+      usedAiSearch: false,
+      productName: '只识别到商品名',
+      aiSearchErrorCode: 'deepseek_failed',
+      sources: ['包装实拍 OCR']
+    })
+  });
+  assertEqual(identityAnalysis.report.analysisSource?.sourceType, 'product_identity', 'identity-only report should use product_identity source type');
+  assert(!identityAnalysis.report.sources.some((item) => item.label === 'OCR / 手动确认文本'), 'identity-only report should not claim ingredient OCR source');
+  assert(identityAnalysis.report.sources.some((item) => item.detail.includes('deepseek_failed')), 'identity-only report should keep AI search failure detail');
 }
 
 function extractText(extractLabelText, rawText) {
@@ -279,6 +439,58 @@ function sourceMeta(overrides = {}) {
       isChildrenMode: false,
       allergens: []
     },
+    ...overrides
+  };
+}
+
+function recognitionInfo(overrides = {}) {
+  return {
+    imageId: 'test-image',
+    detectedType: 'barcode',
+    rawContent: '6901234567892',
+    ocrText: '',
+    normalizedCode: '6901234567892',
+    qrContent: '',
+    contentType: 'product_code',
+    productName: '',
+    brand: '',
+    sources: [],
+    recognizedAt: '2026-06-21T00:00:00.000Z',
+    usedAiSearch: false,
+    aiNotice: '',
+    aiSearchSummary: '',
+    aiSearchErrorCode: '',
+    ...overrides
+  };
+}
+
+function emptyExtraction(overrides = {}) {
+  return {
+    productNameText: '',
+    foodTypeText: '',
+    ingredientText: '',
+    nutritionText: '',
+    allergenText: '',
+    frontClaimsText: '',
+    productionDateText: '',
+    ignoredText: [],
+    confidence: 'low',
+    sourceType: 'ocr',
+    ...overrides
+  };
+}
+
+function lookupResult(overrides = {}) {
+  return {
+    productName: '',
+    brand: '',
+    ingredientsText: '',
+    nutritionText: '',
+    sources: [],
+    usedAiSearch: false,
+    aiNotice: '',
+    aiSearchSummary: '',
+    fromHistory: false,
     ...overrides
   };
 }

@@ -14,7 +14,7 @@ export function buildFoodAnalysisUserPrompt(payload: unknown): string {
   return [
     '请把下面的本地规则结果改写成普通用户能理解的食品标签解释。',
     '必须保留本地规则的结论方向，只做通俗解释和总结。',
-    'JSON 示例：{"summary":"偶尔吃，不建议经常吃。","plainExplanation":"这是油炸/膨化类零食，热量、脂肪、碳水和钠都需要看份量。","mainReasons":["热量偏高","脂肪偏高"],"suitableFor":["普通成年人偶尔解馋"],"notSuitableFor":["减脂人群"],"ingredientHighlights":[{"name":"植物油","level":"yellow","explanation":"提供酥脆口感，也会拉高脂肪和热量。"}],"nutritionExplanation":{"energy":"每100g能量偏高。"},"eatingAdvice":"一次半包以内，不空腹当正餐。","retakeSuggestion":""}',
+    'JSON 示例：{"summary":"偶尔吃更合适，按小份量处理。","plainExplanation":"这是油炸/膨化类零食，热量、脂肪、碳水和钠都需要看份量。","mainReasons":["热量偏高","脂肪偏高"],"suitableFor":["普通成年人偶尔解馋"],"notSuitableFor":["减脂人群"],"ingredientHighlights":[{"name":"植物油","level":"yellow","explanation":"提供酥脆口感，也会拉高脂肪和热量。"}],"nutritionExplanation":{"energy":"每100g能量偏高。"},"eatingAdvice":"一次半包以内，不空腹当正餐。","retakeSuggestion":""}',
     '只输出 JSON，不要输出 Markdown。',
     JSON.stringify(payload)
   ].join('\n');

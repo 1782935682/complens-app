@@ -6,6 +6,7 @@ import type {
   LabelType,
   LocalImageAsset,
   OcrResult,
+  ProductRecognitionInfo,
   ParsedIngredient,
   ReportAnalysisSource,
   ScanDraft
@@ -32,6 +33,8 @@ export type LocalLabelAnalysisInput = {
   sourceType: LocalAnalysisInputSource;
   ocr?: OcrResult;
   image?: LocalImageAsset;
+  recognition?: ProductRecognitionInfo;
+  brand?: string;
 };
 
 export type LocalLabelAnalysisResult = {
@@ -85,7 +88,8 @@ export function buildLocalLabelAnalysis(input: LocalLabelAnalysisInput): LocalLa
     ? getEditableNutritionFields(parseNutritionText(nutritionText))
     : [];
   if (nutritionText) parseNutritionSummary(nutritionText);
-  const matches = buildLocalIngredientMatches(ingredients, ingredientText, input.attention);
+  const isAiSearchLabelEvidence = Boolean(input.recognition?.usedAiSearch && (ingredientText || nutritionText));
+  const matches = buildLocalIngredientMatches(ingredients, ingredientText, input.attention, { isAiSearchLabelEvidence });
   const sourceMeta = buildSourceMeta({
     detectedType: labelType,
     confirmedText,
@@ -101,6 +105,8 @@ export function buildLocalLabelAnalysis(input: LocalLabelAnalysisInput): LocalLa
     hasNutrition: Boolean(parsedNutrition.some((field) => field.value)),
     sourceType: input.sourceType,
     image: input.image,
+    recognition: input.recognition,
+    brand: input.brand,
     attention: input.attention
   });
   const report = buildLabelReport({
@@ -195,7 +201,12 @@ const localCommonIngredientTerms = [
   '浓缩苹果浆'
 ];
 
-function buildLocalIngredientMatches(ingredients: ParsedIngredient[], rawText: string, attention: AttentionSettings): IngredientMatch[] {
+function buildLocalIngredientMatches(
+  ingredients: ParsedIngredient[],
+  rawText: string,
+  attention: AttentionSettings,
+  options: { isAiSearchLabelEvidence?: boolean } = {}
+): IngredientMatch[] {
   const rawAdditives = recognizeAdditivesFromText(rawText, attention);
   return ingredients.map((ingredient, index) => {
     const additiveHit = recognizeAdditivesFromText(ingredient.normalizedText || ingredient.rawText, attention)[0]
@@ -210,13 +221,21 @@ function buildLocalIngredientMatches(ingredients: ParsedIngredient[], rawText: s
       dataStatusLabel: isAdditive || isCommonIngredient ? dataStatusLabel('common_ingredient') : dataStatusLabel('unknown_from_ocr'),
       confidence: isAdditive ? 0.78 : isCommonIngredient ? 0.7 : 0,
       matchType: isAdditive || isCommonIngredient ? 'local_attention' : 'none',
-      sourceName: isAdditive ? '本地添加剂规则' : isCommonIngredient ? '本地常见配料规则' : '识别文字',
-      sourceType: isAdditive || isCommonIngredient ? 'local_rule' : 'ocr_input',
+      sourceName: options.isAiSearchLabelEvidence
+        ? 'DeepSeek 联网商品标签线索'
+        : isAdditive ? '本地添加剂规则' : isCommonIngredient ? '本地常见配料规则' : '识别文字',
+      sourceType: options.isAiSearchLabelEvidence ? 'ai_search' : isAdditive || isCommonIngredient ? 'local_rule' : 'ocr_input',
       sourceNote: isAdditive
-        ? '由本地添加剂关键词规则识别，仅作标签阅读提示。'
+        ? options.isAiSearchLabelEvidence
+          ? '由 AI 联网搜索到的公开标签线索触发本地添加剂规则，仅作参考解读，不作为包装实拍 OCR 或法规结论。'
+          : '由本地添加剂关键词规则识别，仅作标签阅读提示。'
         : isCommonIngredient
-          ? '由本地常见食品配料词表识别，仅作标签阅读提示。'
-        : '来自用户确认后的标签文字，已按未确认线索处理。',
+          ? options.isAiSearchLabelEvidence
+            ? '由 AI 联网搜索到的公开标签线索触发本地常见配料规则，仅作参考解读。'
+            : '由本地常见食品配料词表识别，仅作标签阅读提示。'
+          : options.isAiSearchLabelEvidence
+            ? '来自 AI 联网搜索到的公开标签线索，已按未确认线索处理。'
+            : '来自用户确认后的标签文字，已按未确认线索处理。',
       ingredientName: additiveHit?.name || ingredient.normalizedText,
       isAdditive,
       decision: 'confirmed'
@@ -245,6 +264,8 @@ function buildSourceMeta(options: {
   hasNutrition: boolean;
   sourceType: LocalAnalysisInputSource;
   image?: LocalImageAsset;
+  recognition?: ProductRecognitionInfo;
+  brand?: string;
   attention: AttentionSettings;
 }): ReportAnalysisSource {
   const reportSourceType = resolveReportSourceType(options);
@@ -252,7 +273,7 @@ function buildSourceMeta(options: {
     sourceType: reportSourceType,
     sourceLabel: sourceLabelForType(reportSourceType),
     description: sourceDescriptionForType(reportSourceType),
-    fromUserCapture: options.sourceType === 'ocr',
+    fromUserCapture: options.sourceType === 'ocr' && reportSourceType !== 'ai_search_product_label',
     fromManualInput: options.sourceType === 'manual',
     imageSummary: options.sourceType === 'ocr' && options.image
       ? `${options.image.name || '食品标签图片'}，${Math.round((options.image.size || 0) / 1024)}KB`
@@ -266,6 +287,15 @@ function buildSourceMeta(options: {
     foodTypeText: options.foodTypeText,
     productionDateText: options.productionDateText,
     unconfirmedText: uniqueStrings(options.unconfirmedText).slice(0, 8),
+    recognition: options.recognition,
+    normalizedCode: options.recognition?.normalizedCode,
+    qrContent: options.recognition?.qrContent,
+    brand: options.brand || options.recognition?.brand,
+    recognitionSources: options.recognition?.sources,
+    usedAiSearch: options.recognition?.usedAiSearch,
+    aiNotice: options.recognition?.aiNotice,
+    aiSearchSummary: options.recognition?.aiSearchSummary,
+    aiSearchErrorCode: options.recognition?.aiSearchErrorCode,
     confidence: options.confidence,
     inputSourceType: options.sourceType,
     targetSnapshot: {
@@ -278,12 +308,17 @@ function buildSourceMeta(options: {
 
 function resolveReportSourceType(options: {
   detectedType: LabelType;
+  ingredientText: string;
+  nutritionText: string;
   hasNutrition: boolean;
   frontClaimsText: string;
   sourceType: LocalAnalysisInputSource;
+  recognition?: ProductRecognitionInfo;
 }): ReportAnalysisSource['sourceType'] {
   if (options.sourceType === 'demo') return 'demo_sample';
   if (options.sourceType === 'manual') return 'manual_input';
+  if (options.recognition?.usedAiSearch && (options.ingredientText.trim() || options.nutritionText.trim())) return 'ai_search_product_label';
+  if (options.recognition && !options.ingredientText.trim() && !options.nutritionText.trim() && !options.frontClaimsText.trim()) return 'product_identity';
   if (options.frontClaimsText && options.detectedType !== 'ingredient_list' && options.detectedType !== 'nutrition_facts') return 'captured_product';
   return options.detectedType === 'nutrition_facts' && options.hasNutrition ? 'captured_nutrition' : 'captured_ingredient';
 }
@@ -291,6 +326,8 @@ function resolveReportSourceType(options: {
 function sourceLabelForType(type: ReportAnalysisSource['sourceType']): string {
   if (type === 'demo_sample') return '示例标签文本';
   if (type === 'manual_input') return '手动输入内容';
+  if (type === 'product_identity') return '商品身份线索';
+  if (type === 'ai_search_product_label') return 'AI 联网公开标签线索';
   if (type === 'captured_nutrition') return '用户拍摄的营养成分表';
   if (type === 'captured_product') return '用户拍摄的包装正面文字';
   return '用户拍摄的配料表';
@@ -299,6 +336,8 @@ function sourceLabelForType(type: ReportAnalysisSource['sourceType']): string {
 function sourceDescriptionForType(type: ReportAnalysisSource['sourceType']): string {
   if (type === 'demo_sample') return '本次分析依据：内置示例食品标签文本。这是示例解读，不代表真实商品。';
   if (type === 'manual_input') return '本次分析依据：手动输入或粘贴的食品标签文字。';
+  if (type === 'product_identity') return '本次分析依据：本次识别到的商品名、品牌、商品码或二维码线索。当前未获得可用配料表或营养成分表。';
+  if (type === 'ai_search_product_label') return '本次分析依据：AI 联网搜索到的公开商品标签线索。该线索不是包装实拍 OCR，不作为成分事实、法规或医疗结论。';
   if (type === 'captured_nutrition') return '本次分析依据：你拍摄并确认的营养成分表。';
   if (type === 'captured_product') return '本次分析依据：你拍摄并确认的包装正面或其他食品标签文字。';
   return '本次分析依据：你拍摄并确认的配料表。';

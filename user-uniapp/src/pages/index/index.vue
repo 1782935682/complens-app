@@ -21,14 +21,13 @@ function openSearch() {
         </view>
         <text class="scan-button__text">拍包装</text>
       </view>
-      <text class="scan-tagline">拍一下包装，直接看这包值不值得常吃</text>
+      <text class="scan-tagline">拍一下包装，直接看懂配料和营养重点</text>
       <view class="scan-scope">
         <text>包装正面</text>
         <text>配料表</text>
         <text>营养表</text>
       </view>
       <text class="search-link" @tap="openSearch">查单个成分</text>
-      <text class="home-note">基于包装文字给出日常食用提醒，并保存到历史。</text>
     </view>
   </view>
 </template>
@@ -55,8 +54,8 @@ function openSearch() {
 }
 
 .scan-button {
-  width: 348rpx;
-  height: 348rpx;
+  width: 320rpx;
+  height: 320rpx;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary-bright), var(--primary-strong));
   box-shadow: 0 28rpx 56rpx rgba(3, 127, 88, 0.32);
@@ -64,7 +63,7 @@ function openSearch() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24rpx;
+  gap: 22rpx;
   position: relative;
   overflow: hidden;
   transition: transform 180ms ease, box-shadow 180ms ease;
@@ -84,10 +83,10 @@ function openSearch() {
 }
 
 .camera-icon {
-  width: 116rpx;
-  height: 88rpx;
-  border: 9rpx solid #ffffff;
-  border-radius: 26rpx;
+  width: 108rpx;
+  height: 82rpx;
+  border: 8rpx solid #ffffff;
+  border-radius: 24rpx;
   position: relative;
   z-index: 1;
 }
@@ -95,27 +94,27 @@ function openSearch() {
 .camera-icon::before {
   content: "";
   position: absolute;
-  left: 26rpx;
-  top: -23rpx;
-  width: 46rpx;
-  height: 23rpx;
+  left: 24rpx;
+  top: -21rpx;
+  width: 44rpx;
+  height: 21rpx;
   border-radius: 16rpx 16rpx 0 0;
   background: #ffffff;
 }
 
 .camera-icon__lens {
   position: absolute;
-  left: 32rpx;
-  top: 18rpx;
-  width: 30rpx;
-  height: 30rpx;
-  border: 9rpx solid #ffffff;
+  left: 30rpx;
+  top: 17rpx;
+  width: 28rpx;
+  height: 28rpx;
+  border: 8rpx solid #ffffff;
   border-radius: 999px;
 }
 
 .scan-button__text {
   color: #ffffff;
-  font-size: 44rpx;
+  font-size: 42rpx;
   font-weight: 900;
   line-height: 1.1;
   z-index: 1;
@@ -157,17 +156,10 @@ function openSearch() {
   padding: 4rpx 8rpx;
 }
 
-.home-note {
-  color: var(--muted);
-  font-size: var(--font-size-xs);
-  line-height: 1.4;
-  margin-top: 10rpx;
-}
-
 @media screen and (max-height: 640px) {
   .scan-button {
-    width: 300rpx;
-    height: 300rpx;
+    width: 280rpx;
+    height: 280rpx;
   }
 }
 </style>

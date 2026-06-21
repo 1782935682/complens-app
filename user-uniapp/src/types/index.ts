@@ -1,5 +1,55 @@
 export type LabelType = 'ingredient_list' | 'nutrition_facts' | 'front_claims' | 'barcode_or_product' | 'unknown_label';
 
+export type ProductDetectedType = 'barcode' | 'qrcode' | 'numeric_code' | 'ingredient_list' | 'nutrition_facts' | 'unknown';
+
+export type ProductRecognitionContentType = 'product_code' | 'url' | 'text' | 'ingredient_list' | 'nutrition_facts' | 'unknown';
+
+export type ProductRecognitionSource =
+  | '包装实拍 OCR'
+  | '条码识别'
+  | '二维码识别'
+  | '历史缓存'
+  | 'DeepSeek 联网搜索';
+
+export interface ProductRecognitionInfo {
+  imageId: string;
+  detectedType: ProductDetectedType;
+  rawContent: string;
+  ocrText: string;
+  normalizedCode: string;
+  qrContent: string;
+  contentType: ProductRecognitionContentType;
+  productName: string;
+  brand: string;
+  sources: ProductRecognitionSource[];
+  recognizedAt: string;
+  usedAiSearch: boolean;
+  aiNotice: string;
+  aiSearchSummary?: string;
+  aiSearchErrorCode?: string;
+}
+
+export interface RecognitionHistoryItem {
+  id: string;
+  imageId: string;
+  detectedType: ProductDetectedType;
+  rawContent: string;
+  ocrText: string;
+  normalizedCode: string;
+  qrContent: string;
+  productName: string;
+  brand: string;
+  ingredientsText: string;
+  nutritionText: string;
+  source: ProductRecognitionSource[];
+  reportSummary: string;
+  usedAiSearch: boolean;
+  aiNotice: string;
+  aiSearchErrorCode?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export type DataStatus =
   | 'verified_regulation'
   | 'verified_jecfa'
@@ -238,13 +288,26 @@ export interface ScanDraft {
 export interface ReportSource {
   label: string;
   detail: string;
-  sourceType: 'ocr_input' | 'manual_input' | 'official_standard' | 'safety_evaluation' | 'manual_review' | 'common_ingredient' | 'mock_adapter';
+  sourceType:
+    | 'ocr_input'
+    | 'manual_input'
+    | 'official_standard'
+    | 'safety_evaluation'
+    | 'manual_review'
+    | 'common_ingredient'
+    | 'mock_adapter'
+    | 'barcode_recognition'
+    | 'qr_recognition'
+    | 'product_cache'
+    | 'ai_search';
 }
 
 export type AnalysisSourceType =
   | 'captured_ingredient'
   | 'captured_nutrition'
   | 'captured_product'
+  | 'product_identity'
+  | 'ai_search_product_label'
   | 'manual_input'
   | 'demo_sample'
   | 'history';
@@ -266,6 +329,15 @@ export interface ReportAnalysisSource {
   frontClaimsText?: string;
   productionDateText?: string;
   unconfirmedText?: string[];
+  recognition?: ProductRecognitionInfo;
+  normalizedCode?: string;
+  qrContent?: string;
+  brand?: string;
+  recognitionSources?: ProductRecognitionSource[];
+  usedAiSearch?: boolean;
+  aiNotice?: string;
+  aiSearchSummary?: string;
+  aiSearchErrorCode?: string;
   confidence?: 'high' | 'medium' | 'low';
   inputSourceType?: 'ocr' | 'manual' | 'demo';
   targetSnapshot: {

@@ -1,6 +1,6 @@
 import { labelTypeLabels } from '@/constants/labelTypes';
 import { buildLabelReport as buildLabelReportLocally } from '@/utils/reportBuilder';
-import type { AttentionSettings, FoodAnalyzeResult, IngredientMatch, LabelClassification, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient, ReportAnalysisSource } from '@/types';
+import type { AttentionSettings, FoodAnalyzeResult, IngredientMatch, LabelClassification, LabelReport, LabelType, NutritionField, OcrResult, ParsedIngredient, ReportAnalysisSource, ReportSource } from '@/types';
 import { classifyLabelText } from '@/utils/labelClassifier';
 import { getEditableNutritionFields, parseNutritionText } from '@/utils/nutritionParser';
 import { enrichReportDecision } from '@/utils/decisionRules';
@@ -170,6 +170,7 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
     return enrichReportDecision({
       ...report,
       analysisSource: report.analysisSource || input.sourceMeta,
+      sources: mergeRecognitionSources(report.sources, input.sourceMeta),
       foodAnalysis
     }, input.attention);
   } catch {
@@ -191,7 +192,82 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
   }
 }
 
+function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: ReportAnalysisSource): ReportSource[] {
+  const shouldReplaceDefaultOcrSource = sourceMeta?.sourceType === 'ai_search_product_label'
+    || sourceMeta?.sourceType === 'product_identity';
+  const next = shouldReplaceDefaultOcrSource
+    ? sources.filter((item) => !isDefaultOcrConfirmedSource(item))
+    : [...sources];
+  if (sourceMeta?.sourceType === 'ai_search_product_label') {
+    next.push({
+      label: 'AI 联网公开标签线索',
+      detail: sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      sourceType: 'ai_search'
+    });
+  }
+  if (sourceMeta?.sourceType === 'product_identity') {
+    next.push({
+      label: '商品身份线索',
+      detail: '本次只识别到商品名、品牌、商品码或二维码等身份线索，未获得可用配料表或营养成分表。',
+      sourceType: sourceMeta.qrContent ? 'qr_recognition' : 'barcode_recognition'
+    });
+  }
+  if (sourceMeta?.recognition?.normalizedCode) {
+    next.push({
+      label: '商品条码 / 编码',
+      detail: `已记录商品身份编码 ${sourceMeta.recognition.normalizedCode}，用于历史复用，不替代包装配料表。`,
+      sourceType: 'barcode_recognition'
+    });
+  }
+  if (sourceMeta?.recognition?.qrContent) {
+    next.push({
+      label: '包装二维码',
+      detail: '已保存二维码原始内容，二维码页面信息只作为商品线索，不替代包装实拍文字。',
+      sourceType: 'qr_recognition'
+    });
+  }
+  if (sourceMeta?.recognitionSources?.includes('历史缓存')) {
+    next.push({
+      label: '历史缓存',
+      detail: '本机历史记录用于补全同一商品的已确认信息。',
+      sourceType: 'product_cache'
+    });
+  }
+  if (sourceMeta?.usedAiSearch) {
+    next.push({
+      label: 'DeepSeek 联网搜索',
+      detail: sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      sourceType: 'ai_search'
+    });
+  }
+  if (sourceMeta?.aiSearchErrorCode) {
+    next.push({
+      label: 'DeepSeek 联网搜索',
+      detail: `AI 搜索未获取到完整标签信息（${sourceMeta.aiSearchErrorCode}），请补拍配料表 / 营养表或手动补充。`,
+      sourceType: 'ai_search'
+    });
+  }
+  const seen = new Set<string>();
+  return next.filter((item) => {
+    const key = `${item.sourceType}:${item.label}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function isDefaultOcrConfirmedSource(item: ReportSource): boolean {
+  const label = String(item.label || '');
+  const detail = String(item.detail || '');
+  return item.sourceType === 'ocr_input'
+    || label.includes('OCR')
+    || label.includes('手动确认文本')
+    || detail.includes('用户确认后的食品标签文本');
+}
+
 async function analyzeFoodWithAdapter(input: ReportInput): Promise<FoodAnalyzeResult | undefined> {
+  const enableFoodAi = input.sourceMeta?.sourceType !== 'ai_search_product_label'
+    && input.sourceMeta?.sourceType !== 'product_identity';
   const ocrText = [
     input.rawText,
     input.sourceMeta?.productNameText,
@@ -216,7 +292,7 @@ async function analyzeFoodWithAdapter(input: ReportInput): Promise<FoodAnalyzeRe
           highBloodPressure: input.attention.primaryGoal === 'lowSodium'
         },
         options: {
-          enableAi: true,
+          enableAi: enableFoodAi,
           provider: 'auto'
         }
       },

@@ -1,123 +1,130 @@
-# AI Review — 2026-06-20
+# AI Review — 2026-06-21
 
 ## 本轮范围
 
-继续收口成分镜消费端主路径：拍食品包装后直接给购买/食用决策，而不是把结果页做成 OCR 文本或成分百科。
+优化“识别商品”主流程：用户仍只从首页点击“拍包装”，系统自动判断图片内容属于条形码、二维码、数字编码、配料表、营养成分表或未知图片，并输出统一的商品分析报告。
 
-本轮未提交任何真实 API Key。DeepSeek / Aliyun 凭证只从后端环境变量读取；前端、小程序、文档和仓库未写入密钥。
+本轮未提交任何真实 API Key。DeepSeek 只通过后端环境变量或已有后端配置调用；前端、小程序、文档和仓库均未写入密钥。
+
+## OCR Review 门禁规则
+
+- ChatGPT Review：如果运行环境配置了 `OPENAI_API_KEY`，通过统一 AI Review provider 调用 ChatGPT；如果没有 `OPENAI_API_KEY`，必须使用当前 Codex 会话子 agent 作为 `chatgpt-subagent` 替代审查方。子 agent 需要审查 `reports/ocr/ocr-evaluation-report.json` 和 `reports/ocr_reviews/ocr-review-summary.md`，输出严格 JSON 到 `reports/ocr_reviews/chatgpt-subagent-review.json`，再用 `OCR_EVAL_INCLUDE_CHATGPT_SUBAGENT=1 npm run ocr:evaluate` 纳入汇总。
+- DeepSeek Review：只要本机/后端运行环境提供 `DEEPSEEK_API_KEY`，OCR 成熟度评测必须执行 DeepSeek 深度 Review，检查配料表、营养成分表、otherText、报告来源标注、AI 搜索提示和过度推断风险。DeepSeek 平均分低于 85 或存在高风险问题时，不得声明进入下一阶段。
+- 两类 Review 都不得伪造结果；缺 Key、网络失败或子 agent 未执行时，报告必须标注 skipped/pending/blocker。
+- 当前结果：食品包装非条码 / 二维码 OCR 500 样本门禁已通过；随后启动二维码、条形码、商品数字码各 500 用例解析级评测并通过；条码 / 二维码合成 PNG 图片级工程门禁也已通过。真实包装照片、微信真机扫码和小程序原生扫码 Provider 仍需单独验收，不能把合成图片门禁表述为真机上线验收通过。
+
+## OCR / 商品码门禁结果
+
+- 食品包装 OCR：`494/500` 通过，通过率 `98.8%`，`maturityStage=stable_500`，`acceptancePass=true`；`invalidSampleCount=0`、`weakOcrSampleCount=0`，核心配料 / 营养样本各 `150`。
+- OCR AI Review：Codex 子 agent `pass=true`、`score=92`、`riskLevel=medium`；DeepSeek 样本平均分 `90.6`；DeepSeek 报告级 Review `pass=true`、`score=92`、`riskLevel=medium`。
+- 商品码解析级评测：`1500/1500` 通过，总准确率 `100%`；条码 `500/500`、二维码 `500/500`、商品数字码 `500/500`。
+- 商品码 AI Review：Codex 子 agent `pass=true`、`score=100`、`riskLevel=low`；DeepSeek 报告级 Review `pass=true`、`score=100`、`riskLevel=low`。
+- 商品码合成图片级工程评测：`983/1000` 通过，总准确率 `98.3%`；条码图片 `500/500`、二维码图片 `483/500`、并链接商品数字码解析 `500/500`。
+- 商品码图片级 AI Review：Codex 子 agent `pass=true`、`score=92`、`riskLevel=medium`；DeepSeek 报告级 Review `pass=true`、`score=98`、`riskLevel=low`。
+- 结论边界：商品码解析门禁和合成 PNG 图片级工程门禁已通过；`readyForRealDeviceImageGate=false`，真实包装照片 / 微信真机扫码仍不能声明完成。
+- 后续 P1 回归：混合配料表 / 营养表同图互串、`00825702-ingredients` 等 6 个 OCR 残余失败样本、真实模糊 / 倾斜 / 反光 / 局部遮挡条码二维码图片样本、二维码图片级 17 个失败样本。
 
 ## 已完成
 
-- Aliyun OCR provider 已接入后端：`OCR_PROVIDER=aliyun` 时使用后端 `ALIYUN_ACCESS_KEY_ID` / `ALIYUN_ACCESS_KEY_SECRET`（兼容 `OCR_API_KEY` / `OCR_API_SECRET`）发起签名请求。
-- OCR 无 Key/Secret、超时、上游不可达或响应异常时返回明确错误，前端进入 manual/fallback，不返回假识别结果。
-- DeepSeek 默认模型为 `deepseek-v4-flash`，DeepSeek Provider 默认走 `/chat/completions`。
-- AI Prompt 收紧为“规则先决策，AI 只做通俗解释”，禁止编造成分、法规、医疗或权威结论，并过滤低价值兜底话。
-- `POST /api/food/analyze` 继续保持规则优先，AI 失败时自动降级到 mock/rule-only，不影响报告生成。
-- 后端结构化识别补齐商品名、食品类型、配料表、营养表、生产日期、包装声明、未确认线索。
-- 首页保持无页面内标题，主动作是居中“拍包装”，成分搜索只保留小辅助入口。
-- 拍照流程维持首页点击后直调相机；OCR 成功自动生成报告，失败或信息不足才进入手动补充。
-- 手动补充页改为“补充信息”，按配料表、营养数字、致敏原提示、宣传语或声称、生产日期分区输入，并提供更明显的“重新拍”入口。
-- 报告页按顺序展示：一句话结论、关键原因、适合谁 / 不适合谁、添加剂解释、建议吃法、识别详情。
-- 报告页进一步减量：首屏改为“一句话结论 + 你的关注短标签 + 为什么 / 谁少吃 / 怎么吃”决策卡；关键原因只放前 3 条优先级判断，完整营养判断用低/中/高营养重点图展示；识别详情默认折叠，反馈入口放到底部小链接。
-- 信息不足报告不硬凑结论，首屏前置“补拍配料/营养表”和“手动粘贴文字”，并用拍摄建议标签替代长段说明。
-- 历史页卡片优先展示结论标签和关键原因，筛选项改为“全部 / 收藏 / 有提醒”。
-- 成分搜索弱化为辅助入口，结果状态改为“名称参考”，并提示单个成分不能替代整包包装报告。
-- 新增 `user-uniapp/scripts/deepseek-comprehensive-review.mjs` 和根目录 `user:review:deepseek`，用于功能、UI、产品、文档、设计综合复审。
+- 新增前端识别服务分层：`imageRecognitionService`、`barcodeService`、`ocrService`、`productLookupService`、`aiSearchService`、`reportService`，页面不直接承载条码、二维码、OCR、AI 搜索和报告编排逻辑。
+- 新增后端 `POST /api/products/lookup` 和 `productLookupService`，仅在缺少包装实拍配料、营养信息时，按商品码、二维码、数字编码、商品名或包装正面线索调用 DeepSeek 查公开标签信息。
+- DeepSeek 搜索结果不伪装成包装 OCR：商品名/品牌可作为线索；AI 返回的公开配料表或营养表可用于生成参考报告，但必须标注为“AI 联网公开标签线索”，不得显示成包装实拍 OCR、成分事实、法规或医疗结论。只有本机历史缓存里的已确认标签文本才可复用为历史确认信息。
+- 报告顶部新增统一识别信息卡，展示识别类型、原始内容摘要、标准化编码、内容类型、商品名、品牌、数据来源和识别时间。
+- 使用 DeepSeek 联网搜索时，报告明显展示固定提示：“部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。”
+- 信息不足报告不硬凑结论，首屏展示已识别到的商品、品牌、商品码和类型，再给“补拍配料/营养表”和“手动粘贴文字”两个动作。
+- 报告首屏结论改成具体重点，例如“钠需关注、热量需关注、脂肪需关注｜建议关注份量”，下面继续用“为什么 / 谁少吃 / 怎么吃”完成决策闭环。
+- 首页保持单入口，不新增扫码、条码、二维码、手动编码按钮；删掉多余说明文案，只保留居中“拍包装”、可拍区域短标签和小号“查单个成分”入口。
+- 识别历史新增并保存 `imageId`、`detectedType`、`rawContent`、`ocrText`、`normalizedCode`、`qrContent`、`productName`、`brand`、`ingredientsText`、`nutritionText`、`source`、`reportSummary`、`usedAiSearch`、`aiNotice`、`createdAt`；按商品码、二维码和非泛化商品名合并，避免“未命名食品”等泛化名误合并。
+- 二维码 URL 补全不再由后端主动抓取任意网页内容，避免 SSRF / DNS rebinding / 大响应体风险；二维码原文只作为 DeepSeek 查询线索和报告识别信息展示。
+- 识别结束流程改为受控自动生成：清晰可生成的 OCR 结果直接生成报告；只有商品名、品牌、商品码或二维码时先经 AI 搜索公开标签线索，低置信场景只有在搜到配料/营养线索后才自动生成带来源标注的参考报告，搜不到则进入补充 / 信息不足；手动输入或生成失败时仍进入确认 / 补充页。`ocr-report-regression` 已固定自动生成策略场景、AI 搜索合并边界和 capture 接线断言。
 
-## 真实 AI Smoke
+## 评审闭环
 
-已做 DeepSeek 低频 smoke、AI 报告增强和综合 UI/产品/文档评审调用：
-
-- provider: `deepseek`
-- report model: `deepseek-v4-flash`
-- review model: `deepseek-chat`（可由 `DEEPSEEK_MODEL` 覆盖）
-- AI 报告增强：可返回大众化 `summary`、`mainReasons`、`eatingAdvice`，规则结果仍保留最终决策边界。
-- UI/产品/文档评审：多轮提交当前页面功能、截图观察、用户目标和文档/脚本摘要，按反馈继续修改。
-
-调用只用于 smoke/评审，不做高频测试，不输出或保存 API Key。
-
-## AI UI 评审闭环
-
-评审范围覆盖：首页、补充页空白态、补充页已填写态、补充页可选字段、报告首屏、营养图、报告详情、信息不足报告、历史页、我的页、成分搜索，以及 11 个网络食品包装样本的 RapidOCR 识别结果。
-
-主要修改点：
-
-- 报告页：合并重复结论，首屏新增“为什么 / 谁少吃 / 怎么吃”决策闭环；个人关注压缩为短标签；关键原因优先级列表 + 营养重点图，识别详情默认折叠。
-- 手动页：从“错误页”收敛为补充信息页，提示“补一项即可生成初步结果”，并用“优先补：配料表文字 / 营养表数字”弱化大表单感。
-- 首页：保持拍包装为唯一主动作，包装正面 / 配料表 / 营养表用短标签说明可拍内容，查单个成分降为小文字入口。
-- 历史页：去掉重复大标题，卡片优先展示结论标签、关键原因和识别完整度。
-- 成分搜索：弱化权威感，保留辅助查询定位，并明确不能替代整包包装报告。
-
-最终 ChatGPT 会话子评审：
+ChatGPT 会话子 agent 深度复审：
 
 - verdict: `pass`
-- shipBlockers: `[]`
-- summary: 后端 `foodAnalyze`、AI prompt、AI sanitizer、mock fallback 和 visual fixture 已去掉旧“可以吃 / 可以偶尔吃 / 不建议购买”输出口径；生产路径旧 High 已解除。剩余建议为后续增加真实样本 API replay、继续扩展过敏提示/油炸零食样本。
+- shipBlockers: `none`
+- 必须修：无
+- 后续增强：DNS pin / egress 策略、微信真机条码/二维码图片解码 Provider、正式 GTIN/数字标签数据源授权。
 
-最终 DeepSeek 网络样本复评：
+DeepSeek 综合复审：
 
-- verdict: `needs_changes`
-- 采纳并已处理：报告首屏关键原因排序，钠、反式脂肪、添加剂优先进入前三；信息不足文案改为明确补拍配料表 / 营养成分表数字 / 过敏原提示；“更要控量”改为“建议关注”。
-- 不采纳或后续处理：配料表照片未拍到商品名时不使用样本 manifest 填充，避免伪造 OCR 结果；`vita-nutrition` 只识别到 1 个营养数字时继续降级为补拍/手动确认，不用猜测缺失营养值；`谷氨酸` 缺少“钠”字时保留为未确认线索，不擅自补成谷氨酸钠。
-- 剩余非阻断风险：真实样本仍缺独立过敏提示、油炸零食背标、更多饮料正面声明；生产报告样本 smoke 后续应补 `/api/food/analyze` replay。
-- 截图目录：`/tmp/complens-user-visual-smoke`
+- 已采纳修改：AI 搜索免责声明强化为“公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论”；低置信 identity-only 不自动跳报告；AI 搜索失败会在报告顶部提示补拍或手动补充；报告 headline 改成“需关注 / 建议关注份量”口径。
+- 当前最新综合复审：`verdict=needs_changes`。仍列出的 ship blockers 主要是首页按钮尺寸、手动入口约束、添加剂精选词表和设计系统等存量/后续产品范围；本轮身份线索 AI 搜索报告路径的最终 Codex 子 agent 门禁已通过。
+- 输出：`/tmp/complens-deepseek-comprehensive-review.json`。
 
-真实网络样本 OCR smoke：
+Codex 子 agent 最终 PR 门禁：
+
+- provider: `codex-subagent-final-pr-gate`
+- pass: `true`
+- score: `94`
+- riskLevel: `low`
+- readyForPr: `true`
+- 结论：`ai_search_product_label` / `product_identity` 路径会过滤后端默认 OCR 来源；回归脚本固定了该过滤防线；`PRODUCT_DIRECTION_2026H2.md` 和 `CODEX_TASKS.md` 当前验收口径已统一为清晰可生成自动报告，低置信 / 失败 / 手动 / 信息不足进入确认或补充。
+
+视觉截图证据：
+
+- `/tmp/complens-user-visual-smoke/home.png`
+- `/tmp/complens-user-visual-smoke/report.png`
+- `/tmp/complens-user-visual-smoke/report-insufficient.png`
+- 完整目录：`/tmp/complens-user-visual-smoke`
+
+## 真实网络样本
+
+已用本机 RapidOCR 跑 11 个网络真实包装样本，图片只下载到 `/tmp`，不进入仓库。
 
 - 样本数：11
-- 来源：OpenFoodFacts 商品页与光明网新闻图片；图片仅下载到 `/tmp/complens-real-packaging-samples/images`，不进入仓库。
-- 结果：`reportReady=6`、`manualOrRetake=5`、`ocrFailed=0`、`needsFix=0`、`highIssue=0`、`mediumIssue=1`。
-- 唯一 medium：`vita-nutrition` 营养表 OCR 只解析到很少数字，按预期进入补拍 / 手动确认。
-- 报告输出：`/tmp/complens-real-packaging-samples/report.json`，摘要：`/tmp/complens-real-packaging-samples/summary.md`。
+- 可生成报告：6
+- 需要补拍/手动补充：5
+- OCR 失败：0
+- 需要修复：0
+- 高优问题：0
+- 中优问题：1
 
-## ChatGPT 评审入口
+唯一中优问题是 `vita-nutrition` 只解析到很少营养数字，当前按预期进入补拍/手动确认，不猜测缺失营养值。
 
-已新增 `user-uniapp/scripts/chatgpt-ui-review.mjs`，供真实 OpenAI API 复评使用：
+来源包括：
 
-- 命令：`npm --prefix user-uniapp run review:chatgpt`
-- 输入：`/tmp/complens-user-visual-smoke` 下的首页、补充页多态、报告、营养图、报告详情、信息不足报告、历史、我的、成分搜索截图。
-- 模型：默认 `gpt-5.4-mini`，可通过 `CHATGPT_MODEL` 或 `OPENAI_MODEL` 覆盖。
-- 输出：`/tmp/complens-chatgpt-ui-review.json`。
-- 密钥：只读取运行环境里的 `OPENAI_API_KEY`，不写入前端、文档或仓库。
+- Open Food Facts 商品页与图片：`4891028706656`、`6902265210504`、`6936749501109`、`6922577790068`
+- 光明网新闻图片：`https://m.gmw.cn/2025-04/14/content_1304015064.htm`
 
-当前机器未配置 `OPENAI_API_KEY`，因此 ChatGPT API 评审未实际运行。脚本已明确写出：
+输出：
 
-```json
-{
-  "verdict": "not_run",
-  "error": "missing_openai_api_key"
-}
-```
-
-本轮实际使用当前 ChatGPT 会话子 agent 做多轮截图评审，最终 verdict 为 `pass`，`shipBlockers=[]`。真实 OpenAI API 版脚本因本机未配置 `OPENAI_API_KEY` 未运行，不伪造结果。
+- `/tmp/complens-real-packaging-samples/report.json`
+- `/tmp/complens-real-packaging-samples/summary.md`
 
 ## 验证
 
 已通过：
 
 - `npm --prefix backend run typecheck`
-- `npm --prefix backend test -- tests/foodAnalyze.test.ts tests/nutrition.test.ts tests/ocr.test.ts tests/aiFoodExplanation.test.ts`
-- `npm --prefix user-uniapp run lint`
+- `npm --prefix backend test -- tests/productLookup.test.ts tests/foodAnalyze.test.ts tests/nutrition.test.ts tests/ocr.test.ts tests/aiFoodExplanation.test.ts`
 - `npm --prefix user-uniapp run typecheck`
-- `npm --prefix user-uniapp run audit:product-output`
+- `npm --prefix user-uniapp run lint`
+- `npm run user:audit:product-output`
 - `npm --prefix user-uniapp run regression:ocr-report`
+- `npm run user:build:h5`
+- `npm run user:visual:smoke`
+- `npm run user:build:mp-weixin`
 - `npm run user:sample:real-packaging`
+- `npm run user:review:deepseek`
+- `OCR_LOCAL_URL=http://127.0.0.1:8000 OCR_EVAL_TARGET=500 OCR_EVAL_DISABLE_NETWORK_SAMPLES=1 OCR_EVAL_INCLUDE_CHATGPT_SUBAGENT=1 npm run ocr:evaluate`
+- `npm run ocr:sample-quality`
+- `npm run ocr:review-report`
+- `npm run product-code:evaluate`
+- `npm run product-code:review-report`
+- `npm run product-code:image-evaluate`
+- `npm run product-code:image-review-report`
+- `npm --prefix user-uniapp run typecheck`
+- `npm --prefix user-uniapp run lint`
+- `npm --prefix user-uniapp run regression:ocr-report`（27 个场景）
 - `npm --prefix user-uniapp run build:h5`
-- `npm --prefix user-uniapp run visual:smoke`
-- `node --check user-uniapp/scripts/chatgpt-ui-review.mjs`
-- `node --check user-uniapp/scripts/deepseek-comprehensive-review.mjs`
-- `npm run user:review:deepseek:samples`
-- `npm --prefix user-uniapp run build:mp-weixin`
 - `git diff --check`
-
-已执行但因缺少本机 OpenAI Key 预期失败：
-
-- `npm --prefix user-uniapp run review:chatgpt` → `missing_openai_api_key`
 
 ## 剩余风险
 
-- 真机相机、微信开发者工具导入和后端域名配置仍需在微信环境验收。
-- Aliyun OCR provider 已实现，但生产真云端 smoke 需要用户在后端环境配置 AccessKeyId/Secret。
-- ChatGPT UI 评审入口已实现；真实 OpenAI API 复评需要在运行环境配置 `OPENAI_API_KEY`。
-- 本轮真实 AI 只做低频 smoke 和 UI 评审，不代表生产监控、成本统计或限流已完成。
-- OCR 对整包小字、反光包装和多面包装的识别率仍取决于本机 RapidOCR/生产 OCR 服务质量；无 OCR Key 或服务失败时仍进入手动补充，不返回假识别结果。
+- 微信真机条形码/二维码图片解码 Provider 仍是后续增强；当前环境 Chromium 无 `BarcodeDetector`，合成 PNG 图片级门禁已通过，但微信端仍依赖 OCR 数字编码或后续接入平台解码能力。
+- 商品码解析级三类各 500 已通过，条码 / 二维码合成 PNG 图片级门禁已通过，但真实包装照片和微信真机扫码尚未验收。
+- 正式 GTIN 商品库、数字标签页面解析和数据授权仍未接入；DeepSeek 搜索只能作为公开信息线索，不能替代包装实拍 OCR。
+- 二维码 URL 后端任意网页抓取已禁用；生产若要重新启用数字标签页面抓取，仍需 egress 白名单 / IP pin / 响应大小限制和数据授权评估。
+- 真机相机、微信开发者工具导入、request 合法域名和生产后端配置仍需在真实微信环境验收。

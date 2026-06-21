@@ -13,16 +13,16 @@ export type ParsedNutritionSummary = {
 };
 
 export const nutritionDefinitions: Array<{ key: NutritionKey; label: string; aliases: string[]; unitFallback: string }> = [
-  { key: 'energy', label: '能量', aliases: ['能量', '热量', '熱量', 'Energy', 'Calories', 'Calorie'], unitFallback: 'kJ' },
-  { key: 'protein', label: '蛋白质', aliases: ['蛋白质', '蛋白質', 'Protein'], unitFallback: 'g' },
-  { key: 'fat', label: '脂肪', aliases: ['脂肪', 'Fat', 'Total Fat'], unitFallback: 'g' },
-  { key: 'saturatedFat', label: '饱和脂肪', aliases: ['饱和脂肪酸', '饱和脂肪', 'Saturated Fat'], unitFallback: 'g' },
+  { key: 'energy', label: '能量', aliases: ['能量', '热量', '熱量', 'Energy', 'Lnergy', 'Calories', 'Calorie', 'Energie', 'Energa', 'Enegia', 'Enerqi', 'Brennwert', 'Energia', 'Valor energetico', 'Valor energético', 'Valorenergetico', 'Volarenergetico', 'Valeur energetique', 'Valeur énergétique', 'Valeurenergetigue'], unitFallback: 'kJ' },
+  { key: 'protein', label: '蛋白质', aliases: ['蛋白质', '蛋白質', 'Protein', 'Proteines', 'Protéines', 'Proteinas', 'Proteínas', 'Proteine', 'Protines', 'Eiweiss', 'Eiweiß', 'Eiweis'], unitFallback: 'g' },
+  { key: 'fat', label: '脂肪', aliases: ['脂肪', 'Fat', 'Total Fat', 'TotalFat', 'Fat-total', 'Fett', 'Fedt', 'Rasva', 'Riebalai', 'Matieres grasses', 'Matieresgrasses', 'Matières grasses', 'Grasas', 'Grosas', 'Grass', 'Grassi', 'Lipidos', 'Lípidos', 'Tiuszc', 'Tluszc', 'Tuky', 'Masti', 'Grasimi'], unitFallback: 'g' },
+  { key: 'saturatedFat', label: '饱和脂肪', aliases: ['饱和脂肪酸', '饱和脂肪', 'Saturated Fat', 'gras saturés', 'gras satures', 'gesattigte Fettsauren', 'gesättigte Fettsäuren', 'saturadas', 'saturi'], unitFallback: 'g' },
   { key: 'transFat', label: '反式脂肪', aliases: ['反式脂肪酸', '反式脂肪', 'Trans Fat'], unitFallback: 'g' },
-  { key: 'carbohydrate', label: '碳水化合物', aliases: ['碳水化合物', '碳水', 'Carbohydrate', 'Total Carbohydrate'], unitFallback: 'g' },
-  { key: 'sugar', label: '糖', aliases: ['糖', 'Sugars', 'Sugar'], unitFallback: 'g' },
-  { key: 'sodium', label: '钠', aliases: ['钠', '鈉', 'Sodium'], unitFallback: 'mg' },
-  { key: 'salt', label: '盐', aliases: ['盐', '鹽', 'Salt'], unitFallback: 'g' },
-  { key: 'dietaryFiber', label: '膳食纤维', aliases: ['膳食纤维', 'Dietary Fiber', 'Fibre', 'Fiber'], unitFallback: 'g' },
+  { key: 'carbohydrate', label: '碳水化合物', aliases: ['碳水化合物', '碳水', 'Carbohydrate', 'Total Carbohydrate', 'Carbohydrates', 'GlycaemicCarbohydrate', 'Carbohydrat', 'Cabohydrat', 'TotalCabohydrat', 'Kohlenhydrate', 'Konlenhydrate', 'Rohlenhydrate', 'Kullrydrat', 'Glucides', 'Gucdes', 'Hidratos de carbono', 'Hidralos de carbono', 'dratos de carbono', 'Carboidrati', 'Cdcd', 'CdcdU'], unitFallback: 'g' },
+  { key: 'sugar', label: '糖', aliases: ['糖', 'Sugars', 'Sugar', 'Total Sugars', 'ToSgars', 'Zucker', 'Sucres', 'dontsucres', 'dont sucres', 'Suces', 'Azucares', 'Azúcares', 'Acucares', 'Açúcares', 'Zuccheri'], unitFallback: 'g' },
+  { key: 'sodium', label: '钠', aliases: ['钠', '鈉', 'Sodium', 'Sodiun', 'Total Sodium'], unitFallback: 'mg' },
+  { key: 'salt', label: '盐', aliases: ['盐', '鹽', 'Salt', 'Salz', 'Safz', 'Sel', 'Sal', 'Sale', 'Salk', 'Solsu', 'Sare', 'Sar'], unitFallback: 'g' },
+  { key: 'dietaryFiber', label: '膳食纤维', aliases: ['膳食纤维', 'Dietary Fiber', 'Fibre', 'Fiber', 'Fibres', 'Fibra', 'Fibeu', 'Rbre', 'Ballaststoffe'], unitFallback: 'g' },
   { key: 'servingSize', label: '每份', aliases: ['每份', '份量', '食用份量', 'Serving Size', 'per serving'], unitFallback: '' },
   { key: 'perUnit', label: '标示单位', aliases: ['每100g', '每100ml', '每 100g', '每 100ml', 'per 100g', 'per 100ml', 'per serving'], unitFallback: '' },
   { key: 'nrvPercent', label: 'NRV%', aliases: ['NRV', '营养素参考值', 'NRV%'], unitFallback: '%' }
@@ -101,9 +101,9 @@ function findNutritionMatch(text: string, definition: typeof nutritionDefinition
   const unitMatch = findUnitMarker(text, definition.aliases);
   if (unitMatch) return unitMatch;
 
-  const token = index.find((item) => item.key === definition.key);
-  if (token) {
-    const nextToken = index.find((item) => item.index >= token.end);
+  const tokens = index.filter((item) => item.key === definition.key);
+  for (const token of tokens) {
+    const nextToken = index.find((item) => item.index >= token.end && item.index !== token.index);
     const chunk = text.slice(token.end, nextToken?.index ?? text.length);
     const match = findValueInChunk(chunk, definition.key);
     if (match) {
@@ -168,23 +168,28 @@ function findUnitMarker(text: string, aliases: string[]): NutritionMatch | undef
 
 function findValueInChunk(chunk: string, key: NutritionKey): { value: string; unit: string; end: number } | null {
   const trimmed = chunk.slice(0, 80);
-  const match = trimmed.match(/(-?\d+(?:\.\d+)?)\s*(kJ|kj|KJ|kcal|KCAL|千焦|千卡|大卡|g|mg|克|毫克|%)?/i);
-  if (!match || match.index === undefined) return null;
-  const unit = normalizeUnit(match[2]) || defaultUnitForKey(key);
+  const match = trimmed.match(/(-?\d+(?:[\.,]\d+)?)\s*(kJ|kj|KJ|kcal|KCAL|千焦|千卡|大卡|g|mg|克|毫克|%)?/i);
+  const unitFirstMatch = trimmed.match(/\b(kJ|kj|KJ|kcal|KCAL|k|g|mg)\s*(-?\d+(?:[\.,]\d+)?)/i);
+  const activeMatch = match?.[1] ? match : unitFirstMatch;
+  if (!activeMatch || activeMatch.index === undefined) return null;
+  const rawValue = activeMatch === match ? activeMatch[1] || '' : activeMatch[2] || '';
+  const rawUnit = activeMatch === match ? activeMatch[2] || '' : activeMatch[1] || '';
+  const unit = normalizeUnit(rawUnit) || defaultUnitForKey(key);
   if (!isUnitAllowedForKey(key, unit)) return null;
-  if (!isPlausibleNutritionValue(key, Number(match[1]), unit)) return null;
+  const value = normalizeDecimal(rawValue);
+  if (!isPlausibleNutritionValue(key, Number(value), unit)) return null;
   return {
-    value: match[1] || '',
+    value,
     unit,
-    end: match.index + match[0].length
+    end: activeMatch.index + activeMatch[0].length
   };
 }
 
 function findLooseEnergyValue(text: string): NutritionMatch | null {
-  const match = normalizeSourceText(text).match(/(\d+(?:\.\d+)?)\s*(kJ|kj|KJ|kcal|KCAL|千焦|千卡|大卡)/i);
+  const match = normalizeSourceText(text).match(/(\d+(?:[\.,]\d+)?)\s*(kJ|kj|KJ|kcal|KCAL|千焦|千卡|大卡)/i);
   if (!match) return null;
   return {
-    value: match[1] || '',
+    value: normalizeDecimal(match[1] || ''),
     unit: normalizeUnit(match[2]) || 'kJ',
     sourceText: match[0],
     nrvPercent: ''
@@ -222,7 +227,12 @@ function normalizeUnit(unit?: string): string {
   if (unit === '千焦') return 'kJ';
   if (unit === '千卡' || unit === '大卡') return 'kcal';
   if (lower === 'kj') return 'kJ';
+  if (lower === 'k') return 'kJ';
   return lower;
+}
+
+function normalizeDecimal(value: string): string {
+  return value.replace(',', '.');
 }
 
 function isUnitAllowedForKey(key: NutritionKey, unit: string): boolean {

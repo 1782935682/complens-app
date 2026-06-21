@@ -62,7 +62,7 @@ export function buildLabelReport(input: {
     allergenHints: buildAllergenHints(reportMatches),
     unknownItems,
     analysisSource: input.sourceMeta,
-    sources: buildSources(acceptedMatches, { allMatches: reportMatches, ocr: input.ocr }),
+    sources: buildSources(acceptedMatches, { allMatches: reportMatches, ocr: input.ocr, sourceMeta: input.sourceMeta }),
     rawText: input.rawText
   };
   return enrichReportDecision(report, input.attention);
@@ -338,25 +338,75 @@ const allergenTerms = [
   { label: '海鲜', patterns: ['海鲜', '虾', '蟹', '鱼', '贝类'] }
 ];
 
-function buildSources(matches: IngredientMatch[], options: { allMatches?: IngredientMatch[]; ocr?: OcrResult } = {}): ReportSource[] {
+function buildSources(matches: IngredientMatch[], options: { allMatches?: IngredientMatch[]; ocr?: OcrResult; sourceMeta?: ReportAnalysisSource } = {}): ReportSource[] {
   const allMatches = options.allMatches ?? matches;
-  const sources: ReportSource[] = [
-    {
+  const sources: ReportSource[] = [];
+  if (options.sourceMeta?.sourceType === 'ai_search_product_label') {
+    sources.push({
+      label: 'AI 联网公开标签线索',
+      detail: options.sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      sourceType: 'ai_search'
+    });
+  } else if (options.sourceMeta?.sourceType === 'product_identity') {
+    sources.push({
+      label: '商品身份线索',
+      detail: '本次只识别到商品名、品牌、商品码或二维码等身份线索，未获得可用配料表或营养成分表。',
+      sourceType: options.sourceMeta.qrContent ? 'qr_recognition' : 'barcode_recognition'
+    });
+  } else {
+    sources.push({
       label: 'OCR / 手动确认文本',
       detail: '结果基于用户确认后的食品标签文本生成，OCR 识别文字不是权威来源。',
       sourceType: 'ocr_input'
-    },
+    });
+  }
+  sources.push(
     {
       label: '我的关注项',
       detail: '关注项保存在本机，用于排序和提示，不作为医疗或营养建议。',
       sourceType: 'manual_input'
     }
-  ];
+  );
   if (options.ocr?.mode === 'mock' || options.ocr?.provider === 'mock') {
     sources.push({
       label: 'mock only OCR',
       detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示。',
       sourceType: 'mock_adapter'
+    });
+  }
+  if (options.sourceMeta?.recognition?.normalizedCode) {
+    sources.push({
+      label: '商品条码 / 编码',
+      detail: `已记录商品身份编码 ${options.sourceMeta.recognition.normalizedCode}，用于历史复用，不替代包装配料表。`,
+      sourceType: 'barcode_recognition'
+    });
+  }
+  if (options.sourceMeta?.recognition?.qrContent) {
+    sources.push({
+      label: '包装二维码',
+      detail: '已保存二维码原始内容，二维码页面信息只作为商品线索，不替代包装实拍文字。',
+      sourceType: 'qr_recognition'
+    });
+  }
+  if (options.sourceMeta?.recognitionSources?.includes('历史缓存')) {
+    sources.push({
+      label: '历史缓存',
+      detail: '本机历史记录用于补全同一商品的已确认信息。',
+      sourceType: 'product_cache'
+    });
+  }
+  if (options.sourceMeta?.usedAiSearch) {
+    sources.push({
+      label: 'DeepSeek 联网搜索',
+      detail: options.sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      sourceType: 'ai_search'
+    });
+  }
+  if (options.sourceMeta?.aiSearchErrorCode) {
+    sources.push({
+      label: 'DeepSeek 联网搜索',
+      detail: `AI 搜索未获取到完整标签信息（${options.sourceMeta.aiSearchErrorCode}），请补拍配料表 / 营养表或手动补充。`,
+      sourceType: 'ai_search'
     });
   }
   if (matches.some(isOfficialStandardMatch)) {
