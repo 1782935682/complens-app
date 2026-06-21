@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
-import BottomNav from '@/components/BottomNav.vue';
 import { searchIngredients } from '@/services/api/ingredients';
 
 type SearchItem = Record<string, unknown>;
@@ -17,18 +16,23 @@ interface DisplayIngredient {
   source: string;
   useAdvice: string;
   aliases: string;
+  sourceKind: 'database' | 'ai_supplement';
+  actionLabel?: string;
+  actionText?: string;
 }
 
 const query = ref('');
 const searched = ref(false);
 const loading = ref(false);
 const error = ref('');
+const notice = ref('');
 const results = ref<DisplayIngredient[]>([]);
 const hotKeywords = ['阿斯巴甜', '反式脂肪酸', '脱氢乙酸钠', '山梨酸钾', '赤藓糖醇', '柠檬酸'];
 
 async function doSearch() {
   const keyword = query.value.trim();
   error.value = '';
+  notice.value = '';
   searched.value = true;
   results.value = [];
   if (!keyword) return;
@@ -37,9 +41,16 @@ async function doSearch() {
   try {
     const response = await searchIngredients(keyword);
     const items = Array.isArray(response.items) ? response.items : [];
-    results.value = items.map((item, index) => normalizeSearchItem(item as SearchItem, index, keyword));
+    results.value = [
+      ...items.map((item, index) => normalizeSearchItem(item as SearchItem, index, keyword)),
+      buildAiSupplementItem(keyword, Boolean(items.length))
+    ];
+    notice.value = items.length
+      ? '已同时提供 AI / 公开网页补充入口，用于交叉核对。'
+      : '数据库暂未命中，先用 AI / 公开网页补充入口核对。';
   } catch {
-    error.value = '搜索失败，请稍后重试。';
+    results.value = [buildAiSupplementItem(keyword, false)];
+    notice.value = '数据库暂时不可用，已保留 AI / 公开网页补充入口。';
   } finally {
     loading.value = false;
   }
@@ -71,7 +82,32 @@ function normalizeSearchItem(item: SearchItem, index: number, keyword: string): 
     trustTone: trustTone(dataStatus),
     source: buildSourceText(item),
     useAdvice: buildUseAdvice(item, foods, functions, dataStatus),
-    aliases: aliases.length ? unique([name, ...aliases]).join('、') : name
+    aliases: aliases.length ? unique([name, ...aliases]).join('、') : name,
+    sourceKind: 'database'
+  };
+}
+
+function buildAiSupplementItem(keyword: string, hasDatabaseResult: boolean): DisplayIngredient {
+  const prompt = [
+    `请联网核对食品标签成分「${keyword}」的公开资料。`,
+    '只总结可核对来源里的常见标签写法、用途类别和需要关注的点。',
+    '不要给购买、医疗、好坏或法规结论；找不到来源时请明确说信息不足。'
+  ].join('\n');
+  return {
+    key: `ai-${keyword}`,
+    name: keyword,
+    plainType: hasDatabaseResult ? 'AI / 公开网页补充' : 'AI / 公开网页核对',
+    whyCare: hasDatabaseResult
+      ? '数据库结果用于本机展示；AI / 公开网页只用于补充别名、常见说法和公开资料。'
+      : '数据库暂时没有可展示结果时，可先用 AI / 公开网页核对公开来源。结果仍需结合包装文字和可核对来源确认。',
+    trust: '待核对',
+    trustTone: 'review',
+    source: 'AI / 公开网页查询词',
+    useAdvice: '复制查询词后核对公开来源；不能替代整包包装报告，也不会当作数据库结论。',
+    aliases: keyword,
+    sourceKind: 'ai_supplement',
+    actionLabel: '复制 AI 查询词',
+    actionText: prompt
   };
 }
 
@@ -223,6 +259,16 @@ function searchHotKeyword(keyword: string) {
   query.value = keyword;
   doSearch();
 }
+
+function copySearchPrompt(item: DisplayIngredient) {
+  if (!item.actionText) return;
+  uni.setClipboardData({
+    data: item.actionText,
+    success: () => {
+      notice.value = '已复制 AI 查询词。';
+    }
+  });
+}
 </script>
 
 <template>
@@ -252,6 +298,10 @@ function searchHotKeyword(keyword: string) {
     </view>
 
     <view class="search-results">
+      <AppCard v-if="notice">
+        <text class="notice-text">{{ notice }}</text>
+      </AppCard>
+
       <AppCard v-if="!query.trim() && searched">
         <text class="empty-text">请输入要查询的成分名称。</text>
       </AppCard>
@@ -289,9 +339,9 @@ function searchHotKeyword(keyword: string) {
           <text class="result-label">结果用途</text>
           <text class="result-value">{{ item.useAdvice }}</text>
         </view>
+        <AppButton v-if="item.actionText" class="result-action" variant="secondary" @click="copySearchPrompt(item)">{{ item.actionLabel }}</AppButton>
       </AppCard>
     </view>
-    <BottomNav active="home" />
   </view>
 </template>
 
@@ -299,7 +349,7 @@ function searchHotKeyword(keyword: string) {
 .page--search {
   min-height: 100vh;
   padding-top: calc(28rpx + env(safe-area-inset-top));
-  padding-bottom: calc(176rpx + env(safe-area-inset-bottom));
+  padding-bottom: calc(56rpx + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
 }
 
@@ -412,6 +462,13 @@ function searchHotKeyword(keyword: string) {
   line-height: 1.6;
 }
 
+.notice-text {
+  color: var(--primary-strong);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  line-height: 1.55;
+}
+
 .result-row {
   display: grid;
   grid-template-columns: 168rpx minmax(0, 1fr);
@@ -422,6 +479,11 @@ function searchHotKeyword(keyword: string) {
 
 .result-row:last-child {
   border-bottom: 0;
+}
+
+.result-action {
+  width: 100%;
+  margin-top: var(--space-sm);
 }
 
 .result-head {

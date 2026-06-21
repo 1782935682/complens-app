@@ -4,7 +4,6 @@
     { "path": "pages/capture/index", "style": { "navigationBarTitleText": "拍食品标签" } },
     { "path": "pages/search/index", "style": { "navigationBarTitleText": "成分搜索" } },
     { "path": "pages/report/index", "style": { "navigationBarTitleText": "食品标签解读" } },
-    { "path": "pages/history/index", "style": { "navigationBarTitleText": "历史记录" } },
     { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的" } }
   ],
   "tabBar": {

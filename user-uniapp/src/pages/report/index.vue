@@ -7,11 +7,13 @@ import EmptyState from '@/components/EmptyState.vue';
 import Toast from '@/components/Toast.vue';
 import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
 import { routes, navigateToRoute } from '@/constants/routes';
+import { chooseLabelImage } from '@/platform/camera';
 import { buildReportShareMessage, enableWeixinShareMenu, shareReport } from '@/platform/share';
 import { getAttentionSettings } from '@/stores/attentionStore';
-import { getReportById, getReports, resetScanDraft, saveReportFeedback, toggleReportFavorite } from '@/stores/scanStore';
+import { getReportById, getReports, resetScanDraft, saveReportFeedback, saveScanDraft } from '@/stores/scanStore';
 import type {
   AdditiveRecognition,
+  AttentionGoal,
   IngredientMatch,
   LabelReport,
   NutritionKey,
@@ -82,12 +84,21 @@ const recognitionRawPreview = computed(() => {
   return raw ? raw.replace(/\s+/g, ' ').slice(0, 72) : '未识别到可用内容';
 });
 const recognitionSourceText = computed(() => recognitionInfo.value?.sources.join(' / ') || report.value?.analysisSource?.sourceLabel || '本次识别');
-const aiNotice = computed(() => report.value?.analysisSource?.usedAiSearch ? (report.value.analysisSource.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。') : '');
-const aiSearchFailureText = computed(() => report.value?.analysisSource?.aiSearchErrorCode ? 'AI 搜索未获取到完整标签信息，请补拍配料表 / 营养表或手动补充。' : '');
+const aiNotice = computed(() => report.value?.analysisSource?.usedAiSearch ? (report.value.analysisSource.aiNotice || 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。') : '');
+const aiSearchFailureText = computed(() => report.value?.analysisSource?.aiSearchErrorCode ? 'AI 搜索未找到配料 / 营养信息，请补拍配料表或营养表，或手动粘贴文字。' : '');
 const aiInsufficientText = computed(() => {
   if (!report.value?.analysisSource?.usedAiSearch) return '';
   const hasAiLabel = Boolean(report.value.analysisSource.ingredientText?.trim() || report.value.analysisSource.nutritionText?.trim());
   return hasAiLabel ? 'AI 搜索到的配料或营养仅作为公开标签线索参与参考解读。' : 'AI 搜索未找到可用配料或营养证据，本次报告仍按信息不足处理。';
+});
+const insufficientReasonText = computed(() => {
+  if (aiSearchFailureText.value || report.value?.analysisSource?.usedAiSearch) {
+    return '原因：条码/二维码没有找到可用配料或营养证据。';
+  }
+  if (!hasIngredientEvidence.value && !hasNutritionNumbers.value) return '原因：缺少配料表或营养数字。';
+  if (!hasIngredientEvidence.value) return '原因：缺少配料表文字。';
+  if (!hasNutritionNumbers.value) return '原因：缺少营养数字。';
+  return '';
 });
 const overallLabel = computed(() => {
   if (isInsufficientReport.value) return '信息不足｜补拍配料或营养表';
@@ -97,12 +108,24 @@ const overallLabel = computed(() => {
   if (decision.value?.level === 'insufficient') return '信息不足';
   if (decision.value?.level === 'alternative' || decision.value?.level === 'caution') return '偶尔吃更合适';
   if (decision.value?.level === 'occasional') return '偶尔吃';
-  if (decision.value?.level === 'daily_ok') return '提醒较少';
+  if (decision.value?.level === 'daily_ok') return '这次未发现明显重点项';
   const finding = headlineFinding.value;
   if (!finding) return '信息不足';
   if (finding.tone === 'attention') return `建议关注${finding.label}`;
   if (finding.tone === 'watch') return '有几项提醒';
   return '配料和营养已整理';
+});
+const overallHeadline = computed(() => {
+  const marker = '建议关注：';
+  const text = overallLabel.value;
+  if (!text.includes(marker)) return { mode: 'plain' as const, text, audience: '', targets: [] as string[] };
+  const [audience, targetText] = text.split(marker);
+  return {
+    mode: 'focus' as const,
+    text: '建议关注',
+    audience: audience.trim(),
+    targets: targetText.split('、').map((item) => item.trim()).filter(Boolean).slice(0, 4)
+  };
 });
 const hasIngredientEvidence = computed(() => Boolean(
   ingredients.value.length || report.value?.analysisSource?.ingredientText?.trim()
@@ -110,8 +133,7 @@ const hasIngredientEvidence = computed(() => Boolean(
 const hasNutritionNumbers = computed(() => nutritionSnapshot.value.some((item) => item.level !== '未识别'));
 const nutritionBars = computed(() => nutritionSnapshot.value
   .filter((item) => item.level !== '未识别')
-  .sort((left, right) => nutritionRank(right) - nutritionRank(left) || right.percent - left.percent)
-  .slice(0, 5));
+  .sort((left, right) => nutritionBarPriority(right) - nutritionBarPriority(left) || right.percent - left.percent));
 const isInsufficientReport = computed(() => (
   decision.value?.level === 'insufficient'
   || (!hasIngredientEvidence.value && !hasNutritionNumbers.value && !additiveRecognition.value.total)
@@ -119,33 +141,22 @@ const isInsufficientReport = computed(() => (
 const shouldShowConsumerSections = computed(() => !isInsufficientReport.value);
 const shouldShowAdditiveSection = computed(() => shouldShowConsumerSections.value && hasIngredientEvidence.value);
 const overallDetail = computed(() => {
-  if (foodAnalysis.value?.plainExplanation) return foodAnalysis.value.plainExplanation;
-  if (foodAnalysis.value?.summary) return foodAnalysis.value.summary;
   if (isInsufficientReport.value) {
-    return decision.value?.summary || '请补拍清晰的包装文字，或手动粘贴配料、营养数字和过敏原提示。';
+    return '请补拍配料表或营养表，也可以手动粘贴包装文字。';
   }
-  return headlineFinding.value?.detail || '已整理重点项、添加剂和未确认线索。';
+  return headlineFinding.value ? compactFindingDetail(headlineFinding.value) : '已按当前识别到的标签区域整理重点项。';
 });
 const allergyWarnings = computed(() => decision.value?.allergyWarnings ?? []);
 const resultReasons = computed(() => (foodAnalysis.value?.mainReasons?.length
   ? foodAnalysis.value.mainReasons
   : decision.value?.reasons ?? []).slice(0, 5));
-const suitableFor = computed(() => (foodAnalysis.value?.suitableFor?.length
-  ? foodAnalysis.value.suitableFor
-  : decision.value?.suitableFor ?? []).slice(0, 4));
 const notSuitableFor = computed(() => personalNotSuitableFor.value
   .concat(foodAnalysis.value?.notSuitableFor?.length
     ? foodAnalysis.value.notSuitableFor
     : decision.value?.lessSuitableFor ?? [])
   .filter(uniqueValue)
   .slice(0, 5));
-const eatingAdvice = computed(() => foodAnalysis.value?.eatingAdvice || decision.value?.suggestions?.[0] || '');
-const plainExplanation = computed(() => foodAnalysis.value?.plainExplanation || decision.value?.summary || '');
-const supportingExplanation = computed(() => {
-  const text = plainExplanation.value.trim();
-  if (!text || normalizeCompareText(text) === normalizeCompareText(overallDetail.value)) return '';
-  return text;
-});
+const servingTip = computed(() => buildServingFactTip());
 const productFacts = computed(() => [
   foodAnalysis.value?.productName && foodAnalysis.value.productName !== '未识别商品' ? `商品：${foodAnalysis.value.productName}` : '',
   report.value?.analysisSource?.brand ? `品牌：${report.value.analysisSource.brand}` : '',
@@ -296,14 +307,13 @@ const topFindings = computed(() => plainFindings.value
   .slice(0, 3));
 const personalAlerts = computed(() => {
   const alerts: string[] = [];
-  const goal = primaryGoalOptions.find((item) => item.key === attentionSettings.value.primaryGoal);
-  if (goal && goal.key !== 'daily') {
+  selectedPrimaryGoalOptions().forEach((goal) => {
     const finding = focusedGoalFinding(goal.key);
     alerts.push(finding
       ? `${goal.label}：${finding.label}${finding.status}，${compactFindingDetail(finding)}`
       : `${goal.label}：这次没有识别到直接对应的重点数字。`);
-  }
-  if (attentionSettings.value.isChildrenMode) alerts.push('儿童模式：儿童高频当零食时要看份量。');
+  });
+  if (selectedAttentionGoals().includes('children')) alerts.push('儿童零食：儿童高频当零食时要看份量。');
   if (allergyWarnings.value.length) {
     alerts.push(allergyWarnings.value[0]);
   } else if (attentionSettings.value.allergens.length) {
@@ -314,12 +324,11 @@ const personalAlerts = computed(() => {
 });
 const personalAlertChips = computed(() => {
   const chips: string[] = [];
-  const goal = primaryGoalOptions.find((item) => item.key === attentionSettings.value.primaryGoal);
-  if (goal && goal.key !== 'daily') {
+  selectedPrimaryGoalOptions().forEach((goal) => {
     const finding = focusedGoalFinding(goal.key);
     chips.push(finding ? `${goal.label} ${finding.status}` : `${goal.label} 未命中重点项`);
-  }
-  if (attentionSettings.value.isChildrenMode) chips.push('儿童少吃');
+  });
+  if (selectedAttentionGoals().includes('children')) chips.push('儿童关注');
   if (allergyWarnings.value.length) {
     chips.push('过敏命中');
   } else if (attentionSettings.value.allergens.length) {
@@ -330,17 +339,13 @@ const personalAlertChips = computed(() => {
 const personalNotSuitableFor = computed(() => {
   const items: string[] = [];
   if (allergyWarnings.value.length) items.push('命中过敏/忌口关注的人');
-  if (attentionSettings.value.isChildrenMode) items.push('儿童高频食用');
-  if (attentionSettings.value.primaryGoal === 'sugar') items.push('控糖人群');
-  if (attentionSettings.value.primaryGoal === 'fatLoss') items.push('减脂期');
-  if (attentionSettings.value.primaryGoal === 'lowSodium') items.push('控盐/低钠人群');
+  if (selectedAttentionGoals().includes('children')) items.push('儿童高频食用');
+  if (selectedAttentionGoals().includes('sugar')) items.push('控糖人群');
+  if (selectedAttentionGoals().includes('fatLoss')) items.push('减脂期');
+  if (selectedAttentionGoals().includes('lowSodium')) items.push('控盐/低钠人群');
   return items;
 });
-const audiencePreview = computed(() => {
-  const ok = suitableFor.value[0] || '普通成年人偶尔吃';
-  const watch = notSuitableFor.value.slice(0, 2).join('、');
-  return watch ? `${ok}；不太适合：${watch}` : ok;
-});
+const audienceWatchList = computed(() => (notSuitableFor.value.length ? notSuitableFor.value : personalNotSuitableFor.value).filter(uniqueValue).slice(0, 6));
 const decisionFastItems = computed(() => {
   if (isInsufficientReport.value) return [];
   const why = priorityFindings.value
@@ -348,11 +353,11 @@ const decisionFastItems = computed(() => {
     .map((item) => `${item.label}${item.status}`)
     .join('、');
   const who = notSuitableFor.value.slice(0, 3).join('、');
-  const how = compactAdviceText(eatingAdvice.value);
+  const how = servingTip.value;
   return [
     why ? { label: '为什么', text: why } : undefined,
-    who ? { label: '谁少吃', text: who } : undefined,
-    how ? { label: '怎么吃', text: how } : undefined
+    who ? { label: '关注人群', text: who } : undefined,
+    how ? { label: '份量提示', text: how } : undefined
   ].filter(Boolean) as Array<{ label: string; text: string }>;
 });
 const priorityFindings = computed(() => {
@@ -453,6 +458,23 @@ function focusedGoalFinding(goal: string): ReportFinding | undefined {
   return undefined;
 }
 
+function selectedAttentionGoals(): AttentionGoal[] {
+  if (Array.isArray(attentionSettings.value.targetGoals) && attentionSettings.value.targetGoals.length) {
+    return attentionSettings.value.targetGoals;
+  }
+  return [
+    attentionSettings.value.primaryGoal !== 'daily' ? attentionSettings.value.primaryGoal : undefined,
+    attentionSettings.value.isChildrenMode ? 'children' : undefined
+  ].filter((item): item is AttentionGoal => Boolean(item));
+}
+
+function selectedPrimaryGoalOptions() {
+  return selectedAttentionGoals()
+    .filter((goal) => goal !== 'children')
+    .map((goal) => primaryGoalOptions.find((item) => item.key === goal))
+    .filter((item): item is typeof primaryGoalOptions[number] => Boolean(item));
+}
+
 function selectedAllergenLabels(): string[] {
   return allergenOptions
     .filter((item) => attentionSettings.value.allergens.includes(item.key))
@@ -490,14 +512,14 @@ function compactFindingDetail(item: ReportFinding): string {
   const nutrition = nutritionSnapshot.value.find((entry) => entry.key === item.key);
   if (nutrition) {
     const advice: Partial<Record<NutritionKey, string>> = {
-      energy: '少量当零食吃',
-      fat: '控制一份吃多少',
-      transFat: '少量低频更稳妥',
-      carbohydrate: '主要供能，控制份量',
-      sodium: '少和重口味食物叠加',
-      sugar: '甜味来源要留意'
+      energy: '热量数字已识别',
+      fat: '脂肪数字已识别',
+      transFat: '反式脂肪数字已识别',
+      carbohydrate: '碳水数字已识别',
+      sodium: '钠数字已识别',
+      sugar: '糖数字已识别'
     };
-    return `${nutrition.valueText}，${advice[nutrition.key] || '控制份量'}`;
+    return `${nutrition.valueText}，${advice[nutrition.key] || '营养数字已识别'}`;
   }
   if (item.key === 'additive') return '看作用和用量，不直接吓人。';
   if (item.key === 'allergen') return '有相关提示的人优先留意这里。';
@@ -505,22 +527,31 @@ function compactFindingDetail(item: ReportFinding): string {
 }
 
 function buildDecisionHeadline(items: ReportFinding[]): string {
-  const labels = items
+  const candidates = prioritizedHeadlineFindings(items);
+  const labels = candidates
     .filter((item) => item.tone === 'attention' || item.tone === 'watch')
     .slice(0, 3)
     .map((item) => item.label)
     .filter(uniqueValue);
   const summary = labels.length
-    ? `${audiencePrefixText()}建议关注${labels.join('、')}`
+    ? `${audiencePrefixText()}建议关注：${labels.join('、')}`
     : '';
-  return summary ? `${summary}｜建议关注份量` : '';
+  return summary;
+}
+
+function prioritizedHeadlineFindings(items: ReportFinding[]): ReportFinding[] {
+  const base = items.filter((item) => item.tone === 'attention' || item.tone === 'watch');
+  const focused = selectedPrimaryGoalOptions()
+    .map((goal) => focusedGoalFinding(goal.key))
+    .filter((item): item is ReportFinding => Boolean(item && (item.tone === 'attention' || item.tone === 'watch')));
+  if (!focused.length) return base;
+  return [...focused, ...base.filter((item) => !focused.some((focusedItem) => focusedItem.key === item.key))];
 }
 
 function audiencePrefixText(): string {
-  if (attentionSettings.value.isChildrenMode) return '儿童零食场景';
-  if (attentionSettings.value.primaryGoal === 'sugar') return '控糖人群';
-  if (attentionSettings.value.primaryGoal === 'lowSodium') return '低钠目标';
-  if (attentionSettings.value.primaryGoal === 'fatLoss') return '减脂目标';
+  const labels = selectedPrimaryGoalOptions().map((item) => item.label.replace(/\/少盐/g, ''));
+  if (selectedAttentionGoals().includes('children')) labels.push('儿童零食');
+  if (labels.length) return `${labels.slice(0, 3).join('/')}人群`;
   if (attentionSettings.value.allergens.length) return '过敏/忌口人群';
   return '';
 }
@@ -547,11 +578,21 @@ function findingPriority(item: ReportFinding): number {
   return (keyScore[item.key] || 10) + toneScore;
 }
 
-function nutritionRank(item: NutritionSnapshotItem): number {
-  if (item.level === '较高') return 30;
-  if (item.level === '中等' || item.level === '一般') return 20;
-  if (item.level === '较低') return 10;
-  return 0;
+function nutritionBarPriority(item: NutritionSnapshotItem): number {
+  const focusScore = isFocusedNutritionKey(item.key) ? 80 : 0;
+  if (item.level === '较高') return focusScore + 30;
+  if (item.level === '中等' || item.level === '一般') return focusScore + 20;
+  if (item.level === '较低') return focusScore + 10;
+  return focusScore;
+}
+
+function isFocusedNutritionKey(key: NutritionKey): boolean {
+  const goals = selectedAttentionGoals();
+  if (goals.includes('sugar') && (key === 'sugar' || key === 'carbohydrate')) return true;
+  if (goals.includes('fatLoss') && (key === 'energy' || key === 'fat' || key === 'transFat' || key === 'carbohydrate')) return true;
+  if (goals.includes('lowSodium') && key === 'sodium') return true;
+  if (goals.includes('children') && (key === 'sugar' || key === 'sodium')) return true;
+  return false;
 }
 
 function nutritionFocusText(key: NutritionKey): { high: string; medium: string; low: string } {
@@ -564,28 +605,28 @@ function nutritionFocusText(key: NutritionKey): { high: string; medium: string; 
   }
   if (key === 'sodium') {
     return {
-      high: '咸味和重口味食物叠加时更需要控制份量。',
-      medium: '咸味食物叠加时会更明显。',
+      high: '已归为重点关注项，查看每份或每包钠数字。',
+      medium: '已整理为钠相关数字。',
       low: '当前不是重点提醒。'
     };
   }
   if (key === 'fat') {
     return {
-      high: '油脂会把热量拉高，零食类尤其要看一份吃多少。',
+      high: '已归为重点关注项，查看每份或每包脂肪数字。',
       medium: '已和热量一起整理。',
       low: '当前不是重点提醒。'
     };
   }
   if (key === 'carbohydrate') {
     return {
-      high: '这类零食主要靠面粉、米粉或糖类供能，适合看一份吃多少。',
+      high: '已归为重点关注项，查看每份或每包碳水数字。',
       medium: '已和热量一起整理。',
       low: '当前不是重点提醒。'
     };
   }
   if (key === 'energy') {
     return {
-      high: '热量不低，适合当零食少量吃，不适合顶一餐。',
+      high: '已归为重点关注项，查看每份或每包热量数字。',
       medium: '份量会影响实际摄入。',
       low: '当前不是重点提醒。'
     };
@@ -595,6 +636,18 @@ function nutritionFocusText(key: NutritionKey): { high: string; medium: string; 
     medium: '已整理为营养数字。',
     low: '当前不是重点提醒。'
   };
+}
+
+function buildServingFactTip(): string {
+  if (!nutritionBars.value.length) return '';
+  const important = priorityFindings.value
+    .filter((item) => item.key !== 'allergen' && item.key !== 'additive')
+    .slice(0, 3)
+    .map((item) => item.label)
+    .filter(uniqueValue);
+  return important.length
+    ? `重点看每份/每包的${important.join('、')}数字。`
+    : '重点看每份/每包营养数字。';
 }
 
 function nutritionLevelLabel(item: NutritionSnapshotItem): string {
@@ -612,11 +665,11 @@ function displayNutritionLevel(value: string): string {
 
 function nutritionToneLabel(item: NutritionSnapshotItem): string {
   if (item.level === '较高') {
-    if (item.key === 'energy') return '少量吃';
-    if (item.key === 'fat') return '控油量';
-    if (item.key === 'carbohydrate') return '控份量';
-    if (item.key === 'sodium') return '少盐搭配';
-    if (item.key === 'sugar') return '控甜食';
+    if (item.key === 'energy') return '看每份';
+    if (item.key === 'fat') return '看脂肪';
+    if (item.key === 'carbohydrate') return '看碳水';
+    if (item.key === 'sodium') return '看钠';
+    if (item.key === 'sugar') return '看糖';
     return '重点';
   }
   if (item.level === '中等' || item.level === '一般') return '留意';
@@ -625,11 +678,11 @@ function nutritionToneLabel(item: NutritionSnapshotItem): string {
 
 function nutritionBarActionText(item: NutritionSnapshotItem): string {
   const action = nutritionToneLabel(item);
-  if (item.key === 'energy') return `零食重点｜${action}`;
-  if (item.key === 'fat') return `油脂偏多｜${action}`;
-  if (item.key === 'carbohydrate') return `主要供能｜${action}`;
-  if (item.key === 'sodium') return `重口味叠加｜${action}`;
-  if (item.key === 'sugar') return `甜味来源｜${action}`;
+  if (item.key === 'energy') return `热量数字｜${action}`;
+  if (item.key === 'fat') return `脂肪数字｜${action}`;
+  if (item.key === 'carbohydrate') return `碳水数字｜${action}`;
+  if (item.key === 'sodium') return `钠数字｜${action}`;
+  if (item.key === 'sugar') return `糖数字｜${action}`;
   return action;
 }
 
@@ -720,16 +773,6 @@ function normalizeCompareText(value: string): string {
   return String(value || '').replace(/\s+/g, '').toLowerCase();
 }
 
-function compactAdviceText(value: string): string {
-  const text = String(value || '').trim();
-  if (!text) return '';
-  return text
-    .split(/[；;。]/u)
-    .map((item) => item.trim())
-    .filter(Boolean)[0]
-    ?.slice(0, 34) || '';
-}
-
 function ingredientImpactLabel(item: { name: string; category: string; effect: string }): string {
   const text = `${item.name}${item.category}${item.effect}`;
   if (/氢化|起酥油|植脂末|代可可脂|反式脂肪/u.test(text)) return '关注反式脂肪';
@@ -746,26 +789,20 @@ function retryScan() {
   navigateToRoute(routes.capture);
 }
 
-function retakePackagePhoto() {
+async function retakePackagePhoto() {
   resetScanDraft();
-  uni.navigateTo({ url: `${routes.capture}?auto=camera` });
+  try {
+    const image = await chooseLabelImage('camera');
+    saveScanDraft({ image });
+    uni.navigateTo({ url: routes.capture });
+  } catch {
+    uni.navigateTo({ url: `${routes.capture}?cameraError=1` });
+  }
 }
 
 function openManualInput() {
   resetScanDraft();
   uni.navigateTo({ url: `${routes.capture}?mode=manual` });
-}
-
-function openHistory() {
-  navigateToRoute(routes.history);
-}
-
-function toggleFavorite() {
-  if (!report.value) return;
-  const updated = toggleReportFavorite(report.value.id);
-  if (!updated) return;
-  report.value = updated;
-  message.value = updated.isFavorite ? '已加入收藏。' : '已取消收藏。';
 }
 
 async function shareCurrentReport() {
@@ -817,7 +854,7 @@ function formatRecognitionTime(value: string): string {
 
 <template>
   <view class="page page--report">
-    <Toast :message="message" tone="success" />
+    <Toast :message="message" tone="success" @dismiss="message = ''" />
 
     <EmptyState
       v-if="!report"
@@ -857,12 +894,30 @@ function formatRecognitionTime(value: string): string {
             <text v-if="aiSearchFailureText" class="ai-source-notice__text">{{ aiSearchFailureText }}</text>
             <text v-if="aiInsufficientText" class="ai-source-notice__text">{{ aiInsufficientText }}</text>
           </view>
+          <view v-if="isInsufficientReport" class="insufficient-top-actions">
+            <text class="insufficient-top-actions__title">还需要配料或营养</text>
+            <text v-if="insufficientReasonText" class="insufficient-top-actions__hint">{{ insufficientReasonText }}</text>
+            <text class="insufficient-top-actions__hint">补拍配料表或营养表，也可以手动粘贴文字。</text>
+            <view class="insufficient-top-actions__buttons">
+              <AppButton @click="retakePackagePhoto">补拍配料/营养表</AppButton>
+              <AppButton variant="secondary" @click="openManualInput">手动粘贴文字</AppButton>
+            </view>
+          </view>
         </AppCard>
 
         <AppCard class="report-card report-card--overall" :class="`report-card--${decision?.level || 'caution'}`">
           <view class="report-section">
             <text class="section-title">一句话结论</text>
-            <text class="overall-label">{{ overallLabel }}</text>
+            <view v-if="overallHeadline.mode === 'focus'" class="overall-focus">
+              <view class="overall-focus__head">
+                <text class="overall-label">{{ overallHeadline.text }}</text>
+                <text v-if="overallHeadline.audience" class="overall-audience">{{ overallHeadline.audience }}</text>
+              </view>
+              <view class="overall-targets">
+                <text v-for="item in overallHeadline.targets" :key="item" class="overall-target">{{ item }}</text>
+              </view>
+            </view>
+            <text v-else class="overall-label">{{ overallHeadline.text }}</text>
             <view v-if="personalAlertChips.length" class="personal-alerts personal-alerts--compact">
               <text class="personal-alerts__title">你的关注</text>
               <view class="personal-alert-chips">
@@ -870,7 +925,6 @@ function formatRecognitionTime(value: string): string {
               </view>
             </view>
             <text class="section-text">{{ overallDetail }}</text>
-            <text v-if="supportingExplanation" class="section-text">{{ supportingExplanation }}</text>
             <view v-if="topFindings.length && !decisionFastItems.length" class="summary-pills">
               <text v-for="item in topFindings" :key="item.key" class="summary-pill">{{ item.label }}：{{ item.status }}</text>
             </view>
@@ -887,11 +941,7 @@ function formatRecognitionTime(value: string): string {
                   <text v-for="item in insufficientKnownFacts" :key="item" class="insufficient-known__chip">{{ item }}</text>
                 </view>
               </view>
-              <text class="insufficient-actions__hint">信息不足，请补拍配料表或营养成分表，也可以手动粘贴包装文字。</text>
-              <view class="insufficient-actions__buttons">
-                <AppButton @click="retakePackagePhoto">补拍配料/营养表</AppButton>
-                <AppButton variant="secondary" @click="openManualInput">手动粘贴文字</AppButton>
-              </view>
+              <text class="insufficient-actions__hint">{{ insufficientReasonText || '信息不足，先补一块配料表或营养表。' }}</text>
             </view>
           </view>
         </AppCard>
@@ -938,19 +988,11 @@ function formatRecognitionTime(value: string): string {
           </view>
         </AppCard>
 
-        <AppCard v-if="shouldShowConsumerSections && (suitableFor.length || notSuitableFor.length)" class="report-card">
+        <AppCard v-if="shouldShowConsumerSections && audienceWatchList.length" class="report-card">
           <view class="report-section">
-            <text class="section-title">适合谁 / 不适合谁</text>
-            <view class="audience-grid">
-              <view class="audience-box audience-box--ok">
-                <text class="audience-box__title">适合偶尔吃</text>
-                <text v-for="item in suitableFor" :key="item" class="audience-box__item">{{ item }}</text>
-              </view>
-              <view class="audience-box audience-box--watch">
-                <text class="audience-box__title">建议关注</text>
-                <text class="audience-box__note">不是禁食结论</text>
-                <text v-for="item in notSuitableFor" :key="item" class="audience-box__item">{{ item }}</text>
-              </view>
+            <text class="section-title">建议关注人群</text>
+            <view class="audience-watch-list">
+              <text v-for="item in audienceWatchList" :key="item" class="audience-watch-chip">{{ item }}</text>
             </view>
           </view>
         </AppCard>
@@ -962,14 +1004,15 @@ function formatRecognitionTime(value: string): string {
               <text class="nutrition-chart-head__hint">每100g/ml · 重点优先</text>
             </view>
             <view class="nutrition-bars nutrition-bars--standalone">
-              <view class="nutrition-bar-grid">
+              <view class="nutrition-bar-list">
                 <view v-for="item in nutritionBars" :key="item.key" class="nutrition-bar-row">
                   <view class="nutrition-bar-row__head">
                     <text class="nutrition-bar-row__label">{{ item.label }}</text>
-                    <view class="nutrition-bar-row__meta">
-                      <text class="nutrition-bar-row__level" :class="`nutrition-bar-row__level--${nutritionTone(item)}`">{{ nutritionLevelLabel(item) }}</text>
-                      <text class="nutrition-bar-row__value">{{ item.valueText }}</text>
-                    </view>
+                    <text class="nutrition-bar-row__value">{{ item.valueText }}</text>
+                  </view>
+                  <view class="nutrition-bar-row__meta">
+                    <text class="nutrition-bar-row__level" :class="`nutrition-bar-row__level--${nutritionTone(item)}`">{{ nutritionLevelLabel(item) }}</text>
+                    <text class="nutrition-bar-row__note">{{ nutritionBarActionText(item) }}</text>
                   </view>
                   <view class="nutrition-meter">
                     <view
@@ -978,7 +1021,6 @@ function formatRecognitionTime(value: string): string {
                       :style="nutritionBarStyle(item)"
                     />
                   </view>
-                  <text class="nutrition-bar-row__note">{{ nutritionBarActionText(item) }}</text>
                 </view>
               </view>
               <view class="nutrition-legend">
@@ -1007,13 +1049,6 @@ function formatRecognitionTime(value: string): string {
                 <text v-if="item.reminder" class="additive-row__reminder">{{ item.reminder }}</text>
               </view>
             </view>
-          </view>
-        </AppCard>
-
-        <AppCard v-if="shouldShowConsumerSections && eatingAdvice" class="report-card">
-          <view class="report-section">
-            <text class="section-title">建议吃法</text>
-            <text class="section-text">{{ eatingAdvice }}</text>
           </view>
         </AppCard>
 
@@ -1097,10 +1132,8 @@ function formatRecognitionTime(value: string): string {
 
       <view class="action-bar">
         <AppButton @click="retryScan">再拍一次</AppButton>
-        <AppButton variant="secondary" @click="toggleFavorite">{{ report.isFavorite ? '已收藏' : '收藏' }}</AppButton>
+        <AppButton variant="secondary" @click="shareCurrentReport">分享</AppButton>
         <view class="action-links">
-          <text class="link" @tap="shareCurrentReport">分享</text>
-          <text class="link" @tap="openHistory">历史记录</text>
           <text class="link link--subtle" @tap="feedbackOpen = !feedbackOpen">{{ feedbackOpen ? '收起反馈' : '反馈' }}</text>
         </view>
       </view>
@@ -1245,6 +1278,41 @@ function formatRecognitionTime(value: string): string {
   line-height: 1.45;
 }
 
+.insufficient-top-actions {
+  margin-top: var(--space-sm);
+  border: 1px solid rgba(18, 151, 128, 0.18);
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding: var(--space-sm);
+}
+
+.insufficient-top-actions__title {
+  color: var(--primary-strong);
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.insufficient-top-actions__hint {
+  color: var(--text);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.insufficient-top-actions__buttons {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xs);
+}
+
+.insufficient-top-actions__buttons :deep(.app-button) {
+  width: 100%;
+}
+
 .scan-meta {
   display: grid;
   grid-template-columns: 104rpx minmax(0, 1fr);
@@ -1314,13 +1382,49 @@ function formatRecognitionTime(value: string): string {
 
 .overall-label {
   color: #f15a24;
-  font-size: var(--font-size-2xl);
+  font-size: 40rpx;
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 1.18;
 }
 
 .report-card--daily_ok .overall-label {
   color: var(--primary-strong);
+}
+
+.overall-focus {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.overall-focus__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10rpx;
+}
+
+.overall-audience {
+  color: var(--accent);
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.overall-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.overall-target {
+  border-radius: 999px;
+  background: rgba(241, 90, 36, 0.1);
+  color: #d94b19;
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.25;
+  padding: 8rpx 14rpx;
 }
 
 .report-card--share {
@@ -1667,51 +1771,21 @@ function formatRecognitionTime(value: string): string {
   white-space: nowrap;
 }
 
-.audience-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
-}
-
-.audience-box {
-  border: 1px solid var(--line);
-  border-radius: 18rpx;
-  background: var(--surface-subtle);
+.audience-watch-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: var(--space-xs);
-  min-height: 168rpx;
-  padding: var(--space-sm);
 }
 
-.audience-box--ok {
-  border-color: rgba(18, 151, 128, 0.16);
-  background: var(--primary-soft);
-}
-
-.audience-box--watch {
-  border-color: rgba(216, 138, 36, 0.24);
+.audience-watch-chip {
+  border: 1px solid rgba(216, 138, 36, 0.22);
+  border-radius: 999px;
   background: var(--surface-warm);
-}
-
-.audience-box__title {
   color: var(--text);
   font-size: var(--font-size-sm);
   font-weight: 900;
-  line-height: 1.35;
-}
-
-.audience-box__note {
-  color: var(--muted);
-  font-size: var(--font-size-xs);
-  font-weight: 800;
-  line-height: 1.35;
-}
-
-.audience-box__item {
-  color: var(--text);
-  font-size: var(--font-size-xs);
-  line-height: 1.45;
+  line-height: 1.3;
+  padding: 8rpx 14rpx;
 }
 
 .insight-grid,
@@ -1938,20 +2012,21 @@ function formatRecognitionTime(value: string): string {
   text-align: right;
 }
 
-.nutrition-bar-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.nutrition-bar-list {
+  display: flex;
+  flex-direction: column;
   gap: 12rpx;
 }
 
 .nutrition-bar-row {
-  border-radius: 14rpx;
+  border: 1px solid rgba(18, 151, 128, 0.1);
+  border-radius: 16rpx;
   background: var(--surface-subtle);
   display: flex;
   flex-direction: column;
   gap: 8rpx;
   min-width: 0;
-  padding: 10rpx 12rpx;
+  padding: 12rpx 14rpx;
 }
 
 .nutrition-bar-row__head {
@@ -1965,7 +2040,7 @@ function formatRecognitionTime(value: string): string {
 .nutrition-bar-row__value,
 .nutrition-bar-row__level {
   color: var(--text);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: 900;
   line-height: 1.3;
 }
@@ -1973,8 +2048,8 @@ function formatRecognitionTime(value: string): string {
 .nutrition-bar-row__meta {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 6rpx;
+  flex-wrap: wrap;
+  gap: 8rpx;
   min-width: 0;
 }
 
@@ -1982,7 +2057,8 @@ function formatRecognitionTime(value: string): string {
   border-radius: 999px;
   background: var(--primary-soft);
   color: var(--primary-strong);
-  padding: 3rpx 8rpx;
+  font-size: var(--font-size-xs);
+  padding: 4rpx 10rpx;
   white-space: nowrap;
 }
 

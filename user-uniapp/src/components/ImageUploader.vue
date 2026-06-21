@@ -3,7 +3,7 @@ import type { LocalImageAsset } from '@/types';
 import AppButton from './AppButton.vue';
 
 defineProps<{ image?: LocalImageAsset }>();
-const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
+const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clear: [] }>();
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
           <view class="image-uploader__icon" />
         </view>
         <text class="image-uploader__title">对准标签文字</text>
-        <text class="image-uploader__hint">选择后自动识别，确认文字后生成解读。</text>
+        <text class="image-uploader__hint">拍清包装文字，识别结束直接生成结果。</text>
         <view class="image-uploader__checklist">
           <view class="image-uploader__check">
             <text class="image-uploader__check-dot" />
@@ -37,8 +37,10 @@ const emit = defineEmits<{ camera: []; album: []; clear: [] }>();
       </view>
     </view>
     <view class="image-uploader__actions">
-      <AppButton class="image-uploader__action" @click="emit('camera')">拍照识别</AppButton>
+      <AppButton class="image-uploader__action image-uploader__action--wide" @click="emit('camera')">拍照识别</AppButton>
       <AppButton class="image-uploader__action" variant="secondary" @click="emit('album')">上传识别</AppButton>
+      <AppButton class="image-uploader__action" variant="secondary" @click="emit('scanCode')">扫条码/二维码</AppButton>
+      <AppButton class="image-uploader__action image-uploader__action--wide" variant="text" @click="emit('manual')">手动输入</AppButton>
       <AppButton v-if="image" class="image-uploader__action image-uploader__action--wide" variant="text" @click="emit('clear')">重新选择</AppButton>
     </view>
   </view>

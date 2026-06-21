@@ -83,7 +83,7 @@ export function buildConsumerDecision(report: LabelReport, attention?: Attention
     label,
     summary: buildSummary(level, signals, allergyWarnings, attention),
     tags: tags.length ? tags : ['普通提示'],
-    watchPoints: watchPoints.length ? watchPoints : ['提醒较少；当前可见标签文字未发现需要优先提醒的内容，请结合包装实物确认。'],
+    watchPoints: watchPoints.length ? watchPoints : ['这次未发现明显重点项，请结合包装实物确认。'],
     allergyWarnings,
     suitableFor: buildSuitableFor(level, signals, nutrition),
     lessSuitableFor: lessSuitableFor.length ? lessSuitableFor : ['对某些配料敏感的人仍需看包装提示'],
@@ -458,10 +458,10 @@ function sortSignalsByPriority(signals: DecisionSignal[], attention?: AttentionS
 function signalPriority(signal: DecisionSignal, attention?: AttentionSettings): number {
   const text = `${signal.tag}${signal.reason}`;
   if (/过敏|忌口|致敏/.test(text)) return 50;
-  if (attention?.isChildrenMode && /儿童|色素|咖啡因|甜味剂|糖偏高|钠偏高|高糖|高钠/.test(text)) return 40;
-  if (attention?.primaryGoal === 'lowSodium' && /钠|盐|味精|酱油粉/.test(text)) return 35;
-  if (attention?.primaryGoal === 'sugar' && /糖|糖浆|甜味剂|碳水|代糖/.test(text)) return 30;
-  if (attention?.primaryGoal === 'fatLoss' && /能量|热量|脂肪|反式|氢化|糖|碳水/.test(text)) return 30;
+  if (hasGoal(attention, 'for_children') && /儿童|色素|咖啡因|甜味剂|糖偏高|钠偏高|高糖|高钠/.test(text)) return 40;
+  if (hasGoal(attention, 'low_sodium') && /钠|盐|味精|酱油粉/.test(text)) return 35;
+  if (hasGoal(attention, 'sugar_control') && /糖|糖浆|甜味剂|碳水|代糖/.test(text)) return 30;
+  if (hasGoal(attention, 'fat_control') && /能量|热量|脂肪|反式|氢化|糖|碳水/.test(text)) return 30;
   if (/反式|氢化|起酥油|植脂末|代可可脂/.test(text)) return 28;
   if (/添加剂|防腐剂|色素|香精/.test(text)) return 20;
   return 10;
@@ -492,12 +492,12 @@ function labelForLevel(level: ConsumerDecision['level']): string {
   if (level === 'caution') return '需要留意';
   if (level === 'occasional') return '少量关注';
   if (level === 'insufficient') return '信息不足';
-  return '提醒较少';
+  return '暂无明显重点项';
 }
 
 function buildSummary(level: ConsumerDecision['level'], signals: DecisionSignal[], allergyWarnings: string[], attention?: AttentionSettings): string {
   if (allergyWarnings.length) return allergyWarnings[0];
-  const hasFocus = Boolean(attention && (attention.primaryGoal !== 'daily' || attention.isChildrenMode || attention.allergens.length));
+  const hasFocus = Boolean(attention && (!isDailyOnly(attention) || attention.allergens.length));
   const tags = compactSignalTags(signals).slice(0, 4);
   const focusText = tags.length ? `${tags.join('、')}是这次重点。` : hasFocus ? '重点看你设置的关注项。' : '重点看营养数字和一份吃多少。';
   if (level === 'alternative') return `偶尔吃更合适；${focusText}`;
@@ -508,8 +508,8 @@ function buildSummary(level: ConsumerDecision['level'], signals: DecisionSignal[
       ? `偶尔吃；${occasionalTags.join('、')}是这次重点，按小份量更稳妥。`
       : '偶尔吃，按小份量更稳妥。';
   }
-  if (!signals.length) return '提醒较少；当前可见标签文字未发现需要优先提醒的内容，请结合包装实物确认。';
-  return '整体提醒较少，已按当前识别到的标签区域整理。';
+  if (!signals.length) return '这次未发现明显重点项，请结合包装实物确认。';
+  return '已按当前识别到的标签区域整理重点项。';
 }
 
 function compactSignalTags(signals: DecisionSignal[]): string[] {
@@ -785,17 +785,26 @@ function mapGoalToAudience(key: string, label: string): string {
 
 function hasGoal(attention: AttentionSettings | undefined, key: string): boolean {
   if (!attention) return false;
-  if (key === 'sugar_control') return attention.primaryGoal === 'sugar';
-  if (key === 'fat_control') return attention.primaryGoal === 'fatLoss';
-  if (key === 'low_sodium') return attention.primaryGoal === 'lowSodium';
-  if (key === 'for_children') return attention.isChildrenMode;
-  if (key === 'daily_balance' || key === 'fewer_additives') return attention.primaryGoal === 'daily';
+  const goals = selectedGoals(attention);
+  if (key === 'sugar_control') return goals.includes('sugar');
+  if (key === 'fat_control') return goals.includes('fatLoss');
+  if (key === 'low_sodium') return goals.includes('lowSodium');
+  if (key === 'for_children') return goals.includes('children');
+  if (key === 'daily_balance' || key === 'fewer_additives') return goals.length === 0;
   return false;
 }
 
 function isDailyOnly(attention: AttentionSettings | undefined): boolean {
   if (!attention) return true;
-  return attention.primaryGoal === 'daily' && !attention.isChildrenMode && !attention.allergens.length;
+  return selectedGoals(attention).length === 0 && !attention.allergens.length;
+}
+
+function selectedGoals(attention: AttentionSettings): NonNullable<AttentionSettings['targetGoals']> {
+  if (Array.isArray(attention.targetGoals) && attention.targetGoals.length) return attention.targetGoals;
+  return [
+    attention.primaryGoal !== 'daily' ? attention.primaryGoal : undefined,
+    attention.isChildrenMode ? 'children' : undefined
+  ].filter((item): item is NonNullable<AttentionSettings['targetGoals']>[number] => Boolean(item));
 }
 
 function getSelectedAllergenKeywords(attention: AttentionSettings | undefined): string[] {

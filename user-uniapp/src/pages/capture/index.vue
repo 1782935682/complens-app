@@ -8,10 +8,12 @@ import ImageUploader from '@/components/ImageUploader.vue';
 import LoadingState from '@/components/LoadingState.vue';
 import { allergenOptions } from '@/constants/attention';
 import { routes } from '@/constants/routes';
-import { chooseLabelImage } from '@/platform/camera';
+import { chooseLabelImage, scanProductCode } from '@/platform/camera';
 import { buildManualOcrResult } from '@/services/api/ocr';
 import { shouldAutoGenerateRecognitionResult } from '@/services/recognition/autoGeneratePolicy';
+import { normalizeBarcodeDetection } from '@/services/recognition/barcodeService';
 import { recognizeProductImage } from '@/services/recognition/imageRecognitionService';
+import { lookupProductInfo } from '@/services/recognition/productLookupService';
 import { buildProductAnalysisReport, type ProductAnalysisResult } from '@/services/recognition/reportService';
 import { getAttentionSettings } from '@/stores/attentionStore';
 import { getScanDraft, resetScanDraft, saveRecognitionHistory, saveReport, saveScanDraft } from '@/stores/scanStore';
@@ -98,7 +100,6 @@ const canGenerate = computed(() => (
   || isFrontOnly.value
 ));
 const hasAnyConfirmedText = computed(() => Boolean(ingredientText.value.trim() || nutritionText.value.trim() || allergenText.value.trim() || frontClaimsText.value.trim() || productionDateText.value.trim()));
-const shouldShowManualModifyAction = computed(() => extractionSourceType.value !== 'manual' && !manualOverride.value);
 const qualityIssues = computed(() => buildQualityIssues());
 const shouldShowScanSummary = computed(() => Boolean(recognitionInfo.value) || extractionSourceType.value !== 'manual' || hasAnyConfirmedText.value || ignoredText.value.length > 0);
 const recognitionIconClass = computed(() => `recognition-icon--${recognitionInfo.value?.detectedType || 'unknown'}`);
@@ -128,7 +129,7 @@ const confidenceText = computed(() => {
   if (extractionSourceType.value === 'manual') return '手动输入';
   if (extractionConfidence.value === 'high') return '识别较清楚';
   if (extractionConfidence.value === 'medium') return '基本可用';
-  return '需要确认';
+  return '文字偏少';
 });
 
 function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
@@ -138,6 +139,9 @@ function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
 }
 
 onLoad((query) => {
+  if (getQueryValue(query, 'cameraError') === '1') {
+    error.value = '相机没有打开，可以重试拍照，或改用上传识别。';
+  }
   if (getQueryValue(query, 'mode') === 'manual') {
     startManualTextEntry();
     return;
@@ -161,6 +165,10 @@ onShow(() => {
     return;
   }
   image.value = draft.image;
+  if (draft.image && !draft.ocr && stage.value !== 'recognizing') {
+    void startRecognize();
+    return;
+  }
   if (draft.confirmedText) {
     const normalizedDraft = normalizeOcrResult({
       text: draft.confirmedText,
@@ -204,6 +212,108 @@ async function choose(source: 'camera' | 'album') {
   }
 }
 
+async function scanCode() {
+  error.value = '';
+  editHint.value = '';
+  stage.value = 'recognizing';
+  startLoadingMessages(['正在读取条码/二维码...', '正在查询公开标签线索...']);
+  try {
+    const scanned = await scanProductCode();
+    const detection = normalizeBarcodeDetection(scanned.rawValue, scanned.format);
+    if (!detection) throw new Error('scan_code_empty');
+    resetScanDraft();
+    resetExtractedText();
+    image.value = undefined;
+    rawOcrText.value = '';
+    ocrResult.value = buildManualOcrResult();
+    const detectedType = detection.kind === 'qrcode' ? 'qrcode' : 'barcode';
+    const recognizedAt = new Date().toISOString();
+    const baseInfo: ProductRecognitionInfo = {
+      imageId: `code-${Date.now().toString(36)}`,
+      detectedType,
+      rawContent: detection.rawValue,
+      ocrText: '',
+      normalizedCode: detection.normalizedCode,
+      qrContent: detection.kind === 'qrcode' ? detection.rawValue : '',
+      contentType: detection.contentType,
+      productName: '',
+      brand: '',
+      sources: [detectedType === 'qrcode' ? '二维码识别' : '条码识别'],
+      recognizedAt,
+      usedAiSearch: false,
+      aiNotice: ''
+    };
+    loadingText.value = '正在补全公开标签线索...';
+    const lookup = await lookupProductInfo(baseInfo, { hasLabelText: false });
+    recognitionInfo.value = {
+      ...baseInfo,
+      productName: lookup.productName,
+      brand: lookup.brand,
+      sources: Array.from(new Set([...baseInfo.sources, ...lookup.sources])),
+      usedAiSearch: lookup.usedAiSearch,
+      aiNotice: lookup.aiNotice,
+      aiSearchSummary: lookup.aiSearchSummary,
+      aiSearchErrorCode: lookup.errorCode
+    };
+    recognitionMessage.value = lookup.usedAiSearch && (lookup.ingredientsText || lookup.nutritionText)
+      ? '已根据商品码找到公开标签线索，正在生成参考报告。'
+      : '已识别到商品码，公开标签信息不足时会生成补充提示。';
+    productName.value = lookup.productName;
+    ingredientText.value = lookup.ingredientsText;
+    nutritionText.value = lookup.nutritionText;
+    extractionConfidence.value = lookup.ingredientsText || lookup.nutritionText ? 'medium' : 'low';
+    extractionSourceType.value = 'ocr';
+    manualOverride.value = false;
+    labelType.value = 'barcode_or_product';
+    saveScanDraft({
+      ocr: ocrResult.value,
+      confirmedText: buildEffectiveLabelText(),
+      labelType: labelType.value,
+      sourceMeta: {
+        sourceType: 'product_identity',
+        sourceLabel: '条码/二维码识别',
+        description: recognitionMessage.value,
+        fromUserCapture: true,
+        fromManualInput: false,
+        ocrText: '',
+        productNameText: productName.value,
+        ingredientText: ingredientText.value,
+        nutritionText: nutritionText.value,
+        allergenText: '',
+        frontClaimsText: '',
+        foodTypeText: '',
+        productionDateText: '',
+        unconfirmedText: lookup.usedAiSearch && !lookup.ingredientsText && !lookup.nutritionText
+          ? ['AI 搜索未找到可用配料表或营养成分表']
+          : [],
+        recognition: recognitionInfo.value,
+        normalizedCode: recognitionInfo.value.normalizedCode,
+        qrContent: recognitionInfo.value.qrContent,
+        brand: recognitionInfo.value.brand,
+        recognitionSources: recognitionInfo.value.sources,
+        usedAiSearch: recognitionInfo.value.usedAiSearch,
+        aiNotice: recognitionInfo.value.aiNotice,
+        aiSearchSummary: recognitionInfo.value.aiSearchSummary,
+        aiSearchErrorCode: recognitionInfo.value.aiSearchErrorCode,
+        confidence: extractionConfidence.value,
+        inputSourceType: 'ocr',
+        targetSnapshot: {
+          primaryGoal: attentionSettings.value.primaryGoal,
+          targetGoals: [...attentionSettings.value.targetGoals],
+          isChildrenMode: attentionSettings.value.isChildrenMode,
+          allergens: [...attentionSettings.value.allergens]
+        }
+      }
+    });
+    await generateAutoResult();
+  } catch {
+    error.value = '没有读到条码或二维码，请对准编码重新扫，或改拍配料表/营养表。';
+    stage.value = 'pick';
+  } finally {
+    stopLoadingMessages();
+  }
+}
+
 function clearImage() {
   image.value = undefined;
   resetExtractedText();
@@ -222,7 +332,6 @@ async function startRecognize() {
     error.value = '请拍照或选择一张清晰的食品标签图片。';
     return;
   }
-  let shouldReturnToPick = true;
   stage.value = 'recognizing';
   startLoadingMessages(['正在识别标签文字...', '正在整理配料和营养信息...']);
   error.value = '';
@@ -270,6 +379,7 @@ async function startRecognize() {
         inputSourceType: 'ocr',
         targetSnapshot: {
           primaryGoal: attentionSettings.value.primaryGoal,
+          targetGoals: [...attentionSettings.value.targetGoals],
           isChildrenMode: attentionSettings.value.isChildrenMode,
           allergens: [...attentionSettings.value.allergens]
         }
@@ -290,7 +400,7 @@ async function startRecognize() {
       sourceType: extractionSourceType.value,
       ocrMode: next.mode
     })) {
-      shouldReturnToPick = !(await generateResult({ fromAutoRecognition: true }));
+      await generateAutoResult();
       return;
     }
     if (!hasIngredient && !hasNutrition && !frontClaimsText.value.trim() && hasRecognizedIdentity.value) {
@@ -298,18 +408,19 @@ async function startRecognize() {
         ? '已识别商品身份信息，但联网补全暂不可用；可以继续拍配料表或营养成分表。'
         : '已识别商品身份信息；如果没有补全到配料或营养，请继续拍对应区域。';
     } else if (!hasIngredient && !hasNutrition && !frontClaimsText.value.trim()) {
-      error.value = '没有识别到清晰的包装文字或商品码，请重新拍清配料、营养数字、条码或二维码区域，或手动粘贴文字。';
+      error.value = '这张图文字或商品码不够清楚，请补拍配料表、营养表或条码。';
     } else if (!hasIngredient && hasNutrition) {
       editHint.value = '当前只识别到营养成分表，也可以生成解读；如包装有配料表，建议补充后结果更完整。';
     } else if (!hasIngredient && frontClaimsText.value.trim()) {
       editHint.value = '当前主要识别到宣传语或声称，可以先生成简要提示；补拍配料或营养数字后结果会更完整。';
     } else if (extractionConfidence.value === 'low') {
-      error.value = '没有识别到清晰的配料或营养数字，请重新拍清包装文字区域，或手动粘贴标签文字。';
+      error.value = '配料或营养数字不够清楚，请补拍文字区域或手动粘贴。';
     } else if (next.mode === 'fallback') {
       error.value = next.errorMessage || '识别失败，可以重新拍摄食品标签区域，或手动粘贴标签文字。';
     } else {
       editHint.value = '可以修改错字或漏字，改完后生成结果。';
     }
+    await generateAutoResult();
   } catch {
     const manual = buildManualOcrResult();
     ocrResult.value = manual;
@@ -340,16 +451,22 @@ async function startRecognize() {
         inputSourceType: 'ocr',
         targetSnapshot: {
           primaryGoal: attentionSettings.value.primaryGoal,
+          targetGoals: [...attentionSettings.value.targetGoals],
           isChildrenMode: attentionSettings.value.isChildrenMode,
           allergens: [...attentionSettings.value.allergens]
         }
       }
     });
-    shouldReturnToPick = !(await generateResult({ fromAutoRecognition: true }));
+    await generateAutoResult();
   } finally {
     stopLoadingMessages();
-    if (shouldReturnToPick) stage.value = 'pick';
   }
+}
+
+async function generateAutoResult(): Promise<boolean> {
+  const generated = await generateResult({ fromAutoRecognition: true });
+  if (!generated) stage.value = 'pick';
+  return generated;
 }
 
 function startManualTextEntry() {
@@ -365,11 +482,6 @@ function startManualTextEntry() {
   stage.value = 'manualInput';
   resetScanDraft();
   saveScanDraft({ ocr: ocrResult.value, confirmedText: '', labelType: labelType.value });
-}
-
-function showEditHint() {
-  manualOverride.value = true;
-  editHint.value = '请在下方文本框里简单修改错字或漏字，改完后点击生成解读。';
 }
 
 function clearText() {
@@ -437,7 +549,7 @@ async function generateResult(options: { fromAutoRecognition?: boolean } = {}): 
     return false;
   }
   if (!canGenerate.value) {
-    error.value = '当前食品标签识别置信度较低，请手动修改或重新拍摄标签区域。';
+    error.value = '文字还不够清楚，请补拍标签区域或手动粘贴。';
     return false;
   }
   generating.value = true;
@@ -595,10 +707,16 @@ function buildInsufficientRecognitionInfo(asset?: LocalImageAsset): ProductRecog
 
 function buildTargetLoadingText(): string {
   const attention = getAttentionSettings();
-  if (attention.primaryGoal === 'sugar') return '正在查看控糖相关项目...';
-  if (attention.primaryGoal === 'lowSodium') return '正在查看低钠相关项目...';
-  if (attention.primaryGoal === 'fatLoss') return '正在查看减脂相关项目...';
-  if (attention.isChildrenMode) return '正在查看儿童模式关注项...';
+  const goals = attention.targetGoals.length
+    ? attention.targetGoals
+    : [
+        attention.primaryGoal !== 'daily' ? attention.primaryGoal : undefined,
+        attention.isChildrenMode ? 'children' : undefined
+      ].filter(Boolean);
+  if (goals.includes('sugar')) return '正在查看控糖相关项目...';
+  if (goals.includes('lowSodium')) return '正在查看低钠相关项目...';
+  if (goals.includes('fatLoss')) return '正在查看减脂相关项目...';
+  if (goals.includes('children')) return '正在查看儿童零食关注项...';
   return '正在按关注项排序...';
 }
 
@@ -726,12 +844,9 @@ function formatRecognitionTime(value: string): string {
         <text class="capture-intro__title">拍清包装文字</text>
         <text class="capture-intro__desc">整包、配料、营养数字都可以拍；识别到可用文字后自动生成结果。</text>
       </view>
-      <ImageUploader :image="image" @camera="choose('camera')" @album="choose('album')" @clear="clearImage" />
-      <ErrorState v-if="error" title="图片选择失败" :description="error" action-label="重试上传" @action="choose('album')" />
-      <LoadingState v-if="stage === 'recognizing'">{{ loadingText || '正在识别标签文字...' }}</LoadingState>
-      <view class="capture-actions">
-        <AppButton class="capture-actions__button" variant="secondary" @click="startManualTextEntry">手动输入</AppButton>
-      </view>
+      <ImageUploader :image="image" @camera="choose('camera')" @album="choose('album')" @scan-code="scanCode" @manual="startManualTextEntry" @clear="clearImage" />
+      <ErrorState v-if="stage === 'pick' && error" title="图片选择失败" :description="error" action-label="重试上传" @action="choose('album')" />
+      <LoadingState v-if="stage === 'recognizing' && loadingText">{{ loadingText }}</LoadingState>
     </template>
 
     <template v-else>
@@ -744,20 +859,13 @@ function formatRecognitionTime(value: string): string {
         <view class="confirm-content">
           <view class="confirm-heading">
             <text class="confirm-title">补充信息</text>
-            <text class="confirm-desc">补配料表、营养数字或包装声称任意一项即可生成；配料和营养最有用。</text>
-          </view>
-          <view v-if="!image?.tempFilePath" class="manual-context">
-            <text>确认已有信息后生成参考报告，缺少配料或营养时会提示补充。</text>
-          </view>
-          <view class="manual-primary-actions">
-            <AppButton class="manual-primary-actions__main" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">{{ canGenerate ? '生成参考报告' : '补充后生成' }}</AppButton>
-            <AppButton class="manual-primary-actions__secondary" variant="secondary" @click="choose('camera')">重新拍</AppButton>
+            <text class="confirm-desc">优先补配料表或营养数字。</text>
           </view>
           <view v-if="error" class="inline-warning">
             <text>{{ error }}</text>
             <text class="inline-warning__action" @tap="clearImage">重新拍</text>
           </view>
-          <view v-if="shouldShowScanSummary" class="scan-summary">
+          <view v-if="shouldShowScanSummary && image?.tempFilePath" class="scan-summary">
             <view v-if="recognitionInfo" class="recognition-card">
               <view class="recognition-card__visual" :class="recognitionIconClass">
                 <text v-if="recognitionInfo.detectedType === 'barcode'" class="recognition-bars" />
@@ -800,7 +908,6 @@ function formatRecognitionTime(value: string): string {
             </view>
           </view>
           <view class="confirm-priority">
-            <text class="confirm-priority__label">优先补</text>
             <text class="confirm-priority__pill">配料表文字</text>
             <text class="confirm-priority__pill">营养表数字</text>
           </view>
@@ -808,7 +915,6 @@ function formatRecognitionTime(value: string): string {
             <view class="confirm-section__head">
               <view class="confirm-section__title-group">
                 <text class="field-label">配料表</text>
-                <text class="confirm-section__desc">用于识别添加剂、主要配料和关注项</text>
               </view>
               <view class="confirm-section__meta">
                 <text class="confirm-section__status" :class="{ 'confirm-section__status--empty': !ingredientText.trim() }">{{ ingredientCountText }}</text>
@@ -821,7 +927,6 @@ function formatRecognitionTime(value: string): string {
             <view class="confirm-section__head">
               <view class="confirm-section__title-group">
                 <text class="field-label">营养数字</text>
-                <text class="confirm-section__desc">用于查看糖、钠、脂肪、能量等标示</text>
               </view>
               <view class="confirm-section__meta">
                 <text class="confirm-section__status" :class="{ 'confirm-section__status--empty': !nutritionText.trim() }">{{ nutritionCountText }}</text>
@@ -834,7 +939,7 @@ function formatRecognitionTime(value: string): string {
             <view class="optional-section-group__head" @tap="optionalFieldsOpen = !optionalFieldsOpen">
               <view>
                 <text class="optional-section-group__title">可选补充</text>
-                <text class="optional-section-group__desc">致敏原、包装声明、生产日期，有就填，没有也能继续。</text>
+                <text class="optional-section-group__desc">有致敏原或包装声明再展开。</text>
               </view>
               <text class="optional-section-group__toggle">{{ shouldShowOptionalFields ? '收起可选项' : '展开可选项' }}</text>
             </view>
@@ -882,11 +987,11 @@ function formatRecognitionTime(value: string): string {
             </template>
           </view>
           <LoadingState v-if="generating">{{ loadingText || '正在识别添加剂和营养信息...' }}</LoadingState>
-          <text v-if="!canGenerate && !generating" class="submit-hint">补配料表、营养数字或宣传语任意一项即可继续。</text>
-          <AppButton v-if="canGenerate || hasAnyConfirmedText" class="confirm-main-button" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成参考报告</AppButton>
-          <view class="confirm-secondary-actions">
-            <AppButton v-if="shouldShowManualModifyAction" variant="secondary" @click="showEditHint">手动修改</AppButton>
-            <AppButton v-if="hasAnyConfirmedText" variant="text" @click="clearText">清空文字</AppButton>
+          <text v-if="!canGenerate && !generating" class="submit-hint">先补配料表或营养数字。</text>
+          <view class="manual-bottom-actions">
+            <AppButton class="manual-bottom-actions__main" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成参考报告</AppButton>
+            <AppButton class="manual-bottom-actions__secondary" variant="secondary" @click="choose('camera')">重新拍</AppButton>
+            <AppButton v-if="hasAnyConfirmedText" class="manual-bottom-actions__clear" variant="text" @click="clearText">清空文字</AppButton>
           </view>
         </view>
       </scroll-view>
@@ -898,20 +1003,6 @@ function formatRecognitionTime(value: string): string {
 .page--capture {
   padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
-}
-
-.capture-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
-}
-
-.capture-actions__button {
-  width: 100%;
-}
-
-.capture-actions__button:only-child {
-  grid-column: 1 / -1;
 }
 
 .capture-intro {
@@ -1042,43 +1133,6 @@ function formatRecognitionTime(value: string): string {
   text-align: center;
 }
 
-.manual-context {
-  border: 1px solid rgba(18, 151, 128, 0.14);
-  border-radius: 16rpx;
-  background: var(--primary-soft);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  font-size: var(--font-size-xs);
-  line-height: 1.45;
-  padding: 12rpx 14rpx;
-}
-
-.manual-context__action {
-  border-radius: 999px;
-  background: var(--primary-strong);
-  color: #ffffff;
-  flex: 0 0 auto;
-  font-weight: 900;
-  line-height: 1.2;
-  padding: 10rpx 18rpx;
-}
-
-.manual-primary-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--space-sm);
-  align-items: stretch;
-  margin-bottom: 4rpx;
-}
-
-.manual-primary-actions__main,
-.manual-primary-actions__secondary {
-  min-width: 0;
-}
-
 .confirm-title {
   color: var(--text);
   font-size: var(--font-size-xl);
@@ -1090,11 +1144,6 @@ function formatRecognitionTime(value: string): string {
   color: var(--muted);
   font-size: var(--font-size-sm);
   line-height: 1.45;
-}
-
-.confirm-main-button {
-  width: 100%;
-  margin-top: var(--space-sm);
 }
 
 .inline-warning {
@@ -1122,12 +1171,6 @@ function formatRecognitionTime(value: string): string {
   font-size: var(--font-size-xs);
   line-height: 1.4;
   text-align: center;
-}
-
-.confirm-secondary-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
 }
 
 .scan-summary {
@@ -1248,13 +1291,6 @@ function formatRecognitionTime(value: string): string {
   gap: var(--space-xs);
 }
 
-.confirm-priority__label {
-  color: var(--muted);
-  font-size: var(--font-size-xs);
-  font-weight: 900;
-  line-height: 1.3;
-}
-
 .confirm-priority__pill {
   border-radius: 999px;
   background: var(--surface-warm);
@@ -1263,6 +1299,23 @@ function formatRecognitionTime(value: string): string {
   font-weight: 900;
   line-height: 1.25;
   padding: 8rpx 14rpx;
+}
+
+.manual-bottom-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(160rpx, 220rpx);
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.manual-bottom-actions__main,
+.manual-bottom-actions__secondary {
+  min-width: 0;
+}
+
+.manual-bottom-actions__clear {
+  grid-column: 1 / -1;
+  justify-self: center;
 }
 
 .scan-summary__title {
@@ -1293,9 +1346,9 @@ function formatRecognitionTime(value: string): string {
 }
 
 .confirm-section__head {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
-  justify-content: space-between;
   gap: var(--space-sm);
 }
 
@@ -1313,8 +1366,8 @@ function formatRecognitionTime(value: string): string {
 
 .confirm-section__meta {
   align-items: flex-end;
-  flex: 0 0 auto;
   gap: 2px;
+  min-width: 0;
 }
 
 .confirm-section__status {
@@ -1450,6 +1503,18 @@ function formatRecognitionTime(value: string): string {
   line-height: 1.2;
   padding: 8rpx 14rpx;
   white-space: nowrap;
+}
+
+@media screen and (max-width: 340px) {
+  .confirm-section__head,
+  .optional-section-group__head,
+  .manual-bottom-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .confirm-section__meta {
+    align-items: flex-start;
+  }
 }
 
 .textarea--ingredient {

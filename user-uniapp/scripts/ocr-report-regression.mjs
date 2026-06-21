@@ -58,9 +58,13 @@ try {
 function assertCaptureAutoGenerateWiring() {
   const captureSource = readFileSync(resolve(root, 'src/pages/capture/index.vue'), 'utf8');
   const labelsSource = readFileSync(resolve(root, 'src/services/api/labels.ts'), 'utf8');
+  const barcodeSource = readFileSync(resolve(root, 'src/services/recognition/barcodeService.ts'), 'utf8');
+  const toastSource = readFileSync(resolve(root, 'src/components/Toast.vue'), 'utf8');
   assertIncludes(captureSource, 'const autoGenerateAfterOcr = ref(true);', 'capture should attempt auto report generation by default');
   assertIncludes(captureSource, 'hasRecognitionResult.value', 'capture should allow any recognition result to become an information-insufficient report');
-  assertIncludes(captureSource, "if (shouldReturnToPick) stage.value = 'pick';", 'capture should not enter confirmation page after image recognition ends');
+  assert(!captureSource.includes('shouldReturnToPick'), 'capture should not return to pick after recognition ends');
+  assertIncludes(captureSource, 'async function generateAutoResult()', 'capture should centralize automatic report generation recovery');
+  assertIncludes(captureSource, "if (!generated) stage.value = 'pick';", 'failed automatic report generation should return to pick state');
   assertIncludes(captureSource, 'buildInsufficientRecognitionInfo', 'recognition failure should synthesize an insufficient report source');
   assertIncludes(captureSource, "stage.value = 'manualInput';", 'manual entry should use explicit manual input state instead of confirmation state');
   assertIncludes(captureSource, 'buildReportInputParts', 'capture should normalize auto-report fields before report generation');
@@ -68,6 +72,8 @@ function assertCaptureAutoGenerateWiring() {
   assertIncludes(captureSource, '低置信配料线索', 'low-confidence OCR ingredient text should be retained only as an unconfirmed clue');
   assertIncludes(captureSource, "manualOverride.value && extractionSourceType.value === 'manual'", 'manual override should not promote auto OCR confidence');
   assert(!captureSource.includes("stage.value = 'confirm'"), 'capture should not use confirmation stage after recognition changes');
+  assertIncludes(barcodeSource, 'readStoredImageBlob', 'barcode decoder should read H5 images persisted outside localStorage');
+  assertIncludes(toastSource, "emit('dismiss')", 'toast should clear parent message after auto-dismiss so repeated messages can show');
   assertIncludes(labelsSource, 'sources.filter((item) => !isDefaultOcrConfirmedSource(item))', 'adapter should remove backend default OCR source for AI/identity reports');
   assertIncludes(labelsSource, "['captured_ingredient', 'captured_nutrition', 'captured_product'].includes(sourceMeta.sourceType)", 'adapter should replace backend default OCR source for captured OCR reports');
   assertIncludes(labelsSource, "detail.includes('用户确认后的食品标签文本')", 'adapter should filter backend OCR source even when sourceType is missing');
@@ -79,7 +85,7 @@ async function assertAdapterReportBoundaries(buildLabelReport, buildLabelReportW
   const source = sourceMeta({
     sourceType: 'captured_ingredient',
     sourceLabel: '用户拍摄的配料表',
-    description: '本次分析依据：你拍摄的配料表 OCR 识别文字；请以包装原文为准。',
+    description: '本次分析依据：你拍摄的配料表 OCR 识别文字；请结合包装文字确认。',
     fromUserCapture: true,
     fromManualInput: false,
     ingredientText: '燕麦片、白砂糖',
@@ -602,6 +608,7 @@ function extractText(extractLabelText, rawText) {
 function attention(overrides = {}) {
   return {
     primaryGoal: 'daily',
+    targetGoals: [],
     isChildrenMode: false,
     allergens: [],
     updatedAt: '2026-06-19T00:00:00.000Z',
@@ -650,6 +657,7 @@ function sourceMeta(overrides = {}) {
     inputSourceType: 'manual',
     targetSnapshot: {
       primaryGoal: 'daily',
+      targetGoals: [],
       isChildrenMode: false,
       allergens: []
     },

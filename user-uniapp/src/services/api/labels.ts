@@ -204,7 +204,7 @@ function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: Repo
   if (sourceMeta?.sourceType === 'ai_search_product_label') {
     next.push({
       label: 'AI 联网公开标签线索',
-      detail: sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      detail: sourceMeta.aiNotice || 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
       sourceType: 'ai_search'
     });
   }
@@ -223,7 +223,7 @@ function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: Repo
   if (sourceMeta && ['captured_ingredient', 'captured_nutrition', 'captured_product'].includes(sourceMeta.sourceType)) {
     next.push({
       label: '包装 OCR 识别文本',
-      detail: '结果基于本次拍照识别出的食品标签文字生成，OCR 识别文字不是权威来源，请以包装原文为准。',
+      detail: '结果基于本次拍照识别出的食品标签文字生成，OCR 识别文字不是权威来源，请结合包装文字确认。',
       sourceType: 'ocr_input'
     });
   }
@@ -244,14 +244,14 @@ function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: Repo
   if (sourceMeta?.recognitionSources?.includes('历史缓存')) {
     next.push({
       label: '历史缓存',
-      detail: '本机历史记录用于补全同一商品的已确认信息。',
+      detail: '本机已确认信息用于补全同一商品标签线索。',
       sourceType: 'product_cache'
     });
   }
   if (sourceMeta?.usedAiSearch) {
     next.push({
       label: 'DeepSeek 联网搜索',
-      detail: sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      detail: sourceMeta.aiNotice || 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
       sourceType: 'ai_search'
     });
   }
@@ -314,10 +314,10 @@ async function analyzeFoodWithAdapter(input: ReportInput): Promise<FoodAnalyzeRe
       data: {
         ocrText,
         userProfile: {
-          goals: [input.attention.primaryGoal],
+          goals: input.attention.targetGoals.length ? input.attention.targetGoals : [input.attention.primaryGoal],
           allergens: input.attention.allergens,
           forChild: input.attention.isChildrenMode,
-          highBloodPressure: input.attention.primaryGoal === 'lowSodium'
+          highBloodPressure: input.attention.targetGoals.includes('lowSodium') || input.attention.primaryGoal === 'lowSodium'
         },
         options: {
           enableAi: enableFoodAi,

@@ -1,9 +1,29 @@
 <script setup lang="ts">
+import { onBeforeUnmount, ref, watch } from 'vue';
+
 const props = defineProps<{ message: string; tone?: 'info' | 'success' | 'error' }>();
+const emit = defineEmits<{ dismiss: [] }>();
+
+const visible = ref(Boolean(props.message));
+let hideTimer: ReturnType<typeof setTimeout> | undefined;
+
+watch(() => props.message, (message) => {
+  if (hideTimer) clearTimeout(hideTimer);
+  visible.value = Boolean(message);
+  if (!message) return;
+  hideTimer = setTimeout(() => {
+    visible.value = false;
+    emit('dismiss');
+  }, 2600);
+}, { immediate: true });
+
+onBeforeUnmount(() => {
+  if (hideTimer) clearTimeout(hideTimer);
+});
 </script>
 
 <template>
-  <view v-if="message" class="toast" :class="`toast--${tone || 'info'}`">
+  <view v-if="message && visible" class="toast" :class="`toast--${tone || 'info'}`">
     <view class="toast__dot" />
     <text class="toast__text">{{ message }}</text>
   </view>
@@ -11,6 +31,11 @@ const props = defineProps<{ message: string; tone?: 'info' | 'success' | 'error'
 
 <style scoped>
 .toast {
+  position: fixed;
+  left: 32rpx;
+  right: 32rpx;
+  top: calc(20rpx + env(safe-area-inset-top));
+  z-index: 90;
   border-radius: var(--radius-btn);
   padding: 10px 14px;
   font-size: var(--font-size-sm);
