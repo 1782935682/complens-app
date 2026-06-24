@@ -157,8 +157,11 @@ export interface NutritionField {
   confidence: number;
 }
 
+export type AttentionGoal = 'sugar' | 'fatLoss' | 'lowSodium' | 'children';
+
 export interface AttentionSettings {
   primaryGoal: 'daily' | 'sugar' | 'fatLoss' | 'lowSodium';
+  targetGoals: AttentionGoal[];
   isChildrenMode: boolean;
   allergens: string[];
   updatedAt: string;
@@ -343,6 +346,7 @@ export interface ReportAnalysisSource {
   inputSourceType?: 'ocr' | 'manual' | 'demo';
   targetSnapshot: {
     primaryGoal: AttentionSettings['primaryGoal'];
+    targetGoals: AttentionGoal[];
     isChildrenMode: boolean;
     allergens: string[];
   };

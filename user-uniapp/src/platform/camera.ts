@@ -40,6 +40,41 @@ export async function chooseLabelImage(sourceType: 'camera' | 'album'): Promise<
   };
 }
 
+export interface ScannedProductCode {
+  rawValue: string;
+  format: string;
+}
+
+export async function scanProductCode(): Promise<ScannedProductCode> {
+  const scanCode = (uni as typeof uni & {
+    scanCode?: (options: {
+      onlyFromCamera?: boolean;
+      scanType?: string[];
+      success?: (result: { result?: string; scanType?: string }) => void;
+      fail?: (error: unknown) => void;
+    }) => void;
+  }).scanCode;
+  if (typeof scanCode !== 'function') throw new Error('scan_code_unavailable');
+  return await new Promise((resolve, reject) => {
+    scanCode({
+      onlyFromCamera: true,
+      scanType: ['barCode', 'qrCode'],
+      success: (result) => {
+        const rawValue = String(result.result || '').trim();
+        if (!rawValue) {
+          reject(new Error('scan_code_empty'));
+          return;
+        }
+        resolve({
+          rawValue,
+          format: String(result.scanType || 'unknown')
+        });
+      },
+      fail: reject
+    });
+  });
+}
+
 function createImageId(): string {
   return `img-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }

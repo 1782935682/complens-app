@@ -187,7 +187,7 @@ npm run build:h5
 npm run visual:smoke
 ```
 
-该命令会临时启动 `dist/build/h5` 静态服务，用 Playwright + 本机 Chrome/Edge 打开首页、补充页空白态、补充页已填写态、补充页可选字段、搜索、我的、报告首屏、营养图、报告详情、信息不足报告和历史页，检查关键文案、非空渲染和横向溢出，并把截图输出到系统临时目录 `complens-user-visual-smoke`。根目录可用 `npm run user:visual:smoke` 转发执行；若本机没有 Playwright 浏览器，可设置 `CHROME_PATH` 指向 Chrome/Edge 可执行文件。
+该命令会临时启动 `dist/build/h5` 静态服务，用 Playwright + 本机 Chrome/Edge 打开首页、拍照选择态、补充页空白态、补充页已填写态、补充页可选字段、搜索、我的、报告首屏、营养图、报告详情和信息不足报告，检查关键文案、非空渲染和横向溢出，并把截图输出到系统临时目录 `complens-user-visual-smoke`。本期不注册历史 / 收藏页面，因此视觉烟测不再打开历史页。根目录可用 `npm run user:visual:smoke` 转发执行；若本机没有 Playwright 浏览器，可设置 `CHROME_PATH` 指向 Chrome/Edge 可执行文件。
 
 正式用户端 AI 评审：
 

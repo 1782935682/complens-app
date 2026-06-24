@@ -1,4 +1,4 @@
-import type { AttentionSettings } from '@/types';
+import type { AttentionGoal, AttentionSettings } from '@/types';
 
 export const primaryGoalOptions: Array<{
   key: AttentionSettings['primaryGoal'];
@@ -34,6 +34,24 @@ export const primaryGoalOptions: Array<{
 
 export const childrenModeKeywords = ['高糖', '糖', '甜味剂', '色素', '咖啡因', '高钠', '钠', '酒精'];
 
+export const attentionTargetOptions: Array<{
+  key: AttentionSettings['primaryGoal'] | AttentionGoal;
+  label: string;
+  description: string;
+}> = [
+  {
+    key: 'daily',
+    label: '日常综合',
+    description: '默认看添加剂、糖、钠、脂肪和过敏原。'
+  },
+  ...primaryGoalOptions.filter((item) => item.key !== 'daily'),
+  {
+    key: 'children',
+    label: '儿童零食',
+    description: '把甜味剂、色素、咖啡因、高糖高钠放前面。'
+  }
+];
+
 export const allergenOptions: Array<{ key: string; label: string; keywords: string[] }> = [
   { key: 'peanut', label: '花生', keywords: ['花生', 'peanut', 'peanuts'] },
   { key: 'nuts', label: '坚果', keywords: ['坚果', '杏仁', '核桃', '腰果', '榛子', '开心果', 'tree nuts', 'almond', 'walnut', 'cashew', 'hazelnut', 'pistachio'] },
@@ -47,6 +65,7 @@ export const allergenOptions: Array<{ key: string; label: string; keywords: stri
 
 export const defaultAttentionSettings: AttentionSettings = {
   primaryGoal: 'daily',
+  targetGoals: [],
   isChildrenMode: false,
   allergens: [],
   updatedAt: new Date().toISOString()

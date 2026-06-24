@@ -1,6 +1,6 @@
 import type { AiProviderRegistry, AiGatewayConfig } from '../ai/providerFactory.js';
 
-export const AI_PRODUCT_LOOKUP_NOTICE = '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。';
+export const AI_PRODUCT_LOOKUP_NOTICE = 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。';
 
 export type ProductLookupInput = {
   normalizedCode?: string;

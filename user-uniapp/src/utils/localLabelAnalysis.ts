@@ -308,6 +308,7 @@ function buildSourceMeta(options: {
     inputSourceType: options.sourceType,
     targetSnapshot: {
       primaryGoal: options.attention.primaryGoal,
+      targetGoals: [...options.attention.targetGoals],
       isChildrenMode: options.attention.isChildrenMode,
       allergens: [...options.attention.allergens]
     }
@@ -348,9 +349,9 @@ function sourceDescriptionForType(type: ReportAnalysisSource['sourceType'], hasI
     ? '本次分析依据：本次识别到的商品名、品牌、商品码或二维码线索。当前未获得可用配料表或营养成分表。'
     : '本次分析依据：本次拍照识别未获得可用食品标签文字或商品身份线索，已按信息不足处理。';
   if (type === 'ai_search_product_label') return '本次分析依据：AI 联网搜索到的公开商品标签线索。该线索不是包装实拍 OCR，不作为成分事实、法规或医疗结论。';
-  if (type === 'captured_nutrition') return '本次分析依据：你拍摄的营养成分表 OCR 识别文字；请以包装原文为准。';
-  if (type === 'captured_product') return '本次分析依据：你拍摄的包装正面或其他食品标签 OCR 识别文字；请以包装原文为准。';
-  return '本次分析依据：你拍摄的配料表 OCR 识别文字；请以包装原文为准。';
+  if (type === 'captured_nutrition') return '本次分析依据：你拍摄的营养成分表 OCR 识别文字；请结合包装文字确认。';
+  if (type === 'captured_product') return '本次分析依据：你拍摄的包装正面或其他食品标签 OCR 识别文字；请结合包装文字确认。';
+  return '本次分析依据：你拍摄的配料表 OCR 识别文字；请结合包装文字确认。';
 }
 
 function resolveDetectedType(value: string, ingredientText: string, nutritionText: string, frontClaimsText: string): LabelType {

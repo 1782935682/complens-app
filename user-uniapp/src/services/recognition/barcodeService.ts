@@ -1,4 +1,5 @@
 import type { LocalImageAsset, ProductRecognitionContentType } from '@/types';
+import { readStoredImageBlob } from '@/platform/imageStore';
 
 export type BarcodeKind = 'barcode' | 'qrcode';
 
@@ -111,5 +112,5 @@ async function readImageBlob(asset: LocalImageAsset): Promise<Blob | undefined> 
   if (/^https?:\/\//i.test(asset.tempFilePath) || asset.tempFilePath.startsWith('blob:')) {
     return await fetch(asset.tempFilePath).then((response) => response.blob());
   }
-  return undefined;
+  return await readStoredImageBlob(asset);
 }

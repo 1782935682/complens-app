@@ -42,15 +42,15 @@ try {
     page.on('pageerror', (error) => pageErrors.push(error.message));
   });
 
-  await verifyPage(context, 'home', '/#/pages/index/index', ['拍包装', '值不值得常吃', '查单个成分']);
-  await verifyPage(context, 'capture', '/#/pages/capture/index?mode=manual', ['补充信息', '配料表', '营养数字', '可选补充', '补一项生成']);
+  await verifyPage(context, 'home', '/#/pages/index/index', ['拍包装', '直接看懂配料和营养重点', '查单个成分']);
+  await verifyPage(context, 'capture-pick', '/#/pages/capture/index', ['拍食品标签', '拍照识别', '上传识别', '扫条码/二维码', '手动输入']);
+  await verifyPage(context, 'capture', '/#/pages/capture/index?mode=manual', ['补充信息', '配料表', '营养数字', '可选补充', '生成参考报告']);
   await verifyCaptureFilled(context);
   await verifyCaptureOptional(context);
   await verifySearch(context);
-  await verifyPage(context, 'attention', '/#/pages/attention/index', ['关注目标', '儿童模式', '过敏 / 忌口']);
+  await verifyPage(context, 'attention', '/#/pages/attention/index', ['关注目标', '可多选', '儿童零食', '过敏 / 忌口']);
   await verifyReport(context);
   await verifyInsufficientReport(context);
-  await verifyPage(context, 'history', '/#/pages/history/index', ['历史记录', '2 条本机结果', '海苔小麻花', '偶尔吃更合适', '信息不足', '收藏']);
 
   if (pageErrors.length) {
     throw new Error(`Page runtime errors:\n${pageErrors.join('\n')}`);
@@ -75,8 +75,8 @@ async function verifyCaptureFilled(context) {
   const page = await context.newPage();
   await page.goto(`${baseUrl}/#/pages/capture/index?mode=manual`, { waitUntil: 'networkidle' });
   await page.locator('textarea').first().fill('配料：小麦粉、植物油、白砂糖、麦芽糖、食用盐');
-  await expectText(page, '生成初步报告');
-  await assertPageReady(page, 'capture-filled', ['补充信息', '配料表', '营养数字', '生成初步报告']);
+  await expectText(page, '生成参考报告');
+  await assertPageReady(page, 'capture-filled', ['补充信息', '配料表', '营养数字', '生成参考报告']);
   await screenshot(page, 'capture-filled');
   await page.close();
 }
@@ -96,7 +96,7 @@ async function verifySearch(context) {
   await page.locator('input').first().fill('山梨酸钾');
   await page.getByText('搜索', { exact: true }).last().click();
   await expectText(page, '为什么看');
-  await assertPageReady(page, 'search', ['成分搜索', '山梨酸钾', '为什么看', '标签写法', '结果用途', '名称参考']);
+  await assertPageReady(page, 'search', ['成分搜索', '山梨酸钾', '为什么看', '标签写法', '结果用途', '名称参考', 'AI / 公开网页补充']);
   await screenshot(page, 'search');
   await page.close();
 }
@@ -105,7 +105,7 @@ async function verifyReport(context) {
   const page = await context.newPage();
   await page.goto(`${baseUrl}/#/pages/report/index?id=visual-smoke-report`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(500);
-  await assertPageReady(page, 'report', ['配料表', '编码 6901234567892', '包装实拍 OCR / 条码识别', '一句话结论', '关键原因', '营养重点图', '适合谁 / 不适合谁', '添加剂解释', '建议吃法', '识别详情']);
+  await assertPageReady(page, 'report', ['配料表', '编码 6901234567892', '包装实拍 OCR / 条码识别', '一句话结论', '控糖/儿童零食人群', '碳水', '份量提示', '关键原因', '营养重点图', '建议关注人群', '添加剂解释', '识别详情']);
   await screenshot(page, 'report');
   await page.getByText('营养重点图', { exact: true }).scrollIntoViewIfNeeded();
   await screenshot(page, 'report-nutrition');
@@ -168,6 +168,7 @@ async function seedLocalData(context) {
       localStorage.setItem('complens:user-label-reports', JSON.stringify(sampleReports));
       localStorage.setItem('complens:user-attention-settings', JSON.stringify({
         primaryGoal: 'sugar',
+        targetGoals: ['sugar', 'children'],
         isChildrenMode: true,
         allergens: ['gluten'],
         updatedAt: '2026-06-19T00:00:00.000Z'
@@ -324,7 +325,7 @@ function buildSampleReport() {
         sodium: { value: 568, unit: 'mg', level: '需关注', text: '568mg' }
       },
       decision: 'caution',
-      decisionText: '偶尔吃更合适｜建议关注份量',
+      decisionText: '控糖/儿童零食人群建议关注：碳水、钠、热量',
       riskLevel: 'yellow',
       summary: '偶尔吃更合适，按小份量处理。',
       plainExplanation: '这是油炸 / 膨化类零食，主要提醒是热量、脂肪、碳水和钠。',
@@ -344,7 +345,7 @@ function buildSampleReport() {
         carbohydrate: '每100g碳水69g，主要来自面粉、米粉或糖类。',
         sodium: '每100g钠568mg，重口味食物叠加时要看份量。'
       },
-      eatingAdvice: '建议一次吃半包以内，别空腹当正餐吃；当天其他饮食少叠加油炸、甜食和重口味食物。',
+      eatingAdvice: '重点看每份/每包的碳水、钠、热量数字。',
       confidence: 'high',
       source: {
         ruleBased: true,
@@ -393,8 +394,9 @@ function buildSampleReport() {
       inputSourceType: 'manual',
       targetSnapshot: {
         primaryGoal: 'sugar',
+        targetGoals: ['sugar', 'children'],
         isChildrenMode: true,
-            allergens: ['gluten']
+        allergens: ['gluten']
       }
     },
     sources: [{ label: '用户确认文本', detail: '来自手动输入或 OCR 确认', sourceType: 'manual_input' }],
@@ -468,19 +470,20 @@ function buildInsufficientReport() {
         sources: ['条码识别', 'DeepSeek 联网搜索'],
         recognizedAt: '2026-06-21T09:18:00.000+08:00',
         usedAiSearch: true,
-        aiNotice: '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+        aiNotice: 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
         aiSearchSummary: 'AI 只补到商品名，未找到配料表或营养成分表。'
       },
       normalizedCode: '6901234567892',
       brand: '样例品牌',
       recognitionSources: ['条码识别', 'DeepSeek 联网搜索'],
       usedAiSearch: true,
-      aiNotice: '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      aiNotice: 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
       aiSearchSummary: 'AI 只补到商品名，未找到配料表或营养成分表。',
       confidence: 'low',
       inputSourceType: 'ocr',
       targetSnapshot: {
         primaryGoal: 'sugar',
+        targetGoals: ['sugar', 'children'],
         isChildrenMode: true,
         allergens: ['gluten']
       }

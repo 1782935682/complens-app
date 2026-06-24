@@ -1,10 +1,17 @@
 ﻿<script setup lang="ts">
 import { routes, navigateToRoute } from '@/constants/routes';
-import { resetScanDraft } from '@/stores/scanStore';
+import { chooseLabelImage } from '@/platform/camera';
+import { resetScanDraft, saveScanDraft } from '@/stores/scanStore';
 
-function openCapture() {
+async function openCapture() {
   resetScanDraft();
-  uni.navigateTo({ url: `${routes.capture}?auto=camera` });
+  try {
+    const image = await chooseLabelImage('camera');
+    saveScanDraft({ image });
+    uni.navigateTo({ url: routes.capture });
+  } catch {
+    uni.navigateTo({ url: `${routes.capture}?cameraError=1` });
+  }
 }
 
 function openSearch() {
@@ -49,13 +56,13 @@ function openSearch() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30rpx;
+  gap: 38rpx;
   padding-bottom: 9vh;
 }
 
 .scan-button {
-  width: 320rpx;
-  height: 320rpx;
+  width: 268rpx;
+  height: 268rpx;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary-bright), var(--primary-strong));
   box-shadow: 0 28rpx 56rpx rgba(3, 127, 88, 0.32);
@@ -63,7 +70,7 @@ function openSearch() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 22rpx;
+  gap: 18rpx;
   position: relative;
   overflow: hidden;
   transition: transform 180ms ease, box-shadow 180ms ease;
@@ -83,10 +90,10 @@ function openSearch() {
 }
 
 .camera-icon {
-  width: 108rpx;
-  height: 82rpx;
-  border: 8rpx solid #ffffff;
-  border-radius: 24rpx;
+  width: 92rpx;
+  height: 70rpx;
+  border: 7rpx solid #ffffff;
+  border-radius: 22rpx;
   position: relative;
   z-index: 1;
 }
@@ -94,27 +101,27 @@ function openSearch() {
 .camera-icon::before {
   content: "";
   position: absolute;
-  left: 24rpx;
-  top: -21rpx;
-  width: 44rpx;
-  height: 21rpx;
+  left: 20rpx;
+  top: -18rpx;
+  width: 40rpx;
+  height: 18rpx;
   border-radius: 16rpx 16rpx 0 0;
   background: #ffffff;
 }
 
 .camera-icon__lens {
   position: absolute;
-  left: 30rpx;
-  top: 17rpx;
-  width: 28rpx;
-  height: 28rpx;
-  border: 8rpx solid #ffffff;
+  left: 26rpx;
+  top: 14rpx;
+  width: 24rpx;
+  height: 24rpx;
+  border: 7rpx solid #ffffff;
   border-radius: 999px;
 }
 
 .scan-button__text {
   color: #ffffff;
-  font-size: 42rpx;
+  font-size: 38rpx;
   font-weight: 900;
   line-height: 1.1;
   z-index: 1;
@@ -135,6 +142,7 @@ function openSearch() {
   justify-content: center;
   column-gap: var(--space-sm);
   row-gap: var(--space-xs);
+  margin-bottom: 8rpx;
 }
 
 .scan-scope text {
@@ -152,14 +160,14 @@ function openSearch() {
   font-size: var(--font-size-xs);
   font-weight: 800;
   line-height: 1.5;
-  margin-top: 8rpx;
-  padding: 4rpx 8rpx;
+  margin-top: 0;
+  padding: 16rpx 14rpx;
 }
 
 @media screen and (max-height: 640px) {
   .scan-button {
-    width: 280rpx;
-    height: 280rpx;
+    width: 240rpx;
+    height: 240rpx;
   }
 }
 </style>

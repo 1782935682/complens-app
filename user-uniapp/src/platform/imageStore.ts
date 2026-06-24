@@ -50,9 +50,14 @@ function saveImageBlob(asset: LocalImageAsset, blob: Blob): boolean {
 }
 
 export async function readStoredImageAsBase64(asset: LocalImageAsset): Promise<string> {
+  const blob = await readStoredImageBlob(asset);
+  if (!blob) return '';
+  return readBlobAsBase64(blob);
+}
+
+export async function readStoredImageBlob(asset: LocalImageAsset): Promise<Blob | undefined> {
   const record = memoryImages.get(asset.id) || await readRecord(asset.id);
-  if (!record?.blob) return '';
-  return readBlobAsBase64(record.blob);
+  return record?.blob;
 }
 
 export function clearStoredImageMemory(): void {

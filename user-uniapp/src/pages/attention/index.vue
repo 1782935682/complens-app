@@ -3,34 +3,66 @@ import { onShow } from '@dcloudio/uni-app';
 import { computed, ref } from 'vue';
 import AppCard from '@/components/AppCard.vue';
 import Toast from '@/components/Toast.vue';
-import { allergenOptions, primaryGoalOptions } from '@/constants/attention';
+import { allergenOptions, attentionTargetOptions } from '@/constants/attention';
 import { getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
-import type { AttentionSettings } from '@/types';
+import type { AttentionGoal, AttentionSettings } from '@/types';
 
 const settings = ref<AttentionSettings>(getAttentionSettings());
 const message = ref('');
-const primaryGoalImpact = computed(() => {
-  if (settings.value.primaryGoal === 'sugar') return '报告会优先提示糖、甜味剂和碳水数字。';
-  if (settings.value.primaryGoal === 'fatLoss') return '报告会优先提示热量、脂肪和份量。';
-  if (settings.value.primaryGoal === 'lowSodium') return '报告会优先提示钠、盐和重口味叠加。';
+const targetImpact = computed(() => {
+  const goals = selectedTargetGoals();
+  const parts = [
+    goals.includes('sugar') ? '糖、甜味剂和碳水数字' : '',
+    goals.includes('fatLoss') ? '热量、脂肪和份量' : '',
+    goals.includes('lowSodium') ? '钠、盐和重口味叠加' : '',
+    goals.includes('children') ? '儿童高频食用提醒' : ''
+  ].filter(Boolean);
+  if (parts.length) return `报告会优先提示：${parts.join('；')}。`;
   return '报告会按热量、糖、钠、脂肪和添加剂综合排序。';
 });
-const childrenModeImpact = computed(() => (
-  settings.value.isChildrenMode
-    ? '报告会额外提示高糖、咖啡因、酒精、色素、甜味剂和高钠。'
-    : '开启后会把儿童高频食用提醒放到更前面。'
-));
 
 onShow(() => {
   settings.value = getAttentionSettings();
 });
 
-function selectPrimaryGoal(primaryGoal: AttentionSettings['primaryGoal']) {
-  persist({ ...settings.value, primaryGoal });
+function toggleTargetGoal(key: AttentionSettings['primaryGoal'] | AttentionGoal) {
+  if (key === 'daily') {
+    persist({
+      ...settings.value,
+      primaryGoal: 'daily',
+      targetGoals: [],
+      isChildrenMode: false
+    });
+    return;
+  }
+  const current = selectedTargetGoals();
+  const nextGoals = current.includes(key)
+    ? current.filter((item) => item !== key)
+    : [...current, key];
+  persist({
+    ...settings.value,
+    primaryGoal: resolvePrimaryGoal(nextGoals),
+    targetGoals: nextGoals,
+    isChildrenMode: nextGoals.includes('children')
+  });
 }
 
-function toggleChildrenMode() {
-  persist({ ...settings.value, isChildrenMode: !settings.value.isChildrenMode });
+function selectedTargetGoals(): AttentionGoal[] {
+  const stored = Array.isArray(settings.value.targetGoals) ? settings.value.targetGoals : [];
+  if (stored.length) return stored;
+  return [
+    settings.value.primaryGoal !== 'daily' ? settings.value.primaryGoal : undefined,
+    settings.value.isChildrenMode ? 'children' : undefined
+  ].filter((item): item is AttentionGoal => Boolean(item));
+}
+
+function isTargetActive(key: AttentionSettings['primaryGoal'] | AttentionGoal): boolean {
+  if (key === 'daily') return selectedTargetGoals().length === 0;
+  return selectedTargetGoals().includes(key);
+}
+
+function resolvePrimaryGoal(goals: AttentionGoal[]): AttentionSettings['primaryGoal'] {
+  return goals.find((item): item is Exclude<AttentionGoal, 'children'> => item !== 'children') || 'daily';
 }
 
 function toggleAllergen(key: string) {
@@ -49,37 +81,27 @@ function persist(next: AttentionSettings) {
 
 <template>
   <view class="page page--mine stack">
-    <Toast :message="message" tone="success" />
+    <Toast :message="message" tone="success" @dismiss="message = ''" />
 
     <AppCard>
       <view class="mine-section">
         <view>
           <text class="mine-title">关注目标</text>
-          <text class="muted">单选一个主要目标。</text>
+          <text class="muted">可多选，报告会按这些目标排序。</text>
         </view>
         <view class="option-grid">
           <view
-            v-for="goal in primaryGoalOptions"
+            v-for="goal in attentionTargetOptions"
             :key="goal.key"
             class="option-card"
-            :class="{ 'option--active': settings.primaryGoal === goal.key }"
-            @tap="selectPrimaryGoal(goal.key)"
+            :class="{ 'option--active': isTargetActive(goal.key) }"
+            @tap="toggleTargetGoal(goal.key)"
           >
             <text class="option__title">{{ goal.label }}</text>
             <text class="option__desc">{{ goal.description }}</text>
           </view>
         </view>
-        <text class="impact-note">{{ primaryGoalImpact }}</text>
-      </view>
-    </AppCard>
-
-    <AppCard>
-      <view class="setting-row">
-        <view class="setting-row__copy">
-          <text class="mine-title">儿童模式</text>
-          <text class="muted">{{ childrenModeImpact }}</text>
-        </view>
-        <switch :checked="settings.isChildrenMode" color="#129780" @change="toggleChildrenMode" />
+        <text class="impact-note">{{ targetImpact }}</text>
       </view>
     </AppCard>
 

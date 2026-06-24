@@ -51,24 +51,24 @@
 ## 一、用户端页面
 
 > 每个页面统一模板：页面目标 / 对应文件·路由 / 入口 / 核心组件 / 主要操作 / 页面状态（含 loading·empty·error 三态）/ 移动端注意事项 / 数据可信展示规则 / 验收标准。
-> 移动端通用约束（除非另注，对所有页面生效）：尊重安全区（顶部刘海 / 底部 Home 条）；**禁止整页横向滚动**；可点击控件命中区域 **≥ 44px**；底部主导航在小屏使用 `MOBILE_NAV_ITEMS`（首页 / 拍食品标签 / 历史 / 我的）。
+> 移动端通用约束（除非另注，对所有页面生效）：尊重安全区（顶部刘海 / 底部 Home 条）；**禁止整页横向滚动**；可点击控件命中区域 **≥ 44px**；当前微信小程序底部主导航只保留首页 / 我的。
 > 三态通用约束：loading / empty / error 三态已在各页复核（Batch 8-C 完成）。
 
 ### 1.0 正式 `user-uniapp/` 页面登记
 
-> 2026-06-21 识别口径：微信小程序用户端品牌暂定「成分镜」，首屏以单一“拍包装”入口为核心；不新增扫码、条码、二维码或手动编码外露入口。拍照后系统内部可自动判断条码、二维码、数字编码、配料表、营养成分表或未知图片；配料表 / 营养表 OCR 仍是报告判断的主要证据。条码、二维码、历史缓存和 DeepSeek 商品补全只作为商品身份与标签线索，不作为官方法规或包装 OCR 证据。首页 Demo 仅使用内置食品标签文本体验本地规则解读，不代表商品库能力。
+> 2026-06-21 识别口径：微信小程序用户端品牌暂定「成分镜」，首屏以单一“拍包装”入口为核心；首页点击先直接拉起相机，失败时才进入拍照页。拍照页允许拍照、上传、扫条码/二维码和手动输入四种同页辅助动作；配料表 / 营养表 OCR 仍是报告判断的主要证据。条码、二维码和 DeepSeek 商品补全只作为商品身份与公开标签线索，不作为官方法规或包装 OCR 证据。本期不外露历史记录和收藏能力。
 
 | 页面 | 页面目标 | 对应文件 / 路由 | 当前状态 |
 | --- | --- | --- | --- |
-| 首页 | 单一拍标签主入口，外露当前关注目标，提供手动输入、最近扫描、隐私提示和轻量 Demo 体验入口；成分搜索不作为首页主路径 | `user-uniapp/src/pages/index/index.vue` / `/pages/index/index` | 核心注册页 |
-| 拍食品标签 | 合并拍照、相册、条码/二维码能力检测、OCR adapter、文本清洗、配料/营养/致敏原提取、历史复用、DeepSeek 后端商品补全降级、手动输入、阶段式 loading 和结果生成；不外露多个识别入口 | `user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index` | 核心注册页 |
-| 食品标签解读 | 第一屏先展示统一识别信息卡，再展示一句话结论和大众化重点提醒；有清晰配料/营养时展示添加剂大白话、配料表、未确认线索、识别文字、收藏、分享和历史入口；信息不足时只展示补充提示和识别文字；AI 搜索补全必须明显标注 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 核心注册页 |
-| 我的关注 | 本地保存单选主目标（日常 / 控糖 / 减脂 / 低钠）、儿童模式开关和过敏 / 忌口多选，并承载历史记录与成分查询辅助入口 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 核心注册页 |
-| 成分查询 | 辅助用户查单个配料或添加剂，结果以“为什么看 / 标签写法 / 数据来自 / 结果用途 / 可信提示”展示；不替代拍标签主路径，不输出购买或医疗结论 | `user-uniapp/src/pages/search/index.vue` / `/pages/search/index` | 辅助注册页 |
-| 扫描记录 | 本地结果列表、全部/收藏筛选、重新打开结果、收藏/取消收藏、删除记录、按时间排序；最多保留最近 20 条，不保存图片 base64 或图片路径 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 核心注册页 |
+| 首页 | 单一拍包装主入口；点击主按钮先直接拉起相机，成分搜索作为弱入口 | `user-uniapp/src/pages/index/index.vue` / `/pages/index/index` | 核心注册页 |
+| 拍食品标签 | 同页承载拍照识别、上传识别、扫条码/二维码和手动输入；识别结束直接生成报告，低置信或信息不足也生成信息不足报告 | `user-uniapp/src/pages/capture/index.vue` / `/pages/capture/index` | 核心注册页 |
+| 食品标签解读 | 第一屏展示识别信息卡、一句话结论、关键原因和短份量提示；有清晰配料/营养时展示营养重点图、建议关注人群、添加剂解释和识别详情；不展示收藏、历史入口或“建议吃法”大段说明；AI 搜索补全必须明显标注 | `user-uniapp/src/pages/report/index.vue` / `/pages/report/index` | 核心注册页 |
+| 我的关注 | 本地保存多选关注目标（日常综合 / 控糖 / 减脂 / 低钠 / 儿童零食）和过敏 / 忌口多选 | `user-uniapp/src/pages/attention/index.vue` / `/pages/attention/index` | 核心注册页 |
+| 成分查询 | 辅助用户查单个配料或添加剂，结果合并数据库结果与 AI / 公开网页补充入口；不替代拍标签主路径，不输出购买或医疗结论 | `user-uniapp/src/pages/search/index.vue` / `/pages/search/index` | 辅助注册页 |
+| 扫描记录 | 本期先不支持，不注册到小程序页面清单 | `user-uniapp/src/pages/history/index.vue` / `/pages/history/index` | 已移除 / 不注册 |
 | 设置 | 已按 2026-06 消费端收口移除，不再注册到小程序页面清单；OCR、隐私和使用边界说明改由文档与必要的页面内轻提示承载 | `user-uniapp/src/pages/settings/index.vue` / `/pages/settings/index` | 已移除 / 不注册 |
 
-降级 / 清理页面：`compare` 保留为 P1 页面文件但不注册；`report-sources` 的数据说明已并入食品标签解读页更多信息折叠区；`ingredient-detail` 后续改为食品标签解读页内半屏添加剂解释；`mockProductLibrary` 仅保留为后续开发资料，不参与 P0 用户主流程；`search` 作为“我的关注”内辅助入口保留，不进入首页或底部 tab；`ocr`、`confirm-text`、`ingredients`、`nutrition`、`match`、`privacy`、`data-sources`、`mine` 等 legacy 页面已从小程序工程清理。
+降级 / 清理页面：`compare` 保留为 P1 页面文件但不注册；`history` / 收藏本期不注册、不外露；`report-sources` 的数据说明已并入食品标签解读页更多信息折叠区；`ingredient-detail` 后续改为食品标签解读页内半屏添加剂解释；`mockProductLibrary` 仅保留为后续开发资料，不参与 P0 用户主流程；`search` 作为弱辅助入口保留，不进入底部 tab；`ocr`、`confirm-text`、`ingredients`、`nutrition`、`match`、`privacy`、`data-sources`、`mine` 等 legacy 页面已从小程序工程清理。
 
 > 注意：下方 1.1 起登记的是历史 Web/PWA 原型和后续规划页面，用于迁移参考；当前微信小程序 P0 范围以上表为准，不承诺商品库权威命中、商品对比或日化识别。
 

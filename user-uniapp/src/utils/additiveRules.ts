@@ -495,13 +495,22 @@ function displayLevelWeight(level: AdditiveDisplayLevel): number {
 
 function hasAttentionTarget(attention: AttentionSettings | undefined, key: string): boolean {
   if (!attention) return false;
-  if (key === 'sugar_control') return attention.primaryGoal === 'sugar';
-  if (key === 'fat_control') return attention.primaryGoal === 'fatLoss';
-  if (key === 'low_sodium') return attention.primaryGoal === 'lowSodium';
-  if (key === 'for_children') return attention.isChildrenMode;
+  const goals = selectedGoals(attention);
+  if (key === 'sugar_control') return goals.includes('sugar');
+  if (key === 'fat_control') return goals.includes('fatLoss');
+  if (key === 'low_sodium') return goals.includes('lowSodium');
+  if (key === 'for_children') return goals.includes('children');
   if (key === 'avoidance') return attention.allergens.length > 0;
-  if (key === 'fewer_additives') return attention.primaryGoal === 'daily';
+  if (key === 'fewer_additives') return goals.length === 0;
   return false;
+}
+
+function selectedGoals(attention: AttentionSettings): NonNullable<AttentionSettings['targetGoals']> {
+  if (Array.isArray(attention.targetGoals) && attention.targetGoals.length) return attention.targetGoals;
+  return [
+    attention.primaryGoal !== 'daily' ? attention.primaryGoal : undefined,
+    attention.isChildrenMode ? 'children' : undefined
+  ].filter((item): item is NonNullable<AttentionSettings['targetGoals']>[number] => Boolean(item));
 }
 
 function normalizeText(value: string): string {

@@ -124,17 +124,17 @@ function buildAttentionHits(input: {
       .map((field) => `${field.label}${field.value}${field.unit}${normalizeReportText(field.sourceText)}`)
   ].join(' ');
   const hits: AttentionHit[] = [];
-  const primaryGoal = primaryGoalOptions.find((goal) => goal.key === input.attention.primaryGoal) || primaryGoalOptions[0];
-  const primaryTerms = primaryGoal.keywords.filter((term) => text.includes(term));
-  if (primaryTerms.length) {
+  selectedPrimaryGoals(input.attention).forEach((primaryGoal) => {
+    const primaryTerms = primaryGoal.keywords.filter((term) => text.includes(term));
+    if (!primaryTerms.length) return;
     hits.push({
       key: primaryGoal.key,
       label: primaryGoal.label,
       reason: `${primaryGoal.label}相关词已在标签文本中出现。`,
       terms: [...new Set(primaryTerms)]
     });
-  }
-  if (input.attention.isChildrenMode) {
+  });
+  if (selectedGoals(input.attention).includes('children')) {
     const childrenTerms = childrenModeKeywords.filter((term) => text.includes(term));
     if (childrenTerms.length) {
       hits.push({
@@ -284,13 +284,14 @@ function buildFrontClaimHighlights(text: string): string[] {
 function buildNutritionHighlights(fields: NutritionField[], attention: AttentionSettings): string[] {
   const highlights: string[] = [];
   const byKey = new Map(fields.map((field) => [field.key, field]));
-  if (attention.primaryGoal === 'sugar') addFieldHighlight(highlights, byKey.get('sugar'), '控糖');
-  if (attention.primaryGoal === 'lowSodium') addFieldHighlight(highlights, byKey.get('sodium'), '低钠');
-  if (attention.primaryGoal === 'fatLoss') {
+  const goals = selectedGoals(attention);
+  if (goals.includes('sugar')) addFieldHighlight(highlights, byKey.get('sugar'), '控糖');
+  if (goals.includes('lowSodium')) addFieldHighlight(highlights, byKey.get('sodium'), '低钠');
+  if (goals.includes('fatLoss')) {
     addFieldHighlight(highlights, byKey.get('fat'), '减脂');
     addFieldHighlight(highlights, byKey.get('transFat'), '减脂');
   }
-  if (attention.isChildrenMode) {
+  if (goals.includes('children')) {
     addFieldHighlight(highlights, byKey.get('sugar'), '儿童模式');
     addFieldHighlight(highlights, byKey.get('sodium'), '儿童模式');
   }
@@ -301,6 +302,22 @@ function buildNutritionHighlights(fields: NutritionField[], attention: Attention
 function addFieldHighlight(target: string[], field: NutritionField | undefined, goalLabel: string) {
   if (!field?.value) return;
   target.push(`${goalLabel}关注项可查看 ${field.label}：${field.value}${field.unit}${field.nrvPercent ? `，NRV ${field.nrvPercent}` : ''}`);
+}
+
+function selectedPrimaryGoals(attention: AttentionSettings) {
+  const goals = selectedGoals(attention).filter((goal) => goal !== 'children');
+  if (!goals.length) return [primaryGoalOptions[0]];
+  return goals
+    .map((goal) => primaryGoalOptions.find((item) => item.key === goal))
+    .filter((item): item is typeof primaryGoalOptions[number] => Boolean(item));
+}
+
+function selectedGoals(attention: AttentionSettings): NonNullable<AttentionSettings['targetGoals']> {
+  if (Array.isArray(attention.targetGoals) && attention.targetGoals.length) return attention.targetGoals;
+  return [
+    attention.primaryGoal !== 'daily' ? attention.primaryGoal : undefined,
+    attention.isChildrenMode ? 'children' : undefined
+  ].filter((item): item is NonNullable<AttentionSettings['targetGoals']>[number] => Boolean(item));
 }
 
 function hasNutritionEvidence(field: NutritionField): boolean {
@@ -348,7 +365,7 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   if (options.sourceMeta?.sourceType === 'ai_search_product_label') {
     sources.push({
       label: 'AI 联网公开标签线索',
-      detail: options.sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      detail: options.sourceMeta.aiNotice || 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
       sourceType: 'ai_search'
     });
   } else if (options.sourceMeta?.sourceType === 'product_identity') {
@@ -377,7 +394,7 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   } else {
     sources.push({
       label: '包装 OCR 识别文本',
-      detail: '结果基于本次拍照识别出的食品标签文字生成，OCR 识别文字不是权威来源，请以包装原文为准。',
+      detail: '结果基于本次拍照识别出的食品标签文字生成，OCR 识别文字不是权威来源，请结合包装文字确认。',
       sourceType: 'ocr_input'
     });
   }
@@ -412,14 +429,14 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   if (options.sourceMeta?.recognitionSources?.includes('历史缓存')) {
     sources.push({
       label: '历史缓存',
-      detail: '本机历史记录用于补全同一商品的已确认信息。',
+      detail: '本机已确认信息用于补全同一商品标签线索。',
       sourceType: 'product_cache'
     });
   }
   if (options.sourceMeta?.usedAiSearch) {
     sources.push({
       label: 'DeepSeek 联网搜索',
-      detail: options.sourceMeta.aiNotice || '部分商品信息来自 AI 联网搜索，可能存在过期、缺失或不准确；仅作公开标签线索，不作为包装实拍 OCR、成分事实、法规或医疗结论，请以商品包装实物标注为准。',
+      detail: options.sourceMeta.aiNotice || 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
       sourceType: 'ai_search'
     });
   }

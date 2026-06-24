@@ -3,7 +3,6 @@ export const routes = {
   capture: '/pages/capture/index',
   search: '/pages/search/index',
   report: '/pages/report/index',
-  history: '/pages/history/index',
   attention: '/pages/attention/index'
 } as const;
 
