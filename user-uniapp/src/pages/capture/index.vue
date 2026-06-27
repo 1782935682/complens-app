@@ -7,29 +7,32 @@ import ErrorState from '@/components/ErrorState.vue';
 import ImageUploader from '@/components/ImageUploader.vue';
 import LoadingState from '@/components/LoadingState.vue';
 import { allergenOptions } from '@/constants/attention';
-import { routes } from '@/constants/routes';
-import { chooseLabelImage, scanProductCode } from '@/platform/camera';
-import { buildManualOcrResult } from '@/services/api/ocr';
+import { navigateToRoute, routes } from '@/constants/routes';
+import { chooseLabelImage, createLocalImageAssetFromFile, scanProductCode } from '@/platform/camera';
+import { buildManualOcrResult, isOcrServiceUnavailable } from '@/services/api/ocr';
 import { shouldAutoGenerateRecognitionResult } from '@/services/recognition/autoGeneratePolicy';
 import { normalizeBarcodeDetection } from '@/services/recognition/barcodeService';
 import { recognizeProductImage } from '@/services/recognition/imageRecognitionService';
 import { lookupProductInfo } from '@/services/recognition/productLookupService';
 import { buildProductAnalysisReport, type ProductAnalysisResult } from '@/services/recognition/reportService';
 import { getAttentionSettings } from '@/stores/attentionStore';
-import { getScanDraft, resetScanDraft, saveRecognitionHistory, saveReport, saveScanDraft } from '@/stores/scanStore';
+import { getReportById, getScanDraft, resetScanDraft, saveRecognitionHistory, saveReport, saveScanDraft } from '@/stores/scanStore';
 import type { AttentionSettings, LabelType, LocalImageAsset, OcrResult, ProductDetectedType, ProductRecognitionContentType, ProductRecognitionInfo, ScanDraft } from '@/types';
 import { recognizeAdditivesFromText } from '@/utils/additiveRules';
 import { parseIngredientList } from '@/utils/ingredientParser';
 import { extractLabelText, type LabelTextExtraction, type LabelTextConfidence, type LabelTextSourceType } from '@/utils/labelTextExtractor';
 import { classifyLabelText } from '@/utils/labelClassifier';
-import {
-  buildEffectiveLabelTextFromParts,
-  buildScanDraftFromAnalysis
-} from '@/utils/localLabelAnalysis';
+import { buildEffectiveLabelTextFromParts } from '@/utils/localLabelAnalysis';
+import { normalizeManualInputParts } from '@/utils/manualInputNormalizer';
 import { normalizeOcrResult } from '@/utils/ocrAdapter';
+import { buildPurchaseDecision } from '@/utils/decisionRules';
+import { isSameProductForCompare, orderReportsForCompare } from '@/utils/reportIdentity';
 
 type CaptureStage = 'pick' | 'recognizing' | 'manualInput';
 type QueryMap = Record<string, unknown>;
+type RecoveryTarget = '' | 'ingredient' | 'nutrition' | 'allergen';
+
+const GENERATION_TIMEOUT_MS = 12000;
 
 const image = ref<LocalImageAsset | undefined>();
 const stage = ref<CaptureStage>('pick');
@@ -44,6 +47,7 @@ const allergenText = ref('');
 const frontClaimsText = ref('');
 const productionDateText = ref('');
 const ignoredText = ref<string[]>([]);
+const extractionQualityWarnings = ref<string[]>([]);
 const recognitionInfo = ref<ProductRecognitionInfo | undefined>();
 const recognitionMessage = ref('');
 const extractionConfidence = ref<LabelTextConfidence>('low');
@@ -53,13 +57,57 @@ const optionalFieldsOpen = ref(false);
 const productName = ref('');
 const labelType = ref<LabelType>('unknown_label');
 const generating = ref(false);
+const generationTimedOut = ref(false);
+const generationTimeoutTimer = ref<ReturnType<typeof setTimeout> | undefined>();
+const generationRunId = ref(0);
+const lastGeneratedReportId = ref('');
 const loadingText = ref('');
 const loadingTimer = ref<ReturnType<typeof setInterval> | undefined>();
 const attentionSettings = ref<AttentionSettings>(getAttentionSettings());
 const autoCameraStarted = ref(false);
 const autoGenerateAfterOcr = ref(true);
+const compareBaseReportId = ref('');
+const recoveryTarget = ref<RecoveryTarget>('');
+const recoverySeedText = ref('');
+const recoverySeedProductName = ref('');
 
 const additivePreview = computed(() => recognizeAdditivesFromText(ingredientText.value, attentionSettings.value).slice(0, 5));
+const isCompareCapture = computed(() => Boolean(compareBaseReportId.value));
+const compareBaseTitle = computed(() => {
+  const current = compareBaseReportId.value ? getReportById(compareBaseReportId.value) : undefined;
+  return current?.productName || current?.foodAnalysis?.productName || current?.title || '';
+});
+const captureTitle = computed(() => {
+  if (isCompareCapture.value) return '拍第二款做对比';
+  if (recoveryTarget.value === 'ingredient') return '补拍配料表';
+  if (recoveryTarget.value === 'nutrition') return '补拍营养成分表';
+  if (recoveryTarget.value === 'allergen') return '补拍致敏提示';
+  return '拍清包装文字';
+});
+const captureDescription = computed(() => {
+  if (recoveryTarget.value) {
+    const targetText = recoveryTarget.value === 'ingredient'
+      ? '配料表'
+      : recoveryTarget.value === 'nutrition'
+        ? '营养成分表'
+        : '致敏提示';
+    return `补拍${targetText}，会和上一张已识别线索合并后重新判断。`;
+  }
+  if (!isCompareCapture.value) return '拍配料、营养或条码，选择后会自动识别并生成购买建议。';
+  const baseName = compareBaseTitle.value ? `已选 ${compareBaseTitle.value}，` : '';
+  return `${baseName}再拍第二款；信息足够时进入对比，信息不足会先给出补充建议。`;
+});
+const recoverySeedSummary = computed(() => {
+  const rows = [
+    recoverySeedProductName.value ? '商品名' : '',
+    recoverySeedText.value.includes('配料表') ? '配料线索' : '',
+    recoverySeedText.value.includes('营养成分表') ? '营养线索' : '',
+    recoverySeedText.value.includes('致敏') ? '致敏线索' : '',
+    recoverySeedText.value.includes('包装正面') ? '正面文案' : '',
+    recoverySeedText.value.includes('条码') ? '条码' : ''
+  ].filter(Boolean);
+  return rows.length ? `已带入上一张：${rows.slice(0, 4).join('、')}` : '';
+});
 const quickSignals = computed(() => buildQuickSignals({
   ingredientText: ingredientText.value,
   nutritionText: nutritionText.value,
@@ -101,7 +149,7 @@ const canGenerate = computed(() => (
 ));
 const hasAnyConfirmedText = computed(() => Boolean(ingredientText.value.trim() || nutritionText.value.trim() || allergenText.value.trim() || frontClaimsText.value.trim() || productionDateText.value.trim()));
 const qualityIssues = computed(() => buildQualityIssues());
-const shouldShowScanSummary = computed(() => Boolean(recognitionInfo.value) || extractionSourceType.value !== 'manual' || hasAnyConfirmedText.value || ignoredText.value.length > 0);
+const shouldShowScanSummary = computed(() => Boolean(recognitionInfo.value) || extractionSourceType.value !== 'manual' || hasAnyConfirmedText.value || ignoredText.value.length > 0 || extractionQualityWarnings.value.length > 0);
 const recognitionIconClass = computed(() => `recognition-icon--${recognitionInfo.value?.detectedType || 'unknown'}`);
 const recognitionTypeText = computed(() => recognitionInfo.value ? detectedTypeLabel(recognitionInfo.value.detectedType) : '未知');
 const recognitionContentText = computed(() => recognitionInfo.value ? contentTypeLabel(recognitionInfo.value.contentType) : '未知');
@@ -131,6 +179,49 @@ const confidenceText = computed(() => {
   if (extractionConfidence.value === 'medium') return '基本可用';
   return '文字偏少';
 });
+const profileChips = computed(() => buildProfileChips(attentionSettings.value));
+const uploadRecoveryDescription = computed(() => {
+  if (!error.value) return '';
+  if (/识别服务|后端|API|proxy|不可用/.test(error.value)) {
+    return `${error.value} 这不是包装内容问题；可以稍后重试，或先用手动补充输入配料表和营养成分表。`;
+  }
+  const target = isCompareCapture.value ? '第二款配料表、营养成分表或条码' : '配料表、营养成分表或条码';
+  const nextStep = isCompareCapture.value ? '信息足够时会进入对比' : '选择图片后会自动生成购买建议';
+  return `${error.value} 请重新上传清晰的${target}；${nextStep}。`;
+});
+const isRecognizingImage = computed(() => stage.value === 'recognizing' && Boolean(image.value));
+const uploaderStatusTitle = computed(() => {
+  if (!image.value) return '';
+  if (generating.value) return isCompareCapture.value ? '第二款已识别，正在生成对比' : '已识别，正在生成购买建议';
+  if (isRecognizingImage.value) return isCompareCapture.value ? '已选择第二款，正在识别' : '已选择包装图，正在识别';
+  return isCompareCapture.value ? '已选择第二款包装图' : '已选择包装图';
+});
+const uploaderStatusDescription = computed(() => {
+  if (!image.value) return '';
+  if (generating.value) {
+    return generationTimedOut.value
+      ? '生成时间偏长，可以重试；如果报告已保存，可直接查看。'
+      : '正在按包装文字和关注项生成结果。';
+  }
+  if (isRecognizingImage.value) {
+    return isCompareCapture.value
+      ? '识别到足够信息后会进入对比；信息不足会先生成补充建议。'
+      : '识别完成后会直接生成购买建议。';
+  }
+  return isCompareCapture.value
+    ? '点击识别第二款；信息足够时进入两款对比。'
+    : '点击开始识别，或重新选择更清晰的标签图。';
+});
+const uploaderBusyLabel = computed(() => generating.value ? '生成中' : '识别中');
+const hasGeneratedReport = computed(() => Boolean(lastGeneratedReportId.value && getReportById(lastGeneratedReportId.value)));
+const generationRecoveryTitle = computed(() => {
+  if (hasGeneratedReport.value && !generating.value) return '报告已生成';
+  return '生成时间偏长';
+});
+const generationRecoveryDescription = computed(() => {
+  if (hasGeneratedReport.value) return '结果已保存在本机，可以直接打开；如果内容不对，也可以重新生成。';
+  return '可能是识别或生成耗时过长。你可以重试，或返回重新拍更清晰的标签。';
+});
 
 function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
   const value = rawQuery?.[key];
@@ -138,7 +229,82 @@ function getQueryValue(rawQuery: QueryMap | undefined, key: string): string {
   return typeof value === 'string' ? value : '';
 }
 
+function normalizeRecoveryTarget(value: string): RecoveryTarget {
+  if (value === 'ingredient' || value === 'nutrition' || value === 'allergen') return value;
+  return '';
+}
+
+function hydrateRecoverySeedFromDraft() {
+  const draft = getScanDraft();
+  recoverySeedText.value = draft.confirmedText || '';
+  recoverySeedProductName.value = draft.productName || '';
+}
+
+function openAttentionSettings() {
+  navigateToRoute(routes.attention);
+}
+
+function buildProfileChips(settings: AttentionSettings): string[] {
+  const goals = settings.targetGoals.length
+    ? settings.targetGoals
+    : [
+        settings.primaryGoal !== 'daily' ? settings.primaryGoal : undefined,
+        settings.isChildrenMode ? 'children' : undefined
+      ].filter(Boolean);
+  const allergenLabels = allergenOptions
+    .filter((option) => settings.allergens.includes(option.key))
+    .map((option) => option.label)
+    .slice(0, 2);
+  const labels = [
+    allergenLabels.length ? `忌口${allergenLabels.join('、')}` : '',
+    goals.includes('children') ? '儿童' : '',
+    goals.includes('sugar') ? '控糖' : '',
+    goals.includes('fatLoss') ? '减脂' : '',
+    goals.includes('lowSodium') ? '低钠' : ''
+  ].filter(Boolean);
+  return labels.length ? labels.slice(0, 4) : ['默认'];
+}
+
+function isDraftWithoutCaptureContent(draft: ScanDraft): boolean {
+  return !draft.image
+    && !draft.confirmedText
+    && !draft.ocr
+    && !draft.sourceMeta
+    && !draft.productName
+    && !draft.foodTypeText
+    && !draft.frontClaimsText
+    && !draft.productionDateText;
+}
+
+function resetCaptureRuntime(options: { keepLastGeneratedReport?: boolean; compareBaseReportId?: string } = {}) {
+  image.value = undefined;
+  resetExtractedText();
+  productName.value = '';
+  recognitionInfo.value = undefined;
+  recognitionMessage.value = '';
+  ocrResult.value = undefined;
+  rawOcrText.value = '';
+  labelType.value = 'unknown_label';
+  error.value = '';
+  editHint.value = '';
+  stage.value = 'pick';
+  generating.value = false;
+  generationTimedOut.value = false;
+  stopLoadingMessages();
+  stopGenerationWatch();
+  if (!options.keepLastGeneratedReport) lastGeneratedReportId.value = '';
+  compareBaseReportId.value = String(options.compareBaseReportId || '').trim();
+}
+
 onLoad((query) => {
+  const compareBase = getQueryValue(query, 'compareBase');
+  const target = getQueryValue(query, 'target');
+  recoveryTarget.value = normalizeRecoveryTarget(target);
+  hydrateRecoverySeedFromDraft();
+  if (compareBase) {
+    compareBaseReportId.value = compareBase;
+    saveScanDraft({ compareBaseReportId: compareBase });
+  }
   if (getQueryValue(query, 'cameraError') === '1') {
     error.value = '相机没有打开，可以重试拍照，或改用上传识别。';
   }
@@ -159,9 +325,14 @@ onLoad((query) => {
 
 onShow(() => {
   attentionSettings.value = getAttentionSettings();
+  refreshCompareBaseReportId();
   const draft = getScanDraft();
   if (draft.isFastScan === false && !draft.image && !draft.confirmedText && !draft.ocr) {
     startManualTextEntry();
+    return;
+  }
+  if (isDraftWithoutCaptureContent(draft)) {
+    resetCaptureRuntime({ keepLastGeneratedReport: true, compareBaseReportId: draft.compareBaseReportId || '' });
     return;
   }
   image.value = draft.image;
@@ -190,31 +361,61 @@ onShow(() => {
 
 onUnload(() => {
   stopLoadingMessages();
+  stopGenerationWatch();
 });
 
 async function choose(source: 'camera' | 'album') {
   error.value = '';
   editHint.value = '';
+  const baseReportId = getActiveCompareBaseReportId();
   try {
     const nextImage = await chooseLabelImage(source);
-    resetScanDraft();
-    image.value = nextImage;
-    resetExtractedText();
-    recognitionInfo.value = undefined;
-    recognitionMessage.value = '';
-    productName.value = '';
-    ocrResult.value = undefined;
-    labelType.value = 'unknown_label';
-    saveScanDraft({ image: nextImage });
-    await startRecognize();
-  } catch {
-    error.value = source === 'camera' ? '相机暂不可用，请检查权限，或改用相册上传。' : '没有选择图片，请重新上传。';
+    await acceptSelectedImage(nextImage, baseReportId);
+  } catch (chooseError) {
+    stage.value = 'pick';
+    if (isImagePickerCancel(chooseError)) {
+      error.value = '';
+      return;
+    }
+    error.value = source === 'camera' ? '相机暂不可用，请检查权限，或改用相册上传。' : '相册暂不可用，请稍后重试或改用拍照识别。';
   }
+}
+
+async function chooseBrowserFile(file: File) {
+  error.value = '';
+  editHint.value = '';
+  const baseReportId = getActiveCompareBaseReportId();
+  try {
+    const nextImage = await createLocalImageAssetFromFile(file);
+    await acceptSelectedImage(nextImage, baseReportId);
+  } catch (chooseError) {
+    stage.value = 'pick';
+    const message = getPlatformErrorMessage(chooseError);
+    error.value = isUnsupportedBrowserImageFileError(message)
+      ? '这不是可识别的图片文件。请上传 JPG、PNG 或 WebP 包装标签照片，或改用手动输入。'
+      : '没有读到图片文件，请重新选择包装标签图片，或改用手动输入。';
+  }
+}
+
+async function acceptSelectedImage(nextImage: LocalImageAsset, baseReportId: string) {
+  hydrateRecoverySeedFromDraft();
+  resetScanDraft();
+  image.value = nextImage;
+  resetExtractedText();
+  recognitionInfo.value = undefined;
+  recognitionMessage.value = '';
+  productName.value = '';
+  ocrResult.value = undefined;
+  labelType.value = 'unknown_label';
+  saveScanDraft(withCompareBase({ image: nextImage }, baseReportId));
+  compareBaseReportId.value = baseReportId;
+  await startRecognize();
 }
 
 async function scanCode() {
   error.value = '';
   editHint.value = '';
+  const baseReportId = getActiveCompareBaseReportId();
   stage.value = 'recognizing';
   startLoadingMessages(['正在读取条码/二维码...', '正在查询公开标签线索...']);
   try {
@@ -256,7 +457,7 @@ async function scanCode() {
       aiSearchErrorCode: lookup.errorCode
     };
     recognitionMessage.value = lookup.usedAiSearch && (lookup.ingredientsText || lookup.nutritionText)
-      ? '已根据商品码找到公开标签线索，正在生成参考报告。'
+      ? '已根据商品码找到公开标签线索，正在生成购买建议。'
       : '已识别到商品码，公开标签信息不足时会生成补充提示。';
     productName.value = lookup.productName;
     ingredientText.value = lookup.ingredientsText;
@@ -265,7 +466,7 @@ async function scanCode() {
     extractionSourceType.value = 'ocr';
     manualOverride.value = false;
     labelType.value = 'barcode_or_product';
-    saveScanDraft({
+    saveScanDraft(withCompareBase({
       ocr: ocrResult.value,
       confirmedText: buildEffectiveLabelText(),
       labelType: labelType.value,
@@ -286,6 +487,7 @@ async function scanCode() {
         unconfirmedText: lookup.usedAiSearch && !lookup.ingredientsText && !lookup.nutritionText
           ? ['AI 搜索未找到可用配料表或营养成分表']
           : [],
+        qualityWarnings: [],
         recognition: recognitionInfo.value,
         normalizedCode: recognitionInfo.value.normalizedCode,
         qrContent: recognitionInfo.value.qrContent,
@@ -304,10 +506,14 @@ async function scanCode() {
           allergens: [...attentionSettings.value.allergens]
         }
       }
-    });
+    }, baseReportId));
+    compareBaseReportId.value = baseReportId;
     await generateAutoResult();
-  } catch {
-    error.value = '没有读到条码或二维码，请对准编码重新扫，或改拍配料表/营养表。';
+  } catch (scanError) {
+    const reason = scanError instanceof Error ? scanError.message : '';
+    error.value = reason === 'scan_code_unavailable'
+      ? '当前浏览器不能直接扫码，请上传条码/二维码图片，或改拍配料表、营养表。'
+      : '没有读到条码或二维码，请对准编码重新扫，或改拍配料表/营养表。';
     stage.value = 'pick';
   } finally {
     stopLoadingMessages();
@@ -315,6 +521,7 @@ async function scanCode() {
 }
 
 function clearImage() {
+  const baseReportId = getActiveCompareBaseReportId();
   image.value = undefined;
   resetExtractedText();
   productName.value = '';
@@ -325,13 +532,20 @@ function clearImage() {
   editHint.value = '';
   stage.value = 'pick';
   resetScanDraft();
+  if (baseReportId) saveScanDraft({ compareBaseReportId: baseReportId });
+  compareBaseReportId.value = baseReportId;
 }
 
 async function startRecognize() {
+  if (stage.value === 'recognizing') return;
   if (!image.value) {
-    error.value = '请拍照或选择一张清晰的食品标签图片。';
+    error.value = '';
+    editHint.value = '';
+    stage.value = 'pick';
     return;
   }
+  const baseReportId = getActiveCompareBaseReportId();
+  compareBaseReportId.value = baseReportId;
   stage.value = 'recognizing';
   startLoadingMessages(['正在识别标签文字...', '正在整理配料和营养信息...']);
   error.value = '';
@@ -345,9 +559,22 @@ async function startRecognize() {
     recognitionMessage.value = result.message;
     loadingText.value = '正在判断图片内容...';
     applyExtraction(result.extraction, false);
+    mergeRecoverySeedIntoCurrent();
+    if (next.mode === 'fallback' && isOcrServiceUnavailable(next.errorCode || '')) {
+      stage.value = 'pick';
+      error.value = next.errorMessage || '识别服务暂时不可用，请稍后重试或手动输入。';
+      editHint.value = '';
+      saveScanDraft(withCompareBase({
+        image: image.value,
+        ocr: next,
+        confirmedText: '',
+        labelType: 'unknown_label'
+      }, baseReportId));
+      return;
+    }
     const effectiveText = buildEffectiveLabelText();
     labelType.value = result.labelType || resolveDetectedType(effectiveText);
-    saveScanDraft({
+    saveScanDraft(withCompareBase({
       image: image.value,
       ocr: next,
       confirmedText: effectiveText,
@@ -367,6 +594,7 @@ async function startRecognize() {
         foodTypeText: foodTypeText.value,
         productionDateText: productionDateText.value,
         unconfirmedText: ignoredText.value,
+        qualityWarnings: extractionQualityWarnings.value,
         recognition: result.scanInfo,
         normalizedCode: result.scanInfo.normalizedCode,
         qrContent: result.scanInfo.qrContent,
@@ -384,7 +612,7 @@ async function startRecognize() {
           allergens: [...attentionSettings.value.allergens]
         }
       }
-    });
+    }, baseReportId));
     const hasIngredient = Boolean(ingredientText.value.trim());
     const hasNutrition = Boolean(nutritionText.value.trim());
     if (shouldAutoGenerateRecognitionResult({
@@ -427,10 +655,10 @@ async function startRecognize() {
     resetExtractedText();
     ignoredText.value = ['未识别到可用包装文字或商品身份线索'];
     recognitionInfo.value = buildInsufficientRecognitionInfo(image.value);
-    recognitionMessage.value = '暂未判断出图片内容，已生成信息不足报告。';
+    recognitionMessage.value = '暂未判断出图片内容，已生成信息不足建议。';
     rawOcrText.value = getScanDraft().confirmedText || '';
     labelType.value = 'unknown_label';
-    saveScanDraft({
+    saveScanDraft(withCompareBase({
       image: image.value,
       ocr: manual,
       confirmedText: '',
@@ -446,6 +674,7 @@ async function startRecognize() {
         ingredientText: '',
         nutritionText: '',
         unconfirmedText: ignoredText.value,
+        qualityWarnings: extractionQualityWarnings.value,
         recognition: recognitionInfo.value,
         confidence: extractionConfidence.value,
         inputSourceType: 'ocr',
@@ -456,7 +685,7 @@ async function startRecognize() {
           allergens: [...attentionSettings.value.allergens]
         }
       }
-    });
+    }, baseReportId));
     await generateAutoResult();
   } finally {
     stopLoadingMessages();
@@ -470,18 +699,35 @@ async function generateAutoResult(): Promise<boolean> {
 }
 
 function startManualTextEntry() {
+  const baseReportId = getActiveCompareBaseReportId();
+  const draft = getScanDraft();
+  const seedText = draft.confirmedText || '';
+  const seedProductName = draft.productName || '';
+  const seedLabelType = draft.labelType || labelType.value;
   image.value = undefined;
   resetExtractedText('manual');
-  productName.value = '';
+  productName.value = seedProductName;
   recognitionInfo.value = undefined;
   recognitionMessage.value = '';
   ocrResult.value = buildManualOcrResult();
-  labelType.value = 'unknown_label';
+  labelType.value = seedLabelType || 'unknown_label';
   error.value = '';
   editHint.value = '';
   stage.value = 'manualInput';
   resetScanDraft();
-  saveScanDraft({ ocr: ocrResult.value, confirmedText: '', labelType: labelType.value });
+  if (seedText) {
+    applyExtraction(extractLabelText(normalizeOcrResult({
+      mode: 'manual',
+      text: seedText,
+      confidence: 1,
+      provider: 'manual',
+      blocks: [],
+      requiresUserConfirmation: true
+    }), 'manual'), true);
+    editHint.value = '已带入上一张识别到的线索，可以直接补齐缺少部分。';
+  }
+  saveScanDraft(withCompareBase({ ocr: ocrResult.value, confirmedText: seedText, labelType: labelType.value, productName: productName.value }, baseReportId));
+  compareBaseReportId.value = baseReportId;
 }
 
 function clearText() {
@@ -509,11 +755,42 @@ function applyExtraction(result: LabelTextExtraction, allowManualOverride = fals
   frontClaimsText.value = result.frontClaimsText;
   productionDateText.value = result.productionDateText;
   ignoredText.value = result.ignoredText;
+  extractionQualityWarnings.value = result.qualityWarnings;
   extractionConfidence.value = result.confidence;
   extractionSourceType.value = result.sourceType;
   manualOverride.value = allowManualOverride || result.sourceType === 'manual';
   optionalFieldsOpen.value = Boolean(result.allergenText || result.frontClaimsText || result.productionDateText);
 }
+
+function mergeRecoverySeedIntoCurrent() {
+  const seedText = recoverySeedText.value.trim();
+  if (!seedText) return;
+  const seed = extractLabelText(normalizeOcrResult({
+    mode: 'manual',
+    text: seedText,
+    confidence: 1,
+    provider: 'manual',
+    blocks: [],
+    requiresUserConfirmation: true
+  }), 'manual');
+  if (!productName.value.trim() && recoverySeedProductName.value) productName.value = recoverySeedProductName.value;
+  if (!ingredientText.value.trim() && seed.ingredientText) ingredientText.value = seed.ingredientText;
+  if (!nutritionText.value.trim() && seed.nutritionText) nutritionText.value = seed.nutritionText;
+  if (!allergenText.value.trim() && seed.allergenText) allergenText.value = seed.allergenText;
+  if (!frontClaimsText.value.trim() && seed.frontClaimsText) frontClaimsText.value = seed.frontClaimsText;
+  if (!productionDateText.value.trim() && seed.productionDateText) productionDateText.value = seed.productionDateText;
+  if (seedText && !ignoredText.value.includes('已合并上一张补拍线索')) {
+    ignoredText.value = [...ignoredText.value, '已合并上一张补拍线索'];
+  }
+  if (seed.qualityWarnings.length) {
+    extractionQualityWarnings.value = [...new Set([...extractionQualityWarnings.value, ...seed.qualityWarnings])];
+  }
+  if (extractionConfidence.value === 'low' && (ingredientText.value.trim() || nutritionText.value.trim())) {
+    extractionConfidence.value = 'medium';
+  }
+  optionalFieldsOpen.value = optionalFieldsOpen.value || Boolean(allergenText.value || frontClaimsText.value || productionDateText.value);
+}
+
 
 function resetExtractedText(sourceType: LabelTextSourceType = 'ocr') {
   rawOcrText.value = '';
@@ -524,6 +801,7 @@ function resetExtractedText(sourceType: LabelTextSourceType = 'ocr') {
   frontClaimsText.value = '';
   productionDateText.value = '';
   ignoredText.value = [];
+  extractionQualityWarnings.value = [];
   extractionConfidence.value = 'low';
   extractionSourceType.value = sourceType;
   manualOverride.value = sourceType === 'manual';
@@ -552,7 +830,7 @@ async function generateResult(options: { fromAutoRecognition?: boolean } = {}): 
     error.value = '文字还不够清楚，请补拍标签区域或手动粘贴。';
     return false;
   }
-  generating.value = true;
+  const runId = beginGenerationWatch();
   startLoadingMessages(options.fromAutoRecognition
     ? ['识别完成，正在生成结果...', buildTargetLoadingText()]
     : ['正在识别添加剂和营养信息...', buildTargetLoadingText()]);
@@ -560,8 +838,10 @@ async function generateResult(options: { fromAutoRecognition?: boolean } = {}): 
   try {
     const attention = getAttentionSettings();
     const reportInput = buildReportInputParts(options);
+    const effectiveProductName = reportInput.productNameText || productName.value.trim();
+    if (effectiveProductName && !productName.value.trim()) productName.value = effectiveProductName;
     const analysis = await buildProductAnalysisReport({
-      productName: productName.value.trim(),
+      productName: effectiveProductName,
       foodTypeText: reportInput.foodTypeText,
       ingredientText: reportInput.ingredientText,
       nutritionText: reportInput.nutritionText,
@@ -569,6 +849,7 @@ async function generateResult(options: { fromAutoRecognition?: boolean } = {}): 
       frontClaimsText: reportInput.frontClaimsText,
       productionDateText: reportInput.productionDateText,
       unconfirmedText: reportInput.unconfirmedText,
+      qualityWarnings: reportInput.qualityWarnings,
       confidence: reportInput.confidence,
       attention,
       sourceType: resolveInputSourceType(),
@@ -577,20 +858,32 @@ async function generateResult(options: { fromAutoRecognition?: boolean } = {}): 
       recognition: recognitionInfo.value,
       brand: recognitionInfo.value?.brand
     });
+    if (!isActiveGeneration(runId)) return false;
+    const compareBaseReportId = getActiveCompareBaseReportId();
     saveReport(analysis.report);
+    lastGeneratedReportId.value = analysis.report.id;
     saveRecognitionRecord(analysis);
-    saveScanDraft({
-      ...buildCurrentTextDraft({ resetDerived: true }),
-      ...buildScanDraftFromAnalysis(analysis)
-    });
-    uni.navigateTo({ url: `${routes.report}?id=${encodeURIComponent(analysis.report.id)}` });
+    const baseReport = compareBaseReportId ? getReportById(compareBaseReportId) : undefined;
+    resetScanDraft();
+    resetCaptureRuntime({ keepLastGeneratedReport: true });
+    const generatedDecision = buildPurchaseDecision(analysis.report, attention);
+    if (baseReport && generatedDecision.recommendation !== '信息不足' && !isSameProductForCompare(baseReport, analysis.report)) {
+      const [left, right] = orderReportsForCompare(baseReport, analysis.report);
+      openGeneratedCompare(left.id, right.id);
+      return true;
+    }
+    openGeneratedReport(analysis.report.id);
     return true;
   } catch {
+    if (!isActiveGeneration(runId)) return false;
     error.value = '暂时无法生成解读，请检查文字后重试。';
     return false;
   } finally {
-    stopLoadingMessages();
-    generating.value = false;
+    if (isActiveGeneration(runId)) {
+      stopLoadingMessages();
+      stopGenerationWatch();
+      generating.value = false;
+    }
   }
 }
 
@@ -601,13 +894,10 @@ function resolveEffectiveConfidence(): LabelTextConfidence {
 }
 
 function buildReportInputParts(options: { fromAutoRecognition?: boolean }) {
-  const shouldTreatAsInsufficient = Boolean(
-    options.fromAutoRecognition
-    && extractionConfidence.value === 'low'
-    && !hasAiSearchLabelText.value
-  );
+  const shouldTreatAsInsufficient = shouldTreatAutoRecognitionAsInsufficient(options);
   if (!shouldTreatAsInsufficient) {
-    return {
+    const parts = {
+      productNameText: productName.value.trim(),
       foodTypeText: foodTypeText.value,
       ingredientText: ingredientText.value,
       nutritionText: nutritionText.value,
@@ -615,10 +905,21 @@ function buildReportInputParts(options: { fromAutoRecognition?: boolean }) {
       frontClaimsText: frontClaimsText.value,
       productionDateText: productionDateText.value,
       unconfirmedText: ignoredText.value,
+      qualityWarnings: extractionQualityWarnings.value,
       confidence: resolveEffectiveConfidence()
     };
+    if (shouldNormalizeManualReportInput(options)) {
+      const normalizedParts = normalizeManualInputParts(parts);
+      return {
+        ...normalizedParts,
+        qualityWarnings: parts.qualityWarnings,
+        confidence: parts.confidence
+      };
+    }
+    return parts;
   }
   return {
+    productNameText: productName.value.trim(),
     foodTypeText: '',
     ingredientText: '',
     nutritionText: '',
@@ -630,10 +931,59 @@ function buildReportInputParts(options: { fromAutoRecognition?: boolean }) {
       ingredientText.value ? `低置信配料线索：${ingredientText.value}` : '',
       nutritionText.value ? `低置信营养线索：${nutritionText.value}` : '',
       allergenText.value ? `低置信致敏原线索：${allergenText.value}` : '',
-      frontClaimsText.value ? `低置信包装声明线索：${frontClaimsText.value}` : ''
+      frontClaimsText.value ? `低置信包装声明线索：${frontClaimsText.value}` : '',
+      hasUnreliableAutoCaptureText() ? '图片可能模糊、倾斜、反光或遮挡，需补拍确认。' : '',
+      ocrResult.value?.mode === 'mock' ? '当前环境使用 mock OCR，不能作为包装实拍识别证据。' : '',
+      ocrResult.value?.mode === 'fallback' ? '本次 OCR 未成功返回可用文字。' : '',
+      !hasPrimaryLabelText.value ? '未识别到配料表或营养成分表。' : ''
     ].filter(Boolean),
+    qualityWarnings: extractionQualityWarnings.value,
     confidence: 'low' as LabelTextConfidence
   };
+}
+
+function shouldNormalizeManualReportInput(options: { fromAutoRecognition?: boolean }): boolean {
+  if (options.fromAutoRecognition && !manualOverride.value) return false;
+  return manualOverride.value
+    || extractionSourceType.value === 'manual'
+    || ocrResult.value?.mode === 'manual'
+    || /营养成分表|营养成分|NRV|每\s*100\s*(?:g|克|ml|毫升)|能量\s*\d|蛋白质\s*\d|脂肪\s*\d|碳水化合物\s*\d|钠\s*\d/i.test(ingredientText.value);
+}
+
+function shouldTreatAutoRecognitionAsInsufficient(options: { fromAutoRecognition?: boolean }): boolean {
+  if (!options.fromAutoRecognition) return false;
+  if (hasAiSearchLabelText.value) return false;
+  if (ocrResult.value?.mode === 'mock' || ocrResult.value?.mode === 'fallback') return true;
+  if (!hasPrimaryLabelText.value) return true;
+  if (extractionConfidence.value === 'low') return true;
+  if (extractionQualityWarnings.value.length) return true;
+  if (hasUnreliableAutoCaptureText()) return true;
+  if (!hasMeaningfulProductIdentity() && extractionConfidence.value !== 'high' && parseIngredientList(ingredientText.value).length < 3 && countUsefulLines(nutritionText.value) < 3) return true;
+  return false;
+}
+
+function hasUnreliableAutoCaptureText(): boolean {
+  const text = [
+    rawOcrText.value,
+    ingredientText.value,
+    nutritionText.value,
+    allergenText.value,
+    frontClaimsText.value,
+    ignoredText.value.join(' '),
+    extractionQualityWarnings.value.join(' ')
+  ].join(' ');
+  return /模糊|拍糊|倾斜|反光|眩光|遮挡|看不清|低置信|失败恢复|OCR\s*(?:未成功|失败)|识别失败/i.test(text);
+}
+
+function hasMeaningfulProductIdentity(): boolean {
+  const name = [
+    productName.value,
+    recognitionInfo.value?.productName,
+    recognitionInfo.value?.brand,
+    recognitionInfo.value?.normalizedCode,
+    recognitionInfo.value?.qrContent
+  ].join('').replace(/\s+/g, '');
+  return Boolean(name) && !/^(未命名食品|未识别商品|未知食品|这款食品|食品标签|包装正面|购买建议)$/u.test(name);
 }
 
 function saveRecognitionRecord(analysis: ProductAnalysisResult) {
@@ -660,25 +1010,35 @@ function saveRecognitionRecord(analysis: ProductAnalysisResult) {
   });
 }
 
-function buildCurrentTextDraft(options: { resetDerived: boolean }): Partial<ScanDraft> {
-  const confirmedText = buildEffectiveLabelText();
-  const previous = getScanDraft();
-  const textChanged = confirmedText !== previous.confirmedText;
-  const nextDraft: Partial<ScanDraft> = {
-    confirmedText,
-    productName: productName.value.trim(),
-    foodTypeText: foodTypeText.value.trim(),
-    productionDateText: productionDateText.value.trim(),
-    labelType: labelType.value,
-    frontClaimsText: frontClaimsText.value.trim()
-  };
-  if (options.resetDerived || textChanged) {
-    nextDraft.ingredients = [];
-    nextDraft.nutrition = [];
-    nextDraft.matches = [];
+function getActiveCompareBaseReportId(): string {
+  return String(getScanDraft().compareBaseReportId || '').trim();
+}
+
+function refreshCompareBaseReportId() {
+  compareBaseReportId.value = getActiveCompareBaseReportId();
+}
+
+function withCompareBase<T extends Partial<ScanDraft>>(draft: T, compareBaseReportId = getActiveCompareBaseReportId()): T {
+  return compareBaseReportId ? { ...draft, compareBaseReportId } : draft;
+}
+
+function getPlatformErrorMessage(reason: unknown): string {
+  if (reason instanceof Error) return reason.message;
+  if (typeof reason === 'string') return reason;
+  if (reason && typeof reason === 'object') {
+    const errorLike = reason as { errMsg?: unknown; message?: unknown };
+    return String(errorLike.errMsg || errorLike.message || '');
   }
-  if (textChanged && previous.ocr) nextDraft.ocr = { ...previous.ocr, text: rawOcrText.value || confirmedText };
-  return nextDraft;
+  return '';
+}
+
+function isImagePickerCancel(reason: unknown): boolean {
+  const message = getPlatformErrorMessage(reason).toLowerCase();
+  return message === 'image_not_selected' || /cancel|取消/.test(message);
+}
+
+function isUnsupportedBrowserImageFileError(message: string): boolean {
+  return /unsupported_image_file|image_decode_failed/.test(String(message || ''));
 }
 
 function resolveInputSourceType(): 'ocr' | 'manual' | 'demo' {
@@ -703,6 +1063,71 @@ function buildInsufficientRecognitionInfo(asset?: LocalImageAsset): ProductRecog
     usedAiSearch: false,
     aiNotice: ''
   };
+}
+
+function beginGenerationWatch(): number {
+  generationRunId.value += 1;
+  const runId = generationRunId.value;
+  generating.value = true;
+  generationTimedOut.value = false;
+  stopGenerationWatch();
+  generationTimeoutTimer.value = setTimeout(() => {
+    if (!isActiveGeneration(runId) || !generating.value) return;
+    generationTimedOut.value = true;
+    loadingText.value = hasGeneratedReport.value
+      ? '报告已保存，可以直接查看。'
+      : '生成时间偏长，可以重试或重新拍摄。';
+  }, GENERATION_TIMEOUT_MS);
+  return runId;
+}
+
+function isActiveGeneration(runId: number): boolean {
+  return runId === generationRunId.value;
+}
+
+function stopGenerationWatch() {
+  if (generationTimeoutTimer.value) clearTimeout(generationTimeoutTimer.value);
+  generationTimeoutTimer.value = undefined;
+}
+
+function retryGenerateResult() {
+  generationRunId.value += 1;
+  generating.value = false;
+  generationTimedOut.value = false;
+  stopGenerationWatch();
+  stopLoadingMessages();
+  const shouldRetryAsAuto = Boolean(image.value && extractionSourceType.value !== 'manual' && !manualOverride.value);
+  void generateResult({ fromAutoRecognition: shouldRetryAsAuto });
+}
+
+function viewGeneratedReport() {
+  if (!lastGeneratedReportId.value || !getReportById(lastGeneratedReportId.value)) {
+    error.value = '还没有可查看的已生成报告，可以先重试生成。';
+    return;
+  }
+  openGeneratedReport(lastGeneratedReportId.value);
+}
+
+function openGeneratedReport(reportId: string) {
+  uni.navigateTo({
+    url: `${routes.report}?id=${encodeURIComponent(reportId)}`,
+    fail: () => {
+      stage.value = 'pick';
+      generationTimedOut.value = true;
+      error.value = '报告已生成，但没有自动打开。可以点击查看已生成报告。';
+    }
+  });
+}
+
+function openGeneratedCompare(leftId: string, rightId: string) {
+  uni.navigateTo({
+    url: `${routes.compare}?left=${encodeURIComponent(leftId)}&right=${encodeURIComponent(rightId)}`,
+    fail: () => {
+      stage.value = 'pick';
+      generationTimedOut.value = true;
+      error.value = '报告已生成，但对比页没有自动打开。可以先查看已生成报告。';
+    }
+  });
 }
 
 function buildTargetLoadingText(): string {
@@ -780,11 +1205,12 @@ function buildQualityIssues(): string[] {
   if (shouldShowLowConfidence.value) {
     issues.push('文字区域不够清晰，建议让配料表或营养表占满画面。');
   }
+  extractionQualityWarnings.value.forEach((warning) => issues.push(warning));
   if (ignoredText.value.length >= 3) {
     issues.push('识别到较多包装信息，结果会优先使用配料、营养数字和过敏原文字。');
   }
   if (isNutritionOnly.value) {
-    issues.push('当前只有营养数字，补充配料表后可以看到添加剂解释。');
+    issues.push('当前只有营养数字，补充配料表后购买建议会更准确。');
   }
   if (isFrontOnly.value) {
     issues.push('当前主要是宣传语或声称，需要配料表或营养表才能给出更多结果。');
@@ -841,12 +1267,41 @@ function formatRecognitionTime(value: string): string {
   <view class="page" :class="[stage === 'manualInput' ? 'page--confirm' : 'page--capture stack', stage === 'manualInput' && !image?.tempFilePath ? 'page--manual-confirm' : '']">
     <template v-if="stage !== 'manualInput'">
       <view class="capture-intro">
-        <text class="capture-intro__title">拍清包装文字</text>
-        <text class="capture-intro__desc">整包、配料、营养数字都可以拍；识别到可用文字后自动生成结果。</text>
+        <text class="capture-intro__title">{{ captureTitle }}</text>
+        <text class="capture-intro__desc">{{ captureDescription }}</text>
+        <view class="profile-strip" @tap="openAttentionSettings">
+          <text v-for="chip in profileChips" :key="chip" class="profile-chip">{{ chip }}</text>
+          <text class="profile-edit">调整</text>
+        </view>
+        <text v-if="recoverySeedSummary" class="recovery-seed-note">{{ recoverySeedSummary }}</text>
       </view>
-      <ImageUploader :image="image" @camera="choose('camera')" @album="choose('album')" @scan-code="scanCode" @manual="startManualTextEntry" @clear="clearImage" />
-      <ErrorState v-if="stage === 'pick' && error" title="图片选择失败" :description="error" action-label="重试上传" @action="choose('album')" />
+      <ImageUploader
+        :image="image"
+        :compare-mode="isCompareCapture"
+        :recognizing="isRecognizingImage"
+        :status-title="uploaderStatusTitle"
+        :status-description="uploaderStatusDescription"
+        :busy-label="uploaderBusyLabel"
+        @camera="choose('camera')"
+        @album="choose('album')"
+        @file-selected="chooseBrowserFile"
+        @scan-code="scanCode"
+        @manual="startManualTextEntry"
+        @clear="clearImage"
+        @recognize="startRecognize"
+      />
+      <ErrorState v-if="stage === 'pick' && error" title="没有完成识别" :description="uploadRecoveryDescription" action-label="重新上传标签" @action="choose('album')" />
       <LoadingState v-if="stage === 'recognizing' && loadingText">{{ loadingText }}</LoadingState>
+      <view v-if="generationTimedOut" class="generation-recovery">
+        <view class="generation-recovery__copy">
+          <text class="generation-recovery__title">{{ generationRecoveryTitle }}</text>
+          <text class="generation-recovery__desc">{{ generationRecoveryDescription }}</text>
+        </view>
+        <view class="generation-recovery__actions">
+          <AppButton variant="secondary" @click="retryGenerateResult">重试生成</AppButton>
+          <AppButton v-if="hasGeneratedReport" @click="viewGeneratedReport">查看已生成报告</AppButton>
+        </view>
+      </view>
     </template>
 
     <template v-else>
@@ -860,6 +1315,10 @@ function formatRecognitionTime(value: string): string {
           <view class="confirm-heading">
             <text class="confirm-title">补充信息</text>
             <text class="confirm-desc">优先补配料表或营养数字。</text>
+            <view class="profile-strip profile-strip--sheet" @tap="openAttentionSettings">
+              <text v-for="chip in profileChips" :key="chip" class="profile-chip">{{ chip }}</text>
+              <text class="profile-edit">调整</text>
+            </view>
           </view>
           <view v-if="error" class="inline-warning">
             <text>{{ error }}</text>
@@ -975,7 +1434,7 @@ function formatRecognitionTime(value: string): string {
                 <view class="confirm-section__head">
                   <view class="confirm-section__title-group">
                     <text class="field-label">生产日期</text>
-                    <text class="confirm-section__desc">用于在识别详情里保留日期线索</text>
+                    <text class="confirm-section__desc">用于辅助判断临期和储存风险</text>
                   </view>
                   <view class="confirm-section__meta">
                     <text v-if="productionDateText.trim()" class="confirm-section__status">{{ productionDateCountText }}</text>
@@ -986,10 +1445,20 @@ function formatRecognitionTime(value: string): string {
               </view>
             </template>
           </view>
-          <LoadingState v-if="generating">{{ loadingText || '正在识别添加剂和营养信息...' }}</LoadingState>
+          <LoadingState v-if="generating">{{ loadingText || '正在生成购买建议...' }}</LoadingState>
+          <view v-if="generationTimedOut" class="generation-recovery generation-recovery--sheet">
+            <view class="generation-recovery__copy">
+              <text class="generation-recovery__title">{{ generationRecoveryTitle }}</text>
+              <text class="generation-recovery__desc">{{ generationRecoveryDescription }}</text>
+            </view>
+            <view class="generation-recovery__actions">
+              <AppButton variant="secondary" @click="retryGenerateResult">重试生成</AppButton>
+              <AppButton v-if="hasGeneratedReport" @click="viewGeneratedReport">查看已生成报告</AppButton>
+            </view>
+          </view>
           <text v-if="!canGenerate && !generating" class="submit-hint">先补配料表或营养数字。</text>
           <view class="manual-bottom-actions">
-            <AppButton class="manual-bottom-actions__main" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成参考报告</AppButton>
+            <AppButton class="manual-bottom-actions__main" :disabled="!canGenerate || generating" :loading="generating" @click="generateResult">生成购买建议</AppButton>
             <AppButton class="manual-bottom-actions__secondary" variant="secondary" @click="choose('camera')">重新拍</AppButton>
             <AppButton v-if="hasAnyConfirmedText" class="manual-bottom-actions__clear" variant="text" @click="clearText">清空文字</AppButton>
           </view>
@@ -1022,6 +1491,96 @@ function formatRecognitionTime(value: string): string {
   color: var(--muted);
   font-size: var(--font-size-sm);
   line-height: 1.5;
+}
+
+.recovery-seed-note {
+  border: 1px solid rgba(18, 151, 128, 0.16);
+  border-radius: 14rpx;
+  background: rgba(238, 250, 245, 0.92);
+  color: var(--primary-strong);
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.35;
+  padding: 10rpx 12rpx;
+}
+
+.generation-recovery {
+  border: 1px solid rgba(216, 138, 36, 0.22);
+  border-radius: 20rpx;
+  background: rgba(255, 248, 236, 0.94);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+}
+
+.generation-recovery--sheet {
+  margin-top: 0;
+}
+
+.generation-recovery__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.generation-recovery__title {
+  color: var(--text);
+  font-size: var(--font-size-base);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.generation-recovery__desc {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.generation-recovery__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.generation-recovery__actions > :only-child {
+  grid-column: 1 / -1;
+}
+
+.profile-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  align-items: center;
+  margin-top: var(--space-xs);
+}
+
+.profile-strip--sheet {
+  margin-top: 0;
+}
+
+.profile-chip,
+.profile-edit {
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1.2;
+  min-height: 44px;
+  padding: 8rpx 14rpx;
+}
+
+.profile-chip {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.profile-edit {
+  background: var(--surface-subtle);
+  color: var(--muted);
 }
 
 .page--confirm {
@@ -1058,8 +1617,8 @@ function formatRecognitionTime(value: string): string {
 }
 
 .confirm-back {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.28);
   color: #ffffff;
@@ -1164,6 +1723,9 @@ function formatRecognitionTime(value: string): string {
   color: var(--primary-strong);
   flex: 0 0 auto;
   font-weight: 900;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .submit-hint {
@@ -1391,6 +1953,9 @@ function formatRecognitionTime(value: string): string {
   font-size: var(--font-size-xs);
   font-weight: 800;
   line-height: 1.4;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   padding: 4px 2px;
 }
 
@@ -1497,10 +2062,14 @@ function formatRecognitionTime(value: string): string {
   border-radius: 999px;
   background: var(--surface);
   color: var(--primary-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
   font-size: var(--font-size-xs);
   font-weight: 900;
   line-height: 1.2;
+  min-height: 44px;
   padding: 8rpx 14rpx;
   white-space: nowrap;
 }

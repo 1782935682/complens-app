@@ -1,0 +1,102 @@
+{
+  "provider": "codex",
+  "round": 30,
+  "personaSlug": "parent-child-snack",
+  "persona": "Parent choosing snacks/drinks for a child; wants quick buy/caution/avoid guidance, clear allergen and sugar evidence, and reusable saved/avoid decisions.",
+  "reviewMode": "black-box H5 real interaction only",
+  "verdict": "reviewed",
+  "scores": {
+    "taskCompletionRate": 100,
+    "noAssistanceCompletionRate": 100,
+    "decisionClarity": 88,
+    "easeOfUse": 84,
+    "trust": 90,
+    "comparisonValue": 86,
+    "overallValue": 87
+  },
+  "tasks": [
+    {
+      "taskId": "task-1",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "成分镜 | 看食品标签，判断该不该买 | 优先拍配料表、营养表或条码；结论会标出依据和信息不足。 | 拍哪里 | 配料 / 营养 / 条码 | 直接提示补拍 | 拍照识别 | 示例结果，不是你的报告 | 来源 | 包装实拍 | 条码 | 上传识别 | 扫条码/二维码 | 手动输入"
+    },
+    {
+      "taskId": "task-2",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "NO | 该不该买 | 不建议 | 高糖乳酸菌饮料 | 建议换一款更稳妥的同类产品。 | 按儿童判断 | 来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100ml | 避坑分 | 17 | 换一款"
+    },
+    {
+      "taskId": "task-3",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "? | 补拍后判断 | 信息不足 | 高纤维低负担 | 先按下一步补拍缺失标签，再做购买判断。 | 按儿童判断 | 来源：身份线索 · 缺少：配料表、营养成分表 · 下一步：补拍配料表 | 还不能下购买结论 | 缺少配料表、营养成分表，只识别到商品名。请补拍清晰标签后再生成购买结论。 | 下一步 | 下一步拍清完整配料表；如果营养成分表也缺失，下一张一起补齐。 | 缺少配料表或营养成分表，本次只保留商品身份线索。"
+    },
+    {
+      "taskId": "task-4",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "缺少配料表或营养成分表，本次只保留商品身份线索。 | 来源：身份线索 · 缺少：配料表、营养成分表 · 下一步：补拍配料表 | 还不能下购买结论 | 缺少配料表、营养成分表，只识别到商品名。请补拍清晰标签后再生成购买结论。 | 下一步 | 配料表 | 未获得可用配料表 | 拍包装背面的完整配料表，尽量包含从第一项到最后一项。 | 营养成分表 | 未获得可用营养表 | 条码 | 上传识别 | 拍照识别 | 扫条码/二维码 | 手动输入"
+    },
+    {
+      "taskId": "task-5",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "食品对比 | ! | A vs B | 两款都含牛奶。如果你或家人过敏，本次不要只看胜出款；先设为忌口后重算。未过敏再看糖、钠和添加剂差异。 | 都不选 | 两款都不建议常买；若必须二选一，低糖酸奶饮品负担相对更低，但仍建议小份量或继续换同类。 | 常见过敏原 | 两款都含牛奶。如果你或家人过敏，本次不要只看胜出款；先设为忌口后重算。 | 一键设为忌口并重算"
+    },
+    {
+      "taskId": "task-6",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "0 保存 / 0 避雷 | 快速切换关注 | 日常 | 控糖 | 儿童 | 关注项 | 已保存 | 依据来源 | 我的关注项 | 关注项保存在本机，用于排序和提示，不作为医疗或营养建议。 | 普通配料词库 | 普通配料词库仅用于标签可读性和匹配辅助，不作为法规结论。"
+    },
+    {
+      "taskId": "task-7",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "撤销保存 | 加入避雷 | 回首页 | 反馈 | 购买建议 | 已保存，可在首页已保存查看；再次点击可撤销。 | NO | 该不该买 | 不建议 | 已加入避雷，并从普通保存移出；再次点击可撤销避雷。"
+    },
+    {
+      "taskId": "task-8",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "AI | 比直接问 AI 省事的地方 | 包装实拍 | 结论绑定本次标签文字、配料表、营养表和致敏提示。 | 按关注项 | 按儿童判断 | 来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100ml | 避坑分 | 17 | 换一款 | 按儿童判断，风险按当前画像重排。 | 同类对比 | 继续拍第二款，会比较糖、钠、过敏原和添加剂。 | 拍第二款对比 | 查看避雷"
+    }
+  ],
+  "trustSignals": {
+    "valueBeyondGenericAi": true,
+    "wouldUseAgain": true,
+    "notes": "The live UI ties decisions to packaging evidence, attention profile, missing-info recovery, and same-category comparison. For a parent snack/drink choice, allergen and sugar evidence were understandable without external help."
+  },
+  "issues": [],
+  "screenshots": [
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-1-home.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-1-capture-start.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-6-profile-child.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-6-capture-child-profile.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-2-single-product-decision.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-7-save-report.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-7-add-avoid.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-8-value-vs-generic-ai.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-5-second-product-capture.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-5-two-product-comparison.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-7-home-history-reuse.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-3-insufficient-info.png",
+    "/home/downloads/git/compcheck/reports/product-review/screenshots/round-30/codex/parent-child-snack/task-4-failure-recovery.png"
+  ],
+  "samplesUsed": [
+    "sample-08",
+    "sample-09",
+    "sample-03"
+  ],
+  "generatedAt": "2026-06-27T02:18:49.324Z"
+}

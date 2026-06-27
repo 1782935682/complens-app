@@ -13,6 +13,7 @@ import type {
   ReportSource
 } from '@/types';
 import { enrichReportDecision } from './decisionRules';
+import { extractOcrSourceLine, normalizeOcrEvidenceText } from './ocrAdapter';
 
 export function buildLabelReport(input: {
   productName: string;
@@ -62,10 +63,10 @@ export function buildLabelReport(input: {
     allergenHints: buildAllergenHints(reportMatches),
     unknownItems,
     analysisSource: input.sourceMeta,
-    sources: buildSources(acceptedMatches, { allMatches: reportMatches, ocr: input.ocr, sourceMeta: input.sourceMeta }),
+    sources: buildSources(acceptedMatches, { allMatches: reportMatches, ocr: input.ocr, sourceMeta: input.sourceMeta, rawText: input.rawText }),
     rawText: input.rawText
   };
-  return enrichReportDecision(report, input.attention);
+  return attachTopRiskSourceLines(enrichReportDecision(report, input.attention));
 }
 
 function sanitizeReportMatch(match: IngredientMatch): IngredientMatch {
@@ -96,7 +97,11 @@ function buildSummarySentence(input: { ingredients: ParsedIngredient[]; nutritio
   if (frontClaimsText) parts.push('包装声明已整理');
   if (additiveCount) parts.push(`看到 ${additiveCount} 种常见食品添加剂`);
   if (nutritionCount >= 2) parts.push(`营养数字已整理 ${nutritionCount} 项`);
-  if (nutritionCount === 1) parts.push('只识别到 1 项营养数字，需补拍确认');
+  if (nutritionCount === 1) {
+    parts.push(input.ingredients.length || frontClaimsText
+      ? '营养数字只识别到 1 项，已按现有标签先整理'
+      : '只识别到 1 项营养数字，信息可能不足');
+  }
   if (visibleHits.length) parts.push(`建议重点查看：${visibleHits.map((hit) => hit.label).slice(0, 3).join('、')}`);
   return parts.length ? `${parts.join('，')}。` : '未识别到可分析的配料表或营养成分表。';
 }
@@ -359,7 +364,7 @@ const allergenTerms = [
   { label: '海鲜', patterns: ['海鲜', '虾', '蟹', '鱼', '贝类'] }
 ];
 
-function buildSources(matches: IngredientMatch[], options: { allMatches?: IngredientMatch[]; ocr?: OcrResult; sourceMeta?: ReportAnalysisSource } = {}): ReportSource[] {
+function buildSources(matches: IngredientMatch[], options: { allMatches?: IngredientMatch[]; ocr?: OcrResult; sourceMeta?: ReportAnalysisSource; rawText?: string } = {}): ReportSource[] {
   const allMatches = options.allMatches ?? matches;
   const sources: ReportSource[] = [];
   if (options.sourceMeta?.sourceType === 'ai_search_product_label') {
@@ -405,10 +410,28 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
       sourceType: 'manual_input'
     }
   );
+  const preservedText = normalizeReportText(options.rawText || options.sourceMeta?.ocrText || '');
+  if (preservedText) {
+    const sourceType = options.sourceMeta?.usedAiSearch
+      ? 'ai_search'
+      : options.sourceMeta?.fromManualInput
+        ? 'manual_input'
+        : 'ocr_input';
+    const label = options.sourceMeta?.usedAiSearch
+      ? '完整公开标签线索文本'
+      : options.sourceMeta?.fromManualInput
+        ? '完整手动标签文本'
+        : '完整 OCR / 标签文本';
+    sources.push({
+      label,
+      detail: `报告页已保留 ${preservedText.length} 字文本入口和关键风险原文片段；这是文字核对证据，不提供或伪造原图高亮。`,
+      sourceType
+    });
+  }
   if (options.ocr?.mode === 'mock' || options.ocr?.provider === 'mock') {
     sources.push({
-      label: 'mock only OCR',
-      detail: '本次 OCR 文本来自 mock provider，仅用于开发或降级演示。',
+      label: '包装图片文字',
+      detail: '本次使用图片识别文字生成结果；识别文字不是权威来源，请结合包装确认。',
       sourceType: 'mock_adapter'
     });
   }
@@ -435,15 +458,15 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
   }
   if (options.sourceMeta?.usedAiSearch) {
     sources.push({
-      label: 'DeepSeek 联网搜索',
+      label: 'AI 公开标签线索',
       detail: options.sourceMeta.aiNotice || 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
       sourceType: 'ai_search'
     });
   }
   if (options.sourceMeta?.aiSearchErrorCode) {
     sources.push({
-      label: 'DeepSeek 联网搜索',
-      detail: `AI 搜索未获取到完整标签信息（${options.sourceMeta.aiSearchErrorCode}），请补拍配料表 / 营养表或手动补充。`,
+      label: 'AI 公开标签线索',
+      detail: 'AI 未获取到完整标签信息，请补拍配料表 / 营养表或手动补充。',
       sourceType: 'ai_search'
     });
   }
@@ -483,6 +506,220 @@ function buildSources(matches: IngredientMatch[], options: { allMatches?: Ingred
     });
   }
   return sources;
+}
+
+function attachTopRiskSourceLines(report: LabelReport): LabelReport {
+  const sources = buildTopRiskSourceLineSources(report);
+  if (!sources.length) return report;
+  return {
+    ...report,
+    sources: uniqueReportSources([...sources, ...report.sources])
+  };
+}
+
+function buildTopRiskSourceLineSources(report: LabelReport): ReportSource[] {
+  const risks = (report.purchaseDecision?.riskReasons || [])
+    .map((risk) => normalizeReportText(risk))
+    .filter(Boolean)
+    .slice(0, 3);
+  return risks
+    .map((risk, index) => buildTopRiskSourceLineSource(report, risk, index))
+    .filter((source): source is ReportSource => Boolean(source));
+}
+
+function buildTopRiskSourceLineSource(report: LabelReport, risk: string, index: number): ReportSource | undefined {
+  const candidates = chooseRiskEvidenceCandidates(report, risk);
+  if (!candidates.length) return undefined;
+  const line = resolveRiskSourceLine(candidates, buildRiskEvidenceTerms(risk, report));
+  const sourceLine = line.text
+    ? `${line.found ? '' : '未命中关键词，最近可核对行：'}${line.text}`
+    : '未在可用 OCR/标签文本中定位到对应原文；请展开完整 OCR/标签文本核对。';
+  const lineNumber = line.lineNumber > 0 ? ` #${line.lineNumber}` : '';
+  return {
+    label: `Top risk ${index + 1} source line`,
+    detail: `风险：${compactSourceDetail(risk)}。Source line（${line.label}${lineNumber}）：${sourceLine}。Crop placeholder：原图高亮暂未接入，未生成或伪造高亮框。`,
+    sourceType: sourceTypeForRiskEvidence(report)
+  };
+}
+
+function chooseRiskEvidenceCandidates(report: LabelReport, risk: string): Array<{ label: string; text: string }> {
+  const source = report.analysisSource;
+  const candidates: Array<{ label: string; text: string }> = [];
+  const push = (label: string, text: unknown) => {
+    const normalized = normalizeOcrEvidenceText(text);
+    if (normalized) candidates.push({ label, text: normalized });
+  };
+
+  if (/过敏|致敏|牛奶|牛乳|生牛乳|羊乳|乳制品|大豆|花生|坚果|麸质|鸡蛋|海鲜|忌口/.test(risk)) {
+    push('致敏提示', source?.allergenText);
+    push('配料表', source?.ingredientText);
+  } else if (/糖|碳水|钠|盐|脂肪|热量|能量|反式/.test(risk)) {
+    push('营养成分表', source?.nutritionText);
+    push('营养字段', nutritionFieldSourceText(report, risk));
+    push('配料表', source?.ingredientText);
+  } else if (/添加剂|甜味剂|色素|防腐剂|氢化|咖啡因|酒精/.test(risk)) {
+    push('配料表', source?.ingredientText);
+  } else if (/接口|降级|数据源|AI|未完整|失败/.test(risk)) {
+    push('识别/数据源说明', [
+      source?.description,
+      source?.aiNotice,
+      source?.aiSearchSummary,
+      ...(source?.qualityWarnings || [])
+    ].filter(Boolean).join('\n'));
+  }
+
+  push(source?.fromManualInput ? '完整手动标签文本' : '完整 OCR / 标签文本', buildFullEvidenceText(report));
+  return uniqueRiskCandidates(candidates);
+}
+
+function resolveRiskSourceLine(candidates: Array<{ label: string; text: string }>, terms: string[]): {
+  label: string;
+  lineNumber: number;
+  text: string;
+  found: boolean;
+} {
+  for (const candidate of candidates) {
+    const line = extractOcrSourceLine(candidate.text, terms);
+    if (line.found) return { label: candidate.label, ...line };
+  }
+  const fallback = candidates.find((candidate) => candidate.text);
+  if (!fallback) return { label: '完整 OCR / 标签文本', lineNumber: 0, text: '', found: false };
+  return { label: fallback.label, ...extractOcrSourceLine(fallback.text, terms) };
+}
+
+function buildRiskEvidenceTerms(risk: string, report: LabelReport): string[] {
+  const terms: string[] = [];
+  risk
+    .replace(/来源.*$/u, '')
+    .split(/[，。；：:、\s/（）()]+/u)
+    .forEach((term) => appendEvidenceTerm(terms, term));
+  if (/过敏|致敏|牛奶|牛乳|生牛乳|羊乳|乳制品|大豆|花生|坚果|麸质|鸡蛋|海鲜|忌口/.test(risk)) {
+    ['致敏', '过敏', '牛奶', '牛乳', '生牛乳', '乳粉', '乳糖', '大豆', '花生', '坚果', '小麦', '麸质', '鸡蛋', '虾', '蟹', '鱼'].forEach((term) => appendEvidenceTerm(terms, term));
+  }
+  if (/糖|碳水/.test(risk)) {
+    ['糖', '碳水', '白砂糖', '果葡糖浆', '葡萄糖', '麦芽糖', '蔗糖'].forEach((term) => appendEvidenceTerm(terms, term));
+    addNutritionEvidenceTerms(terms, report, ['sugar', 'carbohydrate']);
+  }
+  if (/钠|盐/.test(risk)) {
+    ['钠', '盐', '食盐', '氯化钠', '谷氨酸钠'].forEach((term) => appendEvidenceTerm(terms, term));
+    addNutritionEvidenceTerms(terms, report, ['sodium', 'salt']);
+  }
+  if (/脂肪|热量|能量|反式/.test(risk)) {
+    ['脂肪', '反式脂肪', '能量', '热量', '植物油', '氢化'].forEach((term) => appendEvidenceTerm(terms, term));
+    addNutritionEvidenceTerms(terms, report, ['fat', 'transFat', 'energy']);
+  }
+  if (/添加剂|甜味剂|色素|防腐剂/.test(risk)) {
+    ['添加剂', '甜味剂', '色素', '防腐剂', '阿斯巴甜', '安赛蜜', '三氯蔗糖', '赤藓糖醇', '山梨酸', '苯甲酸'].forEach((term) => appendEvidenceTerm(terms, term));
+  }
+  report.ingredientSection.items.forEach((item) => {
+    appendEvidenceTerm(terms, item.normalizedText);
+    appendEvidenceTerm(terms, item.ingredientName);
+  });
+  return uniqueEvidenceTerms(terms);
+}
+
+function addNutritionEvidenceTerms(target: string[], report: LabelReport, keys: string[]) {
+  keys.forEach((key) => {
+    const field = report.nutritionSection.fields.find((item) => item.key === key);
+    appendEvidenceTerm(target, field?.label);
+    appendEvidenceTerm(target, field?.sourceText);
+    appendEvidenceTerm(target, field?.value);
+    if (field?.value && field.unit) appendEvidenceTerm(target, `${field.value}${field.unit}`);
+  });
+}
+
+function nutritionFieldSourceText(report: LabelReport, risk: string): string {
+  const keys = [
+    /糖|碳水/.test(risk) ? ['sugar', 'carbohydrate'] : [],
+    /钠|盐/.test(risk) ? ['sodium', 'salt'] : [],
+    /脂肪|热量|能量|反式/.test(risk) ? ['fat', 'transFat', 'energy'] : []
+  ].flat();
+  return keys
+    .map((key) => report.nutritionSection.fields.find((field) => field.key === key))
+    .filter((field): field is NutritionField => Boolean(field))
+    .map((field) => field.sourceText || `${field.label} ${field.value}${field.unit}`)
+    .filter(Boolean)
+    .join('\n');
+}
+
+function buildFullEvidenceText(report: LabelReport): string {
+  const source = report.analysisSource;
+  return uniqueEvidenceTerms([
+    source?.ocrText,
+    report.rawText,
+    source?.recognition?.ocrText,
+    source?.ingredientText ? `配料表：${source.ingredientText}` : '',
+    source?.nutritionText ? `营养成分表：${source.nutritionText}` : '',
+    prefixedEvidenceText('致敏原提示', source?.allergenText),
+    source?.frontClaimsText ? `包装声明：${source.frontClaimsText}` : '',
+    source?.unconfirmedText?.length ? `未确认文字：${source.unconfirmedText.join('；')}` : ''
+  ]).join('\n');
+}
+
+function prefixedEvidenceText(label: string, value: unknown): string {
+  const text = stripEvidencePrefix(label, value);
+  return text ? `${label}：${text}` : '';
+}
+
+function stripEvidencePrefix(label: string, value: unknown): string {
+  const text = normalizeOcrEvidenceText(value);
+  if (!text) return '';
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text
+    .replace(new RegExp(`^(?:${escaped}|致敏提示|过敏原提示|过敏提示)[：:\\s]+`, 'u'), '')
+    .trim();
+}
+
+function sourceTypeForRiskEvidence(report: LabelReport): ReportSource['sourceType'] {
+  const source = report.analysisSource;
+  if (source?.sourceType === 'ai_search_product_label' || source?.usedAiSearch) return 'ai_search';
+  if (source?.sourceType === 'product_identity') return 'recognition_insufficient';
+  if (source?.fromManualInput) return 'manual_input';
+  return 'manual_review';
+}
+
+function appendEvidenceTerm(target: string[], value: unknown) {
+  const text = normalizeOcrEvidenceText(value).replace(/\s+/g, ' ').trim();
+  if (text.length >= 2 && text.length <= 40) target.push(text);
+}
+
+function uniqueEvidenceTerms(values: Array<unknown>): string[] {
+  const seen = new Set<string>();
+  return values
+    .map((value) => normalizeOcrEvidenceText(value))
+    .filter(Boolean)
+    .filter((value) => {
+      const key = value.replace(/\s+/g, ' ');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
+function uniqueRiskCandidates(candidates: Array<{ label: string; text: string }>): Array<{ label: string; text: string }> {
+  const seen = new Set<string>();
+  return candidates.filter((candidate) => {
+    const key = `${candidate.label}:${candidate.text.replace(/\s+/g, ' ')}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function uniqueReportSources(sources: ReportSource[]): ReportSource[] {
+  const seen = new Set<string>();
+  return sources.filter((source) => {
+    const key = `${source.sourceType}:${source.label}:${source.detail}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function compactSourceDetail(value: string, maxLength = 96): string {
+  const text = normalizeReportText(value);
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 3)}...`;
 }
 
 function isOfficialStandardMatch(match: IngredientMatch): boolean {

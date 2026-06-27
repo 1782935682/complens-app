@@ -149,6 +149,12 @@ type ReportInput = {
 
 export async function buildLabelReportWithAdapter(input: ReportInput): Promise<LabelReport> {
   const foodAnalysis = await analyzeFoodWithAdapter(input);
+  if (!hasRemoteReportInput(input)) {
+    return enrichReportDecision({
+      ...buildLocalLabelReport(input),
+      foodAnalysis
+    }, input.attention);
+  }
   try {
     const report = await requestJson<LabelReport>('/reports/label', {
       method: 'POST',
@@ -170,29 +176,42 @@ export async function buildLabelReportWithAdapter(input: ReportInput): Promise<L
     return enrichReportDecision({
       ...report,
       analysisSource: report.analysisSource || input.sourceMeta,
-      sources: mergeRecognitionSources(report.sources, input.sourceMeta),
+      sources: mergeRecognitionSources(report.sources, input.sourceMeta, input.ocr),
       foodAnalysis
     }, input.attention);
   } catch {
     return enrichReportDecision({
-      ...buildLabelReportLocally({
-      productName: input.productName,
-      rawText: input.rawText,
-      ingredients: input.ingredients,
-      matches: input.matches,
-      nutrition: input.nutrition,
-      attention: input.attention,
-      labelType: input.labelType,
-      frontClaimsText: input.frontClaimsText,
-      ocr: input.ocr,
-      sourceMeta: input.sourceMeta
-      }),
+      ...buildLocalLabelReport(input),
       foodAnalysis
     }, input.attention);
   }
 }
 
-function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: ReportAnalysisSource): ReportSource[] {
+function hasRemoteReportInput(input: ReportInput): boolean {
+  return Boolean(
+    String(input.rawText || '').trim()
+    || String(input.frontClaimsText || '').trim()
+    || input.ingredients.length
+    || input.nutrition.length
+  );
+}
+
+function buildLocalLabelReport(input: ReportInput): LabelReport {
+  return buildLabelReportLocally({
+    productName: input.productName,
+    rawText: input.rawText,
+    ingredients: input.ingredients,
+    matches: input.matches,
+    nutrition: input.nutrition,
+    attention: input.attention,
+    labelType: input.labelType,
+    frontClaimsText: input.frontClaimsText,
+    ocr: input.ocr,
+    sourceMeta: input.sourceMeta
+  });
+}
+
+function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: ReportAnalysisSource, ocr?: OcrResult): ReportSource[] {
   const shouldReplaceDefaultOcrSource = Boolean(
     sourceMeta
     && sourceMeta.sourceType !== 'manual_input'
@@ -250,16 +269,23 @@ function mergeRecognitionSources(sources: ReportSource[] = [], sourceMeta?: Repo
   }
   if (sourceMeta?.usedAiSearch) {
     next.push({
-      label: 'DeepSeek 联网搜索',
+      label: 'AI 公开标签线索',
       detail: sourceMeta.aiNotice || 'AI 仅提供公开标签线索，可能缺失或不准；不等同包装实拍、法规或医疗结论。请结合商品包装确认。',
       sourceType: 'ai_search'
     });
   }
   if (sourceMeta?.aiSearchErrorCode) {
     next.push({
-      label: 'DeepSeek 联网搜索',
-      detail: `AI 搜索未获取到完整标签信息（${sourceMeta.aiSearchErrorCode}），请补拍配料表 / 营养表或手动补充。`,
+      label: 'AI 公开标签线索',
+      detail: 'AI 未获取到完整标签信息，请补拍配料表 / 营养表或手动补充。',
       sourceType: 'ai_search'
+    });
+  }
+  if (sourceMeta?.qualityWarnings?.length) {
+    next.push({
+      label: '数据源状态',
+      detail: sourceMeta.qualityWarnings.join('；'),
+      sourceType: 'manual_review'
     });
   }
   const seen = new Set<string>();

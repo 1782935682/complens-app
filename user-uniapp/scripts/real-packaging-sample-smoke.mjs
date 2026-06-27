@@ -17,6 +17,7 @@ const ocrServiceUrl = normalizeOcrServiceUrl(process.env.OCR_SMOKE_SERVICE_URL |
 
 const attention = {
   primaryGoal: 'daily',
+  targetGoals: [],
   isChildrenMode: false,
   allergens: [],
   updatedAt: '2026-06-21T00:00:00.000+08:00'
@@ -205,6 +206,7 @@ async function runSample(sample, modules) {
       frontClaimsText: extraction.frontClaimsText,
       productionDateText: extraction.productionDateText,
       unconfirmedText: extraction.ignoredText,
+      qualityWarnings: extraction.qualityWarnings,
       confidence: extraction.confidence,
       attention,
       sourceType: 'ocr',

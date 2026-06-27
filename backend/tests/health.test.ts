@@ -34,6 +34,15 @@ describe('GET /health', () => {
     expect(body.version).toBe('0.1.0');
     expect(new Date(body.timestamp).toString()).not.toBe('Invalid Date');
   });
+
+  it('also exposes status under /api/health for proxied H5 review environments', async () => {
+    const response = await app.request('/api/health');
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.status).toBe('ok');
+    expect(body.version).toBe('0.1.0');
+  });
 });
 
 describe('error handling', () => {

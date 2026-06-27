@@ -1,0 +1,133 @@
+{
+  "provider": "codex",
+  "round": 30,
+  "personaSlug": "sugar-control",
+  "persona": "sugar-control shopper evaluating packaged food labels for sugar, carbohydrates, sweeteners, allergy caveats, and whether the product is worth buying",
+  "reviewMode": "black-box H5 real interaction only",
+  "verdict": "reviewed",
+  "scores": {
+    "taskCompletionRate": 100,
+    "noAssistanceCompletionRate": 100,
+    "decisionClarity": 90,
+    "easeOfUse": 84,
+    "trust": 90,
+    "comparisonValue": 94,
+    "overallValue": 90
+  },
+  "tasks": [
+    {
+      "taskId": "task-1",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Opened http://127.0.0.1:5210/#/ and started recognition via the visible 拍照识别 entry. The next screen clearly offered 上传识别, 拍照识别, 扫条码/二维码, and 手动输入. Screenshots: 00-home.png, 01-after-start-recognition.png."
+    },
+    {
+      "taskId": "task-2",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "After switching to 控糖, sample-01 produced a single-product decision: 不建议 for 橙味饮料, 避坑分 1, with evidence 糖/碳水 10.8g higher than the 10g threshold and source tied to 包装实拍. Screenshot: 04-sample-01-sugar-result.png."
+    },
+    {
+      "taskId": "task-3",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Insufficient-info samples did not invent a buy/no-buy answer. Samples 03, 04, 05, 06, and 07 showed 信息不足 / 补拍后判断, missing 配料表 and 营养成分表, and specific next steps such as 补拍配料表 and 拍营养成分表. Screenshots: 05-sample-03-result.png, 05-sample-04-result.png, 05-sample-05-result.png, 05-sample-06-result.png, 05-sample-07-result.png."
+    },
+    {
+      "taskId": "task-4",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Recovery paths were visible from incomplete recognition states: 按缺失项补拍, 重新拍标签, 手动纠错, 标记不准, and 手动输入 on the capture page. The app stayed usable and preserved partial identity/evidence rather than crashing or overstating confidence. Screenshots: 05-sample-06-result.png, 01-after-start-recognition.png."
+    },
+    {
+      "taskId": "task-5",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Used 拍第二款对比 from the report, uploaded sample-08 as the second product, and reached a comparison page. The comparison aligned A/B sugar, carbohydrate, sodium, allergen, and additive differences, with A 3.1g sugar vs B 12.8g and an allergy-first warning. Screenshot: 06-two-product-comparison-result.png."
+    },
+    {
+      "taskId": "task-6",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Switched the home attention chip to 控糖 and saw confirmation: 已切换为控糖关注，下一次识别会按控糖判断. Subsequent reports used 按控糖判断, and report/compare pages exposed 切换画像重算 / 按当前画像重算. Screenshots: 03-home-sugar-profile-selected.png, 04-sample-01-sugar-result.png, 06-two-product-comparison-result.png."
+    },
+    {
+      "taskId": "task-7",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Saved low-sugar yogurt drink and added high-sugar drink to avoid list through live report controls. Home then showed 1 保存 / 1 避雷, recent history marked 低糖酸奶饮品 已保存 and 高糖乳酸菌饮料 已避雷. Screenshots: 12-after-saving-report.png, 15-after-avoid-tap-exact.png, 16-home-avoid-counter-check.png."
+    },
+    {
+      "taskId": "task-8",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "The app repeatedly explained value beyond a generic AI photo answer: packaging evidence, profile-specific judgment, A/B aligned sugar/carbs/sodium/allergen/additive comparison, and not replacing real package evidence with public info. Screenshot: 18-value-vs-generic-ai-details.png."
+    }
+  ],
+  "trustSignals": {
+    "valueBeyondGenericAi": true,
+    "wouldUseAgain": true,
+    "notes": "Strongest trust signals were 包装实拍 provenance, explicit confidence/source lines, refusal to decide when information was missing, profile-specific sugar thresholds, and A/B comparison grounded in label numbers. The main remaining concern is interaction-state clarity around save/avoid toggles."
+  },
+  "issues": [
+    {
+      "severity": "P2",
+      "title": "Save and avoid actions are easy to misinterpret because they behave as toggles with similar labels",
+      "taskId": "task-7",
+      "evidence": "Initial taps on 保存报告 / 加入避雷 did not visibly change home counters, and a later tap on the large 保存报告 control produced 已取消保存 because the report had already been saved. Final exact taps did work and home showed 1 保存 / 1 避雷.",
+      "suggestedDirection": "Make saved/avoid state persistent and explicit in the action labels, separate toggle-off actions from primary save/avoid actions, and keep a visible state badge near the decision header."
+    },
+    {
+      "severity": "P3",
+      "title": "Allergen-first comparison is safe but can obscure the sugar-control winner",
+      "taskId": "task-5",
+      "evidence": "Comparison of 低糖酸奶饮品 vs 高糖乳酸菌饮料 correctly warned that both contain milk, but the top conclusion says not to only look at the winner before the page later shows A is lower in sugar, carbs, sodium, and additives.",
+      "suggestedDirection": "Keep the allergy stop, but add an explicit conditional summary such as 未设置牛奶忌口时，A 更适合控糖；如过敏先设忌口重算."
+    },
+    {
+      "severity": "P3",
+      "title": "Insufficient-info flow is honest but could shorten the path to recovery",
+      "taskId": "task-3",
+      "evidence": "Information-insufficient reports explain missing 配料表 and 营养成分表 well, but the user still has to scan a long report to reach some recovery actions such as manual correction or re-shoot.",
+      "suggestedDirection": "Keep the no-decision stance, and add a sticky top action for 补拍缺失项 / 手动补充 so recovery is immediate from the first viewport."
+    }
+  ],
+  "screenshots": [
+    "reports/product-review/screenshots/round-30/codex/sugar-control/00-home.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/01-after-start-recognition.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/01b-capture-refresh.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/02-sample-01-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/03-home-sugar-profile-selected.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/04-sample-01-sugar-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-02-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-03-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-04-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-05-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-06-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-07-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-08-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/05-sample-09-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/06-two-product-comparison.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/06-two-product-comparison-result.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/07-report-save-avoid-controls.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/08-after-save-avoid-taps.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/09-home-history-after-save-avoid.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/10-after-large-save-avoid-controls.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/11-home-after-large-save-avoid-controls.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/12-after-saving-report.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/13-after-avoid-report.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/14-home-saved-avoid-history-confirmed.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/15-after-avoid-tap-exact.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/16-home-avoid-counter-check.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/17-value-vs-generic-ai-section.png",
+    "reports/product-review/screenshots/round-30/codex/sugar-control/18-value-vs-generic-ai-details.png"
+  ]
+}

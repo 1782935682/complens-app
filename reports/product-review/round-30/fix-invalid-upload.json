@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "product-review-browser-invalid-upload-smoke-v1",
+  "generatedAt": "2026-06-27T02:29:15.318Z",
+  "url": "http://127.0.0.1:5210/",
+  "invalidFile": "reports/product-review/screenshots/round-30/fix-invalid-upload/invalid-upload.txt",
+  "finalRoute": "http://127.0.0.1:5210/#/pages/capture/index",
+  "bodyText": "拍食品标签 拍清包装文字 拍配料、营养或条码，选择后会自动识别并生成购买建议。 默认 调整 选择包装标签图片 拍清配料表、营养表或条码，识别后直接生成购买建议。 配 配料 营 营养 码 条码 上传识别 拍照识别 扫条码/二维码 手动输入 没有完成识别 这不是可识别的图片文件。请上传 JPG、PNG 或 WebP 包装标签照片，或改用手动输入。 请重新上传清晰的配料表、营养成分表或条码；选择图片后会自动生成购买建议。 重新上传标签",
+  "interactions": [
+    {
+      "action": "open-home",
+      "durationMs": 599,
+      "ok": true
+    },
+    {
+      "action": "click-primary",
+      "durationMs": 66,
+      "ok": true
+    },
+    {
+      "action": "upload-invalid-file",
+      "durationMs": 48,
+      "ok": true
+    }
+  ],
+  "consoleErrors": [],
+  "networkErrors": [],
+  "screenshots": [
+    "reports/product-review/screenshots/round-30/fix-invalid-upload/01-home.png",
+    "reports/product-review/screenshots/round-30/fix-invalid-upload/02-capture.png",
+    "reports/product-review/screenshots/round-30/fix-invalid-upload/03-invalid-feedback.png"
+  ],
+  "expectedText": "这不是可识别的图片文件",
+  "passed": true
+}

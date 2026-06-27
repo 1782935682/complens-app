@@ -42,15 +42,15 @@ try {
     page.on('pageerror', (error) => pageErrors.push(error.message));
   });
 
-  await verifyPage(context, 'home', '/#/pages/index/index', ['拍包装', '直接看懂配料和营养重点', '查单个成分']);
+  await verifyPage(context, 'home', '/#/pages/index/index', ['拍照识别']);
   await verifyPage(context, 'capture-pick', '/#/pages/capture/index', ['拍食品标签', '拍照识别', '上传识别', '扫条码/二维码', '手动输入']);
-  await verifyPage(context, 'capture', '/#/pages/capture/index?mode=manual', ['补充信息', '配料表', '营养数字', '可选补充', '生成参考报告']);
+  await verifyPage(context, 'capture', '/#/pages/capture/index?mode=manual', ['补充信息', '配料表', '营养数字', '可选补充', '生成购买建议']);
   await verifyCaptureFilled(context);
   await verifyCaptureOptional(context);
-  await verifySearch(context);
   await verifyPage(context, 'attention', '/#/pages/attention/index', ['关注目标', '可多选', '儿童零食', '过敏 / 忌口']);
   await verifyReport(context);
   await verifyInsufficientReport(context);
+  await verifyCompare(context);
 
   if (pageErrors.length) {
     throw new Error(`Page runtime errors:\n${pageErrors.join('\n')}`);
@@ -67,6 +67,7 @@ async function verifyPage(context, name, path, expectedTexts) {
   await page.goto(`${baseUrl}${path}`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(500);
   await assertPageReady(page, name, expectedTexts);
+  if (name === 'home') await assertTextAbsent(page, name, ['首页', '我的']);
   await screenshot(page, name);
   await page.close();
 }
@@ -75,8 +76,8 @@ async function verifyCaptureFilled(context) {
   const page = await context.newPage();
   await page.goto(`${baseUrl}/#/pages/capture/index?mode=manual`, { waitUntil: 'networkidle' });
   await page.locator('textarea').first().fill('配料：小麦粉、植物油、白砂糖、麦芽糖、食用盐');
-  await expectText(page, '生成参考报告');
-  await assertPageReady(page, 'capture-filled', ['补充信息', '配料表', '营养数字', '生成参考报告']);
+  await expectText(page, '生成购买建议');
+  await assertPageReady(page, 'capture-filled', ['补充信息', '配料表', '营养数字', '生成购买建议']);
   await screenshot(page, 'capture-filled');
   await page.close();
 }
@@ -90,30 +91,12 @@ async function verifyCaptureOptional(context) {
   await page.close();
 }
 
-async function verifySearch(context) {
-  const page = await context.newPage();
-  await page.goto(`${baseUrl}/#/pages/search/index`, { waitUntil: 'networkidle' });
-  await page.locator('input').first().fill('山梨酸钾');
-  await page.getByText('搜索', { exact: true }).last().click();
-  await expectText(page, '为什么看');
-  await assertPageReady(page, 'search', ['成分搜索', '山梨酸钾', '为什么看', '标签写法', '结果用途', '名称参考', 'AI / 公开网页补充']);
-  await screenshot(page, 'search');
-  await page.close();
-}
-
 async function verifyReport(context) {
   const page = await context.newPage();
   await page.goto(`${baseUrl}/#/pages/report/index?id=visual-smoke-report`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(500);
-  await assertPageReady(page, 'report', ['配料表', '编码 6901234567892', '包装实拍 OCR / 条码识别', '一句话结论', '控糖/儿童零食人群', '碳水', '份量提示', '关键原因', '营养重点图', '建议关注人群', '添加剂解释', '识别详情']);
+  await assertPageReady(page, 'report', ['该不该买', '可核对证据', '替代推荐', '命中麸质', '加入避雷']);
   await screenshot(page, 'report');
-  await page.getByText('营养重点图', { exact: true }).scrollIntoViewIfNeeded();
-  await screenshot(page, 'report-nutrition');
-  await page.getByText('展开', { exact: true }).first().click();
-  await expectText(page, '营养表');
-  await expectText(page, '未确认线索');
-  await expectText(page, '识别文字');
-  await screenshot(page, 'report-detail');
   await page.close();
 }
 
@@ -121,14 +104,24 @@ async function verifyInsufficientReport(context) {
   const page = await context.newPage();
   await page.goto(`${baseUrl}/#/pages/report/index?id=visual-insufficient-report`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(500);
-  await assertPageReady(page, 'report-insufficient', ['条形码', 'DeepSeek 联网搜索', 'AI 搜索补全', '信息不足', '还需要补充', '识别详情', '包装声明']);
+  await assertPageReady(page, 'report-insufficient', ['补拍后判断', '信息不足', '还不能下购买结论', '补拍配料表', '替代推荐']);
   await screenshot(page, 'report-insufficient');
+  await page.close();
+}
+
+async function verifyCompare(context) {
+  const page = await context.newPage();
+  await page.goto(`${baseUrl}/#/pages/compare/index?left=visual-smoke-report`, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(500);
+  await assertPageReady(page, 'compare', ['A vs B', '关键差异', '负担更低', '更低风险', '更适合你', 'A', 'B']);
+  await screenshot(page, 'compare');
   await page.close();
 }
 
 async function assertPageReady(page, name, expectedTexts) {
   const bodyText = (await page.locator('body').innerText()).replace(/\s+/g, ' ').trim();
-  if (bodyText.length < 20) {
+  const minTextLength = name === 'home' ? 4 : 20;
+  if (bodyText.length < minTextLength) {
     throw new Error(`${name} rendered too little text: "${bodyText}"`);
   }
   for (const text of expectedTexts) {
@@ -150,6 +143,15 @@ async function assertPageReady(page, name, expectedTexts) {
   }
 }
 
+async function assertTextAbsent(page, name, texts) {
+  const bodyText = (await page.locator('body').innerText()).replace(/\s+/g, ' ').trim();
+  for (const text of texts) {
+    if (bodyText.includes(text)) {
+      throw new Error(`${name} should not include "${text}". Body: ${bodyText.slice(0, 300)}`);
+    }
+  }
+}
+
 async function expectText(page, text) {
   await page.waitForFunction((value) => document.body.innerText.includes(value), text, { timeout: 5000 });
 }
@@ -161,7 +163,7 @@ async function screenshot(page, name) {
 }
 
 async function seedLocalData(context) {
-  const reports = [buildSampleReport(), buildInsufficientReport()];
+  const reports = [buildSampleReport(), buildSecondSampleReport(), buildInsufficientReport()];
   await context.addInitScript((sampleReports) => {
     if (!/^https?:$/.test(window.location.protocol)) return;
     try {
@@ -230,14 +232,14 @@ function buildSampleReport() {
     dataStatusLabel: '待复核来源数据',
     confidence: 0.62,
     matchType: 'fuzzy',
-    sourceNote: '已保留为识别文字',
+    sourceNote: '已保留为需核对文字',
     ingredientName: '海苔粉',
     isAdditive: false,
     decision: 'pending'
   };
   return {
     id: 'visual-smoke-report',
-    title: '食品标签解读',
+    title: '购买建议',
     productName: '海苔小麻花',
     createdAt: '2026-06-19T10:00:00.000Z',
     isFavorite: true,
@@ -404,10 +406,109 @@ function buildSampleReport() {
   };
 }
 
+function buildSecondSampleReport() {
+  const report = JSON.parse(JSON.stringify(buildSampleReport()));
+  report.id = 'visual-smoke-report-b';
+  report.productName = '低糖酸奶饮品';
+  report.createdAt = '2026-06-19T10:05:00.000Z';
+  report.isFavorite = false;
+  report.summarySentence = '识别到 4 项配料，营养数字已整理。';
+  report.focusItems = ['糖 3.1g', '碳水 4.2g', '钠 42mg'];
+  report.ingredientSection.total = 4;
+  report.ingredientSection.additiveCount = 1;
+  report.ingredientSection.items = [
+    {
+      id: 'raw-milk',
+      term: '生牛乳',
+      normalizedText: '生牛乳',
+      dataStatus: 'common_ingredient',
+      dataStatusLabel: '普通配料',
+      confidence: 0.9,
+      matchType: 'exact',
+      sourceNote: '普通配料词库',
+      ingredientName: '生牛乳',
+      isAdditive: false,
+      decision: 'confirmed'
+    },
+    {
+      id: 'erythritol',
+      term: '赤藓糖醇',
+      normalizedText: '赤藓糖醇',
+      dataStatus: 'common_ingredient',
+      dataStatusLabel: '普通配料',
+      confidence: 0.86,
+      matchType: 'local_attention',
+      sourceNote: '本地常见配料规则',
+      ingredientName: '赤藓糖醇',
+      isAdditive: false,
+      decision: 'confirmed'
+    },
+    {
+      id: 'pectin',
+      term: '果胶',
+      normalizedText: '果胶',
+      dataStatus: 'common_ingredient',
+      dataStatusLabel: '普通配料',
+      confidence: 0.82,
+      matchType: 'local_attention',
+      sourceNote: '本地常见配料规则',
+      ingredientName: '果胶',
+      isAdditive: true,
+      decision: 'confirmed'
+    },
+    {
+      id: 'culture',
+      term: '乳酸菌',
+      normalizedText: '乳酸菌',
+      dataStatus: 'common_ingredient',
+      dataStatusLabel: '普通配料',
+      confidence: 0.82,
+      matchType: 'local_attention',
+      sourceNote: '本地常见配料规则',
+      ingredientName: '乳酸菌',
+      isAdditive: false,
+      decision: 'confirmed'
+    }
+  ];
+  report.nutritionSection.fields = [
+    { key: 'energy', label: '热量', value: '130', unit: 'kJ', confidence: 0.95 },
+    { key: 'fat', label: '脂肪', value: '0.8', unit: 'g', confidence: 0.95 },
+    { key: 'carbohydrate', label: '碳水', value: '4.2', unit: 'g', confidence: 0.95 },
+    { key: 'sugar', label: '糖', value: '3.1', unit: 'g', confidence: 0.95 },
+    { key: 'sodium', label: '钠', value: '42', unit: 'mg', confidence: 0.95 }
+  ];
+  report.nutritionSection.highlights = ['糖 3.1g', '碳水 4.2g', '钠 42mg'];
+  report.nutritionSnapshot = [
+    { key: 'energy', label: '热量', valueText: '130kJ', level: '较低', note: '饮品中负担较低。', percent: 28 },
+    { key: 'fat', label: '脂肪', valueText: '0.8g', level: '较低', note: '脂肪较低。', percent: 18 },
+    { key: 'carbohydrate', label: '碳水', valueText: '4.2g', level: '较低', note: '比高糖饮品更低。', percent: 24 },
+    { key: 'sugar', label: '糖', valueText: '3.1g', level: '较低', note: '控糖时更容易控制。', percent: 22 },
+    { key: 'sodium', label: '钠', valueText: '42mg', level: '较低', note: '钠负担较低。', percent: 18 }
+  ];
+  report.analysisSource.productNameText = '低糖酸奶饮品';
+  report.analysisSource.ingredientText = '生牛乳、赤藓糖醇、果胶、乳酸菌';
+  report.analysisSource.nutritionText = '每100ml 能量130kJ 脂肪0.8g 碳水化合物4.2g 糖3.1g 钠42mg';
+  report.analysisSource.normalizedCode = '6901234567809';
+  report.analysisSource.recognition.normalizedCode = '6901234567809';
+  report.analysisSource.recognition.productName = '低糖酸奶饮品';
+  report.foodAnalysis.productName = '低糖酸奶饮品';
+  report.foodAnalysis.category = '低糖乳饮品';
+  report.foodAnalysis.ingredients = ['生牛乳', '赤藓糖醇', '果胶', '乳酸菌'];
+  report.foodAnalysis.nutrition = {
+    energy: { value: 130, unit: 'kJ', level: '较低', text: '130kJ' },
+    fat: { value: 0.8, unit: 'g', level: '较低', text: '0.8g' },
+    carbohydrate: { value: 4.2, unit: 'g', level: '较低', text: '4.2g' },
+    sugar: { value: 3.1, unit: 'g', level: '较低', text: '3.1g' },
+    sodium: { value: 42, unit: 'mg', level: '较低', text: '42mg' }
+  };
+  report.rawText = '配料：生牛乳、赤藓糖醇、果胶、乳酸菌。营养成分表：每100ml 能量130kJ，碳水化合物4.2g，糖3.1g，钠42mg。';
+  return report;
+}
+
 function buildInsufficientReport() {
   return {
     id: 'visual-insufficient-report',
-    title: '食品标签解读',
+    title: '购买建议',
     productName: '0糖乳酸菌饮料包装正面',
     createdAt: '2026-06-19T09:20:00.000Z',
     isFavorite: false,
@@ -422,7 +523,7 @@ function buildInsufficientReport() {
       suitableFor: [],
       lessSuitableFor: [],
       reasons: ['缺少配料表', '缺少营养数字'],
-      suggestions: ['补拍配料表或营养成分表后再生成报告。'],
+      suggestions: ['补拍配料表或营养成分表后再生成购买建议。'],
       score: 0
     },
     attentionHits: [],
@@ -516,7 +617,7 @@ function buildInsufficientReport() {
       },
       retakeSuggestion: '补拍配料表或营养成分表。'
     },
-    sources: [{ label: 'OCR 识别文字', detail: '来自用户拍摄包装', sourceType: 'ocr_input' }],
+    sources: [{ label: '包装实拍标签', detail: '来自用户拍摄包装', sourceType: 'ocr_input' }],
     rawText: '0糖 高蛋白 乳酸菌饮料'
   };
 }

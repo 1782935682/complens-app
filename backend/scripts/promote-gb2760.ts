@@ -3,7 +3,7 @@ import { createDatabaseClient } from '../src/db/client.js';
 import { createGb2760SourceDocumentInput, recordImportRun, upsertSourceDocument, type Gb2760SourceMetadata } from '../src/services/gb2760Service.js';
 import { promoteApprovedGb2760Rows, type PromoteGb2760Result } from '../src/services/gb2760PromoteService.js';
 
-const gb2760StagingModule = await import(new URL('../../src/data/gb2760OfficialStaging.js', import.meta.url).href);
+const gb2760StagingModule = await import(new URL('../src/data/gb2760OfficialStaging.js', import.meta.url).href);
 const gb2760OfficialSource = resolveGb2760SourceMetadata(gb2760StagingModule as { gb2760OfficialStagingSource?: unknown });
 const client = createDatabaseClient();
 const startedAt = new Date();
@@ -99,7 +99,7 @@ async function main() {
 function resolveGb2760SourceMetadata(module: { gb2760OfficialStagingSource?: unknown }): Gb2760SourceMetadata {
   const source = module.gb2760OfficialStagingSource;
   if (!source || typeof source !== 'object' || Array.isArray(source)) {
-    throw new Error('Expected src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingSource object');
+    throw new Error('Expected backend/src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingSource object');
   }
 
   return {

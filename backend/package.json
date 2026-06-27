@@ -26,6 +26,7 @@
     "map:gb2760": "tsx scripts/auto-map-gb2760-ingredients.ts",
     "promote:gb2760": "tsx scripts/promote-gb2760.ts",
     "validate:gb2760": "tsx scripts/validate-gb2760.ts",
+    "decision:evaluate": "tsx scripts/evaluate-decision-cases.ts",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
     "test": "vitest run"
   },

@@ -34,6 +34,58 @@ export const primaryGoalOptions: Array<{
 
 export const childrenModeKeywords = ['高糖', '糖', '甜味剂', '色素', '咖啡因', '高钠', '钠', '酒精'];
 
+export const decisionPersonalizationRules = {
+  sugarControl: {
+    sugarHigh: {
+      per100g: 8,
+      focusedPer100g: 6,
+      per100ml: 5,
+      focusedPer100ml: 4,
+      perServing: 10
+    },
+    sugarWatch: {
+      per100g: 5,
+      per100ml: 2.5,
+      perServing: 5
+    },
+    carbohydrateHigh: {
+      per100g: 45,
+      focusedPer100g: 25,
+      per100ml: 10,
+      focusedPer100ml: 8,
+      perServing: 30
+    },
+    preferredSolidSugarPer100g: 10,
+    preferredDrinkSugarPer100ml: 5,
+    preferredDrinkCarbPer100ml: 10,
+    ingredientTopRank: 3,
+    thresholdWording: {
+      nutritionSource: '来源：营养成分表识别值',
+      conservativeSource: '阈值：本地保守提醒阈值',
+      defaultSugarHigh: '默认高糖提醒阈值',
+      focusedSugarHigh: '控糖/儿童高糖提醒阈值',
+      defaultCarbohydrateHigh: '默认碳水提醒阈值',
+      focusedCarbohydrateHigh: '控糖/儿童碳水提醒阈值'
+    }
+  },
+  sweetener: {
+    defaultAttitude: '只作为配料偏好提醒，不等同于高糖或不建议。',
+    sugarControlAttitude: '控糖时同时看糖、碳水和个人对代糖的接受度。',
+    childrenAttitude: '儿童高频食用按保守处理，少选多种甜味剂并列的产品。'
+  },
+  children: {
+    avoidTerms: ['咖啡因', '酒精'],
+    watchTerms: ['甜味剂', '色素', '高糖', '高钠'],
+    portionHint: '儿童零食按小份量、低频率处理，不替代正餐。',
+    frequencyHint: '同类高糖、高钠或多甜味剂食品不建议高频吃。'
+  },
+  portionFrequency: {
+    unknownServingHint: '未识别每份量时先按每100g/ml判断，实际吃多份会提高摄入。',
+    smallPortionHint: '偶尔吃时优先小份量，并结合当天其他糖、钠来源。',
+    highFrequencyHint: '高频食用时使用更严格阈值，并优先换低糖低钠同类。'
+  }
+} as const;
+
 export const attentionTargetOptions: Array<{
   key: AttentionSettings['primaryGoal'] | AttentionGoal;
   label: string;
@@ -55,7 +107,7 @@ export const attentionTargetOptions: Array<{
 export const allergenOptions: Array<{ key: string; label: string; keywords: string[] }> = [
   { key: 'peanut', label: '花生', keywords: ['花生', 'peanut', 'peanuts'] },
   { key: 'nuts', label: '坚果', keywords: ['坚果', '杏仁', '核桃', '腰果', '榛子', '开心果', 'tree nuts', 'almond', 'walnut', 'cashew', 'hazelnut', 'pistachio'] },
-  { key: 'milk', label: '牛奶', keywords: ['牛奶', '乳粉', '奶粉', '乳清', '乳糖', '奶油', '炼乳', '乳制品', 'milk', 'dairy', 'whey', 'lactose', 'cream'] },
+  { key: 'milk', label: '牛奶', keywords: ['牛奶', '牛乳', '生牛乳', '羊乳', '乳粉', '奶粉', '乳清', '乳糖', '奶油', '炼乳', '乳制品', 'milk', 'dairy', 'whey', 'lactose', 'cream'] },
   { key: 'soy', label: '大豆', keywords: ['大豆', '黄豆', '豆粉', '豆乳', '大豆磷脂', 'soy', 'soya', 'soybean', 'soy lecithin'] },
   { key: 'gluten', label: '麸质', keywords: ['麸质', '小麦', '麦麸', '面粉', '燕麦', 'gluten', 'wheat', 'oat', 'barley', 'rye'] },
   { key: 'egg', label: '鸡蛋', keywords: ['鸡蛋', '蛋黄', '蛋清', '全蛋', '蛋粉', '蛋类', 'egg', 'eggs', 'albumen'] },

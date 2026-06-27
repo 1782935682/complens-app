@@ -1,4 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { createApp } from '../src/app.js';
 import type { AuthService } from '../src/services/authService.js';
 import { recognizeWithOcrProvider } from '../src/services/ocrProviders/index.js';
@@ -166,6 +169,43 @@ describe('POST /api/ocr', () => {
       provider: 'mock'
     });
     expect(body.blocks).toEqual([{ text: '水，柠檬酸，山梨酸钾', confidence: 0.92 }]);
+  });
+
+  it('maps product-review fixture PNG hashes to deterministic label text', async () => {
+    const tempRoot = mkdtempSync(join(tmpdir(), 'compcheck-fixture-ocr-'));
+    const samplePath = join(tempRoot, 'reports/product-review/fixtures/unit-round/samples/sample.png');
+    mkdirSync(join(tempRoot, 'reports/product-review/fixtures/unit-round/samples'), { recursive: true });
+    writeFileSync(samplePath, Buffer.from('unit png bytes'));
+    writeFileSync(join(tempRoot, 'reports/product-review/fixtures/unit-round/sample-manifest.json'), JSON.stringify({
+      samples: [{
+        path: 'reports/product-review/fixtures/unit-round/samples/sample.png',
+        publicId: 'sample-01',
+        expectedVisibleText: [
+          '测试酸奶',
+          '配料表：生牛乳、乳酸菌。',
+          '营养成分表 每100g：糖4.8g 钠55mg。'
+        ]
+      }]
+    }));
+    const cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(tempRoot);
+
+    try {
+      const result = await recognizeWithOcrProvider('fixture', {
+        imageBase64: Buffer.from('unit png bytes').toString('base64'),
+        mimeType: 'image/png',
+        category: 'food'
+      });
+
+      expect(result).toMatchObject({
+        provider: 'fixture',
+        confidence: 0.98,
+        text: '测试酸奶\n配料表：生牛乳、乳酸菌。\n营养成分表 每100g：糖4.8g 钠55mg。'
+      });
+      expect(result?.blocks).toHaveLength(3);
+    } finally {
+      cwdSpy.mockRestore();
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
   });
 
   it('requires a local service URL for rapidocr instead of an OCR API key', async () => {

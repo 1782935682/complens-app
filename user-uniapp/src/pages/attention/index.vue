@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { onShow } from '@dcloudio/uni-app';
+import { onLoad, onShow } from '@dcloudio/uni-app';
 import { computed, ref } from 'vue';
+import AppButton from '@/components/AppButton.vue';
 import AppCard from '@/components/AppCard.vue';
 import Toast from '@/components/Toast.vue';
 import { allergenOptions, attentionTargetOptions } from '@/constants/attention';
+import { navigateToRoute, routes } from '@/constants/routes';
 import { getAttentionSettings, saveAttentionSettings } from '@/stores/attentionStore';
 import type { AttentionGoal, AttentionSettings } from '@/types';
 
 const settings = ref<AttentionSettings>(getAttentionSettings());
 const message = ref('');
+const returnTarget = ref('');
+const returnReportId = ref('');
 const targetImpact = computed(() => {
   const goals = selectedTargetGoals();
   const parts = [
@@ -17,12 +21,17 @@ const targetImpact = computed(() => {
     goals.includes('lowSodium') ? '钠、盐和重口味叠加' : '',
     goals.includes('children') ? '儿童高频食用提醒' : ''
   ].filter(Boolean);
-  if (parts.length) return `报告会优先提示：${parts.join('；')}。`;
-  return '报告会按热量、糖、钠、脂肪和添加剂综合排序。';
+  if (parts.length) return `购买建议会优先提示：${parts.join('；')}。`;
+  return '购买建议会按热量、糖、钠、脂肪和添加剂综合排序。';
 });
 
 onShow(() => {
   settings.value = getAttentionSettings();
+});
+
+onLoad((query) => {
+  returnTarget.value = String(query?.return || '');
+  returnReportId.value = String(query?.id || '');
 });
 
 function toggleTargetGoal(key: AttentionSettings['primaryGoal'] | AttentionGoal) {
@@ -77,6 +86,23 @@ function persist(next: AttentionSettings) {
   message.value = '已保存到本机。';
 }
 
+const continueActionLabel = computed(() => (
+  returnTarget.value === 'report' && returnReportId.value ? '保存并重算报告' : '保存并继续拍摄'
+));
+
+const continueActionHint = computed(() => (
+  returnTarget.value === 'report' && returnReportId.value
+    ? '返回上一份报告，按当前画像重新排序风险和建议。'
+    : '回到拍摄页，下一次识别会使用当前画像。'
+));
+
+function continueAfterProfile() {
+  if (returnTarget.value === 'report' && returnReportId.value) {
+    navigateToRoute(`${routes.report}?id=${encodeURIComponent(returnReportId.value)}&profileUpdated=1`);
+    return;
+  }
+  navigateToRoute(routes.capture);
+}
 </script>
 
 <template>
@@ -87,7 +113,7 @@ function persist(next: AttentionSettings) {
       <view class="mine-section">
         <view>
           <text class="mine-title">关注目标</text>
-          <text class="muted">可多选，报告会按这些目标排序。</text>
+          <text class="muted">可多选，购买建议会按这些目标排序。</text>
         </view>
         <view class="option-grid">
           <view
@@ -97,11 +123,16 @@ function persist(next: AttentionSettings) {
             :class="{ 'option--active': isTargetActive(goal.key) }"
             @tap="toggleTargetGoal(goal.key)"
           >
+            <text v-if="isTargetActive(goal.key)" class="option__state">已选</text>
             <text class="option__title">{{ goal.label }}</text>
             <text class="option__desc">{{ goal.description }}</text>
           </view>
         </view>
         <text class="impact-note">{{ targetImpact }}</text>
+        <view class="continue-panel">
+          <text class="continue-panel__hint">{{ continueActionHint }}</text>
+          <AppButton @click="continueAfterProfile">{{ continueActionLabel }}</AppButton>
+        </view>
       </view>
     </AppCard>
 
@@ -109,7 +140,7 @@ function persist(next: AttentionSettings) {
       <view class="mine-section">
         <view>
           <text class="mine-title">过敏 / 忌口</text>
-          <text class="muted">可多选，命中后会优先提醒。</text>
+          <text class="muted">先选具体过敏原；命中后会优先阻断购买建议。</text>
         </view>
         <view class="allergen-grid">
           <view
@@ -119,8 +150,13 @@ function persist(next: AttentionSettings) {
             :class="{ 'option--active': settings.allergens.includes(item.key) }"
             @tap="toggleAllergen(item.key)"
           >
+            <text v-if="settings.allergens.includes(item.key)" class="allergen-option__state">已选</text>
             <text>{{ item.label }}</text>
           </view>
+        </view>
+        <view class="continue-panel">
+          <text class="continue-panel__hint">{{ continueActionHint }}</text>
+          <AppButton variant="secondary" @click="continueAfterProfile">{{ continueActionLabel }}</AppButton>
         </view>
       </view>
     </AppCard>
@@ -201,6 +237,17 @@ function persist(next: AttentionSettings) {
   line-height: 1.25;
 }
 
+.option__state,
+.allergen-option__state {
+  border-radius: 999px;
+  background: var(--primary-strong);
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 900;
+  line-height: 1.2;
+  padding: 4rpx 10rpx;
+}
+
 .option__desc {
   display: block;
   color: var(--muted);
@@ -217,6 +264,19 @@ function persist(next: AttentionSettings) {
   font-weight: 800;
   line-height: 1.45;
   padding: 10rpx 12rpx;
+}
+
+.continue-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.continue-panel__hint {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  line-height: 1.45;
 }
 
 .option--active .option__desc {
@@ -249,6 +309,8 @@ function persist(next: AttentionSettings) {
   min-height: 76rpx;
   border-radius: 20rpx;
   padding: 0 8rpx;
+  flex-direction: column;
+  gap: 4rpx;
   font-weight: 800;
   line-height: 1.3;
 }

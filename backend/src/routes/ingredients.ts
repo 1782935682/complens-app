@@ -30,8 +30,26 @@ export function createIngredientsRoute(ingredientService: IngredientService) {
       return context.json(parsed.error, 400);
     }
 
-    const results = await ingredientService.batchSearch(parsed.value);
-    return context.json({ results });
+    try {
+      const results = await ingredientService.batchSearch(parsed.value);
+      return context.json({ results });
+    } catch (error) {
+      console.error('[api:ingredients:batch-search]', error);
+      return context.json({
+        degraded: true,
+        error: 'ingredient_service_unavailable',
+        results: parsed.value.terms.map((term) => ({
+          term,
+          eNumber: null,
+          match: null,
+          confidence: 0,
+          matchType: 'none',
+          alternates: [],
+          degraded: true,
+          error: 'ingredient_service_unavailable'
+        }))
+      });
+    }
   });
 
   // Keep the explicit search endpoint before /ingredients/:id so "search" is

@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "review-agent-report-v1",
+  "agent": "review-agent",
+  "product": "成分镜",
+  "generatedAt": "2026-06-27T02:33:26.107Z",
+  "reviewLoop": "PLAN -> IMPLEMENT -> TEST -> EVALUATE -> REVIEW -> FIX -> LOOP",
+  "summary": {
+    "ok": true,
+    "ui_clarity_score": 1,
+    "decision_quality_score": 1,
+    "stability_score": 1,
+    "regression_detection": 1
+  },
+  "ui_state": {
+    "home": "single_photo_action",
+    "result": "three_card_decision_ui",
+    "compare": "visual_ab_decision",
+    "repeat_use": "save_or_avoid_enabled"
+  },
+  "decision_quality": {
+    "score": 1,
+    "recognitionSupport": {
+      "ingredients": 0.99,
+      "nutrition": 1
+    },
+    "decisionConsistency": 1,
+    "profileMatch": 1,
+    "comparisonMatch": 1,
+    "outputValue": 1
+  },
+  "stability": {
+    "score": 1,
+    "checks": [
+      {
+        "id": "stability_no_metric_regression",
+        "label": "核心指标无回归",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "stability_ocr_gate",
+        "label": "OCR 决策可用率达到 95%",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "stability_ingredient_gate",
+        "label": "配料识别达到 95%",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "stability_nutrition_gate",
+        "label": "营养解析达到 95%",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "stability_decision_gate",
+        "label": "决策一致性达到 100%",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "stability_ui_gate",
+        "label": "UI 清晰度通过",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "stability_function_gate",
+        "label": "功能价值通过",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "stability_output_gate",
+        "label": "输出价值通过",
+        "ok": true,
+        "severity": "high"
+      }
+    ]
+  },
+  "regression_detection": {
+    "ok": true,
+    "regressions": [],
+    "acceptedRegressions": [],
+    "baselineIteration": 79
+  },
+  "function_value": {
+    "score": 1,
+    "checks": [
+      {
+        "id": "agent_product-agent",
+        "label": "product-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_ui-agent",
+        "label": "ui-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_ocr-agent",
+        "label": "ocr-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_nutrition-agent",
+        "label": "nutrition-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_rule-agent",
+        "label": "rule-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_decision-agent",
+        "label": "decision-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_compare-agent",
+        "label": "compare-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_eval-agent",
+        "label": "eval-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_fix-agent",
+        "label": "fix-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "agent_review-agent",
+        "label": "review-agent 已登记",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "function_decision_api",
+        "label": "存在单品购买决策 API",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "function_compare_api",
+        "label": "存在 A/B 对比 API",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "function_profile_cases",
+        "label": "用户画像评测全通过",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "function_compare_cases",
+        "label": "对比评测全通过",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "function_purchase_not_ocr",
+        "label": "输出是购买建议而不是识别详情",
+        "ok": true,
+        "severity": "high"
+      }
+    ]
+  },
+  "output_value": {
+    "score": 1,
+    "checks": [
+      {
+        "id": "output_clear_recommendation",
+        "label": "明确推荐/谨慎/不建议/信息不足",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "output_risk_max_three",
+        "label": "判断依据最多三条",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "output_has_alternatives",
+        "label": "必须给替代推荐",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "output_bounded_evidence_text",
+        "label": "展示可核对证据且避免技术字段堆叠",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "output_not_legacy_report",
+        "label": "运行态不再使用旧报告型文案",
+        "ok": true,
+        "severity": "high"
+      },
+      {
+        "id": "output_compare_core_diff",
+        "label": "对比输出营养负担、风险、画像适配",
+        "ok": true,
+        "severity": "high"
+      }
+    ]
+  },
+  "failed_cases": [],
+  "next_actions": [
+    "continue UI-first decision visualization",
+    "keep fixing blocking OCR samples without weakening decision quality"
+  ]
+}

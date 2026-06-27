@@ -84,7 +84,7 @@ export interface OcrResult {
   mode: 'real' | 'manual' | 'fallback' | 'mock';
   text: string;
   confidence: number;
-  provider: 'manual' | 'mock' | 'aliyun' | 'paddleocr' | 'rapidocr' | 'none';
+  provider: 'manual' | 'mock' | 'fixture' | 'aliyun' | 'paddleocr' | 'rapidocr' | 'none';
   blocks: OcrBlock[];
   errorCode?: string;
   errorMessage?: string;
@@ -236,6 +236,25 @@ export interface ConsumerDecision {
   score: number;
 }
 
+export type PurchaseRecommendation = '推荐' | '谨慎' | '不建议' | '信息不足';
+
+export interface PurchaseDecision {
+  recommendation: PurchaseRecommendation;
+  score: number;
+  riskReasons: string[];
+  suitableFor: string[];
+  unsuitableFor: string[];
+  alternatives: string[];
+}
+
+export interface ComparisonResult {
+  healthier: 'left' | 'right' | 'tie';
+  lowerRisk: 'left' | 'right' | 'tie';
+  betterForProfile: 'left' | 'right' | 'tie';
+  summary: string;
+  reasons: string[];
+}
+
 export interface FoodAnalyzeResult {
   productName: string;
   category: string;
@@ -273,6 +292,7 @@ export interface ScanDraft {
   image?: LocalImageAsset;
   labelType: LabelType;
   isFastScan?: boolean;
+  compareBaseReportId?: string;
   scanSessionId?: string;
   classification?: LabelClassification;
   ocr?: OcrResult;
@@ -342,6 +362,7 @@ export interface ReportAnalysisSource {
   aiNotice?: string;
   aiSearchSummary?: string;
   aiSearchErrorCode?: string;
+  qualityWarnings?: string[];
   confidence?: 'high' | 'medium' | 'low';
   inputSourceType?: 'ocr' | 'manual' | 'demo';
   targetSnapshot: {
@@ -359,8 +380,11 @@ export interface LabelReport {
   createdAt: string;
   isFavorite?: boolean;
   favoritedAt?: string;
+  isAvoided?: boolean;
+  avoidedAt?: string;
   summarySentence: string;
   decision?: ConsumerDecision;
+  purchaseDecision?: PurchaseDecision;
   attentionHits: AttentionHit[];
   focusItems: string[];
   ingredientSection: {

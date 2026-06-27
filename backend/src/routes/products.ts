@@ -15,8 +15,8 @@ export function createProductsRoute(productLookupService: ProductLookupService) 
       rawContent: normalizeString(body.rawContent),
       productName: normalizeString(body.productName)
     });
-    if (!result.usedAiSearch && result.errorCode) {
-      return context.json(result, result.errorCode === 'missing_query' ? 400 : 503);
+    if (!result.usedAiSearch && result.errorCode === 'missing_query') {
+      return context.json(result, 400);
     }
     return context.json(result);
   });

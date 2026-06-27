@@ -49,9 +49,9 @@ type Gb2760ReferenceTableModule = {
 
 export async function loadIngredientKnowledgeDataset(db?: Database): Promise<IngredientKnowledgeDataset> {
   const [foodModule, stagingModule, referenceModule] = await Promise.all([
-    import(new URL('../../src/data/foodAdditives.js', import.meta.url).href),
-    import(new URL('../../src/data/gb2760OfficialStaging.js', import.meta.url).href),
-    import(new URL('../../src/data/gb2760OfficialReferenceTables.js', import.meta.url).href)
+    import(new URL('../src/data/foodAdditives.js', import.meta.url).href),
+    import(new URL('../src/data/gb2760OfficialStaging.js', import.meta.url).href),
+    import(new URL('../src/data/gb2760OfficialReferenceTables.js', import.meta.url).href)
   ]);
   const formalRuleSourceIds = db ? await getFormalGb2760RuleSourceIds(db) : undefined;
   return buildIngredientKnowledgeDataset({
@@ -97,27 +97,27 @@ export async function readOfficialSourceManifest() {
 function resolveFoodSeedItems(module: FoodDataModule): FoodAdditiveInput[] {
   if (Array.isArray(module.foodIngredients)) return module.foodIngredients as FoodAdditiveInput[];
   if (Array.isArray(module.foodAdditives)) return module.foodAdditives as FoodAdditiveInput[];
-  throw new Error('Expected src/data/foodAdditives.js to export foodIngredients or foodAdditives array');
+  throw new Error('Expected backend/src/data/foodAdditives.js to export foodIngredients or foodAdditives array');
 }
 
 function resolveGb2760StagingRecords(module: Gb2760StagingModule): Gb2760OfficialRecordInput[] {
   if (Array.isArray(module.gb2760OfficialStagingRecords)) {
     return module.gb2760OfficialStagingRecords as Gb2760OfficialRecordInput[];
   }
-  throw new Error('Expected src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingRecords array');
+  throw new Error('Expected backend/src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingRecords array');
 }
 
 function resolveGb2760ReferenceRows(module: Gb2760ReferenceTableModule): Gb2760OfficialReferenceRowInput[] {
   if (Array.isArray(module.gb2760OfficialReferenceRows)) {
     return module.gb2760OfficialReferenceRows as Gb2760OfficialReferenceRowInput[];
   }
-  throw new Error('Expected src/data/gb2760OfficialReferenceTables.js to export gb2760OfficialReferenceRows array');
+  throw new Error('Expected backend/src/data/gb2760OfficialReferenceTables.js to export gb2760OfficialReferenceRows array');
 }
 
 function resolveGb2760SourceMetadata(module: Gb2760StagingModule): Gb2760KnowledgeSourceMetadata {
   const source = module.gb2760OfficialStagingSource;
   if (!source || typeof source !== 'object' || Array.isArray(source)) {
-    throw new Error('Expected src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingSource object');
+    throw new Error('Expected backend/src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingSource object');
   }
   return {
     sourceName: readRequiredSourceField(source, 'sourceName'),

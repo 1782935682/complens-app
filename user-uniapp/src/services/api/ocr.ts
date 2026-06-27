@@ -151,6 +151,7 @@ function extractBoundsPoints(value: unknown): Array<{ x: number; y: number }> {
 }
 
 function mapOcrErrorMessage(code: string, detail = '', field = ''): string {
+  if (isOcrServiceUnavailable(code)) return '识别服务暂时不可用，没有读取包装文字；请稍后重试，或先手动输入配料表和营养成分表。';
   if (code === 'manual_required' || code === 'image_read_or_ocr_failed') return '图片暂不能读取或识别失败，可重试或手动输入。';
   if (code === 'ocr_not_configured') return '当前 OCR 后端尚未配置，已保留手动输入路径。';
   if (code === 'invalid_parameter' && field === 'imageBase64') {
@@ -163,6 +164,18 @@ function mapOcrErrorMessage(code: string, detail = '', field = ''): string {
   if (code === 'image_too_large') return '图片体积过大，请拍摄更小分辨率后重试，或改为手动输入。';
   if (code === 'ocr_provider_timeout' || code === 'timeout') return '识别超时，可重试或手动输入。';
   return '识别失败，可重试或手动输入。';
+}
+
+export function isOcrServiceUnavailable(code: string): boolean {
+  return [
+    'network_error',
+    'api_proxy_unavailable',
+    'http_502',
+    'http_503',
+    'http_504',
+    'ocr_provider_unreachable',
+    'ocr_not_configured'
+  ].includes(String(code || '').trim());
 }
 
 function isOcrImageSizeParameterError(detail = ''): boolean {

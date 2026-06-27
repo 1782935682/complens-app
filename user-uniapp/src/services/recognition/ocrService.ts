@@ -1,7 +1,7 @@
 import type { LabelType, LocalImageAsset, OcrResult } from '@/types';
 import { recognizeImageByBackend } from '@/services/api/ocr';
 import { classifyLabelText } from '@/utils/labelClassifier';
-import { extractLabelText, type LabelTextConfidence, type LabelTextExtraction, type LabelTextSourceType } from '@/utils/labelTextExtractor';
+import { extractLabelText, filterIngredientTextForReport, type LabelTextConfidence, type LabelTextExtraction, type LabelTextSourceType } from '@/utils/labelTextExtractor';
 import { normalizeOcrResult } from '@/utils/ocrAdapter';
 import { classifyOcrSections } from '@/services/ocr/ocrSectionClassifier';
 import { extractIngredients } from '@/services/ocr/ingredientsExtractor';
@@ -39,16 +39,22 @@ function buildStructuredExtraction(normalized: ReturnType<typeof normalizeOcrRes
   const nutrition = extractNutrition(classification);
   const productInfo = extractProductInfo(classification);
   const confidence = resolveStructuredConfidence(classification.confidence, ingredients.confidence, nutrition.confidence);
+  const ingredientFilter = filterIngredientTextForReport(ingredients.ingredientsText);
   return {
     ...baseline,
     productNameText: baseline.productNameText || productInfo.productName,
-    ingredientText: ingredients.ingredientsText,
+    ingredientText: ingredientFilter.text,
     nutritionText: nutrition.nutritionText,
     ignoredText: uniqueStrings([
       ...classification.otherText,
       ...classification.uncertainText,
+      ...ingredientFilter.ignored,
       ...baseline.ignoredText
     ]).slice(0, 16),
+    qualityWarnings: uniqueStrings([
+      ...baseline.qualityWarnings,
+      ...ingredientFilter.qualityWarnings
+    ]),
     confidence
   };
 }
@@ -71,6 +77,7 @@ export function emptyOcrExtraction(sourceType: LabelTextSourceType = 'ocr'): Lab
     frontClaimsText: '',
     productionDateText: '',
     ignoredText: [],
+    qualityWarnings: [],
     confidence: 'low' as LabelTextConfidence,
     sourceType
   };

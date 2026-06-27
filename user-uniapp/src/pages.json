@@ -2,30 +2,10 @@
   "pages": [
     { "path": "pages/index/index", "style": { "navigationStyle": "custom", "navigationBarTitleText": "" } },
     { "path": "pages/capture/index", "style": { "navigationBarTitleText": "拍食品标签" } },
-    { "path": "pages/search/index", "style": { "navigationBarTitleText": "成分搜索" } },
-    { "path": "pages/report/index", "style": { "navigationBarTitleText": "食品标签解读" } },
+    { "path": "pages/report/index", "style": { "navigationBarTitleText": "购买建议" } },
+    { "path": "pages/compare/index", "style": { "navigationBarTitleText": "食品对比" } },
     { "path": "pages/attention/index", "style": { "navigationBarTitleText": "我的" } }
   ],
-  "tabBar": {
-    "color": "#6a756f",
-    "selectedColor": "#087a68",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "white",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "static/tab/home.png",
-        "selectedIconPath": "static/tab/home-active.png"
-      },
-      {
-        "pagePath": "pages/attention/index",
-        "text": "我的",
-        "iconPath": "static/tab/mine.png",
-        "selectedIconPath": "static/tab/mine-active.png"
-      }
-    ]
-  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "成分镜",

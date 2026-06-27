@@ -29,6 +29,7 @@ export type LocalLabelAnalysisInput = {
   frontClaimsText?: string;
   confidence?: 'high' | 'medium' | 'low';
   unconfirmedText?: string[];
+  qualityWarnings?: string[];
   attention: AttentionSettings;
   sourceType: LocalAnalysisInputSource;
   ocr?: OcrResult;
@@ -101,6 +102,7 @@ export function buildLocalLabelAnalysis(input: LocalLabelAnalysisInput): LocalLa
     foodTypeText,
     productionDateText,
     unconfirmedText: input.unconfirmedText || [],
+    qualityWarnings: input.qualityWarnings || [],
     confidence: input.confidence,
     hasNutrition: Boolean(parsedNutrition.some((field) => field.value)),
     sourceType: input.sourceType,
@@ -260,6 +262,7 @@ function buildSourceMeta(options: {
   foodTypeText: string;
   productionDateText: string;
   unconfirmedText: string[];
+  qualityWarnings: string[];
   confidence?: 'high' | 'medium' | 'low';
   hasNutrition: boolean;
   sourceType: LocalAnalysisInputSource;
@@ -295,6 +298,7 @@ function buildSourceMeta(options: {
     foodTypeText: options.foodTypeText,
     productionDateText: options.productionDateText,
     unconfirmedText: uniqueStrings(options.unconfirmedText).slice(0, 8),
+    qualityWarnings: uniqueStrings(options.qualityWarnings).slice(0, 3),
     recognition: options.recognition,
     normalizedCode: options.recognition?.normalizedCode,
     qrContent: options.recognition?.qrContent,

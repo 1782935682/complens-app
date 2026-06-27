@@ -1,0 +1,457 @@
+{
+  "schemaVersion": "eval-all-v1",
+  "product": "成分镜",
+  "loop": "PLAN -> IMPLEMENT -> TEST -> EVALUATE -> REVIEW -> FIX -> LOOP",
+  "iterationId": "chengfenjing-iteration-0080",
+  "loopIteration": 1,
+  "startedAt": "2026-06-27T02:33:02.538Z",
+  "finishedAt": "2026-06-27T02:33:26.109Z",
+  "resumedFromCheckpoint": true,
+  "commandResults": [
+    {
+      "id": "backend-decision-tests",
+      "label": "decision/nutrition route tests",
+      "command": "npm --prefix backend run test -- tests/decisionAgent.test.ts tests/foodAnalyze.test.ts tests/nutrition.test.ts",
+      "ok": true,
+      "status": 0,
+      "startedAt": "2026-06-27T02:33:02.538Z",
+      "finishedAt": "2026-06-27T02:33:04.535Z",
+      "stdoutTail": "\n> compcheck-api@0.1.0 test\n> vitest run tests/decisionAgent.test.ts tests/foodAnalyze.test.ts tests/nutrition.test.ts\n\n\n RUN  v4.1.8 /home/downloads/git/compcheck/backend\n\n\n Test Files  3 passed (3)\n      Tests  30 passed (30)\n   Start at  10:33:02\n   Duration  1.49s (transform 1.23s, setup 0ms, import 3.58s, tests 267ms, environment 0ms)\n\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "decision-evaluation-cases",
+      "label": "profile decision evaluation cases",
+      "command": "npm --prefix backend run decision:evaluate",
+      "ok": true,
+      "status": 0,
+      "startedAt": "2026-06-27T02:33:04.535Z",
+      "finishedAt": "2026-06-27T02:33:05.026Z",
+      "stdoutTail": "\n> compcheck-api@0.1.0 decision:evaluate\n> tsx scripts/evaluate-decision-cases.ts\n\ndecision evaluation cases passed: 10/10; comparison cases passed: 4/4\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "backend-typecheck",
+      "label": "backend typecheck",
+      "command": "npm --prefix backend run typecheck",
+      "ok": true,
+      "status": 0,
+      "startedAt": "2026-06-27T02:33:05.026Z",
+      "finishedAt": "2026-06-27T02:33:17.971Z",
+      "stdoutTail": "\n> compcheck-api@0.1.0 typecheck\n> tsc --noEmit && tsc --noEmit -p tsconfig.test.json\n\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "miniapp-typecheck",
+      "label": "miniapp typecheck",
+      "command": "npm --prefix user-uniapp run typecheck",
+      "ok": true,
+      "status": 0,
+      "startedAt": "2026-06-27T02:33:17.971Z",
+      "finishedAt": "2026-06-27T02:33:25.893Z",
+      "stdoutTail": "\n> complens-user-uniapp@0.1.0 typecheck\n> vue-tsc --noEmit\n\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "miniapp-decision-ui-audit",
+      "label": "miniapp decision UI audit",
+      "command": "npm --prefix user-uniapp run audit:product-output",
+      "ok": true,
+      "status": 0,
+      "startedAt": "2026-06-27T02:33:25.893Z",
+      "finishedAt": "2026-06-27T02:33:26.073Z",
+      "stdoutTail": "\n> complens-user-uniapp@0.1.0 audit:product-output\n> node scripts/audit-product-output.mjs\n\nDecision product audit passed: 27 checks.\n",
+      "stderrTail": ""
+    }
+  ],
+  "metrics": {
+    "ocrAccuracy": 0.99,
+    "ocrStrictAccuracy": 0.99,
+    "ingredientRecognitionAccuracy": 0.99,
+    "ingredientStrictAccuracy": 0.99,
+    "nutritionParsingAccuracy": 1,
+    "nutritionStrictAccuracy": 1,
+    "barcodeQrAccuracy": 1,
+    "decisionConsistency": 1,
+    "evaluationCasePassRate": 1,
+    "comparisonMatchRate": 1,
+    "userBehaviorMatchRate": 1,
+    "stability_score": 1,
+    "regression_detection": 1,
+    "decision_quality_score": 1,
+    "ui_clarity_score": 1
+  },
+  "ocrMetricSource": {
+    "ocrReport": "reports/ocr/ocr-evaluation-report.json",
+    "productCodeReport": "reports/ocr/product-code-evaluation-report.json",
+    "sampleCount": 100,
+    "generatedAt": "2026-06-27T01:57:56.537Z",
+    "passedSamples": 99,
+    "failedSamples": 1,
+    "strictPassedSamples": 99,
+    "strictFailedSamples": 1
+  },
+  "uiContract": {
+    "checks": [
+      {
+        "id": "home_has_single_photo_entry",
+        "ok": true
+      },
+      {
+        "id": "home_no_search_entry",
+        "ok": true
+      },
+      {
+        "id": "home_no_tab_bar_secondary_entry",
+        "ok": true
+      },
+      {
+        "id": "capture_uses_purchase_wording",
+        "ok": true
+      },
+      {
+        "id": "capture_exposes_profile_chips_off_home",
+        "ok": true
+      },
+      {
+        "id": "capture_uses_compact_visual_scan_hints",
+        "ok": true
+      },
+      {
+        "id": "report_has_conclusion_card",
+        "ok": true
+      },
+      {
+        "id": "report_has_fast_decision_proof_panel",
+        "ok": true
+      },
+      {
+        "id": "report_caps_fast_decision_proof_to_key_items",
+        "ok": true
+      },
+      {
+        "id": "report_visualizes_risk_instead_of_text_pile",
+        "ok": true
+      },
+      {
+        "id": "report_has_alternative_card",
+        "ok": true
+      },
+      {
+        "id": "report_supports_repeat_use_save_or_avoid_action",
+        "ok": true
+      },
+      {
+        "id": "report_has_suitable_groups",
+        "ok": true
+      },
+      {
+        "id": "report_exposes_bounded_evidence_text",
+        "ok": true
+      },
+      {
+        "id": "report_avoids_legacy_raw_text_dump",
+        "ok": true
+      },
+      {
+        "id": "report_no_technical_sections",
+        "ok": true
+      },
+      {
+        "id": "compare_page_registered",
+        "ok": true
+      },
+      {
+        "id": "compare_page_has_core_outputs",
+        "ok": true
+      },
+      {
+        "id": "compare_page_uses_visual_decision_badges",
+        "ok": true
+      },
+      {
+        "id": "compare_page_uses_backend_adapter",
+        "ok": true
+      },
+      {
+        "id": "runtime_pages_avoid_legacy_report_wording",
+        "ok": true
+      }
+    ],
+    "matchRate": 1,
+    "failures": []
+  },
+  "reviewAgent": {
+    "schemaVersion": "review-agent-report-v1",
+    "agent": "review-agent",
+    "product": "成分镜",
+    "generatedAt": "2026-06-27T02:33:26.107Z",
+    "reviewLoop": "PLAN -> IMPLEMENT -> TEST -> EVALUATE -> REVIEW -> FIX -> LOOP",
+    "summary": {
+      "ok": true,
+      "ui_clarity_score": 1,
+      "decision_quality_score": 1,
+      "stability_score": 1,
+      "regression_detection": 1
+    },
+    "ui_state": {
+      "home": "single_photo_action",
+      "result": "three_card_decision_ui",
+      "compare": "visual_ab_decision",
+      "repeat_use": "save_or_avoid_enabled"
+    },
+    "decision_quality": {
+      "score": 1,
+      "recognitionSupport": {
+        "ingredients": 0.99,
+        "nutrition": 1
+      },
+      "decisionConsistency": 1,
+      "profileMatch": 1,
+      "comparisonMatch": 1,
+      "outputValue": 1
+    },
+    "stability": {
+      "score": 1,
+      "checks": [
+        {
+          "id": "stability_no_metric_regression",
+          "label": "核心指标无回归",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "stability_ocr_gate",
+          "label": "OCR 决策可用率达到 95%",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "stability_ingredient_gate",
+          "label": "配料识别达到 95%",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "stability_nutrition_gate",
+          "label": "营养解析达到 95%",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "stability_decision_gate",
+          "label": "决策一致性达到 100%",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "stability_ui_gate",
+          "label": "UI 清晰度通过",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "stability_function_gate",
+          "label": "功能价值通过",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "stability_output_gate",
+          "label": "输出价值通过",
+          "ok": true,
+          "severity": "high"
+        }
+      ]
+    },
+    "regression_detection": {
+      "ok": true,
+      "regressions": [],
+      "acceptedRegressions": [],
+      "baselineIteration": 79
+    },
+    "function_value": {
+      "score": 1,
+      "checks": [
+        {
+          "id": "agent_product-agent",
+          "label": "product-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_ui-agent",
+          "label": "ui-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_ocr-agent",
+          "label": "ocr-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_nutrition-agent",
+          "label": "nutrition-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_rule-agent",
+          "label": "rule-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_decision-agent",
+          "label": "decision-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_compare-agent",
+          "label": "compare-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_eval-agent",
+          "label": "eval-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_fix-agent",
+          "label": "fix-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "agent_review-agent",
+          "label": "review-agent 已登记",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "function_decision_api",
+          "label": "存在单品购买决策 API",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "function_compare_api",
+          "label": "存在 A/B 对比 API",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "function_profile_cases",
+          "label": "用户画像评测全通过",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "function_compare_cases",
+          "label": "对比评测全通过",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "function_purchase_not_ocr",
+          "label": "输出是购买建议而不是识别详情",
+          "ok": true,
+          "severity": "high"
+        }
+      ]
+    },
+    "output_value": {
+      "score": 1,
+      "checks": [
+        {
+          "id": "output_clear_recommendation",
+          "label": "明确推荐/谨慎/不建议/信息不足",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "output_risk_max_three",
+          "label": "判断依据最多三条",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "output_has_alternatives",
+          "label": "必须给替代推荐",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "output_bounded_evidence_text",
+          "label": "展示可核对证据且避免技术字段堆叠",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "output_not_legacy_report",
+          "label": "运行态不再使用旧报告型文案",
+          "ok": true,
+          "severity": "high"
+        },
+        {
+          "id": "output_compare_core_diff",
+          "label": "对比输出营养负担、风险、画像适配",
+          "ok": true,
+          "severity": "high"
+        }
+      ]
+    },
+    "failed_cases": [],
+    "next_actions": [
+      "continue UI-first decision visualization",
+      "keep fixing blocking OCR samples without weakening decision quality"
+    ]
+  },
+  "uiChanges": [
+    "home remains one photo-recognition entry",
+    "result page keeps conclusion/risk/alternative three-card decision UI",
+    "risk card uses nutrition tiles and risk-meter visuals instead of long analysis",
+    "result page supports save recommendation / avoid-list behavior",
+    "compare page keeps visual A/B status badges and segmented winners"
+  ],
+  "functionChanges": [
+    "review-agent added to backend agent trace",
+    "comparison evaluation cases added for sugar, children, and allergy profiles",
+    "eval:all now records stability_score, regression_detection, decision_quality_score, and ui_clarity_score",
+    "checkpoint now records iteration_id, ui_state, decision_quality, failed_cases, and next_actions"
+  ],
+  "completedTasks": [
+    "product-agent contract",
+    "decision-agent contract",
+    "compare-agent contract",
+    "miniapp single-entry home",
+    "miniapp three-card result page",
+    "legacy vite/capacitor cleanup",
+    "backend-decision-tests",
+    "backend-typecheck",
+    "miniapp-typecheck",
+    "miniapp-decision-ui-audit",
+    "miniapp A/B compare flow",
+    "miniapp compare backend adapter",
+    "backend data namespace migration",
+    "profile-specific evaluation_case fixtures",
+    "decision-evaluation-cases",
+    "ui-first visual decision cards",
+    "comparison evaluation_case fixtures",
+    "review-agent independent gate"
+  ],
+  "failedTasks": [],
+  "nextTasks": [
+    "continue UI-first decision visualization",
+    "keep fixing blocking OCR samples without weakening decision quality"
+  ],
+  "iterationReport": {
+    "json": "reports/evaluation/iterations/chengfenjing-iteration-0080.json",
+    "markdown": "reports/evaluation/iterations/chengfenjing-iteration-0080.md"
+  }
+}

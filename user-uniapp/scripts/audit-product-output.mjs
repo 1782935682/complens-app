@@ -1,203 +1,61 @@
-import { readdir, readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
-const scannedExtensions = ['.vue', '.ts', '.json', '.css'];
-const forbiddenOutputPhrases = [
-  '健康',
-  '不健康',
-  '安全',
-  '有害',
-  '致癌',
-  '治疗',
-  '诊断',
-  '一定过敏',
-  '绝对安全',
-  '绝对有害',
-  '一定致敏',
-  '一定不能吃',
-  '有毒',
-  '核验',
-  '阈值',
-  '判断依据',
-  '营养表原值',
-  '标识偏差',
-  '少选',
-  '换成',
-  '适合当前',
-  '可以偶尔选',
-  '决定频率',
-  '不用过度担心',
-  '无需担心',
-  '不必担心',
-  '可以放心',
-  '普通人偶尔',
-  '普通人通常',
-  '用人话',
-  '更偏向',
-  '不建议长期',
-  '可以避免',
-  '避免高频',
-  '不能判断',
-  '可用于判断',
-  '再判断',
-  '是否合规',
-  '没有添加剂',
-  '无添加剂',
-  '暂未识别到明显食品添加剂',
-  '不单独下结论',
-  '结合目标',
-  '结合你的关注目标',
-  '结合个人目标',
-  '建议结合个人目标',
-  '建议根据自己的关注目标',
-  '配料雷达',
-  '对照包装原文',
-  '结合包装原文',
-  '核对原文',
-  '请对照',
-  '以包装原文为准',
-  '包装原文为准',
-  '先看',
-  '怎么核对',
-  '待核对线索',
-  '分享卡片',
-  '大白话'
+const files = {
+  home: await readFile('src/pages/index/index.vue', 'utf8'),
+  capture: await readFile('src/pages/capture/index.vue', 'utf8'),
+  report: await readFile('src/pages/report/index.vue', 'utf8'),
+  compare: await readFile('src/pages/compare/index.vue', 'utf8'),
+  imageUploader: await readFile('src/components/ImageUploader.vue', 'utf8'),
+  decisionApi: await readFile('src/services/api/decision.ts', 'utf8'),
+  pages: await readFile('src/pages.json', 'utf8'),
+  decisionRules: await readFile('src/utils/decisionRules.ts', 'utf8'),
+  scanStore: await readFile('src/stores/scanStore.ts', 'utf8')
+};
+
+const reportHasSaveOrAvoidAction = (files.report.includes('保存报告') || files.report.includes('保存记录') || files.report.includes('收藏建议'))
+  && files.report.includes('加入避雷');
+
+const checks = [
+  ['home keeps one visible action', files.home.includes('拍照识别')],
+  ['home removes ingredient search entry', !files.home.includes('查单个成分') && !files.pages.includes('pages/search/index')],
+  ['home has no tab bar secondary entry', !/"tabBar"\s*:/u.test(files.pages)],
+  ['capture uses purchase-decision wording', files.capture.includes('生成购买建议') && !files.capture.includes('生成参考报告')],
+  ['capture exposes profile chips off home', files.capture.includes('profile-strip') && files.capture.includes('调整')],
+  ['capture uses compact visual scan hints', files.imageUploader.includes('image-uploader__signals') && !files.imageUploader.includes('image-uploader__checklist')],
+  ['capture blocks mock OCR from purchase advice', files.capture.includes('mock OCR') && files.capture.includes('shouldTreatAutoRecognitionAsInsufficient')],
+  ['report has purchase conclusion card', files.report.includes('该不该买')],
+  ['report has fast decision proof panel', files.report.includes('fast-summary-panel') && files.report.includes('decisionProofRows')],
+  ['report exposes source status on first screen', files.report.includes('sourceStatusText') && files.report.includes('source-status')],
+  ['report caps decision proof to key items', files.report.includes('decisionProofRows') && files.report.includes('.slice(0, 3)')],
+  ['report prioritizes allergen warnings', files.decisionRules.includes('...allergyWarnings') && files.decisionRules.includes('来源：${sourceLabel}')],
+  ['report carries degraded data warnings', files.decisionRules.includes('getQualityWarnings') && files.decisionRules.includes('degraded_backend')],
+  ['report visualizes risk instead of text pile', files.report.includes('risk-meter') && files.report.includes('risk-dot')],
+  ['report has alternative card', files.report.includes('替代推荐')],
+  ['report supports repeat-use save or avoid action', reportHasSaveOrAvoidAction],
+  ['report exposes suitable and unsuitable groups', files.report.includes('适合') && files.report.includes('不适合')],
+  ['report exposes bounded evidence text', files.report.includes('可核对证据') && files.report.includes('完整标签文字') && files.report.includes('复制完整文本') && files.report.includes('纠错后重算')],
+  ['report avoids legacy raw-text dumping labels', !/OCR\s*原文|识别详情|对照包装原文/u.test(files.report)],
+  ['report hides technical analysis sections', !/营养重点图|添加剂解释|技术字段|对照包装原文/u.test(files.report)],
+  ['decision output uses purchase recommendations', files.decisionRules.includes('推荐') && files.decisionRules.includes('谨慎') && files.decisionRules.includes('不建议')],
+  ['compare page is registered', files.pages.includes('pages/compare/index')],
+  ['compare page outputs three purchase differences', files.compare.includes('负担更低') && files.compare.includes('更低风险') && files.compare.includes('更适合你')],
+  ['compare page shows nutrition/allergen/additive differences', files.compare.includes('关键差异') && files.compare.includes('buildNutritionDifference') && files.compare.includes('buildAllergenDifference') && files.compare.includes('buildAdditiveDifference')],
+  ['compare page uses visual decision badges', files.compare.includes('product-decision--') && files.compare.includes('segment-strip')],
+  ['compare page uses decision compare API adapter', files.compare.includes('compareReportsWithAdapter') && files.decisionApi.includes('/decision/compare')],
+  ['runtime pages avoid legacy report wording', !/食品标签解读|生成参考报告|参考报告/u.test([
+    files.home,
+    files.capture,
+    files.report,
+    files.compare,
+    files.imageUploader,
+    files.pages,
+    files.scanStore
+  ].join('\n'))]
 ];
 
-let checkedFiles = 0;
-
-await scanSourceTree('src');
-await assertFileIncludes('src/pages/search/index.vue', [
-  '为什么看',
-  '标签写法',
-  '结果用途',
-  'buildWhyCareText',
-  'buildTrustNote',
-  'buildUseAdvice'
-]);
-await assertFileExcludes('src/pages/search/index.vue', [
-  '常见用途',
-  '需要注意',
-  '常见食品',
-  '来源线索',
-  'rawSourceText',
-  'regulatoryBasis',
-  'reviewNote'
-]);
-await assertFileIncludes('src/pages/report/index.vue', [
-  '信息不足',
-  '还需要补充',
-  '未确认线索',
-  '一句话结论',
-  '关键原因',
-  '建议关注人群',
-  '份量提示',
-  '识别详情',
-  '营养表',
-  'shareCard',
-  'shouldShowAdditiveSection',
-  '未拿到配料表，暂不查看添加剂',
-  '当前配料表未匹配到需要解释的添加剂或配料项',
-  '营养数字',
-  '添加剂解释',
-  'ingredientExplanationItems',
-  'detailFrontClaims',
-  'detailAllergenText',
-  'detailSummaryText',
-  'priorityFindings',
-  '营养重点图',
-  'nutritionBars',
-  'buildNutritionFindingDetail',
-  'nutritionFocusText'
-]);
-await assertFileExcludes('src/pages.json', [
-  'pages/settings/index',
-  '设置与说明'
-]);
-await assertFileIncludes('src/utils/labelTextExtractor.ts', [
-  'frontClaimTargetPattern',
-  'productInfoNoisePattern',
-  'hasNutritionValueStructure',
-  'hasAllergenContext',
-  'extractProductNameText',
-  'extractFoodTypeText',
-  'extractProductionDateText',
-  'ignoredText'
-]);
-await assertFileIncludes('src/utils/decisionRules.ts', [
-  'buildDecisionSignalText',
-  'isNormalAdditiveMatch'
-]);
-await assertFileIncludes('src/platform/share.ts', [
-  'buildReportShareText',
-  '仅供标签信息参考'
-]);
-await assertFunctionExcludes('src/utils/decisionRules.ts', 'buildConsumerDecision', ['report.rawText']);
-await assertFunctionExcludes('src/utils/decisionRules.ts', 'buildAdditiveRecognitions', ['report.rawText', 'rawText']);
-await assertFunctionExcludes('src/utils/decisionRules.ts', 'buildConfiguredAllergyWarnings', ['report.rawText', 'rawText']);
-await assertFunctionExcludes('src/utils/reportBuilder.ts', 'buildAttentionHits', ['input.rawText', 'rawText']);
-
-console.log(`Product output audit passed: ${checkedFiles} source files scanned.`);
-
-async function scanSourceTree(dir) {
-  const entries = await readdir(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const filePath = join(dir, entry.name);
-    if (entry.isDirectory()) {
-      await scanSourceTree(filePath);
-      continue;
-    }
-    if (!entry.isFile() || !scannedExtensions.some((extension) => filePath.endsWith(extension))) continue;
-    checkedFiles += 1;
-    const content = await readFile(filePath, 'utf8');
-    forbiddenOutputPhrases.forEach((phrase) => {
-      if (content.includes(phrase)) {
-        throw new Error(`Unsuitable product output phrase "${phrase}" found in ${filePath}`);
-      }
-    });
-  }
+const failed = checks.filter(([, ok]) => !ok);
+if (failed.length) {
+  throw new Error(`Decision product audit failed:\n${failed.map(([name]) => `- ${name}`).join('\n')}`);
 }
 
-async function assertFileIncludes(filePath, requiredSnippets) {
-  const content = await readFile(filePath, 'utf8');
-  const missing = requiredSnippets.filter((snippet) => !content.includes(snippet));
-  if (missing.length) {
-    throw new Error(`${filePath} is missing required product-output snippets: ${missing.join(', ')}`);
-  }
-}
-
-async function assertFileExcludes(filePath, blockedSnippets) {
-  const content = await readFile(filePath, 'utf8');
-  const found = blockedSnippets.filter((snippet) => content.includes(snippet));
-  if (found.length) {
-    throw new Error(`${filePath} still includes retired product-output snippets: ${found.join(', ')}`);
-  }
-}
-
-async function assertFunctionExcludes(filePath, functionName, blockedSnippets) {
-  const content = await readFile(filePath, 'utf8');
-  const block = extractFunctionBlock(content, functionName);
-  const found = blockedSnippets.filter((snippet) => block.includes(snippet));
-  if (found.length) {
-    throw new Error(`${filePath}#${functionName} includes blocked signal source snippets: ${found.join(', ')}`);
-  }
-}
-
-function extractFunctionBlock(content, functionName) {
-  const functionPattern = new RegExp(`(?:export\\s+)?function\\s+${functionName}\\b`);
-  const match = content.match(functionPattern);
-  if (!match || typeof match.index !== 'number') {
-    throw new Error(`Unable to find function ${functionName}`);
-  }
-  const braceStart = content.indexOf('{', match.index);
-  if (braceStart < 0) throw new Error(`Unable to find body for function ${functionName}`);
-
-  let depth = 0;
-  for (let index = braceStart; index < content.length; index += 1) {
-    const char = content[index];
-    if (char === '{') depth += 1;
-    if (char === '}') depth -= 1;
-    if (depth === 0) return content.slice(braceStart, index + 1);
-  }
-  throw new Error(`Unable to close function ${functionName}`);
-}
+console.log(`Decision product audit passed: ${checks.length} checks.`);

@@ -1,10 +1,10 @@
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { foodIngredients } from '../src/data/foodAdditives.js';
-import { standardAllergenTypes } from '../src/data/allergens.js';
-import { gb2760OfficialStagingRecords, gb2760OfficialStagingSource } from '../src/data/gb2760OfficialStaging.js';
-import { gb2760OfficialFullTextPages, gb2760OfficialFullTextSource } from '../src/data/gb2760OfficialFullText.js';
-import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialB2NaturalFlavorRows, gb2760OfficialB3SyntheticFlavorRows, gb2760OfficialC1ProcessingAidRows, gb2760OfficialC2ProcessingAidRows, gb2760OfficialC3EnzymePreparationRows, gb2760OfficialDFunctionCategoryRows, gb2760OfficialE1FoodCategoryRows, gb2760OfficialFAdditiveIndexRows, gb2760OfficialReferenceRows, gb2760OfficialReferenceTableSource } from '../src/data/gb2760OfficialReferenceTables.js';
+import { foodIngredients } from '../backend/src/data/foodAdditives.js';
+import { standardAllergenTypes } from '../backend/src/data/allergens.js';
+import { gb2760OfficialStagingRecords, gb2760OfficialStagingSource } from '../backend/src/data/gb2760OfficialStaging.js';
+import { gb2760OfficialFullTextPages, gb2760OfficialFullTextSource } from '../backend/src/data/gb2760OfficialFullText.js';
+import { gb2760OfficialA2ExceptionFoodCategories, gb2760OfficialB1Footnotes, gb2760OfficialB1NoFlavorFoodCategories, gb2760OfficialB2NaturalFlavorRows, gb2760OfficialB3SyntheticFlavorRows, gb2760OfficialC1ProcessingAidRows, gb2760OfficialC2ProcessingAidRows, gb2760OfficialC3EnzymePreparationRows, gb2760OfficialDFunctionCategoryRows, gb2760OfficialE1FoodCategoryRows, gb2760OfficialFAdditiveIndexRows, gb2760OfficialReferenceRows, gb2760OfficialReferenceTableSource } from '../backend/src/data/gb2760OfficialReferenceTables.js';
 
 const riskLevels = new Set(['low', 'medium', 'high', 'unknown']);
 const gbStatuses = new Set(['permitted', 'restricted', 'prohibited', 'unknown']);

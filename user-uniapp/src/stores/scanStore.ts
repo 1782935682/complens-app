@@ -1,6 +1,8 @@
 import { clearStoredImageMemory, deleteStoredImage, saveFileImageData, saveInlineImageData } from '@/platform/imageStore';
 import { readJson, writeJson } from '@/platform/storage';
-import type { LabelReport, LocalImageAsset, RecognitionHistoryItem, ReportFeedback, ReportFeedbackReason, ScanDraft } from '@/types';
+import { getAttentionSettings } from '@/stores/attentionStore';
+import type { AttentionSettings, LabelReport, LocalImageAsset, RecognitionHistoryItem, ReportFeedback, ReportFeedbackReason, ScanDraft } from '@/types';
+import { enrichReportDecision } from '@/utils/decisionRules';
 
 const DRAFT_KEY = 'complens:user-scan-draft';
 const REPORTS_KEY = 'complens:user-label-reports';
@@ -52,8 +54,13 @@ export function resetScanDraft(): ScanDraft {
   return next;
 }
 
+export function startCompareDraft(baseReportId: string): ScanDraft {
+  resetScanDraft();
+  return saveScanDraft({ compareBaseReportId: String(baseReportId || '').trim() || undefined });
+}
+
 export function getReports(): LabelReport[] {
-  return readJson<LabelReport[]>(REPORTS_KEY, []).sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+  return readStoredReports().map(recomputeReportForCurrentProfile);
 }
 
 export function getReportById(id: string): LabelReport | undefined {
@@ -61,15 +68,25 @@ export function getReportById(id: string): LabelReport | undefined {
 }
 
 export function saveReport(report: LabelReport): LabelReport[] {
-  const next = [toPersistedReport(report), ...getReports().filter((item) => item.id !== report.id)].slice(0, MAX_REPORTS);
+  const compareBaseReportId = String(getScanDraft().compareBaseReportId || '').trim();
+  const storedReports = readStoredReports().filter((item) => item.id !== report.id);
+  const compareBaseReport = compareBaseReportId
+    ? storedReports.find((item) => item.id === compareBaseReportId)
+    : undefined;
+  const next = [toPersistedReport(report), ...storedReports]
+    .filter((item, index, reports) => reports.findIndex((candidate) => candidate.id === item.id) === index)
+    .slice(0, MAX_REPORTS);
+  if (compareBaseReport && !next.some((item) => item.id === compareBaseReport.id)) {
+    next.splice(Math.max(1, MAX_REPORTS - 1), 1, compareBaseReport);
+  }
   writeReportsWithRetry(next);
-  return next;
+  return getReports();
 }
 
 export function deleteReport(id: string): LabelReport[] {
-  const next = getReports().filter((report) => report.id !== id);
+  const next = readStoredReports().filter((report) => report.id !== id);
   writeReportsWithRetry(next);
-  return next;
+  return getReports();
 }
 
 export function clearReports(): LabelReport[] {
@@ -118,18 +135,45 @@ export function saveRecognitionHistory(input: Omit<RecognitionHistoryItem, 'id' 
 export function toggleReportFavorite(id: string, favorite?: boolean): LabelReport | undefined {
   let updated: LabelReport | undefined;
   const now = new Date().toISOString();
-  const next = getReports().map((report) => {
+  const next = readStoredReports().map((report) => {
     if (report.id !== id) return report;
     const isFavorite = typeof favorite === 'boolean' ? favorite : !report.isFavorite;
     updated = {
       ...report,
       isFavorite,
-      favoritedAt: isFavorite ? (report.favoritedAt || now) : undefined
+      favoritedAt: isFavorite ? (report.favoritedAt || now) : undefined,
+      isAvoided: isFavorite ? false : report.isAvoided,
+      avoidedAt: isFavorite ? undefined : report.avoidedAt
     };
     return updated;
   });
   if (updated) writeReportsWithRetry(next);
-  return updated;
+  return updated ? recomputeReportForCurrentProfile(updated) : undefined;
+}
+
+export function toggleReportAvoided(id: string, avoided?: boolean): LabelReport | undefined {
+  let updated: LabelReport | undefined;
+  const now = new Date().toISOString();
+  const next = readStoredReports().map((report) => {
+    if (report.id !== id) return report;
+    const isAvoided = typeof avoided === 'boolean' ? avoided : !report.isAvoided;
+    updated = {
+      ...report,
+      isAvoided,
+      avoidedAt: isAvoided ? (report.avoidedAt || now) : undefined,
+      isFavorite: isAvoided ? false : report.isFavorite,
+      favoritedAt: isAvoided ? undefined : report.favoritedAt
+    };
+    return updated;
+  });
+  if (updated) writeReportsWithRetry(next);
+  return updated ? recomputeReportForCurrentProfile(updated) : undefined;
+}
+
+export function refreshReportsForCurrentProfile(): LabelReport[] {
+  const next = readStoredReports().map((report) => toPersistedReport(recomputeReportForCurrentProfile(report)));
+  writeReportsWithRetry(next);
+  return getReports();
 }
 
 export function getReportFeedbackQueue(): ReportFeedback[] {
@@ -146,7 +190,7 @@ export function saveReportFeedback(input: {
   const feedback: ReportFeedback = {
     id: `feedback-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     reportId: input.report.id,
-    reportTitle: input.report.title || '食品标签解读',
+    reportTitle: input.report.title || '购买建议',
     productName: input.report.productName || '未命名食品',
     reason: input.reason,
     reasonLabel: reportFeedbackReasonLabel(input.reason),
@@ -214,6 +258,44 @@ function writeReportsWithRetry(reports: LabelReport[]): void {
       // Storage may be full or unavailable on device; keep the current session alive.
     }
   }
+}
+
+function readStoredReports(): LabelReport[] {
+  return readJson<LabelReport[]>(REPORTS_KEY, []).sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+}
+
+function recomputeReportForCurrentProfile(report: LabelReport): LabelReport {
+  return recomputeReportForAttention(report, getAttentionSettings());
+}
+
+function recomputeReportForAttention(report: LabelReport, attention: AttentionSettings): LabelReport {
+  const neutralFoodAnalysis = report.foodAnalysis
+    ? {
+        ...report.foodAnalysis,
+        mainReasons: [],
+        suitableFor: [],
+        notSuitableFor: []
+      }
+    : undefined;
+  return enrichReportDecision({
+    ...report,
+    decision: undefined,
+    purchaseDecision: undefined,
+    additiveRecognition: undefined,
+    nutritionSnapshot: undefined,
+    foodAnalysis: neutralFoodAnalysis,
+    analysisSource: report.analysisSource
+      ? {
+          ...report.analysisSource,
+          targetSnapshot: {
+            primaryGoal: attention.primaryGoal,
+            targetGoals: [...attention.targetGoals],
+            isChildrenMode: attention.isChildrenMode,
+            allergens: [...attention.allergens]
+          }
+        }
+      : report.analysisSource
+  }, attention);
 }
 
 function buildRecognitionHistoryId(input: Pick<RecognitionHistoryItem, 'normalizedCode' | 'qrContent' | 'imageId'>): string {
@@ -296,7 +378,7 @@ const genericProductNames = new Set([
   '未命名食品',
   '未识别商品',
   '未知食品',
-  '食品标签解读',
+  '购买建议',
   '包装正面',
   '这款食品'
 ]);

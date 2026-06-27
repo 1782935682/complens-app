@@ -1,0 +1,1715 @@
+{
+  "schemaVersion": "product-review-aggregation-v1",
+  "round": 30,
+  "generatedAt": "2026-06-27T02:30:15.129Z",
+  "input": {
+    "checkpointPath": "reports/product-review/round-30/checkpoint.json",
+    "completedSessions": 6,
+    "failedSessions": 1,
+    "rawOnly": true
+  },
+  "metrics": {
+    "sessions": 6,
+    "providers": {
+      "codex": 6
+    },
+    "verdicts": {
+      "pass": 2,
+      "reviewed": 4
+    },
+    "severity": {
+      "P3": 7,
+      "P2": 2
+    },
+    "rejectedOrNoGoSessions": 0,
+    "schemaDeviations": 0
+  },
+  "providerMetrics": {
+    "codex": {
+      "sessions": 6,
+      "tasks": 48,
+      "coreTaskCompletionRate": 0.958,
+      "unassistedCompletionRate": 0.958,
+      "scoreAverages": {
+        "visualQuality": null,
+        "easeOfUse": 4.1,
+        "decisionClarity": 4.3,
+        "trust": 4.3,
+        "comparisonValue": 4.3,
+        "retentionValue": null,
+        "overallValue": 4.2
+      },
+      "valueBeyondGenericAiCount": 6,
+      "wouldUseAgainCount": 6,
+      "schemaDeviationSessions": 0
+    }
+  },
+  "sessions": [
+    {
+      "provider": "codex",
+      "personaSlug": "allergy-sensitive",
+      "persona": "allergy-sensitive",
+      "filePath": "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+      "reviewMode": "black-box H5 real interaction only",
+      "verdict": "pass",
+      "score": 75.6,
+      "scores": {
+        "taskCompletionRate": 81,
+        "noAssistanceCompletionRate": 81,
+        "decisionClarity": 78,
+        "easeOfUse": 72,
+        "trust": 70,
+        "comparisonValue": 72,
+        "overallValue": 75
+      },
+      "tasks": [
+        {
+          "taskId": "task-1",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-2",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-3",
+          "completed": false,
+          "assistanceUsed": false,
+          "status": "partial",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "partial"
+        },
+        {
+          "taskId": "task-4",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-5",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "partial",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "partial"
+        },
+        {
+          "taskId": "task-6",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-7",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "partial",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "partial"
+        },
+        {
+          "taskId": "task-8",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        }
+      ],
+      "taskStats": {
+        "total": 8,
+        "completed": 7,
+        "partial": 3,
+        "failed": 0
+      },
+      "trustSignals": {
+        "trustedDecision": true,
+        "understoodEvidenceSource": true,
+        "comparisonWasUseful": true,
+        "valueBeyondGenericAi": true,
+        "wouldUseAgain": true,
+        "wouldRecommend": null
+      },
+      "schemaDeviations": [],
+      "issues": [
+        {
+          "id": "codex-allergy-sensitive-1",
+          "provider": "codex",
+          "personaSlug": "allergy-sensitive",
+          "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+          "severity": "P3",
+          "clusterKey": "other",
+          "page": "",
+          "title": "Insufficient-info handling was not reachable in this session",
+          "userImpact": "",
+          "evidence": [
+            "Uploaded public sample-01 did not expose an information-insufficient branch."
+          ],
+          "suggestedDirection": "Make missing data states prominent and easy to reproduce from capture/report flow.",
+          "text": "P3 Insufficient-info handling was not reachable in this session Uploaded public sample-01 did not expose an information-insufficient branch. Make missing data states prominent and easy to reproduce from capture/report flow."
+        },
+        {
+          "id": "codex-allergy-sensitive-2",
+          "provider": "codex",
+          "personaSlug": "allergy-sensitive",
+          "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+          "severity": "P3",
+          "clusterKey": "information_sufficiency_gate",
+          "page": "",
+          "title": "Save/avoid/history reuse is hinted but not completed in the tested flow",
+          "userImpact": "",
+          "evidence": [
+            "成分镜 看食品标签，判断该不该买 优先拍配料表、营养表或条码；结论会标出依据和信息不足。 拍哪里 配料 / 营养 / 条码 先看结论 买 / 谨慎 / 不建议 缺信息 直接提示补拍 拍照识别 示例结果，不是你的报告 来源 包装实拍 结论 控糖慎买 依据 糖10.8g/100ml 关注项 低钠 / 忌口花生 已保存 0 保存 / 0 避雷 快速切换关注 日常 控糖 儿童 低钠 过敏 最近判断 可补拍、查看或对比 最近 保存 避雷 点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。 原味酸奶 过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg 谨慎 橙味饮料 控糖/过敏 · 不建议｜糖10.8g / 碳水11.2g / 钠36mg 不建议 高纤维低负担 信息不足，先补拍配料表或营养成分表 继续补拍"
+          ],
+          "suggestedDirection": "Expose concrete save and avoid actions on product reports and make history re-openable from home.",
+          "text": "P3 Save/avoid/history reuse is hinted but not completed in the tested flow 成分镜 看食品标签，判断该不该买 优先拍配料表、营养表或条码；结论会标出依据和信息不足。 拍哪里 配料 / 营养 / 条码 先看结论 买 / 谨慎 / 不建议 缺信息 直接提示补拍 拍照识别 示例结果，不是你的报告 来源 包装实拍 结论 控糖慎买 依据 糖10.8g/100ml 关注项 低钠 / 忌口花生 已保存 0 保存 / 0 避雷 快速切换关注 日常 控糖 儿童 低钠 过敏 最近判断 可补拍、查看或对比 最近 保存 避雷 点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。 原味酸奶 过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg 谨慎 橙味饮料 控糖/过敏 · 不建议｜糖10.8g / 碳水11.2g / 钠36mg 不建议 高纤维低负担 信息不足，先补拍配料表或营养成分表 继续补拍 Expose concrete save and avoid actions on product reports and make history re-openable from home."
+        }
+      ]
+    },
+    {
+      "provider": "codex",
+      "personaSlug": "first-time-consumer",
+      "persona": "first-time-consumer",
+      "filePath": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+      "reviewMode": "black-box H5 real interaction only",
+      "verdict": "reviewed",
+      "score": 92.1,
+      "scores": {
+        "taskCompletionRate": 94,
+        "noAssistanceCompletionRate": 94,
+        "decisionClarity": 93,
+        "easeOfUse": 86,
+        "trust": 91,
+        "comparisonValue": 95,
+        "overallValue": 92
+      },
+      "tasks": [
+        {
+          "taskId": "task-1",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-2",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-3",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-4",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-5",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-6",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-7",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-8",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        }
+      ],
+      "taskStats": {
+        "total": 8,
+        "completed": 8,
+        "partial": 0,
+        "failed": 0
+      },
+      "trustSignals": {
+        "trustedDecision": true,
+        "understoodEvidenceSource": true,
+        "comparisonWasUseful": true,
+        "valueBeyondGenericAi": true,
+        "wouldUseAgain": true,
+        "wouldRecommend": null
+      },
+      "schemaDeviations": [],
+      "issues": [
+        {
+          "id": "codex-first-time-consumer-1",
+          "provider": "codex",
+          "personaSlug": "first-time-consumer",
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "severity": "P3",
+          "clusterKey": "other",
+          "page": "",
+          "title": "One complete-looking sample remained in a generation state at sweep timeout",
+          "userImpact": "",
+          "evidence": [
+            "sample-02 screenshot shows '已识别，正在生成购买建议' and '生成中' after the sweep wait, with primary actions visually disabled."
+          ],
+          "suggestedDirection": "Add a visible timeout/retry/cancel path that preserves the selected image and explains whether generation is still running or failed.",
+          "text": "P3 One complete-looking sample remained in a generation state at sweep timeout sample-02 screenshot shows '已识别，正在生成购买建议' and '生成中' after the sweep wait, with primary actions visually disabled. Add a visible timeout/retry/cancel path that preserves the selected image and explains whether generation is still running or failed."
+        },
+        {
+          "id": "codex-first-time-consumer-2",
+          "provider": "codex",
+          "personaSlug": "first-time-consumer",
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "severity": "P3",
+          "clusterKey": "retention",
+          "page": "",
+          "title": "Save and avoid bucket semantics are ambiguous after both actions",
+          "userImpact": "",
+          "evidence": [
+            "After '查看已保存' was visible, adding the same report to avoid returned home with '0 保存 / 1 避雷'. The home copy says save and avoid are separated, but not whether avoid replaces saved."
+          ],
+          "suggestedDirection": "Clarify whether 避雷 moves a report out of saved, or count both states consistently with explicit copy.",
+          "text": "P3 Save and avoid bucket semantics are ambiguous after both actions After '查看已保存' was visible, adding the same report to avoid returned home with '0 保存 / 1 避雷'. The home copy says save and avoid are separated, but not whether avoid replaces saved. Clarify whether 避雷 moves a report out of saved, or count both states consistently with explicit copy."
+        },
+        {
+          "id": "codex-first-time-consumer-3",
+          "provider": "codex",
+          "personaSlug": "first-time-consumer",
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "severity": "P3",
+          "clusterKey": "comparison_value",
+          "page": "",
+          "title": "Sticky action area duplicates major actions and crowds lower evidence",
+          "userImpact": "",
+          "evidence": [
+            "Comparison and report screenshots show repeated bottom CTAs such as '拍下一款对比' plus another fixed row, partly covering lower content."
+          ],
+          "suggestedDirection": "Use one persistent action row with enough bottom spacer, and keep secondary actions in a single predictable row.",
+          "text": "P3 Sticky action area duplicates major actions and crowds lower evidence Comparison and report screenshots show repeated bottom CTAs such as '拍下一款对比' plus another fixed row, partly covering lower content. Use one persistent action row with enough bottom spacer, and keep secondary actions in a single predictable row."
+        }
+      ]
+    },
+    {
+      "provider": "codex",
+      "personaSlug": "generic-ai-skeptic",
+      "persona": "generic-ai-skeptic",
+      "filePath": "reports/product-review/raw/codex/round-30/generic-ai-skeptic.json",
+      "reviewMode": "black-box H5 real interaction only",
+      "verdict": "pass",
+      "score": 84.3,
+      "scores": {
+        "taskCompletionRate": 100,
+        "noAssistanceCompletionRate": 100,
+        "decisionClarity": 82,
+        "easeOfUse": 78,
+        "trust": 78,
+        "comparisonValue": 78,
+        "overallValue": 74
+      },
+      "tasks": [
+        {
+          "taskId": "task-1",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-2",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-3",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-4",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-5",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-6",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-7",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-8",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        }
+      ],
+      "taskStats": {
+        "total": 8,
+        "completed": 8,
+        "partial": 0,
+        "failed": 0
+      },
+      "trustSignals": {
+        "trustedDecision": true,
+        "understoodEvidenceSource": true,
+        "comparisonWasUseful": true,
+        "valueBeyondGenericAi": true,
+        "wouldUseAgain": true,
+        "wouldRecommend": null
+      },
+      "schemaDeviations": [],
+      "issues": []
+    },
+    {
+      "provider": "codex",
+      "personaSlug": "parent-child-snack",
+      "persona": "Parent choosing snacks/drinks for a child; wants quick buy/caution/avoid guidance, clear allergen and sugar evidence, and reusable saved/avoid decisions.",
+      "filePath": "reports/product-review/raw/codex/round-30/parent-child-snack.json",
+      "reviewMode": "black-box H5 real interaction only",
+      "verdict": "reviewed",
+      "score": 90.7,
+      "scores": {
+        "taskCompletionRate": 100,
+        "noAssistanceCompletionRate": 100,
+        "decisionClarity": 88,
+        "easeOfUse": 84,
+        "trust": 90,
+        "comparisonValue": 86,
+        "overallValue": 87
+      },
+      "tasks": [
+        {
+          "taskId": "task-1",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-2",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-3",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-4",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-5",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-6",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-7",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-8",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        }
+      ],
+      "taskStats": {
+        "total": 8,
+        "completed": 8,
+        "partial": 0,
+        "failed": 0
+      },
+      "trustSignals": {
+        "trustedDecision": true,
+        "understoodEvidenceSource": true,
+        "comparisonWasUseful": true,
+        "valueBeyondGenericAi": true,
+        "wouldUseAgain": true,
+        "wouldRecommend": null
+      },
+      "schemaDeviations": [],
+      "issues": []
+    },
+    {
+      "provider": "codex",
+      "personaSlug": "sugar-control",
+      "persona": "sugar-control shopper evaluating packaged food labels for sugar, carbohydrates, sweeteners, allergy caveats, and whether the product is worth buying",
+      "filePath": "reports/product-review/raw/codex/round-30/sugar-control.json",
+      "reviewMode": "black-box H5 real interaction only",
+      "verdict": "reviewed",
+      "score": 92.6,
+      "scores": {
+        "taskCompletionRate": 100,
+        "noAssistanceCompletionRate": 100,
+        "decisionClarity": 90,
+        "easeOfUse": 84,
+        "trust": 90,
+        "comparisonValue": 94,
+        "overallValue": 90
+      },
+      "tasks": [
+        {
+          "taskId": "task-1",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-2",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-3",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-4",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-5",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-6",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-7",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-8",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        }
+      ],
+      "taskStats": {
+        "total": 8,
+        "completed": 8,
+        "partial": 0,
+        "failed": 0
+      },
+      "trustSignals": {
+        "trustedDecision": true,
+        "understoodEvidenceSource": true,
+        "comparisonWasUseful": true,
+        "valueBeyondGenericAi": true,
+        "wouldUseAgain": true,
+        "wouldRecommend": null
+      },
+      "schemaDeviations": [],
+      "issues": [
+        {
+          "id": "codex-sugar-control-1",
+          "provider": "codex",
+          "personaSlug": "sugar-control",
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "severity": "P2",
+          "clusterKey": "retention",
+          "page": "",
+          "title": "Save and avoid actions are easy to misinterpret because they behave as toggles with similar labels",
+          "userImpact": "",
+          "evidence": [
+            "Initial taps on 保存报告 / 加入避雷 did not visibly change home counters, and a later tap on the large 保存报告 control produced 已取消保存 because the report had already been saved. Final exact taps did work and home showed 1 保存 / 1 避雷."
+          ],
+          "suggestedDirection": "Make saved/avoid state persistent and explicit in the action labels, separate toggle-off actions from primary save/avoid actions, and keep a visible state badge near the decision header.",
+          "text": "P2 Save and avoid actions are easy to misinterpret because they behave as toggles with similar labels Initial taps on 保存报告 / 加入避雷 did not visibly change home counters, and a later tap on the large 保存报告 control produced 已取消保存 because the report had already been saved. Final exact taps did work and home showed 1 保存 / 1 避雷. Make saved/avoid state persistent and explicit in the action labels, separate toggle-off actions from primary save/avoid actions, and keep a visible state badge near the decision header."
+        },
+        {
+          "id": "codex-sugar-control-2",
+          "provider": "codex",
+          "personaSlug": "sugar-control",
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "severity": "P3",
+          "clusterKey": "allergen_priority",
+          "page": "",
+          "title": "Allergen-first comparison is safe but can obscure the sugar-control winner",
+          "userImpact": "",
+          "evidence": [
+            "Comparison of 低糖酸奶饮品 vs 高糖乳酸菌饮料 correctly warned that both contain milk, but the top conclusion says not to only look at the winner before the page later shows A is lower in sugar, carbs, sodium, and additives."
+          ],
+          "suggestedDirection": "Keep the allergy stop, but add an explicit conditional summary such as 未设置牛奶忌口时，A 更适合控糖；如过敏先设忌口重算.",
+          "text": "P3 Allergen-first comparison is safe but can obscure the sugar-control winner Comparison of 低糖酸奶饮品 vs 高糖乳酸菌饮料 correctly warned that both contain milk, but the top conclusion says not to only look at the winner before the page later shows A is lower in sugar, carbs, sodium, and additives. Keep the allergy stop, but add an explicit conditional summary such as 未设置牛奶忌口时，A 更适合控糖；如过敏先设忌口重算."
+        },
+        {
+          "id": "codex-sugar-control-3",
+          "provider": "codex",
+          "personaSlug": "sugar-control",
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "severity": "P3",
+          "clusterKey": "information_sufficiency_gate",
+          "page": "",
+          "title": "Insufficient-info flow is honest but could shorten the path to recovery",
+          "userImpact": "",
+          "evidence": [
+            "Information-insufficient reports explain missing 配料表 and 营养成分表 well, but the user still has to scan a long report to reach some recovery actions such as manual correction or re-shoot."
+          ],
+          "suggestedDirection": "Keep the no-decision stance, and add a sticky top action for 补拍缺失项 / 手动补充 so recovery is immediate from the first viewport.",
+          "text": "P3 Insufficient-info flow is honest but could shorten the path to recovery Information-insufficient reports explain missing 配料表 and 营养成分表 well, but the user still has to scan a long report to reach some recovery actions such as manual correction or re-shoot. Keep the no-decision stance, and add a sticky top action for 补拍缺失项 / 手动补充 so recovery is immediate from the first viewport."
+        }
+      ]
+    },
+    {
+      "provider": "codex",
+      "personaSlug": "time-pressed-consumer",
+      "persona": "time-pressed-consumer",
+      "filePath": "reports/product-review/raw/codex/round-30/time-pressed-consumer.json",
+      "reviewMode": "black-box H5 real interaction only",
+      "verdict": "reviewed",
+      "score": 90.6,
+      "scores": {
+        "taskCompletionRate": 94,
+        "noAssistanceCompletionRate": 94,
+        "decisionClarity": 90,
+        "easeOfUse": 84,
+        "trust": 91,
+        "comparisonValue": 92,
+        "overallValue": 89
+      },
+      "tasks": [
+        {
+          "taskId": "task-1",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-2",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-3",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-4",
+          "completed": false,
+          "assistanceUsed": false,
+          "status": "partial",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "partial"
+        },
+        {
+          "taskId": "task-5",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-6",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-7",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        },
+        {
+          "taskId": "task-8",
+          "completed": true,
+          "assistanceUsed": false,
+          "status": "pass",
+          "score": null,
+          "stepCount": 0,
+          "durationMs": 0,
+          "failureStep": "pass"
+        }
+      ],
+      "taskStats": {
+        "total": 8,
+        "completed": 7,
+        "partial": 1,
+        "failed": 0
+      },
+      "trustSignals": {
+        "trustedDecision": true,
+        "understoodEvidenceSource": true,
+        "comparisonWasUseful": true,
+        "valueBeyondGenericAi": true,
+        "wouldUseAgain": true,
+        "wouldRecommend": null
+      },
+      "schemaDeviations": [],
+      "issues": [
+        {
+          "id": "codex-time-pressed-consumer-1",
+          "provider": "codex",
+          "personaSlug": "time-pressed-consumer",
+          "source": "reports/product-review/raw/codex/round-30/time-pressed-consumer.json",
+          "severity": "P2",
+          "clusterKey": "other",
+          "page": "",
+          "title": "Invalid upload feedback is not explicit enough",
+          "userImpact": "",
+          "evidence": [
+            "The invalid text-file upload was treated as an information-insufficient label result, but no clear unsupported-file or invalid-format error was captured before recovery."
+          ],
+          "suggestedDirection": "Reject unsupported file types immediately and keep a visible retry/upload-another control beside the error.",
+          "text": "P2 Invalid upload feedback is not explicit enough The invalid text-file upload was treated as an information-insufficient label result, but no clear unsupported-file or invalid-format error was captured before recovery. Reject unsupported file types immediately and keep a visible retry/upload-another control beside the error."
+        }
+      ]
+    }
+  ],
+  "issueClusters": [
+    {
+      "key": "other",
+      "title": "其他问题",
+      "severity": "P2",
+      "occurrences": 3,
+      "providers": {
+        "codex": 3
+      },
+      "personas": [
+        "allergy-sensitive",
+        "first-time-consumer",
+        "time-pressed-consumer"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+          "title": "Insufficient-info handling was not reachable in this session",
+          "evidence": [
+            "Uploaded public sample-01 did not expose an information-insufficient branch."
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "title": "One complete-looking sample remained in a generation state at sweep timeout",
+          "evidence": [
+            "sample-02 screenshot shows '已识别，正在生成购买建议' and '生成中' after the sweep wait, with primary actions visually disabled."
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/time-pressed-consumer.json",
+          "title": "Invalid upload feedback is not explicit enough",
+          "evidence": [
+            "The invalid text-file upload was treated as an information-insufficient label result, but no clear unsupported-file or invalid-format error was captured before recovery."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Make missing data states prominent and easy to reproduce from capture/report flow.",
+        "Add a visible timeout/retry/cancel path that preserves the selected image and explains whether generation is still running or failed.",
+        "Reject unsupported file types immediately and keep a visible retry/upload-another control beside the error."
+      ]
+    },
+    {
+      "key": "retention",
+      "title": "收藏、避雷和历史留存",
+      "severity": "P2",
+      "occurrences": 2,
+      "providers": {
+        "codex": 2
+      },
+      "personas": [
+        "first-time-consumer",
+        "sugar-control"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "title": "Save and avoid bucket semantics are ambiguous after both actions",
+          "evidence": [
+            "After '查看已保存' was visible, adding the same report to avoid returned home with '0 保存 / 1 避雷'. The home copy says save and avoid are separated, but not whether avoid replaces saved."
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "title": "Save and avoid actions are easy to misinterpret because they behave as toggles with similar labels",
+          "evidence": [
+            "Initial taps on 保存报告 / 加入避雷 did not visibly change home counters, and a later tap on the large 保存报告 control produced 已取消保存 because the report had already been saved. Final exact taps did work and home showed 1 保存 / 1 避雷."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Clarify whether 避雷 moves a report out of saved, or count both states consistently with explicit copy.",
+        "Make saved/avoid state persistent and explicit in the action labels, separate toggle-off actions from primary save/avoid actions, and keep a visible state badge near the decision header."
+      ]
+    },
+    {
+      "key": "information_sufficiency_gate",
+      "title": "信息充分性门槛和补拍路径",
+      "severity": "P3",
+      "occurrences": 2,
+      "providers": {
+        "codex": 2
+      },
+      "personas": [
+        "allergy-sensitive",
+        "sugar-control"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+          "title": "Save/avoid/history reuse is hinted but not completed in the tested flow",
+          "evidence": [
+            "成分镜 看食品标签，判断该不该买 优先拍配料表、营养表或条码；结论会标出依据和信息不足。 拍哪里 配料 / 营养 / 条码 先看结论 买 / 谨慎 / 不建议 缺信息 直接提示补拍 拍照识别 示例结果，不是你的报告 来源 包装实拍 结论 控糖慎买 依据 糖10.8g/100ml 关注项 低钠 / 忌口花生 已保存 0 保存 / 0 避雷 快速切换关注 日常 控糖 儿童 低钠 过敏 最近判断 可补拍、查看或对比 最近 保存 避雷 点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。 原味酸奶 过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg 谨慎 橙味饮料 控糖/过敏 · 不建议｜糖10.8g / 碳水11.2g / 钠36mg 不建议 高纤维低负担 信息不足，先补拍配料表或营养成分表 继续补拍"
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "title": "Insufficient-info flow is honest but could shorten the path to recovery",
+          "evidence": [
+            "Information-insufficient reports explain missing 配料表 and 营养成分表 well, but the user still has to scan a long report to reach some recovery actions such as manual correction or re-shoot."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Expose concrete save and avoid actions on product reports and make history re-openable from home.",
+        "Keep the no-decision stance, and add a sticky top action for 补拍缺失项 / 手动补充 so recovery is immediate from the first viewport."
+      ]
+    },
+    {
+      "key": "comparison_value",
+      "title": "A/B 对比差异价值",
+      "severity": "P3",
+      "occurrences": 1,
+      "providers": {
+        "codex": 1
+      },
+      "personas": [
+        "first-time-consumer"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "title": "Sticky action area duplicates major actions and crowds lower evidence",
+          "evidence": [
+            "Comparison and report screenshots show repeated bottom CTAs such as '拍下一款对比' plus another fixed row, partly covering lower content."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Use one persistent action row with enough bottom spacer, and keep secondary actions in a single predictable row."
+      ]
+    },
+    {
+      "key": "allergen_priority",
+      "title": "过敏原首屏优先级",
+      "severity": "P3",
+      "occurrences": 1,
+      "providers": {
+        "codex": 1
+      },
+      "personas": [
+        "sugar-control"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "title": "Allergen-first comparison is safe but can obscure the sugar-control winner",
+          "evidence": [
+            "Comparison of 低糖酸奶饮品 vs 高糖乳酸菌饮料 correctly warned that both contain milk, but the top conclusion says not to only look at the winner before the page later shows A is lower in sugar, carbs, sodium, and additives."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Keep the allergy stop, but add an explicit conditional summary such as 未设置牛奶忌口时，A 更适合控糖；如过敏先设忌口重算."
+      ]
+    }
+  ],
+  "providerCommonIssues": {
+    "codex": [
+      {
+        "key": "other",
+        "title": "其他问题",
+        "severity": "P2",
+        "occurrences": 3,
+        "providers": {
+          "codex": 3
+        },
+        "personas": [
+          "allergy-sensitive",
+          "first-time-consumer",
+          "time-pressed-consumer"
+        ]
+      },
+      {
+        "key": "retention",
+        "title": "收藏、避雷和历史留存",
+        "severity": "P2",
+        "occurrences": 2,
+        "providers": {
+          "codex": 2
+        },
+        "personas": [
+          "first-time-consumer",
+          "sugar-control"
+        ]
+      },
+      {
+        "key": "information_sufficiency_gate",
+        "title": "信息充分性门槛和补拍路径",
+        "severity": "P3",
+        "occurrences": 2,
+        "providers": {
+          "codex": 2
+        },
+        "personas": [
+          "allergy-sensitive",
+          "sugar-control"
+        ]
+      }
+    ],
+    "deepseek": []
+  },
+  "crossProviderConfirmedIssues": [],
+  "providerDisagreements": [
+    {
+      "key": "other",
+      "title": "其他问题",
+      "severity": "P2",
+      "occurrences": 3,
+      "providers": {
+        "codex": 3
+      },
+      "personas": [
+        "allergy-sensitive",
+        "first-time-consumer",
+        "time-pressed-consumer"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+          "title": "Insufficient-info handling was not reachable in this session",
+          "evidence": [
+            "Uploaded public sample-01 did not expose an information-insufficient branch."
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "title": "One complete-looking sample remained in a generation state at sweep timeout",
+          "evidence": [
+            "sample-02 screenshot shows '已识别，正在生成购买建议' and '生成中' after the sweep wait, with primary actions visually disabled."
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/time-pressed-consumer.json",
+          "title": "Invalid upload feedback is not explicit enough",
+          "evidence": [
+            "The invalid text-file upload was treated as an information-insufficient label result, but no clear unsupported-file or invalid-format error was captured before recovery."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Make missing data states prominent and easy to reproduce from capture/report flow.",
+        "Add a visible timeout/retry/cancel path that preserves the selected image and explains whether generation is still running or failed.",
+        "Reject unsupported file types immediately and keep a visible retry/upload-another control beside the error."
+      ]
+    },
+    {
+      "key": "retention",
+      "title": "收藏、避雷和历史留存",
+      "severity": "P2",
+      "occurrences": 2,
+      "providers": {
+        "codex": 2
+      },
+      "personas": [
+        "first-time-consumer",
+        "sugar-control"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "title": "Save and avoid bucket semantics are ambiguous after both actions",
+          "evidence": [
+            "After '查看已保存' was visible, adding the same report to avoid returned home with '0 保存 / 1 避雷'. The home copy says save and avoid are separated, but not whether avoid replaces saved."
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "title": "Save and avoid actions are easy to misinterpret because they behave as toggles with similar labels",
+          "evidence": [
+            "Initial taps on 保存报告 / 加入避雷 did not visibly change home counters, and a later tap on the large 保存报告 control produced 已取消保存 because the report had already been saved. Final exact taps did work and home showed 1 保存 / 1 避雷."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Clarify whether 避雷 moves a report out of saved, or count both states consistently with explicit copy.",
+        "Make saved/avoid state persistent and explicit in the action labels, separate toggle-off actions from primary save/avoid actions, and keep a visible state badge near the decision header."
+      ]
+    },
+    {
+      "key": "information_sufficiency_gate",
+      "title": "信息充分性门槛和补拍路径",
+      "severity": "P3",
+      "occurrences": 2,
+      "providers": {
+        "codex": 2
+      },
+      "personas": [
+        "allergy-sensitive",
+        "sugar-control"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+          "title": "Save/avoid/history reuse is hinted but not completed in the tested flow",
+          "evidence": [
+            "成分镜 看食品标签，判断该不该买 优先拍配料表、营养表或条码；结论会标出依据和信息不足。 拍哪里 配料 / 营养 / 条码 先看结论 买 / 谨慎 / 不建议 缺信息 直接提示补拍 拍照识别 示例结果，不是你的报告 来源 包装实拍 结论 控糖慎买 依据 糖10.8g/100ml 关注项 低钠 / 忌口花生 已保存 0 保存 / 0 避雷 快速切换关注 日常 控糖 儿童 低钠 过敏 最近判断 可补拍、查看或对比 最近 保存 避雷 点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。 原味酸奶 过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg 谨慎 橙味饮料 控糖/过敏 · 不建议｜糖10.8g / 碳水11.2g / 钠36mg 不建议 高纤维低负担 信息不足，先补拍配料表或营养成分表 继续补拍"
+          ]
+        },
+        {
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "title": "Insufficient-info flow is honest but could shorten the path to recovery",
+          "evidence": [
+            "Information-insufficient reports explain missing 配料表 and 营养成分表 well, but the user still has to scan a long report to reach some recovery actions such as manual correction or re-shoot."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Expose concrete save and avoid actions on product reports and make history re-openable from home.",
+        "Keep the no-decision stance, and add a sticky top action for 补拍缺失项 / 手动补充 so recovery is immediate from the first viewport."
+      ]
+    },
+    {
+      "key": "comparison_value",
+      "title": "A/B 对比差异价值",
+      "severity": "P3",
+      "occurrences": 1,
+      "providers": {
+        "codex": 1
+      },
+      "personas": [
+        "first-time-consumer"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+          "title": "Sticky action area duplicates major actions and crowds lower evidence",
+          "evidence": [
+            "Comparison and report screenshots show repeated bottom CTAs such as '拍下一款对比' plus another fixed row, partly covering lower content."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Use one persistent action row with enough bottom spacer, and keep secondary actions in a single predictable row."
+      ]
+    },
+    {
+      "key": "allergen_priority",
+      "title": "过敏原首屏优先级",
+      "severity": "P3",
+      "occurrences": 1,
+      "providers": {
+        "codex": 1
+      },
+      "personas": [
+        "sugar-control"
+      ],
+      "examples": [
+        {
+          "source": "reports/product-review/raw/codex/round-30/sugar-control.json",
+          "title": "Allergen-first comparison is safe but can obscure the sugar-control winner",
+          "evidence": [
+            "Comparison of 低糖酸奶饮品 vs 高糖乳酸菌饮料 correctly warned that both contain milk, but the top conclusion says not to only look at the winner before the page later shows A is lower in sugar, carbs, sodium, and additives."
+          ]
+        }
+      ],
+      "suggestedDirections": [
+        "Keep the allergy stop, but add an explicit conditional summary such as 未设置牛奶忌口时，A 更适合控糖；如过敏先设忌口重算."
+      ]
+    }
+  ],
+  "severityIssueList": {
+    "P0": [],
+    "P1": [],
+    "P2": [
+      {
+        "id": "codex-sugar-control-1",
+        "provider": "codex",
+        "persona": "sugar-control",
+        "page": "",
+        "title": "Save and avoid actions are easy to misinterpret because they behave as toggles with similar labels",
+        "source": "reports/product-review/raw/codex/round-30/sugar-control.json"
+      },
+      {
+        "id": "codex-time-pressed-consumer-1",
+        "provider": "codex",
+        "persona": "time-pressed-consumer",
+        "page": "",
+        "title": "Invalid upload feedback is not explicit enough",
+        "source": "reports/product-review/raw/codex/round-30/time-pressed-consumer.json"
+      }
+    ],
+    "P3": [
+      {
+        "id": "codex-allergy-sensitive-1",
+        "provider": "codex",
+        "persona": "allergy-sensitive",
+        "page": "",
+        "title": "Insufficient-info handling was not reachable in this session",
+        "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json"
+      },
+      {
+        "id": "codex-allergy-sensitive-2",
+        "provider": "codex",
+        "persona": "allergy-sensitive",
+        "page": "",
+        "title": "Save/avoid/history reuse is hinted but not completed in the tested flow",
+        "source": "reports/product-review/raw/codex/round-30/allergy-sensitive.json"
+      },
+      {
+        "id": "codex-first-time-consumer-1",
+        "provider": "codex",
+        "persona": "first-time-consumer",
+        "page": "",
+        "title": "One complete-looking sample remained in a generation state at sweep timeout",
+        "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json"
+      },
+      {
+        "id": "codex-first-time-consumer-2",
+        "provider": "codex",
+        "persona": "first-time-consumer",
+        "page": "",
+        "title": "Save and avoid bucket semantics are ambiguous after both actions",
+        "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json"
+      },
+      {
+        "id": "codex-first-time-consumer-3",
+        "provider": "codex",
+        "persona": "first-time-consumer",
+        "page": "",
+        "title": "Sticky action area duplicates major actions and crowds lower evidence",
+        "source": "reports/product-review/raw/codex/round-30/first-time-consumer.json"
+      },
+      {
+        "id": "codex-sugar-control-2",
+        "provider": "codex",
+        "persona": "sugar-control",
+        "page": "",
+        "title": "Allergen-first comparison is safe but can obscure the sugar-control winner",
+        "source": "reports/product-review/raw/codex/round-30/sugar-control.json"
+      },
+      {
+        "id": "codex-sugar-control-3",
+        "provider": "codex",
+        "persona": "sugar-control",
+        "page": "",
+        "title": "Insufficient-info flow is honest but could shorten the path to recovery",
+        "source": "reports/product-review/raw/codex/round-30/sugar-control.json"
+      }
+    ]
+  },
+  "schemaDeviationSessions": [],
+  "taskFunnel": [
+    {
+      "taskId": "task-1",
+      "sessions": 6,
+      "completed": 6,
+      "failed": 0,
+      "assisted": 0,
+      "unassistedCompleted": 6,
+      "failureSteps": {},
+      "completionRate": 1,
+      "unassistedRate": 1
+    },
+    {
+      "taskId": "task-2",
+      "sessions": 6,
+      "completed": 6,
+      "failed": 0,
+      "assisted": 0,
+      "unassistedCompleted": 6,
+      "failureSteps": {},
+      "completionRate": 1,
+      "unassistedRate": 1
+    },
+    {
+      "taskId": "task-3",
+      "sessions": 6,
+      "completed": 5,
+      "failed": 1,
+      "assisted": 0,
+      "unassistedCompleted": 5,
+      "failureSteps": {
+        "partial": 1
+      },
+      "completionRate": 0.833,
+      "unassistedRate": 0.833
+    },
+    {
+      "taskId": "task-4",
+      "sessions": 6,
+      "completed": 5,
+      "failed": 1,
+      "assisted": 0,
+      "unassistedCompleted": 5,
+      "failureSteps": {
+        "partial": 1
+      },
+      "completionRate": 0.833,
+      "unassistedRate": 0.833
+    },
+    {
+      "taskId": "task-5",
+      "sessions": 6,
+      "completed": 6,
+      "failed": 0,
+      "assisted": 0,
+      "unassistedCompleted": 6,
+      "failureSteps": {},
+      "completionRate": 1,
+      "unassistedRate": 1
+    },
+    {
+      "taskId": "task-6",
+      "sessions": 6,
+      "completed": 6,
+      "failed": 0,
+      "assisted": 0,
+      "unassistedCompleted": 6,
+      "failureSteps": {},
+      "completionRate": 1,
+      "unassistedRate": 1
+    },
+    {
+      "taskId": "task-7",
+      "sessions": 6,
+      "completed": 6,
+      "failed": 0,
+      "assisted": 0,
+      "unassistedCompleted": 6,
+      "failureSteps": {},
+      "completionRate": 1,
+      "unassistedRate": 1
+    },
+    {
+      "taskId": "task-8",
+      "sessions": 6,
+      "completed": 6,
+      "failed": 0,
+      "assisted": 0,
+      "unassistedCompleted": 6,
+      "failureSteps": {},
+      "completionRate": 1,
+      "unassistedRate": 1
+    }
+  ],
+  "mostCommonAbandonPoints": [
+    {
+      "point": "pass",
+      "occurrences": 44,
+      "severity": "task_failure",
+      "personas": []
+    },
+    {
+      "point": "partial",
+      "occurrences": 4,
+      "severity": "task_failure",
+      "personas": []
+    }
+  ],
+  "lowestScorePages": [
+    {
+      "page": "其他问题",
+      "p0": 0,
+      "p1": 0,
+      "p2": 1,
+      "p3": 2,
+      "issues": 3,
+      "riskScore": 12
+    },
+    {
+      "page": "收藏、避雷和历史留存",
+      "p0": 0,
+      "p1": 0,
+      "p2": 1,
+      "p3": 1,
+      "issues": 2,
+      "riskScore": 11
+    },
+    {
+      "page": "信息充分性门槛和补拍路径",
+      "p0": 0,
+      "p1": 0,
+      "p2": 0,
+      "p3": 2,
+      "issues": 2,
+      "riskScore": 2
+    },
+    {
+      "page": "A/B 对比差异价值",
+      "p0": 0,
+      "p1": 0,
+      "p2": 0,
+      "p3": 1,
+      "issues": 1,
+      "riskScore": 1
+    },
+    {
+      "page": "过敏原首屏优先级",
+      "p0": 0,
+      "p1": 0,
+      "p2": 0,
+      "p3": 1,
+      "issues": 1,
+      "riskScore": 1
+    }
+  ],
+  "lowestValueFeatures": [
+    {
+      "key": "retention",
+      "title": "收藏、避雷和历史留存",
+      "severity": "P2",
+      "occurrences": 2,
+      "providers": {
+        "codex": 2
+      },
+      "personas": [
+        "first-time-consumer",
+        "sugar-control"
+      ]
+    },
+    {
+      "key": "comparison_value",
+      "title": "A/B 对比差异价值",
+      "severity": "P3",
+      "occurrences": 1,
+      "providers": {
+        "codex": 1
+      },
+      "personas": [
+        "first-time-consumer"
+      ]
+    }
+  ],
+  "missingCoreUserValue": [
+    {
+      "value": "信息充分性门槛和补拍路径",
+      "severity": "P3",
+      "evidenceCount": 2,
+      "affectedPersonas": [
+        "allergy-sensitive",
+        "sugar-control"
+      ]
+    },
+    {
+      "value": "A/B 对比差异价值",
+      "severity": "P3",
+      "evidenceCount": 1,
+      "affectedPersonas": [
+        "first-time-consumer"
+      ]
+    },
+    {
+      "value": "过敏原首屏优先级",
+      "severity": "P3",
+      "evidenceCount": 1,
+      "affectedPersonas": [
+        "sugar-control"
+      ]
+    }
+  ],
+  "genericAiValueGaps": [],
+  "featureRecommendations": {
+    "keep": [
+      "保留成分镜名称、包装标签识别入口、国标/添加剂来源区分、AI来源与包装实拍来源区分"
+    ],
+    "redo": [
+      "重做信息不足和异常恢复为一等流程",
+      "重做 A/B 对比的差异解释和当前画像推荐",
+      "重做过敏风险首屏优先级"
+    ],
+    "delete": [
+      "删除或降级没有复用价值的收藏/避雷入口展示方式"
+    ],
+    "add": []
+  },
+  "uiRefactorPriorities": {
+    "priorityPages": [
+      {
+        "page": "收藏、避雷和历史留存",
+        "p0": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "issues": 1,
+        "riskScore": 10
+      },
+      {
+        "page": "信息充分性门槛和补拍路径",
+        "p0": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "issues": 1,
+        "riskScore": 1
+      },
+      {
+        "page": "A/B 对比差异价值",
+        "p0": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "issues": 1,
+        "riskScore": 1
+      }
+    ],
+    "priorityClusters": [
+      {
+        "key": "retention",
+        "title": "收藏、避雷和历史留存",
+        "severity": "P2",
+        "occurrences": 2,
+        "providers": {
+          "codex": 2
+        },
+        "personas": [
+          "first-time-consumer",
+          "sugar-control"
+        ]
+      },
+      {
+        "key": "information_sufficiency_gate",
+        "title": "信息充分性门槛和补拍路径",
+        "severity": "P3",
+        "occurrences": 2,
+        "providers": {
+          "codex": 2
+        },
+        "personas": [
+          "allergy-sensitive",
+          "sugar-control"
+        ]
+      },
+      {
+        "key": "comparison_value",
+        "title": "A/B 对比差异价值",
+        "severity": "P3",
+        "occurrences": 1,
+        "providers": {
+          "codex": 1
+        },
+        "personas": [
+          "first-time-consumer"
+        ]
+      }
+    ]
+  },
+  "topFixQueue": [
+    {
+      "rank": 1,
+      "clusterKey": "other",
+      "severity": "P2",
+      "title": "其他问题",
+      "occurrences": 3,
+      "providers": {
+        "codex": 3
+      },
+      "personas": [
+        "allergy-sensitive",
+        "first-time-consumer",
+        "time-pressed-consumer"
+      ],
+      "suggestedDirection": "Make missing data states prominent and easy to reproduce from capture/report flow."
+    },
+    {
+      "rank": 2,
+      "clusterKey": "retention",
+      "severity": "P2",
+      "title": "收藏、避雷和历史留存",
+      "occurrences": 2,
+      "providers": {
+        "codex": 2
+      },
+      "personas": [
+        "first-time-consumer",
+        "sugar-control"
+      ],
+      "suggestedDirection": "首页提供最近报告、收藏和避雷入口，让用户能复用上次购买判断。"
+    },
+    {
+      "rank": 3,
+      "clusterKey": "information_sufficiency_gate",
+      "severity": "P3",
+      "title": "信息充分性门槛和补拍路径",
+      "occurrences": 2,
+      "providers": {
+        "codex": 2
+      },
+      "personas": [
+        "allergy-sensitive",
+        "sugar-control"
+      ],
+      "suggestedDirection": "报告生成前校验配料表/营养成分表、OCR 置信度和图片类型；信息不足时只输出补拍/手动补充路径。"
+    },
+    {
+      "rank": 4,
+      "clusterKey": "comparison_value",
+      "severity": "P3",
+      "title": "A/B 对比差异价值",
+      "occurrences": 1,
+      "providers": {
+        "codex": 1
+      },
+      "personas": [
+        "first-time-consumer"
+      ],
+      "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。"
+    },
+    {
+      "rank": 5,
+      "clusterKey": "allergen_priority",
+      "severity": "P3",
+      "title": "过敏原首屏优先级",
+      "occurrences": 1,
+      "providers": {
+        "codex": 1
+      },
+      "personas": [
+        "sugar-control"
+      ],
+      "suggestedDirection": "命中过敏/忌口词时，报告首屏第一风险必须显示命中词、来源字段和避免建议。"
+    }
+  ],
+  "coverageGaps": [
+    "DeepSeek final 6-persona review blocked by execution policy because it would disclose local in-development product observations to an external API.",
+    "WeChat DevTools CLI/login unavailable; mp-weixin build passed but true mini-program runtime interaction is not verified.",
+    "Some failed or invalid review attempts are preserved outside the completed session set."
+  ],
+  "failedSessions": [
+    "reports/product-review/raw/deepseek/round-30/blocked-by-policy.json"
+  ]
+}

@@ -3,10 +3,10 @@ import { createGb2760SourceDocumentInput, createSeedImportRunId, recordImportRun
 import { reconcilePromotedGb2760Rows } from '../src/services/gb2760PromoteService.js';
 import { upsertGb2760OfficialPages, upsertGb2760OfficialRecords, upsertGb2760OfficialReferenceRows, upsertIngredients, type FoodAdditiveInput, type Gb2760OfficialPageInput, type Gb2760OfficialRecordInput, type Gb2760OfficialReferenceRowInput } from '../src/services/ingredientService.js';
 
-const dataModule = await import(new URL('../../src/data/foodAdditives.js', import.meta.url).href);
-const gb2760StagingModule = await import(new URL('../../src/data/gb2760OfficialStaging.js', import.meta.url).href);
-const gb2760FullTextModule = await import(new URL('../../src/data/gb2760OfficialFullText.js', import.meta.url).href);
-const gb2760ReferenceTableModule = await import(new URL('../../src/data/gb2760OfficialReferenceTables.js', import.meta.url).href);
+const dataModule = await import(new URL('../src/data/foodAdditives.js', import.meta.url).href);
+const gb2760StagingModule = await import(new URL('../src/data/gb2760OfficialStaging.js', import.meta.url).href);
+const gb2760FullTextModule = await import(new URL('../src/data/gb2760OfficialFullText.js', import.meta.url).href);
+const gb2760ReferenceTableModule = await import(new URL('../src/data/gb2760OfficialReferenceTables.js', import.meta.url).href);
 const foodAdditives = resolveFoodSeedItems(dataModule as unknown as FoodDataModule);
 const gb2760OfficialRecords = resolveGb2760StagingRecords(gb2760StagingModule as unknown as Gb2760StagingModule);
 const gb2760OfficialSource = resolveGb2760SourceMetadata(gb2760StagingModule as unknown as Gb2760StagingModule);
@@ -78,7 +78,7 @@ function resolveFoodSeedItems(module: FoodDataModule): FoodAdditiveInput[] {
   if (Array.isArray(module.foodIngredients)) return module.foodIngredients as FoodAdditiveInput[];
   if (Array.isArray(module.foodAdditives)) return module.foodAdditives as FoodAdditiveInput[];
 
-  throw new Error('Expected src/data/foodAdditives.js to export foodIngredients or foodAdditives array');
+  throw new Error('Expected backend/src/data/foodAdditives.js to export foodIngredients or foodAdditives array');
 }
 
 function resolveGb2760StagingRecords(module: Gb2760StagingModule): Gb2760OfficialRecordInput[] {
@@ -86,13 +86,13 @@ function resolveGb2760StagingRecords(module: Gb2760StagingModule): Gb2760Officia
     return module.gb2760OfficialStagingRecords as Gb2760OfficialRecordInput[];
   }
 
-  throw new Error('Expected src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingRecords array');
+  throw new Error('Expected backend/src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingRecords array');
 }
 
 function resolveGb2760SourceMetadata(module: Gb2760StagingModule): Gb2760SourceMetadata {
   const source = module.gb2760OfficialStagingSource;
   if (!source || typeof source !== 'object' || Array.isArray(source)) {
-    throw new Error('Expected src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingSource object');
+    throw new Error('Expected backend/src/data/gb2760OfficialStaging.js to export gb2760OfficialStagingSource object');
   }
 
   return {
@@ -113,7 +113,7 @@ function resolveGb2760FullTextPages(module: Gb2760FullTextModule): Gb2760Officia
     return module.gb2760OfficialFullTextPages as Gb2760OfficialPageInput[];
   }
 
-  throw new Error('Expected src/data/gb2760OfficialFullText.js to export gb2760OfficialFullTextPages array');
+  throw new Error('Expected backend/src/data/gb2760OfficialFullText.js to export gb2760OfficialFullTextPages array');
 }
 
 function resolveGb2760ReferenceRows(module: Gb2760ReferenceTableModule): Gb2760OfficialReferenceRowInput[] {
@@ -121,7 +121,7 @@ function resolveGb2760ReferenceRows(module: Gb2760ReferenceTableModule): Gb2760O
     return module.gb2760OfficialReferenceRows as Gb2760OfficialReferenceRowInput[];
   }
 
-  throw new Error('Expected src/data/gb2760OfficialReferenceTables.js to export gb2760OfficialReferenceRows array');
+  throw new Error('Expected backend/src/data/gb2760OfficialReferenceTables.js to export gb2760OfficialReferenceRows array');
 }
 
 function parseSeedOptions(args: string[]) {
