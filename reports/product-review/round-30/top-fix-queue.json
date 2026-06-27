@@ -1,0 +1,76 @@
+[
+  {
+    "rank": 1,
+    "clusterKey": "other",
+    "severity": "P2",
+    "title": "其他问题",
+    "occurrences": 3,
+    "providers": {
+      "codex": 3
+    },
+    "personas": [
+      "allergy-sensitive",
+      "first-time-consumer",
+      "time-pressed-consumer"
+    ],
+    "suggestedDirection": "Make missing data states prominent and easy to reproduce from capture/report flow."
+  },
+  {
+    "rank": 2,
+    "clusterKey": "retention",
+    "severity": "P2",
+    "title": "收藏、避雷和历史留存",
+    "occurrences": 2,
+    "providers": {
+      "codex": 2
+    },
+    "personas": [
+      "first-time-consumer",
+      "sugar-control"
+    ],
+    "suggestedDirection": "首页提供最近报告、收藏和避雷入口，让用户能复用上次购买判断。"
+  },
+  {
+    "rank": 3,
+    "clusterKey": "information_sufficiency_gate",
+    "severity": "P3",
+    "title": "信息充分性门槛和补拍路径",
+    "occurrences": 2,
+    "providers": {
+      "codex": 2
+    },
+    "personas": [
+      "allergy-sensitive",
+      "sugar-control"
+    ],
+    "suggestedDirection": "报告生成前校验配料表/营养成分表、OCR 置信度和图片类型；信息不足时只输出补拍/手动补充路径。"
+  },
+  {
+    "rank": 4,
+    "clusterKey": "comparison_value",
+    "severity": "P3",
+    "title": "A/B 对比差异价值",
+    "occurrences": 1,
+    "providers": {
+      "codex": 1
+    },
+    "personas": [
+      "first-time-consumer"
+    ],
+    "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。"
+  },
+  {
+    "rank": 5,
+    "clusterKey": "allergen_priority",
+    "severity": "P3",
+    "title": "过敏原首屏优先级",
+    "occurrences": 1,
+    "providers": {
+      "codex": 1
+    },
+    "personas": [
+      "sugar-control"
+    ],
+    "suggestedDirection": "命中过敏/忌口词时，报告首屏第一风险必须显示命中词、来源字段和避免建议。"
+  }
+]

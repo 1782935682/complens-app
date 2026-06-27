@@ -518,11 +518,11 @@ JWT 会话失效控制表。
 
 | 目标表 | 来源 | 行为 |
 |---|---|---|
-| `ingredients` | [`../src/data/foodAdditives.js`](../src/data/foodAdditives.js) | upsert 食品添加剂和普通配料基础库 |
+| `ingredients` | [`../backend/src/data/foodAdditives.js`](../backend/src/data/foodAdditives.js) | upsert 食品添加剂和普通配料基础库 |
 | `source_documents` | GB2760 staging source metadata | upsert 官方 PDF 来源登记 |
-| `gb2760_official_records` | [`../src/data/gb2760OfficialStaging.js`](../src/data/gb2760OfficialStaging.js) | upsert 表 A.1 staging 行，并尽量保留未变更行的人工复核状态 |
-| `gb2760_official_pages` | [`../src/data/gb2760OfficialFullText.js`](../src/data/gb2760OfficialFullText.js) | upsert PDF 全文页 |
-| `gb2760_official_reference_rows` | [`../src/data/gb2760OfficialReferenceTables.js`](../src/data/gb2760OfficialReferenceTables.js) | upsert 官方参考表结构化行 |
+| `gb2760_official_records` | [`../backend/src/data/gb2760OfficialStaging.js`](../backend/src/data/gb2760OfficialStaging.js) | upsert 表 A.1 staging 行，并尽量保留未变更行的人工复核状态 |
+| `gb2760_official_pages` | [`../backend/src/data/gb2760OfficialFullText.js`](../backend/src/data/gb2760OfficialFullText.js) | upsert PDF 全文页 |
+| `gb2760_official_reference_rows` | [`../backend/src/data/gb2760OfficialReferenceTables.js`](../backend/src/data/gb2760OfficialReferenceTables.js) | upsert 官方参考表结构化行 |
 | `import_runs` / `import_errors` | seed 脚本 | 记录 `a1_staging`、`fulltext`、`reference_tables` 批次和错误 |
 
 `npm run promote:gb2760` 只处理 DB staging 中 `review_status in ('approved', 'promoted')` 的行。成功后写入 `additive_usage_rules`，并同步更新对应 `ingredients` 行的 GB2760 正式法规状态。`pending_review`、`mapped_candidate` 和缺失关键字段的 staging 行不得进入正式表。

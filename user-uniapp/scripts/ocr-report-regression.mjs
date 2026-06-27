@@ -28,7 +28,7 @@ try {
   const { buildLabelReport } = await server.ssrLoadModule('/src/utils/reportBuilder.ts');
   const { buildLabelReportWithAdapter } = await server.ssrLoadModule('/src/services/api/labels.ts');
   const { buildLocalLabelAnalysis } = await server.ssrLoadModule('/src/utils/localLabelAnalysis.ts');
-  const { normalizeOcrResult } = await server.ssrLoadModule('/src/utils/ocrAdapter.ts');
+  const { normalizeOcrResult, extractOcrSourceLine, extractOcrTextSnippet } = await server.ssrLoadModule('/src/utils/ocrAdapter.ts');
   const { parseNutritionText } = await server.ssrLoadModule('/src/utils/nutritionParser.ts');
   const { classifyOcrSections } = await server.ssrLoadModule('/src/services/ocr/ocrSectionClassifier.ts');
   const { extractIngredients } = await server.ssrLoadModule('/src/services/ocr/ingredientsExtractor.ts');
@@ -38,21 +38,42 @@ try {
   const productLookupService = await server.ssrLoadModule('/src/services/recognition/productLookupService.ts');
   const scanStore = await server.ssrLoadModule('/src/stores/scanStore.ts');
   const autoGeneratePolicy = await server.ssrLoadModule('/src/services/recognition/autoGeneratePolicy.ts');
+  const manualInputNormalizer = await server.ssrLoadModule('/src/utils/manualInputNormalizer.ts');
+  const reportIdentity = await server.ssrLoadModule('/src/utils/reportIdentity.ts');
+  const attentionStore = await server.ssrLoadModule('/src/stores/attentionStore.ts');
 
+  assertSourceLineBoundaries({ extractOcrSourceLine, extractOcrTextSnippet });
   assertExtractionBoundaries(extractLabelText, normalizeOcrResult);
   assertMultiRegionOcrBoundaries({ normalizeOcrResult, classifyOcrSections, extractIngredients, extractNutrition });
   assertNutritionParsingBoundaries(parseNutritionText);
+  assertManualInputNormalization(manualInputNormalizer, parseNutritionText);
   assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis);
+  assertReportIdentity(reportIdentity);
   await assertAdapterReportBoundaries(buildLabelReport, buildLabelReportWithAdapter);
   assertRecognitionBoundaries(barcodeService);
+  await assertAttentionNormalization(attentionStore);
   assertLookupMergeBoundaries(imageRecognitionService);
   await assertProductLookupHistoryBoundaries(productLookupService, scanStore);
   assertAutoGeneratePolicy(autoGeneratePolicy);
   assertCaptureAutoGenerateWiring();
 
-  console.log('OCR/report regression passed: 34 scenarios checked.');
+  console.log('OCR/report regression passed: 47 scenarios checked.');
 } finally {
   await server.close();
+}
+
+function assertSourceLineBoundaries({ extractOcrSourceLine, extractOcrTextSnippet }) {
+  const sourceLine = extractOcrSourceLine([
+    '配料表：水、白砂糖、浓缩果汁',
+    '营养成分表 每100ml 糖 12.8g 钠 48mg'
+  ].join('\n'), ['糖 12.8g']);
+  assertEqual(sourceLine.found, true, 'source line lookup should mark an exact risk line as found');
+  assertEqual(sourceLine.lineNumber, 2, 'source line lookup should preserve one-based line number');
+  assertEqual(sourceLine.text, '营养成分表 每100ml 糖 12.8g 钠 48mg', 'source line lookup should preserve the full source line');
+
+  const snippet = extractOcrTextSnippet('这是一段没有命中词但明显超过十个字的完整标签文字', ['不存在'], 10);
+  assert(snippet.endsWith('...'), 'unmatched OCR snippets should make truncation explicit');
+  assert(snippet.length <= 10, 'unmatched OCR snippets should respect the caller preview length');
 }
 
 function assertCaptureAutoGenerateWiring() {
@@ -200,6 +221,58 @@ function assertAutoGeneratePolicy(autoGeneratePolicy) {
   }), 'AI public label clues may auto-generate a reference report');
 }
 
+function assertManualInputNormalization(manualInputNormalizer, parseNutritionText) {
+  const normalized = manualInputNormalizer.normalizeManualInputParts({
+    productNameText: '',
+    foodTypeText: '',
+    ingredientText: [
+      '低糖乳酸菌饮料',
+      '配料表：水、赤藓糖醇、脱脂乳粉、乳酸菌',
+      '营养成分表 每100ml 能量 85kJ 蛋白质 2.9g 脂肪 0g 碳水化合物 3.1g 糖 2.5g 钠 42mg'
+    ].join('\n'),
+    nutritionText: '',
+    allergenText: '',
+    frontClaimsText: '',
+    productionDateText: '',
+    unconfirmedText: []
+  });
+  assertEqual(normalized.productNameText, '低糖乳酸菌饮料', 'manual mixed paste should preserve product name');
+  assertIncludes(normalized.ingredientText, '赤藓糖醇', 'manual mixed paste should preserve ingredient text');
+  assert(!normalized.ingredientText.includes('能量 85kJ'), 'manual mixed paste should remove nutrition table from ingredient text');
+  assertIncludes(normalized.nutritionText, '钠 42mg', 'manual mixed paste should move sodium number to nutrition text');
+  const fields = parseNutritionText(normalized.nutritionText);
+  const sodium = fields.find((field) => field.key === 'sodium');
+  const sugar = fields.find((field) => field.key === 'sugar');
+  assertEqual(sodium?.value, '42', 'manual mixed nutrition should parse sodium 42mg');
+  assertEqual(sugar?.value, '2.5', 'manual mixed nutrition should parse sugar 2.5g');
+}
+
+function assertReportIdentity(reportIdentity) {
+  const first = minimalReport({
+    id: 'first',
+    productName: '高糖乳酸菌饮料',
+    code: '6901234567890',
+    ingredientText: '配料表：水、白砂糖、乳粉、乳酸菌',
+    nutrition: { sugar: '12.8', carbohydrate: '15.2', sodium: '80' }
+  });
+  const same = minimalReport({
+    id: 'second',
+    productName: '高糖乳酸菌饮料',
+    code: '6901234567890',
+    ingredientText: '配料表：水、白砂糖、乳粉、乳酸菌',
+    nutrition: { sugar: '12.8', carbohydrate: '15.2', sodium: '80' }
+  });
+  const other = minimalReport({
+    id: 'third',
+    productName: '橙味饮料',
+    code: '6900000000001',
+    ingredientText: '配料表：水、浓缩橙汁、柠檬酸',
+    nutrition: { sugar: '3.1', carbohydrate: '4.0', sodium: '18' }
+  });
+  assert(reportIdentity.isSameProductForCompare(first, same), 'same barcode/name/label should be blocked as self-comparison');
+  assert(!reportIdentity.isSameProductForCompare(first, other), 'different comparable products should remain eligible for comparison');
+}
+
 function assertLookupMergeBoundaries(imageRecognitionService) {
   const extraction = emptyExtraction();
   const aiLookup = lookupResult({
@@ -312,6 +385,38 @@ function assertRecognitionBoundaries(barcodeService) {
 
   assertEqual(barcodeService.classifyQrContent('https://brand.example/product/abc'), 'url', 'QR URL without GTIN should stay URL content');
   assertEqual(barcodeService.extractPrintedProductCode('条码：6901234567892'), '6901234567892', 'printed numeric package code should be extracted from OCR text');
+  assertEqual(
+    barcodeService.extractPrintedProductCode('营养成分表 每100ml 能量160kJ 碳水化合物9.5g 糖9.1g 钠42mg'),
+    '',
+    'nutrition values should not be stitched into a fake printed product code'
+  );
+}
+
+async function assertAttentionNormalization(attentionStore) {
+  await withStorage({}, () => {
+    const saved = attentionStore.saveAttentionSettings({
+      primaryGoal: 'daily',
+      targetGoals: [],
+      isChildrenMode: false,
+      allergens: ['牛奶', 'milk', '乳清'],
+      updatedAt: '2026-06-26T00:00:00.000Z'
+    });
+    assertEqual(saved.allergens.join(','), 'milk', 'allergen labels and keywords should normalize to canonical keys');
+  });
+
+  await withStorage({
+    'complens:user-attention-settings': JSON.stringify({
+      primaryGoal: 'daily',
+      targetGoals: [],
+      allergens: ['牛奶'],
+      customTerms: ['花生'],
+      updatedAt: '2026-06-26T00:00:00.000Z'
+    })
+  }, () => {
+    const settings = attentionStore.getAttentionSettings();
+    assert(settings.allergens.includes('milk'), 'stored milk label should be read as canonical milk key');
+    assert(settings.allergens.includes('peanut'), 'legacy custom peanut term should be read as canonical peanut key');
+  });
 }
 
 function assertExtractionBoundaries(extractLabelText, normalizeOcrResult) {
@@ -352,6 +457,17 @@ function assertExtractionBoundaries(extractLabelText, normalizeOcrResult) {
   assertIncludes(wholePackage.ingredientText, '小麦粉', 'whole-package OCR should extract ingredient list after spaced 配料 label');
   assertIncludes(wholePackage.ingredientText, '碳酸钙', 'whole-package OCR should keep additive/mineral tail before product noise');
   assertIncludes(wholePackage.nutritionText, '1950千焦', 'whole-package OCR should extract nutrition table values');
+
+  const garbledEnglishIngredient = extractText(extractLabelText, [
+    'INGREDIENTS',
+    'OTTAEESECUUREDSKMMKRAMSATWHTESOOSES CTRICAITOPRESREWATERATUSUARONRLESSOUVEMK',
+    'BLTRCEESHSOAMREFNTDHERFCHFKMCTRPLEUROOCHSXCHKIYEIL',
+    'EXTRACTIVESIXANTHANGUM CONTAINSMILK,EOG.',
+    'Nutrition Facts Energy 100kcal Protein 10g Fat 2g Sodium 100mg'
+  ].join('\n'));
+  assertEqual(garbledEnglishIngredient.ingredientText, '', 'garbled English OCR should not become confirmed ingredient text');
+  assertIncludes(garbledEnglishIngredient.ignoredText.join(' '), 'OTTAEESECUUREDSKMMKRAMSATWHTESOOSES', 'garbled ingredient OCR should remain as unconfirmed evidence');
+  assertIncludes(garbledEnglishIngredient.qualityWarnings.join(' '), '疑似粘连乱码', 'garbled ingredient OCR should emit a report quality warning');
 
   const blockPackage = extractLabelText(normalizeOcrResult({
     source: 'external',
@@ -494,6 +610,156 @@ function assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis) {
   assertEqual(nutritionOnlyReport.additiveRecognition?.items?.length || 0, 0, 'nutrition-only report should not explain additives');
   assertEqual(nutritionOnlyReport.decision?.allergyWarnings?.length || 0, 0, 'product name milk should not trigger allergen warning');
 
+  const allergyReport = buildLabelReport({
+    productName: '花生牛奶饮品',
+    rawText: '配料表：生牛乳、花生酱。\n致敏原提示：含有牛奶、花生。',
+    ingredients: [
+      { id: 'ingredient-1', rawText: '生牛乳', normalizedText: '生牛乳', isSubIngredient: false, isUnknown: false },
+      { id: 'ingredient-2', rawText: '花生酱', normalizedText: '花生酱', isSubIngredient: false, isUnknown: false }
+    ],
+    matches: [
+      confirmedCommonMatch('生牛乳'),
+      confirmedCommonMatch('花生酱')
+    ],
+    nutrition: [],
+    attention: attention({ allergens: ['milk', 'peanut'] }),
+    labelType: 'ingredient_list',
+    sourceMeta: sourceMeta({
+      ingredientText: '配料表：生牛乳、花生酱。',
+      allergenText: '致敏原提示：含有牛奶、花生。'
+    })
+  });
+  assertEqual(allergyReport.purchaseDecision?.recommendation, '不建议', 'configured allergen hit should become avoid recommendation');
+  assertIncludes(allergyReport.purchaseDecision?.riskReasons[0] || '', '过敏原', 'configured allergen warning should be first risk reason');
+  assertIncludes(allergyReport.purchaseDecision?.riskReasons[0] || '', '来源：致敏原提示', 'allergen warning should name evidence source');
+
+  const rawMilkAllergyReport = buildLabelReport({
+    productName: '低糖酸奶饮品',
+    rawText: '配料表：生牛乳、乳酸菌。\n营养成分表 每100ml 糖 3g 钠 48mg',
+    ingredients: [
+      { id: 'ingredient-1', rawText: '生牛乳', normalizedText: '生牛乳', isSubIngredient: false, isUnknown: false },
+      { id: 'ingredient-2', rawText: '乳酸菌', normalizedText: '乳酸菌', isSubIngredient: false, isUnknown: false }
+    ],
+    matches: [
+      confirmedCommonMatch('生牛乳'),
+      confirmedCommonMatch('乳酸菌')
+    ],
+    nutrition: [
+      nutritionField('sugar', '糖', '3', 'g'),
+      nutritionField('sodium', '钠', '48', 'mg')
+    ],
+    attention: attention({ allergens: ['milk'] }),
+    labelType: 'ingredient_list',
+    sourceMeta: sourceMeta({
+      ingredientText: '配料表：生牛乳、乳酸菌。',
+      nutritionText: '营养成分表 每100ml 糖 3g 钠 48mg'
+    })
+  });
+  assertEqual(rawMilkAllergyReport.purchaseDecision?.recommendation, '不建议', 'raw milk term should match configured milk allergen');
+
+  const completeOneNutritionReport = buildLabelReport({
+    productName: '燕麦牛奶饮品',
+    rawText: '配料表：燕麦片、白砂糖。\n营养成分表 每100ml 糖 2g',
+    ingredients: [
+      { id: 'ingredient-1', rawText: '燕麦片', normalizedText: '燕麦片', isSubIngredient: false, isUnknown: false },
+      { id: 'ingredient-2', rawText: '白砂糖', normalizedText: '白砂糖', isSubIngredient: false, isUnknown: false }
+    ],
+    matches: [
+      confirmedCommonMatch('燕麦片'),
+      confirmedCommonMatch('白砂糖')
+    ],
+    nutrition: [
+      nutritionField('sugar', '糖', '2', 'g')
+    ],
+    attention: attention(),
+    labelType: 'ingredient_list',
+    sourceMeta: sourceMeta({
+      ingredientText: '配料表：燕麦片、白砂糖。',
+      nutritionText: '营养成分表 每100ml 糖 2g',
+      confidence: 'high'
+    })
+  });
+  assert(!completeOneNutritionReport.summarySentence.includes('补拍'), 'partial nutrition report should still summarize captured ingredient and sugar evidence without turning the summary into a retake prompt');
+  assertEqual(completeOneNutritionReport.purchaseDecision?.recommendation, '信息不足', 'one nutrition number should not become a full purchase recommendation');
+  const partialNutritionReasons = (completeOneNutritionReport.purchaseDecision?.riskReasons || []).join(' ');
+  assertIncludes(partialNutritionReasons, '信息不足', 'partial nutrition report should tell the user the decision is blocked');
+  assertIncludes(partialNutritionReasons, '营养成分表关键数字不完整', 'partial nutrition report should explain the evidence gap');
+
+  const highSugarReport = buildLabelReport({
+    productName: '高糖饮品',
+    rawText: '配料表：水、白砂糖。\n营养成分表 每100ml 碳水化合物 13.2g 糖 12.8g 钠 48mg',
+    ingredients: [
+      { id: 'ingredient-1', rawText: '水', normalizedText: '水', isSubIngredient: false, isUnknown: false },
+      { id: 'ingredient-2', rawText: '白砂糖', normalizedText: '白砂糖', isSubIngredient: false, isUnknown: false }
+    ],
+    matches: [
+      confirmedCommonMatch('水'),
+      confirmedCommonMatch('白砂糖')
+    ],
+    nutrition: [
+      nutritionField('sugar', '糖', '12.8', 'g'),
+      nutritionField('carbohydrate', '碳水化合物', '13.2', 'g'),
+      nutritionField('sodium', '钠', '48', 'mg')
+    ],
+    attention: attention({ primaryGoal: 'sugar', targetGoals: ['sugar'] }),
+    labelType: 'ingredient_list',
+    sourceMeta: sourceMeta({
+      ingredientText: '配料表：水、白砂糖。',
+      nutritionText: '营养成分表 每100ml 碳水化合物 13.2g 糖 12.8g 钠 48mg',
+      confidence: 'high'
+    })
+  });
+  const topRiskSource = highSugarReport.sources.find((item) => item.label === 'Top risk 1 source line');
+  assert(topRiskSource, 'top risk should keep a source-line evidence source');
+  assertIncludes(topRiskSource?.detail, 'Source line', 'top risk source should explicitly name source line');
+  assertIncludes(topRiskSource?.detail, '糖 12.8g', 'top risk source should keep the matching nutrition source line');
+  assertIncludes(topRiskSource?.detail, 'Crop placeholder', 'top risk source should expose crop placeholder instead of fake image highlight');
+  assertIncludes(topRiskSource?.detail, '原图高亮暂未接入', 'top risk source should state that real image highlight is not available');
+
+  const blurryLowConfidenceReport = buildLabelReport({
+    productName: '',
+    rawText: '',
+    ingredients: [],
+    matches: [],
+    nutrition: [
+      nutritionField('sugar', '糖', '9.1', 'g'),
+      nutritionField('sodium', '钠', '42', 'mg')
+    ],
+    attention: attention(),
+    labelType: 'unknown_label',
+    sourceMeta: sourceMeta({
+      confidence: 'low',
+      nutritionText: '糖9.1g 钠42mg',
+      unconfirmedText: ['图片可能模糊、倾斜、反光或遮挡，需补拍确认。']
+    })
+  });
+  assertEqual(blurryLowConfidenceReport.purchaseDecision?.recommendation, '信息不足', 'blurry low-confidence partial OCR must not become a purchase recommendation');
+  assertEqual(blurryLowConfidenceReport.purchaseDecision?.score, 0, 'insufficient blurry OCR should not show a positive purchase score');
+
+  const degradedReport = buildLabelReport({
+    productName: '降级样本',
+    rawText: '配料表：燕麦片、白砂糖。',
+    ingredients: [
+      { id: 'ingredient-1', rawText: '燕麦片', normalizedText: '燕麦片', isSubIngredient: false, isUnknown: false },
+      { id: 'ingredient-2', rawText: '白砂糖', normalizedText: '白砂糖', isSubIngredient: false, isUnknown: false }
+    ],
+    matches: [
+      degradedMatch('燕麦片'),
+      degradedMatch('白砂糖')
+    ],
+    nutrition: [],
+    attention: attention(),
+    labelType: 'ingredient_list',
+    sourceMeta: sourceMeta({
+      ingredientText: '配料表：燕麦片、白砂糖。',
+      qualityWarnings: ['成分库接口暂不可用，当前仅保留未确认配料线索。']
+    })
+  });
+  assertEqual(degradedReport.purchaseDecision?.recommendation, '信息不足', 'degraded ingredient source without nutrition evidence should not produce a purchase recommendation');
+  const degradedReasons = (degradedReport.purchaseDecision?.riskReasons || []).join(' ');
+  assertIncludes(degradedReasons, '成分库接口', 'degraded source warning should be visible in top risks');
+  assertIncludes(degradedReasons, '缺少营养成分表', 'degraded source should still explain the missing evidence');
+
   const pendingAdditiveReport = buildLabelReport({
     productName: '未确认样本',
     rawText: '配料表：山梨酸钾。',
@@ -573,7 +839,8 @@ function assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis) {
   });
   assertEqual(identityAnalysis.report.analysisSource?.sourceType, 'product_identity', 'identity-only report should use product_identity source type');
   assert(!identityAnalysis.report.sources.some((item) => item.label === 'OCR / 手动确认文本'), 'identity-only report should not claim ingredient OCR source');
-  assert(identityAnalysis.report.sources.some((item) => item.detail.includes('deepseek_failed')), 'identity-only report should keep AI search failure detail');
+  assert(identityAnalysis.report.sources.some((item) => item.detail.includes('AI 未获取到完整标签信息')), 'identity-only report should explain incomplete AI public-label clue');
+  assert(!identityAnalysis.report.sources.some((item) => item.detail.includes('deepseek_failed')), 'identity-only report should not expose provider error codes to users');
 
   const emptyRecognitionAnalysis = buildLocalLabelAnalysis({
     productName: '',
@@ -595,6 +862,19 @@ function assertReportBoundaries(buildLabelReport, buildLocalLabelAnalysis) {
   assert(emptyRecognitionAnalysis.report.sources.some((item) => item.detail.includes('未识别到可用标签文字')), 'empty recognition source should explain no usable label or identity clue');
   assert(emptyRecognitionAnalysis.report.sources.some((item) => item.sourceType === 'recognition_insufficient'), 'empty recognition source should not be marked as barcode or QR evidence');
   assert(!emptyRecognitionAnalysis.report.sources.some((item) => item.label === '商品身份线索'), 'empty recognition source should not claim product identity evidence');
+
+  const lowQualityOcrAnalysis = buildLocalLabelAnalysis({
+    productName: 'Cottage Cheese Bar',
+    ingredientText: '',
+    nutritionText: 'Nutrition Facts Per 100g Energy 900kJ Protein 10g Fat 8g Carbohydrate 22g Sodium 300mg',
+    unconfirmedText: ['OTTAEESECUUREDSKMMKRAMSATWHTESOOSES CTRICAITOPRESREWATERATUSUARONRLESSOUVEMK'],
+    qualityWarnings: ['配料表 OCR 疑似粘连乱码，未作为购买判断依据；请补拍清晰配料表或手动补充。'],
+    confidence: 'low',
+    attention: attention(),
+    sourceType: 'ocr'
+  });
+  assertEqual(lowQualityOcrAnalysis.report.decision?.level, 'insufficient', 'report should stay information-insufficient when ingredient OCR was rejected as garbled');
+  assertIncludes(lowQualityOcrAnalysis.report.analysisSource?.qualityWarnings?.join(' ') || '', '疑似粘连乱码', 'report source should retain garbled ingredient warning');
 }
 
 function extractText(extractLabelText, rawText) {
@@ -627,6 +907,42 @@ function nutritionField(key, label, value, unit) {
   };
 }
 
+function minimalReport(options) {
+  const nutrition = options.nutrition || {};
+  return {
+    id: options.id,
+    title: '食品标签解读',
+    productName: options.productName,
+    createdAt: '2026-06-25T00:00:00.000Z',
+    summarySentence: '',
+    attentionHits: [],
+    focusItems: [],
+    ingredientSection: {
+      total: 1,
+      additiveCount: 0,
+      items: [{ term: options.ingredientText, normalizedText: options.ingredientText, ingredientName: options.ingredientText }]
+    },
+    nutritionSection: {
+      fields: [
+        nutritionField('sugar', '糖', nutrition.sugar || '', 'g'),
+        nutritionField('carbohydrate', '碳水化合物', nutrition.carbohydrate || '', 'g'),
+        nutritionField('sodium', '钠', nutrition.sodium || '', 'mg')
+      ],
+      highlights: []
+    },
+    additiveGroups: [],
+    allergenHints: [],
+    unknownItems: [],
+    analysisSource: {
+      normalizedCode: options.code,
+      ingredientText: options.ingredientText,
+      nutritionText: `糖 ${nutrition.sugar || ''}g 碳水化合物 ${nutrition.carbohydrate || ''}g 钠 ${nutrition.sodium || ''}mg`
+    },
+    sources: [],
+    rawText: options.ingredientText
+  };
+}
+
 function block(text, x, y) {
   return {
     text,
@@ -635,6 +951,42 @@ function block(text, x, y) {
     width: Math.max(30, String(text).length * 14),
     height: 24,
     confidence: 0.96
+  };
+}
+
+function confirmedCommonMatch(term) {
+  return {
+    id: `common-${term}`,
+    term,
+    normalizedText: term,
+    dataStatus: 'common_ingredient',
+    dataStatusLabel: '常见配料',
+    confidence: 0.95,
+    matchType: 'local_attention',
+    sourceName: '本地常见配料规则',
+    sourceType: 'local_rule',
+    sourceNote: '测试确认配料。',
+    ingredientName: term,
+    isAdditive: false,
+    decision: 'confirmed'
+  };
+}
+
+function degradedMatch(term) {
+  return {
+    id: `degraded-${term}`,
+    term,
+    normalizedText: term,
+    dataStatus: 'unknown_from_ocr',
+    dataStatusLabel: '暂未收录',
+    confidence: 0,
+    matchType: 'none',
+    sourceName: '成分库接口降级',
+    sourceType: 'degraded_backend',
+    sourceNote: '成分库接口暂不可用，已保留为未确认配料线索。',
+    ingredientName: term,
+    isAdditive: false,
+    decision: 'pending'
   };
 }
 
@@ -711,10 +1063,14 @@ function recognitionHistoryItem(overrides = {}) {
 }
 
 async function withRecognitionHistory(items, callback) {
-  const previousUni = globalThis.uni;
-  const storage = {
+  return withStorage({
     'complens:user-recognition-history': JSON.stringify(items)
-  };
+  }, callback);
+}
+
+async function withStorage(initialStorage, callback) {
+  const previousUni = globalThis.uni;
+  const storage = { ...initialStorage };
   globalThis.uni = {
     getStorageSync(key) {
       return storage[key] || '';
@@ -726,7 +1082,7 @@ async function withRecognitionHistory(items, callback) {
       delete storage[key];
     },
     request(options) {
-      options.fail?.({ errMsg: 'network disabled in history regression' });
+      options.fail?.({ errMsg: 'network disabled in storage regression' });
     }
   };
   try {

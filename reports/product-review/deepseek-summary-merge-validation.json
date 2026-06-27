@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "deepseek-summary-merge-validation-v1",
+  "generatedAt": "2026-06-26T05:07:48.171Z",
+  "round": 19,
+  "passed": true,
+  "tempRoot": "/tmp/compcheck-deepseek-summary-merge-PiKhqn",
+  "reportPath": "reports/product-review/deepseek-summary-merge-validation.json",
+  "assertions": [
+    {
+      "message": "summary merge keeps all existing raw DeepSeek sessions",
+      "passed": true
+    },
+    {
+      "message": "summary.json is never counted as a raw session",
+      "passed": true
+    },
+    {
+      "message": "summary sessions use stable persona order instead of only the most recent --only run",
+      "passed": true
+    },
+    {
+      "message": "summary session task counts are derived from raw task completion flags",
+      "passed": true
+    }
+  ],
+  "output": {
+    "sessionCount": 6,
+    "sessionSlugs": [
+      "first-time-consumer",
+      "time-pressed-consumer",
+      "parent-child-snack",
+      "sugar-control",
+      "allergy-sensitive",
+      "generic-ai-skeptic"
+    ],
+    "filePaths": [
+      "/tmp/compcheck-deepseek-summary-merge-PiKhqn/reports/product-review/raw/deepseek/round-19/first-time-consumer.json",
+      "/tmp/compcheck-deepseek-summary-merge-PiKhqn/reports/product-review/raw/deepseek/round-19/time-pressed-consumer.json",
+      "/tmp/compcheck-deepseek-summary-merge-PiKhqn/reports/product-review/raw/deepseek/round-19/parent-child-snack.json",
+      "/tmp/compcheck-deepseek-summary-merge-PiKhqn/reports/product-review/raw/deepseek/round-19/sugar-control.json",
+      "/tmp/compcheck-deepseek-summary-merge-PiKhqn/reports/product-review/raw/deepseek/round-19/allergy-sensitive.json",
+      "/tmp/compcheck-deepseek-summary-merge-PiKhqn/reports/product-review/raw/deepseek/round-19/generic-ai-skeptic.json"
+    ]
+  },
+  "error": null
+}

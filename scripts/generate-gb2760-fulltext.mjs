@@ -7,7 +7,7 @@ const defaultPdfPath = resolve('docs/source-materials/GB_2760-2024_食品安全�
 const pdfPath = process.argv[2] ? resolve(process.argv[2]) : defaultPdfPath;
 const outputPath = process.argv[3]
   ? resolve(process.argv[3])
-  : resolve('src/data/gb2760OfficialFullText.js');
+  : resolve('backend/src/data/gb2760OfficialFullText.js');
 
 const result = spawnSync('pdftotext', ['-layout', pdfPath, '-'], {
   encoding: 'utf8',

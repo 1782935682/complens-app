@@ -76,7 +76,10 @@ export function extractNormalizedProductCode(value: string): string {
 export function extractPrintedProductCode(text: string): string {
   const source = String(text || '');
   const labeled = source.match(/(?:商品条码|条形码|条码|barcode|GTIN|EAN|UPC)[:：\s]*([0-9\s-]{8,20})/i)?.[1];
-  return extractNormalizedProductCode(labeled || source);
+  if (!labeled) return '';
+  const compact = labeled.replace(/[^\d]/g, '');
+  if (!(compact.length === 8 || compact.length === 12 || compact.length === 13)) return '';
+  return isValidGtin(compact) ? compact : '';
 }
 
 export function classifyQrContent(value: string): ProductRecognitionContentType {

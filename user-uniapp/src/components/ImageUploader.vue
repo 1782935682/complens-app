@@ -2,15 +2,70 @@
 import type { LocalImageAsset } from '@/types';
 import AppButton from './AppButton.vue';
 
-defineProps<{ image?: LocalImageAsset }>();
-const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clear: [] }>();
+const props = defineProps<{
+  image?: LocalImageAsset;
+  compareMode?: boolean;
+  recognizing?: boolean;
+  statusTitle?: string;
+  statusDescription?: string;
+  busyLabel?: string;
+}>();
+const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clear: []; recognize: []; fileSelected: [file: File] }>();
+
+function chooseAlbum() {
+  if (openBrowserFileChooser()) return;
+  emit('album');
+}
+
+function chooseAlbumFromStage() {
+  if (props.recognizing) return;
+  chooseAlbum();
+}
+
+function openBrowserFileChooser(): boolean {
+  if (typeof document === 'undefined') return false;
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.style.position = 'fixed';
+  input.style.left = '-10000px';
+  input.style.top = '0';
+  input.addEventListener('change', () => {
+    const file = input.files?.[0];
+    input.remove();
+    if (file) emit('fileSelected', file);
+  }, { once: true });
+  document.body.appendChild(input);
+  input.click();
+  window.setTimeout(() => {
+    if (document.body.contains(input)) input.remove();
+  }, 30_000);
+  return true;
+}
 </script>
 
 <template>
   <view class="image-uploader">
     <view class="image-uploader__stage">
-      <image v-if="image?.tempFilePath" class="image-uploader__preview" :src="image.tempFilePath" mode="aspectFill" />
-      <view v-else class="image-uploader__empty">
+      <template v-if="image?.tempFilePath">
+        <image class="image-uploader__preview" :src="image.tempFilePath" mode="aspectFill" />
+        <view class="image-uploader__selected">
+          <text class="image-uploader__selected-title">
+            {{ statusTitle || (compareMode ? '已选择第二款包装图' : '已选择包装图') }}
+          </text>
+          <text class="image-uploader__selected-desc">
+            {{ statusDescription || (compareMode ? '信息足够时会进入两款对比。' : '将用这张图生成购买建议。') }}
+          </text>
+        </view>
+      </template>
+      <view
+        v-else
+        class="image-uploader__empty image-uploader__empty--interactive"
+        role="button"
+        tabindex="0"
+        :aria-label="compareMode ? '选择第二款包装标签图片' : '选择包装标签图片'"
+        @tap="chooseAlbumFromStage"
+      >
         <view class="image-uploader__frame">
           <view class="image-uploader__corner image-uploader__corner--tl" />
           <view class="image-uploader__corner image-uploader__corner--tr" />
@@ -18,30 +73,41 @@ const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clea
           <view class="image-uploader__corner image-uploader__corner--br" />
           <view class="image-uploader__icon" />
         </view>
-        <text class="image-uploader__title">对准标签文字</text>
-        <text class="image-uploader__hint">拍清包装文字，识别结束直接生成结果。</text>
-        <view class="image-uploader__checklist">
-          <view class="image-uploader__check">
-            <text class="image-uploader__check-dot" />
-            <text class="image-uploader__check-text">让配料表或营养表占满画面</text>
+        <text class="image-uploader__title">{{ compareMode ? '选择第二款包装标签' : '选择包装标签图片' }}</text>
+        <text class="image-uploader__hint">
+          {{ compareMode ? '拍清第二款的配料表、营养表或条码；信息足够时进入两款对比。' : '拍清配料表、营养表或条码，识别后直接生成购买建议。' }}
+        </text>
+        <view class="image-uploader__signals">
+          <view class="image-uploader__signal">
+            <text class="image-uploader__signal-icon">配</text>
+            <text class="image-uploader__signal-text">配料</text>
           </view>
-          <view class="image-uploader__check">
-            <text class="image-uploader__check-dot" />
-            <text class="image-uploader__check-text">避开反光、阴影和折痕</text>
+          <view class="image-uploader__signal">
+            <text class="image-uploader__signal-icon">营</text>
+            <text class="image-uploader__signal-text">营养</text>
           </view>
-          <view class="image-uploader__check">
-            <text class="image-uploader__check-dot" />
-            <text class="image-uploader__check-text">表格和每行文字不要切边</text>
+          <view class="image-uploader__signal">
+            <text class="image-uploader__signal-icon">码</text>
+            <text class="image-uploader__signal-text">条码</text>
           </view>
         </view>
       </view>
     </view>
     <view class="image-uploader__actions">
-      <AppButton class="image-uploader__action image-uploader__action--wide" @click="emit('camera')">拍照识别</AppButton>
-      <AppButton class="image-uploader__action" variant="secondary" @click="emit('album')">上传识别</AppButton>
-      <AppButton class="image-uploader__action" variant="secondary" @click="emit('scanCode')">扫条码/二维码</AppButton>
-      <AppButton class="image-uploader__action image-uploader__action--wide" variant="text" @click="emit('manual')">手动输入</AppButton>
-      <AppButton v-if="image" class="image-uploader__action image-uploader__action--wide" variant="text" @click="emit('clear')">重新选择</AppButton>
+      <AppButton v-if="image" class="image-uploader__action image-uploader__action--wide" :disabled="recognizing" :loading="recognizing" @click="emit('recognize')">
+        {{ recognizing ? (busyLabel || '识别中') : (compareMode ? '识别第二款' : '开始识别') }}
+      </AppButton>
+      <view v-else class="image-uploader__action image-uploader__action--wide image-uploader__file-action">
+        <AppButton class="image-uploader__action-button" :disabled="recognizing" @click="chooseAlbum">
+        {{ compareMode ? '上传识别第二款' : '上传识别' }}
+        </AppButton>
+      </view>
+      <AppButton class="image-uploader__action" variant="secondary" :disabled="recognizing" @click="emit('camera')">
+        {{ compareMode ? '拍第二款' : '拍照识别' }}
+      </AppButton>
+      <AppButton class="image-uploader__action" variant="secondary" :disabled="recognizing" @click="emit('scanCode')">扫条码/二维码</AppButton>
+      <AppButton class="image-uploader__action image-uploader__action--wide" variant="text" :disabled="recognizing" @click="emit('manual')">手动输入</AppButton>
+      <AppButton v-if="image" class="image-uploader__action image-uploader__action--wide" variant="text" :disabled="recognizing" @click="emit('clear')">重新选择</AppButton>
     </view>
   </view>
 </template>
@@ -68,6 +134,34 @@ const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clea
   box-shadow: var(--shadow-soft);
 }
 
+.image-uploader__preview {
+  display: block;
+}
+
+.image-uploader__selected {
+  margin-top: var(--space-sm);
+  border: 1px solid rgba(18, 151, 128, 0.16);
+  border-radius: 18rpx;
+  background: rgba(238, 250, 245, 0.86);
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  padding: var(--space-sm);
+}
+
+.image-uploader__selected-title {
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.image-uploader__selected-desc {
+  color: var(--muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+}
+
 .image-uploader__empty {
   display: flex;
   flex-direction: column;
@@ -76,6 +170,17 @@ const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clea
   padding: var(--space-lg);
   text-align: center;
   gap: var(--space-md);
+}
+
+.image-uploader__empty--interactive {
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.image-uploader__empty--interactive:active {
+  transform: translateY(1px) scale(0.995);
+  border-color: rgba(18, 151, 128, 0.34);
+  background: linear-gradient(180deg, rgba(238, 250, 245, 0.96), var(--surface));
 }
 
 .image-uploader__frame {
@@ -170,37 +275,44 @@ const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clea
   line-height: 1.45;
 }
 
-.image-uploader__checklist {
+.image-uploader__signals {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.image-uploader__signal {
+  min-height: 88rpx;
   border: 1px solid rgba(18, 151, 128, 0.14);
   border-radius: 18rpx;
   background: rgba(255, 255, 255, 0.72);
-  padding: var(--space-sm);
-  text-align: left;
-}
-
-.image-uploader__check {
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
 }
 
-.image-uploader__check-dot {
-  width: 12rpx;
-  height: 12rpx;
+.image-uploader__signal-icon {
+  width: 42rpx;
+  height: 42rpx;
   border-radius: 999px;
-  background: var(--primary);
-  flex: 0 0 auto;
-  margin-top: 13rpx;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 900;
+  line-height: 1;
 }
 
-.image-uploader__check-text {
-  color: var(--text-muted);
+.image-uploader__signal-text {
+  color: var(--text);
   font-size: var(--font-size-xs);
-  line-height: 1.55;
+  font-weight: 900;
+  line-height: 1.2;
 }
 
 .image-uploader__actions {
@@ -216,4 +328,13 @@ const emit = defineEmits<{ camera: []; album: []; scanCode: []; manual: []; clea
 .image-uploader__action--wide {
   grid-column: 1 / -1;
 }
+
+.image-uploader__file-action {
+  position: relative;
+}
+
+.image-uploader__action-button {
+  width: 100%;
+}
+
 </style>

@@ -6,10 +6,14 @@ import { requestJson } from './client';
 const trustedAutoConfirmStatuses: DataStatus[] = ['verified_regulation', 'verified_jecfa', 'common_ingredient'];
 
 interface BatchSearchResponse {
+  degraded?: boolean;
+  error?: string;
   results?: Array<{
     term?: string;
     confidence?: number;
     matchType?: IngredientMatch['matchType'];
+    degraded?: boolean;
+    error?: string;
     match?: {
       id?: string;
       nameCn?: string;
@@ -114,6 +118,9 @@ export async function matchIngredientsByApi(items: ParsedIngredient[]): Promise<
 
   return terms.map((term, index) => {
     const source = resultsByTerm.get(normalizeLookupTerm(term));
+    if (response.degraded || source?.degraded) {
+      return degradedMatch(index, term, String(response.error || source?.error || 'ingredient_service_unavailable'));
+    }
     const match = source?.match || null;
     const confidence = Number(source?.confidence) || 0;
     const matchType = source?.matchType || (match ? 'fuzzy' : 'none');
@@ -183,6 +190,24 @@ function isAdditiveCategory(value: unknown): boolean {
 
 function isTrustedAutoConfirmStatus(status: DataStatus): boolean {
   return trustedAutoConfirmStatuses.includes(status);
+}
+
+function degradedMatch(index: number, term: string, _errorCode: string): IngredientMatch {
+  return {
+    id: `${index}-${term}`,
+    term,
+    normalizedText: term,
+    dataStatus: 'unknown_from_ocr',
+    dataStatusLabel: dataStatusLabel('unknown_from_ocr'),
+    confidence: 0,
+    matchType: 'none',
+    sourceName: '成分库接口降级',
+    sourceType: 'degraded_backend',
+    sourceNote: '成分库接口暂不可用，已保留为未确认配料线索。',
+    ingredientName: term,
+    isAdditive: false,
+    decision: 'pending'
+  };
 }
 
 function normalizeMatchSourceType(value: unknown, dataStatus: IngredientMatch['dataStatus']): string | undefined {

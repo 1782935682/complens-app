@@ -147,18 +147,16 @@ async function buildScreenshotInventory() {
   return `${inventory}
 
 截图观察（来自 visual smoke 人工核对）：
-- report.png：首屏直接显示“一句话结论”，示例为“偶尔吃更合适｜注意份量”，下面用“为什么/谁少吃/怎么吃”三行短句给决策依据。
-- report-nutrition.png：营养重点图已经使用进度条、红色高值、较高标签，并展示热量、碳水、钠、脂肪等高值项。
-- report-insufficient.png：信息不足页首屏显示“信息不足｜补拍配料或营养表”，并给“补拍配料/营养表”和“手动粘贴文字”两个动作。`;
+- report.png：首屏只显示三卡结构：该不该买、风险原因、替代推荐；结论卡内展示适合和不适合人群。
+- report-insufficient.png：信息不足页保留同样三卡结构，并提示补拍配料表或营养表。`;
 }
 
 async function readDocContext() {
   const entries = await Promise.all([
-    readSnippet('../docs/product-blueprint/PRODUCT_DIRECTION_2026H2.md', 2200),
-    readSnippet('../docs/product-blueprint/CONSUMER_DECISION_SPEC.md', 2200),
-    readSnippet('../docs/product-blueprint/CONSUMER_UX_SPEC.md', 1800),
-    readSnippet('../docs/product-blueprint/DESIGN_SYSTEM.md', 1800),
-    readSnippet('../docs/product-blueprint/QA_ACCEPTANCE_SPEC.md', 1800)
+    readSnippet('../docs/decision-system.md', 2600),
+    readSnippet('../README.md', 1800),
+    readSnippet('../COMMANDS.md', 1800),
+    readSnippet('../PROJECT_PLAN.md', 1400)
   ]);
   return entries.join('\n\n');
 }
@@ -168,9 +166,9 @@ async function readSourceContext() {
     readSnippet('scripts/real-packaging-sample-smoke.mjs', 2600),
     readSnippet('src/utils/labelTextExtractor.ts', 2600),
     readSnippet('src/utils/localLabelAnalysis.ts', 2200),
-    readSnippetAround('src/pages/report/index.vue', 'const overallLabel', 1200, 2600),
-    readSnippetAround('src/pages/report/index.vue', '营养重点图', 1600, 2600),
-    readSnippetAround('src/pages/report/index.vue', '添加剂解释', 1600, 2600),
+    readSnippetAround('src/pages/report/index.vue', 'const purchaseDecision', 1200, 2600),
+    readSnippetAround('src/pages/report/index.vue', '风险原因', 1600, 2600),
+    readSnippetAround('src/pages/report/index.vue', '替代推荐', 1600, 2600),
     readSnippet('src/pages/capture/index.vue', 2400)
   ]);
   return entries.join('\n\n');

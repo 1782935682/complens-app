@@ -1,0 +1,255 @@
+{
+  "provider": "codex",
+  "round": 30,
+  "personaSlug": "allergy-sensitive",
+  "persona": "allergy-sensitive",
+  "reviewMode": "black-box H5 real interaction only",
+  "verdict": "pass",
+  "scores": {
+    "taskCompletionRate": 81,
+    "noAssistanceCompletionRate": 81,
+    "decisionClarity": 78,
+    "easeOfUse": 72,
+    "trust": 70,
+    "comparisonValue": 72,
+    "overallValue": 75
+  },
+  "tasks": [
+    {
+      "taskId": "task-1",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Home scan opens capture choices without help."
+    },
+    {
+      "taskId": "task-2",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Single product produces visible decision/evidence. Text: 购买建议\nNO\n该不该买\n不建议\n橙味饮料\n建议换一款更稳妥的同类产品。\n按忌口花生判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100ml\n包装文字含乳制品、大豆。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n避坑分\n9\n换一款\n按忌口花生判断\n提醒\n常见过敏原：乳制品、大豆\n致敏提示：致敏原提示:本品可能含有微量牛奶和大豆成分。\n拍第二款对比\n切换画像重算\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100ml\n致敏\n有提示\n致敏提示\n致敏原提示:本品可能含有微量牛奶和大豆成分。\n完整标签文字\n...0g 脂肪 0g 碳水化合物 11.2g 糖 10.8g 钠 36mg 致敏原提示:致敏原提示:本品可能含有微量牛奶和大豆成分。 橙味饮料 配料表:水、白砂糖、果葡糖浆、浓缩橙汁、柠檬酸、三氯蔗糖、安赛 蜜、山梨酸钾、食用香精。 营养成分表...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n拍清\n已设置花生忌口，替代款必须在配料表和致敏原提示里都不出现这些词；不确定时按不适合处理。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n官方标准数据\n已验证法规项来自后端成分 API 中的官方标准来源；仅 verified_regulation 可作为官方标准依据展示。\n普通配料词库\n普通配料词库仅用于标签可读性和匹配辅助，不作为法规结论。\n待复核成分数据库\n待复核、疑似匹配或未验证项仅作匹配线索，不作为官方或权威结论。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\nAI\n比直接问 AI 省事的地方\n包装实拍\n"
+    },
+    {
+      "taskId": "task-3",
+      "completed": false,
+      "assistanceUsed": false,
+      "status": "partial",
+      "evidence": "No explicit insufficient-info handling was encountered on sample-01; app copy promises it, but this session did not verify it."
+    },
+    {
+      "taskId": "task-4",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "After prior upload attempt/result, user can return to capture and retry via upload/manual options."
+    },
+    {
+      "taskId": "task-5",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "partial",
+      "evidence": "Two products can be reviewed sequentially, but no obvious side-by-side comparison workflow was verified."
+    },
+    {
+      "taskId": "task-6",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Profile chips tested: 日常:ok, 控糖:ok, 儿童:ok, 低钠:ok, 过敏:ok"
+    },
+    {
+      "taskId": "task-7",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "partial",
+      "evidence": "Saved/avoid counters are visible, but actual save/history reuse was not completed from report state. Text: 成分镜\n看食品标签，判断该不该买\n优先拍配料表、营养表或条码；结论会标出依据和信息不足。\n拍哪里\n配料 / 营养 / 条码\n先看结论\n买 / 谨慎 / 不建议\n缺信息\n直接提示补拍\n拍照识别\n示例结果，不是你的报告\n来源\n包装实拍\n结论\n控糖慎买\n依据\n糖10.8g/100ml\n关注项\n低钠 / 忌口花生\n已保存\n0 保存 / 0 避雷\n快速切换关注\n日常\n控糖\n儿童\n低钠\n过敏\n最近判断\n可补拍、查看或对比\n最近\n保存\n避雷\n点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。\n原味酸奶\n过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n谨慎\n橙味饮料\n控糖/过敏 · 不建议｜糖10.8g / 碳水11.2g / 钠36mg\n不建议\n高纤维低负担\n信息不足，先补拍配料表或营养成分表\n继续补拍"
+    },
+    {
+      "taskId": "task-8",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "UI repeatedly anchors decisions to packaging, ingredients, nutrition, barcode, evidence, and missing-info language. Reports/home promise decision-first output."
+    }
+  ],
+  "trustSignals": {
+    "valueBeyondGenericAi": true,
+    "wouldUseAgain": true,
+    "notes": "Completed 7/8 tasks. Allergy persona could start capture and switch focus; value is strongest when decisions show packaging evidence, weaker where comparison/history flows are not obvious."
+  },
+  "issues": [
+    {
+      "severity": "P3",
+      "title": "Insufficient-info handling was not reachable in this session",
+      "taskId": "task-3",
+      "evidence": "Uploaded public sample-01 did not expose an information-insufficient branch.",
+      "suggestedDirection": "Make missing data states prominent and easy to reproduce from capture/report flow."
+    },
+    {
+      "severity": "P3",
+      "title": "Save/avoid/history reuse is hinted but not completed in the tested flow",
+      "taskId": "task-7",
+      "evidence": "成分镜\n看食品标签，判断该不该买\n优先拍配料表、营养表或条码；结论会标出依据和信息不足。\n拍哪里\n配料 / 营养 / 条码\n先看结论\n买 / 谨慎 / 不建议\n缺信息\n直接提示补拍\n拍照识别\n示例结果，不是你的报告\n来源\n包装实拍\n结论\n控糖慎买\n依据\n糖10.8g/100ml\n关注项\n低钠 / 忌口花生\n已保存\n0 保存 / 0 避雷\n快速切换关注\n日常\n控糖\n儿童\n低钠\n过敏\n最近判断\n可补拍、查看或对比\n最近\n保存\n避雷\n点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。\n原味酸奶\n过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n谨慎\n橙味饮料\n控糖/过敏 · 不建议｜糖10.8g / 碳水11.2g / 钠36mg\n不建议\n高纤维低负担\n信息不足，先补拍配料表或营养成分表\n继续补拍",
+      "suggestedDirection": "Expose concrete save and avoid actions on product reports and make history re-openable from home."
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/01-home.png",
+      "taskId": "task-1"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/02-allergy-focus.png",
+      "taskId": "task-6"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/03-capture-opened.png",
+      "taskId": "task-1"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/04-sample-01-result.png",
+      "taskId": "task-2",
+      "sampleId": "sample-01"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/05-recovery-before-upload.png",
+      "taskId": "task-4"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/06-compare-1-sample-02.png",
+      "taskId": "task-5",
+      "sampleId": "sample-02"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/06-compare-2-sample-03.png",
+      "taskId": "task-5",
+      "sampleId": "sample-03"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/07-profile-switching.png",
+      "taskId": "task-6"
+    },
+    {
+      "path": "reports/product-review/screenshots/round-30/codex/allergy-sensitive/08-save-history-home.png",
+      "taskId": "task-7"
+    }
+  ],
+  "evidenceLog": [
+    {
+      "label": "home",
+      "at": "2026-06-27T02:16:25.034Z",
+      "value": {
+        "title": "CompLens 成分镜",
+        "location": "http://127.0.0.1:5210/#/",
+        "bodyText": "成分镜\n看食品标签，判断该不该买\n优先拍配料表、营养表或条码；结论会标出依据和信息不足。\n拍哪里\n配料 / 营养 / 条码\n先看结论\n买 / 谨慎 / 不建议\n缺信息\n直接提示补拍\n拍照识别\n示例结果，不是你的报告\n来源\n包装实拍\n结论\n控糖慎买\n依据\n糖10.8g/100ml\n关注项\n默认关注\n已保存\n0 保存 / 0 避雷\n快速切换关注\n日常\n控糖\n儿童\n低钠\n过敏"
+      }
+    },
+    {
+      "label": "allergy-focus-clicked",
+      "at": "2026-06-27T02:16:26.309Z",
+      "value": {
+        "bodyText": "我的\n关注目标\n可多选，购买建议会按这些目标排序。\n已选\n日常综合\n默认看添加剂、糖、钠、脂肪和过敏原。\n控糖\n重点看糖、糖浆、甜味剂和碳水。\n减脂\n重点看热量、脂肪、糖和碳水。\n低钠/少盐\n重点看钠、盐和含钠配料。\n儿童零食\n把甜味剂、色素、咖啡因、高糖高钠放前面。\n购买建议会按热量、糖、钠、脂肪和添加剂综合排序。\n回到拍摄页，下一次识别会使用当前画像。\n保存并继续拍摄\n过敏 / 忌口\n先选具体过敏原；命中后会优先阻断购买建议。\n花生\n坚果\n牛奶\n大豆\n麸质\n鸡蛋\n鱼类\n虾蟹类\n回到拍摄页，下一次识别会使用当前画像。\n保存并继续拍摄"
+      }
+    },
+    {
+      "label": "capture-opened",
+      "at": "2026-06-27T02:16:28.064Z",
+      "value": {
+        "title": "拍食品标签",
+        "location": "http://127.0.0.1:5210/#/pages/capture/index",
+        "bodyText": "拍食品标签\n拍清包装文字\n拍配料、营养或条码，选择后会自动识别并生成购买建议。\n忌口花生\n调整\n选择包装标签图片\n拍清配料表、营养表或条码，识别后直接生成购买建议。\n配\n配料\n营\n营养\n码\n条码\n上传识别\n拍照识别\n扫条码/二维码\n手动输入"
+      }
+    },
+    {
+      "label": "04-sample-01:fileChooser",
+      "at": "2026-06-27T02:16:28.518Z",
+      "value": {
+        "frameId": "072DC61470220EF80E23F76CF3BEB996",
+        "mode": "selectSingle",
+        "backendNodeId": 15
+      }
+    },
+    {
+      "label": "04-sample-01:setFileInputFiles",
+      "at": "2026-06-27T02:16:28.523Z",
+      "value": {
+        "ok": true
+      }
+    },
+    {
+      "label": "sample-01-result",
+      "at": "2026-06-27T02:16:30.540Z",
+      "value": {
+        "ok": true,
+        "reason": "",
+        "location": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T021630042Z-fabef445-a820-4f04-83bd-8412d2b9f02d",
+        "title": "购买建议",
+        "bodyText": "购买建议\nNO\n该不该买\n不建议\n橙味饮料\n建议换一款更稳妥的同类产品。\n按忌口花生判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100ml\n包装文字含乳制品、大豆。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n避坑分\n9\n换一款\n按忌口花生判断\n提醒\n常见过敏原：乳制品、大豆\n致敏提示：致敏原提示:本品可能含有微量牛奶和大豆成分。\n拍第二款对比\n切换画像重算\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100ml\n致敏\n有提示\n致敏提示\n致敏原提示:本品可能含有微量牛奶和大豆成分。\n完整标签文字\n...0g 脂肪 0g 碳水化合物 11.2g 糖 10.8g 钠 36mg 致敏原提示:致敏原提示:本品可能含有微量牛奶和大豆成分。 橙味饮料 配料表:水、白砂糖、果葡糖浆、浓缩橙汁、柠檬酸、三氯蔗糖、安赛 蜜、山梨酸钾、食用香精。 营养成分表...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n拍清\n已设置花生忌口，替代款必须在配料表和致敏原提示里都不出现这些词；不确定时按不适合处理。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n官方标准数据\n已验证法规项来自后端成分 API 中的官方标准来源；仅 verified_regulation 可作为官方标准依据展示。\n普通配料词库\n普通配料词库仅用于标签可读性和匹配辅助，不作为法规结论。\n待复核成分数据库\n待复核、疑似匹配或未验证项仅作匹配线索，不作为官方或权威结论。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按忌口花生判断，风险按当前画像重排。\n同类对比\n继续拍第二款，会比较糖、钠、过敏原和添加剂。\n拍第二款对比\n加入避雷\n保存报告\n加入避雷\n回首页\n反馈",
+        "states": [
+          {
+            "second": 1,
+            "location": "http://127.0.0.1:5210/#/pages/capture/index",
+            "title": "拍食品标签",
+            "bodyText": "拍食品标签\n拍清包装文字\n拍配料、营养或条码，选择后会自动识别并生成购买建议。\n忌口花生\n调整\n已选择包装图，正在识别\n识别完成后会直接生成购买建议。\n识别中\n拍照识别\n扫条码/二维码\n手动输入\n重新选择\n正在整理配料和营养信息..."
+          },
+          {
+            "second": 2,
+            "location": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T021630042Z-fabef445-a820-4f04-83bd-8412d2b9f02d",
+            "title": "购买建议",
+            "bodyText": "购买建议\nNO\n该不该买\n不建议\n橙味饮料\n建议换一款更稳妥的同类产品。\n按忌口花生判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100ml\n包装文字含乳制品、大豆。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n避坑分\n9\n换一款\n按忌口花生判断\n提醒\n常见过敏原：乳制品、大豆\n致敏提示：致敏原提示:本品可能含有微量牛奶和大豆成分。\n拍第二款对比\n切换画像重算\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100ml\n致敏\n有提示\n致敏提示\n致敏原提示:本品可能含有微量牛奶和大豆成分。\n完整标签文字\n...0g 脂肪 0g 碳水化合物 11.2g 糖 10.8g 钠 36mg 致敏原提示:致敏原提示:本品可能含有微量牛奶和大豆成分。 橙味饮料 配料表:水、白砂糖、果葡糖浆、浓缩橙汁、柠檬酸、三氯蔗糖、安赛 蜜、山梨酸钾、食用香精。 营养成分表...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n拍清\n已设置花生忌口，替代款必须在配料表和致敏原提示里都不出现这些词；不确定时按不适合处理。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n官方标准数据\n已验证法规项来自后端成分 API 中的官方标准来源；仅 verified_regulation 可作为官方标准依据展示。\n普通配料词库\n普通配料词库仅用于标签可读性和匹配辅助，不作为法规结论。\n待复核成分数据库\n待复核、疑似匹配或未验证项仅作匹配线索，不作为官方或权威结论。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按忌口花生判断，风险按当前画像重排。\n同类对比\n继续拍第二款，会比较糖、钠、过敏原和添加剂。\n拍第二款对比\n加入避雷\n保存报告\n加入避雷\n回首页\n反馈"
+          }
+        ]
+      }
+    },
+    {
+      "label": "06-compare-sample-02:fileChooser",
+      "at": "2026-06-27T02:16:39.817Z",
+      "value": {
+        "frameId": "072DC61470220EF80E23F76CF3BEB996",
+        "mode": "selectSingle",
+        "backendNodeId": 42
+      }
+    },
+    {
+      "label": "06-compare-sample-02:setFileInputFiles",
+      "at": "2026-06-27T02:16:39.821Z",
+      "value": {
+        "ok": true
+      }
+    },
+    {
+      "label": "06-compare-sample-03:fileChooser",
+      "at": "2026-06-27T02:16:45.990Z",
+      "value": {
+        "frameId": "072DC61470220EF80E23F76CF3BEB996",
+        "mode": "selectSingle",
+        "backendNodeId": 62
+      }
+    },
+    {
+      "label": "06-compare-sample-03:setFileInputFiles",
+      "at": "2026-06-27T02:16:45.994Z",
+      "value": {
+        "ok": true
+      }
+    },
+    {
+      "label": "comparison-samples",
+      "at": "2026-06-27T02:16:47.283Z",
+      "value": [
+        {
+          "sampleId": "sample-02",
+          "ok": true,
+          "bodyText": "购买建议",
+          "reason": ""
+        },
+        {
+          "sampleId": "sample-03",
+          "ok": true,
+          "bodyText": "购买建议\n?\n补拍后判断\n信息不足\n高纤维低负担\n先按下一步补拍缺失标签，再做购买判断。\n按忌口花生判断\n缺少配料表或营养成分表，本次只保留商品身份线索。\n来源：身份线索 · 缺少：配料表、营养成分表、致敏提示 · 下一步：补拍配料表\n还不能下购买结论\n缺少配料表、营养成分表、致敏提示，只识别到商品名。请补拍清晰标签后再生成购买结论。\n下一步\n下一步拍清完整配料表；如果营养成分表也缺失，下一张一起补齐。\n配料表\n未获得可用配料表\n拍包装背面的完整配料表，尽量包含从第一项到最后一项。\n营养成分表\n未获得可用营养表\n拍营养成分表，尤其是能量、碳水、糖、钠和每100g/ml口径。\n致敏提示\n建议补拍\n有过敏、儿童或严格忌口时，补拍“致敏原提示/含有”区域。\n清晰度\n需要重拍\n让标签平放、避开反光，配料表和营养表各拍一张更稳。\n条码\n只能辅助\n条码不是必须；它只能辅助找商品，不能单独生成购买建议。\n补拍配料表\n文\n可核对证据\n需补拍\n包装标签\n本次标签文字\n配料\n未读到\n营养\n未读到\n致敏\n缺少\n公开资料\n商品名:高纤维低负担 缺失说明:未获得完整配料表、营养成分表或致敏提示。\n缺失说明\n商品名:高纤维低负担 缺失说明:未获得完整配料表、营养成分表或致敏提示。\n本地规则\n商品名:高纤维低负担 缺失说明:未获得完整配料表、营养成分表或致敏提示。\n完整标签文字\n商品名:高纤维低负担 缺失说明:未获得完整配料表、营养成分表或致敏提示。\n查看\n复制完整文本\n纠错后重算\n按缺失项补拍\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n补拍或手动修改标签文字后，可以重新生成报告。\n重新拍标签\n手动纠错\n标记不准\n→\n替代推荐\n货架筛选\n下一款先看配料更短、糖钠脂更低、添加剂更少；拍第二款后成分镜会直接 A/B 对齐。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n拍清\n已设置花生忌口，替代款必须在配料表和致敏原提示里都不出现这些词；不确定时按不适合处理。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n商品身份线索\n本次只识别到商品名、品牌、商品码或二维码等身份线索，未获得可用配料表或营养成分表。\n公开资料线索\n公开资料没有补全标签，请按下一步补拍缺失标签或手动补充。\nAI\n比直接问 AI 省事的地方\n不硬判\n缺配料表或营养表时先提示补拍，不把包装正面当购买结论。\n下一步\n下一步拍清完整配料表；如果营养成分表也缺失，下一张一起补齐。\n可核对\n只保留本次识别到的线索，避免把公开资料当包装实拍。\n补拍配料表\n手动补充\n补拍后再对比\n未保存\n回首页\n反馈",
+          "reason": ""
+        }
+      ]
+    }
+  ]
+}

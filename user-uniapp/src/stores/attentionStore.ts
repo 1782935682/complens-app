@@ -43,8 +43,9 @@ function normalizeAttentionSettings(value: LegacyAttentionSettings): AttentionSe
     ...targetGoals,
     isChildrenMode ? 'children' : undefined
   ]);
+  const rawAllergens = Array.isArray(value.allergens) ? value.allergens : [];
   const allergens = uniqueStrings([
-    ...(Array.isArray(value.allergens) ? value.allergens : []),
+    ...rawAllergens.flatMap((item) => matchLegacyAllergenKeys(item)),
     ...legacyTerms.flatMap(matchLegacyAllergenKeys)
   ]).filter((key) => allergenOptions.some((item) => item.key === key));
   return {

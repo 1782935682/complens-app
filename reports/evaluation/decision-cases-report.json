@@ -1,0 +1,504 @@
+{
+  "schemaVersion": "evaluation-case-report-v1",
+  "product": "成分镜",
+  "generatedAt": "2026-06-27T02:33:04.994Z",
+  "summary": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "matchRate": 1,
+    "comparisonTotal": 4,
+    "comparisonPassed": 4,
+    "comparisonFailed": 0,
+    "comparisonMatchRate": 1,
+    "decisionQualityScore": 1
+  },
+  "cases": [
+    {
+      "id": "evaluation_case_sugar_control_sweet_drink",
+      "profileTag": "sugar_control",
+      "title": "控糖画像遇到含添加糖饮料",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "不建议",
+        "riskReasonIncludes": [
+          "控糖"
+        ],
+        "unsuitableForIncludes": [
+          "控糖人群"
+        ],
+        "alternativeIncludes": [
+          "糖"
+        ]
+      },
+      "actual": {
+        "recommendation": "不建议",
+        "riskReasons": [
+          "高糖饮品默认需谨慎",
+          "控糖目标下糖/碳水需留意",
+          "钠偏高"
+        ],
+        "suitableFor": [
+          "普通成年人日常看标签",
+          "偶尔吃零食的人"
+        ],
+        "unsuitableFor": [
+          "控糖人群"
+        ],
+        "alternatives": [
+          "选糖/糖浆更靠后、营养表糖更低的同类产品。",
+          "选钠更低、盐和味精更靠后的同类产品。"
+        ],
+        "score": 12
+      }
+    },
+    {
+      "id": "evaluation_case_default_high_sugar_drink",
+      "profileTag": "default",
+      "title": "默认画像遇到高糖饮料也要保守提醒",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "谨慎",
+        "riskReasonIncludes": [
+          "高糖"
+        ],
+        "unsuitableForIncludes": [
+          "控糖人群"
+        ],
+        "alternativeIncludes": [
+          "糖"
+        ]
+      },
+      "actual": {
+        "recommendation": "谨慎",
+        "riskReasons": [
+          "高糖饮品默认需谨慎",
+          "钠偏高",
+          "含添加糖来源"
+        ],
+        "suitableFor": [
+          "普通成年人日常看标签",
+          "偶尔吃零食的人"
+        ],
+        "unsuitableFor": [
+          "控糖人群"
+        ],
+        "alternatives": [
+          "选糖/糖浆更靠后、营养表糖更低的同类产品。",
+          "选钠更低、盐和味精更靠后的同类产品。"
+        ],
+        "score": 46
+      }
+    },
+    {
+      "id": "evaluation_case_sugar_control_high_sugar_soda",
+      "profileTag": "sugar_control",
+      "title": "控糖画像遇到明确高糖饮料不能回到推荐",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "谨慎",
+        "riskReasonIncludes": [
+          "控糖"
+        ],
+        "unsuitableForIncludes": [
+          "控糖人群"
+        ],
+        "alternativeIncludes": [
+          "糖"
+        ]
+      },
+      "actual": {
+        "recommendation": "谨慎",
+        "riskReasons": [
+          "控糖目标下糖/碳水需留意",
+          "含添加糖来源"
+        ],
+        "suitableFor": [
+          "普通成年人日常看标签",
+          "偶尔吃零食的人"
+        ],
+        "unsuitableFor": [
+          "控糖人群"
+        ],
+        "alternatives": [
+          "选糖/糖浆更靠后、营养表糖更低的同类产品。"
+        ],
+        "score": 50
+      }
+    },
+    {
+      "id": "evaluation_case_fat_loss_cookie",
+      "profileTag": "fat_loss",
+      "title": "减脂画像遇到高脂饼干",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "谨慎",
+        "riskReasonIncludes": [
+          "减脂"
+        ],
+        "unsuitableForIncludes": [
+          "减脂期"
+        ],
+        "alternativeIncludes": [
+          "脂肪"
+        ]
+      },
+      "actual": {
+        "recommendation": "谨慎",
+        "riskReasons": [
+          "高糖饮品默认需谨慎",
+          "减脂目标下热量/脂肪需留意",
+          "热量偏高"
+        ],
+        "suitableFor": [
+          "普通成年人偶尔解馋",
+          "不在控糖、减脂、控盐期间的人"
+        ],
+        "unsuitableFor": [
+          "控糖人群",
+          "减脂期",
+          "减脂人群",
+          "高血压/控盐人群"
+        ],
+        "alternatives": [
+          "选糖/糖浆更靠后、营养表糖更低的同类产品。",
+          "选脂肪和能量更低、非油炸的同类产品。"
+        ],
+        "score": 38
+      }
+    },
+    {
+      "id": "evaluation_case_children_caffeine_jelly",
+      "profileTag": "children",
+      "title": "儿童画像遇到咖啡因零食",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "谨慎",
+        "riskReasonIncludes": [
+          "儿童"
+        ],
+        "unsuitableForIncludes": [
+          "儿童高频食用"
+        ],
+        "alternativeIncludes": [
+          "儿童"
+        ]
+      },
+      "actual": {
+        "recommendation": "谨慎",
+        "riskReasons": [
+          "高糖饮品默认需谨慎",
+          "儿童高频食用需留意",
+          "钠偏高"
+        ],
+        "suitableFor": [
+          "普通成年人日常看标签",
+          "偶尔吃零食的人"
+        ],
+        "unsuitableFor": [
+          "儿童高频食用",
+          "控糖人群"
+        ],
+        "alternatives": [
+          "选糖/糖浆更靠后、营养表糖更低的同类产品。",
+          "选钠更低、盐和味精更靠后的同类产品。",
+          "给儿童高频吃时，优先选配料更短、少甜味剂/色素的产品。"
+        ],
+        "score": 38
+      }
+    },
+    {
+      "id": "evaluation_case_allergy_peanut_bar",
+      "profileTag": "allergy",
+      "title": "过敏画像遇到命中过敏原商品",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "不建议",
+        "riskReasonIncludes": [
+          "过敏"
+        ],
+        "unsuitableForIncludes": [
+          "花生过敏或忌口人群"
+        ],
+        "alternativeIncludes": [
+          "过敏"
+        ]
+      },
+      "actual": {
+        "recommendation": "不建议",
+        "riskReasons": [
+          "命中过敏/忌口项",
+          "钠偏高",
+          "配料里有油脂来源"
+        ],
+        "suitableFor": [
+          "普通成年人日常看标签",
+          "偶尔吃零食的人"
+        ],
+        "unsuitableFor": [
+          "花生过敏或忌口人群"
+        ],
+        "alternatives": [
+          "过敏或忌口命中时，换明确不含该成分的同类产品。",
+          "选钠更低、盐和味精更靠后的同类产品。",
+          "选脂肪和能量更低、非油炸的同类产品。"
+        ],
+        "score": 12
+      }
+    },
+    {
+      "id": "evaluation_case_general_allergy_milk_soy_drink",
+      "profileTag": "allergy",
+      "title": "泛过敏画像遇到常见过敏原提示",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "谨慎",
+        "riskReasonIncludes": [
+          "过敏原"
+        ],
+        "unsuitableForIncludes": [
+          "过敏"
+        ],
+        "alternativeIncludes": [
+          "过敏"
+        ]
+      },
+      "actual": {
+        "recommendation": "谨慎",
+        "riskReasons": [
+          "常见过敏原需核对",
+          "高糖饮品默认需谨慎",
+          "钠偏高"
+        ],
+        "suitableFor": [
+          "普通成年人日常看标签",
+          "偶尔吃零食的人"
+        ],
+        "unsuitableFor": [
+          "常见过敏原敏感人群",
+          "控糖人群"
+        ],
+        "alternatives": [
+          "过敏或忌口命中时，换明确不含该成分的同类产品。",
+          "选糖/糖浆更靠后、营养表糖更低的同类产品。",
+          "选钠更低、盐和味精更靠后的同类产品。"
+        ],
+        "score": 46
+      }
+    },
+    {
+      "id": "evaluation_case_lactose_milk",
+      "profileTag": "lactose_intolerance",
+      "title": "乳糖不耐画像遇到乳制品",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "不建议",
+        "riskReasonIncludes": [
+          "乳"
+        ],
+        "unsuitableForIncludes": [
+          "乳糖不耐人群"
+        ],
+        "alternativeIncludes": [
+          "无乳糖"
+        ]
+      },
+      "actual": {
+        "recommendation": "不建议",
+        "riskReasons": [
+          "含乳或乳糖线索",
+          "钠偏高"
+        ],
+        "suitableFor": [
+          "普通成年人日常看标签",
+          "偶尔吃零食的人"
+        ],
+        "unsuitableFor": [
+          "乳糖不耐人群"
+        ],
+        "alternatives": [
+          "选糖/糖浆更靠后、营养表糖更低的同类产品。",
+          "选钠更低、盐和味精更靠后的同类产品。",
+          "乳糖不耐时，优先选明确无乳糖或植物基替代品。"
+        ],
+        "score": 16
+      }
+    },
+    {
+      "id": "evaluation_case_ingredient_only_no_purchase_decision",
+      "profileTag": "default",
+      "title": "只有配料表时不能生成购买结论",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "信息不足",
+        "riskReasonIncludes": [
+          "缺少营养"
+        ],
+        "unsuitableForIncludes": [
+          "需要明确"
+        ],
+        "alternativeIncludes": [
+          "补拍营养"
+        ]
+      },
+      "actual": {
+        "recommendation": "信息不足",
+        "riskReasons": [
+          "缺少营养成分表关键数字，不能核对糖、钠、脂肪和能量。",
+          "含添加糖来源"
+        ],
+        "suitableFor": [
+          "补齐包装标签后再查看"
+        ],
+        "unsuitableFor": [
+          "需要明确控糖、低钠、过敏等目标的人"
+        ],
+        "alternatives": [
+          "补拍营养成分表，确认糖、钠、脂肪、能量等数字。",
+          "信息补齐前不要把商品正面卖点或公开资料当作购买结论。"
+        ],
+        "score": 0
+      }
+    },
+    {
+      "id": "evaluation_case_nutrition_only_no_purchase_decision",
+      "profileTag": "sugar_control",
+      "title": "只有营养数字时不能生成控糖购买结论",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "recommendation": "信息不足",
+        "riskReasonIncludes": [
+          "缺少配料"
+        ],
+        "unsuitableForIncludes": [
+          "需要明确"
+        ],
+        "alternativeIncludes": [
+          "补拍配料"
+        ]
+      },
+      "actual": {
+        "recommendation": "信息不足",
+        "riskReasons": [
+          "缺少配料表，不能核对添加剂、过敏原和配料顺序。",
+          "钠偏高"
+        ],
+        "suitableFor": [
+          "补齐包装标签后再查看"
+        ],
+        "unsuitableFor": [
+          "需要明确控糖、低钠、过敏等目标的人"
+        ],
+        "alternatives": [
+          "补拍配料表，确认添加剂、过敏原和配料顺序。",
+          "信息补齐前不要把商品正面卖点或公开资料当作购买结论。"
+        ],
+        "score": 0
+      }
+    }
+  ],
+  "comparisonCases": [
+    {
+      "id": "comparison_case_sugar_drink_vs_plain_tea",
+      "title": "控糖画像下，高糖饮料应输给无糖茶",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "healthier": "right",
+        "lowerRisk": "right",
+        "betterForProfile": "right",
+        "summaryIncludes": "B"
+      },
+      "actual": {
+        "healthier": "right",
+        "lowerRisk": "right",
+        "betterForProfile": "right",
+        "summary": "B 更适合当前画像。",
+        "reasons": [
+          "B 整体得分更高",
+          "B 风险提醒更少",
+          "B 更贴合用户画像"
+        ]
+      }
+    },
+    {
+      "id": "comparison_case_children_caffeine_vs_plain_yogurt",
+      "title": "儿童画像下，咖啡因果冻应输给简单酸奶",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "healthier": "right",
+        "lowerRisk": "right",
+        "betterForProfile": "right",
+        "summaryIncludes": "B"
+      },
+      "actual": {
+        "healthier": "right",
+        "lowerRisk": "right",
+        "betterForProfile": "right",
+        "summary": "B 更适合当前画像。",
+        "reasons": [
+          "B 整体得分更高",
+          "B 风险提醒更少",
+          "B 更贴合用户画像"
+        ]
+      }
+    },
+    {
+      "id": "comparison_case_allergy_peanut_vs_oat",
+      "title": "过敏画像下，命中过敏原商品应输给无花生燕麦棒",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "healthier": "right",
+        "lowerRisk": "right",
+        "betterForProfile": "right",
+        "summaryIncludes": "B"
+      },
+      "actual": {
+        "healthier": "right",
+        "lowerRisk": "right",
+        "betterForProfile": "right",
+        "summary": "B 更适合当前画像。",
+        "reasons": [
+          "B 整体得分更高",
+          "B 风险提醒更少",
+          "B 更贴合用户画像"
+        ]
+      }
+    },
+    {
+      "id": "comparison_case_allergy_two_milk_products_no_forced_winner",
+      "title": "过敏画像下，两款都命中牛奶时不强行给画像胜出",
+      "ok": true,
+      "failures": [],
+      "expected": {
+        "healthier": "left",
+        "lowerRisk": "left",
+        "betterForProfile": "tie",
+        "summaryIncludes": "两款都不适合"
+      },
+      "actual": {
+        "healthier": "left",
+        "lowerRisk": "left",
+        "betterForProfile": "tie",
+        "summary": "两款都不适合当前画像，优先换第三款。",
+        "reasons": [
+          "两款都不适合当前画像",
+          "A 整体得分更高",
+          "A 风险提醒更少"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,268 @@
+{
+  "provider": "codex",
+  "round": 30,
+  "personaSlug": "time-pressed-consumer",
+  "persona": "time-pressed-consumer",
+  "reviewMode": "black-box H5 real interaction only",
+  "verdict": "reviewed",
+  "scores": {
+    "taskCompletionRate": 94,
+    "noAssistanceCompletionRate": 94,
+    "decisionClarity": 90,
+    "easeOfUse": 84,
+    "trust": 91,
+    "comparisonValue": 92,
+    "overallValue": 89
+  },
+  "tasks": [
+    {
+      "taskId": "task-1",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Opening the app and tapping the camera CTA reached the capture screen with upload, photo, barcode, and manual-input options."
+    },
+    {
+      "taskId": "task-2",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "sample-01 produced a report with a visible purchase recommendation, product identity, source/confidence, and evidence sections."
+    },
+    {
+      "taskId": "task-3",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "sample-04 produced an explicit insufficient-information report: no purchase conclusion, missing label parts, and next-step retake guidance."
+    },
+    {
+      "taskId": "task-4",
+      "completed": false,
+      "assistanceUsed": false,
+      "status": "partial",
+      "evidence": "Invalid text-file upload produced a generic information-insufficient report instead of an explicit unsupported-file error; a subsequent valid sample still reached a normal report."
+    },
+    {
+      "taskId": "task-5",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "sample-02 then sample-01 reached a comparison page with A/B product cards and aligned sugar, carb, sodium, allergen, and additive differences."
+    },
+    {
+      "taskId": "task-6",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Home quick attention chips allowed switching from default to sugar/allergy-oriented attention states without assistance."
+    },
+    {
+      "taskId": "task-7",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "A report exposed save and avoid actions, and returning home preserved visible saved/avoid status."
+    },
+    {
+      "taskId": "task-8",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Report/comparison pages explicitly explain value beyond generic AI: packaging evidence, profile-aware ordering, A/B alignment, and checkable sources."
+    }
+  ],
+  "trustSignals": {
+    "valueBeyondGenericAi": true,
+    "wouldUseAgain": true,
+    "notes": "Strong packaging-specific decision support: clear buy/caution framing, insufficient-info refusal, evidence/provenance, and A/B comparison. Main weakness observed was weak explicit invalid-format feedback for unsupported uploads."
+  },
+  "issues": [
+    {
+      "severity": "P2",
+      "title": "Invalid upload feedback is not explicit enough",
+      "taskId": "task-4",
+      "evidence": "The invalid text-file upload was treated as an information-insufficient label result, but no clear unsupported-file or invalid-format error was captured before recovery.",
+      "suggestedDirection": "Reject unsupported file types immediately and keep a visible retry/upload-another control beside the error."
+    }
+  ],
+  "screenshots": [
+    {
+      "taskId": "task-1",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-1-home-open.png"
+    },
+    {
+      "taskId": "task-1",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-1-start-recognition-capture.png"
+    },
+    {
+      "taskId": "task-2",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-2-single-product-decision-sample-01.png"
+    },
+    {
+      "taskId": "task-3",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-3-insufficient-info-sample-04.png"
+    },
+    {
+      "taskId": "task-4",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-4-invalid-file-attempt.png"
+    },
+    {
+      "taskId": "task-4",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-4-recovery-valid-sample-02.png"
+    },
+    {
+      "taskId": "task-5",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-5-first-product-before-comparison.png"
+    },
+    {
+      "taskId": "task-5",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-5-second-product-capture.png"
+    },
+    {
+      "taskId": "task-5",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-5-two-product-comparison-result.png"
+    },
+    {
+      "taskId": "task-6",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-6-attention-switch-sugar.png"
+    },
+    {
+      "taskId": "task-6",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-6-attention-switch-allergy.png"
+    },
+    {
+      "taskId": "task-7",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-7-save-report.png"
+    },
+    {
+      "taskId": "task-7",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-7-add-avoid.png"
+    },
+    {
+      "taskId": "task-7",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-7-history-home-counts.png"
+    },
+    {
+      "taskId": "task-8",
+      "path": "reports/product-review/screenshots/round-30/codex/time-pressed-consumer/task-8-value-beyond-generic-ai-comparison.png"
+    }
+  ],
+  "observations": [
+    {
+      "taskId": "task-1",
+      "name": "home",
+      "text": "成分镜\n看食品标签，判断该不该买\n优先拍配料表、营养表或条码；结论会标出依据和信息不足。\n拍哪里\n配料 / 营养 / 条码\n先看结论\n买 / 谨慎 / 不建议\n缺信息\n直接提示补拍\n拍照识别\n示例结果，不是你的报告\n来源\n包装实拍\n结论\n控糖慎买\n依据\n糖10.8g/100ml\n关注项\n默认关注\n已保存\n0 保存 / 0 避雷\n快速切换关注\n日常\n控糖\n儿童\n低钠\n过敏",
+      "url": "http://127.0.0.1:5210/#/"
+    },
+    {
+      "taskId": "task-1",
+      "name": "capture-start",
+      "text": "拍食品标签\n拍清包装文字\n拍配料、营养或条码，选择后会自动识别并生成购买建议。\n默认\n调整\n选择包装标签图片\n拍清配料表、营养表或条码，识别后直接生成购买建议。\n配\n配料\n营\n营养\n码\n条码\n上传识别\n拍照识别\n扫条码/二维码\n手动输入",
+      "url": "http://127.0.0.1:5210/#/pages/capture/index"
+    },
+    {
+      "taskId": "task-2",
+      "name": "single-report-sample-01",
+      "sampleId": "sample-01",
+      "text": "购买建议\n!\n该不该买\n谨慎\n橙味饮料\n含常见过敏原；如你或家人过敏，先设忌口重算。\n按默认关注判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100ml\n包装文字含乳制品、大豆。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n谨慎分\n38\n先看风险\n按默认关注判断\n提醒\n常见过敏原：乳制品、大豆\n致敏提示：致敏原提示:本品可能含有微量牛奶和大豆成分。\n一键设为忌口\n拍第二款对比\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100ml\n致敏\n有提示\n致敏提示\n致敏原提示:本品可能含有微量牛奶和大豆成分。\n完整标签文字\n...0g 脂肪 0g 碳水化合物 11.2g 糖 10.8g 钠 36mg 致敏原提示:致敏原提示:本品可能含有微量牛奶和大豆成分。 橙味饮料 配料表:水、白砂糖、果葡糖浆、浓缩橙汁、柠檬酸、三氯蔗糖、安赛 蜜、山梨酸钾、食用香精。 营养成分表...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n同类替代\n如对乳制品、大豆过敏或严格忌口，替代款要明确无对应致敏原提示，并建议先到关注项里设置。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n官方标准数据\n已验证法规项来自后端成分 API 中的官方标准来源；仅 verified_regulation 可作为官方标准依据展示。\n普通配料词库\n普通配料词库仅用于标签可读性和匹配辅助，不作为法规结论。\n待复核成分数据库\n待复核、疑似匹配或未验证项仅作匹配线索，不作为官方或权威结论。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按默认关注判断，风险按当前画像重排。\n同类对比\n继续拍第二款，会比较糖、钠、过敏原和添加剂。\n拍第二款对比\n保存报告\n保存报告\n加入避雷\n回首页\n反馈",
+      "url": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T022206157Z-0e046b90-d05e-4bef-9230-8ada1199b2e2"
+    },
+    {
+      "taskId": "task-3",
+      "name": "insufficient-report-sample-04",
+      "sampleId": "sample-04",
+      "text": "购买建议\n?\n补拍后判断\n信息不足\n这款食品\n先按下一步补拍缺失标签，再做购买判断。\n按默认关注判断\n缺少配料表或营养成分表，本次只保留商品身份线索。\n来源：身份线索 · 缺少：配料表、营养成分表 · 下一步：补拍配料表\n还不能下购买结论\n缺少配料表、营养成分表。请补拍清晰标签后再生成购买结论。\n下一步\n下一步拍清完整配料表；如果营养成分表也缺失，下一张一起补齐。\n配料表\n未获得可用配料表\n拍包装背面的完整配料表，尽量包含从第一项到最后一项。\n营养成分表\n未获得可用营养表\n拍营养成分表，尤其是能量、碳水、糖、钠和每100g/ml口径。\n致敏提示\n建议补拍\n有过敏、儿童或严格忌口时，补拍“致敏原提示/含有”区域。\n清晰度\n需要重拍\n让标签平放、避开反光，配料表和营养表各拍一张更稳。\n条码\n只能辅助\n条码不是必须；它只能辅助找商品，不能单独生成购买建议。\n补拍配料表\n文\n可核对证据\n需补拍\n包装标签\n本次标签文字\n配料\n未读到\n营养\n未读到\n公开资料\n缺失说明:未获得完整配料表、营养成分表或致敏提示。\n缺失说明\n缺失说明:未获得完整配料表、营养成分表或致敏提示。\n本地规则\n缺失说明:未获得完整配料表、营养成分表或致敏提示。\n完整标签文字\n缺失说明:未获得完整配料表、营养成分表或致敏提示。\n查看\n复制完整文本\n纠错后重算\n按缺失项补拍\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n补拍或手动修改标签文字后，可以重新生成报告。\n重新拍标签\n手动纠错\n标记不准\n→\n替代推荐\n货架筛选\n下一款先看配料更短、糖钠脂更低、添加剂更少；拍第二款后成分镜会直接 A/B 对齐。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n拍清\n配料表尽量占满画面。\ni\n依据来源\n识别信息不足\n本次未识别到可用标签文字或商品身份线索，已按信息不足处理。\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n公开资料线索\n公开资料没有补全标签，请按下一步补拍缺失标签或手动补充。\nAI\n比直接问 AI 省事的地方\n不硬判\n缺配料表或营养表时先提示补拍，不把包装正面当购买结论。\n下一步\n下一步拍清完整配料表；如果营养成分表也缺失，下一张一起补齐。\n可核对\n只保留本次识别到的线索，避免把公开资料当包装实拍。\n补拍配料表\n手动补充\n补拍后再对比\n未保存\n回首页\n反馈",
+      "url": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-mqvqido8-sylpk1"
+    },
+    {
+      "taskId": "task-4",
+      "name": "invalid-file-attempt",
+      "text": "拍食品标签\n拍清包装文字\n拍配料、营养或条码，选择后会自动识别并生成购买建议。\n默认\n调整\n已选择包装图，正在识别\n识别完成后会直接生成购买建议。\n识别中\n拍照识别\n扫条码/二维码\n手动输入\n重新选择\n正在识别标签文字...",
+      "url": "http://127.0.0.1:5210/#/pages/capture/index"
+    },
+    {
+      "taskId": "task-4",
+      "name": "recovery-report-sample-02",
+      "sampleId": "sample-02",
+      "text": "购买建议\n!\n该不该买\n谨慎\n原味酸奶\n含常见过敏原；如你或家人过敏，先设忌口重算。\n按默认关注判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100g\n包装文字含乳制品。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n谨慎分\n64\n先看风险\n按默认关注判断\n提醒\n常见过敏原：乳制品\n致敏提示：致敏原提示:含有牛奶。\n过敏原\n牛奶/乳制品\n一键设为忌口\n拍第二款对比\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100g\n致敏\n有提示\n致敏提示\n致敏原提示:含有牛奶。\n配料/致敏提示\n牛奶/乳制品\n完整标签文字\n商品名:原味酸奶 配料表:生牛乳、乳酸菌。 营养成分表:营养成分表每100g:能量280k蛋白质3.4g脂肪3 2g碳水化合物4.8g糖4.8g钠5...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n同类替代\n如对乳制品过敏或严格忌口，替代款要明确无对应致敏原提示，并建议先到关注项里设置。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按默认关注判断，风险按当前画像重排。\n同类对比\n已有同类报告，可直接查看两款差异。\n拍第二款对比\n保存报告\n保存报告\n加入避雷\n回首页\n反馈",
+      "url": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T022216979Z-fcc0fbad-d627-4d03-bc30-375f5a612c76"
+    },
+    {
+      "taskId": "task-5",
+      "name": "first-product-report",
+      "sampleId": "sample-02",
+      "text": "购买建议\n!\n该不该买\n谨慎\n原味酸奶\n含常见过敏原；如你或家人过敏，先设忌口重算。\n按默认关注判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100g\n包装文字含乳制品。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n谨慎分\n64\n先看风险\n按默认关注判断\n提醒\n常见过敏原：乳制品\n致敏提示：致敏原提示:含有牛奶。\n过敏原\n牛奶/乳制品\n一键设为忌口\n拍第二款对比\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100g\n致敏\n有提示\n致敏提示\n致敏原提示:含有牛奶。\n配料/致敏提示\n牛奶/乳制品\n完整标签文字\n商品名:原味酸奶 配料表:生牛乳、乳酸菌。 营养成分表:营养成分表每100g:能量280k蛋白质3.4g脂肪3 2g碳水化合物4.8g糖4.8g钠5...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n再拍一款\n再拍一款同类商品，成分镜会直接比较糖、钠、过敏原和添加剂差异。\n同类替代\n如对乳制品过敏或严格忌口，替代款要明确无对应致敏原提示，并建议先到关注项里设置。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\n历史缓存\n本机已确认信息用于补全同一商品标签线索。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按默认关注判断，风险按当前画像重排。\n同类对比\n已有同类报告，可直接查看两款差异。\n拍第二款对比\n保存报告\n保存报告\n加入避雷\n回首页\n反馈",
+      "url": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T022220940Z-4cfd56ce-4a10-4a7f-8109-7ca57d3c404e"
+    },
+    {
+      "taskId": "task-5",
+      "name": "second-capture",
+      "text": "拍食品标签\n拍第二款做对比\n已选 原味酸奶，再拍第二款；信息足够时进入对比，信息不足会先给出补充建议。\n默认\n调整\n选择第二款包装标签\n拍清第二款的配料表、营养表或条码；信息足够时进入两款对比。\n配\n配料\n营\n营养\n码\n条码\n上传识别第二款\n拍第二款\n扫条码/二维码\n手动输入",
+      "url": "http://127.0.0.1:5210/#/pages/capture/index?compareBase=label-report-20260627T022220940Z-4cfd56ce-4a10-4a7f-8109-7ca57d3c404e"
+    },
+    {
+      "taskId": "task-5",
+      "name": "comparison-result",
+      "sampleIds": [
+        "sample-02",
+        "sample-01"
+      ],
+      "text": "食品对比\n!\nA vs B\n两款都含牛奶。如果你或家人过敏，本次不要只看胜出款；先设为忌口后重算。未过敏再看糖、钠和添加剂差异。\n过敏先确认\n两款都含牛奶。如果你或家人过敏，本次不要只看胜出款；先设为忌口后重算。\n常见过敏原\n两款都含牛奶。如果你或家人过敏，本次不要只看胜出款；先设为忌口后重算。\n一键设为忌口并重算\nA\n谨慎\n原味酸奶\n64分\n2项提醒 / 高\nB\n谨慎\n橙味饮料\n38分\n3项提醒 / 高\n糖\nA 4.8g / B 10.8g\nA 更低\n碳水\nA 4.8g / B 11.2g\nA 更低\n钠\nA 55mg / B 36mg\nB 更低\n常见过敏原\nA 牛奶 / B 可能含牛奶、可能含大豆\nA 更低\n添加剂/甜味剂\nA 1项：乳酸 / B 5项：山梨酸钾、三氯蔗糖、柠檬酸等\nA 更低\n比直接问 AI 省事\n糖/碳水/钠同屏\n当前画像依据优先\n包装实拍可核对\n拍下一款对比\n按当前画像重算\n专\n比直接问 AI 省事的地方\n可复查\n直接行动\n两款都有常见过敏原时先确认忌口；未过敏再看营养差异。\n同屏对齐\n糖、碳水、钠、过敏原和添加剂固定 A/B 对齐，不用在聊天里反复追问。\n画像优先\n当前画像依据会影响胜出结果；过敏命中时直接优先于低糖优势。\n可核对\n结论只来自本次包装标签、营养数字和已保存画像，公开资料不会替代实拍证据。\n下一步\n继续找无对应致敏提示的同类，再看糖、碳水、钠和添加剂。\n差\n关键差异\n先确认\n糖\n原味酸奶的糖更低\nA 4.8g\nB 10.8g\nA 更低\n碳水\n原味酸奶的碳水更低\nA 4.8g\nB 11.2g\nA 更低\n钠\n橙味饮料的钠更低\nA 55mg\nB 36mg\nB 更低\n常见过敏原\n原味酸奶更少命中常见过敏原\nA 牛奶\nB 可能含牛奶、可能含大豆\nA 更低\n添加剂/甜味剂\n原味酸奶添加剂线索更少\nA 1项：乳酸\nB 5项：山梨酸钾、三氯蔗糖、柠檬酸等\nA 更低\n敏\n过敏先确认\n先确认\n两款都含牛奶。如果你或家人过敏，本次不要只看胜出款；先设为忌口后重算。\n担\n负担更低\n先确认\n糖、碳水、钠整体接近\n适\n更适合你\n先确认\n未设置忌口前只做营养差异提示，不给过敏用户直接胜出结论\n历\n换一款历史报告比较\n基于 原味酸奶\n橙味饮料\n谨慎 · 06-27\n拍下一款对比\n回首页",
+      "url": "http://127.0.0.1:5210/#/pages/compare/index?left=label-report-20260627T022220940Z-4cfd56ce-4a10-4a7f-8109-7ca57d3c404e&right=label-report-20260627T022225694Z-0b20af97-65c3-4985-8fad-c7c892396781"
+    },
+    {
+      "taskId": "task-6",
+      "name": "profile-home",
+      "text": "成分镜\n看食品标签，判断该不该买\n优先拍配料表、营养表或条码；结论会标出依据和信息不足。\n拍哪里\n配料 / 营养 / 条码\n先看结论\n买 / 谨慎 / 不建议\n缺信息\n直接提示补拍\n拍照识别\n示例结果，不是你的报告\n来源\n包装实拍\n结论\n控糖慎买\n依据\n糖10.8g/100ml\n关注项\n默认关注\n已保存\n0 保存 / 0 避雷\n快速切换关注\n日常\n控糖\n儿童\n低钠\n过敏\n最近判断\n可补拍、查看或对比\n最近\n保存\n避雷\n点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。\n橙味饮料\n控糖/过敏 · 谨慎｜糖10.8g / 碳水11.2g / 钠36mg\n谨慎\n原味酸奶\n过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n谨慎\n原味酸奶\n过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n谨慎",
+      "url": "http://127.0.0.1:5210/#/"
+    },
+    {
+      "taskId": "task-6",
+      "name": "after-sugar-switch",
+      "text": "成分镜\n看食品标签，判断该不该买\n优先拍配料表、营养表或条码；结论会标出依据和信息不足。\n拍哪里\n配料 / 营养 / 条码\n先看结论\n买 / 谨慎 / 不建议\n缺信息\n直接提示补拍\n拍照识别\n示例结果，不是你的报告\n来源\n包装实拍\n结论\n控糖慎买\n依据\n糖10.8g/100ml\n关注项\n控糖\n已保存\n0 保存 / 0 避雷\n快速切换关注\n日常\n控糖\n儿童\n低钠\n过敏\n已切换为控糖关注，下一次识别会按控糖判断。\n最近判断\n可补拍、查看或对比\n最近\n保存\n避雷\n点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。\n橙味饮料\n控糖/过敏 · 谨慎｜糖10.8g / 碳水11.2g / 钠36mg\n谨慎\n原味酸奶\n过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n谨慎\n原味酸奶\n过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n谨慎",
+      "url": "http://127.0.0.1:5210/#/"
+    },
+    {
+      "taskId": "task-6",
+      "name": "after-allergy-switch",
+      "text": "我的\n关注目标\n可多选，购买建议会按这些目标排序。\n日常综合\n默认看添加剂、糖、钠、脂肪和过敏原。\n已选\n控糖\n重点看糖、糖浆、甜味剂和碳水。\n减脂\n重点看热量、脂肪、糖和碳水。\n低钠/少盐\n重点看钠、盐和含钠配料。\n儿童零食\n把甜味剂、色素、咖啡因、高糖高钠放前面。\n购买建议会优先提示：糖、甜味剂和碳水数字。\n回到拍摄页，下一次识别会使用当前画像。\n保存并继续拍摄\n过敏 / 忌口\n先选具体过敏原；命中后会优先阻断购买建议。\n花生\n坚果\n牛奶\n大豆\n麸质\n鸡蛋\n鱼类\n虾蟹类\n回到拍摄页，下一次识别会使用当前画像。\n保存并继续拍摄",
+      "url": "http://127.0.0.1:5210/#/pages/attention/index"
+    },
+    {
+      "taskId": "task-7",
+      "name": "save-report-before-actions",
+      "sampleId": "sample-02",
+      "text": "购买建议\n!\n该不该买\n谨慎\n原味酸奶\n含常见过敏原；如你或家人过敏，先设忌口重算。\n按控糖判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100g\n包装文字含乳制品。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n谨慎分\n64\n先看风险\n按控糖判断\n提醒\n常见过敏原：乳制品\n致敏提示：致敏原提示:含有牛奶。\n过敏原\n牛奶/乳制品\n一键设为忌口\n拍第二款对比\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100g\n致敏\n有提示\n致敏提示\n致敏原提示:含有牛奶。\n配料/致敏提示\n牛奶/乳制品\n完整标签文字\n商品名:原味酸奶 配料表:生牛乳、乳酸菌。 营养成分表:营养成分表每100g:能量280k蛋白质3.4g脂肪3 2g碳水化合物4.8g糖4.8g钠5...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n控糖筛选\n先找糖≤5g/100ml（固体≤8g/100g）、碳水≤8g/100ml，且白砂糖/糖浆不在配料前三位。\n再拍一款\n拍第二款同类后，会直接比较糖、碳水、甜味剂和糖浆位置，给出更适合控糖的一款。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\n历史缓存\n本机已确认信息用于补全同一商品标签线索。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按控糖判断，风险按当前画像重排。\n同类对比\n已有同类报告，可直接查看两款差异。\n拍第二款对比\n保存报告\n保存报告\n加入避雷\n回首页\n反馈",
+      "url": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T022233116Z-69e59eef-eb0f-43dd-926a-5153b9842cf2"
+    },
+    {
+      "taskId": "task-7",
+      "name": "after-save",
+      "text": "购买建议\n已保存，首页已保存会显示这条购买理由。\n!\n该不该买\n谨慎\n原味酸奶\n含常见过敏原；如你或家人过敏，先设忌口重算。\n按控糖判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100g\n包装文字含乳制品。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n谨慎分\n64\n先看风险\n按控糖判断\n提醒\n常见过敏原：乳制品\n致敏提示：致敏原提示:含有牛奶。\n过敏原\n牛奶/乳制品\n一键设为忌口\n拍第二款对比\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100g\n致敏\n有提示\n致敏提示\n致敏原提示:含有牛奶。\n配料/致敏提示\n牛奶/乳制品\n完整标签文字\n商品名:原味酸奶 配料表:生牛乳、乳酸菌。 营养成分表:营养成分表每100g:能量280k蛋白质3.4g脂肪3 2g碳水化合物4.8g糖4.8g钠5...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n控糖筛选\n先找糖≤5g/100ml（固体≤8g/100g）、碳水≤8g/100ml，且白砂糖/糖浆不在配料前三位。\n再拍一款\n拍第二款同类后，会直接比较糖、碳水、甜味剂和糖浆位置，给出更适合控糖的一款。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\n历史缓存\n本机已确认信息用于补全同一商品标签线索。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按控糖判断，风险按当前画像重排。\n同类对比\n已有同类报告，可直接查看两款差异。\n拍第二款对比\n查看已保存\n查看已保存\n撤销保存\n加入避雷\n回首页\n反馈",
+      "url": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T022233116Z-69e59eef-eb0f-43dd-926a-5153b9842cf2"
+    },
+    {
+      "taskId": "task-7",
+      "name": "after-avoid",
+      "text": "购买建议\n已加入避雷，并从普通保存移出；再次点击可撤销避雷。\n!\n该不该买\n谨慎\n原味酸奶\n含常见过敏原；如你或家人过敏，先设忌口重算。\n按控糖判断\n来源：包装实拍 · 置信度：清晰 · 已用：配料、营养、致敏 · 口径：每100g\n包装文字含乳制品。如你或家人对它过敏，请先设为忌口并重算；未过敏则继续看糖、钠和添加剂。\n谨慎分\n64\n先看风险\n按控糖判断\n提醒\n常见过敏原：乳制品\n致敏提示：致敏原提示:含有牛奶。\n过敏原\n牛奶/乳制品\n一键设为忌口\n拍第二款对比\n文\n可核对证据\n文本可核对\n包装标签\n本次标签文字\n配料\n已读取\n营养\n每100g\n致敏\n有提示\n致敏提示\n致敏原提示:含有牛奶。\n配料/致敏提示\n牛奶/乳制品\n完整标签文字\n商品名:原味酸奶 配料表:生牛乳、乳酸菌。 营养成分表:营养成分表每100g:能量280k蛋白质3.4g脂肪3 2g碳水化合物4.8g糖4.8g钠5...\n查看\n复制完整文本\n纠错后重算\n重新拍照重算\n只展示本次识别到的标签文字和来源；请以实物包装为准。\n纠错 / 重算\n如果标签文字和实物不一致，可以重新拍摄或手动修改后重算。\n重新拍照\n手动纠错\n标记不准\n→\n替代推荐\n先确认\n如果你或家人过敏，先找无对应致敏提示的同类，再比较糖、钠和添加剂。\n控糖筛选\n先找糖≤5g/100ml（固体≤8g/100g）、碳水≤8g/100ml，且白砂糖/糖浆不在配料前三位。\n再拍一款\n拍第二款同类后，会直接比较糖、碳水、甜味剂和糖浆位置，给出更适合控糖的一款。\ni\n依据来源\n我的关注项\n关注项保存在本机，用于排序和提示，不作为医疗或营养建议。\n包装实拍标签\n结果基于本次拍到的包装标签文字生成，请结合实物包装核对。\n历史缓存\n本机已确认信息用于补全同一商品标签线索。\nAI\n比直接问 AI 省事的地方\n包装实拍\n结论绑定本次标签文字、配料表、营养表和致敏提示。\n按关注项\n按控糖判断，风险按当前画像重排。\n同类对比\n已有同类报告，可直接查看两款差异。\n拍第二款对比\n查看避雷\n查看避雷\n改为保存\n撤销避雷\n回首页\n反馈",
+      "url": "http://127.0.0.1:5210/#/pages/report/index?id=label-report-20260627T022233116Z-69e59eef-eb0f-43dd-926a-5153b9842cf2"
+    },
+    {
+      "taskId": "task-7",
+      "name": "history-home",
+      "text": "成分镜\n看食品标签，判断该不该买\n优先拍配料表、营养表或条码；结论会标出依据和信息不足。\n拍哪里\n配料 / 营养 / 条码\n先看结论\n买 / 谨慎 / 不建议\n缺信息\n直接提示补拍\n拍照识别\n示例结果，不是你的报告\n来源\n包装实拍\n结论\n控糖慎买\n依据\n糖10.8g/100ml\n关注项\n控糖\n已保存\n0 保存 / 1 避雷\n快速切换关注\n日常\n控糖\n儿童\n低钠\n过敏\n最近判断\n可补拍、查看或对比\n最近\n保存\n避雷\n点开记录可复查依据、继续补拍或再做对比；保存和避雷分开归档。\n原味酸奶\n过敏 · 不再买：谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n已避雷\n橙味饮料\n控糖/儿童 · 不建议｜糖10.8g / 碳水11.2g / 钠36mg\n不建议\n原味酸奶\n过敏 · 谨慎｜糖4.8g / 碳水4.8g / 钠55mg\n谨慎",
+      "url": "http://127.0.0.1:5210/#/"
+    }
+  ],
+  "catalog": {
+    "schemaVersion": "product-review-public-sample-catalog-v2",
+    "round": 29,
+    "sampleCount": 9,
+    "samplesUsed": [
+      "sample-01",
+      "sample-02",
+      "sample-04"
+    ]
+  }
+}

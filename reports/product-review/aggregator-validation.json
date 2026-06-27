@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "product-review-aggregator-validation-v1",
+  "generatedAt": "2026-06-26T09:59:30.707Z",
+  "round": 91,
+  "passed": true,
+  "tempRoot": "/tmp/compcheck-product-review-aggregator-NcZ2Ik",
+  "reportPath": "/home/downloads/git/compcheck/reports/product-review/aggregator-validation.json",
+  "assertions": [
+    {
+      "message": "aggregator exited with 0",
+      "passed": true
+    },
+    {
+      "message": "aggregation marks rawOnly=true",
+      "passed": true
+    },
+    {
+      "message": "exactly twelve completed raw user sessions are counted",
+      "passed": true
+    },
+    {
+      "message": "exactly twelve sessions are normalized",
+      "passed": true
+    },
+    {
+      "message": "sessions are exactly raw/codex and raw/deepseek round files",
+      "passed": true
+    },
+    {
+      "message": "every normalized session path is current-round raw codex/deepseek",
+      "passed": true
+    },
+    {
+      "message": "environment smoke, summaries, and legacy raw folders are excluded",
+      "passed": true
+    },
+    {
+      "message": "Codex provider count is 6",
+      "passed": true
+    },
+    {
+      "message": "DeepSeek provider count is 6",
+      "passed": true
+    },
+    {
+      "message": "DeepSeek provider metrics ignore single-session summary and count six raw sessions",
+      "passed": true
+    },
+    {
+      "message": "one schema-deviation session is recorded",
+      "passed": true
+    },
+    {
+      "message": "Codex schema deviation is attributed to Codex",
+      "passed": true
+    },
+    {
+      "message": "DeepSeek strict session has no schema deviation",
+      "passed": true
+    },
+    {
+      "message": "top-level schemaDeviationSessions lists the Codex drift",
+      "passed": true
+    },
+    {
+      "message": "schema deviation source remains the raw Codex session",
+      "passed": true
+    },
+    {
+      "message": "Codex task schema drift is recorded",
+      "passed": true
+    },
+    {
+      "message": "issue cluster evidence only references raw user sessions",
+      "passed": true
+    },
+    {
+      "message": "failed sessions preserve only current-round raw review paths",
+      "passed": true
+    }
+  ],
+  "output": {
+    "status": 0,
+    "stdout": "Product review aggregation written: /tmp/compcheck-product-review-aggregator-NcZ2Ik/reports/product-review/round-91/aggregation.json\nTop fix queue written: /tmp/compcheck-product-review-aggregator-NcZ2Ik/reports/product-review/round-91/top-fix-queue.json",
+    "stderr": "",
+    "aggregationPath": "/tmp/compcheck-product-review-aggregator-NcZ2Ik/reports/product-review/round-91/aggregation.json",
+    "topFixQueuePath": "/tmp/compcheck-product-review-aggregator-NcZ2Ik/reports/product-review/round-91/top-fix-queue.json"
+  },
+  "error": null
+}

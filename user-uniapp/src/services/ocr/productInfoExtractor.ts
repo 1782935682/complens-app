@@ -42,8 +42,12 @@ function pickLikelyProductName(classification: OcrSectionClassification): string
     .filter((section) => section.category === 'product')
     .flatMap((section) => section.lines)
     .map((line) => cleanProductName(line.text))
-    .find((line) => line && !blockedProductLinePattern.test(line));
-  return candidate || '';
+    .find(isStructuredProductNameLine);
+  if (candidate) return candidate;
+
+  return splitProductCandidateLines(classification.layout.rawText)
+    .map(cleanProductName)
+    .find(isLooseProductNameLine) || '';
 }
 
 function extractLabeledValue(text: string, pattern: RegExp): string {
@@ -56,8 +60,32 @@ function cleanProductName(value: string): string {
     .normalize('NFKC')
     .replace(/^\s*(?:品\s*名|产品名称|商品名称|食品名称|品牌|商标|规格|净含量|净重)\s*[:：]?\s*/i, '')
     .replace(/[，,、;；\s]+$/g, '')
-    .trim()
-    .slice(0, 40);
+    .trim();
+}
+
+function splitProductCandidateLines(value: string): string[] {
+  return String(value || '')
+    .normalize('NFKC')
+    .split(/\r?\n|[\u2028\u2029]/)
+    .map((line) => line.replace(/\s+/g, ' ').trim())
+    .filter(Boolean)
+    .slice(0, 4);
+}
+
+function isLooseProductNameLine(value: string): boolean {
+  const text = cleanProductName(value);
+  if (text.length < 3 || text.length > 40) return false;
+  if (blockedProductLinePattern.test(text)) return false;
+  if (/^(?:高纤维|低负担|低糖|少糖|无糖|零糖|0糖|高蛋白|低脂|低钠|无添加)$/i.test(text)) return false;
+  return looseProductNamePattern.test(text);
+}
+
+function isStructuredProductNameLine(value: string): boolean {
+  const text = cleanProductName(value);
+  if (text.length < 2 || text.length > 60) return false;
+  if (blockedProductLinePattern.test(text)) return false;
+  if (/^(?:高纤维|低负担|低糖|少糖|无糖|零糖|0糖|高蛋白|低脂|低钠|无添加)$/i.test(text)) return false;
+  return true;
 }
 
 function isClassification(input: unknown): input is OcrSectionClassification {
@@ -65,3 +93,4 @@ function isClassification(input: unknown): input is OcrSectionClassification {
 }
 
 const blockedProductLinePattern = /配料|营养成分|能量|蛋白质|脂肪|碳水|钠|生产日期|保质期|贮存|储存|地址|电话|执行标准|食品生产许可证|条码|二维码/i;
+const looseProductNamePattern = /饮料|饮品|酸奶|牛奶|乳酸菌|奶昔|果汁|茶|咖啡|谷物|能量棒|饼干|蛋糕|面包|麦片|燕麦|坚果|零食|薯片|巧克力|糖果|酱|调味|beverage|drink|yogurt|milk|juice|tea|coffee|bar|cookie|biscuit|cake|bread|cereal|snack/i;

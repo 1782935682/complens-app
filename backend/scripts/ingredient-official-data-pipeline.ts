@@ -1408,7 +1408,8 @@ async function extractSourceText(source: SourceManifestItem) {
   let stdout = '';
   try {
     const result = await execFileAsync('pdftotext', ['-layout', inputPath, '-'], {
-      maxBuffer: 1024 * 1024 * 80
+      maxBuffer: 1024 * 1024 * 80,
+      timeout: 10_000
     });
     stdout = result.stdout;
   } catch (error) {

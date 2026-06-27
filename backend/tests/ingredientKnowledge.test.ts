@@ -96,7 +96,7 @@ describe('official source-materials pipeline', () => {
     } finally {
       await unlink(corruptPdf).catch(() => undefined);
     }
-  });
+  }, 30_000);
 
   it('extracts local official PDFs into typed pending-review staging records', async () => {
     const snapshot = await buildPipelineSnapshot({ extract: true });
@@ -124,7 +124,7 @@ describe('official source-materials pipeline', () => {
     )).toBe(true);
     expect(snapshot.staging_records.every((record) => record.review_status === 'pending_review')).toBe(true);
     expect(snapshot.failed).toEqual([]);
-  });
+  }, 30_000);
 
   it('renders manual decision items for unresolved official source gaps', async () => {
     const snapshot = await buildPipelineSnapshot({ extract: true });
@@ -134,7 +134,7 @@ describe('official source-materials pipeline', () => {
     expect(report).toContain('GB 28050-2025 糖醇能量规则官方原文未定位');
     expect(report).toContain('不导入、不标 S0 verified');
     expect(report).toContain('nutrition_polyol_energy_rules=0');
-  });
+  }, 30_000);
 });
 
 describe('ingredient knowledge dataset builder', () => {

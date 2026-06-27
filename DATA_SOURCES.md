@@ -18,7 +18,7 @@
 
 ## 归一数据来源类型
 
-为避免 API、前端展示和后台审核使用不同词，来源类型统一按 [`docs/product-blueprint/DATA_TRUST_SPEC.md`](./docs/product-blueprint/DATA_TRUST_SPEC.md) 归一：
+为避免 API、前端展示和后台审核使用不同词，来源类型按 [`docs/decision-system.md`](./docs/decision-system.md) 的购买决策边界归一：
 
 | 归一来源类型 | 当前代码/数据映射 | 展示边界 |
 |---|---|---|
@@ -92,9 +92,9 @@ GB 2760 官方 PDF
 为后续把官方文档持续导入数据库，已新增三层 GB 2760 官方数据：
 
 - 导入审计层：后端表 `source_documents` 保存 GB2760 官方 PDF 文档登记（标准号、标题、平台记录 ID、附件 ID、PDF 文件名和 SHA-256）；`import_runs` 保存 `db:seed` 写入的 `a1_staging`、`fulltext`、`reference_tables` 批次、行数和状态；`import_errors` 保存失败批次的错误明细。该层只记录导入过程，不代表人工法规审核完成。
-- PDF 全文转换层：`src/data/gb2760OfficialFullText.js` 保存官方 PDF 全 264 页的 `pdftotext -layout` 逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段；后端表 `gb2760_official_pages` 可将全文页入库，确保不是只保存本地 PDF 文件。
-- 表 A.1 行级 staging 层：`src/data/gb2760OfficialStaging.js`、`src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取源文件保持 `needs_review`，后端入库统一为 `pending_review`，不得直接当作正式 `usageLimits`。`db:seed` 只会在行级法规字段指纹完全一致时保留 DB 中已有的 `mapped_candidate` / `approved` / `promoted` 人工状态、`ingredientId` 和签核审计字段；若限量、食品类别、备注、原文证据、页码或 PDF 来源等字段变化，必须重新回到待复核。
-- 官方参考表结构化层：`src/data/gb2760OfficialReferenceTables.js` 和后端表 `gb2760_official_reference_rows` 保存表 A.2、B.1、B.2、B.3、C.1、C.2、C.3、附录 D、E.1 和附录 F 等非限量参考表；当前已结构化 2800 行，B.1 脚注 a 的香料例外和剂量条件已结构化到 `rowData.footnote`，用于解释 A.1 例外范围、食品用香料边界、加工助剂、功能类别、食品分类系统和附录 A 索引；源文件待复核行入库时统一为 `pending_review`。
+- PDF 全文转换层：`backend/src/data/gb2760OfficialFullText.js` 保存官方 PDF 全 264 页的 `pdftotext -layout` 逐页文本、页文本 SHA-256、PDF SHA-256 和官方平台来源字段；后端表 `gb2760_official_pages` 可将全文页入库，确保不是只保存本地 PDF 文件。
+- 表 A.1 行级 staging 层：`backend/src/data/gb2760OfficialStaging.js`、`backend/src/data/gb2760OfficialGeneratedA1Staging.js` 和后端表 `gb2760_official_records` 保存已经拆出的“添加剂 × 食品类别 × 限量/备注”结构化行；自动抽取源文件保持 `needs_review`，后端入库统一为 `pending_review`，不得直接当作正式 `usageLimits`。`db:seed` 只会在行级法规字段指纹完全一致时保留 DB 中已有的 `mapped_candidate` / `approved` / `promoted` 人工状态、`ingredientId` 和签核审计字段；若限量、食品类别、备注、原文证据、页码或 PDF 来源等字段变化，必须重新回到待复核。
+- 官方参考表结构化层：`backend/src/data/gb2760OfficialReferenceTables.js` 和后端表 `gb2760_official_reference_rows` 保存表 A.2、B.1、B.2、B.3、C.1、C.2、C.3、附录 D、E.1 和附录 F 等非限量参考表；当前已结构化 2800 行，B.1 脚注 a 的香料例外和剂量条件已结构化到 `rowData.footnote`，用于解释 A.1 例外范围、食品用香料边界、加工助剂、功能类别、食品分类系统和附录 A 索引；源文件待复核行入库时统一为 `pending_review`。
 - 正式使用规则层：后端表 `additive_usage_rules` 已存在，作为人工签核后 promote 的正式“添加剂 × 食品类别 × 限量”目标表；成功 promote 会同步更新对应 `ingredients` 行的 GB2760 法规状态、来源和 `usageLimits`，让既有成分详情 / 搜索 API 可见。当前 2391 行，覆盖 303 个 ingredient 的 A.1 使用规则。
 - 数据准入校验层：`npm run validate:gb2760` 已存在，读取后端 DB 并校验正式规则表、DB staging 状态、JECFA-only 边界、最新导入批次和 `import_errors`。该命令校验 DB 口径；源文件抽取质量仍由 `npm run validate:data` 覆盖。
 

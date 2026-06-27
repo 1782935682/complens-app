@@ -40,6 +40,30 @@ export async function chooseLabelImage(sourceType: 'camera' | 'album'): Promise<
   };
 }
 
+export async function createLocalImageAssetFromFile(file: File): Promise<LocalImageAsset> {
+  if (!file) throw new Error('image_not_selected');
+  if (!isSupportedBrowserImageFile(file)) throw new Error('unsupported_image_file');
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const dimensions = await readBrowserImageDimensions(objectUrl);
+    if (!dimensions.width || !dimensions.height) throw new Error('image_decode_failed');
+    return {
+      id: createImageId(),
+      tempFilePath: objectUrl,
+      name: file.name || 'label-image',
+      mimeType: file.type || inferMimeType(file.name || objectUrl),
+      size: file.size || 0,
+      width: dimensions.width,
+      height: dimensions.height,
+      file,
+      storage: 'h5-file'
+    };
+  } catch (error) {
+    URL.revokeObjectURL(objectUrl);
+    throw error;
+  }
+}
+
 export interface ScannedProductCode {
   rawValue: string;
   format: string;
@@ -91,6 +115,26 @@ function inferMimeType(path: string, file?: UniTempImageFile): string {
   if (lower.endsWith('.png')) return 'image/png';
   if (lower.endsWith('.webp')) return 'image/webp';
   return 'image/jpeg';
+}
+
+function readBrowserImageDimensions(path: string): Promise<{ width?: number; height?: number }> {
+  if (typeof Image === 'undefined') return Promise.resolve({});
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve({
+      width: Number(image.naturalWidth) || undefined,
+      height: Number(image.naturalHeight) || undefined
+    });
+    image.onerror = () => reject(new Error('image_decode_failed'));
+    image.src = path;
+  });
+}
+
+function isSupportedBrowserImageFile(file: File): boolean {
+  const mimeType = String(file.type || '').toLowerCase();
+  if (mimeType.startsWith('image/')) return true;
+  const name = String(file.name || '').toLowerCase();
+  return /\.(?:jpg|jpeg|png|webp|bmp|gif)$/u.test(name);
 }
 
 function inferStorage(file: File | undefined, nextPath: string, originalPath: string): LocalImageAsset['storage'] {

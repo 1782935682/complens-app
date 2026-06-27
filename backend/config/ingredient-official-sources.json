@@ -19,8 +19,8 @@
     "fileGuid": "43C9B75E-3D84-4577-80FC-0F7D77D36407",
     "factName": "1747898473246.pdf",
     "localDerivedModules": [
-      "../../src/data/gb2760OfficialStaging.js",
-      "../../src/data/gb2760OfficialReferenceTables.js"
+      "../src/data/gb2760OfficialStaging.js",
+      "../src/data/gb2760OfficialReferenceTables.js"
     ]
   }
 ]

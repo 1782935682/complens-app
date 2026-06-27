@@ -84,6 +84,7 @@ const ocrCategoryRules = [
 
 const attention = {
   primaryGoal: 'daily',
+  targetGoals: [],
   isChildrenMode: false,
   allergens: [],
   updatedAt: '2026-06-21T00:00:00.000+08:00'
@@ -200,10 +201,12 @@ async function loadModules(viteServer) {
   const evaluation = await viteServer.ssrLoadModule('/src/services/ocr/ocrEvaluationService.ts');
   const ocrAdapter = await viteServer.ssrLoadModule('/src/utils/ocrAdapter.ts');
   const localAnalysis = await viteServer.ssrLoadModule('/src/utils/localLabelAnalysis.ts');
+  const labelTextExtractor = await viteServer.ssrLoadModule('/src/utils/labelTextExtractor.ts');
   return {
     ...evaluation,
     normalizeOcrResult: ocrAdapter.normalizeOcrResult,
-    buildLocalLabelAnalysis: localAnalysis.buildLocalLabelAnalysis
+    buildLocalLabelAnalysis: localAnalysis.buildLocalLabelAnalysis,
+    filterIngredientTextForReport: labelTextExtractor.filterIngredientTextForReport
   };
 }
 
@@ -935,6 +938,7 @@ async function hashFile(path) {
 }
 
 function buildReportSummary(modules, sample, actualPayload, blocks, imageSize) {
+  const ingredientFilter = modules.filterIngredientTextForReport(actualPayload.actual.ingredientsText);
   const ocrResult = {
     mode: 'real',
     text: actualPayload.classification.layout.rawText,
@@ -945,10 +949,14 @@ function buildReportSummary(modules, sample, actualPayload, blocks, imageSize) {
   };
   const analysis = modules.buildLocalLabelAnalysis({
     productName: actualPayload.actual.productName || sample.expected.productName,
-    ingredientText: actualPayload.actual.ingredientsText,
+    ingredientText: ingredientFilter.text,
     nutritionText: actualPayload.actual.nutritionText,
     frontClaimsText: actualPayload.actual.otherText.join('\n'),
-    unconfirmedText: actualPayload.classification.uncertainText,
+    unconfirmedText: [
+      ...actualPayload.classification.uncertainText,
+      ...ingredientFilter.ignored
+    ],
+    qualityWarnings: ingredientFilter.qualityWarnings,
     confidence: actualPayload.classification.confidence,
     attention,
     sourceType: 'ocr',

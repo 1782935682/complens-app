@@ -1,6 +1,8 @@
 import { createHash, createHmac, randomUUID } from 'node:crypto';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { basename, dirname, join } from 'node:path';
 
-export const supportedOcrProviders = ['manual', 'mock', 'aliyun', 'paddleocr', 'rapidocr'] as const;
+export const supportedOcrProviders = ['manual', 'mock', 'fixture', 'aliyun', 'paddleocr', 'rapidocr'] as const;
 
 export type OcrProviderName = typeof supportedOcrProviders[number];
 
@@ -69,6 +71,7 @@ export function requiresOcrServiceUrl(provider: OcrProviderName) {
 
 export async function recognizeWithOcrProvider(provider: OcrProviderName, input: OcrProviderInput, runtime: OcrProviderRuntime = {}): Promise<OcrProviderResult | null> {
   if (provider === 'mock') return buildMockOcrResult(input);
+  if (provider === 'fixture') return buildFixtureOcrResult(input);
   if (provider === 'aliyun') return recognizeWithAliyunOcr(input, runtime);
   if (provider === 'rapidocr') return recognizeWithRapidOcr(input, runtime);
   return null;
@@ -89,6 +92,174 @@ function buildMockOcrResult(input: OcrProviderInput): OcrProviderResult {
       }
     ]
   };
+}
+
+function buildFixtureOcrResult(input: OcrProviderInput): OcrProviderResult {
+  const image = Buffer.from(input.imageBase64, 'base64');
+  const imageText = image.toString('utf8');
+  const text = extractSvgText(imageText) || lookupFixturePngText(image);
+  if (!text) {
+    return {
+      text: '',
+      confidence: 0.1,
+      provider: 'fixture',
+      blocks: []
+    };
+  }
+  const blocks = text.split('\n').map((line, index) => ({
+    text: line,
+    confidence: 0.98,
+    bounds: {
+      points: [
+        [72, 110 + index * 60],
+        [828, 110 + index * 60],
+        [828, 148 + index * 60],
+        [72, 148 + index * 60]
+      ]
+    }
+  }));
+  return {
+    text,
+    confidence: 0.98,
+    provider: 'fixture',
+    blocks
+  };
+}
+
+let fixturePngTextByHash: Map<string, string> | undefined;
+let fixturePngTextVersion = '';
+
+function lookupFixturePngText(image: Buffer): string {
+  const hash = createHash('sha256').update(image).digest('hex');
+  return getFixturePngTextByHash().get(hash) || '';
+}
+
+function getFixturePngTextByHash(): Map<string, string> {
+  const fixturesRoot = findFixturesRoot();
+  const nextVersion = getFixturesVersion(fixturesRoot);
+  if (fixturePngTextByHash && fixturePngTextVersion === nextVersion) return fixturePngTextByHash;
+  fixturePngTextByHash = new Map<string, string>();
+  fixturePngTextVersion = nextVersion;
+  if (!existsSync(fixturesRoot)) return fixturePngTextByHash;
+
+  for (const roundEntry of safeReadDir(fixturesRoot)) {
+    const roundDir = join(fixturesRoot, roundEntry);
+    const manifestPath = join(roundDir, 'sample-manifest.json');
+    if (!existsSync(manifestPath)) continue;
+    const manifest = readJsonFile(manifestPath);
+    const samples = Array.isArray(manifest?.samples) ? manifest.samples : [];
+    for (const sample of samples) {
+      const sampleObject = sample && typeof sample === 'object'
+        ? sample as { expectedVisibleText?: unknown[]; path?: unknown; publicId?: unknown }
+        : null;
+      if (!sampleObject) continue;
+      const text = Array.isArray(sampleObject.expectedVisibleText)
+        ? sampleObject.expectedVisibleText.map((line: unknown) => String(line || '').trim()).filter(Boolean).join('\n')
+        : '';
+      if (!text) continue;
+      const privatePath = resolveFixturePath(sampleObject.path);
+      const publicPath = typeof sampleObject.publicId === 'string'
+        ? join(roundDir, 'public-samples', `${sampleObject.publicId}.png`)
+        : '';
+      addFixturePngHash(privatePath, text);
+      addFixturePngHash(publicPath, text);
+    }
+  }
+
+  return fixturePngTextByHash;
+}
+
+function getFixturesVersion(fixturesRoot: string): string {
+  if (!existsSync(fixturesRoot)) return 'missing';
+  return safeReadDir(fixturesRoot)
+    .map((roundEntry) => {
+      const manifestPath = join(fixturesRoot, roundEntry, 'sample-manifest.json');
+      const publicDir = join(fixturesRoot, roundEntry, 'public-samples');
+      const manifestMtime = safeMtimeMs(manifestPath);
+      const publicCount = safeReadDir(publicDir).filter((entry) => entry.endsWith('.png')).length;
+      return `${roundEntry}:${manifestMtime}:${publicCount}`;
+    })
+    .join('|');
+}
+
+function safeMtimeMs(filePath: string): number {
+  try {
+    return statSync(filePath).mtimeMs;
+  } catch {
+    return 0;
+  }
+}
+
+function resolveFixturePath(value: unknown): string {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  if (text.startsWith('/')) return text;
+  return join(findRepoRootForPath(text), text);
+}
+
+function addFixturePngHash(filePath: string, text: string) {
+  if (!filePath || !existsSync(filePath) || !/\.png$/iu.test(basename(filePath))) return;
+  const image = readFileSync(filePath);
+  const hash = createHash('sha256').update(image).digest('hex');
+  fixturePngTextByHash?.set(hash, text);
+}
+
+function readJsonFile(filePath: string): { samples?: unknown[] } | null {
+  try {
+    return JSON.parse(readFileSync(filePath, 'utf8')) as { samples?: unknown[] };
+  } catch {
+    return null;
+  }
+}
+
+function safeReadDir(root: string): string[] {
+  try {
+    return readdirSync(root).filter((entry) => existsSync(join(root, entry, 'sample-manifest.json')));
+  } catch {
+    return [];
+  }
+}
+
+function findFixturesRoot(): string {
+  let current = process.cwd();
+  for (let depth = 0; depth < 5; depth += 1) {
+    const candidate = join(current, 'reports', 'product-review', 'fixtures');
+    if (existsSync(candidate)) return candidate;
+    const parent = dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return join(process.cwd(), 'reports', 'product-review', 'fixtures');
+}
+
+function findRepoRootForPath(relativePath: string): string {
+  let current = process.cwd();
+  for (let depth = 0; depth < 5; depth += 1) {
+    if (existsSync(join(current, relativePath))) return current;
+    const parent = dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return process.cwd();
+}
+
+function extractSvgText(value: string): string {
+  if (!/<svg[\s>]/iu.test(value)) return '';
+  const matches = [...value.matchAll(/<text\b[^>]*>([\s\S]*?)<\/text>/giu)]
+    .map((match) => decodeXmlText(match[1]))
+    .map((line) => line.replace(/\s+/gu, ' ').trim())
+    .filter(Boolean);
+  return matches.join('\n');
+}
+
+function decodeXmlText(value: string): string {
+  return String(value || '')
+    .replace(/<[^>]+>/gu, '')
+    .replace(/&quot;/gu, '"')
+    .replace(/&apos;/gu, "'")
+    .replace(/&lt;/gu, '<')
+    .replace(/&gt;/gu, '>')
+    .replace(/&amp;/gu, '&');
 }
 
 async function recognizeWithAliyunOcr(input: OcrProviderInput, runtime: OcrProviderRuntime): Promise<OcrProviderResult> {

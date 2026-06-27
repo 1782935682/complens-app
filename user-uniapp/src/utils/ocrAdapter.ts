@@ -12,7 +12,14 @@ export type OcrTextBlock = {
 export type NormalizedOcrResult = {
   blocks: OcrTextBlock[];
   rawText: string;
-  source: 'wechat' | 'external' | 'mock' | 'manual' | 'unknown';
+  source: 'wechat' | 'external' | 'fixture' | 'mock' | 'manual' | 'unknown';
+};
+
+export type OcrEvidenceSourceLine = {
+  lineNumber: number;
+  text: string;
+  matchedTerm: string;
+  found: boolean;
 };
 
 type OcrLikeInput = Partial<OcrResult> & {
@@ -48,6 +55,77 @@ export function normalizeOcrResult(input: OcrLikeInput | string | undefined, pre
 
 export function normalizeManualText(text: string): NormalizedOcrResult {
   return normalizeFromText(text, 'manual');
+}
+
+export function normalizeOcrEvidenceText(value: unknown): string {
+  return normalizeText(value)
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/\n{3,}/g, '\n\n');
+}
+
+export function extractOcrTextSnippet(rawText: string, terms: string[], maxLength = 120): string {
+  const text = normalizeOcrEvidenceText(rawText).replace(/\s+/g, ' ');
+  if (!text) return '';
+  const candidates = terms
+    .map((term) => normalizeText(term))
+    .filter((term) => term.length >= 2)
+    .sort((left, right) => right.length - left.length);
+  const lowerText = text.toLowerCase();
+  const matchedTerm = candidates.find((term) => lowerText.includes(term.toLowerCase()));
+  if (!matchedTerm) return clipText(text, maxLength);
+
+  const index = lowerText.indexOf(matchedTerm.toLowerCase());
+  const sideLength = Math.max(20, Math.floor((maxLength - matchedTerm.length) / 2));
+  const start = Math.max(0, index - sideLength);
+  const end = Math.min(text.length, index + matchedTerm.length + sideLength);
+  const prefix = start > 0 ? '...' : '';
+  const suffix = end < text.length ? '...' : '';
+  return `${prefix}${text.slice(start, end)}${suffix}`;
+}
+
+export function extractOcrSourceLine(rawText: string, terms: string[]): OcrEvidenceSourceLine {
+  const lines = splitOcrEvidenceLines(rawText);
+  if (!lines.length) return { lineNumber: 0, text: '', matchedTerm: '', found: false };
+
+  const candidates = terms
+    .map((term) => normalizeText(term))
+    .filter((term) => term.length >= 2)
+    .sort((left, right) => right.length - left.length);
+  const matched = candidates.length
+    ? lines
+      .map((line) => ({
+        line,
+        matchedTerm: candidates.find((term) => line.text.toLowerCase().includes(term.toLowerCase())) || ''
+      }))
+      .find((item) => item.matchedTerm)
+    : undefined;
+
+  if (matched) {
+    return {
+      lineNumber: matched.line.lineNumber,
+      text: matched.line.text,
+      matchedTerm: matched.matchedTerm,
+      found: true
+    };
+  }
+
+  return {
+    lineNumber: lines[0].lineNumber,
+    text: lines[0].text,
+    matchedTerm: '',
+    found: false
+  };
+}
+
+export function splitOcrEvidenceLines(value: unknown): Array<{ lineNumber: number; text: string }> {
+  return normalizeOcrEvidenceText(value)
+    .split(/\r?\n|[\u2028\u2029]/)
+    .map((line, index) => ({
+      lineNumber: index + 1,
+      text: normalizeText(line)
+    }))
+    .filter((line) => line.text);
 }
 
 function normalizeFromText(text: string, source: NormalizedOcrResult['source']): NormalizedOcrResult {
@@ -149,6 +227,7 @@ function inferSource(input: OcrLikeInput | undefined): NormalizedOcrResult['sour
   if (!input) return 'unknown';
   if (input.mode === 'manual' || input.provider === 'manual') return 'manual';
   if (input.mode === 'mock' || input.provider === 'mock') return 'mock';
+  if (input.provider === 'fixture') return 'fixture';
   if (input.provider === 'aliyun' || input.provider === 'paddleocr' || input.provider === 'rapidocr') return 'external';
   return 'unknown';
 }
@@ -159,6 +238,12 @@ function normalizeText(value: unknown): string {
     .replace(/\r\n/g, '\n')
     .replace(/[ \t]+/g, ' ')
     .trim();
+}
+
+function clipText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  if (maxLength <= 3) return text.slice(0, maxLength);
+  return `${text.slice(0, maxLength - 3)}...`;
 }
 
 function toOptionalNumber(value: unknown): number | undefined {

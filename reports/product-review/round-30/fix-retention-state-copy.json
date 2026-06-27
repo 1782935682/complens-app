@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "product-review-browser-retention-smoke-v1",
+  "generatedAt": "2026-06-27T02:32:00.084Z",
+  "url": "http://127.0.0.1:5210/",
+  "sample": "reports/product-review/fixtures/round-29/samples/clear-ingredients-orange-drink.png",
+  "finalRoute": "http://127.0.0.1:5210/#/",
+  "bodyText": "成分镜 看食品标签，判断该不该买 优先拍配料表、营养表或条码；结论会标出依据和信息不足。 拍哪里 配料 / 营养 / 条码 先看结论 买 / 谨慎 / 不建议 缺信息 直接提示补拍 拍照识别 示例结果，不是你的报告 来源 包装实拍 结论 控糖慎买 依据 糖10.8g/100ml 关注项 默认关注 已保存 0 保存 / 1 避雷 快速切换关注 日常 控糖 儿童 低钠 过敏 避雷记录 不建议商品集中查看 最近 保存 避雷 点开避雷可复查不买原因；改为保存会移出避雷。 橙味饮料 控糖/过敏 · 不再买：谨慎｜糖10.8g / 碳水11.2g / 钠36mg 已避雷",
+  "interactions": [
+    {
+      "action": "open-home",
+      "durationMs": 579,
+      "ok": true
+    },
+    {
+      "action": "click-primary",
+      "durationMs": 76,
+      "ok": true
+    },
+    {
+      "action": "upload-sample",
+      "durationMs": 51,
+      "ok": true
+    },
+    {
+      "action": "toggle-favorite",
+      "durationMs": 73,
+      "ok": true
+    },
+    {
+      "action": "back-home",
+      "durationMs": 558,
+      "ok": true
+    },
+    {
+      "action": "open-saved-filter",
+      "durationMs": 33,
+      "ok": true
+    }
+  ],
+  "consoleErrors": [],
+  "networkErrors": [],
+  "screenshots": [
+    "reports/product-review/screenshots/round-30/fix-retention-state-copy/01-home.png",
+    "reports/product-review/screenshots/round-30/fix-retention-state-copy/02-report.png",
+    "reports/product-review/screenshots/round-30/fix-retention-state-copy/03-saved-toast.png",
+    "reports/product-review/screenshots/round-30/fix-retention-state-copy/04-home-after-save.png",
+    "reports/product-review/screenshots/round-30/fix-retention-state-copy/05-saved-filter.png"
+  ],
+  "passed": true
+}

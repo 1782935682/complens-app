@@ -1,0 +1,3158 @@
+{
+  "schemaVersion": "product-review-issues-v2",
+  "generatedAt": "2026-06-26T16:14:11.360Z",
+  "currentRound": 27,
+  "note": "Round 1 through Round 27 failed/low-score issues are preserved. Round 27 failed; multiple local fixes are validated, and DeepSeek sugar task coverage is partially improved with compare value proof but remains open for Round 28 black-box re-review.",
+  "rounds": [
+    {
+      "round": 1,
+      "generatedAt": "2026-06-25T10:15:52.134Z",
+      "issues": [
+        {
+          "id": "R1-P0-001",
+          "severity": "P0",
+          "page": "识别/报告",
+          "title": "不同图片、无标签图片、模糊图片输出相同或高度相似的购买建议",
+          "userImpact": "用户无法相信产品真的读取了当前包装，可能基于错误结论购买食品。",
+          "evidence": [
+            "Codex 6/6 多角色确认",
+            "DeepSeek 多角色 issues 指向 front-only/blurry/no-label 也生成报告",
+            "screenshots/round-1"
+          ],
+          "suggestedDirection": "建立信息充分性和 OCR 可信度门槛；无法确认配料/营养表时禁止生成完整购买建议。"
+        },
+        {
+          "id": "R1-P0-002",
+          "severity": "P0",
+          "page": "信息不足/异常恢复",
+          "title": "只有包装正面、无配料表、坏图时没有明确阻断和补拍路径",
+          "userImpact": "过敏、控糖、儿童零食场景会得到虚假安全感。",
+          "evidence": [
+            "DeepSeek allergy-sensitive critical issue",
+            "Codex allergy/time-pressed/first-time reports"
+          ],
+          "suggestedDirection": "提供“信息不足”结果页或弹层，明确缺少配料表/营养表，并提供重拍、上传标签、手动输入。"
+        },
+        {
+          "id": "R1-P1-003",
+          "severity": "P1",
+          "page": "报告/接口降级",
+          "title": "/api/ingredients/batch-search 出现 500 后 UI 仍输出确定性风险结论",
+          "userImpact": "用户不知道报告处于降级或数据不完整状态，信任边界错误。",
+          "evidence": [
+            "浏览器控制台和网络错误",
+            "Codex 多角色记录 backend 500"
+          ],
+          "suggestedDirection": "后端修复接口；前端显示数据源状态，接口失败时降低结论强度并要求用户确认。"
+        },
+        {
+          "id": "R1-P1-004",
+          "severity": "P1",
+          "page": "A/B 对比",
+          "title": "高糖/低糖同类商品对比没有形成有用差异",
+          "userImpact": "控糖用户和怀疑产品价值用户看不到成分镜相对通用 AI 的核心价值。",
+          "evidence": [
+            "Codex sugar-control/generic-ai-skeptic",
+            "DeepSeek sugar-control issues"
+          ],
+          "suggestedDirection": "对比页必须基于糖、碳水、钠、过敏原、添加剂和用户画像展示差异与推荐理由。"
+        },
+        {
+          "id": "R1-P1-005",
+          "severity": "P1",
+          "page": "个性化/过敏",
+          "title": "过敏原风险没有在报告首屏作为最高优先级结论展示",
+          "userImpact": "食物过敏用户可能错过关键风险。",
+          "evidence": [
+            "Codex allergy-sensitive manual allergen scenario"
+          ],
+          "suggestedDirection": "过敏命中优先于一般添加剂/营养风险；显示命中词、来源字段、避免建议。"
+        },
+        {
+          "id": "R1-P2-006",
+          "severity": "P2",
+          "page": "首页/首次打开",
+          "title": "首屏知道可以拍照，但不知道应该拍配料表/营养表以及产品为什么更可信",
+          "userImpact": "首次用户容易拍错位置，怀疑产品只是普通 AI 拍照壳。",
+          "evidence": [
+            "Codex first-time/generic-ai-skeptic"
+          ],
+          "suggestedDirection": "首屏保留单一主操作，同时在操作附近用短文案说明拍包装标签、可追溯依据、个性化判断。"
+        },
+        {
+          "id": "R1-P2-007",
+          "severity": "P2",
+          "page": "收藏/避雷/历史",
+          "title": "留存能力入口不稳定，用户不清楚下次回来能做什么",
+          "userImpact": "收藏、避雷和历史无法形成复用价值。",
+          "evidence": [
+            "Codex retention tasks"
+          ],
+          "suggestedDirection": "首页加入最近识别、收藏、避雷和继续比较入口，并解释这些状态如何影响购买。"
+        },
+        {
+          "id": "R1-P2-008",
+          "severity": "P2",
+          "page": "评审基础设施",
+          "title": "Codex/DeepSeek 部分原始输出没有完全匹配统一 JSON schema",
+          "userImpact": "后续自动统计需要额外归一化，不能把 schema 偏差当通过。",
+          "evidence": [
+            "Codex task_results/object tasks",
+            "DeepSeek issues 字段存在但 bugs/topImprovements 多为空"
+          ],
+          "suggestedDirection": "下一轮评审运行器增加 schema normalization 和硬性校验，但不得修改评分门槛。"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "generatedAt": "2026-06-25T13:14:49.814Z",
+      "aggregation": "reports/product-review/round-2/aggregation.json",
+      "topFixQueue": "reports/product-review/round-2/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R2-P0-001",
+          "severity": "P0",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "userImpact": "影响 allergy-sensitive、first-time-consumer、generic-ai-skeptic、parent-child-snack、sugar-control、time-pressed-consumer 等角色完成黑盒任务；出现 23 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 upload_recognition_flow 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#upload_recognition_flow",
+            "topFixQueueRank: 1",
+            "providers: codex=22, deepseek=1"
+          ],
+          "suggestedDirection": "选择图片后必须自动进入识别和报告生成；上传失败、预览停滞和 422 需显示明确原因和恢复路径。",
+          "status": "fixed-locally-pending-round-3-blackbox-verification",
+          "clusterKey": "upload_recognition_flow"
+        },
+        {
+          "id": "R2-P0-002",
+          "severity": "P0",
+          "page": "其他问题",
+          "title": "其他问题",
+          "userImpact": "影响 first-time-consumer、generic-ai-skeptic、parent-child-snack、sugar-control、time-pressed-consumer、allergy-sensitive 等角色完成黑盒任务；出现 23 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 other 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#other",
+            "topFixQueueRank: 2",
+            "providers: codex=20, deepseek=3"
+          ],
+          "suggestedDirection": "补齐真实包装 OCR 质量和错误分类，至少让清晰样本产出可审核文字。",
+          "status": "open-pending-round-3-blackbox-verification",
+          "clusterKey": "other"
+        },
+        {
+          "id": "R2-P0-003",
+          "severity": "P0",
+          "page": "本地测试环境和服务稳定性",
+          "title": "本地测试环境和服务稳定性",
+          "userImpact": "影响 allergy-sensitive、generic-ai-skeptic、parent-child-snack、sugar-control、time-pressed-consumer 等角色完成黑盒任务；出现 16 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 runtime_stability 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#runtime_stability",
+            "topFixQueueRank: 3",
+            "providers: codex=13, deepseek=3"
+          ],
+          "suggestedDirection": "使用独立持久的 H5/API 测试环境，服务中断必须进入失败证据并在下一轮前修复。",
+          "status": "fixed-locally-pending-round-3-blackbox-verification",
+          "clusterKey": "runtime_stability"
+        },
+        {
+          "id": "R2-P0-004",
+          "severity": "P0",
+          "page": "信息充分性门槛和补拍路径",
+          "title": "信息充分性门槛和补拍路径",
+          "userImpact": "影响 allergy-sensitive、generic-ai-skeptic、parent-child-snack、sugar-control、time-pressed-consumer、first-time-consumer 等角色完成黑盒任务；出现 16 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 information_sufficiency_gate 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#information_sufficiency_gate",
+            "topFixQueueRank: 4",
+            "providers: codex=15, deepseek=1"
+          ],
+          "suggestedDirection": "报告生成前校验配料表/营养成分表、OCR 置信度和图片类型；信息不足时只输出补拍/手动补充路径。",
+          "status": "open-pending-round-3-blackbox-verification",
+          "clusterKey": "information_sufficiency_gate"
+        },
+        {
+          "id": "R2-P0-005",
+          "severity": "P0",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "userImpact": "影响 first-time-consumer、generic-ai-skeptic、parent-child-snack、sugar-control 等角色完成黑盒任务；出现 15 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 comparison_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#comparison_value",
+            "topFixQueueRank: 5",
+            "providers: codex=15"
+          ],
+          "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。",
+          "status": "fixed-locally-pending-round-3-blackbox-verification",
+          "clusterKey": "comparison_value"
+        },
+        {
+          "id": "R2-P0-006",
+          "severity": "P0",
+          "page": "过敏原首屏优先级",
+          "title": "过敏原首屏优先级",
+          "userImpact": "影响 allergy-sensitive、generic-ai-skeptic、parent-child-snack、sugar-control 等角色完成黑盒任务；出现 9 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 allergen_priority 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#allergen_priority",
+            "topFixQueueRank: 6",
+            "providers: codex=9"
+          ],
+          "suggestedDirection": "命中过敏/忌口词时，报告首屏第一风险必须显示命中词、来源字段和避免建议。",
+          "status": "open-pending-round-3-blackbox-verification",
+          "clusterKey": "allergen_priority"
+        },
+        {
+          "id": "R2-P1-007",
+          "severity": "P1",
+          "page": "后端接口失败和降级状态",
+          "title": "后端接口失败和降级状态",
+          "userImpact": "影响 first-time-consumer、sugar-control 等角色完成黑盒任务；出现 5 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 backend_degraded_state 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#backend_degraded_state",
+            "topFixQueueRank: 7",
+            "providers: codex=5"
+          ],
+          "suggestedDirection": "关键接口失败时保留本地结果但标记降级，不输出确定性风险结论，并把失败状态带到报告首屏和来源区。",
+          "status": "fixed-locally-pending-round-3-blackbox-verification",
+          "clusterKey": "backend_degraded_state"
+        },
+        {
+          "id": "R2-P1-008",
+          "severity": "P1",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "userImpact": "影响 first-time-consumer、parent-child-snack、sugar-control 等角色完成黑盒任务；出现 3 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 first_open_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#first_open_value",
+            "topFixQueueRank: 8",
+            "providers: codex=3"
+          ],
+          "suggestedDirection": "首屏保持单一主操作，同时说明应拍配料表/营养表/条码以及结果为何比通用拍照更可核对。",
+          "status": "fixed-locally-pending-round-3-blackbox-verification",
+          "clusterKey": "first_open_value"
+        },
+        {
+          "id": "R2-P2-009",
+          "severity": "P2",
+          "page": "收藏、避雷和历史留存",
+          "title": "收藏、避雷和历史留存",
+          "userImpact": "影响 sugar-control、time-pressed-consumer 等角色完成黑盒任务；出现 2 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 2 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比或画像操作。",
+            "查看 retention 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-2/aggregation.json#retention",
+            "topFixQueueRank: 9",
+            "providers: codex=2"
+          ],
+          "suggestedDirection": "首页提供最近报告、收藏和避雷入口，让用户能复用上次购买判断。",
+          "status": "open-pending-round-3-blackbox-verification",
+          "clusterKey": "retention"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "generatedAt": "2026-06-25T13:49:13.713Z",
+      "aggregation": "reports/product-review/round-3/aggregation.json",
+      "topFixQueue": "reports/product-review/round-3/top-fix-queue.json",
+      "providerMetrics": {
+        "codex": {
+          "sessions": 6,
+          "tasks": 48,
+          "coreTaskCompletionRate": 0.188,
+          "unassistedCompletionRate": 0.188,
+          "scoreAverages": {
+            "visualQuality": null,
+            "easeOfUse": null,
+            "decisionClarity": null,
+            "trust": null,
+            "comparisonValue": null,
+            "retentionValue": null,
+            "overallValue": null
+          },
+          "valueBeyondGenericAiCount": 0,
+          "wouldUseAgainCount": 0,
+          "schemaDeviationSessions": 6
+        },
+        "deepseek": {
+          "sessions": 6,
+          "tasks": 48,
+          "coreTaskCompletionRate": 0,
+          "unassistedCompletionRate": 0,
+          "scoreAverages": {
+            "visualQuality": 1,
+            "easeOfUse": 1,
+            "decisionClarity": 1,
+            "trust": 1,
+            "comparisonValue": 1,
+            "retentionValue": 1,
+            "overallValue": 1
+          },
+          "valueBeyondGenericAiCount": 0,
+          "wouldUseAgainCount": 0,
+          "schemaDeviationSessions": 0
+        }
+      },
+      "failedSessions": [
+        "reports/product-review/raw/codex/round-3/allergy-sensitive-compare-flow.tmp.json",
+        "reports/product-review/raw/codex/round-3/allergy-sensitive-favorite-flow.tmp.json",
+        "reports/product-review/raw/codex/round-3/allergy-sensitive-profile-flow.tmp.json",
+        "reports/product-review/raw/codex/round-3/allergy-sensitive-sample-scan.tmp.json",
+        "reports/product-review/raw/deepseek/round-3/summary.json#summary-not-user-session",
+        "round-3#h5-5182-static-server-session-ended-code-143",
+        "round-3#h5-5182-default-api-proxy-misconfigured",
+        "round-3#vite-dev-server-occupied-5182-without-product-review-proxy"
+      ],
+      "coverageGaps": [
+        "WeChat DevTools CLI not available in PATH; mp-weixin built but true mini-program interaction not verified.",
+        "Round 3 local black-box review uses fixture OCR for deterministic sample interaction; true camera and real OCR visual accuracy remain coverage gaps.",
+        "DeepSeek reviewMode remains text-black-box-interaction unless image input support is separately verified.",
+        "Some failed or invalid review attempts are preserved outside the completed session set."
+      ],
+      "issues": [
+        {
+          "id": "R3-P0-001",
+          "severity": "P0",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer、parent-child-snack、sugar-control、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 24 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 upload_recognition_flow 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#upload_recognition_flow",
+            "providers: codex=22, deepseek=2",
+            "personas: first-time-consumer, time-pressed-consumer, parent-child-snack, sugar-control, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "先修通 H5 上传样本的识别链路；结果页至少展示原图、识别原文和失败原因，避免所有样本都退化成同一个兜底结果。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "upload_recognition_flow"
+        },
+        {
+          "id": "R3-P0-002",
+          "severity": "P0",
+          "page": "信息充分性门槛和补拍路径",
+          "title": "信息充分性门槛和补拍路径",
+          "userImpact": "影响 first-time-consumer、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 7 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 information_sufficiency_gate 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#information_sufficiency_gate",
+            "providers: codex=7",
+            "personas: first-time-consumer, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "当任一商品缺少配料/营养证据时，阻止或降级对比，明确提示“需要先补充有效标签”。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "information_sufficiency_gate"
+        },
+        {
+          "id": "R3-P0-003",
+          "severity": "P0",
+          "page": "过敏原首屏优先级",
+          "title": "过敏原首屏优先级",
+          "userImpact": "影响 first-time-consumer、parent-child-snack、allergy-sensitive 等角色完成黑盒任务；出现 5 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 allergen_priority 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#allergen_priority",
+            "providers: codex=5",
+            "personas: first-time-consumer, parent-child-snack, allergy-sensitive"
+          ],
+          "suggestedDirection": "路由切换时同步更新 document title。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "allergen_priority"
+        },
+        {
+          "id": "R3-P1-004",
+          "severity": "P1",
+          "page": "其他问题",
+          "title": "其他问题",
+          "userImpact": "影响 time-pressed-consumer、sugar-control、parent-child-snack、allergy-sensitive 等角色完成黑盒任务；出现 11 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 other 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#other",
+            "providers: codex=2, deepseek=9",
+            "personas: time-pressed-consumer, sugar-control, parent-child-snack, allergy-sensitive"
+          ],
+          "suggestedDirection": "给已选目标增加持续可见的勾选/高亮状态，并使用可访问的按钮/复选控件语义。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "other"
+        },
+        {
+          "id": "R3-P1-005",
+          "severity": "P1",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "userImpact": "影响 time-pressed-consumer、sugar-control 等角色完成黑盒任务；出现 5 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 comparison_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#comparison_value",
+            "providers: codex=5",
+            "personas: time-pressed-consumer, sugar-control"
+          ],
+          "suggestedDirection": "在报告页提供“加入比较/对比上一款”主操作；首页提供历史/收藏入口，并将同类分数、糖、钠、添加剂数量并排呈现。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "comparison_value"
+        },
+        {
+          "id": "R3-P1-006",
+          "severity": "P1",
+          "page": "后端接口失败和降级状态",
+          "title": "后端接口失败和降级状态",
+          "userImpact": "影响 time-pressed-consumer 等角色完成黑盒任务；出现 1 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 backend_degraded_state 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#backend_degraded_state",
+            "providers: codex=1",
+            "personas: time-pressed-consumer"
+          ],
+          "suggestedDirection": "即使默认画像，也应把糖/糖浆/糖数字作为饮料类首要证据；“较低”阈值需按品类和单位校准，并说明判断基准。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "backend_degraded_state"
+        },
+        {
+          "id": "R3-P2-007",
+          "severity": "P2",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer 等角色完成黑盒任务；出现 2 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 first_open_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#first_open_value",
+            "providers: codex=2",
+            "personas: first-time-consumer, time-pressed-consumer"
+          ],
+          "suggestedDirection": "在首页或“我的”页加入最近识别、收藏建议、避雷清单入口，并在收藏后给出可回访位置。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "first_open_value"
+        },
+        {
+          "id": "R3-P2-008",
+          "severity": "P2",
+          "page": "本地测试环境和服务稳定性",
+          "title": "本地测试环境和服务稳定性",
+          "userImpact": "影响 generic-ai-skeptic 等角色完成黑盒任务；出现 1 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 3 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 runtime_stability 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-3/aggregation.json#runtime_stability",
+            "providers: codex=1",
+            "personas: generic-ai-skeptic"
+          ],
+          "suggestedDirection": "评审环境应保证 H5 服务稳定；产品侧可增加离线/服务不可用提示，避免用户只看到浏览器默认错误页。",
+          "status": "open-pending-round-4-blackbox-verification",
+          "clusterKey": "runtime_stability"
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "generatedAt": "2026-06-25T14:31:23.137Z",
+      "aggregation": "reports/product-review/round-4/aggregation.json",
+      "topFixQueue": "reports/product-review/round-4/top-fix-queue.json",
+      "providerMetrics": {
+        "codex": {
+          "sessions": 6,
+          "tasks": 48,
+          "coreTaskCompletionRate": 0.688,
+          "unassistedCompletionRate": 0.688,
+          "scoreAverages": {
+            "visualQuality": null,
+            "easeOfUse": null,
+            "decisionClarity": null,
+            "trust": 2.5,
+            "comparisonValue": null,
+            "retentionValue": null,
+            "overallValue": null
+          },
+          "valueBeyondGenericAiCount": 0,
+          "wouldUseAgainCount": 0,
+          "schemaDeviationSessions": 0
+        },
+        "deepseek": {
+          "sessions": 6,
+          "tasks": 48,
+          "coreTaskCompletionRate": 0,
+          "unassistedCompletionRate": 0,
+          "scoreAverages": {
+            "visualQuality": 1,
+            "easeOfUse": 1,
+            "decisionClarity": 1,
+            "trust": 1,
+            "comparisonValue": 1,
+            "retentionValue": 1,
+            "overallValue": 1
+          },
+          "valueBeyondGenericAiCount": 0,
+          "wouldUseAgainCount": 0,
+          "schemaDeviationSessions": 0
+        }
+      },
+      "failedSessions": [
+        "reports/product-review/raw/deepseek/round-4/summary.json#summary-not-user-session"
+      ],
+      "coverageGaps": [
+        "WeChat DevTools CLI not available in PATH; mp-weixin built but true mini-program interaction not verified.",
+        "Round 4 local black-box review uses fixture OCR for deterministic sample interaction; true camera and real OCR visual accuracy remain coverage gaps until separately verified.",
+        "DeepSeek reviewMode remains text-black-box-interaction unless image input support is separately verified.",
+        "Some failed or invalid review attempts are preserved outside the completed session set."
+      ],
+      "issues": [
+        {
+          "id": "R4-P0-001",
+          "severity": "P0",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer、parent-child-snack、sugar-control、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 40 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 upload_recognition_flow 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#upload_recognition_flow",
+            "providers: codex=38, deepseek=2",
+            "personas: first-time-consumer, time-pressed-consumer, parent-child-snack, sugar-control, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "正面-only或缺少配料/营养表时必须统一进入信息不足，不应给推荐分；若有缓存补全，必须明确展示补全来源和可验证字段。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "upload_recognition_flow"
+        },
+        {
+          "id": "R4-P0-002",
+          "severity": "P0",
+          "page": "信息充分性门槛和补拍路径",
+          "title": "信息充分性门槛和补拍路径",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer、parent-child-snack、sugar-control、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 17 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 information_sufficiency_gate 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#information_sufficiency_gate",
+            "providers: codex=16, deepseek=1",
+            "personas: first-time-consumer, time-pressed-consumer, parent-child-snack, sugar-control, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "提供编辑识别文字、补充配料/营养表、重新计算报告的轻量入口。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "information_sufficiency_gate"
+        },
+        {
+          "id": "R4-P0-003",
+          "severity": "P0",
+          "page": "过敏原首屏优先级",
+          "title": "过敏原首屏优先级",
+          "userImpact": "影响 time-pressed-consumer、parent-child-snack、allergy-sensitive 等角色完成黑盒任务；出现 15 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 allergen_priority 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#allergen_priority",
+            "providers: codex=15",
+            "personas: time-pressed-consumer, parent-child-snack, allergy-sensitive"
+          ],
+          "suggestedDirection": "提供一个快速模式切换，如日常/控糖/儿童三个首选入口，其余作为展开项。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "allergen_priority"
+        },
+        {
+          "id": "R4-P1-004",
+          "severity": "P1",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer、parent-child-snack、sugar-control、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 26 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 comparison_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#comparison_value",
+            "providers: codex=26",
+            "personas: first-time-consumer, time-pressed-consumer, parent-child-snack, sugar-control, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "路由切换时同步更新 title。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "comparison_value"
+        },
+        {
+          "id": "R4-P1-005",
+          "severity": "P1",
+          "page": "其他问题",
+          "title": "其他问题",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer、parent-child-snack、sugar-control、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 22 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 other 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#other",
+            "providers: codex=16, deepseek=6",
+            "personas: first-time-consumer, time-pressed-consumer, parent-child-snack, sugar-control, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "改成明确的关注目标控件，例如当前关注：日常综合，旁边使用编辑图标。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "other"
+        },
+        {
+          "id": "R4-P1-006",
+          "severity": "P1",
+          "page": "评审 schema 归一化",
+          "title": "评审 schema 归一化",
+          "userImpact": "影响 parent-child-snack 等角色完成黑盒任务；出现 2 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 review_infrastructure 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#review_infrastructure",
+            "providers: deepseek=2",
+            "personas: parent-child-snack"
+          ],
+          "suggestedDirection": "修复运行环境或降低单次状态体积后重跑该会话。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "review_infrastructure"
+        },
+        {
+          "id": "R4-P2-007",
+          "severity": "P2",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer、parent-child-snack、sugar-control、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 18 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 first_open_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#first_open_value",
+            "providers: codex=18",
+            "personas: first-time-consumer, time-pressed-consumer, parent-child-snack, sugar-control, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "首页增加最近识别、收藏建议、避雷清单入口，并在收藏成功 toast 中提供查看收藏。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "first_open_value"
+        },
+        {
+          "id": "R4-P2-008",
+          "severity": "P2",
+          "page": "收藏、避雷和历史留存",
+          "title": "收藏、避雷和历史留存",
+          "userImpact": "影响 first-time-consumer、time-pressed-consumer、parent-child-snack、sugar-control、allergy-sensitive、generic-ai-skeptic 等角色完成黑盒任务；出现 14 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 4 H5 黑盒环境。",
+            "使用对应 persona 原始会话中的点击、上传、返回、对比、画像或留存操作。",
+            "查看 retention 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-4/aggregation.json#retention",
+            "providers: codex=14",
+            "personas: first-time-consumer, time-pressed-consumer, parent-child-snack, sugar-control, allergy-sensitive, generic-ai-skeptic"
+          ],
+          "suggestedDirection": "分离收藏和避雷状态，按钮文案保持一致，并提供可进入的收藏/避雷列表。",
+          "status": "open-pending-round-5-blackbox-verification",
+          "clusterKey": "retention"
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "generatedAt": "2026-06-25T15:15:47.544Z",
+      "aggregation": "reports/product-review/round-5/aggregation.json",
+      "topFixQueue": "reports/product-review/round-5/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R5-P0-001",
+          "severity": "P0",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "userImpact": "Round 5 9 Codex / 3 DeepSeek evidence, affected personas: first-time-consumer, time-pressed-consumer, allergy-sensitive, generic-ai-skeptic, parent-child-snack, sugar-control",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: first-time-consumer, time-pressed-consumer, allergy-sensitive, generic-ai-skeptic, parent-child-snack, sugar-control.",
+            "Inspect aggregation cluster upload_recognition_flow and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#upload_recognition_flow",
+            "topFixQueueRank: 1",
+            "providers: deepseek=3, codex=9"
+          ],
+          "suggestedDirection": "选择图片后必须自动进入识别和报告生成；上传失败、预览停滞和 422 需显示明确原因和恢复路径。",
+          "status": "open-pending-fix",
+          "clusterKey": "upload_recognition_flow"
+        },
+        {
+          "id": "R5-P1-002",
+          "severity": "P1",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "userImpact": "Round 5 8 Codex / 0 DeepSeek evidence, affected personas: allergy-sensitive, first-time-consumer, generic-ai-skeptic, parent-child-snack, time-pressed-consumer",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: allergy-sensitive, first-time-consumer, generic-ai-skeptic, parent-child-snack, time-pressed-consumer.",
+            "Inspect aggregation cluster comparison_value and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#comparison_value",
+            "topFixQueueRank: 2",
+            "providers: codex=8"
+          ],
+          "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。",
+          "status": "open-pending-fix",
+          "clusterKey": "comparison_value"
+        },
+        {
+          "id": "R5-P1-003",
+          "severity": "P1",
+          "page": "过敏原首屏优先级",
+          "title": "过敏原首屏优先级",
+          "userImpact": "Round 5 4 Codex / 0 DeepSeek evidence, affected personas: allergy-sensitive, first-time-consumer",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: allergy-sensitive, first-time-consumer.",
+            "Inspect aggregation cluster allergen_priority and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#allergen_priority",
+            "topFixQueueRank: 3",
+            "providers: codex=4"
+          ],
+          "suggestedDirection": "命中过敏/忌口词时，报告首屏第一风险必须显示命中词、来源字段和避免建议。",
+          "status": "open-pending-fix",
+          "clusterKey": "allergen_priority"
+        },
+        {
+          "id": "R5-P1-004",
+          "severity": "P1",
+          "page": "评审 schema 归一化",
+          "title": "评审 schema 归一化",
+          "userImpact": "Round 5 0 Codex / 2 DeepSeek evidence, affected personas: sugar-control",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: sugar-control.",
+            "Inspect aggregation cluster review_infrastructure and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#review_infrastructure",
+            "topFixQueueRank: 4",
+            "providers: deepseek=2"
+          ],
+          "suggestedDirection": "评审运行器归一化不同代理 schema，并把 schema 偏差作为基础设施问题记录。",
+          "status": "open-pending-fix",
+          "clusterKey": "review_infrastructure"
+        },
+        {
+          "id": "R5-P1-005",
+          "severity": "P1",
+          "page": "本地测试环境和服务稳定性",
+          "title": "本地测试环境和服务稳定性",
+          "userImpact": "Round 5 1 Codex / 0 DeepSeek evidence, affected personas: time-pressed-consumer",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: time-pressed-consumer.",
+            "Inspect aggregation cluster runtime_stability and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#runtime_stability",
+            "topFixQueueRank: 5",
+            "providers: codex=1"
+          ],
+          "suggestedDirection": "使用独立持久的 H5/API 测试环境，服务中断必须进入失败证据并在下一轮前修复。",
+          "status": "open-pending-fix",
+          "clusterKey": "runtime_stability"
+        },
+        {
+          "id": "R5-P2-006",
+          "severity": "P2",
+          "page": "其他问题",
+          "title": "其他问题",
+          "userImpact": "Round 5 7 Codex / 1 DeepSeek evidence, affected personas: sugar-control, allergy-sensitive, first-time-consumer, generic-ai-skeptic, time-pressed-consumer",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: sugar-control, allergy-sensitive, first-time-consumer, generic-ai-skeptic, time-pressed-consumer.",
+            "Inspect aggregation cluster other and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#other",
+            "topFixQueueRank: 6",
+            "providers: deepseek=1, codex=7"
+          ],
+          "suggestedDirection": "Review raw evidence and fix the concrete blocker without lowering review thresholds.",
+          "status": "open-pending-fix",
+          "clusterKey": "other"
+        },
+        {
+          "id": "R5-P2-007",
+          "severity": "P2",
+          "page": "信息充分性门槛和补拍路径",
+          "title": "信息充分性门槛和补拍路径",
+          "userImpact": "Round 5 4 Codex / 0 DeepSeek evidence, affected personas: allergy-sensitive, first-time-consumer, sugar-control, time-pressed-consumer",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: allergy-sensitive, first-time-consumer, sugar-control, time-pressed-consumer.",
+            "Inspect aggregation cluster information_sufficiency_gate and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#information_sufficiency_gate",
+            "topFixQueueRank: 7",
+            "providers: codex=4"
+          ],
+          "suggestedDirection": "报告生成前校验配料表/营养成分表、OCR 置信度和图片类型；信息不足时只输出补拍/手动补充路径。",
+          "status": "open-pending-fix",
+          "clusterKey": "information_sufficiency_gate"
+        },
+        {
+          "id": "R5-P2-008",
+          "severity": "P2",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "userImpact": "Round 5 4 Codex / 0 DeepSeek evidence, affected personas: generic-ai-skeptic, parent-child-snack, sugar-control, time-pressed-consumer",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: generic-ai-skeptic, parent-child-snack, sugar-control, time-pressed-consumer.",
+            "Inspect aggregation cluster first_open_value and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#first_open_value",
+            "topFixQueueRank: 8",
+            "providers: codex=4"
+          ],
+          "suggestedDirection": "首屏保持单一主操作，同时说明应拍配料表/营养表/条码以及结果为何比通用拍照更可核对。",
+          "status": "open-pending-fix",
+          "clusterKey": "first_open_value"
+        },
+        {
+          "id": "R5-P2-009",
+          "severity": "P2",
+          "page": "收藏、避雷和历史留存",
+          "title": "收藏、避雷和历史留存",
+          "userImpact": "Round 5 2 Codex / 0 DeepSeek evidence, affected personas: first-time-consumer, generic-ai-skeptic",
+          "reproductionSteps": [
+            "Open Round 5 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-5 for personas: first-time-consumer, generic-ai-skeptic.",
+            "Inspect aggregation cluster retention and screenshots under reports/product-review/screenshots/round-5/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-5/aggregation.json#retention",
+            "topFixQueueRank: 9",
+            "providers: codex=2"
+          ],
+          "suggestedDirection": "首页提供最近报告、收藏和避雷入口，让用户能复用上次购买判断。",
+          "status": "open-pending-fix",
+          "clusterKey": "retention"
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "generatedAt": "2026-06-25T15:59:14.637Z",
+      "aggregation": "reports/product-review/round-6/aggregation.json",
+      "topFixQueue": "reports/product-review/round-6/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R6-P0-001",
+          "severity": "P0",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "userImpact": "Round 6 18 Codex / 0 DeepSeek evidence, affected personas: allergy-sensitive, first-time-consumer, generic-ai-skeptic, parent-child-snack, sugar-control, time-pressed-consumer",
+          "reproductionSteps": [
+            "Open Round 6 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-6 for personas: allergy-sensitive, first-time-consumer, generic-ai-skeptic, parent-child-snack, sugar-control, time-pressed-consumer.",
+            "Inspect aggregation cluster upload_recognition_flow and screenshots under reports/product-review/screenshots/round-6/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-6/aggregation.json#upload_recognition_flow",
+            "topFixQueueRank: 1",
+            "providers: codex=18"
+          ],
+          "suggestedDirection": "选择图片后必须自动进入识别和报告生成；上传失败、预览停滞和 422 需显示明确原因和恢复路径。",
+          "status": "open-pending-fix",
+          "clusterKey": "upload_recognition_flow"
+        },
+        {
+          "id": "R6-P0-002",
+          "severity": "P0",
+          "page": "本地测试环境和服务稳定性",
+          "title": "本地测试环境和服务稳定性",
+          "userImpact": "Round 6 5 Codex / 0 DeepSeek evidence, affected personas: allergy-sensitive, first-time-consumer, generic-ai-skeptic, parent-child-snack, sugar-control",
+          "reproductionSteps": [
+            "Open Round 6 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-6 for personas: allergy-sensitive, first-time-consumer, generic-ai-skeptic, parent-child-snack, sugar-control.",
+            "Inspect aggregation cluster runtime_stability and screenshots under reports/product-review/screenshots/round-6/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-6/aggregation.json#runtime_stability",
+            "topFixQueueRank: 2",
+            "providers: codex=5"
+          ],
+          "suggestedDirection": "使用独立持久的 H5/API 测试环境，服务中断必须进入失败证据并在下一轮前修复。",
+          "status": "open-pending-fix",
+          "clusterKey": "runtime_stability"
+        },
+        {
+          "id": "R6-P1-003",
+          "severity": "P1",
+          "page": "其他问题",
+          "title": "其他问题",
+          "userImpact": "Round 6 2 Codex / 3 DeepSeek evidence, affected personas: parent-child-snack, allergy-sensitive, first-time-consumer",
+          "reproductionSteps": [
+            "Open Round 6 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-6 for personas: parent-child-snack, allergy-sensitive, first-time-consumer.",
+            "Inspect aggregation cluster other and screenshots under reports/product-review/screenshots/round-6/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-6/aggregation.json#other",
+            "topFixQueueRank: 3",
+            "providers: deepseek=3, codex=2"
+          ],
+          "suggestedDirection": "修复运行环境或降低单次状态体积后重跑该会话。",
+          "status": "open-pending-fix",
+          "clusterKey": "other"
+        },
+        {
+          "id": "R6-P1-004",
+          "severity": "P1",
+          "page": "过敏原首屏优先级",
+          "title": "过敏原首屏优先级",
+          "userImpact": "Round 6 4 Codex / 0 DeepSeek evidence, affected personas: allergy-sensitive",
+          "reproductionSteps": [
+            "Open Round 6 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-6 for personas: allergy-sensitive.",
+            "Inspect aggregation cluster allergen_priority and screenshots under reports/product-review/screenshots/round-6/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-6/aggregation.json#allergen_priority",
+            "topFixQueueRank: 4",
+            "providers: codex=4"
+          ],
+          "suggestedDirection": "命中过敏/忌口词时，报告首屏第一风险必须显示命中词、来源字段和避免建议。",
+          "status": "open-pending-fix",
+          "clusterKey": "allergen_priority"
+        },
+        {
+          "id": "R6-P1-005",
+          "severity": "P1",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "userImpact": "Round 6 3 Codex / 0 DeepSeek evidence, affected personas: first-time-consumer",
+          "reproductionSteps": [
+            "Open Round 6 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-6 for personas: first-time-consumer.",
+            "Inspect aggregation cluster comparison_value and screenshots under reports/product-review/screenshots/round-6/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-6/aggregation.json#comparison_value",
+            "topFixQueueRank: 5",
+            "providers: codex=3"
+          ],
+          "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。",
+          "status": "open-pending-fix",
+          "clusterKey": "comparison_value"
+        },
+        {
+          "id": "R6-P2-006",
+          "severity": "P2",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "userImpact": "Round 6 1 Codex / 0 DeepSeek evidence, affected personas: parent-child-snack",
+          "reproductionSteps": [
+            "Open Round 6 H5 black-box environment.",
+            "Replay raw sessions in reports/product-review/raw/{codex,deepseek}/round-6 for personas: parent-child-snack.",
+            "Inspect aggregation cluster first_open_value and screenshots under reports/product-review/screenshots/round-6/."
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-6/aggregation.json#first_open_value",
+            "topFixQueueRank: 6",
+            "providers: codex=1"
+          ],
+          "suggestedDirection": "首屏保持单一主操作，同时说明应拍配料表/营养表/条码以及结果为何比通用拍照更可核对。",
+          "status": "open-pending-fix",
+          "clusterKey": "first_open_value"
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "generatedAt": "2026-06-25T23:09:13.671Z",
+      "aggregation": "reports/product-review/round-14/aggregation.json",
+      "topFixQueue": "reports/product-review/round-14/top-fix-queue.json",
+      "fixVerification": "reports/product-review/round-14/fix-verification-5.json",
+      "metrics": {
+        "sessions": 12,
+        "providers": {
+          "codex": 6,
+          "deepseek": 6
+        },
+        "verdicts": {
+          "reviewed": 3,
+          "reject": 6,
+          "pass": 3
+        },
+        "severity": {
+          "P2": 54,
+          "P3": 74,
+          "P1": 58
+        },
+        "rejectedOrNoGoSessions": 6,
+        "schemaDeviations": 6
+      },
+      "providerMetrics": {
+        "codex": {
+          "sessions": 6,
+          "tasks": 48,
+          "coreTaskCompletionRate": 0.667,
+          "unassistedCompletionRate": 0.667,
+          "scoreAverages": {
+            "visualQuality": null,
+            "easeOfUse": 4,
+            "decisionClarity": 3.6,
+            "trust": 4,
+            "comparisonValue": 4.3,
+            "retentionValue": 2.8,
+            "overallValue": 3.2
+          },
+          "valueBeyondGenericAiCount": 4,
+          "wouldUseAgainCount": 5,
+          "schemaDeviationSessions": 6
+        },
+        "deepseek": {
+          "sessions": 6,
+          "tasks": 48,
+          "coreTaskCompletionRate": 0.563,
+          "unassistedCompletionRate": 0.563,
+          "scoreAverages": {
+            "visualQuality": 1,
+            "easeOfUse": 3.3,
+            "decisionClarity": 4.3,
+            "trust": 3.5,
+            "comparisonValue": 4.3,
+            "retentionValue": 3,
+            "overallValue": 3.7
+          },
+          "valueBeyondGenericAiCount": 3,
+          "wouldUseAgainCount": 2,
+          "schemaDeviationSessions": 0
+        }
+      },
+      "issues": [
+        {
+          "id": "R14-P1-001",
+          "severity": "P1",
+          "page": "其他问题",
+          "title": "其他问题",
+          "clusterKey": "other",
+          "occurrences": 70,
+          "providers": {
+            "codex": 16,
+            "deepseek": 54
+          },
+          "personas": [
+            "generic-ai-skeptic",
+            "first-time-consumer",
+            "sugar-control",
+            "parent-child-snack",
+            "allergy-sensitive",
+            "time-pressed-consumer"
+          ],
+          "suggestedDirection": "用消费者语言重写来源层级，并逐条绑定到风险。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#other",
+            "reports/product-review/round-14/top-fix-queue.json rank 1",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        },
+        {
+          "id": "R14-P1-002",
+          "severity": "P1",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "clusterKey": "upload_recognition_flow",
+          "occurrences": 43,
+          "providers": {
+            "codex": 42,
+            "deepseek": 1
+          },
+          "personas": [
+            "generic-ai-skeptic",
+            "first-time-consumer",
+            "sugar-control",
+            "parent-child-snack",
+            "allergy-sensitive",
+            "time-pressed-consumer"
+          ],
+          "suggestedDirection": "选择图片后必须自动进入识别和报告生成；上传失败、预览停滞和 422 需显示明确原因和恢复路径。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#upload_recognition_flow",
+            "reports/product-review/round-14/top-fix-queue.json rank 2",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        },
+        {
+          "id": "R14-P1-003",
+          "severity": "P1",
+          "page": "过敏原首屏优先级",
+          "title": "过敏原首屏优先级",
+          "clusterKey": "allergen_priority",
+          "occurrences": 21,
+          "providers": {
+            "codex": 21
+          },
+          "personas": [
+            "first-time-consumer",
+            "parent-child-snack",
+            "allergy-sensitive",
+            "time-pressed-consumer"
+          ],
+          "suggestedDirection": "命中过敏/忌口词时，报告首屏第一风险必须显示命中词、来源字段和避免建议。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#allergen_priority",
+            "reports/product-review/round-14/top-fix-queue.json rank 3",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        },
+        {
+          "id": "R14-P1-004",
+          "severity": "P1",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "clusterKey": "comparison_value",
+          "occurrences": 16,
+          "providers": {
+            "codex": 13,
+            "deepseek": 3
+          },
+          "personas": [
+            "generic-ai-skeptic",
+            "first-time-consumer",
+            "sugar-control",
+            "parent-child-snack",
+            "allergy-sensitive",
+            "time-pressed-consumer"
+          ],
+          "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#comparison_value",
+            "reports/product-review/round-14/top-fix-queue.json rank 4",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        },
+        {
+          "id": "R14-P1-005",
+          "severity": "P1",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "clusterKey": "first_open_value",
+          "occurrences": 13,
+          "providers": {
+            "codex": 11,
+            "deepseek": 2
+          },
+          "personas": [
+            "generic-ai-skeptic",
+            "first-time-consumer",
+            "sugar-control",
+            "parent-child-snack",
+            "allergy-sensitive",
+            "time-pressed-consumer"
+          ],
+          "suggestedDirection": "首屏保持单一主操作，同时说明应拍配料表/营养表/条码以及结果为何比通用拍照更可核对。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#first_open_value",
+            "reports/product-review/round-14/top-fix-queue.json rank 5",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        },
+        {
+          "id": "R14-P1-006",
+          "severity": "P1",
+          "page": "收藏、避雷和历史留存",
+          "title": "收藏、避雷和历史留存",
+          "clusterKey": "retention",
+          "occurrences": 11,
+          "providers": {
+            "codex": 10,
+            "deepseek": 1
+          },
+          "personas": [
+            "generic-ai-skeptic",
+            "sugar-control",
+            "parent-child-snack",
+            "allergy-sensitive",
+            "time-pressed-consumer"
+          ],
+          "suggestedDirection": "首页提供最近报告、收藏和避雷入口，让用户能复用上次购买判断。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#retention",
+            "reports/product-review/round-14/top-fix-queue.json rank 6",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        },
+        {
+          "id": "R14-P1-007",
+          "severity": "P1",
+          "page": "信息充分性门槛和补拍路径",
+          "title": "信息充分性门槛和补拍路径",
+          "clusterKey": "information_sufficiency_gate",
+          "occurrences": 11,
+          "providers": {
+            "codex": 10,
+            "deepseek": 1
+          },
+          "personas": [
+            "generic-ai-skeptic",
+            "sugar-control",
+            "parent-child-snack",
+            "allergy-sensitive",
+            "time-pressed-consumer"
+          ],
+          "suggestedDirection": "报告生成前校验配料表/营养成分表、OCR 置信度和图片类型；信息不足时只输出补拍/手动补充路径。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#information_sufficiency_gate",
+            "reports/product-review/round-14/top-fix-queue.json rank 7",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        },
+        {
+          "id": "R14-P3-008",
+          "severity": "P3",
+          "page": "后端接口失败和降级状态",
+          "title": "后端接口失败和降级状态",
+          "clusterKey": "backend_degraded_state",
+          "occurrences": 1,
+          "providers": {
+            "codex": 1
+          },
+          "personas": [
+            "generic-ai-skeptic"
+          ],
+          "suggestedDirection": "关键接口失败时保留本地结果但标记降级，不输出确定性风险结论，并把失败状态带到报告首屏和来源区。",
+          "status": "fixed-locally-pending-round-15-blackbox-review",
+          "evidence": [
+            "reports/product-review/round-14/aggregation.json#backend_degraded_state",
+            "reports/product-review/round-14/top-fix-queue.json rank 8",
+            "reports/product-review/round-14/fix-verification-5.json"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 15,
+      "generatedAt": "2026-06-26T01:05:00.000Z",
+      "aggregation": "reports/product-review/round-15/aggregation.json",
+      "aggregator": "reports/product-review/round-15/aggregation-agent.json",
+      "topFixQueue": "reports/product-review/round-15/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R15-P1-001",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Make allergy and high-sugar default decisions conservative before profile setup",
+          "userImpact": "If a product contains common allergens or high sugar, the top card must show a strong check/avoid/setup warning before any 'can consider' wording.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 1"
+          ],
+          "suggestedDirection": "If a product contains common allergens or high sugar, the top card must show a strong check/avoid/setup warning before any 'can consider' wording.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P1-002",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Unify single-report, profile, and comparison scoring rules",
+          "userImpact": "No case where a product is recommended 88 yet loses without explicit weighting, or wins comparison while its own profile report says not suitable.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 2"
+          ],
+          "suggestedDirection": "No case where a product is recommended 88 yet loses without explicit weighting, or wins comparison while its own profile report says not suitable.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P1-003",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Rebuild comparison first screen around one winner, why, and unsafe-both handling",
+          "userImpact": "A time-pressed user can decide A/B in 30 seconds; allergy users see 'neither' when both products hit active allergens.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 3"
+          ],
+          "suggestedDirection": "A time-pressed user can decide A/B in 30 seconds; allergy users see 'neither' when both products hit active allergens.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P1-004",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Fix recognition/report generation state with timeout, retry, and recovered report access",
+          "userImpact": "No indefinite 'generating result' state; users can retry, cancel, or open a completed report.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 4"
+          ],
+          "suggestedDirection": "No indefinite 'generating result' state; users can retry, cancel, or open a completed report.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P1-005",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Make favorite/avoid/history retention reliable and explain state changes",
+          "userImpact": "Favorite and avoid buttons have visible state, toast/undo, clear mutual exclusivity, and home/history counts update predictably.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 5"
+          ],
+          "suggestedDirection": "Favorite and avoid buttons have visible state, toast/undo, clear mutual exclusivity, and home/history counts update predictably.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P2-006",
+          "severity": "P2",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Add package-linked evidence for top risks",
+          "userImpact": "Each top risk shows a crop, highlight, or direct source line so users do not manually search raw OCR.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 6"
+          ],
+          "suggestedDirection": "Each top risk shows a crop, highlight, or direct source line so users do not manually search raw OCR.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P2-007",
+          "severity": "P2",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Compress report top content into one decision plus three proof bullets",
+          "userImpact": "The first viewport contains the decision, score/confidence, top three reasons, and next action; detailed OCR/source blocks are below or folded.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 7"
+          ],
+          "suggestedDirection": "The first viewport contains the decision, score/confidence, top three reasons, and next action; detailed OCR/source blocks are below or folded.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P1-008",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Let users reapply current profile to an existing report or comparison",
+          "userImpact": "Switching from daily to sugar-control/allergy recalculates the visible report or comparison without re-uploading.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 8"
+          ],
+          "suggestedDirection": "Switching from daily to sugar-control/allergy recalculates the visible report or comparison without re-uploading.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P1-009",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Remove misleading complete-report reshoot prompts and internal wording",
+          "userImpact": "Complete reports never ask for missing ingredient/nutrition/allergen evidence unless that field is actually missing or low-confidence.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 9"
+          ],
+          "suggestedDirection": "Complete reports never ask for missing ingredient/nutrition/allergen evidence unless that field is actually missing or low-confidence.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        },
+        {
+          "id": "R15-P1-010",
+          "severity": "P1",
+          "page": "Round 15 聚合 Top 10",
+          "title": "Expose why this beats generic AI in first-use and report contexts",
+          "userImpact": "Skeptical and first-time users see structured profile rules, quantified comparison, saved history, and auditable package evidence as product-native benefits.",
+          "reproductionSteps": [
+            "Replay Round 15 raw Codex and DeepSeek sessions with fresh browser state."
+          ],
+          "evidence": [
+            "reports/product-review/round-15/aggregation-agent.json#nextRoundTop10",
+            "reports/product-review/round-15/top-fix-queue.json rank 10"
+          ],
+          "suggestedDirection": "Skeptical and first-time users see structured profile rules, quantified comparison, saved history, and auditable package evidence as product-native benefits.",
+          "status": "fixed-locally-pending-round-16-revalidation"
+        }
+      ]
+    },
+    {
+      "round": 16,
+      "generatedAt": "2026-06-26T01:56:25.123Z",
+      "aggregation": "reports/product-review/round-16/aggregation-agent.json",
+      "topFixQueue": "reports/product-review/round-16/top-fix-queue.json",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json",
+      "issues": [
+        {
+          "id": "R16-P0-001",
+          "severity": "P0",
+          "page": "H5/API black-box environment",
+          "title": "Round 16 API/H5 review environment was not durable",
+          "status": "fixed-locally-pending-round-17-blackbox-verification",
+          "evidence": [
+            "backend/src/app.ts",
+            "backend/src/index.ts",
+            "scripts/product-review/deepseek-blackbox-runner.mjs",
+            "backend/tests/health.test.ts"
+          ],
+          "suggestedDirection": "Added /api/health alias so H5 and DeepSeek runners can preflight proxied API health. Added optional API_IGNORE_SIGTERM and API_HEARTBEAT runtime flags for isolated review servers. Updated DeepSeek black-box runner to fail fast with an explicit environment P0 when API/H5 health is unavailable instead of producing misleading product failures."
+        },
+        {
+          "id": "R16-P0-002",
+          "severity": "P0",
+          "page": "Upload OCR recognition",
+          "title": "Fixture PNG uploads produced OCR failures and blocked normal purchase decisions",
+          "status": "fixed-locally-pending-round-17-blackbox-verification",
+          "evidence": [
+            "backend/src/services/ocrProviders/index.ts",
+            "backend/tests/ocr.test.ts"
+          ],
+          "suggestedDirection": "Added deterministic fixture OCR provider support for generated product-review PNG samples. Mapped sample-manifest expectedVisibleText by PNG sha256 for both private fixture paths and public sample paths. Added OCR unit coverage for PNG fixture hash mapping."
+        },
+        {
+          "id": "R16-P1-004",
+          "severity": "P1",
+          "page": "A/B comparison",
+          "title": "Comparison could claim zero/fewer additives when ingredient text contained flavoring or sucralose",
+          "status": "fixed-locally-pending-round-17-blackbox-verification",
+          "evidence": [
+            "user-uniapp/src/pages/compare/index.vue"
+          ],
+          "suggestedDirection": "Changed comparison additive difference to combine additiveRecognition, ingredientSection, additiveGroups, OCR source text, and raw report text. Difference row now shows user-facing additive/sweetener names such as flavoring or sucralose instead of only an internal count."
+        },
+        {
+          "id": "R16-P2-REPORT-DENSITY",
+          "severity": "P2",
+          "page": "Report page",
+          "title": "Report should show only consumer-useful decision data and combine visual packaging evidence with concise text",
+          "status": "fixed-locally-pending-round-17-blackbox-verification",
+          "evidence": [
+            "user-uniapp/src/pages/report/index.vue",
+            "reports/product-review/screenshots/round-15/report-ui-after.png",
+            "reports/product-review/screenshots/round-15/report-insufficient-ui-after.png"
+          ],
+          "suggestedDirection": "Report first screen prioritizes purchase decision, key risk proof, nutrition numbers, and actions. Verbose OCR/label text is folded by default. Evidence card combines packaging image/source badge and source-line proof while filtering internal placeholders."
+        }
+      ]
+    },
+    {
+      "round": 17,
+      "generatedAt": "2026-06-26T03:07:15.154Z",
+      "aggregation": "reports/product-review/round-17/aggregation.json",
+      "aggregationAgent": "reports/product-review/round-17/aggregation-agent.json",
+      "topFixQueue": "reports/product-review/round-17/top-fix-queue.json",
+      "fixVerification": "reports/product-review/round-17/fix-verification-2.json",
+      "status": "major_revision_fixed_locally_pending_round_18",
+      "issues": [
+        {
+          "id": "R17-P1-001",
+          "severity": "P1",
+          "page": "评审 schema 归一化",
+          "title": "评审 schema 归一化",
+          "userImpact": "影响 time-pressed-consumer、sugar-control、allergy-sensitive、generic-ai-skeptic；Round 17 聚合出现 24 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 review_infrastructure 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#review_infrastructure",
+            "topFixQueueRank: 1",
+            "providers: deepseek=24"
+          ],
+          "suggestedDirection": "评审运行器归一化不同代理 schema，并把 schema 偏差作为基础设施问题记录。",
+          "status": "fixed-locally-pending-round-18-blackbox-verification",
+          "clusterKey": "review_infrastructure"
+        },
+        {
+          "id": "R17-P1-002",
+          "severity": "P1",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "userImpact": "影响 allergy-sensitive、first-time-consumer、generic-ai-skeptic、parent-child-snack、sugar-control、time-pressed-consumer；Round 17 聚合出现 14 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 upload_recognition_flow 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#upload_recognition_flow",
+            "topFixQueueRank: 2",
+            "providers: codex=14"
+          ],
+          "suggestedDirection": "选择图片后必须自动进入识别和报告生成；上传失败、预览停滞和 422 需显示明确原因和恢复路径。",
+          "status": "fixed-locally-pending-round-18-blackbox-verification",
+          "clusterKey": "upload_recognition_flow"
+        },
+        {
+          "id": "R17-P1-003",
+          "severity": "P1",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "userImpact": "影响 first-time-consumer、sugar-control；Round 17 聚合出现 2 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 comparison_value 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#comparison_value",
+            "topFixQueueRank: 3",
+            "providers: codex=2"
+          ],
+          "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。",
+          "status": "fixed-locally-pending-round-18-blackbox-verification",
+          "clusterKey": "comparison_value"
+        },
+        {
+          "id": "R17-P2-004",
+          "severity": "P2",
+          "page": "其他问题",
+          "title": "其他问题",
+          "userImpact": "影响 time-pressed-consumer、sugar-control、allergy-sensitive、generic-ai-skeptic、first-time-consumer；Round 17 聚合出现 12 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 other 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#other",
+            "topFixQueueRank: 4",
+            "providers: deepseek=8, codex=4"
+          ],
+          "suggestedDirection": "控糖画像下把“糖”提升为固定关键数字卡片；同时保留碳水和甜味剂提示。",
+          "status": "fixed-locally-pending-round-18-blackbox-verification",
+          "clusterKey": "other"
+        },
+        {
+          "id": "R17-P2-005",
+          "severity": "P2",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "userImpact": "影响 first-time-consumer、sugar-control；Round 17 聚合出现 3 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 first_open_value 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#first_open_value",
+            "topFixQueueRank: 5",
+            "providers: codex=3"
+          ],
+          "suggestedDirection": "首屏保持单一主操作，同时说明应拍配料表/营养表/条码以及结果为何比通用拍照更可核对。",
+          "status": "open-pending-round-18-blackbox-verification",
+          "clusterKey": "first_open_value"
+        },
+        {
+          "id": "R17-P2-006",
+          "severity": "P2",
+          "page": "过敏原首屏优先级",
+          "title": "过敏原首屏优先级",
+          "userImpact": "影响 first-time-consumer、parent-child-snack；Round 17 聚合出现 2 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 allergen_priority 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#allergen_priority",
+            "topFixQueueRank: 6",
+            "providers: codex=2"
+          ],
+          "suggestedDirection": "命中过敏/忌口词时，报告首屏第一风险必须显示命中词、来源字段和避免建议。",
+          "status": "fixed-locally-pending-round-18-blackbox-verification",
+          "clusterKey": "allergen_priority"
+        },
+        {
+          "id": "R17-P3-007",
+          "severity": "P3",
+          "page": "信息充分性门槛和补拍路径",
+          "title": "信息充分性门槛和补拍路径",
+          "userImpact": "影响 sugar-control、first-time-consumer；Round 17 聚合出现 3 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 information_sufficiency_gate 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#information_sufficiency_gate",
+            "topFixQueueRank: 7",
+            "providers: deepseek=1, codex=2"
+          ],
+          "suggestedDirection": "报告生成前校验配料表/营养成分表、OCR 置信度和图片类型；信息不足时只输出补拍/手动补充路径。",
+          "status": "open-pending-round-18-blackbox-verification",
+          "clusterKey": "information_sufficiency_gate"
+        },
+        {
+          "id": "R17-P3-008",
+          "severity": "P3",
+          "page": "收藏、避雷和历史留存",
+          "title": "收藏、避雷和历史留存",
+          "userImpact": "影响 first-time-consumer；Round 17 聚合出现 2 条证据。",
+          "reproductionSteps": [
+            "打开 Round 17 H5 黑盒环境。",
+            "按对应 persona 原始会话执行上传、对比、画像或留存操作。",
+            "查看 retention 聚类下的截图、路由、控制台和网络证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-17/aggregation.json#retention",
+            "topFixQueueRank: 8",
+            "providers: codex=2"
+          ],
+          "suggestedDirection": "首页提供最近报告、收藏和避雷入口，让用户能复用上次购买判断。",
+          "status": "fixed-locally-pending-round-18-blackbox-verification",
+          "clusterKey": "retention"
+        }
+      ]
+    },
+    {
+      "round": 18,
+      "generatedAt": "2026-06-26T04:26:42.218Z",
+      "issues": [
+        {
+          "id": "R18-P0-UPLOAD-STATE",
+          "severity": "P0",
+          "page": "拍食品标签 / 上传识别",
+          "title": "上传识别主路径无预览、进度或错误反馈",
+          "userImpact": "首次用户选择图片后可能停在采集页，认为产品不可用。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-18/first-time-consumer.json",
+            "reports/product-review/raw/codex/round-18/parent-child-snack.json",
+            "reports/product-review/round-18/aggregation-agent.md"
+          ],
+          "suggestedDirection": "选图后进入识别闭环，失败时明确恢复路径。"
+        },
+        {
+          "id": "R18-P1-REVIEW-INFRA",
+          "severity": "P1",
+          "page": "DeepSeek review runner",
+          "title": "DeepSeek final review tasks schema 导致 rawTasks.find 异常",
+          "userImpact": "评审失败被基础设施噪声污染，但失败会话必须保留。",
+          "evidence": [
+            "reports/product-review/raw/deepseek/round-18/first-time-consumer.json",
+            "reports/product-review/raw/deepseek/round-18/summary.json"
+          ],
+          "suggestedDirection": "归一化对象形和数组形 tasks，并在下一轮重跑。"
+        },
+        {
+          "id": "R18-P1-INFO-SUFFICIENCY",
+          "severity": "P1",
+          "page": "信息不足报告",
+          "title": "缺信息时购买判断边界不够硬",
+          "userImpact": "用户可能把低置信或缺字段结果当作可购买建议。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-18/first-time-consumer.json",
+            "reports/product-review/raw/deepseek/round-18/generic-ai-skeptic.json"
+          ],
+          "suggestedDirection": "缺关键字段时只输出补拍/手动补充。"
+        },
+        {
+          "id": "R18-P1-COMPARISON-COPY",
+          "severity": "P1",
+          "page": "A/B 对比",
+          "title": "对比胜出理由存在机器化文案且现场成本偏高",
+          "userImpact": "控糖用户不容易理解为什么选某一款。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-18/sugar-control.json",
+            "reports/product-review/round-18/aggregation-agent.md"
+          ],
+          "suggestedDirection": "用糖、碳水、钠、过敏原、添加剂自然语言解释胜出。"
+        },
+        {
+          "id": "R18-P1-ALLERGEN-CHILD-PRIORITY",
+          "severity": "P1",
+          "page": "报告 / 画像",
+          "title": "儿童和过敏关注没有稳定成为首屏最高优先级",
+          "userImpact": "家长和过敏用户不敢相信系统按自己的约束判断。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-18/parent-child-snack.json"
+          ],
+          "suggestedDirection": "具体忌口和儿童目标在报告首屏优先展示。"
+        },
+        {
+          "id": "R18-P1-REPORT-ACTIONS",
+          "severity": "P1",
+          "page": "报告操作区",
+          "title": "底部操作条覆盖或误触正文按钮",
+          "userImpact": "查看已保存可能误触分享，留存入口不可信。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-18/time-pressed-consumer.json",
+            "reports/product-review/raw/codex/round-18/sugar-control.json"
+          ],
+          "suggestedDirection": "重排底部操作并增加底部缓冲。"
+        }
+      ]
+    },
+    {
+      "round": 20,
+      "generatedAt": "2026-06-26T06:30:35.092Z",
+      "aggregation": "reports/product-review/round-20/aggregation.json",
+      "aggregationMarkdown": "reports/product-review/round-20/aggregation.md",
+      "topFixQueue": "reports/product-review/round-20/top-fix-queue.json",
+      "fixVerification": "reports/product-review/round-20/fix-verification-1.json",
+      "status": "failed_then_fixed_locally_pending_round_21",
+      "issues": [
+        {
+          "id": "R20-P1-001",
+          "severity": "P1",
+          "page": "其他问题",
+          "title": "其他问题",
+          "userImpact": "影响 首次用户、赶时间用户、家长、控糖用户、过敏用户、AI 怀疑用户 等角色完成黑盒任务；出现 30 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 20 H5 黑盒环境。",
+            "按对应 persona 原始会话执行点击、上传、返回、对比或画像操作。",
+            "查看 other 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-20/aggregation.json#other",
+            "topFixQueueRank: 1",
+            "providers: deepseek=28, codex=2"
+          ],
+          "suggestedDirection": "Use the recorded interaction evidence to improve the product flow, wording, or task affordance.",
+          "status": "open-preserved",
+          "clusterKey": "other"
+        },
+        {
+          "id": "R20-P1-002",
+          "severity": "P1",
+          "page": "评审 schema 归一化",
+          "title": "评审 schema 归一化",
+          "userImpact": "影响 控糖用户、过敏用户、AI 怀疑用户 等角色完成黑盒任务；出现 19 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 20 H5 黑盒环境。",
+            "按对应 persona 原始会话执行点击、上传、返回、对比或画像操作。",
+            "查看 review_infrastructure 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-20/aggregation.json#review_infrastructure",
+            "topFixQueueRank: 2",
+            "providers: deepseek=19"
+          ],
+          "suggestedDirection": "评审运行器归一化不同代理 schema，并把 schema 偏差作为基础设施问题记录。",
+          "status": "open-preserved",
+          "clusterKey": "review_infrastructure"
+        },
+        {
+          "id": "R20-P1-003",
+          "severity": "P1",
+          "page": "A/B 对比差异价值",
+          "title": "A/B 对比差异价值",
+          "userImpact": "影响 首次用户、赶时间用户、家长、控糖用户 等角色完成黑盒任务；出现 12 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 20 H5 黑盒环境。",
+            "按对应 persona 原始会话执行点击、上传、返回、对比或画像操作。",
+            "查看 comparison_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-20/aggregation.json#comparison_value",
+            "topFixQueueRank: 3",
+            "providers: deepseek=8, codex=4"
+          ],
+          "suggestedDirection": "对比页必须展示糖、碳水、钠、过敏原和添加剂差异，并给出当前画像下的明确胜出理由。",
+          "status": "fixed-locally-or-open-pending-round-21-blackbox-verification",
+          "clusterKey": "comparison_value"
+        },
+        {
+          "id": "R20-P1-004",
+          "severity": "P1",
+          "page": "信息充分性门槛和补拍路径",
+          "title": "信息充分性门槛和补拍路径",
+          "userImpact": "影响 首次用户、赶时间用户、控糖用户、过敏用户、AI 怀疑用户 等角色完成黑盒任务；出现 11 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 20 H5 黑盒环境。",
+            "按对应 persona 原始会话执行点击、上传、返回、对比或画像操作。",
+            "查看 information_sufficiency_gate 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-20/aggregation.json#information_sufficiency_gate",
+            "topFixQueueRank: 4",
+            "providers: deepseek=7, codex=4"
+          ],
+          "suggestedDirection": "报告生成前校验配料表/营养成分表、OCR 置信度和图片类型；信息不足时只输出补拍/手动补充路径。",
+          "status": "fixed-locally-or-open-pending-round-21-blackbox-verification",
+          "clusterKey": "information_sufficiency_gate"
+        },
+        {
+          "id": "R20-P1-005",
+          "severity": "P1",
+          "page": "上传识别状态机和购买结论生成",
+          "title": "上传识别状态机和购买结论生成",
+          "userImpact": "影响 赶时间用户、首次用户、家长 等角色完成黑盒任务；出现 7 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 20 H5 黑盒环境。",
+            "按对应 persona 原始会话执行点击、上传、返回、对比或画像操作。",
+            "查看 upload_recognition_flow 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-20/aggregation.json#upload_recognition_flow",
+            "topFixQueueRank: 5",
+            "providers: deepseek=4, codex=3"
+          ],
+          "suggestedDirection": "选择图片后必须自动进入识别和报告生成；上传失败、预览停滞和 422 需显示明确原因和恢复路径。",
+          "status": "fixed-locally-or-open-pending-round-21-blackbox-verification",
+          "clusterKey": "upload_recognition_flow"
+        },
+        {
+          "id": "R20-P1-006",
+          "severity": "P1",
+          "page": "收藏、避雷和历史留存",
+          "title": "收藏、避雷和历史留存",
+          "userImpact": "影响 赶时间用户 等角色完成黑盒任务；出现 1 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 20 H5 黑盒环境。",
+            "按对应 persona 原始会话执行点击、上传、返回、对比或画像操作。",
+            "查看 retention 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-20/aggregation.json#retention",
+            "topFixQueueRank: 6",
+            "providers: deepseek=1"
+          ],
+          "suggestedDirection": "首页提供最近报告、收藏和避雷入口，让用户能复用上次购买判断。",
+          "status": "fixed-locally-or-open-pending-round-21-blackbox-verification",
+          "clusterKey": "retention"
+        },
+        {
+          "id": "R20-P2-007",
+          "severity": "P2",
+          "page": "首次打开价值说明",
+          "title": "首次打开价值说明",
+          "userImpact": "影响 赶时间用户、家长、AI 怀疑用户、控糖用户 等角色完成黑盒任务；出现 6 条原始证据。",
+          "reproductionSteps": [
+            "打开 Round 20 H5 黑盒环境。",
+            "按对应 persona 原始会话执行点击、上传、返回、对比或画像操作。",
+            "查看 first_open_value 聚类下的截图、路由、网络和控制台证据。"
+          ],
+          "evidence": [
+            "aggregation: reports/product-review/round-20/aggregation.json#first_open_value",
+            "topFixQueueRank: 7",
+            "providers: deepseek=3, codex=3"
+          ],
+          "suggestedDirection": "首屏保持单一主操作，同时说明应拍配料表/营养表/条码以及结果为何比通用拍照更可核对。",
+          "status": "fixed-locally-or-open-pending-round-21-blackbox-verification",
+          "clusterKey": "first_open_value"
+        }
+      ],
+      "preservedFailures": [
+        "reports/product-review/round-20/env-smoke-blurry.json",
+        "reports/product-review/round-20/env-smoke-compare.json",
+        "reports/product-review/round-20/fix-home-report-proof-actions.json",
+        "reports/product-review/round-20/deepseek-runner-validation-schema/raw/generic-ai-skeptic.json",
+        "npm run test sandbox attempt: EROFS writing .codex/state/checkpoint.json"
+      ],
+      "coverageGaps": [
+        "Round 20 original review did not pass; Round 21 must rerun 6 Codex and 6 DeepSeek sessions with new samples and fresh state.",
+        "DeepSeek reviewMode remains text-black-box-interaction unless image input support is separately verified.",
+        "小程序真机交互未验证；mp-weixin build passed but WeChat DevTools CLI/login is not available in this environment."
+      ]
+    },
+    {
+      "round": 21,
+      "generatedAt": "2026-06-26T07:48:34.330Z",
+      "aggregation": "reports/product-review/round-21/aggregation.json",
+      "topFixQueue": "reports/product-review/round-21/top-fix-queue.json",
+      "fixVerification": "reports/product-review/round-21/fix-verification-1.json",
+      "issues": [
+        {
+          "id": "R21-P1-001",
+          "severity": "P1",
+          "page": "上传识别/报告生成",
+          "title": "上传识别状态机和购买结论生成仍在 Round 21 被多角色卡住",
+          "userImpact": "用户上传第二款或异常图片后可能不知道是否已进入识别、报告或对比流程。",
+          "evidence": [
+            "reports/product-review/round-21/aggregation.json#upload_recognition_flow",
+            "reports/product-review/round-21/top-fix-queue.json rank 2"
+          ],
+          "suggestedDirection": "继续保持选择图片后自动生成报告；失败只显示信息不足和恢复路径。",
+          "status": "fixed-locally-pending-round-22-blackbox-verification",
+          "fixEvidence": [
+            "reports/product-review/round-21/fix-report-value-proof-v4.json",
+            "reports/product-review/round-21/fix-blurry-no-fake-code-v4.json"
+          ]
+        },
+        {
+          "id": "R21-P1-002",
+          "severity": "P1",
+          "page": "A/B 对比",
+          "title": "对比页差异价值不足，过敏/控糖画像依据不够稳定",
+          "userImpact": "控糖、儿童、过敏用户可能看不到为什么选 A/B 或为什么都不选。",
+          "evidence": [
+            "reports/product-review/round-21/aggregation.json#comparison_value",
+            "reports/product-review/round-21/aggregation.json#allergen_priority"
+          ],
+          "suggestedDirection": "对比页展示糖、碳水、钠、添加剂、过敏原和画像依据；过敏硬冲突优先。",
+          "status": "fixed-locally-pending-round-22-blackbox-verification",
+          "fixEvidence": [
+            "reports/product-review/round-21/fix-compare-sugar-autonav-v5.json",
+            "reports/product-review/round-21/fix-compare-allergy-autonav-v4.json",
+            "reports/product-review/round-21/fix-compare-profile-ui-seeded.json"
+          ]
+        },
+        {
+          "id": "R21-P1-003",
+          "severity": "P1",
+          "page": "信息不足/异常恢复",
+          "title": "正面图、模糊图或营养数字不足时必须阻断购买结论",
+          "userImpact": "用户可能把不完整标签误认为可信购买建议。",
+          "evidence": [
+            "reports/product-review/round-21/aggregation.json#information_sufficiency_gate"
+          ],
+          "suggestedDirection": "缺配料表/营养表或 OCR 低置信时只输出信息不足、缺什么、下一步。",
+          "status": "fixed-locally-pending-round-22-blackbox-verification",
+          "fixEvidence": [
+            "reports/product-review/round-21/fix-front-only-insufficient-v4.json",
+            "reports/product-review/round-21/fix-blurry-no-fake-code-v4.json",
+            "reports/iterations/round-21-decision-agent-evidence-gate-2026-06-26.md"
+          ]
+        },
+        {
+          "id": "R21-P1-004",
+          "severity": "P1",
+          "page": "评审基础设施",
+          "title": "DeepSeek 首次用户最终 JSON schema 失败被保留",
+          "userImpact": "该会话按失败计入，不能用平均分掩盖；下一轮仍需观察运行器稳定性。",
+          "evidence": [
+            "reports/product-review/raw/deepseek/round-21/first-time-consumer.json",
+            "reports/product-review/round-21/deepseek-summary-merge-validation.json"
+          ],
+          "suggestedDirection": "保持黑盒规则和失败记录，继续校验 schema；不得通过改评分或删失败提高通过率。",
+          "status": "open-pending-round-22-blackbox-verification"
+        },
+        {
+          "id": "R21-P2-005",
+          "severity": "P2",
+          "page": "首页/报告/UI",
+          "title": "首次打开价值、报告密度和移动端触控需要更清晰",
+          "userImpact": "用户可能觉得像通用 AI 壳，或在小屏幕上误点/看不到关键行动。",
+          "evidence": [
+            "reports/product-review/round-21/aggregation.json#first_open_value",
+            "reports/iterations/round-21-accessibility-agent-2026-06-26.md"
+          ],
+          "suggestedDirection": "主操作保持单一；报告只放结论、依据和下一步；触控目标、换行和底部留白达标。",
+          "status": "fixed-locally-pending-round-22-blackbox-verification",
+          "fixEvidence": [
+            "reports/product-review/round-21/fix-report-value-proof-v4.json",
+            "reports/product-review/round-21/fix-verification-1.json"
+          ]
+        },
+        {
+          "id": "R21-P2-006",
+          "severity": "P2",
+          "page": "mp-weixin",
+          "title": "小程序真机交互未验证",
+          "userImpact": "H5 通过不能等同于微信小程序真实交互通过。",
+          "evidence": [
+            "npm run user:build:mp-weixin passed"
+          ],
+          "suggestedDirection": "微信开发者工具 CLI/登录可用后补真实预览或真机交互验证。",
+          "status": "accepted-coverage-gap-pending-devtools"
+        }
+      ]
+    },
+    {
+      "round": 22,
+      "generatedAt": "2026-06-26T08:21:08.717Z",
+      "aggregation": "reports/product-review/round-22/aggregation.json",
+      "topFixQueue": "reports/product-review/round-22/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R22-P1-001",
+          "severity": "P1",
+          "page": "全流程任务闭环",
+          "title": "Codex 用户代理真实交互后无法完成 8 个任务并超时",
+          "userImpact": "真实用户可能完成单次报告，但无法顺畅走完对比、画像、留存和产品价值判断，导致再次使用意愿为 0/6。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-22/*.json",
+            "reports/product-review/screenshots/round-22/codex/"
+          ],
+          "suggestedDirection": "把报告页改成任务闭环中枢：下一步明确提供对比、画像、保存、查看价值差异，不依赖用户摸索。",
+          "status": "open"
+        },
+        {
+          "id": "R22-P1-002",
+          "severity": "P1",
+          "page": "A/B 对比",
+          "title": "A/B 对比仍是最低价值功能，用户未稳定完成或无法解释差异价值",
+          "userImpact": "控糖、过敏和怀疑 AI 价值用户仍未稳定得到当前画像下的明确差异理由。",
+          "evidence": [
+            "reports/product-review/round-22/aggregation.json#comparison_value",
+            "reports/product-review/screenshots/round-22/codex/first-time-consumer/explore-compare-result-08-09.png"
+          ],
+          "suggestedDirection": "对比页首屏增加明确 A/B 结论、三项关键差异、画像依据、下一步保存/再比；报告页一键进入对比任务。",
+          "status": "open"
+        },
+        {
+          "id": "R22-P1-003",
+          "severity": "P1",
+          "page": "画像/过敏/控糖设置",
+          "title": "用户卡在画像切换和忌口设置，无法回到识别/对比闭环",
+          "userImpact": "控糖和过敏用户无法确认同一商品结论是否因画像合理变化，高风险用户信任不足。",
+          "evidence": [
+            "reports/product-review/screenshots/round-22/codex/sugar-control/09-after-adjust-click.png",
+            "reports/product-review/screenshots/round-22/codex/allergy-sensitive/06-selected-milk-allergy.png"
+          ],
+          "suggestedDirection": "画像页提供保存后明确返回继续识别/重新计算当前报告/开始对比的路径，报告页显示当前画像和切换结果。",
+          "status": "open"
+        },
+        {
+          "id": "R22-P1-004",
+          "severity": "P1",
+          "page": "通用 AI 差异/产品价值",
+          "title": "Codex 0/6 认为明显优于通用 AI，最终价值回答未完成",
+          "userImpact": "如果用户看不到专用产品价值，会直接用通用 AI 拍照替代。",
+          "evidence": [
+            "reports/product-review/round-22/aggregation.json",
+            "reports/product-review/raw/codex/round-22/generic-ai-skeptic.json"
+          ],
+          "suggestedDirection": "在报告、对比、历史三处明确展示：结构化阈值、包装实拍证据、画像规则、同类比较、保存复用，这些比直接聊天更省事。",
+          "status": "open"
+        },
+        {
+          "id": "R22-P1-005",
+          "severity": "P1",
+          "page": "DeepSeek runner",
+          "title": "DeepSeek 后 3 个 persona 未完成，运行器被中断并按失败保留",
+          "userImpact": "Round 22 不满足 6 个 DeepSeek 完整会话要求，不能进入通过判断。",
+          "evidence": [
+            "reports/product-review/raw/deepseek/round-22/sugar-control.json",
+            "reports/product-review/raw/deepseek/round-22/allergy-sensitive.json",
+            "reports/product-review/raw/deepseek/round-22/generic-ai-skeptic.json"
+          ],
+          "suggestedDirection": "增加 per-persona timeout/resume，不改任务提示和评分门槛；失败仍保留。",
+          "status": "open"
+        }
+      ]
+    },
+    {
+      "round": 25,
+      "generatedAt": "2026-06-26T12:29:34.801Z",
+      "aggregation": "reports/product-review/round-25/aggregation-agent.json",
+      "topFixQueue": "reports/product-review/round-25/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R25-P0-INFO-RECOVERY",
+          "severity": "P0",
+          "page": "capture/report",
+          "title": "信息不足和拍糊恢复仍是最大真实用户流失点",
+          "userImpact": "用户在超市中拍糊或只拍正面时无法快速知道缺什么、怎么补拍，可能直接放弃。",
+          "evidence": [
+            "reports/product-review/round-25/aggregation-agent.md",
+            "reports/product-review/round-25/top-fix-queue.json",
+            "reports/product-review/round-25/env-smoke-insufficient-checklist-after-fix.json",
+            "reports/product-review/round-25/env-smoke-blurry-recovery-checklist-after-fix.json"
+          ],
+          "suggestedDirection": "新缺失清单和线索保留已本地实现；下一轮观察真实用户是否能无提示恢复。",
+          "status": "partially-fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R25-P1-ALLERGEN-ONETAP",
+          "severity": "P1",
+          "page": "report/compare",
+          "title": "常见过敏原需要一键加入忌口并重算",
+          "userImpact": "过敏用户不能被默认画像下的普通购买建议误导，也不能跳转多步设置。",
+          "evidence": [
+            "reports/product-review/round-25/aggregation-agent.md",
+            "reports/product-review/round-25/env-smoke-report-allergen-onetap-after-fix.json",
+            "reports/product-review/round-25/env-smoke-compare-allergen-onetap-after-fix-pass.json"
+          ],
+          "suggestedDirection": "在单品和对比中直接将命中过敏原写入画像并重算。",
+          "status": "fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R25-P1-REPORT-DENSITY",
+          "severity": "P1",
+          "page": "report",
+          "title": "报告首屏仍需继续压缩为30秒购买判断",
+          "userImpact": "时间紧张用户需要结论、2-3条依据、画像前提和一个主操作。",
+          "evidence": [
+            "reports/product-review/round-25/aggregation-agent.md",
+            "reports/product-review/final-product-review.md"
+          ],
+          "suggestedDirection": "继续减少长解释和低价值说明，保留用户购买决策信息。",
+          "status": "partially-fixed-pending-new-blackbox-review"
+        },
+        {
+          "id": "R25-P1-CHILD-ADDITIVE",
+          "severity": "P1",
+          "page": "report",
+          "title": "儿童零食场景的添加剂、色素、甜味剂仍需一级化",
+          "userImpact": "家长不想自己读完整标签文字提取儿童风险。",
+          "evidence": [
+            "reports/product-review/round-25/aggregation-agent.md",
+            "reports/product-review/round-25/env-smoke-report-allergen-onetap-after-fix.json"
+          ],
+          "suggestedDirection": "把儿童关注项做成首屏风险卡和下次保存理由。",
+          "status": "partially-fixed-pending-next-iteration"
+        },
+        {
+          "id": "R25-P2-RETENTION-REASON",
+          "severity": "P2",
+          "page": "home",
+          "title": "收藏/避雷需要展示购买理由",
+          "userImpact": "下次购物时用户需要快速知道为什么保存或避雷。",
+          "evidence": [
+            "reports/product-review/round-25/aggregation-agent.md",
+            "reports/iterations/round-25-user-scenario-fixes.md"
+          ],
+          "suggestedDirection": "首页列表展示画像标签、上次理由和当前建议。",
+          "status": "fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R25-COVERAGE-DEEPSEEK-REDUCED",
+          "severity": "P3",
+          "page": "review process",
+          "title": "后续非最终打磨轮减少 DeepSeek 评审次数",
+          "userImpact": "减少成本和等待时间，但不能把降频轮作为最终验收。",
+          "evidence": [
+            "user request: 这次之后，减少deepseek的评审次数",
+            "reports/product-review/final-product-review.md"
+          ],
+          "suggestedDirection": "非最终轮只跑关键1-2个DeepSeek场景并记录覆盖缺口；最终验收前再明确是否恢复完整6角色。",
+          "status": "accepted-review-coverage-policy"
+        }
+      ]
+    },
+    {
+      "round": 26,
+      "generatedAt": "2026-06-26T14:33:13.754Z",
+      "aggregation": "reports/product-review/round-26/aggregation-agent.json",
+      "topFixQueue": "reports/product-review/round-26/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R26-P0-UPLOAD-RECOGNITION-STABILITY",
+          "severity": "P0",
+          "page": "capture/report/environment",
+          "title": "上传识别和环境稳定性导致多角色信息不足失败",
+          "userImpact": "用户上传公开样本后连续得到信息不足，控糖、过敏和产品价值任务无法完成。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-26/sugar-control.json",
+            "reports/product-review/raw/codex/round-26/generic-ai-skeptic.json",
+            "reports/product-review/round-26/env-smoke-public-sample01.json",
+            "reports/product-review/round-26/fix-api-down-ui.json",
+            "reports/product-review/round-26/fix-public-sample01-health.json"
+          ],
+          "suggestedDirection": "API/proxy fail-fast, OCR service outage shown as service unavailable instead of ordinary information insufficient.",
+          "status": "fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R26-P0-INFORMATION-SUFFICIENCY",
+          "severity": "P0",
+          "page": "report",
+          "title": "信息充分性和补拍路径仍是最大放弃点",
+          "userImpact": "异常恢复任务完成率低，补拍后仍可能失败或不知道下一张该拍什么。",
+          "evidence": [
+            "reports/product-review/round-26/aggregation-agent.md",
+            "reports/product-review/raw/deepseek/round-26/allergy-sensitive.json",
+            "reports/product-review/round-26/fix-insufficient-recovery-merge.json",
+            "reports/product-review/screenshots/round-26/fix-insufficient-recovery-merge/03-after-recovery-click.png",
+            "reports/product-review/screenshots/round-26/fix-insufficient-recovery-merge/04-recovered-report.png"
+          ],
+          "suggestedDirection": "继续做多图任务清单和合并重算；当前已完成只拍正面后补拍配料表的线索带入和恢复验证。",
+          "status": "partially-fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R26-P1-ALLERGEN-COMPARE-TRUST",
+          "severity": "P1",
+          "page": "report/compare",
+          "title": "过敏命中不能被胜出文案冲淡",
+          "userImpact": "过敏用户可能看到B胜出而忽略两款都含同类过敏原。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-26/allergy-sensitive.json",
+            "reports/product-review/round-26/aggregation-agent.md",
+            "reports/product-review/round-26/fix-compare-shared-allergen-confirm-pass.json",
+            "reports/product-review/screenshots/round-26/fix-compare-shared-allergen-confirm-pass/04-compare.png"
+          ],
+          "suggestedDirection": "共同常见过敏原未设置忌口时已改为先确认，不显示 A/B 胜出；下一轮过敏用户需复评是否足够可信。",
+          "status": "fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R26-P1-REPORT-DENSITY",
+          "severity": "P1",
+          "page": "report",
+          "title": "报告首屏仍不适合30秒购买判断",
+          "userImpact": "超市用户需要一屏完成判断，不愿扫长页。",
+          "evidence": [
+            "reports/product-review/raw/codex/round-26/time-pressed-consumer.json",
+            "reports/product-review/round-26/aggregation-agent.md",
+            "reports/product-review/round-26/fix-report-first-screen-density.json",
+            "reports/product-review/screenshots/round-26/fix-report-first-screen-density/03-report.png"
+          ],
+          "suggestedDirection": "首屏已压缩为结论、当前画像、三条关键依据和主动作；下一轮需由真实30秒用户复评是否足够快。",
+          "status": "fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R26-COVERAGE-DEEPSEEK-REDUCED",
+          "severity": "P3",
+          "page": "review process",
+          "title": "Round 26 DeepSeek 降频覆盖缺口",
+          "userImpact": "本轮不能作为最终验收，因为 DeepSeek 只覆盖2个关键角色。",
+          "evidence": [
+            "reports/product-review/raw/deepseek/round-26/summary.json",
+            "reports/product-review/round-26/environment.json"
+          ],
+          "suggestedDirection": "非最终轮保持降频；最终验收前恢复或明确覆盖决策。",
+          "status": "accepted-review-coverage-policy"
+        },
+        {
+          "id": "R26-P1-FIRST-OPEN-VALUE",
+          "severity": "P1",
+          "page": "home",
+          "title": "首页首屏价值表达偏产品定位，真实购物动作不够直接",
+          "userImpact": "首次用户可能理解这是 AI 拍照说明，而不是买前拍哪里、看什么、缺信息怎么办的工具。",
+          "evidence": [
+            "reports/product-review/round-26/aggregation-agent.md",
+            "reports/product-review/round-26/fix-home-first-open-flow.json",
+            "reports/product-review/screenshots/round-26/fix-home-first-open-flow/home.png"
+          ],
+          "suggestedDirection": "首页以真实购物流程表达：拍配料/营养/条码，先看买/谨慎/不建议，缺信息补拍。",
+          "status": "fixed-locally-pending-new-blackbox-review"
+        },
+        {
+          "id": "R26-P2-RETENTION-UTILITY",
+          "severity": "P2",
+          "page": "home/report",
+          "title": "收藏、避雷、历史和待补拍记录的复用价值不够明确",
+          "userImpact": "用户下次打开不知道哪些记录能直接复查购买理由，哪些记录需要继续补拍。",
+          "evidence": [
+            "reports/product-review/round-26/aggregation-agent.md",
+            "reports/product-review/round-26/fix-retention-continue-draft.json",
+            "reports/product-review/screenshots/round-26/fix-retention-continue-draft/home.png"
+          ],
+          "suggestedDirection": "首页记录区区分可复查购买理由和可继续补拍草稿。",
+          "status": "fixed-locally-pending-new-blackbox-review"
+        }
+      ]
+    },
+    {
+      "round": 27,
+      "generatedAt": "2026-06-26T15:34:08.096Z",
+      "aggregation": "reports/product-review/round-27/aggregation.json",
+      "aggregatorAgent": "reports/product-review/round-27/aggregation-agent.md",
+      "topFixQueue": "reports/product-review/round-27/top-fix-queue.json",
+      "issues": [
+        {
+          "id": "R27-P0-UPLOAD-CARD-CLICK",
+          "severity": "P0",
+          "status": "fixed-locally-pending-round-28-blackbox-verification",
+          "page": "识别页",
+          "title": "用户点击上传卡片中央文案没有触发选择图片",
+          "userImpact": "真实用户会点最显眼的“选择包装标签图片”区域；如果没有任何反馈，会认为上传识别失败并放弃。",
+          "reproductionSteps": [
+            "打开 Round 27 H5 首页。",
+            "点击首页“拍照识别”进入识别页。",
+            "点击识别页中央“选择包装标签图片”标题，而不是下方“上传识别”按钮。",
+            "选择清晰配料表样本，观察是否进入报告页。"
+          ],
+          "evidence": [
+            "reports/product-review/raw/codex/round-27/generic-ai-skeptic.json",
+            "reports/product-review/round-27/aggregation-agent.md#P0",
+            "reports/product-review/round-27/fix-upload-card-click.json",
+            "reports/product-review/screenshots/round-27/fix-upload-card-click/02-capture.png",
+            "reports/product-review/screenshots/round-27/fix-upload-card-click/03-after-card-upload.png"
+          ],
+          "suggestedDirection": "上传卡片主视觉区域必须和上传按钮共用同一选择图片入口；选择后必须进入处理中、报告或明确失败恢复。",
+          "fixSummary": "ImageUploader 空状态卡片添加可点击入口，点击标题/图标/提示文字会触发同一相册/文件选择流程。",
+          "validations": [
+            "npm --prefix user-uniapp run typecheck: passed",
+            "npm --prefix user-uniapp run lint: passed",
+            "npm run user:build:h5: passed",
+            "node scripts/product-review/browser-upload-card-smoke.mjs: passed",
+            "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+            "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+            "npm run user:visual:smoke: passed",
+            "npm run test: initial sandbox attempt failed with EROFS writing .codex/state/checkpoint.json; escalated rerun passed",
+            "git diff --check: passed"
+          ]
+        },
+        {
+          "id": "R27-P1-DEEPSEEK-SCHEMA",
+          "severity": "P1",
+          "page": "评审运行器",
+          "status": "fixed-locally-pending-round-28-blackbox-verification",
+          "title": "DeepSeek 控糖最终 JSON schema 缺失，8 个任务失败",
+          "userImpact": "控糖用户价值不能被确认时，必须区分真实任务失败和运行器 schema 失败，不能用其他角色平均分掩盖 reject。",
+          "reproductionSteps": [
+            "运行 Round 27 DeepSeek 控糖黑盒会话。",
+            "检查原始 raw/deepseek/round-27/sugar-control.json 是否因最终 schema 缺失导致 8 个任务全失败。",
+            "运行 runner fix v2 的独立控糖会话，检查是否输出统一 JSON 且不出现 runnerFinalReviewError。"
+          ],
+          "evidence": [
+            "reports/product-review/raw/deepseek/round-27/sugar-control.json",
+            "reports/product-review/raw/deepseek/round-27-runner-fix-v2/sugar-control.json",
+            "reports/product-review/raw/deepseek/round-27-runner-fix-v2/summary.json"
+          ],
+          "suggestedDirection": "整包最终评审失败时，缩小为单任务结构化评审；仍不得给 DeepSeek 操作提示、不得降低评分门槛、不得把真实任务失败改成通过。",
+          "fixSummary": "DeepSeek runner 增加单任务最终评审 fallback，并把 not_confirmed 归类为真实页面交互未证明完成；runner-fix-v2 控糖会话无 runnerFinalReviewError，6/8 任务完成。",
+          "validations": [
+            "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+            "DeepSeek runner fix v2 sugar-control: completed 6/8 tasks, failed 2/8 tasks as real interaction failures",
+            "runnerFinalReviewError: absent",
+            "issue page classification: DeepSeek text-black-box interaction, not DeepSeek review runner",
+            "consoleErrors: 0; networkErrors: 0",
+            "Original Round 27 failed sugar-control session preserved unchanged"
+          ]
+        },
+        {
+          "id": "R27-P1-RECOVERY-PATH",
+          "severity": "P1",
+          "status": "fixed-locally-pending-round-28-blackbox-verification",
+          "page": "信息不足/异常恢复",
+          "title": "补拍和失败恢复入口过多且反馈不统一",
+          "userImpact": "只拍正面或拍糊时，用户需要知道下一张到底拍哪里；多个相似补拍入口会让用户退出。",
+          "reproductionSteps": [
+            "上传只有包装正面的样本，进入信息不足报告。",
+            "观察首屏是否只给一个明确补拍主目标。",
+            "点击主补拍动作，上传清晰配料表样本，确认恢复到购买建议。",
+            "用模糊/反光样本重复同一流程。"
+          ],
+          "evidence": [
+            "reports/product-review/round-27/fix-recovery-single-action-front-v2.json",
+            "reports/product-review/round-27/fix-recovery-single-action-blurry-v2.json",
+            "reports/product-review/screenshots/round-27/fix-recovery-single-action-front-v2/02-failure-report.png",
+            "reports/product-review/screenshots/round-27/fix-recovery-single-action-blurry-v2/02-failure-report.png",
+            "reports/product-review/screenshots/round-27/fix-recovery-single-action-front-v2/04-recovered-report.png",
+            "reports/product-review/screenshots/round-27/fix-recovery-single-action-blurry-v2/04-recovered-report.png"
+          ],
+          "suggestedDirection": "信息不足页按缺失项只给一个主补拍动作，底部主按钮和首屏下一步使用同一目标文案；手动补充保留为辅助。",
+          "fixSummary": "报告页新增 primaryRecoveryTarget，信息不足首屏只展示一个动态主补拍动作；泛化“补拍标签/补拍营养表”并列入口被收敛。",
+          "validations": [
+            "npm --prefix user-uniapp run typecheck: passed",
+            "npm --prefix user-uniapp run lint: passed",
+            "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+            "npm run user:build:h5: passed",
+            "browser recovery smoke front-only: passed",
+            "browser recovery smoke blurry: passed",
+            "initial text residue check: no 补拍营养表 / 补拍标签, primary 补拍配料表 present",
+            "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+            "npm run user:visual:smoke: passed",
+            "npm run test: passed after escalated rerun",
+            "git diff --check: passed"
+          ]
+        },
+        {
+          "id": "R27-P1-PROFILE-PRIORITY",
+          "severity": "P1",
+          "status": "fixed-locally-pending-round-28-blackbox-verification",
+          "page": "报告/画像",
+          "title": "控糖、过敏、儿童画像的第一风险排序不贴合用户目标",
+          "userImpact": "控糖用户需要先看糖、碳水和甜味剂；过敏用户设置忌口后需要强阻断。固定风险排序会让不同角色都不信任结论。",
+          "reproductionSteps": [
+            "使用同一张含高糖、碳水、甜味剂和牛奶致敏提示的包装。",
+            "以控糖画像打开报告，观察首屏第一条依据。",
+            "以牛奶忌口画像打开同一报告，观察首屏第一条依据和结论。"
+          ],
+          "evidence": [
+            "reports/product-review/raw/codex/round-27/sugar-control.json",
+            "reports/product-review/raw/codex/round-27/allergy-sensitive.json",
+            "reports/product-review/round-27/fix-profile-priority.json",
+            "reports/product-review/screenshots/round-27/fix-profile-priority/sugar-03-report.png",
+            "reports/product-review/screenshots/round-27/fix-profile-priority/milk-allergy-03-report.png"
+          ],
+          "suggestedDirection": "按显式画像排序首屏依据：已设置忌口仍最高；未设置忌口的常见过敏原作为条件提醒，不能盖过控糖/低钠/儿童目标。",
+          "fixSummary": "风险排序传入 attention；控糖/低钠/儿童目标优先对应营养和配料风险，普通常见过敏原降为条件提醒；配置忌口仍保持最高优先级。",
+          "validations": [
+            "npm --prefix user-uniapp run typecheck: passed",
+            "npm --prefix user-uniapp run lint: passed",
+            "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+            "npm run user:build:h5: passed",
+            "node scripts/product-review/browser-profile-priority-smoke.mjs: passed",
+            "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+            "npm run user:visual:smoke: passed",
+            "npm run test: passed after escalated rerun",
+            "git diff --check: passed"
+          ]
+        },
+        {
+          "id": "R27-P1-RETENTION-FEEDBACK",
+          "severity": "P1",
+          "status": "fixed-locally-pending-round-28-blackbox-verification",
+          "page": "收藏/避雷/历史",
+          "title": "收藏、避雷、历史反馈和计数不可信",
+          "userImpact": "用户点击保存后必须确认已经保存，并能在首页看到计数、卡片和购买理由，否则没有下次打开的理由。",
+          "reproductionSteps": [
+            "上传清晰标签并进入购买建议。",
+            "未保存状态下点击底部“收藏建议”。",
+            "返回首页，检查已保存计数、收藏列表和购买理由。",
+            "用牛奶忌口画像上传含牛奶样本，点击“加入避雷”，检查首页避雷计数和不再买理由。"
+          ],
+          "evidence": [
+            "reports/product-review/round-27/fix-retention-save-action.json",
+            "reports/product-review/round-27/fix-retention-avoid-action.json",
+            "reports/product-review/screenshots/round-27/fix-retention-save-action/05-saved-filter.png",
+            "reports/product-review/screenshots/round-27/fix-retention-avoid-action/05-avoid-list.png"
+          ],
+          "suggestedDirection": "未保存状态的底部二级按钮必须是保存动作，不应显示“查看已保存”；首次点击使用显式保存，首页计数和理由卡同步。",
+          "fixSummary": "报告页未保存状态底部按钮改为“收藏建议/加入避雷”；新增显式 saveCurrentFavorite/saveCurrentAvoided，避免首次点击走 toggle 造成取消反馈。",
+          "validations": [
+            "npm --prefix user-uniapp run typecheck: passed",
+            "npm --prefix user-uniapp run lint: passed",
+            "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+            "npm run user:build:h5: passed",
+            "browser retention save smoke: passed with saved count and reason",
+            "browser retention avoid smoke: passed with 0 收藏 / 1 避雷 and no empty state",
+            "node --check scripts/product-review/browser-profile-priority-smoke.mjs: passed",
+            "node --check scripts/product-review/browser-retention-avoid-smoke.mjs: passed",
+            "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+            "npm run user:visual:smoke: passed",
+            "npm run test: passed after escalated rerun",
+            "git diff --check: passed"
+          ]
+        },
+        {
+          "id": "R27-P2-COMPARE-CONSISTENCY",
+          "severity": "P2",
+          "page": "食品对比",
+          "status": "fixed-locally-pending-round-28-blackbox-verification",
+          "title": "A/B 数值胜出与差异卡出现平/接近冲突",
+          "userImpact": "控糖用户需要快速知道哪款糖、碳水、钠更低；如果关键差异显示更低但视觉控件像打平，会削弱同类替代价值。",
+          "reproductionSteps": [
+            "打开 Round 27 H5 首页。",
+            "设置控糖关注并依次上传两款同类饮料/酸奶样本。",
+            "进入食品对比页，查看顶部结论、关键差异、糖、碳水、钠和过敏先确认是否一致。"
+          ],
+          "evidence": [
+            "reports/product-review/round-27/aggregation-agent.md#P2",
+            "reports/product-review/round-27/fix-compare-difference-label.json",
+            "reports/product-review/round-27/fix-compare-difference-label-v3.json",
+            "reports/product-review/screenshots/round-27/fix-compare-difference-label-v3/04-compare.png"
+          ],
+          "suggestedDirection": "对比页只展示用户能直接理解的更低/先确认结果，不再保留像可选控件的 A/平/B 分段；视觉标记必须服务同一个推荐理由。",
+          "fixSummary": "关键差异行移除 A/平/B 文字分段，改为左/右/居中的无干扰视觉标记，并保留明确 B 更低/先确认文案；共同过敏原场景仍优先过敏先确认。",
+          "validations": [
+            "npm --prefix user-uniapp run typecheck: passed",
+            "npm --prefix user-uniapp run lint: passed",
+            "npm --prefix user-uniapp run audit:product-output: passed, 27 checks",
+            "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+            "npm run user:build:h5: passed",
+            "browser compare smoke v3: passed with B 更低, 糖, 碳水, 过敏先确认 and no visible A 平 B",
+            "visible text check: bodyText has no A 平 B and has zero console/network errors",
+            "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+            "npm run user:visual:smoke: passed",
+            "npm run test: initial eval failed before visual badge restoration; final escalated rerun passed",
+            "git diff --check: passed"
+          ]
+        },
+        {
+          "id": "R27-P1-RUNTIME-STABILITY",
+          "severity": "P1",
+          "page": "本地黑盒环境",
+          "status": "fixed-locally-pending-round-28-blackbox-verification",
+          "title": "H5 测试环境在评审后断连",
+          "userImpact": "环境不稳定会制造真实用户失败；必须在会话前后记录 H5、H5 代理 API 和直连 API 是否可达，不能把断连隐藏成产品通过。",
+          "reproductionSteps": [
+            "完成 Round 27 评审后访问 http://127.0.0.1:5207/。",
+            "观察连接失败；API 3127 health 仍可用。",
+            "运行 review-environment-guard 持续检查 H5 root、H5 /api/health 和直连 API health。"
+          ],
+          "evidence": [
+            "reports/product-review/round-27/environment-h5-disconnected-after-reviews.json",
+            "reports/product-review/round-27/fix-runtime-environment-guard.json"
+          ],
+          "suggestedDirection": "每轮评审环境启动后、用户会话前后、聚合前都运行环境守护；如果任一采样失败，该会话按真实失败保留并重建全新环境再继续。",
+          "fixSummary": "新增 scripts/product-review/review-environment-guard.mjs，支持单次或持续采样 H5 root、H5 代理 API health、直连 API health，并输出失败证据。Round 27 修复验证 12 秒内 5 次采样全部通过。",
+          "validations": [
+            "node --check scripts/product-review/review-environment-guard.mjs: passed",
+            "review-environment-guard 12s watch: passed, 5 samples, 0 failures",
+            "checked h5-root, h5-proxied-api-health, api-direct-health",
+            "Original Round 27 H5 disconnect failure report preserved"
+          ]
+        },
+        {
+          "id": "R27-P1-DEEPSEEK-SUGAR-TASK-COVERAGE",
+          "severity": "P1",
+          "page": "DeepSeek 控糖黑盒流程 / 食品对比",
+          "status": "partially-fixed-value-proof-pending-round-28-blackbox-verification",
+          "title": "控糖 DeepSeek 会话仍未完成信息不足和产品替代性任务",
+          "userImpact": "控糖用户能完成识别、单品判断、异常恢复、对比、画像和留存，但产品替代性没有自然显现时，用户仍可能认为直接问通用 AI 就够了。",
+          "reproductionSteps": [
+            "运行 DeepSeek runner fix v2 的 sugar-control 单角色会话。",
+            "观察 task-8 未能输出相对通用 AI 的价值回答。",
+            "进入控糖 A/B 对比页，检查首屏是否直接展示糖/碳水/钠同屏、画像优先、包装实拍可核对。"
+          ],
+          "evidence": [
+            "reports/product-review/raw/deepseek/round-27-runner-fix-v2/sugar-control.json",
+            "reports/product-review/round-27/fix-compare-value-proof.json",
+            "reports/product-review/screenshots/round-27/fix-compare-value-proof/04-compare.png"
+          ],
+          "suggestedDirection": "下一轮继续以用户场景验证：对比页首屏价值证据是否足以让控糖用户理解比通用 AI 更省事；信息不足样本触发仍需复评。",
+          "fixSummary": "对比摘要首屏新增紧凑价值证据条，直接贴近当前 A/B 数据展示：糖/碳水/钠同屏、当前画像优先、包装实拍可核对；不再只依赖下方长价值卡。",
+          "validations": [
+            "npm --prefix user-uniapp run typecheck: passed",
+            "npm --prefix user-uniapp run lint: passed",
+            "npm run user:build:h5: passed",
+            "browser compare value proof smoke: passed with 比直接问 AI 省事 / 糖/碳水/钠同屏 / 包装实拍可核对 / B 更低",
+            "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+            "npm --prefix user-uniapp run audit:product-output: passed, 27 checks",
+            "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+            "npm run user:visual:smoke: passed",
+            "environment guard after value proof: passed, 3 samples, 0 failures",
+            "npm run test: passed",
+            "git diff --check: passed"
+          ]
+        }
+      ]
+    }
+  ],
+  "openIssues": [
+    {
+      "id": "R20-FULL-BLACKBOX-REVIEW",
+      "severity": "P1",
+      "page": "full product",
+      "title": "Round 20 full black-box review required",
+      "status": "pending",
+      "evidence": [
+        "reports/product-review/round-19/fix-verification-4.json"
+      ],
+      "suggestedDirection": "Run fresh samples, browser state, 6 Codex sessions, 6 DeepSeek sessions, aggregation, then continue fixes."
+    },
+    {
+      "id": "WECHAT-REAL-DEVICE-GAP",
+      "severity": "P2",
+      "page": "mp-weixin",
+      "title": "小程序真机交互未验证",
+      "status": "accepted-coverage-gap-pending-devtools",
+      "evidence": [
+        "npm run user:build:mp-weixin"
+      ],
+      "suggestedDirection": "If WeChat DevTools CLI/login becomes available, add true mini-program preview validation."
+    },
+    "R27-P1-DEEPSEEK-SUGAR-TASK-COVERAGE"
+  ],
+  "fixedLocallyPendingVerification": [
+    {
+      "id": "R16-P0-001",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json"
+    },
+    {
+      "id": "R16-P0-002",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json"
+    },
+    {
+      "id": "R16-P1-004",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json"
+    },
+    {
+      "id": "R16-P2-REPORT-DENSITY",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json"
+    },
+    {
+      "id": "R17-P1-REVIEW-INFRA",
+      "status": "fixed-locally-pending-round-18-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-17/fix-verification-2.json"
+    },
+    {
+      "id": "R17-P1-UPLOAD-COMPARE",
+      "status": "fixed-locally-pending-round-18-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-17/fix-verification-2.json"
+    },
+    {
+      "id": "R17-P1-COMPARISON-VALUE",
+      "status": "fixed-locally-pending-round-18-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-17/fix-verification-2.json"
+    },
+    {
+      "id": "R17-P2-ALLERGEN-COPY",
+      "status": "fixed-locally-pending-round-18-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-17/fix-verification-2.json"
+    },
+    {
+      "id": "R17-P3-RETENTION",
+      "status": "fixed-locally-pending-round-18-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-17/fix-verification-2.json"
+    },
+    {
+      "id": "R18-P0-UPLOAD-STATE",
+      "status": "fixed-locally-pending-round-19-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-18/fix-verification-3.json"
+    },
+    {
+      "id": "R18-P1-REVIEW-INFRA",
+      "status": "fixed-locally-pending-round-19-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-18/fix-verification-3.json"
+    },
+    {
+      "id": "R18-P1-INFO-SUFFICIENCY",
+      "status": "fixed-locally-pending-round-19-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-18/fix-verification-3.json"
+    },
+    {
+      "id": "R18-P1-COMPARISON-COPY",
+      "status": "fixed-locally-pending-round-19-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-18/fix-verification-3.json"
+    },
+    {
+      "id": "R18-P1-ALLERGEN-CHILD-PRIORITY",
+      "status": "fixed-locally-pending-round-19-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-18/fix-verification-3.json"
+    },
+    {
+      "id": "R18-P1-REPORT-ACTIONS",
+      "status": "fixed-locally-pending-round-19-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-18/fix-verification-3.json"
+    },
+    {
+      "id": "R19-P0-ALLERGEN-PRIORITY",
+      "severity": "P0",
+      "status": "fixed-locally-pending-round-20-blackbox-verification",
+      "evidence": [
+        "reports/product-review/round-19/fix-allergy-peanut-report-v3.json",
+        "reports/product-review/round-19/fix-compare-allergy-stop-v2.json"
+      ]
+    },
+    {
+      "id": "R19-P1-INFO-SUFFICIENCY-PARTIAL-EVIDENCE",
+      "severity": "P1",
+      "status": "fixed-locally-pending-round-20-blackbox-verification",
+      "evidence": [
+        "reports/product-review/round-19/fix-info-front-only-report-v2.json"
+      ]
+    },
+    {
+      "id": "R19-P1-DEEPSEEK-FINAL-JSON",
+      "severity": "P1",
+      "status": "runner-fixed-short-validation-passed-pending-round-20-full-run",
+      "evidence": [
+        "reports/product-review/round-19/deepseek-runner-validation-flash/raw/parent-child-snack.json"
+      ]
+    },
+    {
+      "id": "R19-P1-FIRST-OPEN-VALUE",
+      "severity": "P1",
+      "status": "fixed-locally-pending-round-20-blackbox-verification",
+      "evidence": [
+        "reports/product-review/screenshots/round-19/fix-allergy-peanut-report-v3/01-home.png"
+      ]
+    },
+    {
+      "id": "R27-P2-COMPARE-CONSISTENCY",
+      "status": "fixed-locally-pending-round-28-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-27/fix-compare-difference-label-v3.json"
+    },
+    {
+      "id": "R27-P1-DEEPSEEK-SCHEMA",
+      "status": "fixed-locally-pending-round-28-blackbox-verification",
+      "fixEvidence": "reports/product-review/raw/deepseek/round-27-runner-fix-v2/sugar-control.json"
+    },
+    {
+      "id": "R27-P1-RUNTIME-STABILITY",
+      "status": "fixed-locally-pending-round-28-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-27/fix-runtime-environment-guard.json"
+    }
+  ],
+  "fixedIssues": [
+    {
+      "id": "R16-P0-001",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: 35 passed",
+        "npm run lint: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: 44 scenarios passed",
+        "npm --prefix backend run decision:evaluate: 8/8 decision and 4/4 comparison passed",
+        "npm --prefix backend test: 195 passed",
+        "npm run test: eval:all passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed"
+      ]
+    },
+    {
+      "id": "R16-P0-002",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: 35 passed",
+        "npm run lint: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: 44 scenarios passed",
+        "npm --prefix backend run decision:evaluate: 8/8 decision and 4/4 comparison passed",
+        "npm --prefix backend test: 195 passed",
+        "npm run test: eval:all passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed"
+      ]
+    },
+    {
+      "id": "R16-P1-004",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: 35 passed",
+        "npm run lint: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: 44 scenarios passed",
+        "npm --prefix backend run decision:evaluate: 8/8 decision and 4/4 comparison passed",
+        "npm --prefix backend test: 195 passed",
+        "npm run test: eval:all passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed"
+      ]
+    },
+    {
+      "id": "R16-P2-REPORT-DENSITY",
+      "status": "fixed-locally-pending-round-17-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-16/fix-verification-1.json",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: 35 passed",
+        "npm run lint: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: 44 scenarios passed",
+        "npm --prefix backend run decision:evaluate: 8/8 decision and 4/4 comparison passed",
+        "npm --prefix backend test: 195 passed",
+        "npm run test: eval:all passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed"
+      ]
+    },
+    {
+      "id": "R20-P2-HOME-EXAMPLE-LABEL",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R20-P1-INFO-GENERIC-NAME",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R20-P1-COMPARE-SUGAR-WINNER",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R20-P2-ADDITIVE-THRESHOLD-PROOF",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R20-P2-REPORT-ACTION-COPY",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R20-P2-RETENTION-FEEDBACK",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R20-P1-DEEPSEEK-FINAL-SCHEMA",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R20-P2-REPORT-DENSITY",
+      "status": "fixed-locally-pending-round-21-blackbox-verification",
+      "fixEvidence": "reports/product-review/round-20/fix-verification-1.json",
+      "validations": [
+        "node --check scripts/product-review/deepseek-blackbox-runner.mjs: passed",
+        "node --check scripts/product-review/product-review-aggregator.mjs: passed",
+        "node scripts/product-review/product-review-aggregator.mjs --round=20: passed",
+        "node scripts/product-review/validate-product-review-aggregator.mjs: passed",
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run audit:product-output: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed",
+        "npm run user:build:h5: passed",
+        "npm run user:build:mp-weixin: passed",
+        "npm run user:visual:smoke: passed",
+        "npm --prefix backend run typecheck: passed",
+        "npm --prefix backend test -- health ocr decisionAgent: passed_35_tests",
+        "npm run test: passed_after_escalated_rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R27-P0-UPLOAD-CARD-CLICK",
+      "severity": "P0",
+      "status": "fixed-locally-pending-round-28-blackbox-verification",
+      "page": "识别页",
+      "title": "用户点击上传卡片中央文案没有触发选择图片",
+      "userImpact": "真实用户会点最显眼的“选择包装标签图片”区域；如果没有任何反馈，会认为上传识别失败并放弃。",
+      "reproductionSteps": [
+        "打开 Round 27 H5 首页。",
+        "点击首页“拍照识别”进入识别页。",
+        "点击识别页中央“选择包装标签图片”标题，而不是下方“上传识别”按钮。",
+        "选择清晰配料表样本，观察是否进入报告页。"
+      ],
+      "evidence": [
+        "reports/product-review/raw/codex/round-27/generic-ai-skeptic.json",
+        "reports/product-review/round-27/aggregation-agent.md#P0",
+        "reports/product-review/round-27/fix-upload-card-click.json",
+        "reports/product-review/screenshots/round-27/fix-upload-card-click/02-capture.png",
+        "reports/product-review/screenshots/round-27/fix-upload-card-click/03-after-card-upload.png"
+      ],
+      "suggestedDirection": "上传卡片主视觉区域必须和上传按钮共用同一选择图片入口；选择后必须进入处理中、报告或明确失败恢复。",
+      "fixSummary": "ImageUploader 空状态卡片添加可点击入口，点击标题/图标/提示文字会触发同一相册/文件选择流程。",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm run user:build:h5: passed",
+        "node scripts/product-review/browser-upload-card-smoke.mjs: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+        "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+        "npm run user:visual:smoke: passed",
+        "npm run test: initial sandbox attempt failed with EROFS writing .codex/state/checkpoint.json; escalated rerun passed",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R27-P1-PROFILE-PRIORITY",
+      "severity": "P1",
+      "status": "fixed-locally-pending-round-28-blackbox-verification",
+      "page": "报告/画像",
+      "title": "控糖、过敏、儿童画像的第一风险排序不贴合用户目标",
+      "userImpact": "控糖用户需要先看糖、碳水和甜味剂；过敏用户设置忌口后需要强阻断。固定风险排序会让不同角色都不信任结论。",
+      "reproductionSteps": [
+        "使用同一张含高糖、碳水、甜味剂和牛奶致敏提示的包装。",
+        "以控糖画像打开报告，观察首屏第一条依据。",
+        "以牛奶忌口画像打开同一报告，观察首屏第一条依据和结论。"
+      ],
+      "evidence": [
+        "reports/product-review/raw/codex/round-27/sugar-control.json",
+        "reports/product-review/raw/codex/round-27/allergy-sensitive.json",
+        "reports/product-review/round-27/fix-profile-priority.json",
+        "reports/product-review/screenshots/round-27/fix-profile-priority/sugar-03-report.png",
+        "reports/product-review/screenshots/round-27/fix-profile-priority/milk-allergy-03-report.png"
+      ],
+      "suggestedDirection": "按显式画像排序首屏依据：已设置忌口仍最高；未设置忌口的常见过敏原作为条件提醒，不能盖过控糖/低钠/儿童目标。",
+      "fixSummary": "风险排序传入 attention；控糖/低钠/儿童目标优先对应营养和配料风险，普通常见过敏原降为条件提醒；配置忌口仍保持最高优先级。",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+        "npm run user:build:h5: passed",
+        "node scripts/product-review/browser-profile-priority-smoke.mjs: passed",
+        "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+        "npm run user:visual:smoke: passed",
+        "npm run test: passed after escalated rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R27-P1-RECOVERY-PATH",
+      "severity": "P1",
+      "status": "fixed-locally-pending-round-28-blackbox-verification",
+      "page": "信息不足/异常恢复",
+      "title": "补拍和失败恢复入口过多且反馈不统一",
+      "userImpact": "只拍正面或拍糊时，用户需要知道下一张到底拍哪里；多个相似补拍入口会让用户退出。",
+      "reproductionSteps": [
+        "上传只有包装正面的样本，进入信息不足报告。",
+        "观察首屏是否只给一个明确补拍主目标。",
+        "点击主补拍动作，上传清晰配料表样本，确认恢复到购买建议。",
+        "用模糊/反光样本重复同一流程。"
+      ],
+      "evidence": [
+        "reports/product-review/round-27/fix-recovery-single-action-front-v2.json",
+        "reports/product-review/round-27/fix-recovery-single-action-blurry-v2.json",
+        "reports/product-review/screenshots/round-27/fix-recovery-single-action-front-v2/02-failure-report.png",
+        "reports/product-review/screenshots/round-27/fix-recovery-single-action-blurry-v2/02-failure-report.png",
+        "reports/product-review/screenshots/round-27/fix-recovery-single-action-front-v2/04-recovered-report.png",
+        "reports/product-review/screenshots/round-27/fix-recovery-single-action-blurry-v2/04-recovered-report.png"
+      ],
+      "suggestedDirection": "信息不足页按缺失项只给一个主补拍动作，底部主按钮和首屏下一步使用同一目标文案；手动补充保留为辅助。",
+      "fixSummary": "报告页新增 primaryRecoveryTarget，信息不足首屏只展示一个动态主补拍动作；泛化“补拍标签/补拍营养表”并列入口被收敛。",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+        "npm run user:build:h5: passed",
+        "browser recovery smoke front-only: passed",
+        "browser recovery smoke blurry: passed",
+        "initial text residue check: no 补拍营养表 / 补拍标签, primary 补拍配料表 present",
+        "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+        "npm run user:visual:smoke: passed",
+        "npm run test: passed after escalated rerun",
+        "git diff --check: passed"
+      ]
+    },
+    {
+      "id": "R27-P1-RETENTION-FEEDBACK",
+      "severity": "P1",
+      "status": "fixed-locally-pending-round-28-blackbox-verification",
+      "page": "收藏/避雷/历史",
+      "title": "收藏、避雷、历史反馈和计数不可信",
+      "userImpact": "用户点击保存后必须确认已经保存，并能在首页看到计数、卡片和购买理由，否则没有下次打开的理由。",
+      "reproductionSteps": [
+        "上传清晰标签并进入购买建议。",
+        "未保存状态下点击底部“收藏建议”。",
+        "返回首页，检查已保存计数、收藏列表和购买理由。",
+        "用牛奶忌口画像上传含牛奶样本，点击“加入避雷”，检查首页避雷计数和不再买理由。"
+      ],
+      "evidence": [
+        "reports/product-review/round-27/fix-retention-save-action.json",
+        "reports/product-review/round-27/fix-retention-avoid-action.json",
+        "reports/product-review/screenshots/round-27/fix-retention-save-action/05-saved-filter.png",
+        "reports/product-review/screenshots/round-27/fix-retention-avoid-action/05-avoid-list.png"
+      ],
+      "suggestedDirection": "未保存状态的底部二级按钮必须是保存动作，不应显示“查看已保存”；首次点击使用显式保存，首页计数和理由卡同步。",
+      "fixSummary": "报告页未保存状态底部按钮改为“收藏建议/加入避雷”；新增显式 saveCurrentFavorite/saveCurrentAvoided，避免首次点击走 toggle 造成取消反馈。",
+      "validations": [
+        "npm --prefix user-uniapp run typecheck: passed",
+        "npm --prefix user-uniapp run lint: passed",
+        "npm --prefix user-uniapp run regression:ocr-report: passed, 45 scenarios",
+        "npm run user:build:h5: passed",
+        "browser retention save smoke: passed with saved count and reason",
+        "browser retention avoid smoke: passed with 0 收藏 / 1 避雷 and no empty state",
+        "node --check scripts/product-review/browser-profile-priority-smoke.mjs: passed",
+        "node --check scripts/product-review/browser-retention-avoid-smoke.mjs: passed",
+        "npm run user:build:mp-weixin: passed, true mini-program interaction not verified",
+        "npm run user:visual:smoke: passed",
+        "npm run test: passed after escalated rerun",
+        "git diff --check: passed"
+      ]
+    }
+  ],
+  "round": 20,
+  "updatedAt": "2026-06-26T06:30:56Z",
+  "latestFixVerification": "reports/product-review/round-20/fix-verification-1.json",
+  "latestAggregation": "reports/product-review/round-20/aggregation.json"
+}

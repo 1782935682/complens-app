@@ -446,6 +446,31 @@ describe('POST /api/ingredients/batch-search', () => {
       message: 'terms must be an array'
     });
   });
+
+  it('returns degraded unknown results instead of 500 when batch search storage fails', async () => {
+    const service = createIngredientService();
+    vi.mocked(service.batchSearch).mockRejectedValueOnce(new Error('database unavailable'));
+    const app = createTestApp(service);
+
+    const response = await app.request('/api/ingredients/batch-search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ terms: ['白砂糖', '山梨酸钾'], includeENumbers: true })
+    });
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.degraded).toBe(true);
+    expect(body.error).toBe('ingredient_service_unavailable');
+    expect(body.results).toHaveLength(2);
+    expect(body.results[0]).toMatchObject({
+      term: '白砂糖',
+      match: null,
+      confidence: 0,
+      matchType: 'none',
+      degraded: true
+    });
+  });
 });
 
 describe('GET /api/ingredients/:id', () => {

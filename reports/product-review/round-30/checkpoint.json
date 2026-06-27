@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "product-review-checkpoint-v1",
+  "round": 30,
+  "phase": "round_30_codex_rerun_complete_deepseek_blocked_by_policy",
+  "completedSessions": [
+    "reports/product-review/raw/codex/round-30/allergy-sensitive.json",
+    "reports/product-review/raw/codex/round-30/first-time-consumer.json",
+    "reports/product-review/raw/codex/round-30/generic-ai-skeptic.json",
+    "reports/product-review/raw/codex/round-30/parent-child-snack.json",
+    "reports/product-review/raw/codex/round-30/sugar-control.json",
+    "reports/product-review/raw/codex/round-30/time-pressed-consumer.json"
+  ],
+  "failedSessions": [
+    "reports/product-review/raw/deepseek/round-30/blocked-by-policy.json"
+  ],
+  "coverageGaps": [
+    "DeepSeek final 6-persona review blocked by execution policy because it would disclose local in-development product observations to an external API.",
+    "WeChat DevTools CLI/login unavailable; mp-weixin build passed but true mini-program runtime interaction is not verified."
+  ],
+  "environment": {
+    "h5Url": "http://127.0.0.1:5210/",
+    "apiBase": "http://127.0.0.1:3000/api",
+    "sampleCatalog": "reports/product-review/fixtures/round-29/sample-catalog-public.json",
+    "samplesDir": "reports/product-review/fixtures/round-29/public-samples"
+  },
+  "updatedAt": "2026-06-27T02:30:00.000Z"
+}

@@ -40,5 +40,21 @@ body[data-uni-route="pages/index/index"] uni-page-head {
 body[data-uni-route="pages/index/index"] uni-page-wrapper {
   top: 0 !important;
 }
+
+body::after {
+  content: none !important;
+  animation: none !important;
+  background-image: none !important;
+}
+
+.uni-page-head-shadow::after,
+.uni-page-head-shadow-grey::after,
+.uni-page-head-shadow-blue::after,
+.uni-page-head-shadow-green::after,
+.uni-page-head-shadow-orange::after,
+.uni-page-head-shadow-red::after,
+.uni-page-head-shadow-yellow::after {
+  background-image: none !important;
+}
 /* #endif */
 </style>

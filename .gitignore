@@ -12,9 +12,11 @@ dist/
 /backend/.env
 
 # Local Codex automation artifacts
+.codex/
 codex-auto-*.prompt
 migrate-frontend-uniapp.prompt
 GEMINI.md
+run_aos.sh
 
 # Generated data-governance / review reports (run scripts to regenerate locally; not committed)
 docs/alias-conflict-review.md
@@ -48,3 +50,25 @@ datasets/ocr_samples/raw/
 datasets/ocr_samples/ocr_text/
 datasets/ocr_samples/results/
 datasets/product_code_image_samples/
+
+# Product-review browser/screenshot artifacts are large local evidence;
+# commit JSON/Markdown reports and raw review transcripts instead.
+reports/product-review/fixtures/
+reports/product-review/round-*/
+!reports/product-review/round-30/
+!reports/product-review/round-30/**
+reports/product-review/raw/**
+!reports/product-review/raw/
+!reports/product-review/raw/codex/
+!reports/product-review/raw/codex/round-30/
+!reports/product-review/raw/codex/round-30/**
+!reports/product-review/raw/deepseek/
+!reports/product-review/raw/deepseek/round-30/
+!reports/product-review/raw/deepseek/round-30/**
+reports/product-review/screenshots/
+reports/product-review/tmp/
+reports/product-review/raw/**/chrome-profile*/
+reports/product-review/raw/**/chromium-profile*/
+reports/evaluation/iterations/
+reports/iterations/
+user-uniapp/reports/

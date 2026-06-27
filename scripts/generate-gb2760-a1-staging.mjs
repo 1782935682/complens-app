@@ -6,7 +6,7 @@ const defaultPdfPath = resolve('docs/source-materials/GB_2760-2024_食品安全�
 const pdfPath = process.argv[2] ? resolve(process.argv[2]) : defaultPdfPath;
 const outputPath = process.argv[3]
   ? resolve(process.argv[3])
-  : resolve('src/data/gb2760OfficialGeneratedA1Staging.js');
+  : resolve('backend/src/data/gb2760OfficialGeneratedA1Staging.js');
 
 const pdfPageStart = 8;
 const pdfPageEnd = 148;

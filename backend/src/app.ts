@@ -6,6 +6,7 @@ import { createAuthRoute } from './routes/auth.js';
 import { createGb2760Route } from './routes/gb2760.js';
 import { healthRoute } from './routes/health.js';
 import { createFoodRoute } from './routes/food.js';
+import { createDecisionRoute } from './routes/decision.js';
 import { createIngredientsRoute } from './routes/ingredients.js';
 import { createLabelsRoute } from './routes/labels.js';
 import { createNutritionRoute } from './routes/nutrition.js';
@@ -24,6 +25,7 @@ import { createLazyLabelScanService, type LabelScanService } from './services/la
 import { createAiProviderRegistry } from './ai/providerFactory.js';
 import { createAiFoodExplanationService } from './services/aiFoodExplanationService.js';
 import { createFoodAnalyzeService, type FoodAnalyzeService } from './services/foodAnalyzeService.js';
+import { createDecisionAgentService, type DecisionAgentService } from './services/decisionAgentService.js';
 import { createProductLookupService, type ProductLookupService } from './services/productLookupService.js';
 
 export type AppServices = {
@@ -36,6 +38,7 @@ export type AppServices = {
   userService?: UserService;
   reportService?: ReportService;
   foodAnalyzeService?: FoodAnalyzeService;
+  decisionAgentService?: DecisionAgentService;
   productLookupService?: ProductLookupService;
 };
 
@@ -107,6 +110,7 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.use('*', requestLogger());
 
   app.route('/', healthRoute);
+  app.route('/api', healthRoute);
   const authService = services.authService ?? createLazyAuthService(config.databaseUrl, config.jwtSecret);
   app.route('/api', createAuthRoute(authService));
   app.route('/api', createLabelsRoute(
@@ -117,10 +121,12 @@ export function createApp(config: AppConfig, services: AppServices = {}) {
   app.route('/api', createReportsRoute(services.reportService ?? createReportService({
     ingredientService: services.ingredientService ?? createLazyIngredientService(config.databaseUrl)
   })));
-  app.route('/api', createFoodRoute(services.foodAnalyzeService ?? createFoodAnalyzeService(createAiFoodExplanationService({
+  const foodAnalyzeService = services.foodAnalyzeService ?? createFoodAnalyzeService(createAiFoodExplanationService({
     config: aiGatewayConfig,
     registry: aiProviderRegistry
-  }))));
+  }));
+  app.route('/api', createFoodRoute(foodAnalyzeService));
+  app.route('/api', createDecisionRoute(services.decisionAgentService ?? createDecisionAgentService(foodAnalyzeService)));
   app.route('/api', createProductsRoute(services.productLookupService ?? createProductLookupService({
     config: aiGatewayConfig,
     registry: aiProviderRegistry

@@ -16,11 +16,8 @@ const screenshotNames = [
   'capture-filled',
   'capture-optional',
   'report',
-  'report-nutrition',
-  'report-detail',
   'report-insufficient',
-  'attention',
-  'search'
+  'attention'
 ];
 
 if (!apiKey) {
@@ -44,27 +41,23 @@ const prompt = `
 
 产品定位：
 - 成分镜不是 OCR 工具，也不是成分百科。
-- 主路径是：拍食品包装 -> OCR / 商品身份识别 -> 结构化识别 -> 报告；本期不支持历史和收藏入口。
+- 主路径是：拍食品包装 -> 商品身份/标签识别 -> 购买建议；本期不支持历史、收藏和单成分搜索入口。
 - 用户目标是拍包装后直接得到购买/食用决策，减少自己判断、查资料、对比。
-- 硬性流程约束：点击首页“拍包装”后直接调用相机并自动识别；拍照识别结束必须直接进入报告页。清晰 OCR / AI 公开标签线索生成参考解读；OCR 失败、低置信或识别信息不足生成信息不足报告；只有用户主动手动输入或在报告内点击补充时才进入文本补充页。不要建议在正常识别后新增确认页。
+- 硬性流程约束：点击首页“拍照识别”后直接调用相机并自动识别；拍照识别结束必须直接进入购买建议页。信息不足时提示补拍，不展示原文或技术字段。
 - AI 只做通俗解释和总结，不编造成分、法规、医疗或权威结论。
 - 后端 AI 商品补全只有在源码和测试证明存在 URL、域名或 Open Food Facts 等可核对来源摘要时，才允许把 ingredientsText / nutritionText 传给报告；泛泛来源摘要必须清空。
-- 成分搜索只是小辅助入口。
-- 报告文案要给“关注/份量/建议关注人群”决策，但不能写“可以买/不能买/健康/不健康/安全/有害”等绝对或医疗化判断。
+- 报告文案必须回答“该不该买”，但不能写医疗诊断、法规权威结论或绝对化安全承诺。
 
 当前截图场景：
 ${screenshotInventory}
 
 人工截图观察：
-- 首页：第一屏只有居中的拍包装圆形按钮，按钮约占屏宽 40% 左右，下面是包装正面/配料表/营养表短标签，查单个成分是小入口。
+- 首页：第一屏只有居中的“拍照识别”按钮。
 - 手动补充页空白态：只有用户主动手动输入或从信息不足报告点击补充时出现，强调优先补配料表文字/营养表数字，可选补充默认折叠；底部操作为生成参考报告、重新拍、清空文字。
 - 补充页已填态：填入配料后主按钮变为可用，页面不再出现“需要确认”的大段提示。
-- 报告首屏：识别信息卡在顶部；随后给一句话结论，示例口径为“控糖/儿童零食人群建议关注：糖、碳水”或“建议关注：钠、热量、脂肪”，再用短标签展示用户关注项，并用“为什么/关注人群/份量提示”短行完成决策闭环；份量提示只提示查看每份/每包数字，不给吃法建议。
-- 识别信息卡：报告顶部展示识别类型、内容类型、商品码/二维码、商品名/品牌、数据来源和识别时间；DeepSeek 补全时显示“AI 公开标签线索”标签，并单独显示 AI 搜索风险提示。
-- 营养图：热量、脂肪、碳水、钠用条形图和低/中/高参考展示，不只堆文字。
-- 信息不足报告：不硬给消费结论，首屏在补拍按钮上方展示已识别到的商品、品牌、商品码、类型或“未识别到可用内容”，再给补拍配料/营养表和手动粘贴文字两个动作。
+- 报告首屏：只展示三卡结构：该不该买、风险原因、替代推荐；结论卡内可展示适合/不适合人群。
+- 信息不足报告：不硬给消费结论，只提示补拍配料表或营养表。
 - 我的页：关注目标支持多选，过敏/忌口也支持多选。
-- 成分搜索：数据库结果与 AI / 公开网页补充入口并列；单个成分只作名称参考，不能替代整包包装报告。
 
 本轮需要你检查：
 1. 功能主路径是否完整、是否仍像 OCR 工具或成分百科。
@@ -72,7 +65,7 @@ ${screenshotInventory}
 3. 产品是否减少普通用户判断成本，是否直接给购买/食用决策。
 4. 报告是否文字过多，图表/标签是否真正降低阅读负担。
 5. 条码、二维码、数字编码、配料表、营养表、未知图片是否统一进入同一报告页，是否没有暴露多个首页入口。
-6. 信息不足、OCR 失败、DeepSeek 搜索失败、条码/二维码扫码、手动补充、成分搜索辅助这些场景是否合理。
+6. 信息不足、识别失败、条码/二维码扫码、手动补充这些场景是否合理。
 7. 文档和脚本是否支撑当前方向，是否存在 key 泄漏、伪造 AI/OCR、过度权威化风险。
 8. 设计是否一致，是否有明显上线阻断。
 
@@ -94,7 +87,7 @@ ${sourceContext}
     }
   ],
   "scenarioReviews": [
-    {"scenario": "首页|自动识别|补充页|正常报告|信息不足报告|我的|搜索|AI/OCR|文档", "score": 1-10, "notes": "具体评价"}
+    {"scenario": "首页|自动识别|补充页|正常报告|信息不足报告|我的|AI/OCR|文档", "score": 1-10, "notes": "具体评价"}
   ],
   "shipBlockers": ["上线阻断问题，没有则空数组"],
   "summary": "总体上线判断"
@@ -162,9 +155,9 @@ async function buildScreenshotInventory() {
 
 async function readDocContext() {
   const entries = await Promise.all([
-    readSnippet('../docs/product-blueprint/PRODUCT_DIRECTION_2026H2.md', 2200),
-    readSnippet('../docs/product-blueprint/CONSUMER_DECISION_SPEC.md', 2200),
-    readSnippet('../docs/product-blueprint/DESIGN_SYSTEM.md', 1800),
+    readSnippet('../docs/decision-system.md', 2600),
+    readSnippet('../README.md', 1800),
+    readSnippet('../COMMANDS.md', 1800),
     readSnippet('../AI_REVIEW.md', 1800),
     readSnippet('../CODEX_TASKS.md', 1800)
   ]);
@@ -180,7 +173,6 @@ async function readSourceContext() {
     readSnippetAround('src/pages/capture/index.vue', '<template>', 1200, 2800),
     readSnippet('src/pages/report/index.vue', 5200),
     readSnippet('src/pages/attention/index.vue', 2200),
-    readSnippet('src/pages/search/index.vue', 2600),
     readSnippet('src/services/api/labels.ts', 3600),
     readSnippet('src/services/recognition/autoGeneratePolicy.ts', 1600),
     readSnippet('src/services/recognition/imageRecognitionService.ts', 2200),

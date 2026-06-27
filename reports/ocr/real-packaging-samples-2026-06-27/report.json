@@ -1,0 +1,818 @@
+{
+  "generatedAt": "2026-06-27T02:00:44.802Z",
+  "ocrServiceUrl": "http://127.0.0.1:8000",
+  "imageDir": "/tmp/complens-real-packaging-samples/images",
+  "sourcePolicy": "Network images are downloaded to /tmp for smoke testing only; image binaries are not stored in the repo.",
+  "summary": {
+    "sampleCount": 11,
+    "reportReadyCount": 6,
+    "manualOrRetakeCount": 5,
+    "ocrFailedCount": 0,
+    "needsFixCount": 0,
+    "highIssueCount": 0,
+    "mediumIssueCount": 1,
+    "issues": [
+      {
+        "sampleId": "vita-nutrition",
+        "severity": "medium",
+        "code": "nutrition_too_sparse",
+        "message": "营养表只解析到很少数字，应进入补拍或手动确认。"
+      }
+    ]
+  },
+  "results": [
+    {
+      "sample": {
+        "id": "vita-ingredients",
+        "product": "维他柠檬味茶饮料",
+        "role": "配料表",
+        "expected": "ingredient",
+        "sourcePage": "https://world.openfoodfacts.org/product/4891028706656",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/489/102/870/6656/ingredients_zh.9.400.jpg",
+        "fileName": "vita_ingredients.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/vita_ingredients.jpg",
+      "imageSize": 18541,
+      "productName": {
+        "manifest": "维他柠檬味茶饮料",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9669343145244764,
+        "rawText": "配料:水,白砂糖,红茶,红茶粉,\n浓缩柠檬汁,食品添加剂(酸度调节\n剂(330,331),抗氧化剂(300),\n食用香精。\n柠檬汁添加量≥2.8g/L\n茶多酚含量≥300mg",
+        "blockCount": 6
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "水,白砂糖,红茶,红茶粉,\n浓缩柠檬汁,食品添加剂(酸度调节\n剂(330,331),抗氧化剂(300),\n食用香精。",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [
+          "柠檬汁添加量≥2.8g/L",
+          "茶多酚含量≥300mg"
+        ],
+        "qualityWarnings": [],
+        "confidence": "high",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "ingredient_list",
+        "confirmedText": "配料表：水,白砂糖,红茶,红茶粉,\n浓缩柠檬汁,食品添加剂(酸度调节\n剂(330,331),抗氧化剂(300),\n食用香精。",
+        "ingredientCount": 6,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "识别到 6 项配料，看到 1 种常见食品添加剂。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍营养成分表数字、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "缺少营养成分表，不能核对糖、钠、脂肪和能量数字，先补拍后再判断是否值得购买。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": [
+            "柠檬汁添加量≥2.8g/L",
+            "茶多酚含量≥300mg"
+          ]
+        }
+      },
+      "quality": {
+        "state": "report_ready",
+        "canAutoGenerateReport": true,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "vita-nutrition",
+        "product": "维他柠檬味茶饮料",
+        "role": "营养成分表",
+        "expected": "nutrition",
+        "sourcePage": "https://world.openfoodfacts.org/product/4891028706656",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/489/102/870/6656/nutrition_zh.12.400.jpg",
+        "fileName": "vita_nutrition.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/vita_nutrition.jpg",
+      "imageSize": 16454,
+      "productName": {
+        "manifest": "维他柠檬味茶饮料",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9787153956120607,
+        "rawText": "每100毫升 营养素参考值装\n项目\n能量\n221kJ\n蛋白质\n脂肪\n碳水化合物\n10mg\n钠",
+        "blockCount": 9
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "",
+        "nutritionText": "每100毫升 营养素参考值装\n项目\n能量\n221kJ\n蛋白质\n脂肪\n碳水化合物\n10mg\n钠",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [],
+        "qualityWarnings": [],
+        "confidence": "low",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "nutrition_facts",
+        "confirmedText": "营养成分表：每100毫升 营养素参考值装\n项目\n能量\n221kJ\n蛋白质\n脂肪\n碳水化合物\n10mg\n钠",
+        "ingredientCount": 0,
+        "nutritionValueCount": 1,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "未提供配料表，只识别到 1 项营养数字，信息可能不足。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍配料表、营养成分表数字、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "只识别到很少的配料或营养数字，当前文字不足以形成清晰建议。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": []
+        }
+      },
+      "quality": {
+        "state": "manual_or_retake",
+        "canAutoGenerateReport": false,
+        "issues": [
+          {
+            "severity": "medium",
+            "code": "nutrition_too_sparse",
+            "message": "营养表只解析到很少数字，应进入补拍或手动确认。"
+          }
+        ]
+      }
+    },
+    {
+      "sample": {
+        "id": "soy-ingredients",
+        "product": "海天草菇老抽",
+        "role": "调味品配料表",
+        "expected": "ingredient",
+        "sourcePage": "https://world.openfoodfacts.org/product/6902265210504",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/690/226/521/0504/ingredients_zh.10.400.jpg",
+        "fileName": "soy_ingredients.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/soy_ingredients.jpg",
+      "imageSize": 12302,
+      "productName": {
+        "manifest": "海天草菇老抽",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9245098170005914,
+        "rawText": "护料\n表:水,\n非转基因黄豆,食用\n焦糖色,\n,小麦,白砂糖,谷氨酸\n草菇。",
+        "blockCount": 6
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "水,\n非转基因黄豆,焦糖色,\n小麦,白砂糖,谷氨酸\n草菇。",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [
+          "护料"
+        ],
+        "qualityWarnings": [],
+        "confidence": "high",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "ingredient_list",
+        "confirmedText": "配料表：水,\n非转基因黄豆,焦糖色,\n小麦,白砂糖,谷氨酸\n草菇。",
+        "ingredientCount": 7,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "识别到 7 项配料，看到 1 种常见食品添加剂。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍营养成分表数字、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "缺少营养成分表，不能核对糖、钠、脂肪和能量数字，先补拍后再判断是否值得购买。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [
+            "谷氨酸"
+          ],
+          "unconfirmedText": [
+            "护料"
+          ]
+        }
+      },
+      "quality": {
+        "state": "report_ready",
+        "canAutoGenerateReport": true,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "curry-ingredients",
+        "product": "好侍百梦多咖喱",
+        "role": "长配料表",
+        "expected": "ingredient",
+        "sourcePage": "https://world.openfoodfacts.org/product/6936749501109",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/693/674/950/1109/ingredients_zh.4.400.jpg",
+        "fileName": "curry_ingredients.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/curry_ingredients.jpg",
+      "imageSize": 21986,
+      "productName": {
+        "manifest": "好侍百梦多咖喱",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9701432966223696,
+        "rawText": "配料:食用油脂制品(精炼植物油(棕榈油、氢化菜籽油、维\n生素E)、磷脂)、小麦粉、白砂糖、食用盐、麦芽糊精、姜\n黄粉、香辛料、咖喱粉、味精、食品添加剂(5-肌苷酸二\n钠、磷脂、柠檬酸、单硬脂酸甘油酯)、椰子粉、脱脂乳\n粉、番茄粉、食用葡萄糖、蜂蜜、水、复合调味粉(酸水解\n植物蛋白调味粉(食用大豆粕、食用玉米蛋白、啤酒酵母\n粉、5一呈味核苷酸二钠)、味精、食用盐、白砂糖、L一丙\n氨酸、麦芽糊精、5一呈味核苷酸二钠、酵母抽提物、甘氨\n酸)、浓缩苹果浆、食用香精",
+        "blockCount": 9
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "食用油脂制品(精炼植物油(棕榈油、氢化菜籽油、维\n生素E)、磷脂)、小麦粉、白砂糖、食用盐、麦芽糊精、姜黄粉、香辛料、咖喱粉、味精、食品添加剂(5'-肌苷酸二钠、磷脂、柠檬酸、单硬脂酸甘油酯)、椰子粉、脱脂乳粉、番茄粉、食用葡萄糖、蜂蜜、水、复合调味粉(酸水解\n植物蛋白调味粉(食用大豆粕、食用玉米蛋白、啤酒酵母\n粉、5一呈味核苷酸二钠)、味精、食用盐、白砂糖、L一丙\n氨酸、麦芽糊精、5一呈味核苷酸二钠、酵母抽提物、甘氨\n酸)、浓缩苹果浆、食用香精",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [],
+        "qualityWarnings": [],
+        "confidence": "high",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "ingredient_list",
+        "confirmedText": "配料表：食用油脂制品(精炼植物油(棕榈油、氢化菜籽油、维\n生素E)、磷脂)、小麦粉、白砂糖、食用盐、麦芽糊精、姜黄粉、香辛料、咖喱粉、味精、食品添加剂(5'-肌苷酸二钠、磷脂、柠檬酸、单硬脂酸甘油酯)、椰子粉、脱脂乳粉、番茄粉、食用葡萄糖、蜂蜜、水、复合调味粉(酸水解\n植物蛋白调味粉(食用大豆粕、食用玉米蛋白、啤酒酵母\n粉、5一呈味核苷酸二钠)、味精、食用盐、白砂糖、L一丙\n氨酸、麦芽糊精、5一呈味核苷酸二钠、酵母抽提物、甘氨\n酸)、浓缩苹果浆、食用香精",
+        "ingredientCount": 22,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "识别到 22 项配料，看到 7 种常见食品添加剂。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍营养成分表数字、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "缺少营养成分表，不能核对糖、钠、脂肪和能量数字，先补拍后再判断是否值得购买。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": []
+        }
+      },
+      "quality": {
+        "state": "report_ready",
+        "canAutoGenerateReport": true,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "curry-nutrition",
+        "product": "好侍百梦多咖喱",
+        "role": "营养成分表",
+        "expected": "nutrition",
+        "sourcePage": "https://world.openfoodfacts.org/product/6936749501109",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/693/674/950/1109/nutrition_zh.7.400.jpg",
+        "fileName": "curry_nutrition.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/curry_nutrition.jpg",
+      "imageSize": 17467,
+      "productName": {
+        "manifest": "好侍百梦多咖喱",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9746283008341203,
+        "rawText": "营养成分表\n每100g\nNRV%\n2264kJ\n27%\n蛋白质\n5.2g\n9%\n脂肪\n39.1g\n65%\n-反式脂肪酸\n0.4g\n碳水化合物\n42.2g\n14%\n钠\n4070mg\n204%",
+        "blockCount": 19
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "",
+        "nutritionText": "营养成分表\n每100g\nNRV%\n2264kJ\n27%\n蛋白质\n5.2g\n9%\n脂肪\n39.1g\n65%\n-反式脂肪酸\n0.4g\n碳水化合物\n42.2g\n14%\n钠\n4070mg\n204%",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [],
+        "qualityWarnings": [],
+        "confidence": "low",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "nutrition_facts",
+        "confirmedText": "营养成分表：营养成分表\n每100g\nNRV%\n2264kJ\n27%\n蛋白质\n5.2g\n9%\n脂肪\n39.1g\n65%\n-反式脂肪酸\n0.4g\n碳水化合物\n42.2g\n14%\n钠\n4070mg\n204%",
+        "ingredientCount": 0,
+        "nutritionValueCount": 6,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "未提供配料表，营养数字已整理 6 项。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍配料表、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "缺少配料表，不能核对添加剂、过敏原和配料顺序，先补拍后再判断是否值得购买。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": []
+        }
+      },
+      "quality": {
+        "state": "report_ready",
+        "canAutoGenerateReport": true,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "yogurt-front-claim",
+        "product": "君乐宝简醇",
+        "role": "酸奶包装正面声明",
+        "expected": "front_claim",
+        "sourcePage": "https://world.openfoodfacts.org/product/6922577790068",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/692/257/779/0068/front_zh.3.400.jpg",
+        "fileName": "yogurt_front_claim.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/yogurt_front_claim.jpg",
+      "imageSize": 18706,
+      "productName": {
+        "manifest": "君乐宝简醇",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9181985968580613,
+        "rawText": "君乐宝\n简·醇\nYOGURT\nO蔗糖酸奶\n减40%脂肪\n低脂青柠\n风味酸牛奶净含量:100克\n国富汉供考",
+        "blockCount": 8
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "0蔗糖酸奶\n减40%脂肪\n低脂青柠",
+        "productionDateText": "",
+        "ignoredText": [
+          "君乐宝",
+          "简·醇",
+          "YOGURT",
+          "风味酸牛奶净含量:100克"
+        ],
+        "qualityWarnings": [],
+        "confidence": "low",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "front_claims",
+        "confirmedText": "包装声明：0蔗糖酸奶\n减40%脂肪\n低脂青柠",
+        "ingredientCount": 0,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "包装声明已整理。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍配料表、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "识别结果可能不完整，当前文字不足以形成清晰建议。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": [
+            "君乐宝",
+            "简·醇",
+            "YOGURT",
+            "风味酸牛奶净含量:100克"
+          ]
+        }
+      },
+      "quality": {
+        "state": "manual_or_retake",
+        "canAutoGenerateReport": false,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "yogurt-ingredients",
+        "product": "君乐宝简醇",
+        "role": "酸奶配料表",
+        "expected": "ingredient",
+        "sourcePage": "https://world.openfoodfacts.org/product/6922577790068",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/692/257/779/0068/ingredients_zh.5.400.jpg",
+        "fileName": "yogurt_ingredients.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/yogurt_ingredients.jpg",
+      "imageSize": 18561,
+      "productName": {
+        "manifest": "君乐宝简醇",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9690496142204402,
+        "rawText": "配料:生牛乳,青柠果味酱,聚葡萄糖,木糖\n醇,浓缩牛奶蛋白,羟丙基二淀粉磷酸酯,明胶\n(来源于牛骨),双乙酰酒石酸单双甘油酯,果\n胶,黄原胶,碳酸氢钠,三氯蔗糖,睡液链球菌\n嗜热亚种,德氏乳杆菌保加利亚亚种。",
+        "blockCount": 5
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "生牛乳,青柠果味酱,聚葡萄糖,木糖醇,浓缩牛奶蛋白,羟丙基二淀粉磷酸酯,明胶(来源于牛骨),双乙酰酒石酸单双甘油酯,果胶,黄原胶,碳酸氢钠,三氯蔗糖,睡液链球菌\n嗜热亚种,德氏乳杆菌保加利亚亚种。",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [],
+        "qualityWarnings": [],
+        "confidence": "high",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "ingredient_list",
+        "confirmedText": "配料表：生牛乳,青柠果味酱,聚葡萄糖,木糖醇,浓缩牛奶蛋白,羟丙基二淀粉磷酸酯,明胶(来源于牛骨),双乙酰酒石酸单双甘油酯,果胶,黄原胶,碳酸氢钠,三氯蔗糖,睡液链球菌\n嗜热亚种,德氏乳杆菌保加利亚亚种。",
+        "ingredientCount": 15,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "识别到 15 项配料，看到 4 种常见食品添加剂。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍营养成分表数字、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "缺少营养成分表，不能核对糖、钠、脂肪和能量数字，先补拍后再判断是否值得购买。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [
+            "睡液链球菌",
+            "嗜热亚种"
+          ],
+          "unconfirmedText": []
+        }
+      },
+      "quality": {
+        "state": "report_ready",
+        "canAutoGenerateReport": true,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "yogurt-nutrition",
+        "product": "君乐宝简醇",
+        "role": "酸奶营养成分表",
+        "expected": "nutrition",
+        "sourcePage": "https://world.openfoodfacts.org/product/6922577790068",
+        "imageUrl": "https://images.openfoodfacts.org/images/products/692/257/779/0068/nutrition_zh.7.400.jpg",
+        "fileName": "yogurt_nutrition.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/yogurt_nutrition.jpg",
+      "imageSize": 23798,
+      "productName": {
+        "manifest": "君乐宝简醇",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9359778010957999,
+        "rawText": "营养成分表\n每100克\n营养素参考值%\n250千焦\n3%\n能量\n5022350\n蛋白质\n3.0克\n脂肪\n1.4克\n碳水化合物\n9.3克\n95毫克\n1\n90毫克\n蔗糖含量:未检出(依据GB5009.8第一法)\n乳酸菌活菌数≥1×10CFU/100克\n营养声称以每100毫升计,本产品脂防≤1.5克/100毫升\n青柠果味酱添加量≥15克/千克(青柠果味酱中浓缩青\n柠浊汁≥5克/100克,折算青柠汁添加量≥40克/100克",
+        "blockCount": 21
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "",
+        "nutritionText": "营养成分表\n每100克\n营养素参考值%\n250千焦\n3%\n能量\n5022350\n蛋白质\n3.0克\n脂肪\n1.4克\n碳水化合物\n9.3克\n95毫克\n1\n90毫克\n蔗糖含量:未检出(依据GB5009.8第一法)\n乳酸菌活菌数≥1×10CFU/100克\n营养声称以每100毫升计,本产品脂防≤1.5克/100毫升\n青柠果味酱添加量≥15克/千克(青柠果味酱中浓缩青\n柠浊汁≥5克/100克,折算青柠汁添加量≥40克/100克",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [],
+        "qualityWarnings": [],
+        "confidence": "low",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "nutrition_facts",
+        "confirmedText": "营养成分表：营养成分表\n每100克\n营养素参考值%\n250千焦\n3%\n能量\n5022350\n蛋白质\n3.0克\n脂肪\n1.4克\n碳水化合物\n9.3克\n95毫克\n1\n90毫克\n蔗糖含量:未检出(依据GB5009.8第一法)\n乳酸菌活菌数≥1×10CFU/100克\n营养声称以每100毫升计,本产品脂防≤1.5克/100毫升\n青柠果味酱添加量≥15克/千克(青柠果味酱中浓缩青\n柠浊汁≥5克/100克,折算青柠汁添加量≥40克/100克",
+        "ingredientCount": 0,
+        "nutritionValueCount": 4,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "未提供配料表，营养数字已整理 4 项。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍配料表、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "缺少配料表，不能核对添加剂、过敏原和配料顺序，先补拍后再判断是否值得购买。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": []
+        }
+      },
+      "quality": {
+        "state": "report_ready",
+        "canAutoGenerateReport": true,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "gmw-back-label",
+        "product": "新闻样本食品背标",
+        "role": "背标局部",
+        "expected": "mixed_or_insufficient",
+        "sourcePage": "https://m.gmw.cn/2025-04/14/content_1304015064.htm",
+        "imageUrl": "https://imgm.gmw.cn/attachement/jpg/site215/20250414/7326432166791366016.jpg",
+        "fileName": "gmw_back_label.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/gmw_back_label.jpg",
+      "imageSize": 111339,
+      "productName": {
+        "manifest": "新闻样本食品背标",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.939871316967175,
+        "rawText": "食品名\n、日砂糖、食用益、味\n黑色鱼反\n酿造酱油、食品添加剂\n肤质的谷物及其\n其制品,该生产设\n制品、坚果及其果仁类制品、\n品的产品。\n净含量:40克\n保质期:12个月 生产日期:见包装袋封口附近\n食用方法:开封即食,开封后请尽快食用元卡。\n购存条件:请置于阴凉干燥处密闭保存。\n南宾吃象\n南宁宝",
+        "blockCount": 14
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "见包装",
+        "ignoredText": [
+          "食品名",
+          "黑色鱼反",
+          "净含量:40克",
+          "保质期:12个月 生产日期:见包装袋封口附近",
+          "食用方法:开封即食,开封后请尽快食用元卡。",
+          "南宾吃象",
+          "南宁宝"
+        ],
+        "qualityWarnings": [],
+        "confidence": "low",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "unknown_label",
+        "confirmedText": "生产日期：见包装",
+        "ingredientCount": 0,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "未识别到可分析的配料表或营养成分表。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍配料表、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "识别结果可能不完整，当前文字不足以形成清晰建议。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": [
+            "食品名",
+            "黑色鱼反",
+            "净含量:40克",
+            "保质期:12个月 生产日期:见包装袋封口附近",
+            "食用方法:开封即食,开封后请尽快食用元卡。",
+            "南宾吃象",
+            "南宁宝"
+          ]
+        }
+      },
+      "quality": {
+        "state": "manual_or_retake",
+        "canAutoGenerateReport": false,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "gmw-date-code",
+        "product": "新闻样本日期喷码",
+        "role": "只有喷码日期",
+        "expected": "date_code_only",
+        "sourcePage": "https://m.gmw.cn/2025-04/14/content_1304015064.htm",
+        "imageUrl": "https://imgm.gmw.cn/attachement/jpg/site215/20250414/2228264118440736172.jpg",
+        "fileName": "gmw_date_code.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/gmw_date_code.jpg",
+      "imageSize": 80481,
+      "productName": {
+        "manifest": "新闻样本日期喷码",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.9649245043595631,
+        "rawText": "20250226 D1321\n南宁宝",
+        "blockCount": 2
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "",
+        "ignoredText": [
+          "20250226 D1321",
+          "南宁宝"
+        ],
+        "qualityWarnings": [],
+        "confidence": "low",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "unknown_label",
+        "confirmedText": "",
+        "ingredientCount": 0,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "未识别到可分析的配料表或营养成分表。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍配料表、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "没有识别到可用于查看的包装文字。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": [
+            "20250226 D1321",
+            "南宁宝"
+          ]
+        }
+      },
+      "quality": {
+        "state": "manual_or_retake",
+        "canAutoGenerateReport": false,
+        "issues": []
+      }
+    },
+    {
+      "sample": {
+        "id": "gmw-front-date",
+        "product": "新闻样本正面日期",
+        "role": "正面包装日期",
+        "expected": "date_code_only",
+        "sourcePage": "https://m.gmw.cn/2025-04/14/content_1304015064.htm",
+        "imageUrl": "https://imgm.gmw.cn/attachement/jpg/site215/20250414/1878967348235225011.jpg",
+        "fileName": "gmw_front_date.jpg"
+      },
+      "imagePath": "/tmp/complens-real-packaging-samples/images/gmw_front_date.jpg",
+      "imageSize": 97243,
+      "productName": {
+        "manifest": "新闻样本正面日期",
+        "ocr": "",
+        "report": "未命名食品"
+      },
+      "ocr": {
+        "provider": "rapidocr",
+        "confidence": 0.8552346850288849,
+        "rawText": "馄饨\n1.8分\n生产日期:2025/03/1510\n保质期至·2025/11/14\n刺宾味款\n南宁宝",
+        "blockCount": 6
+      },
+      "extraction": {
+        "productNameText": "",
+        "foodTypeText": "",
+        "ingredientText": "",
+        "nutritionText": "",
+        "allergenText": "",
+        "frontClaimsText": "",
+        "productionDateText": "2025/03/15",
+        "ignoredText": [
+          "馄饨",
+          "1.8分",
+          "生产日期:2025/03/1510",
+          "保质期至·2025/11/14",
+          "刺宾味款",
+          "南宁宝"
+        ],
+        "qualityWarnings": [],
+        "confidence": "low",
+        "sourceType": "ocr"
+      },
+      "analysis": {
+        "labelType": "unknown_label",
+        "confirmedText": "生产日期：2025/03/15",
+        "ingredientCount": 0,
+        "nutritionValueCount": 0,
+        "report": {
+          "productName": "未命名食品",
+          "summarySentence": "未识别到可分析的配料表或营养成分表。",
+          "decisionLevel": "insufficient",
+          "decisionSummary": "信息不足，请补拍配料表、过敏原提示，或手动补充对应文字。",
+          "reasons": [
+            "识别结果可能不完整，当前文字不足以形成清晰建议。"
+          ],
+          "suitableFor": [
+            "补充包装文字后再查看"
+          ],
+          "lessSuitableFor": [
+            "需要明确控糖、低钠、过敏等目标的人"
+          ],
+          "nutritionSnapshot": [],
+          "unknownItems": [],
+          "unconfirmedText": [
+            "馄饨",
+            "1.8分",
+            "生产日期:2025/03/1510",
+            "保质期至·2025/11/14",
+            "刺宾味款",
+            "南宁宝"
+          ]
+        }
+      },
+      "quality": {
+        "state": "manual_or_retake",
+        "canAutoGenerateReport": false,
+        "issues": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "provider": "deepseek",
+  "round": 30,
+  "personaSlug": "blocked-by-policy",
+  "persona": "DeepSeek final six-persona review",
+  "reviewMode": "not executed",
+  "verdict": "blocked",
+  "completed": false,
+  "blockedReason": "Execution policy rejected sending local in-development product observations and screenshots to an external DeepSeek API.",
+  "tasks": [],
+  "scores": {},
+  "trustSignals": {
+    "valueBeyondGenericAi": false,
+    "wouldUseAgain": false,
+    "notes": "No DeepSeek review result was generated or counted."
+  },
+  "issues": [
+    {
+      "severity": "P2",
+      "title": "DeepSeek final review blocked by external disclosure policy",
+      "taskId": "external-review",
+      "evidence": "DeepSeek API review would disclose local in-development app observations to an external service and was rejected by execution policy.",
+      "suggestedDirection": "Run DeepSeek final review only after explicit approval for external disclosure, or provide a local/private DeepSeek-compatible endpoint."
+    }
+  ],
+  "screenshots": []
+}

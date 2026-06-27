@@ -1,0 +1,126 @@
+{
+  "provider": "codex",
+  "round": 30,
+  "personaSlug": "first-time-consumer",
+  "persona": "first-time-consumer",
+  "reviewMode": "black-box H5 real interaction only",
+  "verdict": "reviewed",
+  "scores": {
+    "taskCompletionRate": 94,
+    "noAssistanceCompletionRate": 94,
+    "decisionClarity": 93,
+    "easeOfUse": 86,
+    "trust": 91,
+    "comparisonValue": 95,
+    "overallValue": 92
+  },
+  "tasks": [
+    {
+      "taskId": "task-1",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "First open is camera-first with visible '拍照识别'. Tapping it reaches '拍清包装文字', then '上传识别' accepts a catalog image and enters '正在整理配料和营养信息...'."
+    },
+    {
+      "taskId": "task-2",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "sample-01 produced a clear single-product purchase decision: '该不该买 / 谨慎 / 橙味饮料', score 38, packaging-source evidence, allergen warning, and action CTAs."
+    },
+    {
+      "taskId": "task-3",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "sample-03 produced '信息不足' and '还不能下购买结论' instead of guessing. It listed missing 配料表 and 营养成分表, then asked the user to 补拍配料表."
+    },
+    {
+      "taskId": "task-4",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "From the insufficient-info report, tapping '补拍配料表' opened a targeted recovery capture page with target=ingredient and '已带入上一张：商品名'."
+    },
+    {
+      "taskId": "task-5",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "sample-08 then sample-09 completed the two-product flow. The comparison showed A/B scores, sugar, carbs, sodium, allergens, additives, and correctly warned that both contain milk before declaring a winner."
+    },
+    {
+      "taskId": "task-6",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Home profile switching to 控糖 changed the later sample-01 report from default cautious handling to '不建议', '按控糖判断', and a sugar-threshold explanation."
+    },
+    {
+      "taskId": "task-7",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "Saving changed the report CTA to '查看已保存' and avoid changed it to '查看避雷'. Returning home showed '0 保存 / 1 避雷' plus recent judgments that can be reopened or compared."
+    },
+    {
+      "taskId": "task-8",
+      "completed": true,
+      "assistanceUsed": false,
+      "status": "pass",
+      "evidence": "The report/comparison explicitly explains value beyond generic AI: packaging evidence, profile-prioritized decisions, same-screen A/B nutrition and additive comparison, and source-checkable text."
+    }
+  ],
+  "trustSignals": {
+    "valueBeyondGenericAi": true,
+    "wouldUseAgain": true,
+    "notes": [
+      "The app avoids overclaiming when labels are incomplete and keeps packaging evidence visible.",
+      "Comparison is the strongest differentiator because it fixes A/B metrics on screen instead of making the user ask repeated generic AI questions.",
+      "Profile-aware recalculation is visible and materially changes the decision."
+    ]
+  },
+  "issues": [
+    {
+      "severity": "P3",
+      "title": "One complete-looking sample remained in a generation state at sweep timeout",
+      "taskId": "task-4",
+      "evidence": "sample-02 screenshot shows '已识别，正在生成购买建议' and '生成中' after the sweep wait, with primary actions visually disabled.",
+      "suggestedDirection": "Add a visible timeout/retry/cancel path that preserves the selected image and explains whether generation is still running or failed."
+    },
+    {
+      "severity": "P3",
+      "title": "Save and avoid bucket semantics are ambiguous after both actions",
+      "taskId": "task-7",
+      "evidence": "After '查看已保存' was visible, adding the same report to avoid returned home with '0 保存 / 1 避雷'. The home copy says save and avoid are separated, but not whether avoid replaces saved.",
+      "suggestedDirection": "Clarify whether 避雷 moves a report out of saved, or count both states consistently with explicit copy."
+    },
+    {
+      "severity": "P3",
+      "title": "Sticky action area duplicates major actions and crowds lower evidence",
+      "taskId": "task-5",
+      "evidence": "Comparison and report screenshots show repeated bottom CTAs such as '拍下一款对比' plus another fixed row, partly covering lower content.",
+      "suggestedDirection": "Use one persistent action row with enough bottom spacer, and keep secondary actions in a single predictable row."
+    }
+  ],
+  "screenshots": [
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-1-initial-open.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-1-scan-page-mobile.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-1-upload-1s-mobile.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-2-sample-01-report-mobile.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-3-insufficient-info-handling.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-4-recovery-after-insufficient.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-5-first-product-sample-08.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-5-compare-capture-page.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-5-two-product-comparison.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-6-home-default-profile.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-6-home-sugar-profile.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-6-sugar-profile-report.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-6-one-click-avoidance-recalculated.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-7-report-saved.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-7-added-to-avoid-list.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/task-7-home-saved-avoid-counts.png",
+    "reports/product-review/screenshots/round-30/codex/first-time-consumer/sweep-sample-02-report.png"
+  ]
+}
