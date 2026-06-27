@@ -1297,7 +1297,7 @@ function formatRecognitionTime(value: string): string {
           <text class="generation-recovery__title">{{ generationRecoveryTitle }}</text>
           <text class="generation-recovery__desc">{{ generationRecoveryDescription }}</text>
         </view>
-        <view class="generation-recovery__actions">
+        <view class="generation-recovery__actions" :class="{ 'generation-recovery__actions--single': !hasGeneratedReport }">
           <AppButton variant="secondary" @click="retryGenerateResult">重试生成</AppButton>
           <AppButton v-if="hasGeneratedReport" @click="viewGeneratedReport">查看已生成报告</AppButton>
         </view>
@@ -1451,7 +1451,7 @@ function formatRecognitionTime(value: string): string {
               <text class="generation-recovery__title">{{ generationRecoveryTitle }}</text>
               <text class="generation-recovery__desc">{{ generationRecoveryDescription }}</text>
             </view>
-            <view class="generation-recovery__actions">
+            <view class="generation-recovery__actions" :class="{ 'generation-recovery__actions--single': !hasGeneratedReport }">
               <AppButton variant="secondary" @click="retryGenerateResult">重试生成</AppButton>
               <AppButton v-if="hasGeneratedReport" @click="viewGeneratedReport">查看已生成报告</AppButton>
             </view>
@@ -1544,8 +1544,8 @@ function formatRecognitionTime(value: string): string {
   gap: var(--space-sm);
 }
 
-.generation-recovery__actions > :only-child {
-  grid-column: 1 / -1;
+.generation-recovery__actions--single {
+  grid-template-columns: 1fr;
 }
 
 .profile-strip {
